@@ -1,0 +1,82 @@
+<section class="expense_form new-expense-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">{{ hasBankAccountId ? 'Edit' : 'Add'}} Bank Account</h3>
+                <div>
+                    <a class="btn list-btn" [routerLink]="[CommonService.setUrl(URLConstants.BANK_ACCOUNT_LIST)]">Bank Account List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addBankAccountF">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Bank Name <span class="text-danger">*</span></label>
+                            <app-input controlName="name" placeholder="Enter Bank Name"></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Account Holder's Name <span class="text-danger">*</span></label>
+                            <app-input controlName="account_holder_name" placeholder="Enter Account Holder's Name"></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Account For <span class="text-danger">*</span></label>
+                            <div class="radio-section mt-2">
+                                <div class="radio ">
+                                    <label class=" required ">
+                                        <input type="radio" formControlName="account_for" id="school" value="school" class="mr-1" (change)="handleAccountChange('school')">School<span></span>
+                                    </label>
+                                </div>
+                                <div class="radio ">
+                                    <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="account_for" id="trust" value="trust" class="mr-1"  (change)="handleAccountChange('trust')">Trust<span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="addBankAccountF?.value?.account_for == 'school'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Branch (School) Name <span class="text-danger">*</span></label>
+                                <app-single-select controlName="branch_id" [dropDownArray]="branchList" placeholder="Select Branch (School) Name"></app-single-select>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="addBankAccountF?.value?.account_for == 'trust'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Trust Name <span class="text-danger">*</span></label>
+                                <app-single-select controlName="trust_id" [dropDownArray]="trustList" placeholder="Select Trust Name"></app-single-select>
+                            </div>
+                        </ng-container>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Account No. <span class="text-danger">*</span></label>
+                            <app-input controlName="account_number" placeholder="Enter Account No."></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">IFSC Code <span class="text-danger">*</span></label>
+                            <app-input controlName="ifsc_code" placeholder="Enter IFSC Code"></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Bank Address<span class="text-danger">*</span></label>
+                            <app-input controlName="branch_address" placeholder="Enter Branch Address"></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Account Type <span class="text-danger">*</span></label>
+                            <app-single-select [dropDownArray]="accountTypeList" controlName="account_type" placeholder="Select Account Type"></app-single-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button class="btn save-btn" *ngIf="CommonService.hasPermission('finance_bank_accounts', hasBankAccountId ? 'has_update' : 'has_create')" (click)="createUpdateAccount()" [disabled]="addBankAccountF.invalid || isSaveLoading">
+                                {{ hasBankAccountId ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" [routerLink]="[CommonService.setUrl(URLConstants.BANK_ACCOUNT_LIST)]">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

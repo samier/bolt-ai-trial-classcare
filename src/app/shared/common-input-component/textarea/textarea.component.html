@@ -1,0 +1,12 @@
+<div>
+  <textarea class="form-control" [rows]="rows" [placeholder]="placeholder" [formControlName]="controlName"
+    (input)="onInputChange($event)" [readonly]="readonly"></textarea>
+
+  <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+    <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+      <div class="text-danger">
+        {{ error }}
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+::ng-deep{
+    .assign-subject-section{
+        .assign-subject-class{
+            padding-bottom: 20px;
+            p{
+                font-size: 16px;
+                line-height: 22px;
+                font-weight: 400;
+                color: #000;
+                margin: 0;
+                span{
+                    font-weight: 600;
+                }
+            }
+        }
+        .time-slot-table{
+            .table-responsive{
+                .table{
+                    tr{
+                        td{
+                            vertical-align: middle;
+                        }
+                    }
+                }
+            }
+        }
+        .assign-sub-btn{
+            text-align: right;
+        }
+    }
+
+    .multiselect-dropdown{
+        z-index: auto !important;
+    }
+}

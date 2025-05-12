@@ -1,0 +1,129 @@
+<section class="add_lecture_timings fees-dis">
+    <div class="page_inner">
+        <div class="m-container">
+            <h2 class="page_title"></h2>
+            <div class="card">
+                <div class="card_title">
+                    <h3 class="sub_title">Fees</h3>  
+                    <!-- <div class="btn_right">
+                        <a href="#" class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">Add Refund Type</a>
+                    </div>    -->               
+                </div>
+                <div class="card_body">                        
+                    <ul class="nav nav-tabs nav_border-section mb-0">
+                        <li class="nav-item">
+                            <a
+                            class="nav-link" routerLinkActive="active" [href]="setsymfonyUrl('feesView')" data-toggle="tab">View Remaining Fees</a>
+                        </li>                     
+                        <li class="nav-item">
+                            <a
+                            class="nav-link"  routerLinkActive="active" [href]="setsymfonyUrl('feesCollection')" data-toggle="tab">Fees Collection</a>
+                        </li>
+                        <li class="nav-item">
+                            <a
+                            class="nav-link"  routerLinkActive="active" [href]="setsymfonyUrl('viewAllFees')" data-toggle="tab">View All Fees</a>
+                        </li>
+                        <li class="nav-item">                                            
+                            <a 
+                            class="nav-link"  routerLinkActive="active" [href]="setsymfonyUrl('feesReport')" data-toggle="tab">Fees Report</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"  routerLinkActive="active" [href]="setsymfonyUrl('viewfeesReceiptNo')" data-toggle="tab">Fees Receipt</a>
+                        </li>
+                        <li class="nav-item">
+                            <a 
+                            class="nav-link active" routerLinkActive="active" [routerLink]="setUrl('import/import-fees')" data-toggle="tab">Fees Import</a>
+                        </li>                                      
+                </ul>                                       
+                   
+
+                <div class="page_inner py-0">
+                    <div class="m-container">
+                        <div class="d-flex justify-content-between align-items-center my-3">
+                            <h3 class="sub_title mb-0">Upload File Section</h3>
+                            <div class="btn_right">
+                                <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" (click)="downloadSampleFile()" target="_blank">Download Sample File</a>
+                            </div>
+                        </div>
+                        <div class="card pb-0">
+                            <div class="card_body">
+                                <div>
+                                    <div>
+                                        <form [formGroup]="importform" class="form_section" method="post">                                   
+                                            <div class="row">
+                                                <div class="col-md-3 form_group">
+                                                    <div>
+                                                        <label class="form_label">Please Select Academic Year<span class="text-danger">*</span>:</label>
+                                                        <div>
+                                                            <div>
+                                                                <select name="class_name form-control" formControlName="class_id" id="route_name" [(ngModel)]="selectedYear" (change)="selectedAcademicYear()" required>
+                                                                    <option value="">PLease select academic year.</option>
+                                                                    <option *ngFor="let item of acadmicYearList" value="{{item.id}}">{{item.year}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                        
+                                                </div>
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label"> Batch<span class="text-danger">*</span></label>
+                                                    <div class="">
+                                                        <div class="">
+                                                            <select class="form-control" name="class_name" formControlName="batch_id" [(ngModel)]="selectedBatch" id="route_name" required>
+                                                                <option value=""> class name.</option>
+                                                                <option *ngFor="let item of batchList" value="{{item.id}}">{{item.name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 form_group">
+                                                    <div>
+                                                        <label class="form_label">Browse File<span class="text-danger">*</span>:</label>
+                                                        <div>
+                                                            <div>
+                                                                <input #fileInput type="file" (change)="onFileChange($event)" class="form-control" name="file" id="file" formControlName="file" required>
+                                                            </div>
+                                                            <div *ngIf="submitted && importform.controls['file'].invalid" class="text-danger"> Please select file name. </div>
+                                                            <div *ngIf="importform.controls['file'].dirty && importform.controls['file'].invalid" class="text-danger"> Please select file name. </div>
+                                                        </div>
+                                                    </div>                                        
+                                                </div>
+                                            </div>
+                                            <div class="row w-100 ">
+                                                <div class="col-md-1">
+                                                    <button type="submit" (click)="onSubmit()" [disabled]="!importform.valid" class="btn w-100 px-2" id="submitButton">Save</button>
+                                                </div>
+                                            </div>                                                                                                    
+                                        </form>
+                                        <div class="col-12" *ngIf="return_result" id="">
+                                            <h6>Please check error in Below rows. And upload those rows again.</h6>
+                                           <table class="table" *ngIf="this.failed_rows.length != 0">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>Row Number</th>
+                                                        <th>Errors</th>
+                                                    </tr>                                        
+                                                </thead> 
+                                                <tbody>
+                                                    <tr *ngFor="let item of failed_rows ;let i = index;">
+                                                        <td>
+                                                            {{item.row_number}}
+                                                        </td>
+                                                        <td>
+                                                            {{item.row_errors[0]}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>                                   
+                                           </table>
+                                           <h6 *ngIf="this.failed_rows.length == 0"> All data imported properly</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

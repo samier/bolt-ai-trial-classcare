@@ -1,0 +1,362 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-inquiry-list{
+        .table-responsive{
+            .operations{
+                margin-right: 10px;
+                .dropdown-toggle{
+                    background-color: #fff;
+                    border: 1px solid #D9D9D9;
+                    color: #000 !important;
+                    box-shadow: none;
+                    outline: none;
+                }
+                .dropdown-menu{
+                    box-shadow: 0 0 3.5px rgb(0 0 0 / 10%);
+                    inset: 0px auto auto -36px !important;
+                    button{
+                        &.dropdown-item{
+                            color: #646464 !important;
+                            i {
+                                font-size: 18px;
+                                margin-right: 5px;
+                                min-width: 22px;
+                                display: inline-block;
+                                text-align: center;
+                                vertical-align: middle;
+                                color: #646464;
+                                &.bi-plus-square-fill{
+                                    font-size: 19px;
+                                }
+                            }
+                            &:hover{
+                                color: $primary;
+                                background:unset;
+                                i{
+                                    color: $primary;
+                                    &.fa-file-pdf{
+                                        color: #c60f0f;
+                                    }
+                                    &.fa-file-excel{
+                                        color: #1D6F42;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .head-btn{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: 0;
+                right: 45px;
+                z-index: 1;
+                .form_group {
+                    margin-bottom: 0;
+                    width: 160px;
+                }
+            }
+            .dataTables_filter{
+                padding-right: 550px;
+                label {
+                    margin-bottom: 12px;
+                }
+            }
+            .datatable{
+                thead{
+                    th{
+                        &:nth-of-type(6){
+                            max-width: 300px;
+                        }
+                    }
+                }
+                tbody{
+                    
+                    td{
+                        vertical-align: top;
+                        padding: 8px 10px !important;
+                        .primary-text{
+                            color: $primary
+                        }
+                    }
+                    tr {
+                        &.inquiry-remainder {
+                            background-color: #17a2b830 !important;
+                            &:hover {
+                                background-color: #17a2b830 !important;
+                            }
+                        }
+                        &:nth-child(even) {
+                            &.inquiry-remainder {
+                                background-color: #17a2b830 !important;
+                            }   
+                        }
+                    }
+                }
+            }
+            .multicheck {
+                padding: 0px 55px 0px 0;
+            }
+            .multicheck-label {
+                padding: 5px 10px 0 0px;
+            }  
+            
+        }
+        .table-dynamic-search{
+            .dataTables_filter{
+                padding-right: 150px;
+            }
+        }
+        .dataTables_wrapper .dataTables_length select{
+            background-size: 20px;
+        }
+        .disabled{
+            pointer-events: none;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .custom-check-exam{
+            .form-check-input{
+              margin: 0;
+              width: 2.8rem;
+              height: 22px;
+              box-shadow: none;
+              background-color: #8098cd;
+              border: none;
+              cursor: pointer;
+              background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='white'/%3e%3c/svg%3e");
+              &:checked{
+                background-color: #01329c;
+              }
+            }
+          }
+        .border-circle {
+            border-radius: 100%;
+        }
+        .inquiry-radio-content{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .inquiry-radio-btn{
+            display: flex;
+            align-items: center;
+            padding-right: 16px;
+            label{
+                margin: 0;
+                margin-top: 1px;
+                padding-left: 6px;
+                cursor: pointer;
+            }
+            }
+        }
+        .visibility-save{
+            margin-right: 5px;
+            height: 30px;
+            width: 30px;
+            min-width: 30px;
+            padding-top: 4px;
+        }
+
+        .inquiry-fees-status{
+            padding: 4px !important;
+            font-size: 13px;
+            min-width: 200px;
+
+            .collected {
+                color: #5DA55D;
+            }
+
+            .pending {
+                color: #C60F0F;
+            }
+        }
+
+        .loading {
+            font-size: 18px;
+            font-weight: 400;
+        }
+    }
+    ngb-modal-window{
+        .rejeced_modal{
+
+            .reject-reason-dropdown{
+                .dropdown-body{
+                    max-height: 210px !important;
+                }
+            }
+            div{
+                p{
+                    b{
+                        font-weight: 500;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+        .download-recipt{
+            .recipt-checkbox-group {
+                display: flex;
+                align-items: center;
+            }
+            .inquiry-fees-status{
+                padding: 4px !important;
+                font-size: 13px;
+                min-width: 200px;
+    
+                .collected {
+                    color: #5DA55D;
+                }
+    
+                .pending {
+                    color: #C60F0F;
+                }
+            }
+        }
+    }
+    .bg_counter {
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        width: min-content;
+        margin:0 auto;
+        .content{
+            strong{
+                font-size: 20px;
+                line-height: 1.2;
+            }
+            .counter_title{
+                font-size: 15px;
+                font-weight: 600;
+                color: $primary;
+                opacity: 0.8;
+            }
+        }
+    }
+    .cancelled {
+        background : #ff4b0078!important;
+    }
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 300px;
+        background-color: #f6eeee;
+        color: #000;
+        border-radius: 2px;
+        position: absolute;
+        z-index: 1;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 20px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        padding: 5px;
+        p{
+            margin-bottom:0px;
+        }
+    }
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+    .product-icon{
+        width: 60px;
+        min-width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 20px;
+        background: $primary;
+        img{
+            position: relative;
+            max-width: 30px;
+        }
+        &.active_user{
+            img{
+                left: 3px;
+            }
+        }
+        &.teacher{
+            img{
+                top: -1px;
+            }
+        }
+        &.super_admin{
+            img{
+                top: 1px;
+            }
+        }
+    }
+    .card{
+        box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+        border: none;
+        border-radius: 2px;
+        
+    }
+    .card-student-inquiry{
+        padding: 0;
+        overflow: hidden;
+    }
+    .counter_card{
+        border-right: 2px solid #C7C7C7;
+        position: relative;
+        padding: 18px 0;
+        z-index: 0;
+        &::before{
+            content: "";
+            background-color: $primary;
+            left: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: -1;
+        }
+        &.active{
+            &::before{
+                opacity: 0.2;
+            }
+        }
+        &:last-child{
+            border-right: none;
+        }
+    }
+    .filter_btn{
+        svg{
+            rect{
+                fill: $black;
+            }
+        }
+    }
+    .opace_btn{
+        border: 1px solid $primary;
+        background: var(--primary05);
+        color: $black;
+        min-width: 119px;
+        font-size: 15px;
+        height: 40px;
+        &::after{
+            content: none;
+        }
+        &:hover,&:focus{
+            color: $black;
+        }
+    }
+}
+
+::ng-deep {
+    .duplicate-modal-section{
+      z-index: 10 !important;
+    }
+    .duplicate-modal-backdrop{
+      z-index: 10 !important;
+    }
+}

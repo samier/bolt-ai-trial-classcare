@@ -1,0 +1,339 @@
+<section class="add_homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{ id ? "UPDATE" : "ADD" }} {{ attachmentType }}</h3>
+                <div class="btn_right">
+                    <a class="list-btn btn" href="#."  [routerLink]="homeworkService.setUrl(4,attachmentType)">{{attachmentType}}
+                        List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addNoticeForm">
+
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8">
+                            <div class="row">
+                                <!-- TITTLE -->
+                                <div class="col-md-6 form_group">
+                                    <label class="form_label">Notice Title<span class="text-danger">*</span></label>
+                                    <div>
+                                        <app-input type="text" controlName="tittle"
+                                            placeholder="Enter Title"></app-input>
+                                    </div>
+                                </div>
+
+                                <!-- TYPE OF NOTICE -->
+                                <div class="col-md-6 form_group">
+                                    <label class="form_label">Select the type of Notice<span
+                                            class="text-danger">*</span></label>
+                                    <div>
+                                        <app-single-select controlName="noticeType" (change)="onNoticeChange()"
+                                            [dropDownArray]="notice"
+                                            placeholder="Select the Notice "></app-single-select>
+                                    </div>
+                                </div>
+
+
+                                <!-- <div class="col-md-6 form_group" *ngIf="addNoticeForm.value.noticeType == 2">
+                                    <label class="form_label"> Select the Employer <span class="text-danger">*</span></label>
+                                    <div>
+                                        <app-multi-select controlName="facultyId" [dropDownArray]="faculties"
+                                            placeholder="Select the Employer" (change)="onFacultyChange()"></app-multi-select>
+                                    </div>
+                                </div> -->
+
+                                <!-- Description -->
+                                <div class="col-md-6 form_group">
+                                    <label class="form_label">Notice Description<span
+                                            class="text-danger">*</span></label>
+                                    <div>
+                                        <app-textarea [rows]="3" controlName="description"
+                                            placeholder="Enter Description"></app-textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Attachment -->
+                                <div class="col-md-6 form_group upload_attach">
+                                    <label class="form_label">Upload Attachment</label>
+                                    <div class="">
+                                        <div class="">
+                                            <input #file type="file" multiple="true" (change)="onFileSelected($event)"
+                                                class="form-control"
+                                                accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .doc, .docx">
+                                        </div>
+
+                                        <div class="select-attechment-chip">
+
+                                            <ng-container *ngIf="id && uploadedFiles?.length > 0">
+                                                <label>Old Attachment of {{attachmentType}}</label>
+                                                <ng-container *ngFor="let item of uploadedFiles; let i=index">
+                                                    <p class="selected_attachment"> {{item?.filename}}&nbsp; <span
+                                                            style="cursor: pointer;"
+                                                            (click)="deleteFile(item?.id)">X</span></p>
+                                                </ng-container>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="addNoticeForm?.value?.upload?.length > 0">
+                                                <label>New Attachment of {{attachmentType}}</label>
+                                                <ng-container
+                                                    *ngFor="let item of addNoticeForm?.value?.upload; let i=index">
+                                                    <p class="selected_attachment"> {{item?.name}}&nbsp; <span
+                                                            style="cursor: pointer;"
+                                                            (click)="removeSelectedFile(i)">X</span></p>
+                                                </ng-container>
+                                            </ng-container>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2 -->
+                                <!-- Role Wise-->
+                                <div class="col-md-6 form_group" *ngIf="addNoticeForm.value.noticeType == 2">
+                                    <label class="form_label">Select the Role Type <span
+                                            class="text-danger">*</span></label>
+                                    <div>
+                                        <app-multi-select controlName="roleId" (change)="onRoleChange()"
+                                            [dropDownArray]="roles" placeholder="Select the Role"></app-multi-select>
+                                    </div>
+                                </div>
+
+                                <!-- 3 -->
+                                <!-- Section -->
+                                <div class="col-md-6 form_group" *ngIf="addNoticeForm.value.noticeType == 3">
+                                    <label class="form_label"> Select the Section <span
+                                            class="text-danger">*</span></label>
+                                    <div>
+                                        <app-multi-select controlName="section_id" [dropDownArray]="sections"
+                                            placeholder="Select Section"
+                                            (change)="onSectionChange()"></app-multi-select>
+                                    </div>
+                                </div>
+
+                                <!-- CLASS DROPDOWN -->
+                                <div class="col-md-6 form_group" *ngIf="addNoticeForm.value.noticeType == 3">
+                                    <label class="form_label"> Select the Class</label>
+                                    <div>
+                                        <app-multi-select controlName="classId" [dropDownArray]="classes"
+                                            placeholder="Select Class" (change)="onClassChange()"></app-multi-select>
+                                    </div>
+                                </div>
+
+                                <!-- BATCH DROPDOWN -->
+                                <div class="col-md-6 form_group" *ngIf="addNoticeForm?.getRawValue()?.noticeType == 3">
+                                    <label class="form_label"> Select the Batch </label>
+                                    <div>
+                                        <app-multi-select controlName="batchId" [dropDownArray]="batches"
+                                            placeholder="Select Batch" (change)="onBatchChange()"></app-multi-select>
+                                    </div>
+                                </div>
+
+                                <!-- STUDENT DROPDOWN -->
+                                <!-- <div class="col-md-6 form_group" *ngIf="addNoticeForm?.getRawValue()?.noticeType == 3">
+                                    <label class="form_label"> Select the Student <span class="text-danger">*</span></label>
+                                    <div>
+                                        <app-multi-select controlName="studentId" [dropDownArray]="students"
+                                    placeholder="Select Student" (change)="onStudentChange()"></app-multi-select>
+                                    </div>
+                                </div> -->
+
+                            </div>
+                        </div>
+                        <ng-container
+                            *ngIf="addNoticeForm?.getRawValue()?.noticeType == 3 || addNoticeForm?.getRawValue()?.noticeType == 2 ">
+
+                            <div class="col-lg-4 col-md-4"
+                                *ngIf=" ( renderDataF && renderDataF.length > 0 )  || (renderDataS && renderDataS.length > 0 ) ">
+                                <div class="student-list-input">
+                                    <input type="text" placeholder="Search" class="form-control"
+                                        formControlName="searchText" />
+                                    <!-- <i class="fas fa-search"></i> -->
+                                </div>
+                                <div class="add-notice-rt-content">
+                                    <div class="select-all-notice selct-notice-header">
+                                        <div class="form-group check-group-item">
+                                            <input type="checkbox" id="html" [checked]="isSelectAll"
+                                                (change)="selectAll($event)">
+                                            <label for="html">Select All</label>
+                                        </div>
+                                    </div>
+                                    <div
+                                        *ngIf=" addNoticeForm?.getRawValue()?.noticeType == 2 ? renderDataF?.length ==0 : renderDataS?.length == 0 ">
+                                        <div>No Data Found</div>
+                                    </div>
+                                    <div class="notice-card-inner">
+                                        <div class="add-notice-card"
+                                            *ngFor="let item of (addNoticeForm?.getRawValue()?.noticeType == 3 ? renderDataS :  renderDataF ) | batchStudent : addNoticeForm?.value?.searchText">
+                                            <!-- <div class="add-notice-card" *ngFor="let item of (addNoticeForm?.getRawValue()?.noticeType == 2 ? renderDataF : addNoticeForm?.getRawValue()?.noticeType == 3 ? renderDataS : [] ) | batchStudent : addNoticeForm?.value?.searchText"> -->
+                                            <div class="notice-card-wrapper">
+                                                <div class="notice-lt-card">
+                                                    <h5>{{ item?.name }}</h5>
+                                                    <p *ngIf="addNoticeForm?.getRawValue()?.noticeType == 3">roll
+                                                        number: {{ item?.roll_no }}
+                                                    </p>
+                                                </div>
+                                                <div class="notice-rt-card">
+                                                    <div class="select-all-notice">
+                                                        <!-- <div class="form-group">
+                                                                                <input type="checkbox" id="css" [(ngModel)]="item.checked" [checked]="item.checked">
+                                                                                <label for="css"></label>
+                                                                            </div> -->
+                                                        <div class="check-group-item">
+                                                            <input type="checkbox" id="{{item.id}}"
+                                                                [(ngModel)]="item.checked"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                            <label for="{{item.id}}"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="row w-100 ">
+                        <div class="col-auto px-2" *ngIf="!id">
+                            <button class="btn msg-btn" type="submit" (click)="send_New(publishModel)"
+                                >Send & New 
+                                <!-- <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_sendNewL">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div> -->
+                            </button>
+                        </div>
+                        <div class="col-auto px-2">
+                            <button
+                                *ngIf="id ? CommonService.hasPermission('administrator_' + attachmentType, 'has_update') : CommonService.hasPermission('administrator_' + attachmentType, 'has_create') "
+                                class="btn msg-btn" type="submit"(click)="send(publishModel)" [disabled]="is_sendL">{{id ? 'Update' : 'Send'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="id && is_sendL">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto px-2">
+                            <a class="btn w-100 cancel-btn" [routerLink]="homeworkService.setUrl(4,attachmentType)">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<ng-template #publishModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">SMS Options for the Notice</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body">
+
+        <!-- <div class="col-lg-6 col-md-6">
+            <div class="form_group student-form-group">
+                <label for="" class="form_label"> RTE <span> * </span> : </label>
+                <div class="student-dropdown student-radio-content w-100">
+                    <div class="student-radio-btn">
+                        <input type="radio" id="rte1" formControlName="rightToEducation" [value]="1">
+                        <label for="rte1">Yes</label>
+                    </div>
+                    <div class="student-radio-btn">
+                        <input type="radio" id="rte2" formControlName="rightToEducation" [value]="0">
+                        <label for="rte2">No</label>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- <div class="col-md-12 form_group">
+            <label class="form_label">Do you want to send SMS to Students and Parents ?</label>
+            <div class="d-flex">
+
+                <div class="m-checkbox-list d-flex align-items-center me-3">
+                    <label class="m-checkbox mb-0">
+                        <input type="radio" id="checkbox4" [(ngModel)]="is_send_sms" [value]="true"
+                            ><span></span>
+                    </label>
+                    <label for="checkbox" class="ms-2 mb-0">Yes</label>
+                </div>
+
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                    <label class="m-checkbox mb-0">
+                        <input type="radio" id="checkbox5" [(ngModel)]="is_send_sms" [value]="false"
+                            ><span></span>
+                    </label>
+                    <label for="checkbox1" class="ms-2 mb-0">No</label>
+                </div>
+
+            </div>
+        </div> -->
+
+        <div class="col-md-12 form_group">
+            <label class="form_label">Send to ?</label>
+            <div class="d-flex">
+                <div class="m-checkbox-list d-flex align-items-center me-3" [ngClass]="{ 'opacity-box' : is_send_sms == false}" >
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox" [(ngModel)]="message.send_father" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox" class="ms-2 mb-0">Father</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2" [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox1" [(ngModel)]="message.send_mother" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2" [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox2" [(ngModel)]="message.send_student" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox2" class="ms-2 mb-0" >Student</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Parents Template :- </h5>
+                <p class="card-text">{{template[0].template}}</p>
+            </div>
+        </div>
+        <div class="bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Students Template :- </h5>
+                <p class="card-text">{{template[1].template}}</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+        <div class="col-auto">
+
+            <button class="msg-btn btn" type="submit"(click)="sendNotice()" [disabled]="is_send">Send
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_send">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+
+            <!-- <button class="button px-1" type="submit" class="w-100 btn" [disabled]="false"  (click)="sendNotice()">
+                send
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button> -->
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</ng-template>

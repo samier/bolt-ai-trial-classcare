@@ -1,0 +1,191 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div>
+                <div class="d-flex justify-content-between align-items-center my-3">
+                    <h3 class="sub_title mb-0">Poll {{page}} </h3>
+                    <div class="btn_right">
+                      <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.POLL_LIST)">Poll List</a>
+                    </div>
+                </div>
+
+
+                <div class="card_body">
+					<div>
+						<div>
+							<form [formGroup]="form" class="poll_form" id="poll-form">
+								<div>
+									<div class="card pb-1">
+                    <div class="row">
+
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Title<span class="text-danger">*</span></label>
+                        <div>
+                            <input  type="text" id="title" name="title" formControlName="title" placeholder="Enter title" class="form-control" maxlength="300">
+                        </div>
+                        <div *ngIf="form.controls['title'].invalid && (form.controls['title'].dirty || form.controls['title'].touched)" class="error text-danger mb-2">
+                            <div *ngIf="form.controls['title'].errors?.['required']">title is required field.</div>
+                            <div *ngIf="form.controls['title'].errors?.['pattern']">please enter alphanumeric only.</div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Description<span class="text-danger">*</span></label>
+                        <div>
+                            <textarea id="description" name="description" formControlName="description" placeholder="Write description..." class="form-control" rows="3" maxlength="2000"></textarea>
+                        </div>
+                        <div *ngIf="form.controls['description'].invalid && (form.controls['description'].dirty || form.controls['description'].touched)" class="error text-danger mb-2">
+                            <div *ngIf="form.controls['description'].errors?.['required']">description is required field.</div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        
+                        <label class="form_label">Status<span class="text-danger">*</span></label>
+                        <div>
+                            <select  id="status" name="status" formControlName="status" class="form-control" >
+                                <option value="1">Active</option>
+                                <option value="0">InActive</option>
+                            </select>
+                        </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                         <label class="form_label">Select Section :</label>												
+                          <div>
+                            <select  class="form-control" formControlName="section" name="section" id="section" (change)="sectionChange()">
+                              <option value="">Please Select</option>
+                              <option *ngFor="let section of sections" [value]="section.id">{{ section.name }}</option>
+                            </select>													
+                          </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Select Batch<span class="text-danger">*</span>:</label>
+                                                <div>
+                                                    <ng-multiselect-dropdown
+                                                      [placeholder]="'select batch'"
+                                                      [settings]="batchDropdownSettings"
+                                                      [data]="batches?.data"
+                                                      [(ngModel)]="selectedBatches"
+                                                      (onSelect)="onBatchSelect()"
+                                                      (onSelectAll)="onBatchSelect()"
+                                                      (onDeSelect)="onBatchSelect()"
+                                                      (onDeSelectAll)="onBatchSelect()"
+                                                      formControlName="batch"
+                                                      [disabled]="false"
+                                                    >
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                                <div *ngIf="form.controls['batch'].invalid && (form.controls['batch'].dirty || form.controls['batch'].touched)" class="error text-danger mb-2">
+                                                    <div *ngIf="form.controls['batch'].errors?.['required']">please select batch.</div>
+                                                </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Poll For<span class="text-danger">*</span></label>
+                                                  <div>
+                                                      <select  id="poll_for" name="poll_for" formControlName="poll_for" class="form-control" >
+                              <option value="0">Student</option>
+                              <option value="1">Faculty</option>
+                              <option value="2">Both</option>
+                            </select>
+                                                  </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                        <div>
+                                                    <!-- <input type="date" id="start_date" formControlName="start_date" name="start_date" class="form-control {{currentDate}}" placeholder="Enter start date" [max]="form.controls['end_date'].value" (change)='startDateChange($event)'>
+                                                </div>
+                                                <div *ngIf="form.controls['start_date'].invalid && (form.controls['start_date'].dirty || form.controls['start_date'].touched)" class="error text-danger mb-2">
+                                                    <div *ngIf="form.controls['start_date'].errors?.['required']">start date is required field.</div>
+                                                </div> -->
+                                                <app-mat-date-picker controlName="start_date" [maxDate]="form.controls['end_date'].value ?? ''" (change)="startDateChange($event)"></app-mat-date-picker>
+                      </div>
+                      <div class="col-md-3 form_group">
+                          <label class="form_label">End Date<span class="text-danger">*</span></label>
+                          <div>
+                                                      <!-- <input type="date" id="end_date" formControlName="end_date" name="end_date" class="form-control" placeholder="Enter end date" [min]="form.controls['start_date'].value">
+                                                  </div>
+                                                  <div *ngIf="form.controls['end_date'].invalid && (form.controls['end_date'].dirty || form.controls['end_date'].touched)" class="error text-danger mb-2">
+                                                      <div *ngIf="form.controls['end_date'].errors?.['required']">end date is required field.</div>
+                                                  </div> -->
+                                                <app-mat-date-picker controlName="end_date" [minDate]="form.controls['start_date'].value ?? ''"></app-mat-date-picker>
+
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <label class="form_label">Show Result<span class="text-danger">*</span></label>
+                        <div>
+                            <select  id="show_result" name="show_result" formControlName="show_result" class="form-control" >
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+								</div>
+								<div class="card pb-0">
+                  <div class="row">
+                    <div class="col-md-3 form_group">
+                      <label class="form_label">Poll Option Type<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <select  id="type" name="type" formControlName="type" class="form-control" (change)='onPollTypeOptionsSelected($event)'>
+                                                      <option value="">Select Poll Type</option>
+                            <option value="0">Default</option>
+                            <option value="1">Textbox</option>
+                            <option value="2">Both</option>
+                          </select>
+                                                </div>
+                                                <div *ngIf="form.controls['type'].invalid && (form.controls['type'].dirty || form.controls['type'].touched)" class="error text-danger mb-2">
+                                                  <div *ngIf="form.controls['type'].errors?.['required']">please select poll type.</div>
+                                              </div>
+                    </div>
+                    <div class="col-md-12 row" *ngIf="form.value.type == '0' || form.value.type == '2'">
+                      <div *ngIf="getOptionFormArray.controls" class="col-md-12">
+                                  <div *ngFor="let control of  getOptionFormArray.controls; let i = index;" formArrayName='options' class="form_group mb-3 pr-0">
+                                      <div [formGroupName]="i" class="document_type_add  m-0">
+                                          <div class="row" >
+                                              <div class="col-md-6 input-field w-100">
+                                                <label class="form_label">Option - {{i+1}}<span class="text-danger">*</span></label>
+                                                  <div>
+                                  <input  type="text" formControlName="ans" name="options[{{i}}][ans]" placeholder="Type your answer" class="form-control" maxlength="600">
+                                </div>
+                                <div *ngIf="get_ans(i)?.invalid && (get_ans(i)?.dirty || get_ans(i)?.touched)" class="error text-danger">
+                                                                <div *ngIf="get_ans(i)?.errors?.['required']">option {{i+1}} is required field</div>
+                                                            </div>
+                                              </div>
+                                              <input  type="hidden" formControlName="type" name="options[{{i}}][type]" value="0" class="form-control">
+                                              <div class="input-field col-md-3">
+                                                <div>
+                                                  <label for="" class="opacity-0">button</label>
+                                                  <button *ngIf="i == 0" class="button {{pollOptionCount}} {{i}}" type="button" (click)="addTextboxControl()" class="btn" [disabled]="pollOptionCount == totalOptionCount">Add Option</button>
+                                                  <button *ngIf="i != 0" class="button" type="button" (click)="remove(i)" class="btn btn-danger ">Remove</button>
+                                                </div>
+
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                  </div>
+                </div>
+								<div class="row w-100">
+										<div class="col-md-1">
+                      <a class="btn btn-danger btn-minwidth w-100" href="#" [routerLink]="setUrl(URLConstants.POLL_LIST)">Cancel</a>
+										</div>
+										<div class="col-md-1">
+											<button *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('administrator_poll_management', 'has_update') : CommonService.hasPermission('administrator_poll_management', 'has_create') " type="submit" [disabled]="form.invalid" (click)="submit()" class="btn w-100">
+                        {{saveBtn}}
+                      </button>
+										</div>
+								</div>
+                </div>
+                </div>
+							</form>
+						</div>
+
+                      </div>
+                       </div>
+            </div>
+        </div>
+    </div>
+</section>

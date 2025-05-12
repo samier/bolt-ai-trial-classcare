@@ -1,0 +1,406 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Purchase Order</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.PURCHASE_ORDER_LIST)">Purchase
+                        Order List</a>
+                </div>
+            </div>
+            <form [formGroup]="poForm" class="form_section global_form">
+                <div class="card">
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> PO By </span> <span class="detail">(Your Detail)</span></p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Purchase Order No<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input type="hidden" name="record_id"
+                                                            controlName="record_id"></app-input>
+                                                        <app-input type="text" name="purchase_order_no"
+                                                            controlName="purchase_order_no"
+                                                            placeholder="Enter purchase order no"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Purchase Date<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-mat-date-picker placeholder="Select Purchase Date"
+                                                            controlName="purchase_order_date"></app-mat-date-picker>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Purchase By<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select placeholder="Please Select user"
+                                                            controlName="purchase_by"
+                                                            [dropDownArray]="userList"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 form_group">
+                                                    <label class="form_label">Delivery Address<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-textarea placeholder="Enter Delivery Address"
+                                                            controlName="address"></app-textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Select State<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select name="state" id="state" controlName="state"
+                                                            placeholder="Select State" [dropDownArray]="states"
+                                                            (change)="handleStateChange($event)"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Select City<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select name="city" id="city" controlName="city"
+                                                            placeholder="Select City" [dropDownArray]="cities"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Postal Code<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input type="number" name="pincode" id="pincode"
+                                                            controlName="pincode" placeholder="Enter Postal Code"
+                                                            required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Email<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input type="text" name="email" id="email"
+                                                            controlName="email" placeholder="Enter Email"
+                                                            required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Phone No.<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input type="number" name="phone_no" id="phone_no"
+                                                            controlName="phone_no" placeholder="Enter Phone No."
+                                                            required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Delivery Date<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-mat-date-picker placeholder="Select Delivery Date"
+                                                            controlName="delivery_date"></app-mat-date-picker>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group">
+                                                    <label class="form_label">Attachment</label>
+                                                    <div>
+                                                        <app-input type="file" accept="image/*,application/pdf"
+                                                            name="attachment" controlName="attachment"
+                                                            placeholder="Attachment" (change)="onFileChange($event)"
+                                                            required></app-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> Order To </span> <span class="detail">(Vendor Detail)</span>
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Select Vendor<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select name="vendor_id" id="vendor_id"
+                                                            [readonly]="record_id"
+                                                            controlName="vendor_id" placeholder="Select Vendor"
+                                                            [dropDownArray]="vendorTypeList"
+                                                            (change)="handleVendorChange($event)"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="!record_id">
+                                                    <label class="form_label">Select Requisition<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select [readonly]="disable_requisition"
+                                                            name="requisition_id" id="requisition_id"
+                                                            controlName="requisition_id"
+                                                            placeholder="Select Requisition" (change)="changeFn($event)"
+                                                            [dropDownArray]="requisitionList"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="record_id">
+                                                    <label class="form_label">Select Requisition<span
+                                                        class="text-danger">*</span></label>
+                                                    <input type="text" class="form-control" disabled [value]="requisition_title">
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Select Payment Option<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select name="payment_option" id="payment_option"
+                                                            controlName="payment_option"
+                                                            placeholder="Select Payment Option"
+                                                            [dropDownArray]="paymentTypeList"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Payment Status<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select [readonly]="true" name="payment_status"
+                                                            id="payment_status" controlName="payment_status"
+                                                            placeholder="Payment Status" [dropDownArray]="paymentStatus"
+                                                            required></app-single-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form_outer col-md-2" *ngIf="!poForm.value.requisition_id && poForm.value.vendor_id">
+                                    <div class="form_group add_doc">
+                                        <div class=" ">
+                                            <label class=" form_label">button</label>
+                                            <button type="button" (click)="addQuantity()" class="btn add-btn">Add
+                                                Items</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-nowrap table datatable w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Item Type</th>
+                                            <th>Item name</th>
+                                            <th>Unit Purchase Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount Amount</th>
+                                            <th>CGST / SGST</th>
+                                            <th>IGST</th>
+                                            <th colspan="2">Grand Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let quantity of quantities.controls; let i=index">
+                                        <tr>
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <div>
+                                                    <app-single-select [readonly]="requisition_disabled[i]"
+                                                        [GroupName]="i" formArrayName="quantities"
+                                                        placeholder="Please Select Item Type"
+                                                        controlName="inventory_item_type_id"
+                                                        [dropDownArray]="itemTypeList"
+                                                        (change)="itemTypeChange($event,i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-single-select [readonly]="requisition_disabled[i]"
+                                                        [GroupName]="i" formArrayName="quantities"
+                                                        placeholder="Please Select Item" controlName="inventory_item_id"
+                                                        [dropDownArray]="inventoryItemList[i]"
+                                                        (change)="itemChange($event,i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [readonly]="true" [GroupName]="i"
+                                                        formArrayName="quantities"
+                                                        controlName="unit_purchase_price"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="1" type="number" min="0"
+                                                        [readonly]="requisition_disabled[i]" [GroupName]="i"
+                                                        formArrayName="quantities" controlName="quantity"
+                                                        (input)="updateAmount(i)"
+                                                        (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [readonly]="true" [GroupName]="i"
+                                                        formArrayName="quantities" controlName="amount"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <app-input type="number" min="0" [GroupName]="i" formArrayName="quantities"
+                                                        controlName="discount" (input)="updateAmount(i)"
+                                                        (change)="updateAmount(i)"></app-input>
+                                                    <app-single-select [GroupName]="i" formArrayName="quantities"
+                                                        controlName="discount_type" [dropDownArray]="discount_type"
+                                                        (change)="updateAmount(i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <app-input [readonly]="gst[i]" type="number" min="0" [GroupName]="i"
+                                                        formArrayName="quantities" controlName="cgst"
+                                                        (input)="updateAmount(i)"
+                                                        (change)="updateAmount(i)"></app-input>
+                                                    <app-input [readonly]="gst[i]" type="number" min="0" [GroupName]="i"
+                                                        formArrayName="quantities" controlName="sgst"
+                                                        (input)="updateAmount(i)"
+                                                        (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [readonly]="igst[i]" type="number" min="0" [GroupName]="i"
+                                                        formArrayName="quantities" controlName="igst"
+                                                        (input)="updateAmount(i)"
+                                                        (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <!-- <app-input [readonly]="true" type="number" [GroupName]="i"  formArrayName="quantities" controlName="grand_total" ></app-input> -->
+                                                    {{getGrandTotal(i).value | number:'1.2-2'}}
+                                                </div>
+                                            </td>
+                                            <td class="col-md-1 form_group" *ngIf="!poForm.value.requisition_id">
+                                                <div>
+                                                    <button (click)="removeQuantity(i)" class="btn"><i
+                                                            class="fa fa-minus"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div class="row justify-content-end" *ngIf="quantities.controls.length > 0">
+                                    <div class="col-3">
+                                        <table class="table table-bordered table-nowrap table datatable w-100">
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>Sub Total</div>
+                                                        <div>{{poForm.value.sub_total | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>Discount</div>
+                                                        <div>{{poForm.value.discount_total | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>Taxable Amount</div>
+                                                        <div>{{poForm.value.taxable_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>CGST</div>
+                                                        <div>{{poForm.value.cgst_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>SGST</div>
+                                                        <div>{{poForm.value.sgst_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>IGST</div>
+                                                        <div>{{poForm.value.igst_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="me-2">Adjustment Total</span>
+                                                            <app-input  min="0" type="number" name="adjustment_amount" id="adjustment_amount" controlName="adjustment_amount" (input)="handleAdjAmountChange()"  (change)="handleAdjAmountChange()"></app-input>
+                                                            <app-single-select controlName="adjustment_type" [dropDownArray]="incrementDecrement" (change)="handleAdjAmountChange()"></app-single-select>
+                                                        </div>
+                                                        <div>{{poForm.value.adjustment_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div><strong>Total</strong></div>
+                                                        <div><strong>{{poForm.value.total_amount |
+                                                                number:'1.2-2'}}</strong></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 form_group">
+                                        <label class="form_label">Payment Terms<span
+                                                class="text-danger">*</span></label>
+                                        <div>
+
+                                                <angular-editor 
+                                                    [config]="editorConfig" 
+                                                    formControlName="payment_terms"
+                                                    #top_header
+                                                ></angular-editor>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row w-100 mb-4">
+                                    <div class="col-auto">
+                                        <a class="btn cancel-btn" href="#"
+                                            [routerLink]="CommonService.setUrl(URLConstants.PURCHASE_ORDER_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" (click)="onSubmit()" [disabled]="is_saving || !poForm.valid"
+                                            class="btn save-btn" id="submitButton">Save
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,218 @@
+<section class="leave_form">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Student Exam Report Card</h3>
+          <div class="d-flex">
+            <div *ngIf="CommonService.hasPermission('student_exam_report_card', 'has_download')" class="me-2">
+              <button class="button" type="submit" class="btn pdf-btn" ngbTooltip="PDF" 
+                (click)="generateReport('pdf')" [disabled]="form.invalid">
+                <img src="assets/images/pdf-icon.svg" alt="">
+              </button>
+            </div>
+            <div *ngIf="CommonService.hasPermission('student_exam_report_card', 'has_download')" class="me-2">
+              <button class="button" type="submit" class="btn pdf-btn" ngbTooltip="PDF2"
+                (click)="generateReport('pdf2')" [disabled]="form.invalid">
+                <img src="assets/images/pdf-icon.svg" alt="">
+              </button>
+            </div>
+            <div *ngIf="CommonService.hasPermission('student_exam_report_card', 'has_download')">
+              <button class="button" type="submit" class="btn excel-btn" ngbTooltip="excel"
+                (click)="generateReport('excel')" [disabled]="form.invalid">
+                <img src="assets/images/excel-icon.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="card_body">
+            <div>
+              <div class="card">
+                <form [formGroup]="form" class="form_section" id="student-leaving-certificate-form">
+                  <div class="row">
+                    <div class="col-md-12 row">
+                      <div class="col-md-3 form_group">
+                        <div>
+                          <label class="form_label">Class<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select #select [items]="classes" (change)="changeClass(selectedClass)"
+                              [searchable]="false" [(ngModel)]="selectedClass" name="class" bindLabel="name"
+                              bindValue="id" formControlName="class" placeholder="please select class"
+                              [disabled]="id ? true : false" [required]="true">
+                              <ng-template ng-header-tmp>
+                                <input style="width: 100%; line-height: 24px" (onclick)="changeClass(selectedClass)"
+                                  type="text" (input)="select.filter($any($event.target).value)" />
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                          <div
+                            *ngIf="form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)"
+                            class="error text-danger mb-2">
+                            <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <div>
+                          <label class="form_label">Batch<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select #select [items]="batches" (change)="changeBatch(selectedBatch)"
+                              [searchable]="false" [(ngModel)]="selectedBatch" name="batch" bindLabel="name"
+                              bindValue="id" formControlName="batch" placeholder="please select batch"
+                              [disabled]="id ? true : false" [required]="true">
+                              <ng-template ng-header-tmp>
+                                <input style="width: 100%; line-height: 24px" (onclick)="changeBatch(selectedBatch)"
+                                  type="text" (input)="select.filter($any($event.target).value)" />
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                          <div
+                            *ngIf="form.controls['batch'].invalid && (form.controls['batch'].dirty || form.controls['batch'].touched)"
+                            class="error text-danger mb-2">
+                            <div *ngIf="form.controls['batch'].errors?.['required']">please select batch.</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3 form_group">
+                        <div>
+                          <label class="form_label">Exam Type<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select #select [items]="examTypes" (change)="changeExamType(selectedExamType)"
+                              [searchable]="false" [(ngModel)]="selectedExamType" name="exam_type" bindLabel="name"
+                              bindValue="name" formControlName="exam_type" placeholder="please select exem type"
+                              [disabled]="id ? true : false" [required]="true">
+                              <ng-template ng-header-tmp>
+                                <input style="width: 100%; line-height: 24px" (onclick)="changeExamType(selectedExamType)"
+                                  type="text" (input)="select.filter($any($event.target).value)" />
+                              </ng-template>
+                            </ng-select>
+                          </div>
+                          <div
+                            *ngIf="form.controls['exam_type'].invalid && (form.controls['exam_type'].dirty || form.controls['exam_type'].touched)"
+                            class="error text-danger mb-2">
+                            <div *ngIf="form.controls['exam_type'].errors?.['required']">please select exem type.</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 row">
+                      <!-- <div class="col-md-6">
+                                              <div class="form_group">
+                                                  <label class="col-md-12 form_label">Template<span class="text-danger">*</span></label>
+                                                  <div class="col-md-12">
+                                                      <ng-select #select
+                                                          [items]="templates"
+                                                          (change)="changeTemplate(selectedTemplate)"
+                                                          [searchable]="false"
+                                                          [(ngModel)]="selectedTemplate"
+                                                          name="template"
+                                                          bindLabel="name"
+                                                          bindValue="id"
+                                                          formControlName="template"
+                                                          placeholder="please select template"
+                                                          [disabled]="id ? true : false"
+                                                          [required]="true">
+                                                          <ng-template ng-header-tmp>
+                                                              <input style="width: 100%; line-height: 24px"
+                                                                      (onclick)="changeTemplate(selectedClass)" type="text"
+                                                                      (input)="select.filter($any($event.target).value)" />
+                                                          </ng-template>
+                                                      </ng-select>
+                                                  </div>
+                                                  <div *ngIf="form.controls['template'].invalid && (form.controls['template'].dirty || form.controls['template'].touched)" class="error text-danger mb-2">
+                                                      <div *ngIf="form.controls['template'].errors?.['required']">please select template.</div>
+                                                  </div>
+                                              </div>
+                                          </div> -->
+                    </div>
+                  </div>
+                  <div class="row w-100">
+                    <div class="col-auto">
+                      <button class="button" type="submit" class="btn add-btn" title="Publish" (click)="grace()"
+                        [disabled]="form.invalid">
+                        Add Krupa/Siddhi Gun
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button *ngIf="CommonService.hasPermission('student_exam_report_card', 'has_create')" class="button"
+                        type="submit" class="btn publish-btn" title="Publish" (click)="publish()"
+                        [disabled]="form.invalid">
+                        Publish
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button *ngIf="CommonService.hasPermission('student_exam_report_card', 'has_create')" class="button"
+                        type="submit" class="btn generate-btn" title="Generate" (click)="submit()"
+                        [disabled]="form.invalid || generate">
+                        {{generate == false ? 'Generate' : 'Generating'}}
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="generate">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                    <div class="col-auto">
+                      <button type="submit" class="btn verify-btn" title="verify"
+                        (click)="verifyExamReport(true)" [disabled]="form.invalid">
+                        Verify
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <ng-template #mymodal let-modal>
+                <div class="modal-header" style="z-index: 0;">
+                  <h4 class="modal-title" id="modal-basic-title">Publish For :</h4>
+                  <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="z-index: 0;">
+                  <div class="">
+                    <div class="card_body">
+                      <div class="row">
+                        <div class="col-12  form_section">
+                          <div class="form_group mb-0">
+                            <!-- <label for="" class="form_label">Attendance Type</label> -->
+                            <div class="col-md-12 d-flex px-0">
+                              <div class="radio ml-1">
+                                <label class="m-radio required mb-0" for="all_students" aria-required="true">
+                                  <input type="radio" id="all_students" name="attendance" value="0" aria-required="true"
+                                    (change)="handleFeesStatus(0)" checked>All Students<span></span>
+                                </label>
+                              </div>
+                              <div class="radio ml-1">
+                                <label class="m-radio required mb-0" for="paid_students" aria-required="true">
+                                  <input type="radio" id="paid_students" name="attendance" value="1" aria-required="true"
+                                    (change)="handleFeesStatus(1)">Paid Fees Students<span></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer" style="z-index: 0;">
+                  <div class="col-md-3">
+                    <button type="submit" class="w-100 btn" (click)="publish()"> Save </button>
+                  </div>
+                  <div class="col-md-3">
+                    <button type="submit" class="w-100 btn" (click)="modal.close('cancel')">
+                      Cancel </button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="reportList && examReportData">
+          <app-exam-report-list [params]="form.value" [examReportData]="examReportData"
+            #examReportListComponent></app-exam-report-list>
+        </div>
+        <div class="card" *ngIf="reportList">
+          <app-exam-report-list [params]="form.value"></app-exam-report-list>
+        </div>
+      </div>
+    </div>
+  </section>

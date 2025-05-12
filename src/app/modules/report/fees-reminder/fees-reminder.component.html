@@ -1,0 +1,262 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0">Fees Receipt Reminder</h3>
+            </div>
+
+            <div class="card student-list-card p-0">
+
+                <!-- FILTER DROPDOWN -->
+
+                <div class="card-header border-bottom justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{ filterCount }}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DROPDOWN THINGS -->
+
+                <div class="card-body" *ngIf="filter">
+                    <div [formGroup]="feesReminderF" class="content_scroll">
+                        <div class="row">
+
+                            <!-- Section -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Section <span class="text-danger">*</span></label>
+                                <app-single-select [dropDownArray]="sectionList" controlName="section"
+                                    (change)="handleSection()" placeholder="Select Section"></app-single-select>
+                            </div>
+
+                            <!-- Class -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Class</label>
+                                <app-multi-select [dropDownArray]="classList" controlName="classes"
+                                (change)="handleClass()" placeholder="Select Class"></app-multi-select>
+                            </div>
+
+                            <!-- Batch -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Batch</label>
+                                <app-multi-select [dropDownArray]="batchList" controlName="batches"
+                                placeholder="Select Batch"></app-multi-select>
+                            </div>
+
+                            <!-- Status -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Status</label>
+                                <app-single-select [dropDownArray]="statusList" controlName="status"
+                                placeholder="Select Status"></app-single-select>
+                            </div>
+
+                            <!-- Category wise reminder -->
+                            <div class="col-md-2 form_group">
+                                <label class="form_label">Category Wise Reminder</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="category_wise_reminder" (change)="handleCategoryWiseReminder()">
+                                </div>
+                            </div>
+
+                            <!-- Month -->
+                            <div class="col-md-3 form_group" [class.d-none]="settings?.system_setting?.is_quarter_wise_fees || feesReminderF?.value?.category_wise_reminder">
+                                <label class=" form_label">Select Month</label>
+                                <app-multi-select [dropDownArray]="settings?.months" controlName="month"
+                                placeholder="Select Month"></app-multi-select>
+                            </div>
+
+                            <!-- Quarter -->
+                            <div class="col-md-3 form_group" [class.d-none]="!settings?.system_setting?.is_quarter_wise_fees || feesReminderF?.value?.category_wise_reminder">
+                                <label class=" form_label">Select Quarter</label>
+                                <app-multi-select [dropDownArray]="settings?.quarters" controlName="quarter"
+                                placeholder="Select Quarter"></app-multi-select>
+                            </div>
+
+                            <!-- Category -->
+                            <div class="col-md-4 form_group" [class.d-none]="!feesReminderF?.value?.category_wise_reminder">
+                                <label class=" form_label">Select Category</label>
+                                <app-multi-select [dropDownArray]="settings?.categories" controlName="categories"
+                                placeholder="Select Category"></app-multi-select>
+                            </div>
+
+                            <!-- Paid Fees -->
+                            <div class="col-md-1 form_group" [class.d-none]="!feesReminderF?.value?.category_wise_reminder">
+                                <label class="form_label">Paid Fees</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="paid_fees">
+                                </div>
+                            </div>
+
+                            <!-- Discount -->
+                            <div class="col-md-1 form_group" [class.d-none]="!feesReminderF?.value?.category_wise_reminder">
+                                <label class="form_label">Discount</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="discount">
+                                </div>
+                            </div>
+
+                            <!-- Right to Eduction -->
+                            <div class="col-md-1 form_group">
+                                <label class="form_label">RTE</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="rte">
+                                </div>
+                            </div>
+
+                            <!-- with Onetime -->
+                            <div class="col-md-2 form_group" [class.d-none]="feesReminderF?.value?.category_wise_reminder">
+                                <label class="form_label">OneTime</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="onetime">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12 form_group">
+                                <button type="button" class="btn show-btn" (click)="onFormSubmit()" [disabled]="is_form">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_form">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card student-list-main-card" *ngIf="true">
+                <div class="card_body">
+            
+            
+                    <div class="row pb-3 mx-0 no-gutters">
+                        <div class="col-lg-12">
+                            <div class="student-list-table">
+                
+                                <div class="table-responsive">
+                                    <div class="tgenerate-btn" style="text-align: right;">
+                                        <button *ngIf="commonService.hasPermission('report_fees_reminder', 'has_download')" class="button px-1" type="submit" class="btn generate-btn" (click)="onGenerate(publishModel)" [disabled]="is_modalShow">Generate
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_modalShow">
+                                                <span class="visually-hidden">Loading... </span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <input class="" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)" [disabled]="tbody?.length==0">
+                                                </th>
+                                                <th>GR No</th>
+                                                <th>Roll No</th>
+                                                <th>Name</th>
+                                                <th class="d-flex align-items-center">
+                                                    <div>Date <span class="text-danger">*</span></div>
+                                                    <div>
+                                                        <app-mat-date-picker class="multiple-select-date" [(selectedDate)]="last_date" [isRequired]="false" [templateDriven]="true" (change)="applyHeaderDateToRows($event)" [minDate]="currentDate" [disabled]="tbody?.length==0"></app-mat-date-picker>
+
+                                                        <!-- <input type="date" class="form-control ms-3" [(ngModel)]="last_date" (ngModelChange)="applyHeaderDateToRows()" [min]="currentDate" [disabled]="tbody?.length==0" /> -->
+                                                        <!-- <input type="date" placeholder="Select Date" controlName="last_date"></input> -->
+                                                    </div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>
+                                                    <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                                                </td>
+                                                <td class="teal-text-color">{{item.studentId || "" }}</td>
+                                                <td class="orange-text-color">{{item.rollno || "" }}</td>
+                                                <td class="name_hover">{{item.full_name || "" }}</td>
+                                                <td>
+                                                    <!-- <input type="date" [(ngModel)]="last_date[i]" > -->
+                                                    <app-mat-date-picker class="multiple-select-date multimple-body-select-date" [(selectedDate)]="item.date" [isRequired]="false" [templateDriven]="true" (change)="onDateChange(i)" [minDate]="currentDate" [disabled]="!item?.selected"></app-mat-date-picker>
+                                                    <!-- <input type="date" class="form-control" [(ngModel)]="item.date" (ngModelChange)="onDateChange(i)" [min]="currentDate" [disabled]="!item?.selected"/> -->
+                                                </td>
+                                        
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="is_loading">
+                                            <tr>
+                                                <td colspan="5">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="!is_loading && tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="12" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+
+<ng-template #publishModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title" style="text-transform: capitalize;">Fees Receipt Reminder</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body" [formGroup]="modalForm">
+
+        <div class="col-md-12 form_group">
+            <label class="form_label">Notes</label>
+                <div class="">
+                    <textarea class="form-control" formControlName="note" placeholder="Enter Note" rows="3" style="resize: none;"></textarea>
+                    <div class="text-danger" *ngIf="modalForm?.controls?.note?.status == 'INVALID'">Please enter the Note </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label class="form_label">How Many Records You Want 
+                            in a Single Page ?</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <input type="number" formControlName="records_per_row" class="form-control" min="1" max="12" >
+                        <div class="text-danger" *ngIf="modalForm?.controls?.records_per_row?.status == 'INVALID'">
+                            <div *ngIf="modalForm?.controls.records_per_row.value > 9 "> Number should be less then 9 </div>
+                            <div *ngIf="modalForm?.controls.records_per_row.value < 1 "> Number should be greater then 1 </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="z-index: 0; background-color: #D9D9D9; padding: 8px;">
+        <button class="button btn d-flex W-100 px-4" type="submit" (click)="modal_save()" [disabled]="is_generate">Generate
+            <div style="margin-left: 6px;" class="spinner-border spinner-border-sm" role="status" *ngIf="is_generate">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </button>
+        <button type="button" class="button btn d-flex W-100 px-4" (click)="closeModel()">Cancel </button>
+    </div>
+</ng-template>

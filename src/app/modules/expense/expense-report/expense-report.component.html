@@ -1,0 +1,43 @@
+<section class="expense_form new-expense-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">Expense</h3>
+                <div class="d-flex" *ngIf="type === 1">
+                    <a class="btn me-2 add-btn" [routerLink]="CommonService.setUrl(URLConstants.ADD_EXPENSE)">Add Expense</a>
+                </div>
+            </div>
+            <div class="card expense-list-card p-0">
+                <div class="col-lg-12 border-bottom mt-2 ms-2 d-flex nav nav-tabs">
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 1 ? true : false" for="expense" aria-required="true">
+                            <input type="radio" (click)="switch_to(1)" name="for" id="expense" value="2" aria-required="true" class="mr-1" checked hidden>Expense<span></span>
+                        </label>
+                    </div>
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 2 ? true : false" for="categories" aria-required="true">
+                            <input type="radio" (click)="switch_to(2)" name="for" id="categories" value="1" aria-required="true" class="mr-1" hidden>Categories <span></span>
+                        </label>
+                    </div>
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 3 ? true : false" for="vendors" aria-required="true">
+                            <input type="radio" (click)="switch_to(3)" name="for" id="vendors" value="3" aria-required="true" class="mr-1" hidden>Vendors <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 1">
+                    <app-expense-list>
+                    </app-expense-list>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 2">
+                    <app-expense-categories>
+                    </app-expense-categories>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 3">
+                    <app-expense-vendors>
+                    </app-expense-vendors>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

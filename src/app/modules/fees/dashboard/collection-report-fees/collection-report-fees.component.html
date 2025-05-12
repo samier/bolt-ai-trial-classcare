@@ -1,0 +1,107 @@
+<div class="collection-dashboard">
+    <div class="collection-dashboard-card">
+        <div class="collection-card-header">
+            <form action="" [formGroup]="dashboardForm">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h4>Collection Report</h4>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <app-multi-select class="multi-select-custom" [itemsShowLimit]="1" controlName="academicYear"
+                            placeholder="Select Year" [dropDownArray]="yearsList"
+                            (change)="getFeesCollectionData()"></app-multi-select>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <app-date-range-picker class="date-range-custom" controlName="dates" placeholder="Select Date"
+                            (change)="getFeesCollectionData()"></app-date-range-picker>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="collection-card-body">
+            <ng-container *ngIf="isLoading else chartTemp">
+                <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #chartTemp>
+                <ng-container *ngIf="noDataFound else chart">
+                    <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+                        <span>
+                            No Branch Data Found.
+                        </span>
+                    </div>
+                </ng-container>
+                <ng-template #chart>
+                    <app-chart [chartOptions]="chartOptions" [updateFlag]="updateFlag" [height]="height"
+                        (chartInstance)="callBack($event)"></app-chart>
+                </ng-template>
+            </ng-template>
+        </div>
+        <div class="collection-card-footer">
+            <h6>
+                Collection Report <p>{{totalCollection.toFixed(2)}}</p> &nbsp;
+                <div class="collection-footer-drop">
+                    <ng-select class="collection-footer-select" [items]="branchList" [(ngModel)]="branch" bindValue="id" bindLabel="name"
+                        placeholder="Select Branch" [searchable]="false" appendTo="body"
+                        (change)="branchWiseChart($event)">
+                    </ng-select>
+                </div>
+            </h6>
+            <button class="btn btn-primary collection-drop" (click)="isCollapse = !isCollapse">
+                <i *ngIf="!isCollapse" class="fa fa-eye" aria-hidden="true"></i>
+                <i *ngIf="isCollapse" class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="collection-bottom-card basic_table" *ngIf="isCollapse">
+            <div class="table-responsive">
+                <table
+                    class="table table-hover table-bordered table-nowrap table datatable w-100 d-table student-table">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 200px;">Branch Name</th>
+                            <th>Cash</th>
+                            <th>Cheque</th>
+                            <th>pos</th>
+                            <th>upi</th>
+                            <th>Neft</th>
+                            <th>Other</th>
+                        </tr>
+                    </thead>
+                    <ng-container *ngIf="collectionData.branch_wise_collection.length > 0 else noDataFound">
+                        <tbody>
+                            <tr *ngFor="let item of collectionData.branch_wise_collection">
+                                <td>{{item.branch_name}}</td>
+                                <td>{{item?.modes?.Cash ?? 0}}</td>
+                                <td>{{item?.modes?.Cheque ?? 0}}</td>
+                                <td>{{item?.modes?.POS ?? 0}}</td>
+                                <td>{{item?.modes?.UPI ?? 0}}</td>
+                                <td>{{item?.modes?.NEFT ?? 0}}</td>
+                                <td>{{item?.modes?.Others ?? 0}}</td>
+                            </tr>
+                        </tbody>
+                    </ng-container>
+                    <ng-template #noDataFound> 
+                        <tbody>
+                            <tr>
+                                <td colspan="7">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="ms-2" role="status" >
+                                            <span >No Data Found</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </ng-template>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

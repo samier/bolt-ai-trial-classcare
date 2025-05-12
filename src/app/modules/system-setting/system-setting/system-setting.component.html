@@ -1,0 +1,278 @@
+<section class="system-setting-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">SYSTEM SETTING</h3>
+                <div class="button_square">
+                </div>
+            </div>
+
+            <div class="stystem-body">
+                <div class="system-content d-md-flex">
+                    <ng-container *ngIf="!settingId">
+                        <div class="system-left-content" [ngClass]="{'iscollape_left' : isCollape }">
+                            <div class="system-left-content-inner card">
+                                <div class="collapse_icon">
+                                    <i class="fa fa-angle-right csm_coll_icon" ngbTooltip="Open" placement="top" *ngIf="isCollape" (click)="isCollape = !isCollape"></i>
+                                    <i class="fa fa-angle-left csm_coll_icon" ngbTooltip="Close" placement="top" *ngIf="!isCollape" (click)="isCollape = !isCollape"></i>
+                                </div>
+                                <div class="systen-left-content-menu">
+                                    <ul class="system-setting-list">
+                                        
+                                        <div class="collapse_search" *ngIf="isCollape" ngbTooltip="Search">
+                                            <i class="fas fa-search" (click)="onSearchIconClick()"></i>
+                                        </div>
+                                        <div class="std_csm_search" *ngIf="!isCollape">
+                                            <input type="string" class="form-control" [(ngModel)]="searchMenuText" placeholder="Search.." #searchInput/>
+                                            <i class="fa fa-search input-search" aria-hidden="true"></i>
+                                            <i class="fa fa-times clear" *ngIf="searchMenuText" (click)=" searchMenuText = '' "></i>
+                                        </div>
+                                        <ng-container *ngIf="isMainMenuList else dataContent">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="loader-for-fields"></div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-template #dataContent>
+                                            <ng-container
+                                                *ngFor="let item of systemMainMenuList | systemSettingMenu:searchMenuText">
+                                                <li (click)="selectMenu(item)">
+                                                    <a [ngClass]="{'active' : item.type === selectedMenu}" [ngbTooltip]="isCollape ? item?.name : ''" placement="right">
+                                                        <div [innerHTML]="item?.svg"></div>
+                                                        <span>{{item?.name}}</span>
+                                                        <div class="icon">
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ng-container>
+                                        </ng-template>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="system-right-content" [ngClass]="{'iscollape_right' : isCollape, 'setting-page-only' : settingId }">
+                        <ng-container *ngIf="selectedMenu !== 8 else fieldShowHideContent">
+                            <div class="system-right-cover">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <div
+                                        style="font-weight: 600; display: flex; align-items: center; font-size: 20px; color: #000;">
+                                        {{selectedMenuName}} </div>
+                                    <div class="d-flex">
+                                        <div
+                                            style="display: flex; align-items: center; margin-right: 6px; white-space: nowrap; font-weight: 500; color: #000;">
+                                            Search : </div>
+                                        <input type="string" class="form-control" style="height: 34px;"
+                                            [(ngModel)]="searchMenuField" placeholder="Search here..." />
+                                    </div>
+                                </div>
+    
+                                <ng-container *ngIf="isFieldLoad else fieldContent">
+                                    <div class="card">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="loader-for-fields"></div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+    
+                                <ng-template #fieldContent>
+                                    <ng-container *ngIf="fieldData?.length > 0 else noDataFound">
+                                        <ng-container *ngFor="let item of fieldData | systemSettingField : searchMenuField">
+                                    
+                                            <!-- Simple Radio Buttons -->
+                                            <ng-container
+                                                *ngIf="item?.type === 'radio' && !(item?.child_checkbox?.length > 0 || item?.child_file?.length > 0 || item?.child_radio || item?.child_number?.length > 0)">
+                                                <div class="card system-rt-card">
+                                                    <div class="system-rt-card-heading">
+                                                        <h3>{{ item?.lable }}</h3>
+                                                    </div>
+                                                    <div class="system-card-body" *ngIf="item?.option?.length > 0">
+                                                        <ng-container *ngFor="let opt of item?.option">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" id="radio-{{item?.key}}-{{opt?.key}}"
+                                                                    [value]="opt?.key" [checked]="payload[item?.key] === opt?.key"
+                                                                    (change)="onRadioCheckChange(item?.key, opt?.key)">
+                                                                <label class="form-check-label" for="radio-{{item?.key}}-{{opt?.key}}">
+                                                                    {{ opt?.value }}
+                                                                </label>
+                                                            </div>
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                    
+                                            <!-- Radio Buttons with Child Checkboxes, Child Files, or Child Radios -->
+                                            <ng-container
+                                                *ngIf="item?.type === 'radio' && (item?.child_checkbox?.length > 0 || item?.child_file?.length > 0 || item.child_radio || item?.child_number?.length > 0)">
+                                                <div class="card system-rt-card">
+                                                    <div class="system-rt-card-heading">
+                                                        <h3>{{ item?.lable }}</h3>
+                                                    </div>
+                                                    <div class="system-card-body mb-2" *ngIf="item?.option?.length > 0">
+                                                        <ng-container *ngFor="let opt of item?.option">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="radio" id="radio-{{item?.key}}-{{opt?.key}}"
+                                                                    [value]="opt?.key" [checked]="payload[item?.key] === opt?.key"
+                                                                    (change)="onRadioCheckChange(item?.key, opt?.key)">
+                                                                <label class="form-check-label" for="radio-{{item?.key}}-{{opt?.key}}">
+                                                                    {{ opt?.value }}
+                                                                </label>
+                                                            </div>
+                                                        </ng-container>
+                                                    </div>
+                                    
+                                                    <!-- Child Checkboxes -->
+                                                    <ng-container *ngIf="item?.child_checkbox?.length > 0 && payload[item?.key]">
+                                                        <div class="system-card-body system-card-body-bg">
+                                                            <ng-container *ngFor="let opt of item?.child_checkbox">
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" [checked]="payload[opt?.key]"
+                                                                        (change)="onCheckboxChange(opt?.key, $event)">
+                                                                    <label class="form-check-label">
+                                                                        {{ opt.lable }}
+                                                                    </label>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                    
+                                                    <!-- Child File Inputs -->
+                                                    <ng-container *ngIf="item?.child_file?.length > 0 && payload[item?.key]">
+                                                        <div class="">
+                                                            <ng-container *ngFor="let file of item?.child_file; let i = index">
+                                                                <div class="mb-2">
+                                                                    <label for="file-input-{{file?.key}}-{{i}}" class="form-label">{{ file.lable
+                                                                        }}</label>
+                                                                    <input type="file" class="form-control" id="file-input-{{file?.key}}-{{i}}"
+                                                                        (change)="onFileChange(file?.key, $event)" accept="audio/*">
+                                                                    <ng-container *ngIf="isStringValue(file.key)">
+                                                                        <div class="upload-document-test">
+                                                                            <div class="song-view-content">
+                                                                                <div class="d-flex align-items-center music-profile">
+                                                                                    <i class="fa fa-music" aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <a [href]="payload[file.key]" target="_blank">Uploaded Song
+                                                                                    Play</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                    
+                                                    <!-- Child Radios -->
+                                                    <ng-container *ngIf="item.child_radio && item.child_radio.length > 0">
+                                                        <ng-container *ngFor="let data of item.child_radio">
+                                                            <ng-container *ngIf="data.target_key == payload[item?.key] || payload[item?.key] == 3">
+                                                                <div class="system-card-body system-card-body-bg mb-2">
+                                                                    <ng-container *ngFor="let opt of data.option">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio"
+                                                                                id="radio-{{data?.key}}-{{opt?.key}}" [value]="opt?.key"
+                                                                                [checked]="payload[data?.key] === opt?.key"
+                                                                                (change)="onRadioChange(data?.key, opt?.key, item?.key)">
+                                                                            <label class="form-check-label" for="radio-{{data?.key}}-{{opt?.key}}">
+                                                                                {{opt?.value}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                    <span *ngIf="payload[item?.key] == 3"
+                                                                        style="color: #000; font-size: 15px; font-weight: 500;">{{data.lable}}</span>
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </ng-container>
+                                    
+                                                    <!-- Child Number Inputs (only show when the checkbox is checked) -->
+                                                    <ng-container *ngIf="item?.child_number?.length > 0 && payload[item?.key]">
+                                                        <div class="system-card-body mt-2">
+                                                            <ng-container *ngFor="let num of item.child_number; let i = index">
+                                                                <div class="mb-2">
+                                                                    <label for="num-input-{{num?.key}}-{{i}}" class="form-label">{{ num.lable }}</label>
+                                                                    <input
+                                                                        id="num-input-{{num?.key}}-{{i}}"
+                                                                        type="number"
+                                                                        class="form-control"
+                                                                        [placeholder]="num.lable"
+                                                                        [(ngModel)]="payload[num.key]"
+                                                                    />
+                                                                </div>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                    
+                                            <!-- Simple Checkbox with Child Radio -->
+                                            <ng-container *ngIf="item?.type === 'checkbox'">
+                                                <div class="card system-rt-card">
+                                                    <div class="system-card-body">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" [checked]="payload[item?.key]"
+                                                                (change)="onCheckboxChange(item?.key, $event)" id="check-box-{{item?.key}}">
+                                                            <label class="form-check-label" for="check-box-{{item?.key}}">
+                                                                {{ item?.lable }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                    
+                                                    <!-- Child Radios (only show when the checkbox is checked) -->
+                                                    <ng-container *ngIf="item?.child_radio?.length > 0 && payload[item?.key]">
+                                                        <div class="system-card-body system-card-body-bg mt-2">
+                                                            <ng-container *ngFor="let data of item.child_radio">
+                                                                <ng-container *ngIf="payload[item?.key]">
+                                                                    <ng-container *ngFor="let opt of data.option">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input" type="radio"
+                                                                                id="radio-{{data?.key}}-{{opt?.key}}" [value]="opt?.key"
+                                                                                [checked]="payload[data?.key] === opt?.key"
+                                                                                (change)="onRadioChange(data?.key, opt?.key, item?.key)">
+                                                                            <label class="form-check-label" for="radio-{{data?.key}}-{{opt?.key}}">
+                                                                                {{ opt?.value }}
+                                                                            </label>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                    <span style="color: #000; font-size: 15px; font-weight: 500;">{{ data.lable
+                                                                        }}</span>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
+                                    
+                                            
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noDataFound>
+                                        <div class="card" style="text-align: center;">
+                                            No Field Found For {{selectedMenuName}} Menu..
+                                        </div>
+                                    </ng-template>
+    
+                                </ng-template>
+    
+                            </div>
+    
+                            <div class="save-cancel-field" *ngIf="CommonService.hasPermission('settings_system_setting', 'has_update')">
+                                <button class="btn save-btn me-2 ng-star-inserted" (click)="saveData()"
+                                    [disabled]="isSaveData">
+                                    Save
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveData">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+
+                        </ng-container>
+
+                        <ng-template #fieldShowHideContent>
+                            <app-field-hide-show></app-field-hide-show>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

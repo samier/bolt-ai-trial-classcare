@@ -1,0 +1,158 @@
+@import '../../../../assets/scss/variables';
+@import'../../../../assets/css/variable.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+::ng-deep body {
+	app-student-leaving-certificate-add {
+		.student_leaving_tbl {
+			border: 1px solid #dee2e6;
+		}
+		#result_last_examination, #reason_leaving_school {
+			height: 70px;
+		}
+		.basic_table{
+			.table-responsive{
+				.table-bordered{
+					thead{
+						th{
+							padding: 8px 8px 8px 8px;
+							background-color: #e7e7e7;
+						}
+					}
+					tbody{
+						tr{
+							&:nth-child(even){
+								background-color: #ecf0fa;
+							}
+							td{
+								&.generate_lc{
+									.btn-danger{
+										background-color: transparent;
+										border: 1px solid #ee335e;
+										color: #ee335e !important;
+										&:hover{
+											background-color: #ffd4de;
+											color: #e90036 !important;
+										}
+									}		
+									.btn-success{
+										background-color: transparent;
+										border: 1px solid #22c03c;
+										color: #22c03c !important;
+										&:hover{
+											background-color: #bcebc4;
+											color: #007a14 !important;
+										}
+									}		
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		.example-accordion-item-header {
+			color: #000;
+			padding: 7px 25px;
+			background: rgba(220, 53, 70, 0.12);
+		}
+		.remaining-fees-categories tr td {
+			padding: 7px 25px;
+			white-space: nowrap;
+			box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+			color: #4B4A4A;
+			font-weight: 500;
+		}
+
+		.remaining-fees-categories tr th {
+			padding: 7px 25px;
+			white-space: nowrap;
+			box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+		}
+
+		.remaining-fees-categories {
+			display: table;
+			tr{
+				td{
+					padding: 7px 25px;
+					white-space: nowrap;
+					box-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+					color: #4B4A4A;
+					font-weight: 500;
+					i{
+						color: $primary;
+						min-width: 15px;
+						text-align: center;
+					}
+					&:first-child{
+						width: 100%;
+					}
+				}                            
+				&:last-child{
+					td{
+						box-shadow:none;
+					}
+				}
+				th{
+					padding: 7px 25px;
+					white-space: nowrap;
+					box-shadow: 0 1px 0 rgb(0 0 0 / 25%);
+				}
+			}
+		}
+
+	}
+	.danger-bg{
+		background: rgba(220, 53, 70, 0.12);
+	}
+	.success-bg{
+		background: rgba(56, 220, 53, 0.12);
+	}
+
+	.myCustomModalClass{
+		.modal-dialog{
+			@media (min-width: 992px) {
+				max-width: 950px;
+			}
+			.card{
+				box-shadow: 0 0 4px 0px rgb(0 0 0 / 40%);
+			}
+			.modal-content{
+				.modal-body{
+					.table{
+						th{
+							border-top: 0;
+						}
+						label{
+							&.form_label{
+								span{
+									min-width: 190px;
+									display: inline-block;
+								}
+							}
+						}
+					}
+					.student-detail-title{
+						width: 165px;
+						font-weight: 400;
+					}
+
+					.student-detail{
+						border: 0 !important;
+						background: #fff;
+						color: #000;
+						font-weight: 700;
+					}
+				}
+			}
+		}
+	}
+}
+
+::ng-deep {
+    .myCustomModalClass{
+      z-index: 10 !important;
+    }
+    .duplicate-modal-backdrop{
+      z-index: 10 !important;
+    }
+}

@@ -1,0 +1,13 @@
+.px-20{
+    padding: 0 20px;
+}
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.m-checkbox {
+    span{
+        border-radius: 0 !important;
+    }
+}

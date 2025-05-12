@@ -1,0 +1,142 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Assign Subject to {{username}}</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn" href="#." [routerLink]="setUrl(URLConstants.USER_LIST)">Back to User List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <!-- <div class="col">
+                            <button type="button" (click)="addNew()" class="btn btn-primary">Add New Record</button>                              
+                        </div> -->
+                    </div>
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">      
+                                <div class="row">
+                                    <!-- <div class="col-md-3 form_group mb-0">
+                                        <label class="form_label">Select Class</label>
+                                        <div class="">
+                                            <ng-slect #select [items]="ClassNames" (change)="changeFn(selectedClass)" [searchable]="true"
+                                                [(ngModel)]="selectedClass" name="class_id" bindLabel="name" bindValue="id" formControlName="class_id"
+                                                placeholder="please select" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" (onclick)="changeFn(selectedClass)" type="text"
+                                                        (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                                </ng-select>
+                                        </div>
+                                        <div *ngIf="productForm.controls['class_id'].invalid && productForm.controls['class_id'].dirty && productForm.controls['class_id'].untouched"
+                                            class=" error text-danger mb-2">
+                                            <div *ngIf="productForm.controls['class_id'].errors?.['required']">Please select an option</div>
+                                        </div> e
+                                    </div> -->
+                                    <div class="col-md-3 form_group mb-0">
+                                        <label class="form_label">Select Class</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown formControlName="class_id" [placeholder]="'please select'"
+                                                [settings]="dropdownSettings" [(ngModel)]="selectedClass" (ngModelChange)="handleClassChange($event)" [data]="ClassNames">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group mb-0">
+                                        <label class="form_label">Select Batch</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown
+                                            formControlName="batch_id"
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [(ngModel)]="selectedBatch"
+                                            [data]="Batches"
+                                            name="Batches"
+                                            (ngModelChange)="handleBatchChange($event)"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group mb-0">
+                                        <label class="form_label">Select Subject</label>
+                                        <div class="">
+                                                <ng-multiselect-dropdown
+                                            formControlName="subject_id"
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [(ngModel)]="selectedSubject"
+                                            [data]="Subjects"
+                                            name="Subjects"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group mb-0" *ngIf="CommonService.hasPermission('faculty_assign_subjects', 'has_create')" >
+                                        <label class="form_label" style="opacity: 0;">Select Subject</label>
+                                        <div class="">
+                                            <button type="submit" [disabled]="!productForm.valid" class="btn" >Add New Record</button>
+                                        </div>
+                                    </div>                                         
+                                </div>         
+                            </form>
+                                <!-- <button type="submit" class="btn btn-success">Submit</button>   -->
+                                <!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a>                                 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="justify-content-between d-flex">
+                        <div class="d-flex ml-0">
+                            <h5 class="mb-0 pt-2">Assigned Subject List</h5>
+                        </div>
+                        <div class="d-flex delete-all-button mb-2">
+                            <button class="btn" *ngIf="CommonService.hasPermission('faculty_assign_subjects', 'has_delete')" (click)="deleteSelected()" [disabled]="isDeleteAllLoading"> 
+                                <i class="fa fa-trash-alt"></i>&nbsp; Delete Selected {{selectedUserSubjectIds.size === 0 ? '' : '(' + selectedUserSubjectIds.size + ')'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDeleteAllLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered  table-bordered ">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+                                    </th>
+                                    <th>Subject</th>
+                                    <th>Class</th>
+                                    <th>Batch</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="tbody?.length != 0">
+                                <tr *ngFor="let item of tbody ;let i = index;" >	
+                                    <td>
+                                        <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                                    </td>	
+                                    <td>{{item.subject}}</td>           
+                                    <td>{{item.class}}</td>           
+                                    <td>{{item.batch}}</td>            
+                                    <td>   
+                                        <div class="btn-group" role="group">											
+                                            <button class="btn action-delete" ngbTooltip="Delete" *ngIf="CommonService.hasPermission('faculty_assign_subjects', 'has_delete')" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+                                        </div>
+                                        
+                                    </td>                                             
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="tbody?.length == 0">
+                                <tr>
+                                  <td colspan="4" class="text-center no-data-available">No data</td>
+                                </tr>
+                            </tbody>									
+                        </table>
+                    </div>
+                </div>         
+            </div>
+        </div>
+    </div>
+</section>

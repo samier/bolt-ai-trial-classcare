@@ -1,0 +1,55 @@
+::ng-deep{
+    .main-header-right .dropdown-toggle::after{
+        display: none !important;
+    }
+    @media (max-width: 768px){
+        .main-body.app.sidebar-mini .main-header form[role=search].active input {
+            padding-left: 20px !important;
+            width: 96% !important;
+        }
+    }
+
+    
+    @media screen and (min-width:480px) and (max-width: 768px) {
+        .stickyy{
+            position:  fixed !important;
+        }
+    }
+
+    @media screen and (min-width:768px) and (max-width: 991px) {
+        .stickyy{
+            position:  fixed !important;
+        }
+    }
+
+
+}
+
+@media (max-width: 480px){
+    .main-header-right .nav .nav-item .dropdown-menu {
+        left: 5px !important;
+        right: 5px !important;
+        position: fixed !important;
+        transform: translate(0,63px) !important;
+    }
+}
+
+// @media (min-width: 480px){
+//     .main-header-right .nav .nav-item.main-header-message .dropdown-menu,
+//     .main-header-right .nav .nav-item.main-header-notification .dropdown-menu {
+//         transform: translate(-245px,60px) !important;
+//     }
+//     .nav-itemd-none .dropdown-menu{
+//         transform: translate(15px,63px) !important;
+//     }
+// }
+
+// .main-profile-menu .dropdown-menu{
+//     transform: translate(-189px, 67px) !important;
+// }
+
+@media (min-width:320px) and (max-width:328px) {
+    .nav-link#bs-example-navbar-collapse-1{
+        padding: 0.6rem 0rem !important;
+    }
+}

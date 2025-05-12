@@ -1,0 +1,50 @@
+::ng-deep {
+    .section-list-section {
+        .card {
+            .search-group {
+                position: relative;
+
+                .fa-search {
+                    position: absolute;
+                    left: 8px;
+                    top: 11px;
+                    color: #b1a7a1;
+                }
+
+                .form-control {
+                    padding-left: 30px !important;
+                }
+            }
+
+            .school-listing-card {
+                background-color: rgba(227, 236, 255, 1);
+                padding: 10px 12px;
+                border-radius: 9px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                h4 {
+                    margin: 0;
+                    font-size: 16px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    color: rgba(0, 0, 0, 1);
+                    max-width: 80%;
+                }
+
+                .school-rt-icon {
+                    .btn {
+                        border-radius: 8px !important;
+                        min-width: 33px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        padding: 0 10px;
+                    }
+                }
+            }
+        }
+    }
+}

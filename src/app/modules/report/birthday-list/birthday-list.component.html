@@ -1,0 +1,155 @@
+<section class="birthday">
+   <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h3 class="sub_title mb-0">Birthday-Report</h3>
+        </div>
+
+        <div class="student-profile-tan">
+            <div class="col-lg-12 d-flex nav nav-tabs">
+                <div class="radio-inline ml-1 nav-item">
+                  <label class="m-radio required nav-link" [class.active]="type == 1 ? true : false" for="student"
+                    aria-required="true">
+                    <input type="radio" (click)="switch_to(1)" name="for" id="student" value="1" aria-required="true"
+                      class="mr-1" checked hidden>Student<span></span>
+                  </label>
+                </div>
+                <div class="radio-inline ml-1 nav-item">
+                  <label class="m-radio required nav-link" [class.active]="type == 2 ? true : false" for="User"
+                    aria-required="true">
+                    <input type="radio" (click)="switch_to(2)" name="for" id="User" value="2" aria-required="true"
+                      class="mr-1" hidden>User<span></span>
+                  </label>
+                </div>
+              </div>
+        </div>
+
+        <div class="">
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="row" *ngIf="type == 1">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label col-md-12">Select Class</label>
+                            <div class="col-md-12">
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'select class'"
+                                    [settings]="classDropdownSettings"
+                                    [data]="classes"
+                                    [(ngModel)]="selectedClasses"
+                                    (onSelect)="onClassSelect($event)"
+                                    (onSelectAll)="onClassSelect($event)"
+                                    (onDeSelect)="onClassSelect($event)"
+                                    (onDeSelectAll)="onClassSelect($event)"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>                                     
+                        </div>   
+                        <div class="col-md-3 form_group">
+                            <label class="form_label col-md-12">Select Batch</label>
+                            <div class="col-md-12">
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'select batch'"
+                                    [settings]="classDropdownSettings"
+                                    [data]="batches"
+                                    [(ngModel)]="selectedBatches"
+                                    >
+                                </ng-multiselect-dropdown>
+                            </div>                                     
+                        </div>   
+                        <div class="col-md-3 form_group">
+                            <label  class="form_label">Date Range<span class="text-danger">*</span></label>
+                            <input type="text"
+                              class="form-control" 
+                              [placeholder]="'Please Select Dates'"
+                              ngxDaterangepickerMd
+                              [linkedCalendars]="true"
+                              [(ngModel)]="selectedRange"
+                              (datesUpdated)="datesUpdated($event)"
+                              [locale]="dateConfig"
+                              [showCustomRangeLabel]="true"
+                              [ranges]="ranges"
+                              [showClearButton]="true"
+                              [showCancel]="true"
+                              [alwaysShowCalendars]="true"
+                              [showDropdowns]="true"
+                            > 
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Column</label>
+                            <ng-multiselect-dropdown
+                              [placeholder]="'please select'"
+                              [settings]="columnDropdownSettings"
+                              [data]="columns"
+                              name="columns"
+                              [(ngModel)]="column"
+                              >
+                            </ng-multiselect-dropdown>
+                          </div>
+                    </div>
+                    <div class="row" *ngIf="type == 2">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label col-md-12">Select Role</label>
+                            <div class="col-md-12">
+                                <ng-select #select 
+                                    [items]="roles" 
+                                    [searchable]="true" 
+                                    [(ngModel)]="selectedRole" 
+                                    bindLabel="name" 
+                                    bindValue="id"  
+                                    placeholder="select role">
+                                </ng-select>
+                            </div>                                     
+                        </div>   
+                        <div class="col-md-3 form_group">
+                            <label  class="form_label">Date Range<span class="text-danger">*</span></label>
+                            <input type="text"
+                              class="form-control" 
+                              [placeholder]="'Please Select Dates'"
+                              ngxDaterangepickerMd
+                              [linkedCalendars]="true"
+                              [(ngModel)]="selectedRange"
+                              (datesUpdated)="datesUpdated($event)"
+                              [locale]="dateConfig"
+                              [showCustomRangeLabel]="true"
+                              [ranges]="ranges"
+                              [showClearButton]="true"
+                              [showCancel]="true"
+                              [alwaysShowCalendars]="true"
+                              [showDropdowns]="true"
+                            > 
+                        </div>
+                    </div>
+
+                    <div class="optimized_btn">
+                        <button (click)="getReport()" class="btn report-btn">Get Report</button>
+                        <button (click)="clearData()"  class=" btn clear-btn">Clear</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <div class="card">
+                <div class="card-body"  >
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <div class="table-btn-right d-flex">
+                                    <button *ngIf="commonService.hasPermission('report_birthday_report', 'has_download')" (click)="getPdfReport('pdf')" class="btn pdf-btn me-2" ngbTooltip="PDF"><img src="assets/images/pdf-icon.svg" alt=""></button>
+                                    <button *ngIf="commonService.hasPermission('report_birthday_report', 'has_download')" (click)="getPdfReport('excel')" class="btn excel-btn" ngbTooltip="EXCEL"><img src="assets/images/excel-icon.svg" alt=""></button>
+                                </div>
+                                <table #table1 datatable *ngIf="type==1 && dtRendered"  [dtOptions]="dtOptions"  class="table table-hover table-nowrap table-bordered ">
+                                </table>
+                                <table #table2 datatable *ngIf="type==2 && dtRendered" [dtOptions]="dtOptions2"  class="table table-hover table-nowrap table-bordered ">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+   </div>
+</section>

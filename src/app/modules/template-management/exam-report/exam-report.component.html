@@ -1,0 +1,728 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Exam Report</h3>
+			</div>
+            <div>
+                <div class="card" *ngIf="CommonService.hasPermission('settings_exam_setting', 'has_create')">
+                    <div class="card_body">
+                        <!-- <form class="form" [formGroup]="registerForm" (ngSubmit)="save()"> -->
+                        <div class="row form_section">
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Exam Name</label>
+                                <ng-select #select [items]="examTypesList" [(ngModel)]="form.name" bindLabel="name"
+                                    bindValue="id" placeholder="List Of Classes">
+                                </ng-select>
+                                <div *ngIf="submit && form.name == null || form.name == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please select exam type. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Class</label>
+                                <ng-select #select [items]="classList" [(ngModel)]="selectedClass" bindLabel="name"
+                                    bindValue="id" placeholder="List Of Classes" (change)="handleClassChange()">
+                                </ng-select>
+                                <div *ngIf="submit && selectedClass.length == 0 " class="avl-error text-danger px-20">
+                                    Please select class. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Subject</label>
+                                <ng-multiselect-dropdown [placeholder]="'List Of Subjects'" [settings]="dropdownSettings"
+                                    [data]="SubjectList" [(ngModel)]="selectedSubject" (onSelect)="handleSubjectChange()"
+                                    (onSelectAll)="handleSubjectChange()" (onDeSelect)="handleSubjectChange()"
+                                    (onDeSelectAll)="handleSubjectChange()">
+                                </ng-multiselect-dropdown>
+                                <div *ngIf="submit && selectedSubject.length == 0 " class="avl-error text-danger px-20">
+                                    Please select Subjects. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Total Marks</label>
+                                <input class="form-control" type="text" name="total_marks" id="total_marks"
+                                    placeholder="Total Marks" [(ngModel)]="form.total_marks">
+                                <div *ngIf="submit && form.total_marks == null || form.total_marks == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please enter total marks. </div>
+                                <div *ngIf="submit && isNaN(form.total_marks)" class="avl-error text-danger px-20">
+                                    Please enter number only. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Passing Marks</label>
+                                <input class="form-control" type="text" name="passing_marks" id="passing_marks"
+                                    placeholder="Passing Marks" [(ngModel)]="form.passing_marks">
+                                <div *ngIf="submit && form.passing_marks == null || form.passing_marks == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please enter passing marks. </div>
+                                <div *ngIf="submit && isNaN(form.passing_marks)" class="avl-error text-danger px-20">
+                                    Please enter number only. </div>
+                                <div *ngIf="submit && parseInt(form.passing_marks) > parseInt(form.total_marks)"
+                                    class="avl-error text-danger px-20">
+                                    Passing mark can not be greater than total marks.</div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select exam report type</label>
+                                <ng-select #select [items]="examReportTypes" [(ngModel)]="form.exam_report_type"
+                                    bindLabel="name" bindValue="id" placeholder="please select">
+                                </ng-select>
+                                <div *ngIf="submit && form.exam_report_type == null || form.exam_report_type == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please select report type. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Has Scholastic Type</label>
+                                <div>
+                                    <div class="m-checkbox-list d-flex align-items-center">
+                                        <label for="scholastic_type" class="m-checkbox show-label m-0">
+                                            <input type="checkbox" class="s-checkbox me-2" name="scholastic_type" id="scholastic_type" [(ngModel)]="scholastic_type">Has Scholastic Type?
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 form_group" *ngIf="scholastic_type">
+                                <label for="" class="form_label">Scholastic Type</label>
+                                <div class="d-flex px-0">
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="scholastic" aria-required="true">
+                                            <input type="radio" id="scholastic" name="scholastic" value="1" aria-required="true" checked (change)="handleChange($event, 'create')">Scholastic<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="co-scholastic" aria-required="true">
+                                            <input type="radio" id="co-scholastic" name="scholastic"  value="2" aria-required="true" (change)="handleChange($event, 'create')">Co-Scholastic<span></span>
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>  
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Include in Total Marks</label>
+                                <div>
+                                    <div class="m-checkbox-list d-flex align-items-center">
+                                        <label for="include_in_total_marks" class="m-checkbox show-label m-0">
+                                            <input type="checkbox" class="s-checkbox me-2" name="include_in_total_marks" id="include_in_total_marks" [(ngModel)]="form.include_in_total_marks">Include Subject in Total Marks?
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Attendance Type</label>
+                                <div class="col-md-12 d-flex px-0">
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="auto" aria-required="true">
+                                            <input type="radio" id="auto" name="attendance" value="0" aria-required="true"  [checked]="form.attendance == 0" checked (change)="handleAttendanceChange($event, 'create')">Automatic<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="manual" aria-required="true">
+                                            <input type="radio" id="manual" name="attendance"  value="1" aria-required="true" [checked]="form.attendance == 1" (change)="handleAttendanceChange($event, 'create')">Manual<span></span>
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Marks Type</label>
+                                <div class="col-md-12 d-flex px-0">
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="round" aria-required="true">
+                                            <input type="radio" id="round" name="marks_type" value="1" aria-required="true" [checked]="form.marks_type == 1" (change)="handleMarksTypeChange($event, 'create')">Round Of<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="ceil" aria-required="true">
+                                            <input type="radio" id="ceil" name="marks_type"  value="2" aria-required="true" [checked]="form.marks_type == 2" (change)="handleMarksTypeChange($event, 'create')">Ceil<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="floor" aria-required="true">
+                                            <input type="radio" id="floor" name="marks_type"  value="3" aria-required="true" [checked]="form.marks_type == 3" (change)="handleMarksTypeChange($event, 'create')">Floor<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ml-1">
+                                        <label class="m-radio required" for="none" aria-required="true">
+                                            <input type="radio" id="none" name="marks_type"  value="0" aria-required="true" [checked]="form.marks_type == 0" (change)="handleMarksTypeChange($event, 'create')">None<span></span>
+                                        </label>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <!-- <label for="" class="form_label">Exam Type</label> -->
+                                <div class="form_group pl-3" *ngIf="form.exam_type.length == 0">
+                                    <label class="form_label"><span class="text-danger"></span></label>
+                                    <div>
+                                        <button type="submit" class="btn add-btn btn-minwidth m-0" (click)="addExamType('create')">
+                                            Add Exam Type
+                                        </button>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+
+
+                        
+                        <div class="row form_section pt-3" *ngFor="let item of form.exam_type ;let i = index;">
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Exam </label>
+                                <ng-select #select [items]="examTypes" [(ngModel)]="form.exam_type[i].exam_type_id"
+                                    (change)="handleExamType(i, form.exam_type[i].exam_type_id, 'create')" bindLabel="name"
+                                    bindValue="id" placeholder="please select">
+                                </ng-select>
+
+                                <div *ngIf="form.exam_type[i].save && form.exam_type[i].exam_type_id == null || form.exam_type[i].exam_type_id == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please select exam type. </div>
+                            </div>
+
+                            <div class="col-md-2 form_group">
+                                <label for="" class="form_label">Total Marks</label>
+                                <input class="form-control" type="text" [name]="'exam_type_total_marks'+i" id="total_marks"
+                                    placeholder="Total Marks" [(ngModel)]="item.exam_type_total_marks" disabled>
+                                <div *ngIf="form.exam_type[i].save && form.exam_type[i].exam_type_total_marks == null || form.exam_type[i].exam_type_total_marks == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please enter total marks. </div>
+                                <div *ngIf="form.exam_type[i].save && isNaN(form.exam_type[i].exam_type_total_marks)"
+                                    class="avl-error text-danger px-20">
+                                    Please enter number only. </div>
+                            </div>
+                            <div class="col-md-2 form_group">
+                                <label for="" class="form_label">Conversion</label>
+                                <input class="form-control" type="text" [name]="'conversion'+i" id="total_marks"
+                                    placeholder="Total Marks" [(ngModel)]="item.conversion">
+                                <div *ngIf="form.exam_type[i].save && form.exam_type[i].conversion == null || form.exam_type[i].conversion == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please enter conversion. </div>
+                                <div *ngIf="form.exam_type[i].save && (form.exam_type[i].conversion_type == 'marks' && parseInt(form.exam_type[i].conversion) > parseInt(form.exam_type[i].exam_type_total_marks))"
+                                    class="avl-error text-danger px-20">
+                                    Conversion marks can not be grater than total marks. </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Conversion Type</label>
+                                <ng-select #select [items]="conversionTypes" [(ngModel)]="form.exam_type[i].conversion_type"
+                                    (change)="handleConversionChange(i,'create')" bindLabel="name" bindValue="id"
+                                    placeholder="please select">
+                                </ng-select>
+                                <div *ngIf="form.exam_type[i].save && form.exam_type[i].conversion_type == null || form.exam_type[i].conversion_type == ''"
+                                    class="avl-error text-danger px-20">
+                                    Please select conversion type. </div>
+                            </div>
+                            <div class="col-auto add_doc" *ngIf="form.exam_type.length - 1 == i">
+                                <label for="" class="form_label">add</label>
+                                <div class="form_group row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn add-btn"
+                                            (click)="addExamType('create',i)"> Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto add_doc"
+                                *ngIf="form.exam_type.length - 1 != i || i == 0 || form.exam_type.length - 1 == i">
+                                <label for="" class="form_label">remove</label>
+                                <div class="form_group row">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn delete-btn"
+                                            (click)="remove('create',i)"> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row w-100 mt-3">
+                            <div class="col-md-auto">
+                                <button class="btn save-btn" (click)="save()">Save</button>
+                            </div>
+                            <div class="col-md-auto">
+                                <button class="btn clear-btn" (click)="clear()">Clear</button>
+                            </div>
+                        </div>
+                
+                            
+                            
+                    </div>
+                </div>
+                    <!-- </form> -->
+
+                    <div class="fee_report_filter card">
+                        <div class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="datatable-action-design">
+                                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                        <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                      </svg>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                      </svg>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table datatable [dtOptions]="dtOptions"
+                                            class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Exam Name</th>
+                                                    <th>Class</th>
+                                                    <th>Subject</th>
+                                                    <th>Total Marks</th>
+                                                    <th>Passing Marks</th>
+                                                    <th>Scholastic Type</th>
+                                                    <th>Report Type</th>
+                                                    <th>Order</th>
+                                                    <th class="action-btn-sticky">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of tbody ;let i = index;">
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.class}}</td>
+                                                    <td>{{item.subject}}</td>
+                                                    <td>{{item.total_marks}}</td>
+                                                    <td>{{item.passing_marks}}</td>
+                                                    <td>{{item.scholastic_type == 1 ? 'Scholastic' : (item.scholastic_type == 2 ? 'Co-Scholastic' : '-')}}</td>
+                                                    <td>{{item.exam_report_type == 'both' ? 'Marks and Grade' :
+                                                        item.exam_report_type}}</td>
+                                                    <td class="form-group"><input type="text" class="form-control" [(ngModel)]="item.order" (change)="updateOrder(item.order, item.id)"></td>
+                                                    <td class="action-btn-sticky text-center">
+                                                        <div class="btn-group" role="group">
+                                                            <button  type="button" container="body" ngbTooltip="view"
+                                                                class="lt-btn-icon action-view"
+                                                                (click)="open(viewModal, item.id)">
+                                                                
+                                                            </button>
+                                                            <button *ngIf="CommonService.hasPermission('settings_exam_setting', 'has_edit')" class="lt-btn-icon action-edit" container="body" ngbTooltip="Edit"
+                                                                (click)="open(updateModal, item.id)"> </button>
+                                                            <button *ngIf="CommonService.hasPermission('settings_exam_setting', 'has_delete')" type="button" container="body" ngbTooltip="Delete"
+                                                                class="lt-btn-icon action-delete"
+                                                                (click)="handleDelete(item.id, item.exam_report_id)">
+                                                                
+                                                            </button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                            <!-- <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                            <td colspan="3" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>							 -->
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <ng-template #updateModal let-modal>
+                    <div class="modal-header" style="z-index: 0;">
+                        <h4 class="modal-title" id="modal-basic-title">Update Exam Report Details</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="z-index: 0;">
+
+                        <div class="page_inner">
+                            <div class="card">
+                                <div class="card_body">
+                                    <div class="row form_section">
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Exam Name</label>
+                                            <input class="form-control" type="text" name="name" id="name"
+                                                placeholder="Exam Name" [(ngModel)]="updateForm.name" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Class Name</label>
+                                            <input class="form-control" type="text" name="class" id="class"
+                                                placeholder="Class" [(ngModel)]="updateForm.class" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Subject Name</label>
+                                            <input class="form-control" type="text" name="subject" id="subject"
+                                                placeholder="Subject" [(ngModel)]="updateForm.subject" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Total Marks</label>
+                                            <input class="form-control" type="text" name="total_marks" id="total_marks"
+                                                placeholder="Total Marks" [(ngModel)]="updateForm.total_marks">
+                                            <div *ngIf="submit && updateForm.total_marks == null || updateForm.total_marks == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please enter total marks. </div>
+                                            <div *ngIf="submit && isNaN(updateForm.total_marks)" class="avl-error text-danger px-20">
+                                                Please enter number only. </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Passing Marks</label>
+                                            <input class="form-control" type="text" name="passing_marks" id="passing_marks"
+                                                placeholder="Passing Marks" [(ngModel)]="updateForm.passing_marks">
+                                            <div *ngIf="submit && updateForm.passing_marks == null || updateForm.passing_marks == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please enter total marks. </div>
+                                            <div *ngIf="submit && isNaN(updateForm.passing_marks)" class="avl-error text-danger px-20">
+                                                Please enter number only. </div>
+                                            <div *ngIf="submit && parseInt(updateForm.passing_marks) > parseInt(updateForm.total_marks)"
+                                                class="avl-error text-danger px-20">
+                                                Passing mark can not be greater than total marks.</div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Select exam report type</label>
+                                            <ng-select #select [items]="examReportTypes" [(ngModel)]="updateForm.exam_report_type"
+                                                bindLabel="name" bindValue="id" placeholder="please select">
+                                            </ng-select>
+                                            <div *ngIf="submit && updateForm.exam_report_type == null || updateForm.exam_report_type == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please select report type. </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Has Scholastic Type</label>
+                                            <div class="d-flex px-0">
+                                                <div class="m-checkbox-list checkbox_type">
+                                                    <label for="update_scholastic_type" class="m-checkbox show-label">
+                                                        <input class="me-2" type="checkbox" name="update_scho me-2lastic_type" id="update_scholastic_type" [(ngModel)]="update_scholastic_type">Has Scholastic Type?
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="update_scholastic_type">
+                                            <label for="" class="form_label">Scholastic Type</label>
+                                            <div class="d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="scholastic_update" aria-required="true">
+                                                        <input type="radio" id="scholastic_update" name="scholastic_update" value="1" aria-required="true" [checked]="this.updateForm.scholastic_type == 1" (change)="handleChange($event, 'update')">Scholastic<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="co-scholastic-update" aria-required="true">
+                                                        <input type="radio" id="co-scholastic-update" name="scholastic-update"  value="2" aria-required="true" [checked]="this.updateForm.scholastic_type == 2" (change)="handleChange($event,'update')">Co-Scholastic<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Include in Total Marks</label>
+                                            <div>
+                                                <div class="m-checkbox-list checkbox_type">
+                                                    <label for="include_in_total_marks_update" class="m-checkbox show-label">
+                                                        <input type="checkbox" class="me-2" name="include_in_total_marks_update" id="include_in_total_marks_update" [(ngModel)]="updateForm.include_in_total_marks">Include Subject in Total Marks?
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Attendance Type</label>
+                                            <div class="d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="auto_update" aria-required="true">
+                                                        <input type="radio" id="auto_update" name="attendance_update" value="0" aria-required="true"  [checked]="this.updateForm.attendance == 0" (change)="handleAttendanceChange($event, 'update')">Automatic<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="manual_update" aria-required="true">
+                                                        <input type="radio" id="manual_update" name="attendance_update"  value="1" aria-required="true"  [checked]="this.updateForm.attendance == 1" (change)="handleAttendanceChange($event, 'update')">Manual<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                            
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Marks Type</label>
+                                            <div class="col-md-12 d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_round" aria-required="true">
+                                                        <input type="radio" id="update_round" name="marks_type_update" value="1" aria-required="true" [checked]="this.updateForm.marks_type == 1" (change)="handleMarksTypeChange($event, 'update')">Round Of<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_ceil" aria-required="true">
+                                                        <input type="radio" id="update_ceil" name="marks_type_update"  value="2" aria-required="true" [checked]="this.updateForm.marks_type == 2" (change)="handleMarksTypeChange($event, 'update')">Ceil<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_floor" aria-required="true">
+                                                        <input type="radio" id="update_floor" name="marks_type_update"  value="3" aria-required="true" [checked]="this.updateForm.marks_type == 3" (change)="handleMarksTypeChange($event, 'update')">Floor<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_none" aria-required="true">
+                                                        <input type="radio" id="update_none" name="marks_type_update"  value="0" aria-required="true" [checked]="this.updateForm.marks_type == 0" (change)="handleMarksTypeChange($event, 'update')">None<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+
+
+                                    <hr>
+
+
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-md-2 form_group add_doc pl-3" *ngIf="updateForm.exam_type.length == 0">
+                                                <label class="form_label">Add Exam Type</label>
+                                                <div>
+                                                    <button type="submit" class="btn w-100 add-btn"
+                                                        (click)="addExamType('update')">
+                                                        Add Exam Type
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                    <div class="row form_section pt-3"
+                                        *ngFor="let item of updateForm.exam_type ;let i = index;">
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Select Exam </label>
+                                            <ng-select #select [items]="examTypes"
+                                                [(ngModel)]="updateForm.exam_type[i].exam_type_id"
+                                                (change)="handleExamType(i, updateForm.exam_type[i].exam_type_id, 'update')"
+                                                bindLabel="name" bindValue="id" placeholder="please select">
+                                            </ng-select>
+
+                                            <div *ngIf="updateForm.exam_type[i].save && updateForm.exam_type[i].exam_type_id == null || updateForm.exam_type[i].exam_type_id == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please select exam type. </div>
+                                        </div>
+
+                                        <div class="col-md-2 form_group">
+                                            <label for="" class="form_label">Total Marks</label>
+                                            <input class="form-control" type="text" [name]="'exam_type_total_marks'+i"
+                                                id="total_marks" placeholder="Total Marks"
+                                                [(ngModel)]="item.exam_type_total_marks" disabled>
+                                            <div *ngIf="updateForm.exam_type[i].save && updateForm.exam_type[i].exam_type_total_marks == null || updateForm.exam_type[i].exam_type_total_marks == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please enter total marks. </div>
+                                            <div *ngIf="updateForm.exam_type[i].save && isNaN(updateForm.exam_type[i].exam_type_total_marks)"
+                                                class="avl-error text-danger px-20">
+                                                Please enter number only. </div>
+                                        </div>
+                                        <div class="col-md-2 form_group">
+                                            <label for="" class="form_label">Conversion</label>
+                                            <input class="form-control" type="text" [name]="'conversion'+i"
+                                                id="total_marks" placeholder="Total Marks"
+                                                [(ngModel)]="item.conversion">
+                                            <div *ngIf="updateForm.exam_type[i].save && updateForm.exam_type[i].conversion == null || updateForm.exam_type[i].conversion == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please enter conversion. </div>
+                                            <div *ngIf="updateForm.exam_type[i].save && (updateForm.exam_type[i].conversion_type == 'marks' && parseInt(updateForm.exam_type[i].conversion) > parseInt(updateForm.exam_type[i].exam_type_total_marks))"
+                                                class="avl-error text-danger px-20">
+                                                Conversion marks can not be grater than total marks. </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Conversion Type</label>
+                                            <ng-select #select [items]="conversionTypes"
+                                                [(ngModel)]="updateForm.exam_type[i].conversion_type"
+                                                (change)="handleConversionChange(i,'update')" bindLabel="name" bindValue="id"
+                                                placeholder="please select">
+                                            </ng-select>
+                                            <div *ngIf="updateForm.exam_type[i].save && updateForm.exam_type[i].conversion_type == null || updateForm.exam_type[i].conversion_type == ''"
+                                                class="avl-error text-danger px-20">
+                                                Please select conversion type. </div>
+                                        </div>
+                                        <div class="col-md-1 form_group add_doc" *ngIf="updateForm.exam_type.length - 1 == i">
+                                            <label for="" class="form_label">Add</label>
+                                            <div class="">
+                                                <div class="">
+                                                    <button type="submit" class="w-100 btn add-btn"
+                                                        (click)="addExamType('update',i)"> Add
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1 form_group add_doc"
+                                            *ngIf="updateForm.exam_type.length - 1 != i || i == 0 || updateForm.exam_type.length - 1 == i">
+                                            <label for="" class="form_label">Remove</label>
+                                            <div class="">
+                                                <div class="">
+                                                    <button type="submit" class="w-100 btn delete-btn"
+                                                        (click)="remove('update',i)"> Remove
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer" style="z-index: 0;">
+                        <div *ngIf="CommonService.hasPermission('settings_exam_setting', 'has_update')" class="col-md-auto">
+                            <button type="submit" class="w-100 btn save-btn"
+                                (click)="update()"> Save </button>
+                        </div>
+                        <div class="col-md-auto">
+                            <button type="submit" class="w-100 btn clear-btn"
+                                (click)="modal.close('cancel')">
+                                Cancel </button>
+                        </div>
+                    </div>
+                </ng-template>
+
+
+                <!-- view -->
+                <ng-template #viewModal let-modal>
+                    <div class="modal-header" style="z-index: 0;">
+                        <h4 class="modal-title" id="modal-basic-title">View Exam Report Details</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="z-index: 0;">
+
+                        <div class="page_inner">
+                            <div class="card">
+                                <div class="card_body">
+                                    <div class="row form_section">
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Exam Name</label>
+                                            <input class="form-control" type="text" name="name" id="name"
+                                                placeholder="Exam Name" [(ngModel)]="updateForm.name" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Class Name</label>
+                                            <input class="form-control" type="text" name="class" id="class"
+                                                placeholder="Class" [(ngModel)]="updateForm.class" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Subject Name</label>
+                                            <input class="form-control" type="text" name="subject" id="subject"
+                                                placeholder="Subject" [(ngModel)]="updateForm.subject" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Total Marks</label>
+                                            <input class="form-control" type="text" name="total_marks" id="total_marks"
+                                                placeholder="Total Marks" [(ngModel)]="updateForm.total_marks" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Passing Marks</label>
+                                            <input class="form-control" type="text" name="passing_marks"
+                                                id="passing_marks" placeholder="Passing Marks"
+                                                [(ngModel)]="updateForm.passing_marks" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Exam report type</label>
+                                            <input class="form-control" type="text" name="exam_report_type"
+                                                id="exam_report_type" placeholder="exam_report_type"
+                                                [(ngModel)]="updateForm.exam_report_type" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Has Scholastic Type</label>
+                                            <div class="">
+                                                <div class="m-checkbox-list checkbox_type">
+                                                    <label for="update_scholastic_type" class="m-checkbox show-label">
+                                                        <input type="checkbox" name="update_scholastic_type" id="update_scholastic_type" [(ngModel)]="update_scholastic_type" disabled>
+                                                        <span></span>
+                                                        Has Scholastic Type?
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="update_scholastic_type">
+                                            <label for="" class="form_label">Scholastic Type</label>
+                                            <div class="">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="scholastic" aria-required="true">
+                                                        <input type="radio" id="scholastic" name="scholastic" value="1" aria-required="true" [checked]="this.updateForm.scholastic_type == 1" disabled (change)="handleChange($event, 'update')">Scholastic<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="co-scholastic" aria-required="true">
+                                                        <input type="radio" id="co-scholastic" name="scholastic"  value="2" aria-required="true" [checked]="this.updateForm.scholastic_type == 2" disabled (change)="handleChange($event,'update')">Co-Scholastic<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Include in Total Marks</label>
+                                            <div class="">
+                                                <div class="m-checkbox-list checkbox_type">
+                                                    <label for="include_in_total_marks_update" class="m-checkbox show-label">
+                                                        <input type="checkbox" name="include_in_total_marks_update" id="include_in_total_marks_update" [(ngModel)]="updateForm.include_in_total_marks" disabled>
+                                                        <span></span>
+                                                        Include Subject in Total Marks?
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Attendance Type</label>
+                                            <div class="d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="auto_update" aria-required="true">
+                                                        <input type="radio" id="auto_update" name="attendance_view" value="0" aria-required="true"  [checked]="this.updateForm.attendance == 0" (change)="handleAttendanceChange($event, 'update')" disabled>Automatic<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="manual_update" aria-required="true">
+                                                        <input type="radio" id="manual_update" name="attendance_view"  value="1" aria-required="true"  [checked]="this.updateForm.attendance == 1" (change)="handleAttendanceChange($event, 'update')" disabled>Manual<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Marks Type</label>
+                                            <div class="col-md-12 d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_round" aria-required="true">
+                                                        <input type="radio" id="update_round" name="marks_type_update" value="1" aria-required="true" [checked]="this.updateForm.marks_type == 1" (change)="handleMarksTypeChange($event, 'update')" disabled>Round Of<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_ceil" aria-required="true">
+                                                        <input type="radio" id="update_ceil" name="marks_type_update"  value="2" aria-required="true" [checked]="this.updateForm.marks_type == 2" (change)="handleMarksTypeChange($event, 'update')" disabled>Ceil<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_floor" aria-required="true">
+                                                        <input type="radio" id="update_floor" name="marks_type_update"  value="3" aria-required="true" [checked]="this.updateForm.marks_type == 3" (change)="handleMarksTypeChange($event, 'update')" disabled>Floor<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" for="update_none" aria-required="true">
+                                                        <input type="radio" id="update_none" name="marks_type_update"  value="0" aria-required="true" [checked]="this.updateForm.marks_type == 0" (change)="handleMarksTypeChange($event, 'update')" disabled>None<span></span>
+                                                    </label>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row form_section pt-3"
+                                        *ngFor="let item of updateForm.exam_type ;let i = index;">
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Exam Type </label>
+                                            <input class="form-control" type="text" [name]="'type_name'+i"
+                                            id="type_name" placeholder="Exam Type Name"
+                                            [(ngModel)]="item.type_name" disabled>
+                                        </div>
+
+                                        <div class="col-md-2 form_group">
+                                            <label for="" class="form_label">Total Marks</label>
+                                            <input class="form-control" type="text" [name]="'exam_type_total_marks'+i"
+                                                id="total_marks" placeholder="Total Marks"
+                                                [(ngModel)]="item.exam_type_total_marks" disabled>
+                                        </div>
+                                        <div class="col-md-2 form_group">
+                                            <label for="" class="form_label">Conversion</label>
+                                            <input class="form-control" type="text" [name]="'conversion'+i"
+                                                id="total_marks" placeholder="Total Marks"
+                                                [(ngModel)]="item.conversion" disabled>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Conversion Type</label>
+                                            <input class="form-control" type="text" [name]="'conversion_type'+i"
+                                            id="conversion_type" placeholder="Conversion Type"
+                                            [(ngModel)]="item.conversion_type" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

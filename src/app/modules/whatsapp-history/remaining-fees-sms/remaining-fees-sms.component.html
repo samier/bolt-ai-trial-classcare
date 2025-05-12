@@ -1,0 +1,172 @@
+<section class="">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Remaining Fee SMS</h3>
+      </div>
+      <div class="card p-0 filter-card">
+        <div class="card-header justify-content-between d-flex">
+            <div class="card-student-heading d-flex align-items-center">
+              <h5 class="mb-0">Filters</h5>
+              <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+            </div>
+            <div class="d-flex student-accordion-btn">
+              <button class="btn me-2" (click)="clearAll()" [disabled]="isResetloading">Reset
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetloading">
+                  <span class="visually-hidden">Loading..."</span>
+                </div>
+              </button>
+              <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                <i class="fa fa-angle-up" *ngIf="filter"></i>
+              </button>
+            </div>
+        </div>
+        <div *ngIf="filter" class="card-body border-0">
+          <div [formGroup]="remainingFeeForm" class="content_scroll mt-1">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <label class=" form_label">Section</label>
+                  <app-single-select [dropDownArray]="sectionsList" controlName="section_id" placeholder="All Section" (change)="onSectionChange()"></app-single-select>
+                </div>
+        
+                <div class="col-md-3 form_group">
+                    <label class=" form_label">Class</label>
+                    <app-single-select [dropDownArray]="classesList" controlName="class_id" placeholder="All Class" (change)="onClassChange()"></app-single-select>
+                </div>
+        
+                <div class="col-md-3 form_group">
+                    <label class=" form_label">Batch</label>
+                    <app-single-select [dropDownArray]="batchesList" controlName="batch_id" placeholder="All Batch"></app-single-select>
+                </div>
+                <div class="col-md-3 form_group">
+                    <label class=" form_label">Student Status</label>
+                    <app-single-select [dropDownArray]="statusList" controlName="student_type" placeholder="Both"></app-single-select>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 form_group">
+                    <button class="btn show-btn me-2" (click)="onShow()" [disabled]="isShowLoading">
+                        Show
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+        <div class="card">
+          <div class="card-body p-0">
+            <div class="row pb-3 mx-0 no-gutters">
+              <div class="col-lg-12">
+                <div class="sms-list-table">
+                  <div class="table-responsive">
+                    <button class="btn msg-btn ms-auto send-sms" (click)="openModal(publishModel)">Send SMS</button>
+                    <button class="btn publish-btn ms-auto send-mobile" (click)="saveBroadcast('mobile')" [disabled]="isSending">Send Mobile Notification
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSending">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>
+                            <input type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+                          </th>
+                          <th>Gr. No.</th>
+                          <th>Roll No.</th>
+                          <th>Name</th>
+                          <th>Batch</th>
+                          <th>Total Fees</th>
+                          <th>Discount</th>
+                          <th>Paid Fees</th>
+                          <th>Remaining Fees</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="tbody?.length > 0">
+                        <tr *ngFor="let item of tbody ;let i = index;">
+                          <td>
+                            <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event, item)">
+                          </td>
+                          <td class="teal-text-color">{{ item?.student_id ?? 'N/A' }}</td>
+                          <td class="orange-text-coloe">{{ item?.student_rollNo ?? 'N/A' }}</td>
+                          <td class="name_hover">
+                            <a [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_COLLECT_FEES), item?.unique_id]">
+                              {{ item?.student_name ?? 'N/A' }}
+                            </a>
+                          </td>
+                          <td>{{ item?.batch_name ?? 'N/A' }}</td>
+                          <td class="teal-text-color">{{ item?.total_fees ?? 0 }}</td>
+                          <td class="orange-text-color">{{ item?.discount ?? 0 }}</td>
+                          <td class="green-text-color">{{ item?.paid_fees ?? 0 }}</td>
+                          <td class="teal-text-color">{{ item?.remaining_fees ?? 0 }}</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="10" class="text-center no-data-available">No data</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<ng-template #publishModel class="publish-update-modal">
+  <div class="modal-header publish-modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">Broadcast SMS</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div>
+  <div class="modal-body publish-modal-body">
+
+      <div class="col-md-12 form_group">
+
+          <div class="d-flex">
+              <div class="m-checkbox-list d-flex align-items-center me-3">
+                  <label class="m-checkbox mb-0">
+                      <input type="checkbox" id="checkbox" [(ngModel)]="message.send_father" [value]="true"><span></span>
+                  </label>
+                  <label for="checkbox" class="ms-2 mb-0">Father</label>
+              </div>
+              <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                  <label class="m-checkbox mb-0">
+                      <input type="checkbox" id="checkbox1" [(ngModel)]="message.send_mother" [value]="true"><span></span>
+                  </label>
+                  <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+              </div>
+              <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                  <label class="m-checkbox mb-0">
+                      <input type="checkbox" id="checkbox2" [(ngModel)]="message.send_student" [value]="true"><span></span>
+                  </label>
+                  <label for="checkbox2" class="ms-2 mb-0">Student</label>
+              </div>
+          </div>
+
+      </div>
+
+  </div>
+  <div class="modal-footer" style="z-index: 0;">
+      <div class="col-auto">
+          <button class="msg-btn btn" type="submit" (click)="saveBroadcast('sms')"> Save Broadcast
+              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSending">
+                  <span class="visually-hidden">Loading...</span>
+              </div>
+          </button>
+      </div>
+      <div class="col-auto">
+          <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+              Cancel
+          </button>
+      </div>
+  </div>
+</ng-template>

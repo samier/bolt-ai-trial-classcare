@@ -1,0 +1,195 @@
+<section class="permission-student-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0">Permission</h3>
+            </div>
+            <div class="card">
+                <form [formGroup]="PerssionStudent" id="studentAdd">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Section</label>
+                            <app-single-select controlName="name"  placeholder="Select exam type"></app-single-select> 
+                        </div>
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Class</label>
+                            <app-single-select controlName="name"  placeholder="Select exam type"></app-single-select> 
+                        </div>
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Batch</label>
+                            <app-single-select controlName="name"  placeholder="Select exam type"></app-single-select> 
+                        </div>
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Module</label>
+                            <app-single-select controlName="name"  placeholder="Select exam type"></app-single-select> 
+                        </div>
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Student Status</label>
+                            <div class="radio-section d-flex">
+                                <div class="radio ">
+                                  <label class=" required ">
+                                    <input type="radio" name="student" id="all" value="" class="mr-1">Active<span></span>
+                                  </label>
+                                </div>
+                                <div class="radio ">
+                                  <label class="required " aria-required="true">
+                                    <input type="radio" name="student" id="rte" value="1" class="mr-1">InActive<span></span>
+                                  </label>
+                                </div>
+                                <div class="radio ">
+                                  <label class="required " aria-required="true">
+                                    <input type="radio" name="student" id="general" value="0" class="mr-1">Both<span></span>
+                                  </label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 form_group">
+                            <label class=" form_label">Fees Status</label>
+                            <div class="radio-section d-flex">
+                                <div class="radio ">
+                                  <label class=" required ">
+                                    <input type="radio" name="student" id="all" value="" class="mr-1">Paid<span></span>
+                                  </label>
+                                </div>
+                                <div class="radio ">
+                                  <label class="required " aria-required="true">
+                                    <input type="radio" name="student" id="rte" value="1" class="mr-1">UnPaid<span></span>
+                                  </label>
+                                </div>
+                                <div class="radio ">
+                                  <label class="required " aria-required="true">
+                                    <input type="radio" name="student" id="general" value="0" class="mr-1">Both<span></span>
+                                  </label>
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-lg-12 col-12">
+                            <div class="d-flex">
+                                <button class="btn show-btn me-3">Show</button>
+                                <button class="btn clear-btn">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card">
+                <div class="basic_table">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-nowrap table w-100 d-table"> 
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">GR NO.</th>
+                                    <th rowspan="2">ROLL NO.</th>
+                                    <th rowspan="2">STUDENT NAME</th>
+                                    <th rowspan="2">Batch</th>
+                                    <th rowspan="2">Fees Status</th>
+                                    <th style="text-align: center;" colspan="2">Mobile Update Permission</th>
+                                </tr>
+                                <tr align="center">
+                                    <th>Permission Given</th>
+                                    <th>Permission Not Given</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>111</td>
+                                    <td>1</td>
+                                    <td>Ankit Kumar Patel</td>
+                                    <td>STD-1-A</td>
+                                    <td> <span class="paid-chip">Fees Paid</span> </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>111</td>
+                                    <td>1</td>
+                                    <td>Ankit Kumar Patel</td>
+                                    <td>STD-1-A</td>
+                                    <td> <span class="unpaid-chip">Fees Paid</span> </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>111</td>
+                                    <td>1</td>
+                                    <td>Ankit Kumar Patel</td>
+                                    <td>STD-1-A</td>
+                                    <td> <span class="paid-chip">Fees Paid</span> </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>111</td>
+                                    <td>1</td>
+                                    <td>Ankit Kumar Patel</td>
+                                    <td>STD-1-A</td>
+                                    <td> <span class="unpaid-chip">Fees Paid</span> </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+                                    <td>
+                                        <div class="radio ">
+                                        <label class="required " aria-required="true">
+                                          <input type="radio" name="student" id="general" value="0" class="mr-1"><span></span>
+                                        </label>
+                                      </div>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="permission-save-btn">
+                    <button class="btn save-btn">Save</button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>

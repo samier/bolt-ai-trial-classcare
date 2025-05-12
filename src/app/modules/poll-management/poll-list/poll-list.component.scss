@@ -1,0 +1,20 @@
+::ng-deep body{
+  app-poll-list{
+    table{
+      &.table-bordered{
+        &.dataTable{
+          td,th{
+            &.min_width{
+              min-width: 100px;
+              width: 100%;
+              white-space: normal;
+            }
+            &.w-space{
+              white-space: normal;
+            }
+          }
+        }
+      }
+    }
+  }
+}

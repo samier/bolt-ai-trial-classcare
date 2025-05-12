@@ -1,0 +1,103 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Date Wise Meal List</h3>
+				<div class="btn_right">
+					<a class="global_btn btn add-btn"  href="#."  [routerLink]="setUrl(URLConstants.DATE_WISE_MEALS_CREATE)" *ngIf="CommonService.hasPermission('administrator_date_wise_meal', 'has_create')"> Add Date Wise Meal</a>
+				</div>
+			</div>
+            <div class="card">              
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+								<!--  <table class="table table-hover table-nowrap table-bordered ">
+										<thead class="thead-light">
+											<tr>
+												<th scope="col">ID</th>
+												<th scope="col">Meal Type</th>
+												<th scope="col">Date</th>
+												<th scope="col">Status</th>
+												<th scope="col">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let meal of meals.data?.data ;let i = index;" >
+												<td> {{i+1}} </td>
+												<td> {{meal.meal.meal_type}} </td>
+												<td> {{meal.date}} </td>
+												<td class="status"> <span class="text-capitalize {{meal.status == 'active' ? 'text-success' : 'text-muted'}}">{{meal.status}}</span> </td>
+												<td class="action_btn"> 
+													<div class="btn-group" role="group">
+														<a class="btn " title="Edit" href="#"  [routerLink]="[setUrl(URLConstants.DATE_WISE_MEALS_EDIT),meal.id]" > <i class="fa fa-pencil-alt"></i> </a>
+														<button type="button" title="Delete" class="btn btn-sm btn-danger" (click)="remove(meal.id)"> 
+															<i class="fa fa-trash-alt"></i> 
+														</button> 
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table> -->
+									<table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Meal Type</th>
+												<th>Date</th>
+												<th>Status</th>
+												<th class="action-btn-sticky">Action</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="meals?.length != 0">
+											<tr *ngFor="let meal of meals">
+												<td class="orange-text-color"> {{meal.id }}</td>
+												<td> {{meal.meal.meal_type}} </td>
+												<td> {{meal?.date | date:dateFormateService.getDateFormat()}} - {{meal?.end_date ? (meal?.end_date | date:dateFormateService.getDateFormat()) : (meal?.date | date:dateFormateService.getDateFormat())}} </td>
+												<td> 
+													<span class="text-capitalize {{meal.status == 'active' ? 'text-success' : 'text-warning'}}">{{meal.status}}</span> 
+												</td>
+												<td class="action-btn-sticky text-center"> 
+													<div class="btn-group" role="group">
+														<a *ngIf="CommonService.hasPermission('administrator_date_wise_meal', 'has_edit')" class="lt-btn-icon action-edit" ngbTooltip="Edit" href="#"  [routerLink]="[setUrl(URLConstants.DATE_WISE_MEALS_EDIT),meal.id]" ></a>
+														<button *ngIf="CommonService.hasPermission('administrator_date_wise_meal', 'has_delete')" type="button" ngbTooltip="Delete" class="lt-btn-icon btn-sm action-delete" (click)="remove(meal.id)"> 
+															
+														</button> 
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="meals?.length == 0">
+											<tr>
+											<td colspan="13" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                    <!-- <div class="row pagination"> 
+			            <div class="col-xl-6"> 
+			            	<span class="text-muted text-sm">Showing {{meals.data?.to}} items out of {{meals.data?.total}} results found</span>
+			            </div>
+			            <div class="col-xl-6 col-xl-6 d-flex justify-content-end">
+			            	 <button type="button" *ngFor="let link of meals.data?.links ;let i = index;" class="btn btn-sm  m-1 {{link.active == true ? 'btn-primary' : ''}}"  (click)="paginate(link.url)" [disabled]="link.url == null"> 
+		                		{{link.label == "pagination.previous" ? '<' : link.label == "pagination.next" ? '>' : link.label}}
+		                	</button>
+			            </div>
+			        </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

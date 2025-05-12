@@ -1,0 +1,76 @@
+<section class="leave_form student_exam_result tab_in_sections">
+    <div class="page_inner mt-4">
+        <ul class="col-lg-12 d-flex nav nav-tabs inner_tabs tab-setup">
+	        <li class="radio-inline nav-item">
+	            <!-- <a href="" class="nav-link">Monthly Report</a> -->
+	            <a [href]="setsymfonyUrl('student/studentMonthlyReport')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Monthly Report</a>
+	        </li>
+	        <li class="radio-inline ml-1 nav-item">
+	            <!-- <a href="" class="nav-link">Attendance Report</a> -->
+	            <a [href]="setsymfonyUrl('student/studentAttendencereport')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Attendance Report</a>
+	        </li>
+	        <li class="radio-inline ml-1 nav-item">
+	            <!-- <a href="" class="nav-link">Exam Report</a> -->
+	            <a [href]="setsymfonyUrl('student/studentExamReport')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Exam Report</a>
+	        </li>
+	        <li class="radio-inline ml-1 nav-item">
+	            <a [routerLink]="URLConstants.EXAM_REPORT_CARD_GENERATE_STUDENT" class="nav-link active">Exam Report Card</a>
+	        </li>
+	    </ul>
+        <div class="card">        	
+            <div class="card_title">
+                <h3 class="sub_title">Exam Result Generate</h3>                
+            </div>               
+            <div class="card_body">
+				<div class="row">
+					<div class="col-lg-9">
+						<form [formGroup]="form" class="poll_vote_form" id="poll-vote-form">
+							<div class="row">
+								<div class="col-md-12 row">
+									<div class="col-md-6">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Exam Type<span class="text-danger">*</span></label>
+                                            <div class="col-md-12">
+                                                <ng-select #select 
+                                                	[items]="examTypes" 
+                                                	(change)="changeExamType(selectedExamType)" 
+                                                	[searchable]="false" 
+                                                	[(ngModel)]="selectedExamType" 
+                                                	name="exam_type" 
+                                                	bindLabel="name" 
+                                                	bindValue="name"  
+		                                            formControlName="exam_type"
+		                                            placeholder="please select exem type"
+		                                            [required]="true">
+	                                                <ng-template ng-header-tmp>
+	                                                    <input style="width: 100%; line-height: 24px" 
+	                                                    		(onclick)="changeExamType(selectedExamType)" type="text" 
+	                                                    		(input)="select.filter($any($event.target).value)" />
+	                                                </ng-template>
+	                                            </ng-select>
+                                            </div>
+                                            <div *ngIf="form.controls['exam_type'].invalid && (form.controls['exam_type'].dirty || form.controls['exam_type'].touched)" class="col-md-12 error text-danger mb-2">
+                                                <div *ngIf="form.controls['exam_type'].errors?.['required']">please select exem type.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+							</div>
+							<div class="row">                               
+                                <div class="col-md-12 p-0">
+                                    <div class="form-group mt-5 ml-4 text-left w-100"> 
+                                        <div class="">
+                                            <button class="button" type="submit" class="btn btn-success btn-minwidth" title="Generate" (click)="submit()" [disabled]="form.invalid">
+                                                Show
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</form>
+					</div>	                
+				</div>
+            </div>
+        </div>
+    </div>
+</section>

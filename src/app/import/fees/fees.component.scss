@@ -1,0 +1,10 @@
+ button {
+    min-width: 80px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #fff !important;
+}

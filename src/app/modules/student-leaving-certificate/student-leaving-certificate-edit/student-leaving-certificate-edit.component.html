@@ -1,0 +1,285 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{readonly ? '' : 'Update'}} Student Leaving Certificate</h3>
+                <div class="btn_right">
+                    <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)">Student LC List</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row">
+                       <div class="col-lg-8">
+                            <form [formGroup]="form" class="form_section" id="student-leaving-certificate-form">
+                                <div class="row">
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Section</b><span class="text-danger"></span></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="section" name="section" class="form-control" [readonly]="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Class</b><span class="text-danger"></span></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="class" name="class" class="form-control" [readonly]="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Batch</b><span class="text-danger"></span></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="batch" name="batch" class="form-control" [readonly]="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Student</b><span class="text-danger"></span></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="student" name="student" class="form-control" [readonly]="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>GR Number</b><span class="text-danger"></span></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="student_gr_no" name="student_gr_no" class="form-control" [readonly]="true">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="">
+                                                <label class="col-md-12 form_label"><b>LC Type:</b></label>
+                                                <!-- <div class="radio">
+                                                </div> -->
+                                                <div class="ms-2 form-group m-radio-section d-flex align-content-center">
+                                                    <div class="radio" *ngIf="!readonly || (readonly && studentLc?.lc_type == 1)">
+                                                        <label class="m-radio required">
+                                                            <input type="radio" value="1" (change)="handleLcTypeChange(1)" formControlName="lc_type"  class="" name="lc_type">With LC<span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio" *ngIf="!readonly || (readonly && studentLc?.lc_type == 2)">
+                                                        <label class="m-radio required">
+                                                            <input type="radio" value="2" (change)="handleLcTypeChange(2)" formControlName="lc_type"  class="" name="lc_type">Without LC<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="row col-md-12">
+                                            <div class="col-md-4">
+                                                <label class="form_label"><b>Generated By</b></label>
+                                                <input type="text" formControlName="generated_by" class="form-control" [readonly]="true">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form_label"><b>Generated Date & Time</b></label>
+                                                <input type="text" formControlName="generated_datetime" class="form-control" [readonly]="true">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label class="form_label"><b>Generated In Academic Year</b></label>
+                                                <input type="text" formControlName="generated_academic_year" class="form-control" [readonly]="true">
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-12 row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>LC Book No.</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="lc_book_no" placeholder="Enter lc book no" name="lc_book_no" class="form-control" maxlength="10" [readonly]="readonly">
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['lc_book_no'].invalid && (form.controls['lc_book_no'].dirty || form.controls['lc_book_no'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['lc_book_no'].errors?.['required']">please enter lc book no.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">                      
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Leaving Date</b><span class="text-danger">*</span></label>
+                                                <div class="form-group">
+                                                    <app-mat-date-picker controlName="leaving_date" [disabled]="readonly"></app-mat-date-picker>
+
+                                                    <!-- <div class="col-md-12">
+                                                        <input type="date" id="leaving_date" formControlName="leaving_date" name="leaving_date" class="form-control" placeholder="Enter leaving date" [readonly]="readonly">
+                                                    </div>
+                                                    <div *ngIf="form.controls['leaving_date'].invalid && (form.controls['leaving_date'].dirty || form.controls['leaving_date'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['leaving_date'].errors?.['required']">please pickup leave date.</div>
+                                                    </div> -->
+                                                </div>                                         
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Progress</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="progress" placeholder="Enter progress" name="progress" class="form-control" maxlength="100" [readonly]="readonly">
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['progress'].invalid && (form.controls['progress'].dirty || form.controls['progress'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['progress'].errors?.['required']">please enter progress.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Conduct</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="conduct" placeholder="Enter conduct" name="conduct" class="form-control" maxlength="100" [readonly]="readonly">
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['conduct'].invalid && (form.controls['conduct'].dirty || form.controls['conduct'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['conduct'].errors?.['required']">please enter conduct.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Result of last annual examination</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <textarea class="form-control" name="result_last_examination" id="result_last_examination" formControlName="result_last_examination" placeholder="Enter result of last annual examination" maxlength="200" [readonly]="readonly"></textarea>
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['result_last_examination'].invalid && (form.controls['result_last_examination'].dirty || form.controls['result_last_examination'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['result_last_examination'].errors?.['required']">please enter result of last annual examination.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Reason for leaving the school</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <textarea class="form-control" name="reason_leaving_school" id="reason_leaving_school" formControlName="reason_leaving_school" placeholder="Enter reason for leaving the school" maxlength="300" [readonly]="readonly"></textarea>
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>                                      
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Total number of working day's in school</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="number" formControlName="working_days_school" name="working_days_school" placeholder="Enter total number of working day's in school" class="form-control" [readonly]="readonly">
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['working_days_school'].invalid && (form.controls['working_days_school'].dirty || form.controls['working_days_school'].touched)" class="col-md-12 error text-danger mb-2">
+                                                        <div *ngIf="form.controls['working_days_school'].errors?.['required']">please enter working days.</div>
+                                                        <div *ngIf="form.controls['working_days_school'].errors?.['min'] || form.controls['working_days_school'].errors?.['max']">please enter working days in between 100 to 360</div>
+                                                        <div *ngIf="form.controls['working_days_school'].errors?.['pattern']">Please enter a valid number.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Remarks</b></label>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <input type="text" formControlName="lc_remark" name="lc_remark" placeholder="Enter Remark" class="form-control" [readonly]="readonly">
+                                                    </div>                                                   
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-12 form_group" *ngIf="files?.length > 0">
+                                            <div class="col-md-6">
+                                                <label class="form_label"><b>Uploaded Attachments</b></label>
+                                                <ng-container formArrayName="previous_attachment" *ngFor="let file of files let i = index;">
+                                                    <div [formGroupName]="i" class="d-flex align-items-center mb-2">
+                                                        <input formControlName="name" type="text" class="form-control" value="{{file.file_name}}" [readonly]="readonly">
+                                                        <input type="hidden" formControlName="id" value="{{file.id}}">
+                                                        <div class="d-flex">
+                                                            <a class="btn btn-danger btn-minwidth ms-2" href="{{file.attachment_url}}" target="_blank"> <i class="las la-eye"></i></a>
+                                                            <a class="btn btn-danger btn-minwidth ms-2" (click)="attachmentDelete(file)" target="_blank" *ngIf="!readonly"> <i class="fa fa-trash"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 form_group" *ngIf="!readonly">
+                                            <ng-container formArrayName="attachment" *ngFor="let item of attechmentArray.controls; let i = index;">
+                                                <div class="col-md-12 form_group mb-2" >
+                                                  <ng-container [formGroupName]="i">
+                                                    <div class="row">
+                                                        <label class="form_label"><b>Attachment Name</b></label>
+                                                        <div class="col-md-6 form_group mb-2" >
+                                                            <input type="text" formControlName="attachment_name" name="working_days_school" placeholder="Attachment Name" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-6 form_group mb-2">
+                                                            <div class="form-group">
+                                                                <div class="d-flex justify-content-between">
+                                                                  <input type="file" class="form-control" (change)="selectAttechment($event,item)">
+                                                                  <div *ngIf="i == 0">
+                                                                    <button class="btn ms-2" type="button" (click)="addAttechment()"><i class="fa fa-plus"></i></button>
+                                                                  </div>
+                                                                  <div *ngIf="i !== 0">
+                                                                    <button class="btn ms-2" type="button" (click)="removeAttechment(i)"><i class="fa fa-minus"></i></button>
+                                                                  </div>
+                                                                </div>
+                                                                <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                                                    <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  </ng-container>
+                                                </div>
+                                            </ng-container>
+                                          </div>                                       
+                                    </div>                                   
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1 me-3">
+                                        <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-md-2" *ngIf="!readonly">
+                                        <button *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_update')" class="button" type="submit" [disabled]="form.invalid" (click)="submit()" class="btn btn-success btn-minwidth">
+                                            Update
+                                        </button>
+                                    </div>
+                                </div>                               
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,67 @@
+<section class="blank-exam-sheet">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Blank Exam Sheet</h3>
+        </div>
+        <div class="card">
+          <div class="card_body">
+            <div class="form_section  global_form table_top">
+              <div class="">
+                <form [formGroup]="blankSheetForm">
+                  <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Section 
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div>
+                        <app-single-select controlName="section_id" placeholder="Select section" (change)="getClasses()"
+                          [dropDownArray]="sectionList"></app-single-select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Class <span class="text-danger">*</span> </label>
+                      <div>
+                      <app-single-select controlName="class_id" placeholder="Select class" (change)="getBatches()"
+                        [dropDownArray]="classList"></app-single-select>
+                    </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Batch<span class="text-danger">*</span></label>
+                      <div>
+                        <app-multi-select controlName="batch_id" placeholder="Select batch" [dropDownArray]="batchList"></app-multi-select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Title</label>
+                      <div>
+                        <app-input controlName="title" placeholder="Enter title" ></app-input>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Number Of Columns <span class="text-danger">*</span></label>
+                      <div>
+                        <app-input type="number" controlName="row" placeholder="Please enter row"></app-input>
+                      </div>
+                    </div>
+                    <div class="col-lg-3">
+                      <div class="show-clear-btn d-flex">
+                        <button  type="button" class="btn px-4 d-flex align-items-center me-3 report-btn"
+                            [disabled]="isGetReport" (click)="getReport()">
+                            Get Sheet
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isGetReport">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                    </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

@@ -1,0 +1,135 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Lesson List</h3>
+				<div class="btn_right">
+					<a *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_create')" class="global_btn btn add-btn"  href="#."  [routerLink]="setUrl(URLConstants.ADMIN_ADD_RECORD)" > Add New Record</a>
+				</div>
+			</div>
+            <div class="card">            
+                <div class="card_body">
+                    <!-- <div class="row"> -->
+						<div class="form_section  global_form table_top">
+							<div class="">
+								<div class="row">
+									<div class="col-md-3 form_group">                                        
+										<label class="col-md-12 form_label">Select Section</label>												
+										<div class="col-md-12">											
+											<ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section" (change)="sectionChange()" 
+												bindLabel="name"  bindValue="id"
+												placeholder="please select">
+											</ng-select>
+										</div>                                        
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label col-md-12">Select Faculty<span class="text-danger">*</span></label>
+                                        <div class="col-md-12">
+                                            <ng-select #select5 [items]="Faculties" (change)="changeFaculty($event)" [searchable]="true" [(ngModel)]="selectedFaculty" name="faculty" bindLabel="name" bindValue="id"  
+                                            formControlName="faculty"
+                                             placeholder="please select" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" (onclick)="changeFaculty($event)" type="text" (input)="select5.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                                                                
+                                    </div>   
+									<div class="col-md-3 form_group">
+                                        <label class="form_label col-md-12">Select Class<span class="text-danger">*</span></label>
+                                        <div class="col-md-12">
+                                            <ng-select #select4 [items]="ClassNames" (change)="changeFn($event)" [searchable]="true" [(ngModel)]="selectedClass" name="class_id" bindLabel="name" bindValue="id"  
+                                            formControlName="class_id"
+                                             placeholder="please select" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" (onclick)="changeFn($event)" type="text" (input)="select4.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                                                                
+                                    </div>        
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="col-md-12 form_label">Select Batch<span class="text-danger">*</span></label>
+                                        <div class="col-md-12">
+                                            <ng-select #select2 [items]="Batches" [searchable]="true" (change)="onBatchSelect($event)" [(ngModel)]="selectedBatch" name="batch_id" bindLabel="name" 
+                                            formControlName="batch_id" bindValue="id" placeholder="please select">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text" (change)="onBatchSelect($event)" (input)="select2.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+									<div class="col-md-3 form_group">
+                                        <label class="col-md-12 form_label">Select Subject<span class="text-danger">*</span></label>
+                                        <div class="col-md-12">
+                                            <ng-select #select3 [items]="Subjects" [searchable]="false" (change)="onSubjectSelect($event)" [(ngModel)]="selectedSubject" bindLabel="name" 
+                                            formControlName="subject_id" bindValue="id" placeholder="Please select Subject">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text" (change)="onSubjectSelect($event)" (input)="select3.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>					
+								</div>
+							</div>
+							
+						</div>
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="assign-transport-table">
+                                <div class="datatable-action-design">
+                                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                        <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                      </svg>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                      </svg>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Date</th>
+                                                    <th>Section Name</th>
+                                                    <th>Class Name</th>
+                                                    <th>Batch Name</th>
+                                                    <th>Subject</th>
+                                                    <th>Created By</th>
+                                                    <th>Topic</th>
+                                                    <th class="action-btn-sticky">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="tbody?.length != 0">
+                                                <tr *ngFor="let item of tbody ;let i = index;" >				
+                                                    <td>{{item.date}}</td>
+                                                    <td>{{item.section_name}}</td>           
+                                                    <td>{{item.class_name}}</td>            
+                                                    <td>{{item.batch_name}}</td>            
+                                                    <td>{{item.subject}}</td> 
+                                                    <td>{{item.created_by}}</td>               
+                                                    <td>{{item.topic}}</td>            
+                                                    <td class="action-btn-sticky text-center">   
+                                                        <div class="btn-group" role="group">
+                                                            <a *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_edit')" class="lt-btn-icon action-edit" ngbTooltip="Edit" container="body" [routerLink]="[setUrl(URLConstants.ADMIN_TEACHER_DIARY_EDIT_FORM),item.id]" href='#'></a>
+                                                            <button *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_delete')" class="lt-btn-icon action-delete" ngbTooltip="Delete" container="body" (click)="delete(item.id)"></button>
+                                                        </div>
+                                                    </td>                                             
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="tbody?.length == 0">
+                                                <tr>
+                                                <td colspan="8" class="text-center no-data-available">No data</td>
+                                                </tr>
+                                            </tbody>									
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

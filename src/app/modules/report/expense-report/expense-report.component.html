@@ -1,0 +1,97 @@
+<section class="student-report">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Expense Report</h3>
+        <div class="btn_right d-flex gap-3">
+          <!-- *ngIf="CommonService.hasPermission('report_student_report', 'has_download')" -->
+          <button *ngIf="CommonService.hasPermission('finance_expense_report', 'has_download')" type="button" class="btn pdf-btn w-100 d-flex align-items-center" ngbTooltip="PDF"
+            (click)="downloadPdfAndExcel('pdf')" [disabled]="isPdfLoading">
+            <img src="assets/images/pdf-icon.svg" alt="">
+            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button *ngIf="CommonService.hasPermission('finance_expense_report', 'has_download')" type="button" class="btn excel-btn w-100 d-flex align-items-center" ngbTooltip="EXCEL"
+            (click)="downloadPdfAndExcel('excel')" [disabled]="isExcelLoading">
+            <img src="assets/images/excel-icon.svg" alt="">
+            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="">
+        <div class="card_body">
+          <div class="card">
+
+            <div class="form_section  global_form table_top">
+              <form [formGroup]="expenseReportForm">
+                <div class="row">
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Category</label>
+                    <ng-multiselect-dropdown formControlName="category_id" placeholder="Select categories"
+                      [settings]="classDropdownSettings" [data]="expenseCategoryList">
+                    </ng-multiselect-dropdown>
+                  </div>
+
+                  <div class="col-md-2 form_group">
+                    <label for="" class="form_label">Select From Month</label>
+                    <div>
+                      <ng-select formControlName="start_month" [items]="startMonthsList" bindLabel="name" bindValue="value"
+                        placeholder="Select from month" (change)="changeStartMonth($event)"></ng-select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2 form_group">
+                    <label for="" class="form_label">Select To Month</label>
+                    <div>
+                      <!-- <ng-select formControlName="end_month" [items]="endMonthsList" bindLabel="name" bindValue="value"
+                        placeholder="Select to month" [disabled]="disabled"></ng-select> -->
+                      <ng-select formControlName="end_month" placeholder="Select to month" [disabled]="true">
+                        <ng-container *ngFor="let item of endMonthsList">
+                          <ng-option [value]="item.value" [disabled]="item.isDisabled">{{item.name}}</ng-option>
+                        </ng-container>
+                      </ng-select>
+                      <div  *ngIf="isSubmit && expenseReportForm.controls['end_month'].invalid">
+                        <div class="text-danger" *ngIf="expenseReportForm.controls['end_month'].errors?.['required']">
+                          Please select end month.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="btn_right d-flex gap-3">
+                    <button *ngIf="CommonService.hasPermission('finance_expense_report', 'has_access')" class="button" type="button" class="btn report-btn d-flex align-items-center"
+                      [disabled]="isGetReport" (click)="getReport()">
+                      Get Report
+                      <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isGetReport">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                    <button class="button" type="button" class="btn clear-btn d-flex align-items-center"
+                      (click)="clearForm()">
+                      CLEAR
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+        <div class="card_body" *ngIf="htmlContent">
+          <div class="card" >
+            
+            
+            <div class="">
+              <div [innerHTML]="htmlContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

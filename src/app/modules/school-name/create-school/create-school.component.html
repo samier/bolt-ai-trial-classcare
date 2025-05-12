@@ -1,0 +1,144 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Add School</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn"   href="#." [routerLink]="setUrl(URLConstants.LIST_SCHOOL)"> School List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="leavecreateform" class="form_section" id="form">
+
+                                <div class="row">
+                                    <div class="col-md-3 form_group">                                        
+                                        <label class="form_label">Add Picture</label>												
+                                        <div class="">
+                                           	<input type="file" accept=".png, .jpg, .jpeg" class="form-control" formControlName="image"
+                                             id="image" name="image" (change)="onImageChangeFromFile($event)">									
+                                        </div>                                                                           
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">School Name<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="text" class="form-control" formControlName="school_name"
+                                            id="school_name" name="school_name" required>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['school_name'].invalid && leavecreateform.controls['school_name'].dirty && leavecreateform.controls['school_name'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['school_name'].errors?.['required']">Please Enter Name</div>
+                                        </div>    
+                                    </div>
+
+
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Location<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input type="text" class="form-control" formControlName="location"
+                                                id="location" name="location" required>
+                                            </div>                                          
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['location'].invalid && leavecreateform.controls['location'].dirty && leavecreateform.controls['location'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['location'].errors?.['required']">Please Enter Location</div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Contact No<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="number" class="form-control" maxlength="10" formControlName="contact"
+                                            id="contact" name="contact" required>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['contact'].invalid && leavecreateform.controls['contact'].dirty && leavecreateform.controls['contact'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['contact'].errors?.['required']">Please Enter Valid Contact No</div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Second Contact No</label>
+                                        <div class="">
+                                            <input type="number" class="form-control" maxlength="10" formControlName="secondContact"
+                                            id="secondContact" name="secondContact">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Address<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <textarea class="form-control" formControlName="address"
+                                            id="address" name="address" required></textarea>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['address'].invalid && leavecreateform.controls['address'].dirty && leavecreateform.controls['address'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['address'].errors?.['required']">Please Enter Address</div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">City<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="text" class="form-control" formControlName="city"
+                                            id="city" name="city" required>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['city'].invalid && leavecreateform.controls['city'].dirty && leavecreateform.controls['city'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['city'].errors?.['required']">Please Enter City</div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">UDISE No</label>
+                                        <div class="">
+                                            <input type="number" class="form-control" maxlength="10" formControlName="udiseNo"
+                                            id="udiseNo" name="udiseNo">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">SSC Index No</label>
+                                        <div class="">
+                                            <input type="number" class="form-control" maxlength="10" formControlName="sscIndexNo"
+                                            id="sscIndexNo" name="sscIndexNo">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">HSC Index No</label>
+                                        <div class="">
+                                            <input type="number" class="form-control" maxlength="10" formControlName="hscIndexNo"
+                                            id="hscIndexNo" name="hscIndexNo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Trust Name</label>
+                                        <div class="">
+                                            <input type="text" class="form-control" formControlName="trust_name"
+                                            id="trust_name" name="trust_name">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Affiliation No</label>
+                                        <div class="">
+                                            <input type="text" class="form-control"  formControlName="affiliation_no"
+                                            id="affiliation_no" name="affiliation_no">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <div class="row w-100">
+                                        <div class="col-auto">
+                                            <a class="btn w-100 clear-btn" href="#" [routerLink]="setUrl(URLConstants.LIST_SCHOOL)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" [disabled]="!leavecreateform.valid" class="btn w-100 save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

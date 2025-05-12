@@ -1,0 +1,36 @@
+<div class="modal-header webcam-modal-container">
+    <div class="modal-title">Take Picture</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body">
+    <div style="text-align:center">
+        <div class="webcam-container">
+          <webcam 
+            [height]="400" [width]="500" 
+            [trigger]="triggerObservable" 
+            (imageCapture)="handleImage($event)" 
+            *ngIf="showWebcam"
+            [allowCameraSwitch]="allowCameraSwitch" 
+            [switchCamera]="nextWebcamObservable"
+            [videoOptions]="videoOptions"
+            [imageQuality]="1"
+            (cameraSwitched)="cameraWasSwitched($event)"
+            (initError)="handleInitError($event)"
+          ></webcam>
+        </div>
+        <ng-container *ngIf="errors.length > 0">
+          <ul *ngFor="let error of errors">
+            <span class="error">{{error.message}}</span>
+          </ul>
+        </ng-container>
+      </div>
+      <div class="snapshot" *ngIf="webcamImage">
+        <img [src]="webcamImage.imageAsDataUrl"/>
+      </div>
+</div>
+
+
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn btn-primary" (click)="triggerSnapshot()">Take A Snapshot</button>
+    <button type="button" class="btn btn-primary" (click)="closeModal()">Close</button>
+</div>

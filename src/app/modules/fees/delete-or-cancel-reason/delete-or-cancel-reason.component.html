@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <div class="modal-title" *ngIf="!wallet">Receipt No : {{receipt_no}}</div>
+    <div class="modal-title" *ngIf="wallet">Cancel Wallet Receipt</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body">
+    <div *ngIf="wallet">
+        <label for=""><b>Student Name :</b> {{ wallet?.student_name || 'N/A' }}</label><br>
+        <label for=""><b>Receipt No :</b> {{ wallet?.receipt_no  || 'N/A' }}</label><br>
+        <label for=""><b>Receipt Date :</b> {{ wallet?.date | date: dateFormateService.getDateFormat() || 'N/A' }}</label><br>
+        <label for=""><b>Type :</b> {{ wallet?.type == 'dr' ? 'Debit' : 'Credit' }}</label><br>
+        <label for=""><b>Amount :</b> {{ wallet?.amount || 'N/A' }}</label>
+    </div>
+
+    <label><b>Reason For {{is_cancelled ? 'Cancellation' : is_edit ? 'Edit' : 'Delete'}}</b></label>
+	<textarea class="form-control" name="reason" [(ngModel)]="reason" placeholder="Enter Reason For {{is_cancelled ? 'Cancellation' : is_edit ? 'Edit' : 'Delete'}}" rows="5"></textarea>
+</div>
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn btn-primary mt-3 mb-0" (click)="deleteOrCancelFees()">Save</button>
+    <button type="button" class="btn btn-secondary mt-3 mb-0" (click)="closeModal()">Cancel</button>
+</div>

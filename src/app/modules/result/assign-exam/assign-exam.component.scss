@@ -1,0 +1,167 @@
+::ng-deep {
+  .assign-list-section {
+    .card {
+      margin-bottom: 15px;
+      padding: 0;
+      .marksheet-header {
+        padding: 6px 15px;
+        border-bottom: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .marsheet-lt-content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          h4 {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+            color: #000;
+            margin-right: 15px;
+            margin-bottom: 0;
+          }
+          app-single-select {
+            min-width: 200px;
+            display: block;
+            .ng-select-container {
+              height: 30px;
+            }
+          }
+        }
+        .marksheet-rt-content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          .action-download {
+            padding: 4px 9px !important;
+          }
+        }
+      }
+      .marksheet-list {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 0px;
+        li {
+          list-style: none;
+          padding-right: 15px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          span {
+            font-size: 20px;
+            line-height: 28px;
+            font-weight: 500;
+            color: #000;
+          }
+          p {
+            font-size: 20px;
+            line-height: 28px;
+            font-weight: 400;
+            color: #000;
+            margin: 0;
+            padding-left: 6px;
+          }
+        }
+      }
+      .marksheet-body {
+        padding: 15px;
+
+        .selester-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          .selester-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .btn {
+              transition: 0.3s;
+              border: 1px solid var(--primary-bg-color);
+              &:hover {
+                background-color: #fff;
+                color: var(--primary-bg-color);
+              }
+            }
+            .copy-btn {
+              background-color: #1a97d1;
+              border: 1px solid #1a97d1;
+              &:hover {
+                background-color: #fff;
+                color: #1a97d1;
+              }
+            }
+            .priview-btn {
+              background-color: #4875b9;
+              border: 1px solid #4875b9;
+              &:hover {
+                background-color: #fff;
+                color: #4875b9;
+              }
+            }
+          }
+          .btn {
+            transition: 0.3s;
+            border: 1px solid var(--primary-bg-color);
+            &:hover {
+              background-color: #fff;
+              color: var(--primary-bg-color);
+            }
+          }
+          .semister-save {
+            span {
+              font-size: 12px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #6c6c6c;
+            }
+          }
+        }
+        // .ng-pristine{
+        //   position: relative;
+        //   z-index: 9;
+        // }
+        // .ng-untouched.ng-pristine.ng-valid{
+        //   z-index: 9;
+        //   position: relative;
+        // }
+
+        .multiselect-dropdown{
+          z-index: unset;
+        }
+      }
+    }
+  }
+  @media (max-width: 992px) {
+    .assign-list-section .create-heading-btn .btn {
+      margin-top: 10px;
+    }
+    .assign-list-section .card .marksheet-list li p {
+      font-size: 16px;
+      line-height: 20px;
+    }
+    .assign-list-section .card .marksheet-list li span {
+      font-size: 16px;
+      line-height: 20px;
+    }
+  }
+  @media (max-width: 576px) {
+    .assign-list-section .create-heading-btn .btn {
+      margin-left: 0 !important;
+    }
+    .assign-list-section .card .marksheet-body .marksheet-list li span {
+      font-size: 13px;
+    }
+    .assign-list-section .card .marksheet-body .marksheet-list li p {
+      font-size: 12px;
+    }
+  }
+}
+
+

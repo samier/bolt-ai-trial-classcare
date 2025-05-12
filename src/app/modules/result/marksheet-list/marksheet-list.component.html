@@ -1,0 +1,254 @@
+<section class="marksheet-list-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">MARKSHEET LIST</h3>
+        <div class="create-heading-btn">
+          <!-- <button class="btn me-3" (click)="openPublishModal(combinedMarksheetModel);selectionCancel();initCombinedMarksheetForm()">Combine Marksheet</button> -->
+          <button class="btn" [routerLink]="resultService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN)">
+            <i class="bi bi-vector-pen pe-2"></i>Marksheet Template Design</button>
+    
+    
+          <button class="btn mx-3" (click)="openPublishModal(publishModel);selectionCancel()">Duplicate Template</button>
+          <a class="btn delete-btn me-3" *ngIf="!isDeleteAll && CommonService.hasPermission('student_marksheet_create', 'has_delete')" (click)="isDeleteAll = true">Delete All</a>
+          <a class="btn me-3" *ngIf="isDeleteAll" (click)="selectionCancel()">Cancel</a>
+          <a [routerLink]="resultService.setUrl(URLConstants.CREATE_MARKSHEET)" class="btn add-btn" *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_create')">Create Marksheet</a>
+        </div>
+      </div>
+      <!-- 1.ACADEMIC DETAILS -->
+      <div class="select-all-checkbox" *ngIf="isDeleteAll">
+        <input class="form-check-input" [(ngModel)]="selectAll" (ngModelChange)="selectAllChange($event)" type="checkbox"
+          value="" id="flexCheckDefault">
+        <label class="form-check-label me-3" for="flexCheckDefault">
+          Select All
+        </label>
+        <a class="btn me-3" (click)="openPublishModal(deleteModel);deleteId = null">Delete</a>
+      </div>
+    
+      <ng-container *ngFor="let item of markSheetTemplateList">
+    
+        <div class="marksheet-main-card">
+          <input class="form-check-input" *ngIf="isDeleteAll" [(ngModel)]="item.isSelected"
+            (ngModelChange)="singleSelect($event)" type="checkbox" value="" id="flexCheckDefault">
+          <div class="card">
+            <div class="marksheet-header">
+              <div class="marsheet-lt-content">
+                <h4>{{item.mark_sheet_name}}</h4>
+              </div>
+              <div class="marksheet-rt-content">
+                <button class="btn blue-btn" ngbTooltip="Edit" *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_edit')" [routerLink]="[resultService.setUrl(URLConstants.EDIT_MARKSHEET),item.id]"><i
+                    class="far fa-edit"></i></button>
+                <button class="btn red-btn mx-2" ngbTooltip="Delete" *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_delete')" (click)="openPublishModal(deleteModel); deleteId = item.id;"><i
+                    class="fa fa-trash-alt"></i></button>
+              </div>
+            </div>
+            <div class="marksheet-body">
+              <ul class="marksheet-list">
+                <li><span>Section : </span>
+                  <p>{{item.section_name}}</p>
+                </li>
+                <li><span>Class : </span>
+                  <p>{{item.class_name}}</p>
+                </li>
+                <li><span>Display Attendance : </span>
+                  <p>{{item?.mark_sheet_setting?.show_attendance ? 'YES' : 'NO'}}</p>
+                </li>
+                <li><span>Template Type : </span>
+                  <p>{{item.template_type}}</p>
+                </li>
+              </ul>
+              <div class="selester-wrapper">
+                <div class="selester-btn">
+                  <!-- <button class="btn copy-btn me-3">Copy</button> -->
+                  <button class="btn copy-btn me-3" (click)="copyMarkSheet(item.id,1)" [disabled]="false"> Copy
+                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+                  <button class="btn" [routerLink]="[resultService.setUrl(URLConstants.ASSIGN_EXAM),item.id]">Assign</button>
+                  <button class="btn priview-btn mx-2" [routerLink]="[resultService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN),item?.result_templates_id,'view']">Design</button>
+                  <!-- <button class="btn priview-btn mx-2" *ngIf="item?.is_student_wise && item?.is_student_wise == 1" [routerLink]="[resultService.setUrl(URLConstants.STUDENT_WISE_RESULT),item.id]">Download Student Result</button> -->
+                </div>
+                <div class="semister-save">
+                  <span *ngIf="item.is_copied == 1">Copied</span><br>
+                  <span *ngIf="item.is_copied == 2">Duplicate</span>
+                  <span *ngIf="item.is_combined == 1">Combine Marksheet</span>
+                </div>
+                <!-- <div class="semister-save">
+                       <button class="btn">Save</button>
+                     </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    
+      <ng-container *ngIf="markSheetTemplateList.length == 0 && !isMarksheetList">
+        <div class="card p-3">
+          <div class="d-flex justify-content-center">
+            No Data Found.
+          </div>
+        </div>
+      </ng-container>
+    
+      <ng-container *ngIf="isMarksheetList">
+        <div class="card p-3">
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border spinner-border-sm ms-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</section>
+
+
+
+<ng-template #publishModel ngClass="duplicate-modal-section">
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Duplicate Template</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="duplicateTempForm">
+      <div class="row justify-content-center">
+        <div class="col-lg-10  col-md-10 form-group marksheet-form-group">
+          <label class="form_label">Academic Year<span class="text-danger">*</span></label>
+          <app-single-select class="app-select-dropdown" controlName="academic_year_id" (change)="getTemplateList()" placeholder="Select Academic Year"
+            [dropDownArray]="academicYearsList"></app-single-select>
+        </div>
+        <div class="col-lg-10 col-md-10 form-group marksheet-form-group">
+          <label class="form_label">Template Name<span class="text-danger">*</span></label>
+          <app-single-select class="app-select-dropdown" controlName="template_id" placeholder="Select Template Name"
+            [dropDownArray]="templateList"></app-single-select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-auto pe-0">
+      <button type="submit" class="btn" (click)="duplicateTemplate()" [disabled]="isCopy">
+        Duplicate
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isCopy">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-auto ps-0">
+      <button type="submit" class="btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #deleteModel class="modal-dialog-centered">
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Delete Result Section</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <div class="col-lg-12  col-md-12 form-group">
+        <p class="delete-text">{{deleteId ?  'Are You Sure You Want To Delete The Template ?' : 'Are You Sure You Want To Delete Selected Template ?'}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn" (click)="deleteTemplate()" [disabled]="isDelete">
+        Delete
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDelete">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+
+<ng-template #combinedMarksheetModel>
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Combine Marksheet</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="combinedMarksheetForm">
+      <div class="combile-heading">
+        <div class="row align-items-center">
+          <div class="col-lg-5 form_group">
+            <label for="" class="form_label"> Combine Marksheet Name </label>
+          </div>
+          <div class="col-lg-7 form_group">
+            <input formControlName="marksheetName" class="form-control" placeholder="Enter Combine Marksheet Name">
+          </div>
+        </div>
+      </div>
+      <div class="combination-middle" formArrayName="marksheetDetailsArray">
+        <ng-container *ngFor="let item of combinedMarksheetArray.controls; let i = index;">
+          <div class="row align-items-center w-100 mb-2" [formGroupName]="i">
+            <div class="col-lg-3">
+              <div class="combition-left">
+                <a class="plus-mark" *ngIf="i == 0" (click)="addMarksheet()"><i class="fa fa-plus" aria-hidden="true"></i>
+                </a>
+                <a class="plus-mark" *ngIf="i !== 0" (click)="removeMarksheet(i)"><i class="fa fa-minus"
+                    aria-hidden="true"></i> </a>
+                <span>Marksheet {{i + 1}}</span>
+              </div>
+            </div>
+            <div class="col-lg-9 col-md-9 form-group form-simple-select mb-0">
+              <select formControlName="marksheet_id">
+                <option>Select Marksheet Name</option>
+                <option>Select Marksheet Name</option>
+                <option>Select Marksheet Name</option>
+                <option>Select Marksheet Name</option>
+                <option>Select Marksheet Name</option>
+                <option>Select Marksheet Name</option>
+              </select>
+            </div>
+            <div class="col-lg-3 col-md-3 form-group form-simple-select mb-0"></div>
+            <div class="col-lg-5 col-md-5 form-group form-simple-select mb-0">
+              <ng-multiselect-dropdown formControlName="class_id" placeholder="Select Class"
+                [settings]="multiSelectDropdownSettings" [data]="[]">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="col-lg-4 col-md-4 form-group form-simple-select mb-0">
+              <ng-multiselect-dropdown formControlName="batch_id" placeholder="Select Batch"
+                [settings]="multiSelectDropdownSettings" [data]="[]">
+              </ng-multiselect-dropdown>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn">
+        Create
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-2 col-3 mx-2">
+      <button type="submit" class="btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+
+</ng-template>

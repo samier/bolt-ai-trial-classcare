@@ -1,0 +1,18 @@
+::ng-deep {
+    .add-ledger {
+        .modal-body {
+            .form_group {
+                label {
+                    width: 30%;
+                }
+            }
+        }
+    }  
+    .duplicate-modal-section {
+        z-index: 10 !important;
+    }
+
+    .duplicate-modal-backdrop {
+        z-index: 10 !important;
+    }  
+}

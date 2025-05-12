@@ -1,0 +1,43 @@
+@import'../../../../assets/css/variable.scss';
+.disable{
+    pointer-events:none;
+}
+::ng-deep body{
+    app-expense-form{
+        .ledger-account{
+            flex: 1;
+        }
+        .button-ledger{
+            padding: 0 12px !important;
+            border-radius: 3px !important;
+        }
+        .heading{
+            font-size: 18px;
+            p{
+                span{
+                font-weight: 600;
+                }
+                .detail{
+                font-weight: 300;
+        
+                }
+            }
+        }
+        .tax-select{
+            width: 60% !important;
+        }
+    table{
+        border: 1px solid;
+        border-color: #dde2ef;
+        thead{
+            background-color: $primary;
+            tr{
+                th{
+                    color: $white !important;
+                    padding: 0.75rem !important;
+                }
+            }
+        }
+    }
+}
+}

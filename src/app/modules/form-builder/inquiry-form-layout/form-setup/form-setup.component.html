@@ -1,0 +1,132 @@
+<section class="form-setup form-setup-main">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section">
+                        <div class="">
+                            <form [formGroup]="formSetupForm" (ngSubmit)="submit()">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Form Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-input controlName="form_name"
+                                                placeholder="Enter form name"></app-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Branch
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-multi-select controlName="branch_ids" [dropDownArray]="branchList"
+                                                placeholder="Please Select Branch" (change)="getSectionList()"></app-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Section
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-multi-select controlName="section_id" [dropDownArray]="sectionList"
+                                                placeholder="Please Select Section"></app-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Source
+                                            <!-- <span class="text-danger">*</span> -->
+                                        </label>
+                                        <div>
+                                            <app-input controlName="source" placeholder="Enter source name"></app-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Form Status
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div class="d-flex">
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio" id="Active" formControlName="status" [value]="1" class="form-check-input form_label" />
+                                                <label class="form-check-label form_label" for="Active">Active</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio" id="inActive" formControlName="status" [value]="0" class="form-check-input" />
+                                                <label class="form-check-label form_label" for="inActive">Inactive</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Inquiry Fees</label>
+                                        <div class="d-flex">
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio" id="online" formControlName="inquiry_fees" [value]="0"
+                                                    class="form-check-input form_label" readonly/>
+                                                <label class="form-check-label form_label" for="online">Online</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input type="radio" id="offline" formControlName="inquiry_fees" [value]="1"
+                                                    class="form-check-input" readonly/>
+                                                <label class="form-check-label form_label" for="offline">Offline</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Submitted Button Name
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-input controlName="submit_button_name"
+                                                placeholder="Enter submitted button name"></app-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Responsible User
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="assign_to_user"
+                                                placeholder="Select responsible user"
+                                                [dropDownArray]="responsibleUserData"></app-single-select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Message To Show After Form is Successfuly Submitted
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-textarea controlName="submit_message" placeholder="Enter message.."></app-textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 form_group">
+                                        <label for="" class="form_label">Message To Show Before Inquiry Submit Confirmation. <span
+                                                class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-textarea controlName="submit_confirm_message" placeholder="Enter message.."></app-textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 btn-sticky">
+                                        <div class="d-flex justify-content-end">
+                                            <button type="submit" 
+                                                class="btn px-4 d-flex align-items-center me-3 save-btn">
+                                                Next
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="false">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

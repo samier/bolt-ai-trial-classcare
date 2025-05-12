@@ -1,0 +1,18 @@
+@media (max-width:575px) {
+    .dropdown-menu[x-placement^=left]{
+        transform: translate(-17px, 41px) !important;
+    }
+}
+@media (max-width:380px) {
+    .dropdown-menu[x-placement^=right]{
+        transform: translate(71px, 41px) !important;
+    }
+}
+
+// margin-left: 0.5rem !important;
+
+::ng-deep{
+    .dropdown-toggle::after{
+         margin-left: 0.5rem !important;
+    }
+}

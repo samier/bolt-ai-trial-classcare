@@ -1,0 +1,233 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{fees_id ? 'Edit' : 'Create'}} Fees Category</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.FEES_CATEGORY_LIST)"
+                            class="btn list-btn">Fees Category List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Fees Type name<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <input *ngIf="canUpdate(formData.type_name)" type="text" name="type_name" placeholder="Fees Type name"
+                                            class="form-control" [readonly]="!is_editable"  [(ngModel)]="formData.type_name">
+                                        <input *ngIf="!canUpdate(formData.type_name)" type="text" name="type_name" placeholder="Fees Type name"
+                                            class="form-control" [readonly]="!canUpdate(formData.type_name) || !is_editable" value="{{formData.type_name}}">
+                                    </div>
+                                    <div *ngIf="submitted && formData.type_name == null || formData.type_name == ''"
+                                        class="text-danger"> Please enter Fees Type name. </div>
+                                    <div *ngIf="submitted && validationError['type_name']" class="text-danger">
+                                        {{validationError['type_name']}} </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Category Name in Gujarati</label>
+                                    <div class="">
+                                        <input type="text" name="category_name_in_gujarati" placeholder="Category name in Gujarati"
+                                            class="form-control" [(ngModel)]="formData.category_name_in_gujarati">
+                                    </div>                  
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3 form_section form_group" *ngIf="isSchool == 1">
+                                <div class="">
+                                    <label class="form_label">Category Type<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select #select [items]="category_list" [searchable]="true" name="class_id"
+                                            bindLabel="name" bindValue="id" placeholder="Select Category"
+                                            [(ngModel)]="formData.category_type" [disabled]="!is_editable" (change)="handleTypeChange()" required>
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="submitted && formData.category_type == null || formData.category_type == ''"
+                                        class="text-danger px-3"> Please select Category Type. </div>
+                                    <div *ngIf="submitted && validationError['category_type']" class="text-danger px-3">
+                                        {{validationError['category_type']}} </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section" *ngIf="formData.category_type != 1 && formData.category_type != 2 && formData.category_type != null && isSchool == 1">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Select Months<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-12">
+                                        <ng-multiselect-dropdown
+                                                      [placeholder]="'select Months'"
+                                                      [settings]="monthDropdownSettings"
+                                                      [data]="months"
+                                                      [(ngModel)]="formData.months"
+                                                      (ngModelChange)="handleMonthChange()"
+                                                      [disabled]="!is_editable"
+                                                    >
+                                                    </ng-multiselect-dropdown>
+                                    </div>
+                                    <div *ngIf="submitted && formData.months.length != limit && !validationError['months']"
+                                        class="text-danger px-3"> Please select {{limit}}  {{limit == 1 ? 'Month' : 'Months'}}. </div>
+                                        <div *ngIf="submitted && validationError['months']" class="text-danger px-3">
+                                            {{validationError['months']}} </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">CGST</label>
+                                    <div class="">
+                                        <input type="text" name="CGST" placeholder="CGST" class="form-control"
+                                            [(ngModel)]="formData.CGST">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">SGST</label>
+                                    <div class="">
+                                        <input type="text" name="SGST" placeholder="SGST" class="form-control"
+                                            [(ngModel)]="formData.SGST">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Is Optional<span
+                                            class="text-danger"></span></label>
+                                    <div class="">
+                                        <div class="m-checkbox-list d-flex align-items-center">
+                                            <label class="m-checkbox m-0">
+                                                <input type="checkbox" name="all" id="is_optional"
+                                                    class="s-checkbox" [(ngModel)]="formData.is_optional" (change)="handlePreviousFeesChange()">
+                                                <span></span>
+                                            </label>
+                                            <label for="is_optional" class="ps-2 m-0">Is Optional</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4 col-lg-3 form_section form_group" *ngIf="formData.is_optional == true">
+                                <div class="">
+                                    <label class="form_label">Optional Fees<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <input type="text" name="optional_fees" placeholder="Optional Fees"
+                                            class="form-control" [(ngModel)]="formData.optional_fees">
+                                    </div>
+                                    <div *ngIf="submitted && validationError['optional_fees']" class="text-danger">
+                                        {{validationError['optional_fees']}} </div>
+                                </div>
+                            </div> -->
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Trust Associated<span
+                                            class="text-danger"></span></label>
+                                    <div class="">
+                                        <div class="m-checkbox-list d-flex align-items-center">
+                                            <label class="m-checkbox m-0">
+                                                <input type="checkbox" name="all" id="trust_associated"
+                                                    class="s-checkbox" [(ngModel)]="formData.trust_associated">
+                                                <span></span>
+                                            </label>
+                                            <label for="trust_associated" class="ps-2 m-0">Is Trust Associated</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section form_group" *ngIf="formData.trust_associated">
+                                <div class="">
+                                    <label class="form_label">Select Trust<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select #select [items]="trusts" [searchable]="true" name="class_id"
+                                            bindLabel="name" bindValue="id" placeholder="Select Trust"
+                                            [(ngModel)]="formData.trust_detail_id" required>
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="submitted && formData.trust_associated && formData.trust_detail_id == null || formData.trust_detail_id == ''"
+                                        class="text-danger px-3"> Please enter Account Type. </div>
+                                </div>
+                            </div>
+                            <div class="row mb-3"  *ngIf="formData.is_optional == true">
+                                <div class="col-md-4 form-group">
+                                    <label class="form_label">Select Courses</label>
+                                    <ng-multiselect-dropdown 
+                                        placeholder="Select Courses"
+                                        [settings]="multiSelectDropdownSettings" 
+                                        [data]="courses"
+                                        [(ngModel)]="formData.courses"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 form-group" *ngFor="let course of formData?.courses">
+                                        <label class="form_label">{{course.name}}</label>
+                                        <div class="input-group">
+                                            <input type="number" min="0" name="courseFees[{{course.name}}]" [(ngModel)]="formData.course_fees[course.id]" class="form-control" placeholder="Enter amount">
+                                            <span class="input-group-text" (click)="removeCourseFees(course)"><i class="fa fa-minus"></i></span>
+                                        </div>
+                                        <div *ngIf="submitted && validationError['course_fees.'+course.id]" class="text-danger px-3">
+                                            {{validationError['course_fees.'+course.id]}} </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Inquiry Category<span
+                                            class="text-danger"></span></label>
+                                    <div class="">
+                                        <div class="m-checkbox-list d-flex align-items-center">
+                                            <label class="m-checkbox m-0">
+                                                <input type="checkbox" name="fees_type" id="inquiry_category"
+                                                    class="s-checkbox" [(ngModel)]="formData.fees_type">
+                                                <span></span>
+                                            </label>
+                                            <label for="inquiry_category" class="ps-2 m-0">Is Inquiry Category</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section form_group">
+                                <div class="">
+                                    <label class="form_label">Select Ledger Account</label>
+                                    <div class="">
+                                        <ng-select #select [items]="headList" [searchable]="true" name="head_id"
+                                            bindLabel="name" bindValue="id" placeholder="Select Ledger Account"
+                                            [(ngModel)]="formData.head_id" required>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                        <button type="submit" class="btn clear-btn"
+                                        (click)="cancel()"> Cancel </button>
+                                    </div>
+                                    <div class="col-md-auto">
+                                        <button *ngIf="!this.fees_id && CommonService.hasPermission('settings_fees_category', 'has_create')" type="submit"
+                                            class="btn save-btn" (click)="submit()">
+                                            submit </button>
+                                        <button *ngIf="this.fees_id && CommonService.hasPermission('settings_fees_category', 'has_update')" type="submit"
+                                            class="btn save-btn" (click)="update()">
+                                            Update </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

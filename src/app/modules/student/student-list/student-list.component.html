@@ -1,0 +1,438 @@
+<section class="leave_form new-student-list-section">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Student List</h3>
+        <div class="d-flex">
+          <a *ngIf="commonService.hasPermission('student_student', 'has_create')" [routerLink]="setUrl(URLConstants.STUDENT_ADD)" class="btn me-2 add-btn">Add Student</a>
+          <a *ngIf="commonService.hasPermission('student_report_student_report', 'has_access')" [routerLink]="setUrl(URLConstants.STUDENT_REPORT)" class="btn me-2 report-btn">Student report</a>
+          <a *ngIf="commonService.hasPermission('student_student', 'has_import')" [routerLink]="setUrl(URLConstants.STUDENT_IMPORT)" class="btn import-btn">import student</a>
+        </div>
+      </div>
+
+      <!-- <div class="card_body">
+        <div class="card">
+          <div class="row">
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon user">
+                  <img src="./assets/images/student.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong><span class="counter">700</span></strong><br>
+                  <span class="counter_title">Total Student</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon active_user">
+                  <img src="./assets/images/student.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong><span class="counter">590</span></strong><br>
+                  <span class="counter_title">Active Student</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon teacher">
+                  <img src="./assets/images/Debit.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong><span class="counter">300</span></strong><br>
+                  <span class="counter_title">Total Boys</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg super_admin">
+                <div class="product-icon">
+                  <img src="./assets/images/credit-card.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong><span class="counter">200</span></strong><br>
+                  <span class="counter_title">Total Girls</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="card student-list-card p-0">
+        
+        <div class="card-header border-bottom justify-content-between d-flex">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn me-2" (click)="clearAll()">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="studentFilterForm" class="content_scroll">
+            <div class="row">
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">All Section</label>
+                <app-single-select [dropDownArray]="sectionList" controlName="section" (change)="getClassesList()" placeholder="All Section"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">All Class</label>
+                <app-single-select [dropDownArray]="classes" controlName="class" (change)="getBatchList()" placeholder="All Class"></app-single-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">All Batch</label>
+                <app-single-select [dropDownArray]="batches" controlName="batch" placeholder="All Batch"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">All Categories</label>
+                <app-single-select [dropDownArray]="category" controlName="categories" placeholder="All Categories"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Admission Date</label>
+                <app-date-range-picker controlName="date" placeholder="Select Date"></app-date-range-picker>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Student Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" formControlName="right_to_education" id="all" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="right_to_education" id="rte" value="1" class="mr-1">RTE<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="right_to_education" id="general" value="0" class="mr-1">General<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Admission Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" formControlName="old_new" id="male" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="old_new" id="female" value="1" class="mr-1">New<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Active & Inactive</label>
+                <div class="">
+                  <label class="switch">
+                    <input type="checkbox" title="Active & Inactive" formControlName="status">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card student-list-main-card">
+        <div class="card_body">
+          
+          
+          <div class="row pb-3 mx-0 no-gutters">
+            <div class="col-lg-12">
+              <div class="student-list-table">
+                <div class="table-list-heading">
+            
+                  <div class="data-cnt-list">
+                      <button *ngIf="commonService.hasPermission('student_student', 'has_download')" type="button" ngbTooltip="PDF" class="btn ms-1 gender_pdf" (click)="boysGirlsCountPdf('pdf','m')" [disabled]="isBoysPdfLoading">Boys : {{genderCounter?.boys || 0}}
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isBoysPdfLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                      <button *ngIf="commonService.hasPermission('student_student', 'has_download')" type="button" ngbTooltip="PDF" class="btn ms-2 gender_pdf" (click)="boysGirlsCountPdf('pdf','f')" [disabled]="isGirlsPdfLoading">Girls : {{genderCounter?.girls || 0}}
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isGirlsPdfLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                  </div>
+      
+                  <div class="data-cnt-right">
+                    <div class="">
+                      <div ngbDropdown class="d-inline-block operations">
+                        <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                          <i class="far fa-plus-square me-2"></i>Operations
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="studentIdGeneration('pdf')"><i class="far fa-id-badge"></i>Student IDcard Download</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="studentIdGeneration('pdf',true)"><i class="far fa-id-badge"></i>Download ID Zip</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="downloadExcel('excel')"><i class="far fa-id-badge"></i>Download Attendance Id</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_delete')" ngbDropdownItem (click)="bulkDelete()"><i class="far fa-trash-alt"></i>Delete</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="bonafiedCertificate('pdf')"><i class="far fa-id-badge"></i>Bonafide Certificate</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="bankReport('pdf')"><i class="fas fa-file-invoice"></i>Bank Report</button>
+                          <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="printData('pdf')"><i class="fa fa-print "></i>Student Information</button>
+                          <button ngbDropdownItem (click)="sendAdmissionPopUp(publishModel)"><i class="fas fa-graduation-cap"></i>Send admission</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="width:auto;" class="d-flex">
+                      
+                      <button *ngIf="commonService.hasPermission('student_student', 'has_download')" type="button" class="pdf-btn btn me-2" ngbTooltip="PDF"
+                          (click)="downloadPdfAndExcel('pdf')" [disabled]="isPdfLoading">
+                          <img src="assets/images/pdf-icon.svg" alt="">
+                          <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                              <span class="visually-hidden">Loading...</span>
+                          </div>
+                      </button>
+                      <button *ngIf="commonService.hasPermission('student_student', 'has_download')" type="button" class="excel-btn btn" ngbTooltip="EXCEL"
+                          (click)="downloadPdfAndExcel('excel')" [disabled]="isExcelLoading">
+                          <img src="assets/images/excel-icon.svg" alt="">
+                          <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                              <span class="visually-hidden">Loading...</span>
+                          </div>
+                      </button>
+                    </div>
+                  </div>
+      
+                </div>
+                <div class="assign-transport-table">
+                  <div class="datatable-action-design">
+                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                        <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                      </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                      </svg>
+                    </div>
+                    <div class="table-responsive">
+                      <table datatable [dtOptions]="dtOptions" 
+                            class="table table-hover table-nowrap table-bordered " [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>
+                            <input class="" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+                          </th>
+                          <th>photo</th>
+                          <!-- <th>Father's Image</th>
+                          <th>Mother's Image</th> -->
+                          <th>Batch</th>
+                          <th>section</th>
+                          <th>Roll No.</th>
+                          <th>GR No.</th>
+                          <th>Name</th>
+                          <th>cast</th>
+                          <th>student Mobile</th>
+                          <th>username</th>
+                          <th>password</th>
+                          <th>UUID</th>
+                          <th>Created By</th>
+                          <th class="action-btn-sticky">Action</th>
+                        </tr>
+                      </thead>
+                        <thead class="table-head-light">
+                          <tr>
+                            <td></td>
+                            <td></td>
+                            <!-- <td></td>
+                            <td></td> -->
+                            <td>
+                              <input type="text" class="form-control" placeholder="Batch" [(ngModel)]="search.batch_name" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Section" [(ngModel)]="search.section_name" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Roll No." [(ngModel)]="search.rollno" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="GR No." [(ngModel)]="search.studentId" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Name" [(ngModel)]="search.full_name" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Cast" [(ngModel)]="search.cast" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Mobile No." [(ngModel)]="search.phone_number" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="search.username" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Password" [(ngModel)]="search.password" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="UUID" [(ngModel)]="search.unique_id" (input)="inlineSearch()">
+                            </td>
+                            <td>
+                              <input type="text" class="form-control" placeholder="Created by" [(ngModel)]="search.created_by" (input)="inlineSearch()">
+                            </td>
+                            <td class="action-btn-sticky"></td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of tbody ;let i = index;">
+                            <td>
+                              <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                            </td>
+                            <!-- /public/images/student-male.png -->
+                            <td>
+                              <div class="student-img-container">
+                                <img [src]="item.profile_url ? item.profile_url : '/public/images/student-male.png'" class="student-image" alt="" srcset="">
+                                <div class="edit-option" (click)="updateProfile(item)">Edit</div>
+                              </div>
+                            </td>
+                            <!-- <td>
+                              <div class="student-img-container"> 
+                                <img src="{{item.fatherImage || '/public/images/student-male.png'}}" class="student-image" alt="" srcset="">
+                                <div class="edit-option" (click)="updateProfile(item,'father')">Edit</div>
+                              </div>
+                            </td>
+                            <td>
+                              <div class="student-img-container"> 
+                                <img src="{{item.motherImage || '/public/images/student-female.png'}}" class="student-image" alt="" srcset="">
+                                <div class="edit-option" (click)="updateProfile(item,'mother')">Edit</div>
+                              </div>
+                            </td> -->
+                            <td>{{item.batch_name}}</td>
+                            <td>{{item.section_name}}</td>
+                            <td class="orange-text-color">{{item.rollno || 'N/A'}}</td>
+                            <td class="teal-text-color">{{item.studentId || 'N/A'}}</td>
+                            <!-- <td><a [href]="setsymfonyUrl('students/profile/'+item?.unique_id)">{{item.full_name}}</a></td> -->
+                            <td class="name_hover">
+                              <a href="" 
+                                [routerLink]="[setUrl(URLConstants.STUDENT_PROFILE),item?.unique_id]" 
+                                  > 
+                                {{item.full_name}}
+                              </a>
+                            </td> 
+                            <td>{{item.cast || 'N/A'}}</td>
+                            <td class="green-text-color">{{item.phone_number || 'N/A'}}</td>
+                            <td>{{item.father_number}}</td>
+                            <td>{{item.password}}</td>
+                            <td class="orange-text-color">{{item.unique_id || 'N/A'}}</td>
+                            <td>{{item.created_by || 'N/A'}}</td>
+                            <td class="action-btn-sticky text-center">
+                              <div class="btn-group" role="group">
+                                <a *ngIf="commonService.hasPermission('student_student', 'has_edit')" class="lt-btn-icon action-edit" [routerLink]="[setUrl(URLConstants.STUDENT_EDIT),item?.id]" ngbTooltip="Edit" ></a>
+                                <a *ngIf="commonService.hasPermission('student_student', 'has_download')" class="lt-btn-icon action-download" (click)="downloadStudentFullReport(item.id)" ngbTooltip="Full Report"></a>
+                                <a *ngIf="commonService.hasPermission('student_student', 'has_download')" class="lt-btn-icon action-download-blue" (click)="downloadStudentBasicReport(item.id)" ngbTooltip="Basic Report"></a>
+                                <a *ngIf="commonService.hasPermission('student_student', 'has_delete')" class="lt-btn-icon action-delete" (click)="deleteStudent(item.id)" title="Delete" ngbTooltip="Delete"></a>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length == 0">
+                          <tr>
+                            <td colspan="14" class="text-center no-data-available">No data</td>
+                          </tr>
+                      </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<ng-template #publishModel class="publish-update-modal">
+
+  <div class="modal-header publish-modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">SMS Options for the Admission</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+
+  <div class="modal-body publish-modal-body">
+    <div class="col-md-12 form_group">
+      <label class="form_label">Send to ?</label>
+      <div class="d-flex">
+        <!-- FATHER -->
+        <div class="m-checkbox-list d-flex align-items-center me-3">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox" [(ngModel)]="message.is_father_message " [value]="true"><span></span>
+          </label>
+          <label for="checkbox" class="ms-2 mb-0">Father</label>
+        </div>
+        <!-- MOTHER -->
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox1" [(ngModel)]="message.is_mother_message " [value]="true"><span></span>
+          </label>
+          <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+        </div>
+        <!-- STUDENT -->
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox2" [(ngModel)]="message.is_student_message " [value]="true"><span></span>
+          </label>
+          <label for="checkbox2" class="ms-2 mb-0">Student</label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer" style="z-index: 0;">
+    <!-- SEND BTN -->
+    <div class="col-auto">
+      <button class="msg-btn btn" type="submit" (click)="sendAdmissionSms()" [disabled]="is_admissionLoading"> Send
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_admissionLoading">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <!-- CANCEL BTN -->
+    <div class="col-auto">
+      <button type="submit" class="cancel-btn btn" (click)="closeModel()"> Cancel </button>
+    </div>
+
+  </div>
+</ng-template>

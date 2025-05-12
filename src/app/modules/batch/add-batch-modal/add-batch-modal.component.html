@@ -1,0 +1,45 @@
+<div class="modal-header exam-report-download-content">
+    <div class="modal-title">{{ this.batchData?.id ? 'Edit' : 'Add'}} Batch</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="batchForm" (ngSubmit)="saveData()">
+        <div class="col-lg-12 col-md-4 form_group">
+            <label for="" class="form_label">Class<span class="text-danger">*</span></label>
+            <div>
+                <app-single-select controlName="class_id" placeholder="Select class"
+                    [dropDownArray]="classList" (change)="getSubjects()"></app-single-select>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-4 form_group">
+            <label for="" class="form_label">Batch name<span class="text-danger">*</span></label>
+            <div>
+                <app-input controlName="name" placeholder="Enter batch name"></app-input>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-4 form_group">
+            <label for="" class="form_label">Class Teacher</label>
+            <div>
+                <app-single-select controlName="class_teacher_id" placeholder="Select class teacher"
+                    [dropDownArray]="classTeacherList" [isClear]="this.batchData?.id ? true : false" (clearChange)="batchForm.controls['subject_id'].patchValue(null)"></app-single-select>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-4 form_group">
+            <label for="" class="form_label">Subject</label>
+            <div>
+                <app-single-select controlName="subject_id" placeholder="Select subject"
+                [dropDownArray]="subjectList"></app-single-select>
+            </div>
+            <div *ngIf="batchForm.controls['subject_id'].disabled" class="text-danger mt-1">
+                Please select both Class and Class Teacher to choose a Subject.
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end modal-footer">
+            <button type="submit" class="btn btn-primary save-btn">{{ this.batchData?.id ? 'Update' : 'Save'}}</button>
+            <button type="button" class="btn btn-primary clear-btn" (click)="closeModal()">Close</button>
+        </div>
+    </form>
+</div>
+

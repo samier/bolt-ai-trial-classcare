@@ -1,0 +1,91 @@
+<section class="student-document">
+  <div class="page_inner students-document-tabs-view card">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="m-0">Document List ({{ documentList?.length > 0 ? documentList?.length : 0 }})</h3>
+        <div class="btn_right">
+          <a class="btn add-btn" (click)="openVerticallyCentered(filterMdl)">Add New Doc</a>
+        </div>
+      </div>
+      <div class="uploded_doc">
+        <div class="row">
+          <div class="col-md-3" *ngFor="let item of documentList">
+            <div class="uploded_doc_content card">
+              <div class="img_heading text-center">
+                <div class="img_title">
+                  <p style="margin: 0">{{item?.document_name}}</p>
+                </div>
+                <div class="img_date">{{  item?.create_date | date : dateFormateService.getDateFormat() }}</div>
+              </div>
+              <ng-container [ngSwitch]="getFileType(item?.file_name)">
+                <div class="text-center atteched_file">
+                  <a *ngSwitchCase="'image'" target="_blank" download="" [href]="item?.attachment_url">
+                    <img class="img-circle" style="width: 100px; height: 100px" [src]="item?.attachment_url" />
+                  </a>
+                  <a *ngSwitchCase="'excel'" target="_blank" download="" [href]="item?.attachment_url">
+                    <i class="fa fa-file-excel"></i>
+                  </a>
+                  <a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="item?.attachment_url">
+                    <i class="fa fa-file-pdf"></i>
+                  </a>
+                  <a *ngSwitchDefault  target="_blank" download="" [href]="item?.attachment_url">
+                    <i class="fa fa-file-excel"></i>
+                  </a>
+                </div>
+              </ng-container>
+              <div class="action text-center">
+                <a class="action-delete btn" (click)="deleteDocument(item)" ngbTooltip="Delete">
+                  <i class="fa fa-trash-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #filterMdl let-modal>
+  <div class="modal-header" style="z-index: 0">
+    <h4 class="modal-title" id="modal-basic-title">Add Document</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="documentForm" id="documentForm" enctype="multipart/form-data">
+    <div class="modal-body">
+      <div class="page_inner">
+        <div class="card_body">
+          <div class="row">
+            <div class="form_group">
+              <label class="form_label">Name<span class="text-danger">*</span></label>
+              <div>
+                <input type="text" class="form-control" placeholder="Enter Document Name" formControlName="name"/>
+                <div class="text-danger"></div>
+              </div>
+            </div>
+            <div class="form_group">
+              <div>
+                <input type="file" class="form-control" placeholder="Select Document" (change)="onFileSelect($event)" />
+                <span class="text-danger">File size should be less then 1MB <div> ( the attachment field must be a file of type: jpeg, jpg, pdf, png.) </div> </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer" style="z-index: 0; justify-content: end">
+    <div class="col-auto pe-0">
+      <button type="button" class="btn save-btn" (click)="handleSave()" [disabled]="is_docLoading" >Save 
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_docLoading">
+          <span class="visually-hidden">Loading..."</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-auto">
+      <button type="button" class="btn cancel-btn" (click)="close()">Cancel</button>
+    </div>
+  </div>
+</ng-template>

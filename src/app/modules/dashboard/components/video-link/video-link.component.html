@@ -1,0 +1,77 @@
+<div class="video-section">
+    <div class="upcoming-header">
+        <a class="view-all-link" [routerLink]="dashBoardService.setUrl(URLConstants.VIDEO_LIST)"> 
+            <h3> 
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7"/>
+                    <rect width="36" height="36" rx="7"/>
+                    <path d="M18 8C12.4758 8 8 12.4758 8 18C8 23.5242 12.4758 28 18 28C23.5242 28 28 23.5242 28 18C28 12.4758 23.5242 8 18 8ZM22.6653 18.9677L15.5685 23.0403C14.9315 23.3952 14.129 22.9395 14.129 22.1935V13.8065C14.129 13.0645 14.9274 12.6048 15.5685 12.9597L22.6653 17.2742C23.3266 17.6452 23.3266 18.6008 22.6653 18.9677Z"/>
+                </svg> 
+                Videos Link 
+            </h3> 
+        </a>
+        <a class="view-all-link view-btn-link me-2" [routerLink]="dashBoardService.setUrl(URLConstants.VIDEO_LIST)"> <span> <i class="fa fa-eye" aria-hidden="true"></i> </span> View All </a>
+    </div>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Link</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let link of videoLinkList">
+                        <tr>
+                            <td>  <a href="#" class="table_video_name" [routerLink]="[ setUrl(URLConstants.VIEW_VIDEO),link?.id ]">{{ link?.title }} </a></td>
+                            <td class="table_video_link"> 
+                                <i class="fa fa-link" style="cursor: pointer;" [matTooltip]="link?.link" (click)="openLinkInNewTab(link?.link)"> Click here </i> 
+                            </td>
+                            <!-- <td >
+                                <Span class="video-link-profile" *ngFor="let image of link?.notes_attachments ; let i=index">
+                                    <img *ngIf="i <= 3" style="cursor: pointer;" [src]="image?.attachment_url" (click)="openLinkInNewTab(image?.attachment_url)"/> -->
+                                    <!-- <span class="count_attach" *ngIf="image?.notes_attachments.length > 4">+{{image?.notes_attachments.length - 3}}</span> -->
+                                <!-- </Span>
+                                <span class="count_attach" *ngIf="link?.notes_attachments.length > 3">+{{link?.notes_attachments.length - 4}}</span>
+                            </td> -->
+
+                            <td>
+                                <span class="video-link-profile">
+                                  <ng-container *ngFor="let image of link?.notes_attachments; let i = index">
+                                    <img *ngIf="i < 3" style="cursor: pointer;" [src]="image?.attachment_url" (click)="openLinkInNewTab(image?.attachment_url)" />
+                                  </ng-container>
+                                </span>
+                                <span class="count_attach" *ngIf="link?.notes_attachments.length > 3">
+                                    <a href="#" [routerLink]="[ setUrl(URLConstants.VIEW_VIDEO),link?.id ]">+{{ link?.notes_attachments.length - 3 }}</a>
+                                </span>
+                            </td>
+
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                         </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  videoLinkList?.length == 0">
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

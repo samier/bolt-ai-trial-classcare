@@ -1,0 +1,87 @@
+::ng-deep{
+   body{
+      app-marks-bulk-edit{
+         .card_body {
+            .table-responsive{
+                .table tr th:last-child {
+                   text-align: left !important;
+                   padding-right: 25px;
+                }
+                .table tr td:last-child {
+                    text-align: left !important;
+                    padding-right: 25px;
+                 }
+                
+                 .error{
+                    border: 1px solid #ff3127;
+                    outline: #ff3127;
+                 }
+            }
+        }
+        
+        .page_inner{
+           min-height: calc(100vh - 165.95px);
+        }
+        .table-responsive{
+            .thead-light{
+               tr{
+                 &:first-child th{
+                     border-bottom: 1px solid #dee2ec;
+                     border-left: 1px solid #dee2ec;
+                     text-align: center;
+                     padding-right: 8px;
+                     &:first-child, &:nth-child(2){
+                        border: none;
+                        text-align: left;
+                        padding: 0 20px 0 10px;
+                        &::after{
+                           top: 50%;
+                           transform: translateY(-50%);
+                        }
+                     }
+                     &:nth-child(2){
+                        border-left: 1px solid #dee2ec;
+                     }
+                  }
+                 &:last-child th{
+                  border-left: 1px solid #dee2ec;
+                  text-align: center;   
+                  padding-right: 8px;
+                 } 
+               }
+            }
+            tbody{
+               tr{
+                  td.m-checkbox-list{
+                     text-align: center;
+                  }
+                  td{
+                     input{
+                        height: 21px;
+                     }
+                  }
+               }
+            }
+        }
+      }
+   &.dark-theme{
+      .table-responsive{
+         .thead-light{
+            tr{
+              &:first-child th{
+                  border-bottom: 1px solid #ffffff1a;
+                  border-left: 1px solid #ffffff1a;
+
+                  &:nth-child(2){
+                     border-left: 1px solid #ffffff1a;
+                  }
+               }
+              &:last-child th{
+               border-left: 1px solid #ffffff1a;
+              } 
+            }
+         }
+     }
+   }   
+   }
+}

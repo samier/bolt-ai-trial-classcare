@@ -1,0 +1,92 @@
+<section class="leave_form white_card">
+    <div class="col-lg-12 d-flex nav nav-tabs inner_tabs pt-2">
+        <div class="radio-inline nav-item">
+            <label class="m-radio required nav-link" [class.active]="for == 'exam' ? true : false" for="exam" aria-required="true">
+                <input type="radio" name="for" id="exam" (click)="get_for('exam')" value="exam" aria-required="true" class="mr-1" checked hidden>Exams<span></span>
+            </label>
+        </div>
+        <div class="radio-inline ml-1 nav-item">
+            <label class="m-radio required nav-link" [class.active]="for != 'exam' ? true : false" for="result" aria-required="true">
+                <input type="radio" name="for" id="result" (click)="get_for('result')" value="result" aria-required="true" class="mr-1" hidden>Results <span></span>
+            </label>
+        </div>
+    </div>
+    <div class="row"  *ngIf="for == 'exam'">
+        <div class="col-lg-6 d-flex">
+            <div class="card p-0 overflow-hidden w-100 card-shadow">
+                <div class="card_title">
+                    <h3 class="w-100 primary-bg text-white p-3 mb-0">Exams Today</h3>
+                </div> 
+                <div class="card_body p-3">
+                    <div class="" *ngFor="let exam of  exam_list.today;">
+                        <a [routerLink]="[URLConstants.STUDENT_EXAM_DETAIL,exam.id]" >
+                            <!-- *ngIf="today > format_date(exam.start_time) && today < format_date(exam.end_time)" -->
+                            <span class="span_outer"><span class="title">Exam Name</span><b>{{exam.exam_name}}</b></span>
+                            <span class="span_outer"><span class="title">Duration</span><b>{{exam.exam_duration}}</b></span>
+                            <span class="span_outer"><span class="title">Start Time</span><b>{{exam.start_time}}</b></span>
+                            <span class="span_outer"><span class="title">End Time</span><b>{{exam.end_time}}</b></span>
+                            <span *ngIf="exam.result" class="text-success bold">Exam Complete</span>
+                            <span *ngIf="today > format_date(exam.end_time) && !exam.result" class="text-danger bold">Exam Skiped</span>
+                        </a>
+                    </div>
+                    <div class="col-lg-12" *ngIf="exam_list.today?.length == 0">
+                        <span>!! No Exams Today !!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 d-flex">
+            <div class="card p-0 overflow-hidden w-100 card-shadow">
+                <div class="card_title">
+                    <h3 class="w-100 primary-bg text-white p-3 mb-0">Upcoming Exams</h3>
+                </div> 
+                <div class="card_body p-3">
+                    <div class=" " *ngFor="let exam of  exam_list.upcoming;"  >
+                        <a [routerLink]="[URLConstants.STUDENT_EXAM_DETAIL,exam.id]" >
+                            <span class="span_outer"><span class="title"> Exam Name</span><b>{{exam.exam_name}}</b></span>
+                            <span class="span_outer"><span class="title">Duration</span><b>{{exam.exam_duration}}</b></span>
+                            <span class="span_outer"><span class="title">Start Time</span><b>{{exam.start_time}}</b></span>
+                            <span class="span_outer"><span class="title">End Time</span><b>{{exam.end_time}}</b></span>
+                            <span *ngIf="exam.result" class="text-success bold">Exam Complete</span>
+                            <span *ngIf="today > format_date(exam.end_time) && !exam.result" class="text-danger bold">Exam Skiped</span>
+                        </a>
+                    </div>
+                    <div class="col-lg-12" *ngIf="exam_list.upcoming?.length == 0">
+                        <span>!! No Upcomming Exams Till Now !!</span>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table_card"  *ngIf="for == 'result'">
+        <div class="table-responsive dt_section">
+            <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Exam Name</th>
+                        <th>Exam Appear Date</th>
+                        <th>Subject</th>
+                        <th>Total Marks</th>
+                        <th>You Scored</th>
+                        <th>Attempted Question</th>
+                        <th>Correct Question</th>
+                        <th>Result</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of results">
+                        <td>{{result.exam_name}}</td>
+                        <td>{{ date(result.start_time) }}</td>
+                        <td>{{result.subject}}</td>
+                        <td>{{result.total_marks}}</td>
+                        <td>{{result.final_marks}}</td>
+                        <td>{{result.attempt_question}}</td>
+                        <td>{{result.correct_answer}}</td>
+                        <td>{{result.result}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

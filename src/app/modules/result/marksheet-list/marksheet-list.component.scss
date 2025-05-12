@@ -1,0 +1,361 @@
+::ng-deep {
+  .marksheet-list-section {
+    .select-all-checkbox{
+      margin-bottom: 16px;
+      input{
+        position: unset;
+        margin: 0;
+        box-shadow: none;
+        margin-right: 10px;
+        margin-top: 3px;
+      }
+      .form-check-label{
+        color: #000;
+        font-weight: 500;
+      }
+    }
+    .marksheet-main-card{
+      display: flex;
+      align-items: flex-start;
+      input{
+        position: unset;
+        margin: 0;
+        box-shadow: none;
+        margin-right: 10px;
+        margin-top: 14px;
+      }
+    }
+    .card {
+      margin-bottom: 15px;
+      padding: 0;
+      width: 100%;
+      .marksheet-header {
+        padding: 6px 15px;
+        border-bottom: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .marsheet-lt-content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          h4 {
+            font-size: 16px;
+            line-height: 24px;
+            font-weight: 600;
+            color: #000;
+            margin-right: 15px;
+            margin-bottom: 0;
+          }
+          app-single-select {
+            min-width: 200px;
+            display: block;
+            .ng-select-container {
+              height: 30px;
+            }
+          }
+        }
+        .marksheet-rt-content {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          .btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            border: 1px solid #02a3c3;
+            background-color: #fff;
+            box-shadow: none;
+            outline: none;
+            color: #02a3c3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            &:hover {
+              background-color: #02a3c3;
+              color: #fff;
+            }
+          }
+          .red-btn {
+            border: 1px solid #ff7474;
+            color: #ff7474;
+            &:hover {
+              background-color: #ff7474;
+              color: #fff;
+            }
+          }
+          .black-btn {
+            border: 1px solid #000;
+            color: #000;
+            &:hover {
+              background-color: #000000;
+              color: #fff;
+            }
+          }
+        }
+      }
+      .marksheet-body {
+        padding: 15px;
+        .marksheet-list {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+          margin: 0;
+          padding: 0;
+          margin-bottom: 15px;
+          li {
+            list-style: none;
+            padding-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            span {
+              font-size: 15px;
+              line-height: 22px;
+              font-weight: 500;
+              color: #000;
+            }
+            p {
+              font-size: 14px;
+              line-height: 22px;
+              font-weight: 400;
+              color: #000;
+              margin: 0;
+              padding-left: 6px;
+            }
+          }
+        }
+        .selester-wrapper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          .selester-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .btn {
+              transition: 0.3s;
+              border: 1px solid var(--primary-bg-color);
+            }
+            .copy-btn {
+              background-color: #1a97d1;
+              border: 1px solid #1a97d1;
+            }
+            .priview-btn {
+              background-color: #4875b9;
+              border: 1px solid #4875b9;
+            }
+          }
+          .btn {
+            transition: 0.3s;
+            border: 1px solid var(--primary-bg-color);
+            // &:hover {
+            //   background-color: #fff;
+            //   color: var(--primary-bg-color);
+            // }
+          }
+          .semister-save {
+            span {
+              font-size: 12px;
+              line-height: 18px;
+              font-weight: 400;
+              color: #6c6c6c;
+            }
+          }
+        }
+      }
+    }
+  }
+  @media (max-width: 992px) {
+    .marksheet-list-section .create-heading-btn .btn {
+      margin-top: 10px;
+    }
+  }
+  @media (max-width: 576px) {
+    .marksheet-list-section .create-heading-btn .btn {
+      margin-left: 0 !important;
+    }
+    .marksheet-list-section .card .marksheet-body .marksheet-list li span {
+      font-size: 13px;
+    }
+    .marksheet-list-section .card .marksheet-body .marksheet-list li p {
+      font-size: 12px;
+    }
+  }
+}
+
+
+
+// modal design
+::ng-deep {
+  .duplicate-modal-section{
+    z-index: 10 !important;
+  }
+  .duplicate-modal-backdrop{
+    z-index: 10 !important;
+  }
+  .modal-dialog {
+    .modal-content {
+      border-radius: 16px;
+      .close {
+        border: 1px solid #000;
+        padding: 5px;
+        border-radius: 50px;
+        margin-top: 0;
+        margin-right: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 400;
+        color: #000;
+        span {
+          color: #000;
+          display: block;
+          line-height: 0;
+          margin-top: 2px;
+          margin-left: 1px;
+        }
+      }
+      .marksheet-form-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 30px;
+        .form_label {
+          color: #000;
+          margin-right: 10px;
+          width: auto;
+          white-space: nowrap;
+        }
+        app-single-select {
+          width: 100%;
+        }
+      }
+      .delete-text {
+        font-size: 15px;
+        line-height: 20px;
+        color: #000;
+        font-weight: 500;
+        margin: 0;
+      }
+    }
+  }
+  .modal-dialog .modal-content .close {
+    width: 24px;
+    height: 24px;
+  }
+  .modal-footer{
+    border-radius: 0 0 16px 16px;
+  }
+}
+
+// modal design
+::ng-deep {
+  .modal-dialog {
+    .modal-content {
+      border-radius: 16px;
+      overflow: unset !important;
+      .close {
+        border: 1px solid #000;
+        padding: 5px;
+        border-radius: 50px;
+        margin-top: 0;
+        margin-right: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 400;
+        color: #000;
+        span {
+          color: #000;
+          display: block;
+          line-height: 0;
+          margin-top: 2px;
+          margin-left: 1px;
+        }
+      }
+      .combile-heading{
+        border-bottom: 1px solid #D9D9D9;
+        .form_group{
+          .form_label{
+            font-size: 12px;
+            line-height: 16px;
+          }
+        }
+      }
+      .combination-middle{
+        padding-top: 20px;
+        .combition-left{
+          display: flex;
+          align-items: center;
+          margin-bottom: 12px;
+        }
+        .plus-mark {
+          width: 14px;
+          height: 14px;
+          min-width: 14px;
+          background-color: #fff;
+          border: 1px solid #01329c;
+          border-radius: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-left: 0px;
+          padding-right: 1px;
+          margin-right: 6px;
+          padding: 2px;
+          .fa {
+            font-size: 9px;
+            line-height: 12px;
+          }
+        }
+        span{
+          font-size: 12px;
+          line-height: 16px;
+          font-weight: 400;
+        }
+        input{
+          width: 100%;
+        }
+        .form-simple-select{
+          select{
+            background-image: none !important;
+            padding: 5px 15px 5px 5px; 
+            margin-bottom: 12px;
+            width: 100%;
+            font-size: 13px;
+            line-height: 20px;
+            font-weight: 500;
+            color: #4d5875;
+            outline: none;
+            border: 1px solid #D0C9C0;
+            border-radius: 4px;
+          }
+          
+        }
+      }
+    }
+  }
+  .modal-dialog .modal-content .close {
+    width: 24px;
+    height: 24px;
+  }
+  @media (max-width: 768px) {
+    .modal-dialog .modal-content .result-mark-group app-input input {
+      font-size: 13px;
+      line-height: 16px;
+      padding: 6px 10px;
+    }
+    .modal-dialog .modal-content .result-mark-group .plus-mark {
+      padding-left: 1px;
+      padding-right: 0;
+    }
+  }
+}

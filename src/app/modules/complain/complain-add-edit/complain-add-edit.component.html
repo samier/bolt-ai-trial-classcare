@@ -1,0 +1,143 @@
+<section class="add_homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{ id ? "UPDATE" : "ADD" }} Complain </h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn" href="#." [routerLink]="setUrl(URLConstants.COMPLAIN_LIST)">Complain List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addComplainForm">
+                    <div class="row">
+
+                        <!-- COMPLAIN TITTLE  -->
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Complain Tittle <span class="text-danger">*</span> </label>
+                            <div>
+                                <app-input type="text" controlName="tittle" placeholder="Enter Complain Tittle"></app-input>
+                            </div>
+                        </div> 
+
+                        <!-- Section -->
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Section</label>
+                            <app-single-select controlName="sectionF" (change)="classChange()"
+                                [dropDownArray]="sectionList" placeholder="Select Section"></app-single-select>
+                        </div>
+
+                        <!-- Classes -->
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Class</label>
+                            <app-single-select controlName="classF" (change)="batchChange()"
+                                [dropDownArray]="classList" placeholder="Select Class"></app-single-select>
+                        </div>
+
+                        <!-- Batch -->
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Batch</label>
+                            <app-single-select controlName="batchF" [dropDownArray]="batchList"
+                                placeholder="Select Batch" (change)="studentChange()"></app-single-select>
+                        </div>
+  
+                        <!-- STUDENT -->
+                        <div class="col-md-3  form_group">
+                            <label class="form_label">Select Student <span class="text-danger">*</span> </label>
+                            <div>
+                                <app-single-select controlName="studentF" [dropDownArray]="studentList"
+                                    placeholder="Select Student"></app-single-select>
+                            </div>
+                        </div>
+
+                        <!-- DROPDOWN -->
+                        <!-- <div class="col-md-3 form_group">
+                            <label class="px-0 form_label col-md-12">Select Student<span class="text-danger">*</span></label>
+                            <div>
+                                <ng-select #select [items]="users" (change)="changeFn(selectedFaculty)" [searchable]="false"
+                                    [(ngModel)]="selectedFaculty" name="sender_id" bindLabel="name" bindValue="id" [virtualScroll]="true"
+                                    (scroll)="onScroll($event)" formControlName="sender_id" placeholder="please select" required>
+                                    <ng-template ng-header-tmp>
+                                        <input (onclick)="changeFn(selectedFaculty)" class="form-control" type="text" [(ngModel)]="searchText"
+                                            [ngModelOptions]="{standalone: true}" (input)="searchFilter()" />
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                            <div *ngIf="addComplainForm.controls['sender_id'].invalid && (addComplainForm.controls['sender_id'].dirty || addComplainForm.controls['sender_id'].untouched)"
+                                class="col-lg-12 error text-danger mb-2">
+                                <div *ngIf="addComplainForm.controls['sender_id'].errors?.['required']">
+                                    Please enter the select option
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!-- PRIORITY  -->
+                        <div class="col-md-3  form_group">
+                            <label class="form_label">Priority Level</label>
+                            <div>
+                                <app-single-select controlName="priorityF" [dropDownArray]="priorityList"
+                                    placeholder="Select Student"></app-single-select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group upload_attach">
+                            <label class="form_label">Attachment</label>
+                            <div class="">
+                                <div class="">
+                                    <input #file type="file" multiple="true" (change)="onFileSelected($event)" class="form-control"
+                                        accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .doc, .docx">
+                                </div>
+                                <div class="select-attechment-chip">
+                                    <!-- <ng-container *ngIf="id && uploadedFiles?.length > 0">
+                                                                <label>Old Attechment of {{attachmentType}}</label>
+                                                                <ng-container *ngFor="let item of uploadedFiles; let i=index">
+                                                                    <p class="selected_attachment"> {{item?.filename}}&nbsp; <span style="cursor: pointer;"
+                                                                            (click)="deleteFile(item?.id)">X</span></p>
+                                                                </ng-container>
+                                                            </ng-container> -->
+                        
+                                    <ng-container *ngIf="addComplainForm?.value?.upload?.length > 0">
+                                        <label>Complain Attachment</label>
+                                        <ng-container *ngFor="let item of addComplainForm.value.upload; let i=index">
+                                            <p class="selected_attachment"> {{item.name}}&nbsp; <span style="cursor: pointer;" (click)="removeSelectedFile(i)">X</span></p>
+                                        </ng-container>
+                                    </ng-container>
+                                </div>
+                        
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                            <div>
+                                <app-textarea [rows]="3" controlName="description"></app-textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row w-100 ">
+                        <div class="col-md-auto px-2" *ngIf="!id">
+                            <button type="submit" class="btn save-btn" (click)="handleAddComplain()">Save</button>
+                        </div>
+                        <!-- <div class="col-md-auto px-2">
+                            <button *ngIf="id ? 
+                                        CommonService.hasPermission('administrator_' + attachmentType, 'has_update') : 
+                                        CommonService.hasPermission('administrator_' + attachmentType, 'has_create') " 
+                                        class="btn save-btn" type="submit"
+                                        (click)="send(publishModel)"
+                                        [disabled]="sendL">
+                                        {{id ? 'Update' : 'Save'}}
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="id && sendL">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                            </button>
+                        </div> -->
+                        <!-- <div class="col-md-auto px-2">
+                            <a class="btn clear-btn" [routerLink]="homeworkService.setUrl(4,attachmentType)">Cancel</a>
+                        </div> -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

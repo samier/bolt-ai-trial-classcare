@@ -1,0 +1,28 @@
+ul {
+	&.tab-setup {
+		li {
+			a {
+				font-size: 13px;
+				color: #2c2d39;
+				font-weight: 500;
+				background-color: #f1f1f1;
+				border: 1px solid #ddd;
+			}
+		}
+	}
+}
+
+ul {
+	&.tab-setup {
+		li {
+			a {
+				&.active {
+					background: transparent;
+					background-image: linear-gradient(to right, #2b5876 0%, #4e4376 51%, #2b5876 100%);
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+

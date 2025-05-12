@@ -1,0 +1,30 @@
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+.dataTables_empty{
+    display: none !important;
+}
+
+.high{
+    color: #C60F0F !important;
+}
+
+.low{
+    color: #787878 !important;
+}
+
+.medium{
+    color: #5DA55D !important;
+}
+
+.pending{
+    color: #01329C !important;
+}
+
+.approved{
+    color: #5DA55D !important;
+}
+
+.rejected{
+    color: #C60F0F !important;
+}

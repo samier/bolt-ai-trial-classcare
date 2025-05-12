@@ -1,0 +1,439 @@
+<!-- Switcher -->
+<div #switcher class="switcher-wrapper">
+  <div class="demo_changer">
+    <perfect-scrollbar>
+      <div class="form_holder sidebar-right1">
+        <div class="row">
+          <div class="predefined_styles">
+            <!-- <div class="swichermainleft text-center">
+              <div class="p-3 d-grid gap-2">
+                <a href="https://angular.spruko.com/valex/" class="btn ripple btn-primary mt-0">View Demo</a>
+                <a href="https://themeforest.net/item/valex-bootstrap-admin-dashboard-html-template/35273899"
+                  class="btn ripple btn-info">Buy Now</a>
+                <a href="https://themeforest.net/user/spruko/portfolio" class="btn ripple btn-danger">Our Portfolio</a>
+              </div>
+            </div> -->
+            <div class="swichermainleft text-center">
+              <h4>LTR AND RTL VERSIONS</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">LTR</span>
+                    <p class="onoffswitch2 my-0">
+                      <input (click)="LTR()" type="radio" name="onoffswitch25" id="myonoffswitch54"
+                        class="onoffswitch2-checkbox" checked=true />
+                      <label for="myonoffswitch54" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">RTL</span>
+                    <p class="onoffswitch2 my-0">
+                      <input (click)="RTL()" type="radio" name="onoffswitch25" id="myonoffswitch55"
+                        class="onoffswitch2-checkbox" />
+                      <label for="myonoffswitch55" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft">
+              <h4>Navigation Style</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Vertical Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch15" id="myonoffswitch34" class="onoffswitch2-checkbox"
+                        (click)="VerticalMenu()"/>
+                      <label for="myonoffswitch34" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Horizantal Click Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch15" id="myonoffswitch35" class="onoffswitch2-checkbox"
+                        (click)="Horizantal()" />
+                      <label for="myonoffswitch35" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Horizantal Hover Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch15" id="myonoffswitch111" class="onoffswitch2-checkbox"
+                        (click)="HorizantalHover()" />
+                      <label for="myonoffswitch111" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto text-start">Horizantal & Vertical Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch15" id="myonoffswitch" class="onoffswitch2-checkbox"
+                        (click)="horizontalAndVertical()"/>
+                      <label for="myonoffswitch" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft d-none">
+              <h4>Theme Style</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Light Theme</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch1" id="myonoffswitch1" class="onoffswitch2-checkbox" (change)="handleTheme('light')"
+                        checked=true />
+                      <label for="myonoffswitch1" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Dark Theme</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch1" id="myonoffswitch2" class="onoffswitch2-checkbox" (change)="handleTheme('dark')" />
+                      <label for="myonoffswitch2" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft">
+              <h4>Theme Color</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Primary Color</span>
+                    <div class="">
+                      <input class="color-primary-light" id="lightPrimaryColorID" data-id="bg-color" data-id1="bg-hover"
+                        data-id2="bg-border" [style.background]="color1" [style.border]="color1" [cpAlphaChannel]="'disabled'"
+                        [cpOutputFormat]="'hex'" [(colorPicker)]="color1"
+                        (cpSliderDragEnd)="dynamicLightPrimary($event)" />
+                    </div>
+                  </div>
+                  <!-- <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Dark Primary</span>
+                    <div class="">
+                      <input class="color-primary-dark" id="darkPrimaryColorID" data-id="bg-color" data-id1="bg-hover"
+                        data-id2="bg-border" data-id3="primary" data-id8="transparentcolor" [style.background]="color2"
+                        [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'" [(colorPicker)]="color2"
+                        (cpSliderDragEnd)="dynamicDarkPrimary($event)" />
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- <div class="swichermainleft">
+              <h4>Transparent Style</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex mt-2 mb-3">
+                    <span class="me-auto">Transparent Theme</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch1" id="myonoffswitchTransparent"
+                        class="onoffswitch2-checkbox" />
+                      <label for="myonoffswitchTransparent" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Transparent Primary</span>
+                    <div class="">
+                      <input class="color-primary-transparent" id="transparentPrimaryColorID" data-id="bg-color"
+                        data-id1="bg-hover" data-id2="bg-border" data-id3="primary" data-id4="primary"
+                        data-id9="transparentcolor" [style.background]="color3" [cpAlphaChannel]="'disabled'"
+                        [cpOutputFormat]="'hex'" [(colorPicker)]="color3"
+                        (cpSliderDragEnd)="dynamicTranparentPrimary($event)" />
+                    </div>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Transparent Background</span>
+                    <div class="">
+                      <input class="color-bg-transparent" id="transparentBgColorID" data-id5="body" data-id6="theme"
+                        data-id9="transparentcolor" [style.background]="color4" [cpAlphaChannel]="'disabled'"
+                        [cpOutputFormat]="'hex'" [(colorPicker)]="color4"
+                        (cpSliderDragEnd)="dynamicTranparentBgPrimary($event)" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <!-- <div class="swichermainleft">
+              <h4>Transparent Bg-Image Style</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">BG-Image Primary</span>
+                    <div class="">
+                      <input class="color-primary-transparent-img" id="transparentBgImgPrimaryColorID"
+                        data-id="bg-color" data-id1="bg-hover" data-id2="bg-border" data-id3="primary"
+                        data-id4="primary" data-id9="transparentcolor" [style.background]="color5"
+                        [cpAlphaChannel]="'disabled'" [cpOutputFormat]="'hex'" [(colorPicker)]="color5"
+                        (cpSliderDragEnd)="dynamicTranparentImgPrimary($event)" />
+                    </div>
+                  </div>
+                  <div class="switch-toggle">
+                    <a class="bg-img1 bg-img" (click)="bgImage($event.target)" href="javascript:void(0);"><img
+                        src="./assets/img/media/bg-img1.jpg" id="bgimage1" alt="switch-img" /></a>
+                    <a class="bg-img2 bg-img" (click)="bgImage($event.target)" href="javascript:void(0);"><img
+                        src="./assets/img/media/bg-img2.jpg" id="bgimage2" alt="switch-img" /></a>
+                    <a class="bg-img3 bg-img" (click)="bgImage($event.target)" href="javascript:void(0);"><img
+                        src="./assets/img/media/bg-img3.jpg" id="bgimage3" alt="switch-img" /></a>
+                    <a class="bg-img4 bg-img" (click)="bgImage($event.target)" href="javascript:void(0);"><img
+                        src="./assets/img/media/bg-img4.jpg" id="bgimage4" alt="switch-img" /></a>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="swichermainleft leftmenu-styles d-none">
+              <h4>Leftmenu Styles</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Light Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch2" id="myonoffswitch3" class="onoffswitch2-checkbox" (change)="leftMenuStyle('light')"
+                        checked />
+                      <label for="myonoffswitch3" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Color Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch2" id="myonoffswitch4" class="onoffswitch2-checkbox" (change)="leftMenuStyle('color')" />
+                      <label for="myonoffswitch4" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Dark Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch2" id="myonoffswitch5" class="onoffswitch2-checkbox" (change)="leftMenuStyle('dark')" />
+                      <label for="myonoffswitch5" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Gradient Menu</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch2" id="myonoffswitch25" class="onoffswitch2-checkbox" (change)="leftMenuStyle('gradient')" />
+                      <label for="myonoffswitch25" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft header-styles">
+              <h4>Header Styles</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Light Header</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch3" id="myonoffswitch6" class="onoffswitch2-checkbox" (change)="headerStyle('light')"
+                        checked />
+                      <label for="myonoffswitch6" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Color Header</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch3" id="myonoffswitch7" class="onoffswitch2-checkbox" (change)="headerStyle('color')" />
+                      <label for="myonoffswitch7" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle mt-2 d-none">
+                    <span class="me-auto">Dark Header</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch3" id="myonoffswitch8" class="onoffswitch2-checkbox" (change)="headerStyle('dark')"/>
+                      <label for="myonoffswitch8" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Gradient Header</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch3" id="myonoffswitch26" class="onoffswitch2-checkbox" (change)="headerStyle('gradient')"/>
+                      <label for="myonoffswitch26" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft header-styles d-none">
+              <h4>Skin Modes</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Default Body</span>
+                    <div class="onoffswitch2">
+                      <input type="radio" name="onoffswitchBody" id="myonoffswitch07" class="onoffswitch2-checkbox"
+                        checked="" (click)="defaultBody()" />
+                      <label for="myonoffswitch07" class="onoffswitch2-label"></label>
+                    </div>
+                  </div>
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Body Style1</span>
+                    <div class="onoffswitch2">
+                      <input (click)="bodyStyle()" type="radio" name="onoffswitchBody" id="myonoffswitch06"
+                        class="onoffswitch2-checkbox" />
+                      <label for="myonoffswitch06" class="onoffswitch2-label"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="swichermainleft header-styles">
+              <h4>Leftmenu Bg-Image</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="skin-body light-pattern">
+                    <button type="button" id="leftmenuimage1" class="bg1 wscolorcode1 blackborder"
+                      (click)="leftmenuBg('leftbgimage1')"></button>
+                    <button type="button" id="leftmenuimage2" class="bg2 wscolorcode1 blackborder"
+                      (click)="leftmenuBg('leftbgimage2')"></button>
+                    <button type="button" id="leftmenuimage3" class="bg3 wscolorcode1 blackborder"
+                      (click)="leftmenuBg('leftbgimage3')"></button>
+                    <button type="button" id="leftmenuimage4" class="bg4 wscolorcode1 blackborder"
+                      (click)="leftmenuBg('leftbgimage4')"></button>
+                    <button type="button" id="leftmenuimage5" class="bg5 wscolorcode1 blackborder"
+                      (click)="leftmenuBg('leftbgimage5')"></button>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="swichermainleft  d-none">
+              <h4>Layout Width Styles</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Full Width</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch4" id="myonoffswitch9" class="onoffswitch2-checkbox"
+                        checked (change)="layoutWidth('full')" />
+                      <label for="myonoffswitch9" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Boxed</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch4" id="myonoffswitch10" class="onoffswitch2-checkbox" (change)="layoutWidth('boxed')" />
+                      <label for="myonoffswitch10" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft d-none">
+              <h4>Layout Positions</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-flex">
+                    <span class="me-auto">Fixed</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch5" id="myonoffswitch11" class="onoffswitch2-checkbox"
+                      checked (change)="layoutPosition('fixed')" />
+                      <label for="myonoffswitch11" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Scrollable</span>
+                    <p class="onoffswitch2 my-0">
+                      <input type="radio" name="onoffswitch5" id="myonoffswitch12" class="onoffswitch2-checkbox" (change)="layoutPosition('scrollable')"/>
+                      <label for="myonoffswitch12" class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft" [ngClass]="showSideMenuLayout ? 'd-block' : 'd-none'">
+              <h4>Sidemenu layout Styles</h4>
+              <div class="skin-body">
+                <div class="switch_section">
+                  <div class="switch-toggle d-none">
+                    <span class="me-auto">Default Menu</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch13"
+                        class="onoffswitch2-checkbox default-menu"
+                         (change)="sideMenuLayout('default')">
+                      <label for="myonoffswitch13"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-none mt-2">
+                    <span class="me-auto">Closed Menu</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch30"
+                        class="onoffswitch2-checkbox default-menu" (change)="sideMenuLayout('closed_menu')">
+                      <label for="myonoffswitch30"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-none mt-2">
+                    <span class="me-auto">Icon with Text</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch14"
+                        class="onoffswitch2-checkbox" (change)="sideMenuLayout('icon_with_text')">
+                      <label for="myonoffswitch14"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Icon Overlay</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch15"
+                        class="onoffswitch2-checkbox" (change)="sideMenuLayout('icon_overlay')" checked>
+                      <label for="myonoffswitch15"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-flex mt-2">
+                    <span class="me-auto">Hover Submenu</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch32"
+                        class="onoffswitch2-checkbox" (change)="sideMenuLayout('hover_submenu')">
+                      <label for="myonoffswitch32"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-none mt-2">
+                    <span class="me-auto">Hover Submenu style 1</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="myonoffswitch33"
+                        class="onoffswitch2-checkbox" (change)="sideMenuLayout('hover_submenu_style')">
+                      <label for="myonoffswitch33"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-none mt-2">
+                    <span class="me-auto">Double Menu</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="switchbtn-doublemenu"
+                        class="onoffswitch2-checkbox" (change)="sideMenuLayout('double_menu')">
+                      <label for="switchbtn-doublemenu"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                  <div class="switch-toggle d-none mt-2">
+                    <span class="me-auto">Double Menu with Tabs</span>
+                    <p class="onoffswitch2 my-0"><input type="radio"
+                        name="onoffswitch6" id="switchbtn-doublemenutabs" class="onoffswitch2-checkbox" (change)="sideMenuLayout('double_menu_tabs')">
+                      <label for="switchbtn-doublemenutabs"
+                        class="onoffswitch2-label"></label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="swichermainleft">
+              <h4>Reset All Styles</h4>
+              <div class="skin-body">
+                <div class="switch_section my-4">
+                  <button class="btn btn-danger btn-block" (click)="reset()" type="button">
+                    Reset All
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </perfect-scrollbar>
+  </div>
+</div>
+<!-- End Switcher -->

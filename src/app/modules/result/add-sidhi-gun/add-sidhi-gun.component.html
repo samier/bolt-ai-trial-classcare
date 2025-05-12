@@ -1,0 +1,113 @@
+<section class="add-sidhi-gun-section">
+    <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0"> Krupa & Sidhi Gun For {{className}} </h3>
+        <div>
+            <a  [routerLink]="[setUrl(URLConstants.ASSIGN_EXAM),marksheetId]" class="btn assign-btn">Assign Exam</a>
+        </div>    
+      </div>
+
+    <div class="card">
+        <div class="edit-exam-table">
+            <div class="table-responsive">
+                <form [formGroup]="enterMarksForm">
+                    <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="text-16" id="produkt" scope="colgroup">Roll No.</th>
+                                <th rowspan="2" class="text-16" id="1"  scope="colgroup">Student Name</th>
+                                <th rowspan="2" class="text-center text-16" id="region" scope="colgroup">batch</th>
+                                <ng-container *ngIf=" studentArray?.controls?.length">
+                                    <ng-container *ngFor="let item of subjectArray(0).controls">
+                                        <th colspan="2" class="text-center text-16" id="region"  scope="colgroup">{{item.value.subject_name}}</th>
+                                    </ng-container>
+                                </ng-container>
+                            </tr>
+                            <tr *ngIf="studentArray?.controls?.length">
+                                <ng-container *ngFor="let item of subjectArray(0).controls">
+                                    <td>krupa gun</td>
+                                    <td>sidhi gun</td>
+                                </ng-container>
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="isGetMarks else table">
+                                <tr>
+                                    <td colspan="15" class="text-center">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-template #table>
+                                <ng-container formArrayName="marks"
+                                    *ngIf="studentArray.controls.length > 0 else noDataFound">
+                                    <ng-container *ngFor="let item of studentArray.controls ; let i=index">
+                                        <tr [formGroupName]="i">
+                                            <td>{{item.value.roll_no}}</td>
+                                            <td>{{item.value.student_full_name}} </td>
+                                            <td>{{item.value.batch_name}} </td>
+                                            <ng-container formArrayName="exam">
+                                                <ng-container
+                                                    *ngFor="let item of subjectArray(i).controls ; let j=index">
+                                                    <ng-container [formGroupName]="j">
+                                                        <ng-container>
+                                                            <td class="text-center">
+                                                                <input class="mark-value form-control" type="number"
+                                                                    onKeyPress="if(this.value.length==3) return false;"
+                                                                    formControlName="krupa_gun" placeholder="marks" [readonly]="item.value.is_present == false">
+                                                                <div
+                                                                    *ngIf="item['controls']['krupa_gun'].invalid && (item['controls']['krupa_gun'].dirty || item['controls']['krupa_gun'].touched)">
+                                                                    <div class="text-danger static-text-danger"
+                                                                        *ngIf="item['controls']['krupa_gun'].errors?.['max'] || item['controls']['krupa_gun'].errors?.['min']">
+                                                                        enter valid marks.
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <input class="mark-value form-control" type="number"
+                                                                    onKeyPress="if(this.value.length==3) return false;"
+                                                                    formControlName="siddhi_gun" placeholder="marks" [readonly]="item.value.is_present == false">
+                                                                <div
+                                                                    *ngIf="item['controls']['siddhi_gun'].invalid && (item['controls']['siddhi_gun'].dirty || item['controls']['siddhi_gun'].touched)">
+                                                                    <div class="text-danger static-text-danger"
+                                                                        *ngIf="item['controls']['siddhi_gun'].errors?.['max'] || item['controls']['siddhi_gun'].errors?.['min']">
+                                                                        enter valid marks.
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noDataFound>
+                                    <tr>
+                                        <td colspan="15" class="text-center">
+                                            No Data Found
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </ng-template>
+                        </tbody>
+    
+                    </table>
+                </form>
+    
+            </div>
+            <div class="save-button">
+                <button class="btn me-3" (click)="saveMarks()" [disabled]="isMarkField">{{isUpdate ? 'Update' : 'Save'}}
+                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isMarkField">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+                <button class="btn" (click)="goToListPage()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</section>

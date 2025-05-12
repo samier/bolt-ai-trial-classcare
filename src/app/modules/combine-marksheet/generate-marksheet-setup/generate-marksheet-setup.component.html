@@ -1,0 +1,119 @@
+<section class="marksheet-list-section">
+    <div class="page-inner">
+        <div class="m-container">
+
+            <div class="d-flex justify-content-between align-items-center flex-wrap my-3 page-title">
+                <div class="d-flex align-items-center">
+                    <h3 class="sub_title mb-0 me-2">Generate Classwise Marksheet for </h3>
+
+                    <ng-select 
+                        bindLabel="mark_sheet_name" bindValue="id"
+                        class="form-control std-wise-dropdown" appendTo="body"
+                        placeholder="Select Marksheet" 
+                        name="marksheet" id="marksheet"
+                        [items]="combineMarksheetList"
+                        [(ngModel)]="selectedCombineMarksheet" 
+                        (change)="onMarksheetChange($event)">
+                    </ng-select>
+                </div>    
+
+                <button [routerLink]="CommonService.setUrl(URLConstants.COMBINE_MARKSHEET_LIST)"
+                    class="btn list-btn">Combine Marksheet List</button>
+            </div>
+
+
+            <ng-container *ngFor="let markSheet of markSheetList">
+
+                <div class="marksheet-main-card">
+
+                    <div class="card">
+
+                        <!-- TOP PART -->
+                        <div class="marksheet-header">
+                            <!-- Class NAME -->
+                            <div class="marsheet-lt-content">
+                                <h4> Class Name : {{markSheet?.name ?? '-'}} </h4>
+                            </div>
+
+                        </div>
+
+                        <!-- BOTTOM PART -->
+                        <div class="marksheet-body">
+
+                            <!-- BOTTOM BUTTON LIST -->
+                            <div class="selester-wrapper">
+                                <div class="selester-btn">
+
+                                    <!-- TODO FACULTY GENERATE -->
+
+                                    <!-- ! F GENERATE -->
+                                    <ng-container
+                                        *ngIf="(markSheet.faculty_is_completed != 1 && markSheet.faculty_result_job_process != 1); else facultyGenerated">
+                                        <button class="btn me-3" (click)="handleGenerate(markSheet, 'faculty')"
+                                            [disabled]="loadingStates['faculty'][markSheet.id]">
+                                            Generate Faculty Combine Marksheet
+                                            <div class="spinner-border spinner-border-sm" role="status"
+                                                *ngIf="loadingStates['faculty'][markSheet.id]">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </ng-container>
+
+                                    <ng-template #facultyGenerated>
+                                        <button class="btn me-3" [disabled]="true">
+                                            Faculty Combine Marksheet Generated
+                                        </button>
+                                    </ng-template>
+
+
+
+                                    <!-- TODO STUDENT GENERATE -->
+
+                                    <!-- ! S GENERATE -->
+                                    <ng-container
+                                        *ngIf="(markSheet.is_completed != 1 && markSheet.result_job_process != 1); else studentGenerated">
+                                        <button class="btn me-3" (click)="handleGenerate(markSheet,'student')"
+                                            [disabled]="loadingStates['student'][markSheet.id]">
+                                            Generate Student Combine Marksheet
+                                            <div class="spinner-border spinner-border-sm" role="status"
+                                                *ngIf="loadingStates['student'][markSheet.id]">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </ng-container>
+
+                                    <ng-template #studentGenerated>
+                                        <button class="btn me-3" [disabled]="true">
+                                            Student Combine Marksheet Generated
+                                        </button>
+                                    </ng-template>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="markSheetList?.length == 0 && !is_list_loading">
+                <div class="card p-3">
+                    <div class="d-flex justify-content-center">
+                        No Data Found.
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="is_list_loading">
+                <div class="card p-3">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+    </div>
+</section>

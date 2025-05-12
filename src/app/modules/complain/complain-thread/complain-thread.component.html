@@ -1,0 +1,89 @@
+<section class="add-section-modal complain-new-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="complain-modal-header d-flex justify-content-between align-items-center">
+                <h3 class="sub_title mb-0"> Thread </h3>
+                <button (click)="fetchThreadComment()" style="padding: 6px 5px !important;" class="btn action-edit d-flex align-items-center justify-content-center" ngbTooltip="Refresh Thread">
+                    <i class="fa fa-retweet"></i>
+
+                </button>
+                <!-- <div class="modal-close" (click)="closeModal()"><i class="fa fa-times-circle"></i></div> -->
+            </div>
+            <!-- <div class="complain-description"> -->
+              <!-- <h5>{{ threadMessage?.created_by_student?.full_name }} <span class="time">{{ threadMessage.created_at | date: dateFormateService.getDateTimeFormat() }}</span></h5> -->
+              <!-- <p class="text-muted">{{ threadMessage.description }}</p>  -->
+            <!-- </div> -->
+            <div #chatContainer class="chat-container" [ngClass]="{'no-data': groupedComments.length == 0}">
+                <div *ngIf="groupedComments.length > 0">
+                    <div *ngIf="!thread_loading">
+                        <div *ngFor="let group of groupedComments" class="mb-3">
+                            <div class="ms-auto text-muted complain-date" style="align-self: center;">
+                                <span *ngIf="group.date !== 'Today' && group.date !== 'Yesterday'">{{ group.date | date: dateFormateService.getDateFormat() }}</span>
+                                <span *ngIf="group.date === 'Today' || group.date === 'Yesterday'">{{ group.date }}</span>
+                            </div>
+                        
+                            <div *ngFor="let comment of group.comments">
+                                <div class="d-flex mb-4 complain-chat-wrapper"
+                                    [ngClass]="{'reverse-chat': userID == comment.commenter_id}"
+                                >
+                                    
+                                    <div class="rounded-circle" 
+                                    [ngStyle]="{
+                                        'background-color': userID == comment.commenter_id ? '#01329C' :  '#ccc',
+                                        'color': userID == comment.commenter_id ? '#fff' : '#000'}"
+                                        style="min-width: 40px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;">
+                                        {{ comment?.comment_from_user?.first_name[0] || comment?.comment_from_student?.first_name[0] }}{{ comment?.comment_from_user?.last_name[0] || comment?.comment_from_student?.last_name[0]}}
+                                    </div>
+                                    <div class="ms-3 w-100 profile-chat-reverse">
+                                        
+                                        <strong style="display: block; font-weight: 400; margin-bottom: 6px;">{{ comment?.comment_from_user?.full_name || comment?.comment_from_student?.full_name }}</strong>
+                                        
+                                        <div class="chat-bg-color d-inline-flex align-items-end justify-content-between">
+                                            <p class="mb-0 me-2">{{ comment?.comment }}</p>
+                                            <span class="text-muted ms-2" style="font-size: 0.7rem; white-space: nowrap;">{{ comment?.created_at | date: 'shortTime' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div *ngIf="true"> -->
+                    <div *ngIf="thread_loading">
+                        <div class="text-center text-muted">
+                            Loading....
+                        </div>
+                    </div>                
+                </div>
+                <div *ngIf="groupedComments.length == 0 && !CommonService.hasPermission('concern_concern_status', 'has_access')">
+                    <p>No comments available.</p>
+                </div>
+                <!-- <ng-template #noComments>
+                    <ng-template>
+                        <p>No comments available.</p>
+                    </ng-template>
+                </ng-template> -->
+            </div>
+
+            <div class="d-flex form_group mx-4" style="position: absolute; bottom: 0; right: 0; left: 0;">
+                <input 
+                    type="text" 
+                    [(ngModel)]="commentText" 
+                    placeholder="Message here..." 
+                    class="form-control"
+                    (keydown.enter)="onEnter($event)" 
+                    [disabled]="send_loading"
+                />                  
+                <button 
+                    class="btn ms-2" 
+                    (click)="commentApi()" 
+                    [disabled]="send_loading || !isCommentValid()">
+                    <i class="fa fa-paper-plane" aria-hidden="true" *ngIf="!send_loading"></i>
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="send_loading">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+            </div>
+            
+        </div>
+    </div>
+</section>

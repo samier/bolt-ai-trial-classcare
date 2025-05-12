@@ -1,0 +1,46 @@
+::ng-deep{
+    app-lesson-plan-list{
+        app-date-range-picker{
+            .show-ranges{
+                top: auto !important;
+                left: auto !important;
+                right: 12px !important;
+            }
+
+            
+        }
+    }
+    .lesson-plan-list{
+        .table{
+            thead{
+                th.th_status{
+                    width: 120px;
+                    min-width: 120px;
+                }
+            }
+            tbody{
+                tr.bg-danger{
+                    background-color: #F65656 !important;
+                    &:hover{
+                        background-color: #F65656 !important;
+                    }
+                    &:nth-child(even){
+                        background-color: #F65656 !important;
+                    }
+                }
+                tr{
+                    td {
+                        .text-danger {
+                            font-size: 14px !important;
+                        }
+                    }
+                }
+            }
+        }
+        .assign-transport-table{
+            .dataTables_filter{
+                right: 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,97 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Import Student via .xls file</h3>
+                <div class="btn_right">
+                    <!-- <a class="btn"  href="{{urld}}" target="_blank">Download Sample File</a> -->
+                    <a class="btn generate-btn" (click)="downloadSampleFile()" target="_blank">Download Sample File</a>
+                    <a class="btn ms-2 list-btn" [routerLink]="setUrl(URLConstants.STUDENT_LIST)">Student List</a>
+                </div>
+            </div>
+            <div class="">
+
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="importform" class="form_section" method="post">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label class=" form_label"> Class<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <ng-select #select2 class="form-control" placeholder="Select Class Name" name="class_name" formControlName="class_id" id="route_name" [(ngModel)]="selectedClass" (change)="fun()" required>
+                                                  <ng-option *ngFor="let item of classList" [value]="item.id">{{item.name}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label"> Batch<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <ng-select #select2 class="form-control" placeholder="Select Batch Name" name="batch_name" formControlName="batch_id" id="route_name" [(ngModel)]="selectedBatch" required>
+                                                  <ng-option *ngFor="let item of batchList" [value]="item.id">{{item.name}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Browse File<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input #fileInput type="file" (change)="onFileChange($event)" class="form-control" name="file" id="file" formControlName="file" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && importform.controls['file'].invalid" class="text-danger">  file name. </div> -->
+                                            <div *ngIf="importform.controls['file'].dirty && importform.controls['file'].invalid" class="text-danger">  file name. </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                    <div class="row w-100">
+                                        <div class="">
+                                            <!-- <small *ngIf="!importform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                            <div class="">
+												<!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a> -->
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!importform.valid || saveDisable" class="btn save-btn" id="submitButton">
+                                                {{saveDisable == false ? 'Save' : 'Saving'}}
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="saveDisable">
+                                                  <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </form>
+                            <div class="col-12" *ngIf="return_result" id="">
+                                <div *ngIf="this.failed_rows.length != 0">
+                                    <h6>Please check error in Below rows. And upload those rows again.</h6>
+                                    <table class="table" >
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Row Number</th>
+                                                <th>Errors</th>
+                                            </tr>                                        
+                                        </thead> 
+                                        <tbody>
+                                            <tr *ngFor="let item of failed_rows ;let i = index;">
+                                                <td>
+                                                    {{item.row_number}}
+                                                </td>
+                                                <td>
+                                                    {{item.row_errors[0]}}
+                                                </td>
+                                            </tr>
+                                        </tbody>                                   
+                                </table>
+                                </div>
+                                <h6 *ngIf="this.failed_rows.length == 0"> All data imported properly</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

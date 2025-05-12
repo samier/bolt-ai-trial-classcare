@@ -1,0 +1,9 @@
+.preview {
+	border: 1px solid;
+    height: 130px;
+    width: 130px;
+}
+
+::ng-deep .myCustomModalClass .modal-dialog {
+    max-width: 80% !important;
+  }

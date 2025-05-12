@@ -1,0 +1,140 @@
+<div class="container mt-4">
+    <div class="branch_image_name" *ngIf="selectedBranch">
+        <img src="{{selectedBranch?.image}}" alt="" height="150">
+        <h3>{{selectedBranch?.name}}</h3>
+        <h2 class="text-center">{{formData?.form?.form_name}}</h2>
+    </div>
+    <ng-container *ngIf="isFormGenerated else loaderContent">
+        <ng-container *ngIf="formData else errorContent">
+            <div class="inquiry-form-design">
+                <form [formGroup]="inquiryForm" (ngSubmit)="onSubmit()" class="container">
+                    <div class="row">
+                        <ng-container *ngFor="let field of formData.form.form_fields">
+                            <div class="col-lg-6 col-md-12" *ngIf="!(singleBranch && field.key == 'branch_id') && field.selected"> <!-- Responsive columns -->
+    
+                                <div [ngSwitch]="field.type" class="form_group">
+    
+                                    <!-- Input -->
+                                    <div *ngSwitchCase="'input'">
+                                        <label>{{ field.label }}<span *ngIf="field.required" class="text-danger">*</span></label>
+                                        <ng-container *ngIf="field.sub_type === 'file' else otherInput">
+                                            <input type="file" (change)="imageUpload($event, field.key)"
+                                                [attr.placeholder]="field.placeholder" class="form-control"
+                                                accept="image/jpg, image/jpeg, image/png" #fileInput/>
+                                        </ng-container>
+                                        <ng-container *ngIf="field.sub_type == 'date'">
+                                            <app-mat-date-picker [type]="field.sub_type" [maxDate]="maxDate" [controlName]="field.key" [placeholder]="field.placeholder"
+                                                 [disabled]="field.isDisabled" (change)="calculateAge(field.key)">
+                                            </app-mat-date-picker>
+                                        </ng-container>
+                                        <ng-template #otherInput>
+                                            <ng-container *ngIf="field.sub_type !== 'date'">
+                                                <app-input [type]="field.sub_type" [controlName]="field.key"
+                                                    [placeholder]="field.placeholder"  [readonly]="field.isDisabled">
+                                                </app-input>
+                                            </ng-container>
+                                        </ng-template>
+                                        <!-- <div *ngIf="inquiryForm.get(field.key)?.invalid && (inquiryForm.get(field.key)?.touched || inquiryForm.get(field.key)?.dirty)"
+                                            class="text-danger">
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('required')">{{ field.label }} is required.</small>
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('email')">Invalid email format.</small>
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('pattern')">Invalid format.</small>
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('min')">Minimum value is {{ getValidatorValue(field, 'min') }}</small>
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('max')">Maximum value is {{ getValidatorValue(field, 'max') }}</small>
+                                        </div> -->
+                                    </div>
+    
+                                    <!-- Textarea -->
+                                    <div *ngSwitchCase="'textarea'">
+                                        <label>{{ field.label }}<span *ngIf="field.required" class="text-danger">*</span></label>
+                                        <app-textarea [controlName]="field.key" [placeholder]="field.placeholder"></app-textarea>
+                                        <!-- <div *ngIf="inquiryForm.get(field.key)?.invalid && (inquiryForm.get(field.key)?.touched || inquiryForm.get(field.key)?.dirty)"
+                                            class="text-danger">
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('required')">{{ field.label }} is required.</small>
+                                        </div> -->
+                                    </div>
+    
+                                    <!-- Checkbox -->
+                                    <div *ngSwitchCase="'checkbox'" class="form-check">
+                                        <input type="checkbox" [formControlName]="field.key" class="form-check-input" />
+                                        <label class="form-check-label">{{ field.label }}</label>
+                                        <div *ngIf="inquiryForm.get(field.key)?.invalid && (inquiryForm.get(field.key)?.touched || inquiryForm.get(field.key)?.dirty)"
+                                            class="text-danger">
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('required')">You must accept the terms.</small>
+                                        </div>
+                                    </div>
+    
+                                    <!-- Radio Buttons -->
+                                    <div *ngSwitchCase="'radio'">
+                                        <label>{{ field.label }}<span *ngIf="field.required" class="text-danger">*</span></label>
+                                        <div class="d-flex flex-wrap"> <!-- Ensuring responsiveness -->
+                                            <div *ngFor="let option of field.options" class="form-check form-check-inline">
+                                                <input type="radio" id="radio-{{option.id}}-{{field.key}}"
+                                                    [formControlName]="field.key" [value]="option.id"
+                                                    class="form-check-input" />
+                                                <label class="form-check-label" for="radio-{{option.id}}-{{field.key}}">
+                                                    {{ option.name }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="inquiryForm.get(field.key)?.invalid && (inquiryForm.get(field.key)?.touched || inquiryForm.get(field.key)?.dirty)"
+                                            class="text-danger">
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('required')">{{ field.label }} is required.</small>
+                                        </div>
+                                    </div>
+    
+                                    <!-- Select Dropdown -->
+                                    <div *ngSwitchCase="'select'">
+                                        <label>{{ field.label }}<span *ngIf="field.required" class="text-danger">*</span></label>
+                                        <app-single-select [controlName]="field.key" [dropDownArray]="field.options" (change)="selectionChange($event, field)" [placeholder]="field.placeholder"> </app-single-select>
+                                        <!-- <select [formControlName]="field.key" class="form-control"
+                                            (change)="selectionChange($event, field)">
+                                            <option [value]="null" disabled> {{ field.placeholder }} </option>
+                                            <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
+                                        </select>
+                                        <div *ngIf="inquiryForm.get(field.key)?.invalid && (inquiryForm.get(field.key)?.touched || inquiryForm.get(field.key)?.dirty)"
+                                            class="text-danger">
+                                            <small *ngIf="inquiryForm.get(field.key)?.hasError('required')">{{ field.label }} is required.</small>
+                                        </div> -->
+                                    </div>
+    
+                                </div>
+    
+                            </div>
+                        </ng-container>
+                    </div>
+    
+                    <!-- Buttons -->
+                    <div class="d-flex align-items-center justify-content-end">
+                        <button class="btn save-btn me-2" type="submit" [disabled]="isSave">
+                            {{ formData && formData?.form?.submit_button_name ?? 'Save'}}
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isSave">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="btn cancel-btn" type="button" (click)="resetForm()">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z"/>
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+
+        <ng-template #errorContent>
+            <div class="card card-content">
+                <div class="error" *ngIf="errorMessage">
+                    {{errorMessage}}
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+
+    <ng-template #loaderContent>
+        <div class="d-flex justify-content-center align-items-center">
+            <div class="loader-for-embeded"></div>
+        </div>
+    </ng-template>
+</div>

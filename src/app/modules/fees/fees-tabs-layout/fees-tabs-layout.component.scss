@@ -1,0 +1,11 @@
+::ng-deep body {
+    app-fees-tabs-layout{
+        .page_inner {
+            .nav_border-section{
+                &.nav-tabs{
+                    margin: 2px 0 48px;
+                }
+            }
+        }
+    }   
+}

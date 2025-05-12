@@ -1,0 +1,117 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="">
+        <div class="card_title d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Student Leave List</h3>
+          <div class="btn_right">
+            <a *ngIf="CommonService.hasPermission('leave_approve_leave', 'has_create')" class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air add-btn" href="#."
+              [routerLink]="setUrl(URLConstants.FACULTY_ADD_STUDENT_LEAVE)"> Add New Leave</a>
+          </div>
+        </div>
+        <div class="card card_body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions"
+                  class="row-border hover table-bordered table table-hover table-nowrap">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Id</th>
+                      <th>Name</th>
+                      <th>User Type</th>
+                      <th>Class</th>
+                      <th>Batch</th>
+                      <th>Leave Type</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="tbody?.length != 0">
+                    <tr *ngFor="let item of tbody ;let i = index;">
+                      <td>{{item.id}}</td>
+                      <td>{{item.name}}</td>
+                      <td>{{item.user_type}}</td>
+                      <td>{{item.class}}</td>
+                      <td>{{item.batch}}</td>
+                      <td>{{item.leave_type}}</td>
+                      <td>{{item.start_date}}</td>
+                      <td>{{item.end_date}}</td>
+                      <td>
+                        <span *ngIf="item.status==0" class="text-warning">Pending</span>
+                        <span *ngIf="item.status==1" class="text-success">Approved</span>
+                        <span *ngIf="item.status==2" class="text-danger">Rejected</span>
+                      </td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button type="button" *ngIf="item.status==0 && CommonService.hasPermission('leave_approve_leave', 'has_update')" (click)="approve(item.id,1)"
+                            class="btn btn-success"><i class="las la-check-circle"></i></button>
+                          <button type="button" *ngIf="item.status==0 && CommonService.hasPermission('leave_approve_leave', 'has_update')" (click)="open(mymodal,item.id)"
+                            class="btn btn-danger"><i class="las la-times-circle"></i></button>
+                          <a *ngIf="CommonService.hasPermission('leave_approve_leave', 'has_edit')" class="btn btn-primary edit-btn" href='#'
+                            [routerLink]="[setUrl(URLConstants.FACULTY_EDIT_STUDENT_LEAVE),item.id]"><i
+                              class="fa fa-pencil-alt"></i></a>
+                          <button *ngIf="CommonService.hasPermission('leave_approve_leave', 'has_delete')" class="btn btn btn-danger delete-btn" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="tbody?.length == 0">
+                    <tr>
+                      <td colspan="10" class="text-center no-data-available">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #mymodal let-modal>
+            <div class="modal-header" style="z-index: 0;">
+              <h4 class="modal-title" id="modal-basic-title">Reason for Leave Rejection</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body" style="z-index: 0;">
+
+              <div class="form_group">
+                <label class="form_label">
+                   <span class="text-danger">*</span></label>
+                <div class="form-group">
+                  <div>
+                    <textarea class="form-control" [(ngModel)]="reasonForRejection" name="detail" id="detail"
+                      placeholder="Enter reason for leave rejection." required></textarea>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="modal-footer" style="z-index: 0;">
+              <button type="button" [disabled]="true" class="btn" *ngIf="reasonForRejection=='' "
+                (click)="modal.close('Save click')">Submit</button>
+              <button type="button" [disabled]="false" class="btn"
+                *ngIf="reasonForRejection && reasonForRejection!='' "
+                (click)="modal.close('Save click')">Submit</button>
+            </div>
+          </ng-template>
+
+
+          <!-- <div class="row pagination">
+			            <div class="col-xl-6">
+			            	<span class="text-muted text-sm">Showing {{tbody?.data?.to}} items out of {{tbody?.data?.total}} results found</span>
+			            </div>
+			            <div class="col-xl-6 col-xl-6 d-flex justify-content-end">
+			            	 <button type="button" *ngFor="let link of tbody?.data?.links ;let i = index;" class="btn btn-sm  m-1 {{link.active == true ? 'btn-primary' : ''}}"  (click)="paginatedRecords(link.url)" [disabled]="link.url == null">
+		                		{{link.label == "pagination.previous" ? ' < ' : link.label == "pagination.next" ? ' > ' : link.label}}
+		                	</button>
+			            </div>
+			        </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

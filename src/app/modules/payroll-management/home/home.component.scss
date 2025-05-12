@@ -1,0 +1,49 @@
+::ng-deep body{
+    app-home{
+        h3{
+            &.tx-16{
+                text-align: left;
+                @media screen and (max-width: 767px)  {
+                    text-align: center;
+                }
+            }
+        }
+        .btn_right{
+            @media screen and (max-width: 767px)  {
+                text-align: center;
+            }
+            .form_group{
+                @media screen and (max-width: 767px)  {
+                    margin: 0 auto 1rem;
+                }
+            }
+            a{
+                min-width: 11.6vw;
+                @media screen and (max-width: 767px)  {
+                    max-width: 184px;
+                    min-width: 184px;
+                }
+            }
+        }
+        .table-responsive{
+            .dataTables_length{
+                @media screen and (max-width: 767px)  {
+                    float: none;
+                    text-align: center;
+                }
+            }
+            table{
+                &.dataTable {
+                    td{
+                        &.dataTables_empty {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .dataTables_scrollHeadInner{
+        width: auto !important;
+    }
+}

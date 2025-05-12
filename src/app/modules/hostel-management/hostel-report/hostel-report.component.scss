@@ -1,0 +1,92 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-hostel-report{
+        .btn_right{
+            position: absolute;
+            right: 21px;
+            z-index: 1;
+            .btn{
+                &.pdf-btn{
+                  background-color: white;
+                  border: 1px solid #C60F0F;
+                  border-radius: 9px !important;
+                  padding: 3px 3px !important;
+                  
+                  img{
+                    color: #C60F0F !important;
+                    font-size: 21px;
+                    height: 25px;
+                  }
+
+                  &:hover{
+                    background-color: #C60F0F;
+                  }
+                }
+                &.excel-btn{
+                  background-color: white;
+                  border: 1px solid #2F732E;
+                  border-radius: 9px !important;
+                  padding: 3px 3px !important;
+                  
+                  img{
+                    color: #2F732E !important;
+                    font-size: 21px;
+                    height: 25px;
+                  }
+                  &:hover{
+                    background-color: #2F732E;
+                  }
+                }  
+            }
+            .dropdown-toggle{
+                background: white;
+                color: unset;
+                border: 1px solid #D0C9C0;
+                &:focus{
+                    color: unset !important;
+                }
+            }
+            .dropdown-menu{
+                box-shadow: 0 0 3.5px rgb(0 0 0 / 10%);
+                button{
+                    &.dropdown-item{
+                        color: #646464 !important;
+                        i {
+                            font-size: 18px;
+                            margin-right: 5px;
+                            min-width: 22px;
+                            display: inline-block;
+                            text-align: center;
+                            vertical-align: middle;
+                            color: #646464;
+                            &.bi-plus-square-fill{
+                                font-size: 19px;
+                            }
+                        }
+                        &:hover{
+                            color: $primary;
+                            background:unset;
+                            i{
+                                color: $primary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .datatable_cls{
+            .table-responsive{
+                .dataTables_filter{
+                    padding-right: 140px;
+                }
+            }
+            &.download_access{
+                .table-responsive{
+                    .dataTables_filter{
+                        padding-right: 240px;
+                    }
+                }
+            }
+        }
+    }
+}

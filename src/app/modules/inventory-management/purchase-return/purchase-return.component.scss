@@ -1,0 +1,42 @@
+@import'../../../../assets/css/variable.scss';
+
+::ng-deep body{
+  app-purchase-return{
+      .form_group.margin-left {
+        margin-left: -44px;
+        margin-right: -9px;
+      }
+        .heading{
+            font-size: 18px;
+            p{
+                span{
+                font-weight: 600;
+                }
+                .detail{
+                font-weight: 300;
+        
+                }
+            }
+        }
+    table{
+        border: 1px solid;
+        border-color: #dde2ef;
+        thead{
+            background-color: $primary;
+            tr{
+                th{
+                    color: $white !important;
+                    padding: 0.75rem !important;
+                }
+            }
+        }
+        tbody{
+          tr{
+            td{
+              vertical-align: middle !important;
+            }
+          }
+        }
+    }
+}
+}

@@ -1,0 +1,130 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">User Management</h3>
+				<div class="btn_right">
+					<!-- <a *ngIf="CommonService.hasPermission('faculty_faculty', 'has_download')" class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#."  [routerLink]="setUrl(URLConstants.EXPORT_FACULTY)">Export User</a> &nbsp;&nbsp; -->
+                	<a *ngIf="CommonService.hasPermission('faculty_faculty', 'has_create')" class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#."  [routerLink]="setUrl(URLConstants.ADD_USER)">Add New User</a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row">
+						<!-- <div class="col-md-3 form_group">                                        
+							<label class=" form_label">Select User Type</label>												
+							<div class="">											
+								<ng-select #select [items]="userType" [searchable]="true" [(ngModel)]="params.userType" (change)="userTypeChange()" 
+									bindLabel="name"  bindValue="id"
+									placeholder="please select">
+								</ng-select>
+							</div>                                        
+						</div> -->
+						<div class="col-md-3 form_group">
+							<label for="" class="form_label">Branches</label>
+							<ng-multiselect-dropdown
+								[placeholder]="'please select'"
+								[settings]="branchDropdownSettings"
+								[data]="branches"
+								name="branches"
+								[(ngModel)]="params.branches"
+								(onDeSelect)="handleBranchChange()"
+                                (onSelect)="handleBranchChange()"
+								(onSelectAll)="handleBranchChange()"
+								(onDeSelectAll)="handleBranchChange()"
+								>
+								</ng-multiselect-dropdown>
+						</div>
+						<div class="col-md-3 form_group">
+							<label for="" class="form_label">Sections</label>
+							<ng-multiselect-dropdown
+								[placeholder]="'please select'"
+								[settings]="sectionDropdownSettings"
+								[data]="sections"
+								name="sections"
+								[(ngModel)]="params.sections"
+								(onDeSelect)="reloadData()"
+                                (onSelect)="reloadData()"
+								(onSelectAll)="reloadData()"
+								(onDeSelectAll)="reloadData()"
+								>
+								</ng-multiselect-dropdown>
+						</div>
+						<div class="col-md-3 form_group">                                        
+							<label class=" form_label">Select User Role</label>												
+							<div class="">											
+								<ng-select #select [items]="roles" [searchable]="true" [(ngModel)]="params.role" (change)="userTypeChange()" 
+									bindLabel="name"  bindValue="name"
+									placeholder="please select">
+								</ng-select>
+							</div>                                        
+						</div>
+						<!-- <div class="col-md-3 form_group">                                        
+							<label class=" form_label">Select Batch</label>												
+							<div class="">											
+								<ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch" (change)="handleBatchChange()" 
+									bindLabel="name"  bindValue="id"
+									placeholder="please select">
+								</ng-select>
+							</div>                                        
+						</div>
+						<div class="col-md-3 form_group">                                        
+							<label class=" form_label">Select Subject</label>												
+							<div class="">											
+								<ng-select #select [items]="subjects" [searchable]="true" [(ngModel)]="params.subject" (change)="userTypeChange()" 
+									bindLabel="name"  bindValue="id"
+									placeholder="please select">
+								</ng-select>
+							</div>                                        
+						</div> -->
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Full Name</th>
+											<th>Email</th>
+											<th>Assigned Batches</th>
+											<!-- <th>Batches</th> -->
+											<!-- <th>Assign</th> -->
+											<th>Action</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;" >				
+                                            <td>
+												<!-- <a [routerLink]="[setUrl(URLConstants.USER_PROFILE), item.id]">{{item.full_name}}</a> -->
+												<p class="my-0 py-0"><strong>{{item.full_name}}</strong></p>
+												<p class="m-0">{{item.roles}}</p>
+											</td>            
+                                            <td>
+												<div>{{item.email}}</div>
+												<p class="m-0">{{item.phone_number ?? ''}}</p>
+											</td>            
+                                            <!-- <td>{{item.roles}}</td> -->
+											<td class="white-space">{{user_batches(item.user_subject)}}</td>
+											<!-- <td><a class="btn grey_btn" *ngIf="item.roles.includes('Faculty')" [routerLink]="[setUrl(URLConstants.ASSIGN_SUBJECT_USER),item.id]" href='#'>Assign Subject</a></td>             -->
+                                            <td>   
+												<div class="btn-group" role="group">
+													<a *ngIf="CommonService.hasPermission('faculty_faculty', 'has_edit')" class="btn btn-primary" [routerLink]="[setUrl(URLConstants.EDIT_USER),item.id]" href='#'><i class="fa fa-pencil-alt"></i></a>
+													<!-- <a class="btn btn-secondary mx-1 nowrap" *ngIf="item.roles.includes('Faculty') && CommonService.hasPermission('faculty_assign_subjects', 'has_access')" [routerLink]="[setUrl(URLConstants.ASSIGN_SUBJECT_USER),item.id]" href='#'>Assign Subject</a> -->
+													<button *ngIf="CommonService.hasPermission('faculty_faculty', 'has_delete')" class="btn btn btn-danger" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+												</div>
+												
+                                            </td>                                             
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="3" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>									
+				                </table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

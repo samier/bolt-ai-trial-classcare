@@ -1,0 +1,248 @@
+<section class="add_homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{ id ? "UPDATE" : "ADD" }} {{ attachmentType }}</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn" href="#." [routerLink]="homeworkService.setUrl(4,attachmentType)">{{attachmentType}}
+                        List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addhomeworkForm">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Select Class<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select controlName="class_id" (change)="onClassChange()"
+                                    [dropDownArray]="classes" placeholder="All Classes"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Select Batch<span class="text-danger">*</span></label>
+                            <div>
+                                <app-multi-select controlName="batch_id" [dropDownArray]="batches"
+                                    placeholder="Select Batch" (change)="onBatchChange()"></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Select Student<span class="text-danger">*</span></label>
+                            <div>
+                                <app-multi-select controlName="student_ids" [dropDownArray]="students"
+                                    placeholder="Select Student"></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Select Subject<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select controlName="subject_id"
+                                    [dropDownArray]="subjects" placeholder="Select Subject"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Title<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input type="text" controlName="tittle" placeholder="Enter Tittle"></app-input>
+                            </div>
+                        </div>
+                        <!-- Draft Toggle -->
+                        <div class="col-md-3 form_group"  *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                          <div class="row">
+                            <div class = "col-md-4">
+                                <label class="form_label">Draft</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="draft" (change)="draftChange($event)">
+                                </div>
+                            </div>
+                            <div class="col-md-8 form_group" *ngIf="attachmentType === 'homework'|| attachmentType === 'classwork' || attachmentType === 'assignment'">
+                                <label class="form_label">{{attachmentType}}<span class="text-danger"> * </span></label>
+                                <div class="">
+                                  <div class="radio-section ">
+                                    <div class="radio ">
+                                      <label class=" required " for="written">
+                                        <input type="radio" formControlName="homework_type" id="written" [value]="1" class="mr-1">written<span></span>
+                                      </label>
+                                    </div>
+                                    <div class="radio " for="oral">
+                                      <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="homework_type" id="oral" [value]="2" class="mr-1">Oral<span></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 form_group" *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                            <label class="form_label">Release Date<span class="text-danger">*</span></label>
+                            <div>
+                                <app-mat-date-picker controlName="send_date" [minDate]="minDate"></app-mat-date-picker>
+                                <!-- <app-input type="date" placeholder="Select Date" controlName="send_date" [attr.min]="minDate"></app-input> -->
+                                <!-- <input type="date" formControlName="send_date" class="form-control" placeholder="Please Select Send Date"> -->
+                                
+                                <!-- <app-input controlName="send_date" type="date"
+                                placeholder="Please Select Send Date"></app-input> -->
+                            </div>
+                        </div>
+                        
+                        <!-- <div class="col-md-3 form_group">
+                            <label class="form_label">Release Time<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input controlName="release_time" type="time" placeholder="Please Select Release Time"></app-input>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-3 form_group"  *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                            <label class="form_label">Release Time<span class="text-danger">*</span></label>
+                            <div>
+                                <input type="time" formControlName="release_time" class="form-control" placeholder="Please Select Release Time" >
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group"  *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'" >
+                            <label class="form_label">Submission Date<span class="text-danger">*</span></label>
+                            <div>
+                                <app-mat-date-picker controlName="submission_date" [minDate]="minDate"></app-mat-date-picker>
+                                <!-- <app-input controlName="submission_date" type="date"
+                                placeholder="Please select Submission Date" [attr.min]="minDate"></app-input> -->
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                            <div>
+                                <app-textarea [rows]="3" controlName="description"></app-textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group"  *ngIf="attachmentType === 'homework' || attachmentType === 'assignment' || attachmentType === 'videolink' ">
+                            <label class="form_label"> {{ id ? "Update" : "Add" }}  Link<span class="text-danger" *ngIf="attachmentType === 'videolink'"> *</span></label>
+                            <div>
+                                <app-input controlName="video_link" type="text"
+                                    placeholder="Enter the link"></app-input>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group upload_attach">
+                            <label class="form_label">Upload {{ attachmentType=='videolink'? "Attechment" : attachmentType}}</label>
+                            <div class="">
+                                <div class="">
+                                    <input #file type="file" multiple="true" (change)="onFileSelected($event)" class="form-control"  accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .doc, .docx">
+                                </div>
+                                <div class="select-attechment-chip">
+                                    <ng-container *ngIf="id && uploadedFiles?.length > 0">
+                                        <label>Old Attechment of {{attachmentType}}</label>
+                                        <ng-container *ngFor="let item of uploadedFiles; let i=index">
+                                            <p class="selected_attachment"> {{item?.filename}}&nbsp; <span style="cursor: pointer;"
+                                                    (click)="deleteFile(item?.id)">X</span></p>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="addhomeworkForm?.value?.upload?.length > 0">
+                                        <label>New Attechment of {{attachmentType}}</label>
+                                        <ng-container *ngFor="let item of addhomeworkForm.value.upload; let i=index">
+                                                <p class="selected_attachment"> {{item.name}}&nbsp; <span style="cursor: pointer;" (click)="removeSelectedFile(i)">X</span></p>
+                                        </ng-container>
+                                    </ng-container>
+                            </div>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row w-100 ">
+                        <div class="col-md-auto px-2" *ngIf="!id">
+                            <!-- <a class="btn w-100 px-1">Send & New</a> -->
+                            <!-- <button type="submit" class="btn save-btn" (click)="send_New(publishModel)" [disabled]="sendNewL">Save & New
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="sendNewL">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button> -->
+                            <button type="submit" class="btn save-btn" (click)="send_New(publishModel)">Save & New</button>
+                        </div>
+                        <!-- <div class="col-md-auto px-2">
+                            <button *ngIf="id ? CommonService.hasPermission('administrator_' + attachmentType, 'has_update') : CommonService.hasPermission('administrator_' + attachmentType, 'has_create') " class="btn save-btn" type="submit" (click)="send(publishModel)" [disabled]="sendL">{{id ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="sendL">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </div> -->
+                        <div class="col-md-auto px-2">
+                            <button *ngIf="id ? 
+                                        CommonService.hasPermission('administrator_' + attachmentType, 'has_update') : 
+                                        CommonService.hasPermission('administrator_' + attachmentType, 'has_create') " 
+                                        class="btn save-btn" type="submit"
+                                        (click)="send(publishModel)"
+                                        [disabled]="sendL">
+                                        {{id ? 'Update' : 'Save'}}
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="id && sendL">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                            </button>
+                            
+                        </div>
+                        <div class="col-md-auto px-2">
+                            <a class="btn clear-btn" [routerLink]="homeworkService.setUrl(4,attachmentType)">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #publishModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">Message Options for the {{ attachmentType }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body">
+
+        <div class="col-md-12 form_group">
+            <label class="form_label">Send to ?</label>
+            <div class="d-flex">
+                <div class="m-checkbox-list d-flex align-items-center me-3" [ngClass]="{ 'opacity-box' : is_send_sms == false}" >
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox" [(ngModel)]="message.send_father" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox" class="ms-2 mb-0">Father</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2" [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox1" [(ngModel)]="message.send_mother" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2" [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox2" [(ngModel)]="message.send_student" [value]="true"
+                            [disabled]="!is_send_sms" ><span></span>
+                    </label>
+                    <label for="checkbox2" class="ms-2 mb-0" >Student</label>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+        <div class="col-auto">
+
+            <button class="msg-btn btn" type="submit"(click)="sendHomeWork()" [disabled]="is_modalLoading">Send
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_modalLoading">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</ng-template>

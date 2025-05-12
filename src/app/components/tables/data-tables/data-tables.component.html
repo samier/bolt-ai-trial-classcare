@@ -1,0 +1,162 @@
+
+	<!-- breadcrumb -->
+	<div class="breadcrumb-header justify-content-between">
+		<div class="my-auto">
+			<div class="d-flex">
+				<h4 class="content-title mb-0 my-auto">Tables</h4><span
+					class="text-muted mt-1 tx-13 ms-2 mb-0">/ Data Tables</span>
+			</div>
+		</div>
+		<div class="d-flex my-xl-auto right-content mr-2">
+            <div class="pr-1 mb-3 mb-xl-0">
+                <button type="button" class="btn btn-info btn-icon me-2"><i class="mdi mdi-filter-variant"></i></button>
+            </div>
+            <div class="pr-1 mb-3 mb-xl-0">
+                <button type="button" class="btn btn-danger btn-icon me-2"><i class="mdi mdi-star"></i></button>
+            </div>
+            <div class="pr-1 mb-3 mb-xl-0">
+                <button type="button" class="btn btn-warning  btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
+            </div>
+            <div class="mb-3 mb-xl-0">
+                <div ngbDropdown class="btn-group">
+                    <button type="button" class="btn btn-primary">14 Aug 2019</button>
+                    <button type="button" ngbDropdownToggle class="btn btn-primary dropdown-toggle-split" id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate" data-x-placement="bottom-end">
+                        <a ngbDropdownItem href="javascript:;">2015</a>
+                        <a ngbDropdownItem href="javascript:;">2016</a>
+                        <a ngbDropdownItem href="javascript:;">2017</a>
+                        <a ngbDropdownItem href="javascript:;">2018</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+	<!-- breadcrumb -->
+
+
+<!-- row opened -->
+<div class="row row-sm">
+	<div class="col-xl-12">
+	  <div class="card overflow-visible">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Ngb DataTable</h6>
+			<p class="text-muted card-sub-title">Sorting, filtering and pagination, as shown in this example.
+			</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="">
+			<!--<app-ngb-table></app-ngb-table>-->
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+
+	<!--div-->
+	<div class="col-xl-12">
+	  <div class="card mg-b-20">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Ngx DataTable</h6>
+			<p class="text-muted card-sub-title">Ngx-DataTable using material theme DataTables.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+
+		   <!-- <ngx-datatable class="material" [rows]="dataTable" columnMode="force" [headerHeight]="50" [footerHeight]="50"
+			[rowHeight]="50" [scrollbarV]="true" [summaryRow]="true" [summaryPosition]="'bottom'">
+			<ngx-datatable-column name="First Name" [width]="100"></ngx-datatable-column>
+			<ngx-datatable-column name="Last Name" [width]="100"></ngx-datatable-column>
+			<ngx-datatable-column name="Position" [width]="100"></ngx-datatable-column>
+			<ngx-datatable-column name="Email" [width]="100"></ngx-datatable-column>
+
+		  </ngx-datatable> -->
+		</div>
+	  </div>
+	</div>
+	<!--/div-->
+	<div class="col-xl-12">
+	  <div class="card">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Basic Table</h6>
+			<p class="text-muted card-sub-title">Basic Angular material table, as shown in this example.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="table-responsive">
+			<app-basic-angular-table></app-basic-angular-table>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="col-xl-12">
+	  <div class="card">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Add/Remove Table</h6>
+			<p class="text-muted card-sub-title">Adding and removing data when using an observable-based
+			  datasource, as shown in this example.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="table-responsive">
+			<!-- <app-add-remove-data></app-add-remove-data> -->
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="col-xl-12">
+	  <div class="card">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Data Table</h6>
+			<p class="text-muted card-sub-title">Data table with sorting, pagination, and filtering., as
+			  shown in this example.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="table-responsive">
+			<!--<app-sorting-filter-pagination-table></app-sorting-filter-pagination-table>-->
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="col-xl-12">
+	  <div class="card">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Table with selection</h6>
+			<p class="text-muted card-sub-title">Table with selection Angular material, as shown in this
+			  example.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="table-responsive">
+			<!--<app-selection-table></app-selection-table>-->
+		  </div>
+		</div>
+	  </div>
+	</div>
+	<div class="col-xl-12">
+	  <div class="card">
+		<div class="card-header pb-0">
+		  <div>
+			<h6 class="main-content-label mb-1">Sticky Table</h6>
+			<p class="text-muted card-sub-title">Sticky Table with Angular material, as shown in this
+			  example.</p>
+		  </div>
+		</div>
+		<div class="card-body">
+		  <div class="table-responsive">
+			<!--<app-stickyheader></app-stickyheader>-->
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+

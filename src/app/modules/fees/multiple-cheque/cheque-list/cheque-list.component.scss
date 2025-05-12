@@ -1,0 +1,12 @@
+::ng-deep{
+    table.table-bordered.dataTable td.dataTables_empty {
+        display: table-cell !important
+    }
+    .duplicate-modal-section {
+        z-index: 10 !important;
+    }
+
+    .duplicate-modal-backdrop {
+        z-index: 10 !important;
+    }
+}

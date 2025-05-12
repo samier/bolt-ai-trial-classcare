@@ -1,0 +1,53 @@
+::ng-deep .page_inner{
+    .card{
+        .card_body{  
+            app-exam-detail{
+                .exam_details_changes{
+                    padding: 0;
+                }
+                .title b {
+                    font-weight: 500;
+                    padding: 15px;
+                    background: linear-gradient(to right top,#2b5876 17%,#4e4376 86%,#2b5876 100%);
+                    color: #fff;
+                    font-size: 20px;
+                    font-family: 'Poppins';
+                    display: inline-block;
+                    width: 100%;
+                }              
+                .table-responsive {
+                    table {
+                        tbody{
+                            display: block;
+                            tr{
+                                width: 100%;
+                                display: inline-block;
+                                border-bottom: 1px solid #00000021; 
+                                td{
+                                    border-top: none;
+                                    border-bottom: none;
+                                    font-size: 15px;
+                                    padding: 8px 5px;
+                                    color: #454a74;
+                                    font-weight: 600;
+                                    &:first-child{                            
+                                        padding-left: 20px;
+                                        opacity: 0.8;
+                                        font-weight: normal;
+                                        min-width: 170px;
+
+                                    }
+                                }
+                                &:hover{
+                                    td{
+                                        background:none !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

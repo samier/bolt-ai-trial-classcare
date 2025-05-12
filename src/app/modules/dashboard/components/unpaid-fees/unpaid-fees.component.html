@@ -1,0 +1,61 @@
+<div class="upcoming-exam-section">
+    <div class="upcoming-header">
+        <a href="#" class="view-all-link">
+            <h3> 
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7"/>
+                    <path d="M27 12H9C8.44781 12 8 12.4478 8 13V23C8 23.5522 8.44781 24 9 24H27C27.5522 24 28 23.5522 28 23V13C28 12.4478 27.5522 12 27 12ZM9.5 22.5V20.5C10.6047 20.5 11.5 21.3953 11.5 22.5H9.5ZM9.5 15.5V13.5H11.5C11.5 14.6047 10.6047 15.5 9.5 15.5ZM18 21C16.6191 21 15.5 19.6566 15.5 18C15.5 16.3431 16.6194 15 18 15C19.3806 15 20.5 16.3431 20.5 18C20.5 19.6572 19.3803 21 18 21ZM26.5 22.5H24.5C24.5 21.3953 25.3953 20.5 26.5 20.5V22.5ZM26.5 15.5C25.3953 15.5 24.5 14.6047 24.5 13.5H26.5V15.5Z"/>
+                </svg>
+                Unpaid Student Fees
+            </h3>
+        </a>
+    </div>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <!-- <th>Class</th> -->
+                        <th>Fees</th>
+                        <th>Paid</th>
+                        <th>Remaining</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let fee of unpaidFee">
+                        <tr>
+                            <td> <a [routerLink]="[commonService.setUrl(URLConstants.STUDENT_COLLECT_FEES), fee?.student?.unique_id]">{{ fee?.student?.name ?? '' }}</a>
+                                <span> ( Class :- {{ fee?.class?.name ?? '' }} ) </span>
+                            </td>
+                            <!-- <td> {{ fee?.class?.name ?? '' }} </td> -->
+                            <td> {{ fee?.fees_data?.total_fees ?? null }} </td>
+                            <td class="fees_paid_dashboard"> {{ fee?.fees_data?.total_paid_fees ?? null }} </td>
+                            <td class="fees_unpaid_dashboard"> {{ fee?.fees_data?.total_remaining_fees ?? null }} </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="5">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                         </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  unpaidFee?.length == 0">
+                    <tr>
+                        <td colspan="5">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="row mt-3 text-16 hed_alert">
+  <div class="col-md-4">
+      <div class="m-alert m-alert--icon m-alert--air alert alert-brand alert-dismissible fade show purple-bg white-color px-2" role="alert">
+          <div class="m-alert__icon">
+              <i class="la la-calculator"></i>
+          </div>
+          <div class="m-alert__text">
+              <strong>Total Sent<br />
+                  <i class="fa fa-envelope"></i>
+                  <span id="main_total"> {{total_sent}} </span>
+              </strong>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="m-alert m-alert--icon m-alert--air alert alert-success alert-dismissible fade show success-bg white-color px-2" role="alert">
+          <div class="m-alert__icon">
+              <i class="fa fa-check-double"></i>
+          </div>
+          <div class="m-alert__text">
+              <strong>Success<br />
+                  <i class="fa fa-envelope"></i>
+                  <span id="main_success"> {{success_sent}} </span>
+              </strong>
+          </div>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="m-alert m-alert--icon m-alert--air alert alert-danger alert-dismissible fade show danger-bg white-color px-2" role="alert">
+          <div class="m-alert__icon">
+              <i class="fas fa-history"></i>
+          </div>
+          <div class="m-alert__text">
+              <strong>Failed<br />
+                  <i class="fa fa-envelope"></i>
+                  <span id="main_fail"> {{failed_sent}} </span>
+              </strong>
+          </div>
+      </div>
+  </div>
+</div>
+<div>
+  <div class="card-body border-0">
+    <div [formGroup]="smsFilterForm" class="content_scroll mt-1">
+        <div class="row">
+          <div class="col-md-3 form_group">
+            <label for="" class="form_label">Date Range</label>
+            <app-date-range-picker type="date" controlName="date" placeholder="Select Date Range"></app-date-range-picker>
+          </div>
+          <div class="col-md-3 form_group">
+            <label for="" class="form_label">Send Status</label>
+            <app-single-select [dropDownArray]="sendStatusList" controlName="status" placeholder="Select Status"></app-single-select>
+          </div>
+          <div class="col-md-12">
+            <button type="button" class="btn clear-btn" (click)="clearAll(); isResetloading = true" [disabled]="isResetloading">Clear
+              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetloading">
+                <span class="visually-hidden">Loading..."</span>
+              </div>
+            </button>
+          </div>
+        </div>
+    </div>
+    <div class="row pb-3 mx-0 mt-4 no-gutters">
+      <div class="col-lg-12">
+        <div class="expense-list-table">
+            <div class="table-list-heading">              
+            </div>
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Sr.No.</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Phone No.</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="tbody?.length > 0">
+                        <tbody>
+                            <tr *ngFor="let item of tbody ;let i = index;">
+                              <td>{{(i + 1) + indexStart}}</td>
+                              <td>{{item.date ? (item.date | date: dateFormateService.getDateTimeFormat()) : '' }}</td>
+                              <td>{{item.name}}</td>
+                              <td>{{item.number || 'N/A'}}</td>
+                              <td>{{item.massage || 'N/A'}}</td>
+                              <td>{{item.status == 0 ? 'Error' : 'Success'}}</td>
+                            </tr>
+                        </tbody>
+                    <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                            <td colspan="10" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

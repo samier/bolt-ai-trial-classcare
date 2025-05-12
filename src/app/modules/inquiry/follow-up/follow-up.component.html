@@ -1,0 +1,254 @@
+<section class="inquiry-list">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Follow Up List</h3>
+          <div class="d-flex">
+            <button *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')" type="button" ngbTooltip="Follow Up PDF" class="btn pdf-btn me-2"
+                  (click)="downloadPdfAndExcel('pdf')" [disabled]="isPdfLoading">
+                  <img src="./assets/images/pdf-icon.svg">
+                  <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+              </button>
+              <button *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')" type="button"  ngbTooltip="Follow Up EXCEL" class="btn excel-btn me-2"
+                  (click)="downloadPdfAndExcel('excel')" [disabled]="isExcelLoading">
+                  <img src="./assets/images/excel-icon.svg">
+                  <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                      <span class="visually-hidden">Loading...</span>
+                  </div>
+              </button>
+            <a class="btn list-btn me-2" href="#" [routerLink]="[commonService.setUrl(URLConstants.INQUIRY_LIST)]" 
+              *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_access')"> Inquiry List</a>
+              <!-- <a class="add-btn btn me-2" href="#" [routerLink]="[commonService.setUrl(URLConstants.ADD_INQUIRY_FOLLOW_UP),id]" 
+              *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_create')"> Add Follow Up</a> -->
+
+            <button type="button" ngbTooltip="Add Follow Up" class="add-btn btn me-2"
+              *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_create')" (click)="openAddFollowUp()">Add Follow Up
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Section -->
+        <!-- <div class="card">
+          <div class="card_body">
+            <div class="form_section global_form">
+                <form [formGroup]="inquiryFollowUpForm">
+                  <div class="row align-items-center">
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                        <label class="form_label">All Section</label>
+                        <div>
+                            <app-multi-select controlName="section" [dropDownArray]="sectionsList" placeholder="All Section"
+                                (change)="getClassesList()"></app-multi-select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label class="form_label">All Standards</label>
+                      <div>
+                        <app-multi-select controlName="standard" [dropDownArray]="standardList" placeholder="All Standards"></app-multi-select>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                        <label class="form_label">Follow Up Type</label>
+                        <div>
+                            <ng-select formControlName="type" [items]="followUpType" bindLabel="name" bindValue="value"
+                              placeholder="Select Follow Up Type"></ng-select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                        <label class="form_label">Date</label>
+                        <div>
+                            <app-input type="date" controlName="date" placeholder="Enter Date"></app-input>
+                        </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-auto">
+                        <button class="btn show-btn" (click)="handleShow()" [disabled]="is_show">Show
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_show">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </button>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn clear-btn" (click)="handleClear()">Clear</button>
+                    </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- Table Section -->
+        <div class="card exam-list-card">
+          <div class="card_body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="edit-card-header mb-3 w-100">
+                    <p class="mb-0">Section <span class="px-1">:</span>  <span> {{inquiryData?.section_name ?? '-'}} </span></p>
+                    <p class="mb-0">Class <span class="px-1">:</span>  <span> {{inquiryData?.class?.name ?? '-'}} </span></p>
+                    <p class="mb-0">Student Name <span class="px-1">:</span>  <span> {{inquiryData?.last_name + " " + inquiryData?.first_name + " " + (inquiryData?.middle_name || " ")}} </span></p>                    
+                </div>                
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="datatable-action-design">
+                  <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                      <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                      <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                    </svg>
+                  </div>
+                  <div class="table-responsive">
+                    <div class="dataTables_wrapper">
+                      <table datatable [dtOptions]="dtOptions"  class="row-border datatable hover table-bordered table-striped" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+
+                        <thead>
+                          <tr>
+                            <th>
+                              <label class="m-checkbox mb-0">
+                                  <input type="checkbox" id="checkbox" class="main_checkbox" [(ngModel)]="allChecked" (change)="handleSelectAll($event)"><span></span>
+                              </label>
+                            </th>
+                            <th>S.R.No.</th>
+                            <th>Date</th>
+                          <th>Next Follow Up Date</th>
+                            <th>Type</th>
+                            <th>Message</th>                          
+                            <th>Follow-Up By </th>                          
+                            <th class="action-btn-sticky">Action</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr *ngFor="let item of tbody ;let i = index;">
+                              <td>
+                                  <label class="m-checkbox mb-0">
+                                      <input type="checkbox" id="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)" class="main_checkbox"><span></span>
+                                  </label>
+                              </td>
+                              <td>{{ item?.id }}</td>
+                              <td>{{ item?.follow_up_date }}</td>
+                            <td>{{ item?.next_follow_up_date  | date : dateFormateService.getDateFormat() }}</td>
+                              <td>{{ item?.follow_up_type }}</td>
+                              <td>{{ item?.message }}</td>
+                              <td>{{ item?.user_name || '-' }}</td>
+                              <td class="action-btn-sticky text-center">
+                                  <div class="btn-group">
+                                    <!-- <a class="lt-btn-icon action-edit" [class.disabled]="item?.student_id"  [routerLink]="[setUrl('inquiry/follow-up/'+id+'/edit/'+item?.id)]" ngbTooltip="Edit"  *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_edit')"><i class="fa fa-pencil-alt"></i></a> -->
+                                  <a class="lt-btn-icon action-edit" [class.disabled]="item?.student_id"  (click)="openAddFollowUp(item)" ngbTooltip="Edit"  *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_edit')"></a>
+                                    <a type="button" ngbTooltip="Delete" class="lt-btn-icon action-delete" (click)="deleteInquiry(item?.id)" *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_delete')"></a>
+                                  </div>   
+                              </td>
+                            </tr>
+                        </tbody>
+
+                        <tbody *ngIf="is_loading">
+                          <tr>
+                            <td colspan="11">
+                              <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tbody *ngIf="!is_loading &&  tbody?.length == 0">
+                          <tr>
+                            <td colspan="11">
+                              <div class="d-flex justify-content-center">
+                                No Data Found.
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- <ng-template #addFollowUp let-modal>
+  
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">Add Follow Up</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  
+    <div class="modal-body">
+  
+      <div class="page_inner">
+  
+        <div class="card_body">
+          <form [formGroup]="addFollowUpF">
+  
+            <div class="row">
+  
+              <div class="col-md-12 form_group">
+                <label class="form_label">Date<span class="text-danger">*</span></label>
+                <div>
+                  <app-mat-date-picker placeholder="Select Date" controlName="date"></app-mat-date-picker>
+                </div>
+              </div>
+  
+              <div class="col-md-12 form_group">
+                <label class="form_label">Follow Up Type<span class="text-danger">*</span></label>
+                <div>
+                  <app-single-select controlName="type" [dropDownArray]="followUpType"
+                    placeholder="Please select"></app-single-select>
+                </div>
+              </div>
+
+              <div class="col-md-12 form_group">
+                <label class="form_label">Next Follow Up Date<span class="text-danger">*</span></label>
+                <div>
+                  <app-mat-date-picker placeholder="Select Next Follow Up Date" controlName="nextDate"></app-mat-date-picker>
+                </div>
+              </div>
+  
+              <div class="col-md-12 form_group">
+                <label class="form_label">Message<span class="text-danger">*</span></label>
+                <div>
+                  <app-textarea controlName="message" placeholder="Enter message"></app-textarea>
+                </div>
+              </div>
+  
+            </div>
+  
+          </form>
+        </div>
+      </div>
+  
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+      <div class="col-md-3">
+        <button
+          *ngIf="isEdit ? commonService.hasPermission('inquiry_follow_up', 'has_update') : commonService.hasPermission('inquiry_follow_up', 'has_create') "
+          class="btn save-btn" type="submit" (click)="handleAddFollowUp()" [disabled]="sendL">{{isEdit ? 'Update' :
+          'Save'}}
+          <div class="spinner-border spinner-border-sm" role="status" *ngIf="sendL">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="w-100 btn transfer-btn" (click)="reset()">Reset </button>
+      </div>
+    </div>
+  </ng-template> -->

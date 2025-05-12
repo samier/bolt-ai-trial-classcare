@@ -1,0 +1,191 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-complain-view{
+
+        .main-card{
+            .card{
+                box-shadow: 0px 0px 20px 0px #dadee8 !important;
+            }
+            .border-y-1{
+                border-bottom: 1px solid #D9D9D9;
+            }
+            .p-20{
+                padding: 10px 20px;
+            }
+
+            .btn-submit{
+                color: #4E713F;
+                padding: 4px 10px;
+                background-color: #B3D6A3;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .btn-pending{
+                color: #FF4335;
+                padding: 4px 10px;
+                background-color: #FAB5B0;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .btn-totle{
+                color: #DC5C07;
+                padding: 4px 10px;
+                background-color: #ffcaa7;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .video_link{
+                color: #0000EE;
+            }
+            h4{
+                background-color: rgb(0, 132, 254);
+                color: $white;
+                border-radius: 7px 7px 0 0;
+                &.complain-detail-red{
+                    background-color: rgb(253, 63, 63);
+                }
+                &.complain-detail-grey{
+                    background-color: rgb(167, 167, 167);
+                }
+            }
+            h4, .card-content, .card-foot{
+                padding: 20px;
+            }
+            .card-content{
+                .label{
+                    b{
+                        white-space: nowrap;
+                        min-width: 100px;
+                        display: inline;
+                    }
+                    span{
+                        padding-left: 5px;
+                        font-weight: 500;
+                    }
+                }
+                select{
+                    &.form-control{
+                        padding-right: 25px !important;
+                    }
+                }
+            }
+            .attach_file{
+                border: 1px solid #D9D9D9;
+                border-radius: 3px;
+                .pdf-img{
+                    padding: 30px 20px;
+                    i{
+                        font-size: 30px;
+                        color: rgb(184, 184, 184)
+                    }
+                }
+                .pdf-detail{
+                    padding: 5px;
+                    border-top: 1px solid #d9d9d9;
+                    i{
+                        &.fa-file-pdf{
+                            color: red;
+                            padding-right: 5px;
+                            font-size: 17px;
+                        }
+                        &.fa-file-image{
+                            color: #1976D5;
+                            padding-right: 5px;
+                            font-size: 17px;
+                        }
+                    }
+                    p{
+                        color: #6c6c6c;
+                        width: 80%;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
+                    #grey{
+                        position: absolute;
+                        bottom: 0;
+                        right: 8%;
+                        width: 0;
+                        border-bottom: 20px solid #c1c1c1;
+                        border-left: 18px solid transparent;
+                        border-right: 0px solid transparent;
+                    }
+                    #red{
+                        position: absolute;
+                        bottom: 0;
+                        right: 0;
+                        width: 0;
+                        border-top: 19px solid red;
+                        border-left: 0px solid transparent;
+                        border-right: 17px solid transparent;
+                    }
+                    #white{
+                        position: absolute;
+                        bottom: -1px;
+                        right: -1px;
+                        width: 0;
+                        border-bottom: 19px solid white;
+                        border-left: 18px solid transparent;
+                        border-right: 0px solid transparent;
+                    }
+                }
+
+            }
+            .no_attachment{
+                border: 1px solid #D9D9D9;
+                border-radius: 4px;
+                p{
+                    padding: 10px 5px;
+                    font-size: 20px;
+                    color: rgb(156, 156, 156);
+                }
+            }
+
+            .high-priority{
+                color: rgb(253, 63, 63);
+            }
+            .normal-priority{
+                color: rgb(0, 132, 254);
+            }
+            .low-priority{
+                color: rgb(167, 167, 167);
+            }
+        }
+        .search_student{
+            input{
+                padding-right: 40px;
+            }
+            i{
+                position: absolute;
+                top: 10px;
+                right: 25px;
+                color: #0000005c;
+                cursor: pointer;
+            }
+        }
+        .student-list{
+            .select_all{
+                padding-left: 12px;
+                app-single-select{
+                    width: 20%;
+                }
+            }
+            .all-status{
+                width: 23%;
+            }
+        }
+        .status-content {
+            width: 43%;
+            display: flex;
+            justify-content: center;
+
+            .all-status {
+                width: 100%;
+                margin-left: 5px;
+                margin-right: 5px;
+            }
+
+        }
+
+    }
+}

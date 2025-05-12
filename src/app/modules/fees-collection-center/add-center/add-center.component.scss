@@ -1,0 +1,40 @@
+::ng-deep body{
+    app-add-center{
+        .frmSearch{
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgb(0 0 0 / 11%);
+            padding: 0 0 25px;
+            .student_search{
+                height: 40px;
+                border-radius: 3px;
+                background: #fff;
+                border: 1px solid #D0C9C0;
+                padding: 0 15px;
+                outline: none;
+                width: 100%;
+                padding-right: 35px;
+            }
+        }
+        .search_layout{
+            position: relative;
+            width: 23%;
+            input{
+                padding-right: 25px;
+            }
+            a{
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+    &.dark-theme{
+        .frmSearch{
+            .student_search{
+                background-color: #1f2940;
+                border: 1px solid rgba(234,237,241,.2);
+            }
+        }  
+    }    
+}

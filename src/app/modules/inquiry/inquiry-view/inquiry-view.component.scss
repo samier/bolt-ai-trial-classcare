@@ -1,0 +1,87 @@
+::ng-deep{
+    body{
+        .inquiry-view-card{
+            padding: 0;
+            box-shadow: 8px 12px 18px 0px rgba(218, 222, 232, 1);
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            h4{
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 600;
+                color: #fff;
+                background-color: var(--primary-bg-color);
+                padding:8px 16px;
+                margin: 0;
+            }
+            .inquiry-view-list{
+                margin: 0;
+                padding: 0;
+                li{
+                    padding: 8px 12px;
+                    list-style: none;
+                    border-top: 1px solid rgba(239, 237, 237, 1);
+                    border-bottom: 1px solid rgba(239, 237, 237, 1);
+                    h6{
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 400;
+                        color: #000;
+                        margin: 0;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        p{
+                            font-weight: 500;
+                            margin: 0;
+                            padding-right: 4px;
+                        }
+                    }
+                    span{
+                        font-size: 10px;
+                        line-height: 12px;
+                        font-weight: 400;
+                    }
+                    em{
+                        // color: rgba(51, 123, 51, 1);
+                        font-style: normal;
+                        font-size: 14px;
+                    }
+                    .inquiry-radio{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        margin-left: 10px;
+                        margin-right: 5px;
+                        label{
+                            margin: 0;
+                            font-size: 14px;
+                            line-height: 16px;
+                            font-weight: 400;
+                        }
+                        input[type="radio"] {
+                            accent-color: var(--primary-bg-color); 
+                        }
+                    }
+                    .form-check{
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 500;
+                        color: #000;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        .form-check-input{
+                            margin-top: 0;
+                        }
+                        input[type="checkbox"]:checked {
+                            background-color: var(--primary-bg-color); 
+                            box-shadow: none !important;   
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

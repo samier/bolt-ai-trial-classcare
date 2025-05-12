@@ -1,0 +1,44 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-add-homework{
+        .form-switch{
+            .form-check-input{
+                margin-left: 0;
+                width: 50px;
+                height: 25px;
+                &:checked{
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+                &:focus{
+                    box-shadow: 0 0 0 0.25rem rgb(1 50 156 / 25%);
+                }
+            }
+        } 
+        .upload_attach{           
+            .select-attechment-chip{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                label{
+                    margin-bottom: -5px;
+                }
+                p{
+                    border: 1px solid #939393;
+                    padding: 2px 4px;
+                    border-radius: 20px;
+                    margin: 0;
+                    margin-right: 5px;
+                    margin-top: 6px;
+                    font-size: 11px;
+                    line-height: 12px;
+                    display: inline-block;
+                    span{
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+}

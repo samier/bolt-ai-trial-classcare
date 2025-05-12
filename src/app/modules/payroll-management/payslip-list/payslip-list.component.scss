@@ -1,0 +1,17 @@
+::ng-deep body{
+    app-payslip-list{
+        ngb-modal-backdrop {
+            z-index: 1050 !important;
+        }
+        .datatable_cls{
+            > div{
+                // display: flex;
+                // justify-content: end;
+
+                @media screen and (max-width: 640px) {
+                    // justify-content: center;
+                }
+            }
+        }
+    }
+}

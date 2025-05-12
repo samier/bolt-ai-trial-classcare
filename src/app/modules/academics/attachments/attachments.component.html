@@ -1,0 +1,21 @@
+<div class="card pb-0" *ngIf="scf?.fees_attachments?.length > 0">
+    <div class="row" >
+        <!-- col-xl-2 col-md-3 col-sm-6 col-12 -->
+        <div class="attachment" *ngFor="let file of scf?.fees_attachments">
+            <div class="alert alert-secondary p-0 w-100 ">
+                <a class="mb-1" href="{{file.file_url}}" target="_blank">
+                    <div class="d-flex align-items-center" matTooltip="{{file.file_name}}">
+                        <div class="col-lg-3 ps-0 pt-1">
+                            <img src="./assets/img/files/image.png" alt="img" class="rounded-7">
+                        </div>
+                        <h6 class="mb-0 font-weight-semibold text-capitalize">{{file.file_name}}</h6>
+                    </div>
+                </a>
+                <span class="delete-button" *ngIf="scf.remaining_amount > 0" (click)="deleteAttachement(file)">
+                    <i class="fa fa-trash text-danger"></i>
+                </span>
+                <div class="deleting d-flex justify-content-center" *ngIf="file.deleting"><span>Deleting...</span></div>
+            </div>
+        </div>
+    </div>
+</div>

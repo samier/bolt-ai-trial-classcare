@@ -1,0 +1,117 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Kit Form</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.KIT_LIST)">Kit List</a>
+                </div>
+            </div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="kitForm" class="form_section global_form">
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Kit Name<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input type="hidden" name="record_id" value="0" formControlName="record_id">
+                                                <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter Kit name">
+                                            </div>
+                                            <div *ngIf="kitForm.controls['name'].dirty && kitForm.controls['name'].invalid" class="error text-danger">Please enter valid kit name.</div>                                       
+                                        </div>                                                                      
+                                     
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Kit Code<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="code" id="code" formControlName="code" placeholder="Enter Kit code">
+                                            </div>
+                                            <div *ngIf="kitForm.controls['code'].dirty && kitForm.controls['code'].invalid" class="error text-danger">Please enter valid Kit Code.</div>                                       
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Store<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="store_id" id="store_id" class="form-control" formControlName="store_id">
+                                                    <option value="" disabled selected class="disabled">Select your option</option>
+                                                    <option *ngFor="let item of storeTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && kitForm.controls['store_id'].invalid" class="error error text-danger"> Please select store. </div>                                      
+                                        </div>                                                                                            
+                                        
+                                        <div class="form_outer col-md-2">
+                                            <div class="form_group add_doc">
+                                                <div>                                                
+                                                    <label> add items</label>
+                                                    <button type="button" (click)="addQuantity()" class="btn add-btn">Add Items</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <table class="table table-nowrap table datatable w-100" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Item Type</th>
+                                                    <th>Item name</th>
+                                                    <th>Quantity</th>
+                                                    <th colspan="2">Measurement</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngFor="let quantity of quantities.controls; let i=index" >
+                                                <tr>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList"  (change)="itemTypeChange($event,i)"></app-single-select>
+    
+                                                        </div>                             
+                                                    </td>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Name" controlName="inventory_item_id" [dropDownArray]="itemList[i]" (change)="itemChange($event,i)"></app-single-select>
+                                                            
+                                                        </div>                                     
+                                                    </td>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-input min="0" type="number" [GroupName]="i"  formArrayName="quantities" placeholder="Enter Quantity"  controlName="quantity"></app-input>  
+                                                        </div>                                    
+                                                    </td>
+                                                    <td class="col-md-2 form_group">
+                                                        <div>
+                                                            <app-single-select style="pointer-events: none;" [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurementTypeList" [readonly]="true"></app-single-select>
+                                                        </div>
+                                                    </td>
+                                                    
+                                                    <td class="col-md-1 form_group">
+                                                        <div>
+                                                            <button *ngIf="i != 0" (click)="removeQuantity(i)" class="btn"><i class="fa fa-minus"></i></button>
+                                                        </div>
+                                                    </td>                                            
+                                                </tr>  
+                                            </tbody>
+                                        </table> 
+                                        
+
+                                        <div class="row w-100 ">
+                                            <div class="col-auto">
+                                                <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.KIT_LIST)">Cancel</a>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!kitForm.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || kitForm.invalid">Save
+                                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>                                                                                                     
+                                    </div>    
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

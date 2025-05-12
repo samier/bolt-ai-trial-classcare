@@ -1,0 +1,105 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-sm-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0 text-center text-sm-left">Generate Payslip : {{user_name}}</h3>
+                <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                  <a class=" btn" href="#." [routerLink]="setUrl(URLConstants.PAYROLL)" > Back to Payroll Home</a>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <form [formGroup]="payrollform" (ngSubmit)="formSubmit()" class="form_section">
+                                                                 
+                                    <div class="card">
+                                        <div class="row">
+                                            <div class="col-md-4 col-xl-3 mb-3 mb-md-0 form_group">
+                                                <div class="">
+                                                    <label class="form_label" *ngIf="salary != '' && salary != 0 && salary != undefined">Salary : {{salary}}</label>
+                                                    <div class="">
+                                                        <div class="">                                                        
+                                                            <label class="form_label" *ngIf="salary == '' || salary == 0 || salary == undefined"> Please add salary first : <a class="" href="#." [routerLink]="[setUrl(URLConstants.ADD_SALARY),user_id]">Add salary</a></label>                                                                                                                
+                                                        </div>
+
+                                                        <div class="" *ngIf="user_has_role == 0">
+                                                            <label class="form_label"> Please assign role to user from user edit section : <a class="" href="#." [routerLink]="[setUrl(URLConstants.EDIT_USER),user_id]"> Edit User</a></label>
+                                                        </div>
+
+                                                        <div class="" *ngIf="has_payroll_group==false">
+                                                            <label class="form_label"> Please assign payroll group to role : <a class="" href="#." [routerLink]="[setUrl(URLConstants.ASSIGN_PAYROLL_GROUP),role_id]">Assign Payroll Group</a></label>                                                                                                                
+                                                        </div>
+                                                                                                            
+                                                        <label class="form_label" *ngIf="has_payroll_group==true && salary != '' && salary != 0 && salary != undefined"> Select date to generate payslip:</label>
+                                                        <div class="" *ngIf="has_payroll_group==true && salary != '' && salary != 0 && salary != undefined">
+                                                            <app-mat-date-picker [(selectedDate)]="selectedDate" [maxDate]="max_date" (change)="checkPayslipAvailable($event)" [templateDriven]="true"></app-mat-date-picker>
+                                                            <!-- <input type="date" name="payment_date" id="" max="{{max_date}}" [(ngModel)]="selectedDate" (change)="checkPayslipAvailable($event)" class="form-control">                        -->
+                                                        </div>
+                                                    </div>
+                                                </div>                                        
+                                            </div>
+                                        </div>
+                                    </div>    
+
+                                    <div class="card" *ngIf="tbody_earning != null  && tbody_earning.length != 0">
+                                        <h3 class="tx-16">Payroll categories of this payroll group</h3>
+                                        <h6>Earning</h6>  
+                                        <div *ngFor="let quantity of earnlist().controls; let i=index" formArrayName='earn_categories'>
+                                            <div [formGroupName]="i" class="row">
+                                                <div class="col-md-4 col-xl-3 mb-3 form_group">
+                                                    <input class="form-control" name="earn_categories{{i}}][name]" (keyup)="earning()" id="name" formControlName="name" readonly>
+                                                </div>
+                                                <div class="col-md-4 col-xl-3 mb-3 form_group">
+                                                    <input class="form-control" name="earn_categories{{i}}][value]" id="value" (keyup)="earning()" formControlName="value" required>
+                                                </div>
+                                            </div>                                            
+                                        </div> 
+
+                                        <div class="mb-3">
+                                            <div>
+                                            <label class="lable-h-l"><b>Total Earning : <span>{{total_earning}}</span></b></label>
+                                            </div>                                            
+                                        </div>
+
+                                        <h6>Deduction</h6>
+                                        <div *ngFor="let quantity of deductionlist().controls; let i=index" formArrayName='deduction_categories'>
+                                            <div [formGroupName]="i" class="row">
+                                            <div class="col-md-4 col-xl-3 mb-3 form_group">
+                                                <input class="form-control" name="deduction_categories{{i}}][name]" id="name" (keyup)="deduction()" formControlName="name" readonly>
+                                            </div>
+                                            <div class="col-md-4 col-xl-3 mb-3 form_group">
+                                                <input class="form-control" name="deduction_categories{{i}}][value]" id="value" (keyup)="deduction()" formControlName="value" required>
+                                            </div>
+                                            </div>
+                                        </div>                                         
+
+                                        <div *ngIf="tbody_deduction != null  && tbody_deduction.length != 0" class="mb-3">
+                                            <div>
+                                            <label class="mb-0 lable-h-l"><b>Total Deduction : <span>{{total_deduction}}</span></b></label>
+                                            </div>                                            
+                                        </div>
+
+
+                                        <div>
+                                            <div>
+                                            <label class="lable-h-l"><b>Net Pay : <span>{{total_earning - total_deduction}}</span></b></label>
+                                            </div>                                            
+                                        </div>   
+                                    </div> 
+                                    <div class="row w-100">
+                                        <div class="col-auto">
+                                            <a class="btn btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.PAYROLL)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" [disabled]="!date_selected" class="btn btn-minwidth" id="submitButton">Generate Payslip</button>
+                                        </div>
+                                    </div>                                                                                                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

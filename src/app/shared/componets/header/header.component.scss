@@ -1,0 +1,236 @@
+@import'../../../../assets/scss/variables';
+::ng-deep{
+    .main-header-right .dropdown-toggle::after{
+        display: none !important;
+    }
+    @media (max-width: 768px){
+        .main-body.app.sidebar-mini .main-header form[role=search].active input {
+            padding-left: 20px !important;
+            width: 96% !important;
+        }
+    }
+
+    
+    @media screen and (min-width:480px) and (max-width: 768px) {
+        .stickyy{
+            position:  fixed !important;
+        }
+    }
+
+    @media screen and (min-width:768px) and (max-width: 991px) {
+        .stickyy{
+            position:  fixed !important;
+        }
+    }
+    
+    modal-backdrop.show {
+        opacity: 0.1;
+    }
+    .global-search{
+        &.modal{
+            &.show {
+                .modal-dialog{
+                    max-width: 1072px;
+                    margin-top: 4.5rem;
+                    .modal-content{
+                        border:none;
+                        height: 84vh;
+                        border-radius: 5px;
+                        overflow: hidden;
+                        box-shadow: 0 0 15px 7px rgb(0 0 0 / 10%);
+                    }
+                }
+            }
+        }
+    }
+    
+    app-header{
+        .student_settings{
+            li{
+                list-style: none;
+            }
+        }        
+        .lbl_id{
+            font-weight: 500; 
+        }
+        .main-header-left{
+            label {
+                margin-bottom: 0;
+                font-size: 0.875rem;
+            }
+            .frmSearch{
+                position: relative;
+
+                #suggesstion-box{
+                    position: absolute;
+
+                    .scrollDropDown{
+                        max-height: 170px;
+                        overflow-y: scroll;
+                        border-top: 1px solid $border;
+                        border-bottom: 1px solid $border;
+                    }
+                }
+                button {
+                    padding: 0;
+                    border: none;
+                    background: unset;
+                    outline: none;
+
+                    .studentSearch{
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        #currentYear{
+            display: inline-block;
+            color: $primary;
+            margin-right: 8px;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-left: 8px;
+            padding: 3px 8px;
+            border: 1px solid;
+            border-radius: 5px;
+            .year-title{
+                color:$default-color;
+                font-weight: 400;
+            }
+        }
+        .sms-credits{
+            color: $primary;
+            padding: 0;
+            font-size: 12px;
+            border-radius: 3px;
+            font-weight: bold;           
+        }
+        .branch-list{
+            .form-control{
+                border-radius: 0 !important;
+                height: 35px !important;
+            }
+
+            .icon{
+                top: 8px;
+                right: 10px;
+            }
+        }
+        .navbar{
+            .navbar-collapse{
+                .nav-item{
+                    flex-wrap: nowrap;
+                }
+            }
+        }
+        .current_year{
+            ng-select{
+                min-width: 150px;
+            }
+        }
+
+    }
+    .dark-theme{
+        #currentYear{
+            .year-title{
+                color:$white;
+            }
+        }
+        .global-search{
+            &.modal{
+                &.show{
+                    .modal-dialog {
+                        .modal-content{
+                            box-shadow: 0 0 15px 9px #000;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .color-header, .gradient-header{
+        app-header {
+            #currentYear{
+                color:$white;
+            }
+        }
+        .sms-credits{
+            background: $white;
+            color: $primary;
+        }
+    }
+    .rtl{
+        .sms-credits{
+            margin-right: 8px;
+        }
+    }
+    .color-header{
+        .sms-credits{
+            background: $white;
+            color:  $primary;
+        }
+
+    }
+
+
+    ngb-tooltip-window{
+        .tooltip-inner{
+            max-width: unset;
+            div{
+                span{
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}
+
+// @media (max-width: 480px){
+//     .main-header-right .nav .nav-item .dropdown-menu {
+//         left: 5px !important;
+//         right: 5px !important;
+//         position: fixed !important;
+//         transform: translate(0,63px) !important;
+//     }
+// }
+
+// @media (min-width: 480px){
+//     .main-header-right .nav .nav-item.main-header-message .dropdown-menu,
+//     .main-header-right .nav .nav-item.main-header-notification .dropdown-menu {
+//         transform: translate(-245px,60px) !important;
+//     }
+//     .nav-itemd-none .dropdown-menu{
+//         transform: translate(15px,63px) !important;
+//     }
+// }
+
+// .main-profile-menu .dropdown-menu{
+//     transform: translate(-189px, 67px) !important;
+// }
+.heading-search-icon{
+    color: #fdca64;
+    cursor: pointer;
+    .fa-info-circle{
+        font-size: 22px;
+    }
+}
+
+.heading-search-red{
+ color: red;
+}
+
+
+@media (min-width:320px) and (max-width:328px) {
+    .nav-link#bs-example-navbar-collapse-1{
+        padding: 0.6rem 0rem !important;
+    }
+}
+
+.comment-icon {
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 10px;
+    color: #59596c;
+}

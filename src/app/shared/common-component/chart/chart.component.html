@@ -1,0 +1,13 @@
+<highcharts-chart
+  [Highcharts]="Highcharts"
+
+  [constructorType]="chartConstructor"
+  [options]="chartOptions"
+  [callbackFunction]="chartCallback"
+
+  [(update)]="updateFlag"
+  [oneToOne]="oneToOneFlag"
+  [runOutsideAngular]="runOutsideAngular"
+  [ngStyle]="{'height': height + 'px'}"
+  style="width: 100%; display: block;"
+></highcharts-chart>

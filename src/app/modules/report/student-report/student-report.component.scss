@@ -1,0 +1,55 @@
+@import'../../../../assets/css/variable.scss';
+
+::ng-deep body {
+    app-student-report {
+        .page_inner {
+            .card {
+                .card_body {
+                    .table_top {
+                        padding: 10px 15px 5px;
+                    }
+                }
+
+                .card_title {
+                    .btn_right {
+                        a {
+                            margin-left: 10px;
+                        }
+                    }
+                }
+            }
+
+            .pdf-excel-btn {
+                .btn-success {
+                    width: 100%;
+                    padding: 0 10px;
+                }
+
+                .d-flex {
+                    margin: 4px -10px 0 -6px;
+                }
+            }
+        }
+
+        ng-multiselect-dropdown{
+            .multiselect-dropdown{
+                z-index: auto;
+                .dropdown-list{
+                    z-index: 1 !important;
+                }
+            }
+        }
+
+        .table-responsive{
+            position: relative;
+            .btn_right{
+                position: absolute;
+                right: 0;
+                z-index: 1;
+            }
+            .dataTables_filter{
+                padding-right: 80px;
+            }
+        }
+    }
+}

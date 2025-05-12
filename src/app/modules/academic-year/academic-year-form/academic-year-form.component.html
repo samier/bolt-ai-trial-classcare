@@ -1,0 +1,66 @@
+<section class="student-gender-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{id ? 'Update' : 'Add'}} Academic Year</h3>
+                <div class="btn_right d-flex gap-1">
+                    <a class="btn list-btn" *ngIf="commonService.hasPermission('settings_academic_year', 'has_access')" [routerLink]="academicYearService.setUrl(URLConstants.ACADEMIC_YEAR_LIST)">Academic Year List</a>
+                </div>
+            </div>
+
+            <form [formGroup]="academicYearForm" (ngSubmit)="submit()">
+	            
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-3 form-group">
+                            <label class="form_label">Academic Year Name<span class="text-danger">*</span></label>
+                            <app-input type="text" controlName="year" placeholder="Enter Academic Year Name" (input)="handleChangeYearName()"></app-input>
+                            <p class="mt-1 mb-0">(Example : 2024-2025)</p>
+                        </div>
+                        <div class="col-lg-3 form-group current-year">
+                            <label class="form_label">Academic Year<span class="text-danger">*</span></label>
+                            <mat-form-field appearance="outline">
+                                <input 
+                                    [value]="displayedYear" 
+                                    class="readonly-year"
+                                    readonly
+                                    placeholder="YYYY"
+                                />
+                                <input 
+                                  matInput 
+                                  [matDatepicker]="picker" 
+                                  formControlName="current_year" 
+                                  hidden />
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker 
+                                  #picker 
+                                  startView="multi-year" 
+                                  (yearSelected)="chosenYearHandler($event)">
+                                </mat-datepicker>
+                            </mat-form-field>
+                            <span class="text-danger" *ngIf="(academicYearForm.get('current_year')?.touched || academicYearForm.get('current_year')?.dirty) && academicYearForm.get('current_year')?.invalid">The input is required.</span>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                            <app-mat-date-picker controlName="start_time" placeholder="Select Start Date" [minDate]="minDate" [maxDate]="maxDate"></app-mat-date-picker>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <label class="form_label">End Date<span class="text-danger">*</span></label>
+                            <app-mat-date-picker controlName="end_time" placeholder="Select End Date" [minDate]="minDate" [maxDate]="maxDate"></app-mat-date-picker>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" *ngIf="id ? commonService.hasPermission('settings_academic_year', 'has_update') : commonService.hasPermission('settings_academic_year', 'has_create')" class="btn save-btn" [disabled]="saving">
+                            {{saving ? 'Saving' : 'Save'}}
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button type="buttom" class="btn clear-btn ms-2" (click)="cancel()">Reset</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

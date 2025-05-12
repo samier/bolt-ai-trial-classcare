@@ -1,0 +1,45 @@
+<div>
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">{{ isEditing  ? 'Edit Area' : 'Create Area'}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+  
+      <div class="page_inner">
+  
+        <div class="card_body">
+          <form [formGroup]="areaCreate" class="form_section" id="form">
+            <div class="row">
+                <div class="col-md-8 form_group">
+                    <div class="">
+                        <label class=" form_label">Area Name<span class="text-danger">*</span></label>
+                        <div class="">
+                            <input type="text" id="name" name="name" formControlName="name" placeholder="Name" class="form-control">
+                        </div>
+                        <div *ngIf="areaCreate.controls['name']?.invalid && (areaCreate.controls['name']?.dirty || areaCreate.controls['name']?.touched)" class=" error text-danger mb-2">
+                            <div *ngIf="areaCreate.controls['name']?.errors?.['required']">Please enter area name</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  
+    </div>
+    <div class="modal-footer justify-content-center" style="z-index: 0;">
+      <div class="col-auto p-0">
+        <button type="submit" class="btn save-btn" (click)="submit()" [disabled]="isSubmit"> Submit
+          <div class="spinner-border spinner-border-sm" *ngIf="isSubmit">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>              
+      <div class="col-3 p-0">
+        <button type="submit" class="btn clear-btn" (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </div>
+  

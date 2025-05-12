@@ -1,0 +1,215 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Requisition Form</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.FACULTY_REQUISITION_LIST)">Requisition List</a>
+				</div>
+			</div>
+            <div class="card_body">
+                <div>
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="requisitionForm" class="form_section global_form">
+
+                                <div class="row">
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Requisition Date<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input type="hidden" name="record_id" value="0" formControlName="record_id">
+                                                <input [min]="todayDate" class="form-control" type="date" name="requisition_date" [(ngModel)]="requisition_date" (input)="requisitionDate($event)" id="requisition_date" formControlName="requisition_date" placeholder="Enter your purchase date" required>
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['requisition_date'].invalid" class="error text-danger"> Please enter Purchase Date.</div>                                      
+                                        </div>
+
+									<!-- <div class="col-md-3 form_section">
+										<div class="form_group">
+											<label class="form_label">Requested By Whom ?</label>
+											<div>                   												
+												<div id="student_rightEducation" class="d-flex">
+													<div class="radio">
+														<label class="m-radio required" for="type_faculty" aria-required="true">
+															<input type="radio" id="type_faculty" name="requisition_by_type" [(ngModel)]="requisition_by_type" formControlName="requisition_by_type" [checked]="true" (change)="requisition_by_type_change($event)" [value]="1" aria-required="true">Faculty<span></span>
+														</label>
+													</div>
+													<div class="radio">
+														<label class="m-radio required" for="type_student" aria-required="true">
+															<input type="radio" id="type_student" name="requisition_by_type" [(ngModel)]="requisition_by_type" formControlName="requisition_by_type" (change)="requisition_by_type_change($event)" [value]="2"  required="required"  aria-required="true">
+															Student <span></span>
+														</label>
+													</div>
+													<div class="radio">
+														<label class="m-radio required" for="type_location" aria-required="true">
+															<input type="radio" id="type_location" name="requisition_by_type" [(ngModel)]="requisition_by_type" formControlName="requisition_by_type" (change)="requisition_by_type_change($event)" [value]="3"  required="required"  aria-required="true">
+															Location <span></span>
+														</label>
+													</div>													
+												</div> 
+											</div>
+										</div> 
+									</div>	 -->
+                                                                            
+                                        <!-- <div class="col-md-3 form_group">
+                                            <label class="form_label">Requisition By<span class="text-danger">*</span></label>
+                                            <div>
+                                                <ng-select #select2 [items]="userList" [searchable]="false" name="requisition_by" bindLabel="full_name" bindValue="id"  
+                                                formControlName="requisition_by"
+                                                 placeholder="Please Select" required>
+                                                    <ng-template ng-header-tmp>
+                                                        <input style="width: 100%; line-height: 24px" type="text" (input)="select2.filter($any($event.target).value)" />
+                                                    </ng-template>
+                                                </ng-select>                                                
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['requisition_by'].invalid" class="error error text-danger"> Please select item_type. </div>                                      
+                                        </div> -->
+
+
+
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Store<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="store_id" id="store_id"  formControlName="store_id" class="form-control">
+                                                    <option value="" disabled selected class="disabled">Select your option</option>
+                                                    <option *ngFor="let item of storeTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['store_id'].invalid" class="error error text-danger"> Please select store. </div>                                      
+                                        </div>
+                                                        
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Required By<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" [min]="todayDate" type="date" name="required_by" id="required_by" [(ngModel)]="required_by" (input)="requiredBy($event)" formControlName="required_by" placeholder="select required by date" required>
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['required_by'].invalid" class="error text-danger"> Please enter Required By Date.</div>                                      
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Priority<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="priority" id="priority" formControlName="priority" class="form-control">
+                                                    <option value="" disabled selected class="disabled">Select your Priotity</option>
+                                                    <option value="high">High</option>
+                                                    <option value="medium">Medium</option>
+                                                    <option value="low">Low</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['priority'].invalid" class="error error text-danger"> Please select priority. </div>                                      
+                                        </div>   
+
+                                        <div class="col-md-3" [ngStyle]="{display:display_status_change}">
+                                            <label class="form_label">Status</label>
+                                            <div>
+                                                <select name="status" formControlName="status" id="status" class="form-control" [(ngModel)]="status" [disabled]="!is_admin">
+                                                    <option value="" disabled selected class="disabled">Select your status</option>
+                                                    <option value="0">Pending</option>
+                                                    <option value="1">Approved</option>
+                                                    <option value="2">Rejected</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && requisitionForm.controls['status'].invalid" class="error error text-danger"> Please select priority. </div>                                      
+                                        </div>                                           
+                                                                         
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Remark</label>
+                                            <div>
+                                                <input class="form-control" name="remark" id="remark" formControlName="remark" placeholder="Enter remark">
+                                            </div>
+                                            <!-- <div *ngIf="requisitionForm.controls['remark'].dirty && requisitionForm.controls['remark'].invalid" class="error text-danger">Please enter valid Opening Balance.</div>                                        -->
+                                        </div>
+                                        
+                                        
+                                        <div class="form_outer col-md-2" >
+                                            <div class="form_group add_doc">
+                                                <div class=" ">
+                                                    <label class=" form_label">button</label>
+                                                    <button type="button" (click)="addQuantity()" class="btn add-btn">Add Items</button>
+                                                </div>
+                                            </div>     
+                                        </div>
+                                        <div class="quantities_lay" formArrayName='quantities'>
+                                            <div *ngFor="let quantity of quantities().controls; let i=index"  [formGroupName]="i">
+                                                <div>
+                                                    <div  class="add_items_contant mb-2">
+                                                        <div class="row">
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Item Type<span class="text-danger">*</span></label>
+                                                                <div>
+                                                                    <select id="inventory_item_type_id" class="form-control" (input)="itemTypeChange($event,i)" name="quantities[{{i}}][inventory_item_type_id]" formControlName="inventory_item_type_id">
+                                                                        <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                        <option *ngFor="let item of itemTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                                    </select> 
+                                                                </div>
+                                                                <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Item<span class="text-danger">*</span></label>
+                                                                <div>
+                                                                    <select  name="quantities[{{i}}][inventory_item_id]" class="form-control" (input)="itemChange($event,i)" id="inventory_item_id" formControlName="inventory_item_id">
+                                                                        <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                        <option *ngFor="let item of itemList[i];" value="{{item.id}}">{{item.item_name}}</option>
+                                                                    </select>
+                                                                    
+                                                                    <!-- <ng-select #select2 [items]="itemList[i]" (change)="changeFn(selectedItem)" [(ngModel)]="selectedItem" [searchable]="false" name="inventory_item_id" bindLabel="item_name" bindValue="id"  
+                                                                        formControlName="inventory_item_id"
+                                                                        placeholder="Please Select" required>
+                                                                        <ng-template ng-header-tmp>
+                                                                            <input style="width: 100%; line-height: 24px" type="text" (change)="changeFn(selectedItem)" (input)="select2.filter($any($event.target).value)" />
+                                                                        </ng-template>
+                                                                    </ng-select> -->
+                                                                    
+                                                                </div>
+                                                                <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Quantity<span class="text-danger">*</span></label>
+                                                                <div>
+                                                                    <input type="text" name="quantities[{{i}}][quantity]" formControlName="quantity" class="form-control">
+                                                                </div>
+                                                                <div *ngIf="getQuantity(i).dirty && getQuantity(i).invalid" class="error error text-danger"> Please select enter valid quantity. </div>                                      
+                                                            </div>
+                                                            <div class="col-md-2 form_group">
+                                                                <label class="form_label">Measurement Type<span class="text-danger">*</span></label>
+                                                                <div>
+                                                                    <select style="pointer-events: none;" class="form-control" name="quantities[{{i}}][measurement_type_id]" id="measurement_type_id" formControlName="measurement_type_id">
+                                                                        <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                        <option *ngFor="let item of measurementTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                            </div>
+                                                            
+                                                            <div class="col-md-1 form_group">
+                                                                <label class="form_label opacity-0">remove</label>
+                                                                <div>
+                                                                    <button *ngIf="i != 0" (click)="removeQuantity(i)" class="btn"><i class="fa fa-minus"></i></button>
+                                                                </div>
+                                                            </div>                                            
+                                                        </div>
+                                                    </div>    
+                                                </div>    
+                                            </div>
+                                        </div> 
+                                </div>
+
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.REQUISITION_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" [disabled]="!requisitionForm.valid" class="btn save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                                                                                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

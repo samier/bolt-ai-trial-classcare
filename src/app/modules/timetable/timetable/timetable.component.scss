@@ -1,0 +1,244 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep  {
+    body{
+        app-timetable{
+            .card{
+                .global_form{
+                    &.table_top{
+                        justify-content: space-between;
+                    }
+
+                    .timetable{
+                        .border-right{
+                            border-right: 1px solid $border-dde;
+                            &:last-child{
+                                border: none;
+                            }
+                        }
+                        .timetable-border-bottom{
+                            border-bottom: 1px solid $border-dde;
+                            &:last-child{
+                                border: none;
+                            }
+                        }
+                        .text-sm{
+                            font-size: 12px;
+                        }
+
+                        .box-height{
+                            min-height: 260px;
+                        }
+                    }
+                }
+                .primary02{
+                    h6{
+                        color: $primary;
+                    }
+                }
+            }
+            .page_inner {
+                .card {
+                    .card_body{                  
+                        .basic_table{
+                            .datatable_cls {
+                                .table-responsive{
+                                    padding: 10px 0 0;
+                                    background:$overall-gradient-bg;
+                                    margin: 0 0 25px; 
+                                    .class_title {
+                                        display: inline-block;
+                                        padding: 0 10px 10px;
+                                        width: 100%;
+                                        text-align: center;
+                                        font-weight: 600;
+                                        text-transform: uppercase;
+                                        font-size: 16px;
+                                        color: $white;
+                                        border-bottom: 2px solid $lightblue-7a;
+                                        position: sticky;
+                                        left: 0;
+                                        right: 0;
+                                    }
+                                    .table{   
+                                        background:none;                                    
+                                        tr{
+                                            td{
+                                                &:first-child{
+                                                    min-width: 133px;
+                                                    white-space: normal;
+                                                    padding: 0 11px;
+                                                    z-index: 2 !important;
+                                                    span{
+                                                        display: block;
+                                                    }
+                                                }
+                                                &:last-child{
+                                                    text-align: left;
+                                                }
+                                                .form_group{
+                                                    // .ng-select{
+                                                        margin-bottom: 10px;
+                                                    // }
+                                                }
+                                            }
+                                            th{
+                                                &:last-child{
+                                                    padding-right: 0;
+                                                    text-align: left;
+                                                }
+                                            }
+                                            th{
+                                                &:first-child{
+                                                    z-index: 2 !important;
+                                                }
+                                            }
+                                        }                  
+                                        .ng-select{
+                                            .ng-select-container{
+                                                .ng-value-container {
+                                                    padding: 0;
+                                                }
+                                            }
+                                            &.ng-select-opened,&.ng-select-bottom ,&.ng-select-top  {
+                                                .ng-select-container {
+                                                    .ng-value-container {
+                                                        padding: 0;
+                                                        .ng-placeholder, .ng-value{
+                                                            top: 0;
+                                                        }
+                                                        .ng-input {
+                                                            top: 50%;
+                                                            transform: translateY(-50%);
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    .gap-5{
+                                        gap: 5px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .global_form{   
+                    &.table_top{             
+                        .btn{
+                            // min-width: 130px;
+                            margin: 0 14px 3px 0;
+                            &:last-child{
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                    span{
+                        &.class_title {
+                            width: 100%;
+                            display: block;
+                            text-align: center;
+                            padding: 10px;
+                            background: $primary;
+                            color: $white;
+                            position: sticky;
+                            left: 0;
+                            right: 0;
+                        }
+                    }
+                }
+                table{
+                    &.dataTable{
+                        tr{
+                            td,th{
+                                &:first-child{
+                                    position: sticky;
+                                    left: 0;
+                                    z-index: 1;
+                                }
+                                &.lect_timings{
+                                    font-weight: 500;
+                                    span{
+                                        font-weight: normal;
+                                        display: block;
+                                    }
+                                }
+                            }
+                            td{
+                                &:first-child{
+                                    background:$white;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .table-responsive{
+                border: 1px solid $border-dde;
+                overflow-x: auto;
+            }
+        }
+        &.dark-theme{
+            app-create-timetable {
+                .page_inner {
+                    table{
+                        &.dataTable{
+                            tr {
+                                td{
+                                    &:first-child{
+                                        background-color:$dark-header;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }            
+                .table-responsive{
+                    border-color:$dark-border;
+                }
+            }
+        }
+    }
+    .timetable-modal{
+        .form_section {
+            h6{
+                min-height: 35px;
+                line-height: 35px;
+            }
+        }
+    }
+
+    .ng-select{
+        .ng-select-container{
+            background: transparent !important;
+        }
+    }
+}
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.flex-1{
+    flex: 1;
+}
+
+.date_between{
+    width: 35px;
+    background: linear-gradient(to right, #2b5876 0%, #4e4376 51%, #2b5876 100%);
+    border-radius: 5px;
+    color: #fff;
+    text-align: center;
+    padding: 5px;
+    margin: 5px;
+}
+
+.gap-35{
+    gap: 35px;                                   
+}
+
+.setting-key{
+    width: 350px;
+    margin: 15px 0px;
+    font-size: 14px;
+}

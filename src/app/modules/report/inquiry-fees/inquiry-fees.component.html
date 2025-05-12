@@ -1,0 +1,98 @@
+<section class="inquiry-fees-report new-student-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0">Inquiry Fees Report</h3>
+            </div>
+
+            <div class="card student-list-card p-0">
+                <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn btn-primary me-2" (click)="clearAll($event)">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body" *ngIf="filter">
+                    <div [formGroup]="inquiryFeesReportFilterForm" class="content_scroll">
+                        <div class="row">
+
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Section</label>
+                                <app-multi-select [dropDownArray]="sectionList" controlName="section_id"
+                                    (change)="getClassesList()" placeholder="select Section"></app-multi-select>
+                            </div>
+
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Class</label>
+                                <app-multi-select [dropDownArray]="classList" controlName="class_id"
+                                    placeholder="Select Class"></app-multi-select>
+                            </div>
+
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Payment Date</label>
+                                <app-date-range-picker controlName="date"
+                                    placeholder="Select Date"></app-date-range-picker>
+                            </div>
+
+
+                            <div class="col-md-3 form_group add_doc">
+                                <label class="form_label">Show</label>
+                                <div class="d-flex">
+                                    <button type="button" class="btn show-btn me-2" (click)="showdData()" [disabled]="isShow">Show
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShow">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card student-list-main-card">
+                <div class="card_body">
+
+                    <div class="row pb-3 mx-0 no-gutters">
+                            <!-- <button class="btn action-print"  [disabled]="false">
+                              <i class="fe fe-printer" *ngIf="true"></i>
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+                                  <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button> -->
+                        <div class="table-responsive">
+                            <div class="table-btn-right" *ngIf="CommonService.hasPermission('report_inquiry_fees_report','has_download')">
+                                <div class="d-flex" style="width: auto;">
+                                    <button type="button" ngbTooltip="PDF" class="pdf-btn btn me-2"  [disabled]="isPdfLoading">
+                                        <img src="assets/images/pdf-icon.svg" alt="" (click)="exportInquiryFees('pdf')">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                    <button type="button" ngbTooltip="EXCEL" class="excel-btn btn" [disabled]="isExcelLoading">
+                                        <img src="assets/images/excel-icon.svg" alt="" (click)="exportInquiryFees('excel')">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <table #myTable datatable [dtOptions]="dtOptions"
+                                class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,137 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Total Subject Lectures</h3>
+				<div class="btn_right">                    
+                    <a [routerLink]="setUrl(URLConstants.ASSIGN_LECTURE)" class="btn mx-2 list-btn">Subject Lecture List</a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body" *ngIf="!lecture_id">
+                    <div class="row" >
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Section<span class="text-danger">*</span></label>
+                            <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section"
+                                (change)="handleSectionChange()" bindLabel="name" bindValue="id"
+                                placeholder="Please select section">
+                            </ng-select>
+                            <div class="text-danger error"> {{errors['section']}} </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Class<span class="text-danger">*</span></label>
+                            <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class"
+                                (change)="handleClassChange()" bindLabel="name" bindValue="id"
+                                placeholder="Please select class">
+                            </ng-select>
+                            <div class="text-danger error"> {{errors['class']}} </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Select Batch<span class="text-danger">*</span></label>
+                            <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch"
+                                (change)="handleBatchChange()" bindLabel="name" bindValue="id"
+                                placeholder="Please select batch">
+                            </ng-select>
+                            <div class="text-danger error"> {{errors['batch']}} </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <button class="w-100 btn  show-btn" type="button"  [disabled]="showLoading" (click)="show()">
+                                Show
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              </button>
+                        </div>
+                        <div class="col-md-auto">
+                            <button type="submit" class="btn clear-btn" (click)="clearForm()"> Cancel </button>
+                        </div>
+                    </div>
+                </div> 
+                <div class="card_body" *ngIf="lecture_id">
+                    <div class="row" >
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Section Name</label>
+                            <input type="text" readonly class="form-control" [(ngModel)]="section_name">
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Class Name</label>
+                            <input type="text" readonly class="form-control" [(ngModel)]="class_name">
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label for="" class="form_label">Batch Name</label>
+                            <input type="text" readonly class="form-control" [(ngModel)]="batch_name">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body" *ngIf="params.subjects.length > 0">
+                    <table class="table table-hover table-nowrap display dataTable table-bordered" >
+                        <thead>
+                        <tr>
+                            <th>Sr. No</th>
+                            <th>Subject</th>
+                            <th style="width: 200px;">Total Lecture Per Week</th>
+                            <th style="width: 250px;">Select Week Days</th>
+                            <th style="width: 150px;" *ngFor="let item of week_days"> {{item }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of params.subjects; let i = index;"> 
+                            <td> {{i + 1}} </td>
+                            <td> {{item.name}} </td>
+                            <td> 
+                                <div>
+                                    <input type="number" (keyup)="errors['subjects.'+i+'.total_lecture'] = ''" [name]="'total_lecture_'+i" class="form-control" [(ngModel)]="item.total_lecture">
+                                    <div class="text-danger error"> {{errors['subjects.'+i+'.total_lecture']}} </div>
+                                </div>  
+                            </td>
+                            <td>
+                                <ng-multiselect-dropdown
+                                [placeholder]="'Select week day'"
+                                [settings]="dropdownSettings"
+                                [data]="week_days"
+                                (onDeSelect)="onWeekChange(i, $event)"
+                                (onDeSelectAll)="onWeekChange(i, $event)"
+                                [(ngModel)]="item.week_days"
+                                >
+                                </ng-multiselect-dropdown>
+                            </td>
+                            <td *ngFor="let day of item.days; let j = index"> 
+                                <div *ngFor="let week_day of item.week_days">
+                                    <input *ngIf="day.day == week_day" [name]="'day_'+i+week_day" type="number"  class="form-control" (keyup)="handleNoOfLectures(i, j)" [(ngModel)]="day.number_of_lecture">
+                                </div>
+                                <div class="text-danger error"> {{errors['subjects.'+i+'.days.'+j+'.number_of_lecture']}} </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                    <br>
+                    <div>
+                        <b>Note : </b> Total Lecture per week count must be greater then or equal to <b> {{lecture_count}} </b>
+                    </div>
+                    <div class="row justify-content-end">
+                            <div class="col-1 form_section">
+                                <button type="submit" class="w-100 btn save-btn" (click)="submit()" [disabled]="saveLoading" *ngIf="lecture_id ? CommonService.hasPermission('administrator_subject_lecture', 'has_update') : CommonService.hasPermission('administrator_subject_lecture', 'has_create')">
+                                    Save
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="saveLoading">
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div>
+                                </button>
+                            </div>
+                            <div class="col-1 form_section">
+                                <a type="submit" class="btn clear-btn"  [routerLink]="[setUrl(URLConstants.ASSIGN_LECTURE)]"  >Cancel</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

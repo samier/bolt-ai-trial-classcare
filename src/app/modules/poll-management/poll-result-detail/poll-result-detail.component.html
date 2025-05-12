@@ -1,0 +1,92 @@
+<section class="poll_module">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Poll Result Detail</h3>
+                <div class="btn_right">
+                  <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.POLL_LIST)">Poll List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+					<div class="row">
+						<div class="col-lg-12">
+							<form class="poll_vote_form card" id="poll-vote-form">
+								<div class="row hed_alert">
+									<div class="col-md-4">
+						                <div class="alert alert-brand mb-0" *ngIf="totalVote">
+                              <div class="card-body p-0">
+                                    <div class="d-flex justify-content-center mb-2">
+                                      <span class="pe-2 mdi mdi-poll"></span>
+                                      <strong class="d-flex mb-0 align-items-center card-title text-primary">Total Vote</strong>
+                                    </div>
+						                        <h5> {{totalVote}} </h5>
+						                    </div>
+						                </div>
+						            </div>
+						            <div class="col-md-4">
+						                <div class="alert alert-success mb-0" *ngIf="pollFor">
+                              <div class="card-body p-0">
+                                    <div class="d-flex justify-content-center mb-2">
+                                      <span><i class="pe-2 fa fa-user-graduate"></i></span>
+                                      <strong class="d-flex mb-0 align-items-center card-title text-success">Poll For</strong>
+                                    </div>
+						                        <h5> {{pollFor}} </h5>
+						                    </div>
+						                </div>
+						            </div>
+						            <div class="col-md-4">
+						                <div class="alert alert-danger mb-0" *ngIf="pollExpiredStatus">
+                              <div class="card-body p-0">
+                                    <div class="d-flex justify-content-center mb-2">
+                                      <span class="pe-2 mdi mdi-check-circle"></span>
+                                      <strong class="d-flex mb-0 align-items-center card-title text-danger">Status</strong>
+                                    </div>
+						                        <h5 *ngIf="pollExpiredStatus == 0">Not Started</h5>
+						                        <h5 *ngIf="pollExpiredStatus == 1">Started</h5>
+						                        <h5 *ngIf="pollExpiredStatus == 2">Expired</h5>
+						                    </div>
+						                </div>
+						            </div>
+								</div>
+							</form>
+						</div>
+
+						<div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive card">
+                            	<table datatable [dtOptions]="dtOptions" class="row-border table table-bordered table-hover table-nowrap display dataTable no-footer" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+				                            <th>Answer</th>
+                                            <th>Type</th>
+                                            <th>Date</th>
+                                            <th>Student/User</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="poll_result_detail?.length != 0">
+                                        <tr *ngFor="let poll_detail of poll_result_detail">
+                                        	<td>{{poll_detail?.user_name}}</td>
+                                        	<td>{{poll_detail?.answer}}</td>
+                                        	<td>{{setPollType(poll_detail?.type)}}</td>
+                                        	<td>{{poll_detail?.date}}</td>
+                                        	<td>
+                                        		{{(poll_detail?.is_user == '1') ? 'User' : 'Student'}}
+                                        	</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="pollDataNullTrue">
+                                        <tr>
+                                          <td colspan="5" class="text-center no-data-available">Data Not Found!</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+				            </div>
+                        </div>
+
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

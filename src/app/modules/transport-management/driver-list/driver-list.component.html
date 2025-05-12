@@ -1,0 +1,64 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Driver List</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn add-btn"  href="#." [routerLink]="setUrl(URLConstants.DRIVER_CREATE)" *ngIf="CommonService.hasPermission('transport_driver', 'has_create')"> Add Driver</a>
+                </div>
+            </div>
+            <div class="card">              
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Driver ID</th>
+				                            <th>Name</th>
+				                            <th>Contact No 1</th>
+				                            <th>Contact No 2</th>
+				                            <th>Whatsapp No.</th>
+				                            <th>Current Address</th>
+				                            <th>Permanent Address</th>
+				                            <th>Type</th>
+				                            <th>Status</th>
+				                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="drivers?.length != 0">
+                                        <tr *ngFor="let driver of drivers">
+                                            <td> {{driver.driver_id}} </td>
+				                            <td> {{driver.name}} </td>
+				                            <td> {{driver.contact_no_1}} </td>
+				                            <td> {{driver.contact_no_2}} </td>
+				                            <td> {{driver.whatsapp_no}} </td>
+				                            <td class="whitespace_normal"> {{driver.current_address}} </td>
+				                            <td> {{driver.permanent_address}} </td>
+				                            <td> {{driver.type}} </td>
+				                            <td> <span class="text-capitalize {{driver.status == 'active' ? 'text-success' : 'text-warning'}}">{{driver.status}}</span> </td>
+                                            <td> 
+                                                <div class="btn-group" role="group">
+                                                    <a *ngIf="CommonService.hasPermission('transport_driver', 'has_edit')" class="btn " title="Edit" href="#" [routerLink]="[setUrl(URLConstants.DRIVER_EDIT),driver.id]" > <i class="fa fa-pencil-alt"></i> </a>
+													<button *ngIf="CommonService.hasPermission('transport_driver', 'has_delete')" type="button" title="Delete" class="btn btn-sm btn-danger" (click)="remove(driver.id)"> 
+														<i class="fa fa-trash-alt"></i> 
+													</button> 
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="drivers?.length == 0">
+                                        <tr>
+                                          <td colspan="13" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

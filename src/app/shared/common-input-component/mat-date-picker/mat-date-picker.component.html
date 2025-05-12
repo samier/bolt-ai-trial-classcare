@@ -1,0 +1,63 @@
+<ng-container #container *ngIf="isComponentVisible">
+    <div class="custom-date-picker">
+        <ng-container *ngIf="templateDriven else reactiveForm">
+            <mat-form-field appearance="outline">
+                <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" (focus)="picker.open()" [placeholder]="placeholder"
+                    [(ngModel)]="selectedDate" (dateChange)="onDateChange($event)" [required]="isRequired" [min]="minDate"
+                    [max]="maxDate" #dateInput="ngModel" [disabled]="disabled" [readonly]="readonly" (focus)="readonly ? null : picker.open()"/>
+                <mat-icon matSuffix *ngIf="selectedDate && !disabled" (click)="readonly ? null : handleClearDate($event)" >close</mat-icon>
+                <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="readonly || disabled"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <div *ngIf="dateInput.invalid && dateInput.touched" class="text-danger">
+                <p *ngIf="dateInput.errors?.['required']">The input is required.</p>
+                <p
+                    *ngIf="dateInput.errors?.['matDatepickerParse'] || dateInput.errors?.['matDatepickerMin'] || dateInput.errors?.['matDatepickerMax']">
+                    The Date is not valid.
+                </p>
+            </div>
+        </ng-container>
+
+        <ng-template #reactiveForm>
+            <form [formGroup]="formGroup">
+                <ng-container *ngIf="formArray else simpleInput">
+                    <ng-container [formArrayName]="formArrayName">
+                        <div [formGroupName]="GroupName">
+                            <mat-form-field appearance="outline">
+                                <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" [placeholder]="placeholder"
+                                    [formControlName]="controlName" (dateChange)="onDateChange($event)" [min]="minDate" [max]="maxDate"
+                                    [disabled]="disabled" [readonly]="readonly" (focus)="readonly ? null : picker.open()"/>
+                                <mat-icon matSuffix *ngIf="FormControl?.value && !disabled && FormControl?.status != 'DISABLED'" (click)="readonly ? null : clearReactiveDate($event)">close</mat-icon>
+                                <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="readonly || disabled"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                            <div *ngIf="FormControl?.invalid && (FormControl?.dirty || FormControl?.touched)">
+                                <ng-container *ngFor="let error of formValidationService?.getErrors(FormControl)">
+                                    <div class="text-danger">{{ error }}</div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+
+                <ng-template #simpleInput>
+                    <div>
+                        <mat-form-field appearance="outline">
+                            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" [placeholder]="placeholder"
+                                [formControlName]="controlName" (dateChange)="onDateChange($event)" [min]="minDate" [max]="maxDate"
+                                [disabled]="disabled" [readonly]="readonly" (focus)="readonly ? null : picker.open()" />
+                            <mat-icon matSuffix *ngIf="formGroup.get(controlName)?.value && !disabled && FormControl?.status != 'DISABLED'" (click)="readonly ? null : clearReactiveDate($event)">close</mat-icon>
+                            <mat-datepicker-toggle matSuffix [for]="picker" [disabled]="readonly || disabled"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div *ngIf="FormControl?.invalid && (FormControl?.dirty || FormControl?.touched)">
+                            <ng-container *ngFor="let error of formValidationService?.getErrors(FormControl)">
+                                <div class="text-danger">{{ error }}</div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-template>
+            </form>
+        </ng-template>
+    </div>
+</ng-container>

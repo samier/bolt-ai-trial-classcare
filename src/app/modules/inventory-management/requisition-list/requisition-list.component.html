@@ -1,0 +1,220 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Requisition List</h3>
+				<div class="btn_right">
+					<a class="btn add-btn" href="#." [routerLink]="[CommonService.setUrl(URLConstants.REQUISITION_FORM)]" > Add Requisition</a>
+				</div>
+			</div>
+			<div class="card student-list-card p-0 mx-0 mb-4">
+				<div class="card-header justify-content-between d-flex">
+				  <div class="card-student-heading d-flex align-items-center">
+					<h5 class="mb-0">Filters</h5>
+					<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+				  </div>
+				  <div class="d-flex student-accordion-btn">
+					<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+					<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+					  <i class="fa fa-angle-down" *ngIf="!filter"></i>
+					  <i class="fa fa-angle-up" *ngIf="filter"></i>
+					</button>
+				  </div>
+				</div>
+		
+				<div class="card-body" *ngIf="filter">
+				  <div [formGroup]="filterForm" class="content_scroll">
+					<div class="row">
+						<div class="col-md-3 form_group">
+							<label class="form_label">Requisition date</label>
+							<div>
+								<app-date-range-picker type="date" placeholder="Select Requisition date" controlName="requisition_date" ></app-date-range-picker>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Requisition For</label>
+							<div>
+								<app-single-select placeholder="Select Requisition For" controlName="requisition_for" [dropDownArray]="requisitions_for" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Expected date</label>
+							<div>
+								<app-date-range-picker type="date" placeholder="Select Expected date" controlName="expected_date" ></app-date-range-picker>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Priority</label>
+							<div>
+								<app-single-select placeholder="Select Priority" controlName="priority" [dropDownArray]="priorities"></app-single-select>
+							</div>                                    
+						</div>   
+						<div class="col-md-3 form_group">
+							<label class="form_label">Item Type</label>
+							<div>
+								<app-single-select placeholder="Select Item Type" controlName="item_type" [dropDownArray]="item_types" (change)="handleItemTypeChange()"></app-single-select>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Item</label>
+							<div>
+								<app-single-select placeholder="Select Item" controlName="item" [dropDownArray]="items" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Measurement Type</label>
+							<div>
+								<app-single-select placeholder="Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurement_types" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Status</label>
+							<div>
+								<app-single-select placeholder="Select Status" controlName="status" [dropDownArray]="status" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+					
+						
+					  <div class="col-md-12 form_group">
+						<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+					  </div>
+		
+		
+					</div>
+				  </div>
+				</div>
+			  </div>
+            <div class="card">               
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="table table-bordered table-hover table-nowrap table datatable w-100" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead class="thead-light">
+											<tr>
+												<th>Sr No.</th>
+												<th>Requisition Title</th>
+												<th>Requisition Date</th>
+												<th>Requisition For</th>
+												<th>Name</th>
+												<th>Expected Date</th>
+												<th>Priority</th>					
+												<th>Status</th>		
+												<th>Approve/Reject By</th>			
+												<th class="action-btn-sticky">Action</th>
+
+											</tr>
+										</thead>
+										<tbody *ngIf="tbody?.length != 0">
+											<tr *ngFor="let item of tbody ;let i = index;" >				
+												<td>{{item.DT_RowIndex}}</td>            
+												<td>{{item.requisition_title}}</td>            
+												<td>{{item.requisition_date | date : dateFormateService.getDateFormat()}}</td>            
+												<td>{{item.requisition_for ?? '-'}}</td>    
+												<td>{{item.name ?? '-'}}</td>         
+												<td>{{item.expected_date | date : dateFormateService.getDateFormat()}}</td>            
+												<td class="{{item.priority}}">{{item.priority | titlecase}}</td>                                               
+												<td class="{{item.status}}">{{item.status | titlecase}}</td>                                                                 
+												<td>{{item.approve_reject_by_user}}</td>                                               
+												<td class="action-btn-sticky text-center">
+													<div class="btn-group" role="group">
+														<a class="lt-btn-icon action-edit" ngbTooltip="Edit" href='#' *ngIf="item.status != 'approved'" [routerLink]="[CommonService.setUrl(URLConstants.REQUISITION_FORM),item.id]"></a>
+														<button class="lt-btn-icon action-delete" ngbTooltip="Delete" (click)="delete(item.id)"></button>
+														<button class="lt-btn-icon action-approve" ngbTooltip="Approve" type="button" *ngIf="item.status=='pending' && CommonService.hasPermission('inventory_requisition_approval', 'has_access')" (click)="approve(item.id,1)"></button>
+														<button class="lt-btn-icon action-reject" ngbTooltip="Reject" type="button" *ngIf="item.status=='pending' && CommonService.hasPermission('inventory_requisition_approval', 'has_access')" (click)="open(mymodal,item.id)"></button>                                                    
+														<a class="lt-btn-icon action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)">></a>
+													</div>
+												</td>                                             
+											</tr>
+										</tbody>									
+										<tbody *ngIf="tbody?.length == 0">
+											<tr>
+											<td colspan="11" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>										
+									</table>
+
+									<ng-template #mymodal let-modal >
+										<div class="modal-header" style="z-index: 0;">
+										<h4 class="modal-title" id="modal-basic-title">Reason for Requisition Rejection</h4>
+										<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+											<span aria-hidden="true">×</span>
+										</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+																							
+											<div class="form_group">
+												<label class="col-md-12 form_label">Reject Reason<span class="text-danger">*</span></label>
+												<div class="form-group">
+													<div class="col-lg-12">
+														<textarea class="form-control" [(ngModel)]="reasonForRejection" name="detail" id="detail" placeholder="Enter reason for requisition rejection." required></textarea>
+													</div>
+												</div>
+											</div>           
+				
+										</div>
+										<div class="modal-footer" style="z-index: 0;">
+										<button type="button" [disabled]="true" class="btn save-btn" *ngIf="reasonForRejection=='' " (click)="modal.close('Save click')">Submit</button>                          
+										<button type="button" [disabled]="false" class="btn save-btn" *ngIf="reasonForRejection && reasonForRejection!='' " (click)="modal.close('Save click')">Submit</button>                          
+										</div>
+									</ng-template>
+
+									<ng-template #myviewmodal let-modal >
+										<div class="modal-header" style="z-index: 0;">
+										<h4 class="modal-title" id="modal-basic-title">Requisition Details</h4>
+										<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+											<span aria-hidden="true">×</span>
+										</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+																							
+										<div class="form_group">
+											<label class="col-md-6  py-2 form_label"><b>Requisition Date : </b> {{requisition_modal_data.requisition.requisition_date | date : dateFormateService.getDateFormat()}}</label>										
+											<label class="col-md-6  py-2 form_label"><b>Expected Date : </b> {{requisition_modal_data.requisition.expected_date | date : dateFormateService.getDateFormat()}}</label>										
+											<label class="col-md-6  py-2 form_label"><b>Requisition For : </b> {{requisition_modal_data.requisition_by}}</label>										
+											<label class="col-md-6  py-2 form_label"><b>Name : </b> {{requisition_modal_data.requisition_by_name}}</label>																		
+											<label class="col-md-6  py-2 form_label"><b>Priority : </b> {{requisition_modal_data.requisition.priority}}</label>										
+											<label class="col-md-6  py-2 form_label"><b>Status: </b> {{requisition_modal_data.requisition.status == 0 ? 'Pending' : (requisition_modal_data.requisition.status == 1 ? 'Approved' : 'Rejected')}}</label>	
+											<label class="col-md-12 py-2 form_label"><b>Remark : </b> {{requisition_modal_data.requisition.remark}}</label>			
+											<label class="col-md-12 py-2 form_label" *ngIf="requisition_modal_data.requisition.reject_reason"><b>Reject Reason : </b> {{requisition_modal_data.requisition.reject_reason}}</label>			
+											<br>							
+											<table class="table table-bordered table-hover table-nowrap table datatable w-100">
+												<thead>
+													<tr>
+														<th>Item Type</th>
+														<th>Item Name</th>
+														<th>Quantity</th>
+														<th>Measurement Type</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let item of requisition_modal_data.requisition_items">
+														<td>{{item?.item_name?.inventory_item_type?.name ?? '-'}}</td>
+														<td>{{item.item_name.item_name}}</td>
+														<td>{{item.quantity}}</td>
+														<td>{{item?.item_name?.measurment_type?.name}}</td>
+													</tr>
+												</tbody>
+											</table>									
+										</div>           			
+										</div>
+									</ng-template>								  
+
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

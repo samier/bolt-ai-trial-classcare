@@ -1,0 +1,168 @@
+<section class="poll_module">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Vote for Poll</h3>
+                <div class="btn_right">
+                  <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.POLL_LIST)">Poll List</a>
+                </div>
+            </div>
+
+            <div>
+                <div class="card_body">
+					<div class="row">
+						<div class="col-lg-12">
+							<form [formGroup]="form" class="poll_vote_form" id="poll-vote-form">
+								<div>
+                  <div class="card p-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div>
+                          <div>
+                                                    <label class="card-title p-3 mb-0 border-btm"><b>Title</b></label>
+                                                    <div>
+                                                        <p class="mb-0 p-3"> {{title}} </p>
+                                                    </div>
+                                                </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+								<div class="card p-0">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div>
+                        <div>
+                                                  <label class="card-title p-3 mb-0 border-btm"><b>Description</b></label>
+                                                  <div>
+                                                      <p class="mb-0 p-3"> {{description}} </p>
+                                                  </div>
+                                              </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card p-0">
+                  <div class="row" *ngIf="!alreadyAnswered">
+                    <div class="col-md-12" *ngIf="isCustomType == false || isOptionType == true">
+                      <div>
+                        <div>
+                                                  <label class="card-title p-3 mb-0 border-btm">List of Answers<span class="text-danger" *ngIf="!notAnsweredAndPollExpired">*</span></label>
+                                              </div>
+                                              <div class="p-3" *ngIf="optionsData?.length !=0">
+                                                <div class="radio d-block">
+                                                  <label class="form_label m-radio required" [class.cursor-pointer-custom]="!notAnsweredAndPollExpired" *ngFor="let singleOption of optionsData">
+                                                    <input type="radio" [value]="singleOption?.id" name="" formControlName="optionQue" (click)="radioButtonOnClickTextboxHideShow('option')"> {{singleOption?.ans}} <span></span>
+                                                  </label>
+                                                </div>
+                                                <div class="radio d-block">
+                                                  <label class="form_label m-radio required cursor-pointer-custom" *ngIf="isCustomType">
+                                                    <input type="radio" value="custom_ans" formControlName="optionQue" (click)="radioButtonOnClickTextboxHideShow('custom')"  > Custom Answer <span></span>
+                                                  </label>
+                                                </div>
+                                                  <div *ngIf="form.controls['optionQue'].invalid && (form.controls['optionQue'].dirty || form.controls['optionQue'].touched)" class="col-md-12 error text-danger mb-2">
+                                                      <div *ngIf="form.controls['optionQue'].errors?.['required']">select atleast one radio button.</div>
+                                                  </div>
+                                              </div>
+
+                                              <div *ngIf="isCustomTextbox">
+                          <label class="card-title p-3 mb-0 border-btm"><b>Write your own answers<span class="text-danger">*</span></b></label>
+                          <div class="p-3">
+                              <input type="text" id="customAnsTextbox" formControlName="customAnsTextbox" placeholder="Write your own answer" class="form-control" maxlength="300" [disabled]="!notAnsweredAndPollExpired">
+                          </div>
+                          <div *ngIf="form.controls['customAnsTextbox'].invalid && (form.controls['customAnsTextbox'].dirty || form.controls['customAnsTextbox'].touched)" class="col-md-12 error text-danger mb-2">
+                                                      <div *ngIf="form.controls['customAnsTextbox'].errors?.['required']">answer is required field.</div>
+                                                  </div>
+                                              </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="!alreadyAnswered">
+                    <div class="col-md-12" *ngIf="isCustomType == true && isOptionType == false">
+                      <div class="">
+                        <div>
+                          <label class="card-title p-3 mb-0 border-btm"><b>Write your own answers<span class="text-danger">*</span></b></label>
+                          <div class="p-3">
+                              <input type="text" id="customAnsTextbox" formControlName="customAnsTextbox" placeholder="Write your own answer" class="form-control" maxlength="300" [disabled]="!notAnsweredAndPollExpired">
+                          </div>
+                          <div *ngIf="form.controls['customAnsTextbox'].invalid && (form.controls['customAnsTextbox'].dirty || form.controls['customAnsTextbox'].touched)" class="error text-danger mb-2">
+                                                      <div *ngIf="form.controls['customAnsTextbox'].errors?.['required']">answer is required field.</div>
+                                                  </div>
+                                              </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="alreadyAnswered">
+                    <div class="col-md-6 row" *ngIf="isCustomType == false || isOptionType == true">
+                      <div class="col-md-12">
+                        <div class="form_group">
+                                                  <h6 class="card-title">List of Answers</h6>
+                                              </div>
+                                              <div class="col-md-12" *ngIf="optionsData?.length !=0">
+                                                  <label class="col-md-12 form_label" *ngFor="let singleOption of optionsData">
+                                                    <input type="radio" [value]="singleOption?.id" name="" class="" [disabled]="true" [checked]="singleOption?.id == answerData.id"> {{singleOption?.ans}}
+                                                  </label>
+                                                  <label class="col-md-12 form_label " *ngIf="isCustomType">
+                                                    <input type="radio" value="custom_ans" name="" (click)="radioButtonOnClickTextboxHideShow('custom')" class="" [disabled]="true" [checked]="alreadyAnsweredIsCustomAnswer"> Custom Answer
+                                                  </label>
+                                              </div>
+
+                                              <div *ngIf="isCustomTextbox">
+                          <label class="card-title p-3 mb-0 border-btm"><b>Write your own answers</b></label>
+                          <div class="p-3">
+                              <input type="text" id="" name="" [value]="alreadyAnsweredCustomAnsText" class="form-control" [disabled]='true'>
+                          </div>
+                                              </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" *ngIf="alreadyAnswered">
+                    <div class="col-md-12" *ngIf="isCustomType == true && isOptionType == false">
+                      <div class="">
+                        <div>
+                          <label class="card-title p-3 mb-0 border-btm"><b>Write your own answers</b></label>
+                          <div class="p-3">
+                              <input type="text" id="" name="" class="form-control" [value]="answerData?.Answer" [disabled]="true">
+                          </div>
+                                              </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+								<div class="row">
+									<div class="col-md-12">
+
+                    <div class=" row w-100">
+                      <div class="col-md-1">
+                        <a class="btn btn-danger w-100" href="#" [routerLink]="setUrl(URLConstants.POLL_LIST)">Cancel</a>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="submit" class="btn" [disabled]="form.invalid" (click)="onSubmit()">Submit Vote</button>
+                      </div>
+                  </div>
+
+										<div class="form-group mt-4 ml-4 text-left w-100" *ngIf="alreadyAnswered">
+											<div class="">
+												<h5 class="text-danger tx-14">Your vote already submitted!!!</h5>
+											</div>
+										</div>
+										<div class="form-group mt-4 ml-4 text-left w-100" *ngIf="notAnsweredAndPollExpired">
+											<div class="">
+												<h5 class="text-danger tx-14">Sorry you haven't voted and now the voting date has been expired!!!</h5>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+        </div>
+      </div>
+        <div>
+          <div>
+        </div>
+                    </div>
+        </div>
+    </div>
+</section>

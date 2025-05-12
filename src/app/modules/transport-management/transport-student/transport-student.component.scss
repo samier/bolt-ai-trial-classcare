@@ -1,0 +1,213 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    app-transport-student{
+        .student-list{
+            max-height: 400px;
+            overflow: auto;
+            .student_roll_no{
+                min-width: 50px;
+                display: inline-block;
+            }
+        }
+        .show_clear_btn{
+            border-top: 2px solid #80808045;
+        }
+        .card-label{
+            background-color: $primary;
+            border-radius: 7px 0 0 0;
+            ~ .card{
+                border-radius: 0;
+                border: 0;
+            }
+            h3{
+                text-transform: capitalize;
+                color: $white;
+                font-size: 20px;
+                font-weight: 500;
+                padding: 6px;
+            }
+        }
+        .from_card{
+            border-right: 2px solid #80808045;
+        }
+        .to_card{
+            .card-label{
+                border-radius: 0 7px 0 0;
+                ~ .card{
+                 border-radius: 0;   
+                }
+            }
+        }
+        .search_box{
+            position: relative;
+            input{
+                padding-right: 30px;
+            }
+            i{
+                &.fa-search{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translate(0, -50%);
+                    opacity: 0.6;
+                }
+            }
+        }
+        .transport-student{
+            .form_section{
+                .sub_title{
+                    color: #000;
+                }
+            }
+        }
+        .basic_table{
+            .table-responsive{
+                .table-bordered{
+                    border-radius: 4px;
+                    border-collapse: collapse;
+                    thead{
+                        tr{
+                            background-color: #E7E7E7;
+                            
+                            th{
+                                padding: 7px 12px;
+                                border-right: 1px solid var(--bs-table-bg);
+                                white-space: nowrap;
+                                background-color : #E7E7E7;
+                                font-weight: 500;
+                                font-size: 14px;
+                                line-height: 20px;
+                                color: #000;
+                                &:last-child{
+                                    border-right: none;
+                                }
+                                &:first-child{
+                                    text-align: left !important; 
+                                }
+                            }
+                        }
+                    }
+                    tbody{
+                        tr{
+                            &:nth-child(even){
+                                background-color: #ECF0FA;
+                            }
+                            td{
+                                padding: 7px 12px;
+                                white-space: nowrap;
+                                font-size: 14px;
+                                line-height: 20px;
+                                font-weight: 400;
+                                color: #000;
+                                &:first-child{
+                                    text-align: left !important; 
+                                    width: 60px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .student-table{
+                    thead{
+                        tr{
+                            
+                            th{
+                                &:first-child{
+                                line-height: 0;
+                                vertical-align: top;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .student-table{
+            padding: 0 !important;
+            border: 1px solid #D0C9C0;
+            table{
+                tr{
+                    
+                    th,td{
+                        padding: 7px 12px;
+                        font-size: 14px;
+                        line-height: 18px;
+                        font-weight: 500;
+                        border-bottom: 1px solid #D0C9C0;
+                        border-right: 1px solid #D0C9C0;
+                        color: #000 !important;
+                        vertical-align: middle;
+                        &:last-child{
+                            border-right: none;
+                        }
+                        &:first-child{
+                            text-align: center;
+                        }
+                    }
+                    th{
+                        font-weight: 700;
+                        background-color: #E7E7E7;
+                    }
+                    &:last-child{
+                        td{
+                            border-bottom: none;
+                        }
+                    }
+                }
+                
+            }
+            table {
+                max-height: 100px;
+                overflow-y: auto;
+                .thead{
+                    position: sticky;
+                    top: 0;
+                }
+                tr{
+                    &:nth-child(even) {
+                        background: #ECF0FA !important;
+                      }
+                    }// Choose your own color here
+            }
+        }
+        .select-lable-text{
+            padding-left: 12px;
+            .select-dark-color{
+                color: #000;
+            }
+        }
+        .current-student-table{
+            table{
+                tr{
+                    td,th{
+                        padding: 8px 12px;
+                        &:first-child{
+                            text-align: left;
+                        }
+                    }
+                }
+            }
+        }
+        .total-student-text{
+                color: #000;
+        }
+    }
+
+    
+
+    @media(max-width: 1200px){
+        app-transport-student {
+            .select-lable-text{
+                padding-left: 26px;
+            }
+        }
+    }
+    @media(max-width: 767px) and (min-width: 576px){
+        app-transport-student {
+            .select-lable-text{
+                padding-left: 32px;
+            }
+        }
+    }
+}
+

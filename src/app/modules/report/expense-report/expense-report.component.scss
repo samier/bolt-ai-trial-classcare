@@ -1,0 +1,29 @@
+@import'../../../../assets/scss/variables';
+::ng-deep app-expense-report{
+    .main{
+        table{
+            &.table_main{
+                border:none !important;
+                overflow: hidden;
+                td{
+                    &.yid_data {
+                        font-weight: 700;
+                    }
+                }
+                th{
+                    &.expense_title{
+                        &.black_bg{
+                            background:$primary !important;
+                            width: 180px;
+                        }
+                    }
+                    &.total{
+                        &.black_bg{
+                            width: 120px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

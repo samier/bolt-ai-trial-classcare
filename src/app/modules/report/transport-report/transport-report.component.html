@@ -1,0 +1,198 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="form_section">
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <h3 class="sub_title">Transport Report</h3>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="form_section global_form">
+                        <div class="card mt-4">
+                            <div class="row">
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">From Date</label>
+                                    <app-mat-date-picker [(selectedDate)]="params.from_date" [isRequired]="false" [templateDriven]="true" (change)="fromDateChange($event)"></app-mat-date-picker>
+                                    <!-- <input class="form-control" type="date" name="date_range" id="date_range"
+                                            placeholder="Enter Date" (change)="fromDateChange($event)" > -->
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">To Date</label>
+                                    <app-mat-date-picker [(selectedDate)]="params.to_date" [isRequired]="false" [templateDriven]="true" (change)="toDateChange($event)"></app-mat-date-picker>
+                                        <!-- <input class="form-control" type="date" name="date_range" id="date_range"
+                                            placeholder="Enter Date" (change)="toDateChange($event)" > -->
+                                </div>
+                                <div class="col-md-2 form_group" *ngIf="isSchool==1">
+                                    <label for="" class="form_label">Select school</label>
+                                    <ng-select #select [items]="schools" [searchable]="true" [(ngModel)]="params.school" (change)="schoolChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="please select">
+                                    </ng-select>
+                                </div>                                
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">Select Section</label>
+                                    <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section" (change)="sectionChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="please select">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label class="form_label">Select Class<span class="text-danger"></span></label>
+                                    <div>
+                                    <ng-multiselect-dropdown
+                                    [placeholder]="'select class'"
+                                    [settings]="classDropdownSettings"
+                                    [data]="classes"
+                                    [(ngModel)]="selectedClasses"
+                                    (onSelect)="onClassSelect()"
+                                    (onSelectAll)="onClassSelect()"
+                                    (onDeSelect)="onClassSelect()"
+                                    (onDeSelectAll)="onClassSelect()"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label class="col-md-12 form_label">Select Batch<span class="text-danger"></span></label>
+                                    <div class="col-md-12">
+                                    <ng-multiselect-dropdown
+                                    [placeholder]="'select batch'"
+                                    [settings]="classDropdownSettings"
+                                    [data]="batches"
+                                    [(ngModel)]="selectedBatches"
+                                    (onSelect)="onBatchSelect()"
+                                    (onSelectAll)="onBatchSelect()"
+                                    (onDeSelect)="onBatchSelect()"
+                                    (onDeSelectAll)="onBatchSelect()"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                    </div>
+                                </div> 
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">Select vehicle</label>
+                                    <ng-select #select [items]="vehicles" [searchable]="true" [(ngModel)]="params.vehicle"  (change)="reloadData()"
+                                        bindLabel="vehicle_no"  bindValue="id"
+                                        placeholder="please select">
+
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">Select Route</label>
+                                    <ng-select #select [items]="routes" [searchable]="true" [(ngModel)]="params.route"  (change)="routeChange()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="please select">
+
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">Select Stop</label>
+                                    <ng-select #select [items]="stops" [searchable]="true" [(ngModel)]="params.stop" (change)="reloadData()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="please select">
+
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-2 form_group">
+                                    <label for="" class="form_label">Status</label>
+                                    <ng-select #select [items]="status" [searchable]="true" [(ngModel)]="params.status" (change)="reloadData()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="please select">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="row trans-blue-btn mt-2">
+                                <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')" class="col-auto">
+                                    <a class="btn report-btn" href="javacript:void(0)" (click)="downloadVehicleReport()">Vehicle
+                                        Report</a>
+                                </div>
+                                <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')" class="col-auto">
+                                    <a class="btn report-btn" href="javacript:void(0)" (click)="downloadDriverReport()">Driver
+                                        Report</a>
+                                </div>
+                                <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')" class="col-auto">
+                                    <a class="btn report-btn" href="javacript:void(0)" (click)="downloadRouteReport()">Route
+                                        Report</a>
+                                </div>
+                                <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')" class="col-auto">
+                                    <a class="btn report-btn" href="javacript:void(0)"
+                                        (click)="downloadStudentCountReport()">Route Wise Student Count Report</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card fee_report_filter">
+                        <div class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive">
+                                    <div class="table-btn-right d-flex">
+                                        <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')" class="me-2">
+                                                <a class="btn pdf-btn" ngbTooltip="PDF" href="javacript:void(0)"
+                                            (click)="downloadStudentTransportReport('pdf')"><img src="assets/images/pdf-icon.svg" alt=""></a>
+                                        </div>
+                                        <div *ngIf="CommonService.hasPermission('report_transport_report', 'has_download')">
+                                            <a class="btn excel-btn" ngbTooltip="EXCEL" href="javacript:void(0)"
+                                            (click)="downloadStudentTransportReport('excel')"><img src="assets/images/excel-icon.svg" alt=""></a>
+                                        </div>
+                                    </div>
+                                    <table datatable [dtOptions]="dtOptions"
+                                        class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <!-- <th></th> -->
+                                                <th>Sr.No.</th>
+                                                <th>Start date</th>
+                                                <th>Route Name</th>
+                                                <th>Stop</th>
+                                                <th>Section</th>
+                                                <th>Class</th>
+                                                <th>Batch</th>
+                                                <th>Student Name</th>
+                                                <th>Student <br>Mobile No.</th>
+                                                <th>Father <br>Mobile No</th>
+                                                <th>Mother <br>Mobile No.</th>
+                                                <th>Current Address</th>
+                                                <th>Assigned Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <!-- <td>
+                                                    <div class="m-checkbox-list">
+                                                        <label class="m-checkbox">
+                                                            <input type="checkbox" name="all" id="select_all"
+                                                                class="s-checkbox">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </td> -->
+                                                <td>{{item.no}}</td>
+                                                <td>{{item.start_date.substring(0,10)}}</td>
+                                                <td>{{item.route_name}}</td>
+                                                <td>{{item.stop}}</td>
+                                                <td>{{item.section}}</td>
+                                                <td>{{item.class}}</td>
+                                                <td>{{item.batch}}</td>
+                                                <td class="name_hover">{{item.student}}</td>
+                                                <td class="orange-text-color">{{item.student_mobile_number}}</td>
+                                                <td class="green-text-color">{{item.father_number}}</td>
+                                                <td class="teal-text-color">{{item.mother_number}}</td>
+                                                <td>{{item.address}}</td>
+                                                <td>{{item.created_at}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                              <td colspan="11" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

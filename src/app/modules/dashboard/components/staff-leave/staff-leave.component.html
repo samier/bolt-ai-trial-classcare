@@ -1,0 +1,83 @@
+<div class="student-absent-section">
+    <div class="today-leave-header">
+        <!-- <h3> Staff Leave </h3> -->
+        <a href="#" class="view-all-link" [routerLink]="dashBoardService.setUrl(URLConstants.LEAVES_LIST)"><h3> <img src="./assets/images/staff-leave-icon.svg" /> Staff Leave </h3></a>
+        
+        <div [formGroup]="staffLeaveF" class="exam-mark-form">
+            <div class="row justify-content-end pe-3">
+                <div class="col-md-4 form_group m-0">
+                    <app-single-select controlName="leave_status"  placeholder="Select Leave Status" [dropDownArray]="leaveStatus" (change)="handleChange()"></app-single-select>
+                </div>
+                <div class="col-md-4 form_group m-0">
+                    <app-date-range-picker class="date-icons" type="date" controlName="date"  placeholder="Select Date" [defaultStartDate]="dropdownDate" 
+                    [defaultEndDate]="dropdownDate"></app-date-range-picker>
+                </div>
+             </div>
+        </div>
+
+    </div>
+    <div class="birthday-wrapper"  infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+        <ul>
+            <ng-container *ngIf="staffLeaveList?.length > 0">
+                <ng-container *ngFor="let staff of staffLeaveList">
+                    <li>
+                        <div class="birthday-lt-content">
+                            <h4>{{staff?.name ?? "-"}}
+                                <span> ( {{ staff?.user_type}} ) </span>
+                                <!-- <span>(STD-6, 6-A )</span> -->
+                            </h4></div>
+                            <div class="birthday-lt-content">
+                                <div class="leave-rt-content">
+                                    <a [ngbTooltip]="phone" ><img src="assets/images/call-icon.svg" /></a>
+
+                                    <a [ngbPopover]="whatsapp" #popoverRef="ngbPopover" (click)="togglePopover(popoverRef)" ><img src="assets/images/whatsup-icon.svg" /></a>
+                                </div>
+
+
+                                <div class="leave-rt-content" *ngIf="staff?.status == 0">
+                                    <button class="pending-chip"><span>PENDING</span></button>
+                                </div>
+                                <div class="leave-rt-content" *ngIf="staff?.status == 1">
+                                    <button class="approve-chip"><span>APPROVED</span></button>
+                                </div>
+                                <div class="leave-rt-content" *ngIf="staff?.status == 2">
+                                    <button class="decline-chip"><span>REJECT</span></button>
+                                </div>
+
+
+                                <ng-template #phone>
+                                    <div *ngIf="staff?.user_leave[0]?.phone_number" > {{ staff.user_leave[0]?.first_name }}'s Number - {{ staff?.user_leave[0]?.phone_number }} </div>
+    
+                                    <div *ngIf="!staff?.user_leave[0]?.phone_number" >Number not Found </div>
+                                </ng-template>
+    
+                                <ng-template #whatsapp>
+                                    <a *ngIf="staff?.user_leave[0]?.phone_number" [href]="'https://web.whatsapp.com/send?phone=' + staff?.user_leave[0]?.phone_number" target="_blank">
+                                        <div> {{ staff.user_leave[0]?.first_name }}'s Whatsapp</div>
+                                    </a>
+                                
+                                    <div *ngIf=" !staff?.user_leave[0]?.phone_number " > Whatsapp Number not Found </div>
+                                </ng-template>
+                            </div>
+                    </li>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_loading">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner-border-sm ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!is_loading &&  staffLeaveList?.length == 0">
+                <div class="d-flex justify-content-center">
+                    No Data Found.
+                </div>
+            </ng-container>
+
+        </ul>
+    </div>
+
+</div>

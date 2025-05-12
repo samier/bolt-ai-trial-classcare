@@ -1,0 +1,164 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-homework-list{
+        // .section_title{
+        //     background-color: $primary;
+        //     color: white;
+        //     padding: 10px 20px;
+        //     border-radius: 7px 7px 0 0;
+        // }
+        .form-switch{
+            .form-check-input{
+                margin-left: 0;
+                width: 50px;
+                height: 25px;
+                &:checked{
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+                &:focus{
+                    box-shadow: 0 0 0 0.25rem rgb(1 50 156 / 25%);;
+                }
+            }
+        } 
+        .total_card{
+            text-transform: capitalize;
+            color: #4e4d4dc7;
+            font-weight: 500;
+            span{
+                color: $primary;
+            }
+        }
+        .main-card{
+            .watermark{
+                position: absolute;
+                font-size: 50px;
+                font-weight: 900;
+                top: 50%;
+                left: 50%;
+                text-align: center;
+                opacity: .1;
+                transform:translate(-50%, -50%) rotate(-30deg);
+                z-index: 1;
+            }
+            .card{
+                box-shadow: 0px 0px 20px 0px #dadee8 !important;
+            }
+
+            .subject{
+                font-size: 16px;
+                font-weight: bold;
+                color: $primary;
+            }
+            .btn{
+                height: fit-content;
+                padding: 4px 8px !important;
+                font-size: 12px;
+                border-radius: 8px;
+            }
+            .btn-submit{
+                color: #4E713F;
+                padding: 4px 10px;
+                background-color: #B3D6A3;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .btn-pending{
+                color: #FF4335;
+                padding: 4px 10px;
+                background-color: #FAB5B0;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .btn-totle{
+                color: #DC5C07;
+                padding: 4px 10px;
+                background-color: #ffcaa7;
+                border-radius: 3px;
+                width: 33%;
+            }
+            .card-foot{
+                background-color: #5858581c;
+                border-radius: 0 0 7px 7px;
+                p{
+                    span{
+                        font-size: 12px;
+                    }
+                }
+            }
+            .card-head{
+                border-bottom: 1px solid #00000017;
+                div{
+                    span{
+                        font-size: 14px;
+                        font-weight: 400;
+                    }
+                }
+            }
+            .attach_file{
+                div{
+                    width: 25%;
+                    &:note(:first-child){
+                        margin-left: 5px;
+                    }
+                    input{
+                        border-radius: 50px;
+                        background-color: white;
+                        padding: 4px 8px 4px 28px;
+                        text-overflow: ellipsis;
+                        font-size: 13px;
+                    }
+                }
+                i{
+                    &.fa-file-pdf, &.fa-file-image{ 
+                        top: 7px;
+                        left: 10px;
+                        font-size: 15px;
+                        position: absolute;
+                    }
+                    &.fa-file-pdf{
+                        color: red;
+                    }
+                    &.fa-file-image{
+                        color: #1976D5;
+                    }
+                }
+                &.defaultContent{
+                    height: 54px;
+                }
+            }
+            .description{
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+            .count_attach, .copy_link{
+                border-radius: 50%;
+                background-color: #5858581c;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 6px;
+            }
+            .copy_link{
+                background-color: #397FFB;
+                color: $white;
+            }
+        }
+        .draft{
+            margin: -3px 24px 0 0;
+            label{
+                margin: 3px 20px 0 0;
+            }
+        }
+        .no_data_found{
+            border: 1px solid $input-border;
+            border-radius: 3px;
+            padding: 10px;
+            color: #9f9f9f;
+            font-weight: 500;
+        }
+    }
+}

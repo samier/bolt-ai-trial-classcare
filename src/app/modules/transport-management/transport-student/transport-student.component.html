@@ -1,0 +1,261 @@
+<section class="batch-transfer transport-student">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">TRANSPORT STUDENT</h3>
+                <a class="global_btn btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.TRANSPORT_TRANSFER_LIST)"> Transfer List</a>
+            </div>
+
+            <div>
+                <div class="form_section  global_form table_top">
+                    <form [formGroup]="transportStudentForm">
+                        <div class="card p-0">
+                            <div class="row">
+                                <div class="col-md-6 form_group from_card mb-0 d-flex pe-0">
+                                    <div class="d-flex flex-column w-100">
+                                        <div class="card-label">
+                                            <h3 class="text-center mb-0">From</h3>
+                                        </div>
+                                        <div class="p-3 mb-0 d-flex flex-column w-100">
+                                            <div class="row">
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Select Route<span
+                                                        class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select controlName="from_route"
+                                                            [dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'from', 0)"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Select Stop</label>
+                                                    <div>
+                                                        <app-single-select controlName="from_stop"
+                                                            [dropDownArray]="from_stops" placeholder="Please select"></app-single-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form_group to_card mb-0 d-flex ps-0">
+                                    <div class="d-flex flex-column w-100">
+                                        <div class="card-label">
+                                            <h3 class="text-center mb-0">To</h3>
+                                        </div>
+                                        <div class="p-3 flex-column w-100 mb-0">
+                                            <div class="row">
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Pickup Route<span
+                                                        class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select controlName="pickup_route"
+                                                            [dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'to', 1)"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Pickup Stop<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select controlName="pickup_stop"
+                                                            [dropDownArray]="pickup_stops" placeholder="Please select" (change)="handleStopChange($event, 'pickup_stop')"></app-single-select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Drop Route<span
+                                                        class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select controlName="drop_route"
+                                                            [dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'to', 2)"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 form_group">
+                                                    <label for="" class="form_label">Drop Stop<span
+                                                            class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select controlName="drop_stop"
+                                                            [dropDownArray]="drop_stops" placeholder="Please select" (change)="handleStopChange($event, 'drop_stop')"></app-single-select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-3 show_clear_btn">
+                                <div class="btn_right d-flex justify-content-center gap-3">
+                                    <button class="button" type="button" class="btn show-btn d-flex align-items-center" [disabled]="transportStudentForm.invalid || loading" (click)="show()">
+                                        SHOW
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="loading">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                    <button class="button" type="button" class="btn clear-btn d-flex align-items-center" (click)="clear()">
+                                        CLEAR
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-md-6 d-flex form_group">
+                            <div class="card radius-left-bottom-0 d-flex flex-column w-100">
+                                <div class="form_section  global_form table_top">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="sub_title mb-0">SELECT STUDENTS TO TRANSFER FROM <span
+                                                class="text-primary"></span></h5>
+                                        <button class="button" type="button" class="btn transfer-btn d-flex align-items-center"
+                                            [disabled]="transferLoading" (click)="transfer()">
+                                            Transfer
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                *ngIf="transferLoading">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6 p-0 search_box">
+                                        <input type="text" placeholder="Search Student" class="form-control" (keyup)="search($event, 'from')"><i
+                                            class="fas fa-search"></i>
+                                    </div>
+                                    <!-- <p class="pt-3">Students : <b>{{studentList?.from_student_list.length ?? 0}}</b> &nbsp; &nbsp; Selected Student : <b>{{selectedStudentCount}}</b></p> -->
+
+                                    <div class="mt-3">
+                                        <ng-container>
+                                            <div class="m-checkbox-list d-flex mb-2">
+                                                <div class="d-flex align-content-center">
+                                                    <!-- <label class="m-checkbox mb-0">
+                                                        <input type="checkbox" id="checkbox" (change)="handleCheckAll()"><span></span>
+                                                    </label> -->
+                                                    <label for="checkbox" class="mb-0 select-dark-color">
+                                                        <b class="ps-2">Selected<span
+                                                                class="text-primary">({{checked_students.length}})</span></b>
+                                                    </label>
+                                                </div>
+                                                <div class="ms-auto total-student-text"><Span>Total Student :
+                                                        <b>{{from_students.length}}</b></Span></div>
+                                            </div>
+                                        </ng-container>
+                                        <div class="basic_table">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover table-bordered table-nowrap table datatable w-100 d-table student-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">
+                                                                <label class="m-checkbox mb-0">
+                                                                    <input type="checkbox" id="checkbox" [(ngModel)]="selectAll" class="main_checkbox" (change)="handleCheckAll()"><span></span>
+                                                                </label>
+                                                            </th>
+                                                            <th>Class</th>
+                                                            <th>Student Name</th>
+                                                            <th>Pickup Stop</th>
+                                                            <th>Drop Stop</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of from_students">
+                                                            <td class="text-center"><label class="m-checkbox mb-0">
+                                                                    <input type="checkbox" id="checkbox" [value]="item.student.id" class="student_check" (change)="handleCheck($event)"><span></span>
+                                                                </label>
+                                                            </td>
+                                                            <td>{{item.student.batch_detail.class.name ?? '-'}}</td>
+                                                            <td>{{item.student.full_name}}</td>
+                                                            <td>{{item.pickup_stand?.name ??  '-'}}</td>
+                                                            <td>{{item.drop_stand?.name ?? '-'}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody *ngIf="from_students.length == 0">
+                                                        <tr class="text-center">
+                                                            <td colspan="5">No Students</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <ng-container *ngFor="">
+                                                    <p class="mb-2 d-flex align-content-center">
+                                                        <label class="m-checkbox mb-0">
+                                                            <input type="checkbox" id="checkbox"><span></span>
+                                                        </label>
+                                                        <label for="checkbox" class="mb-0">
+                                                            <span class="ps-2"> <span class="student_roll_no"></span>
+                                                            </span>
+                                                        </label>
+                                                    </p>
+
+                                                </ng-container>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex form_group">
+                            <div class="card d-flex flex-column w-100 radius-right-bottom-0">
+                                <div class="form_section  global_form table_top">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="sub_title mb-0">CURRENT STUDENT IN <span class="text-primary"></span>
+                                        </h5>
+                                        <div class="opacity-0">
+                                            <button class="button" type="button"
+                                                class="btn d-flex align-items-center" [disabled]="false">
+                                                Transfer
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="false">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 p-0 search_box">
+                                        <input type="text" placeholder="Search Student" class="form-control" (keyup)="search($event, 'to')"><i
+                                            class="fas fa-search"></i>
+                                    </div>
+                                    <div class="m-checkbox-list d-flex justify-content-end mt-3">
+                                        <p class="mb-2 total-student-text">Total Students : <b>{{to_students.length}}</b> </p>
+                                    </div>
+                                    <div class="basic_table">
+                                        <div class="table-responsive">
+                                            <table
+                                                class="table table-hover table-bordered table-nowrap table datatable w-100 d-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Class</th>
+                                                        <th>Student Name</th>
+                                                        <th>Pickup Stop</th>
+                                                        <th>Drop Stop</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of to_students">
+    
+                                                        <td>{{item.student.batch_detail.class.name ?? '-'}}</td>
+                                                        <td>{{item.student.full_name}}</td>
+                                                        <td>{{item.pickup_stand?.name ?? '-'}}</td>
+                                                        <td>{{ item.drop_stand?.name ?? '-'}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="to_students.length == 0">
+                                                    <tr class="text-center">
+                                                        <td colspan="5">No Students</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

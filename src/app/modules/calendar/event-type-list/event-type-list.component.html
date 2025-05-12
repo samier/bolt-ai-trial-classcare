@@ -1,0 +1,24 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Event Type List</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn add-btn me-2" (click)="addEditEventType(null)" *ngIf="CommonService.hasPermission('administrator_event_type', 'has_create')">Add Event Type</a>
+                    <a class="global_btn btn list-btn" [routerLink]="CommonService.setUrl(URLConstants.CALENDAR)" *ngIf="CommonService.hasPermission('administrator_calender', 'has_access')" >Calendar</a>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table datatable [dtOptions]="dtOptions"
+                                class="table table-hover table-nowrap table-bordered ">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

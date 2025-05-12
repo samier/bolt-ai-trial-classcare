@@ -1,0 +1,152 @@
+<section class="expense_form new-expense-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0"> {{hasLectureID ? 'Edit' : 'Add'}} Lecture</h3>
+                <div>
+                    <a class="btn list-btn" [routerLink]="CommonService.setUrl(URLConstants.LECTURES_LIST)">Lectures List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addLectureForm" class="form_section">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Section<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="sectionsList" 
+                                    controlName="section_id" 
+                                    (change)="onSectionChange()"
+                                    placeholder="Select Section" 
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Class<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="classList" 
+                                    controlName="class_id" 
+                                    (change)="onClassChange()"
+                                    placeholder="Select Class"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Batch<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="batchList" 
+                                    controlName="batch_id" 
+                                    placeholder="Select Batch"
+                                    (change)="onBatchChange()"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Subject<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                [dropDownArray]="subjectList" 
+                                controlName="subject_id" 
+                                (change)="onSubjectChange()"
+                                placeholder="Select Subject"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div *ngIf="user_role !== 'ROLE_FACULTY'" class="col-md-3 form_group">
+                            <label class="form_label">Faculty<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="facultiesList" 
+                                    controlName="user_id" 
+                                    placeholder="Select Faculty"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Chapter<span class="text-danger">*</span></label>
+                            <div>
+                                <app-dropdown-crud
+                                    placeholder="Select Chapter"
+                                    searchPlaceholder="Search or Create Chapter"
+                                    [dropDownArray]="chapterList"
+                                    [selectedId]="chapter_id"
+                                    (selectedValue)="selectionChange($event, 'chapter_id')"
+                                    (createUpdate)="createUpdateChapter($event)"
+                                    (deleteData)="deleteChapter($event)"
+                                ></app-dropdown-crud>
+                                <div *ngIf="addLectureForm.get('chapter_id')?.touched && addLectureForm.get('chapter_id')?.errors">
+                                    <small class="text-danger" *ngIf="addLectureForm.get('chapter_id')?.errors?.['required']">
+                                      The input is required.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Total No. Of Lectures<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input type="number" controlName="no_of_lecture" placeholder="Enter Total No of Lectures"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Status</label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="statusList" 
+                                    controlName="status" 
+                                    placeholder="Select Status"
+                                    (change)="onStatusChange()"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="lectureCompleted">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Remarks</label>
+                                <div>
+                                    <app-input type="text" controlName="remark" placeholder="Enter Remarks"></app-input>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Reference Link</label>
+                                <div>
+                                    <app-input type="text" controlName="reference_link" placeholder="Enter Reference Link"></app-input>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group date">
+                                <label class="form_label">Date<span class="text-danger">*</span></label>
+                                <app-mat-date-picker controlName="remark_date" [minDate]="minDate" [maxDate]="maxDate"></app-mat-date-picker>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Attachment</label>
+                                <div class="">
+                                    <app-input #file type="file" controlName="upload" [multiple]="true" accept=".pdf, .xls, .xlsx, .jpg, .jpeg, .png, .doc, .docx"></app-input>
+                                    <div class="select-attechment-chip">
+                                        <ng-container *ngIf="addLectureForm?.value?.upload?.length > 0">
+                                            <ng-container
+                                                *ngFor="let item of addLectureForm?.value?.upload; let i=index">
+                                                <p class="selected_attachment"> {{item?.name}}&nbsp;</p>
+                                            </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button class="btn save-btn" (click)="onSaveLecture()" [disabled]="isSaveLoading">{{ hasLectureID ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" [routerLink]="CommonService.setUrl(URLConstants.LECTURES_LIST)">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

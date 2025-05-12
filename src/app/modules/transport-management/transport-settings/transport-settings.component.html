@@ -1,0 +1,35 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Transport Setting</h3>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <h6 class="mb-3">{{branch.branchName}}</h6>
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Transport Fees Pay Months<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <ng-multiselect-dropdown
+                                        [placeholder]="'select months'"
+                                        [settings]="classDropdownSettings"
+                                        [data]="months"
+                                        [(ngModel)]="selectedMonths"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="form-group mb-0 mt-2">                                 
+                            <button *ngIf="CommonService.hasPermission('settings_transport_settings', 'has_create')" type="submit" (click)="submit()" class="btn save-btn btn-minwidth">
+                                Save
+                            </button>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

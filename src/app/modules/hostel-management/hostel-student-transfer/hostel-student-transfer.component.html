@@ -1,0 +1,122 @@
+<section class="add_assign_room_no">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0"> Hostel Student Transfer</h3>
+                <div class="btn_right">
+                    <!-- <a class="global_btn btn"  href="#." [routerLink]="setUrl(URLConstants.WARDEN_CREATE)" > Add Warden</a> -->
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <div class="row">
+                        <div class="col-6 ">
+                            <div class="row">
+                                <div class="col-6 form_group">
+                                    <label class=" form_label">From Year</label>
+                                    <div class="">
+                                        <input type="text" id="from_year" name="from_year"  placeholder="" [(ngModel)]="from_year" readonly class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-6 form_group">
+                                    <label class=" form_label">Select Room<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select  [items]="rooms" bindLabel="room_number" bindValue="id" (change)="handleRoomChange()" [(ngModel)]="selectedRoom" placeholder="select Room"></ng-select>
+                                        <!-- <ng-multiselect-dropdown
+                                        [placeholder]="'select Room'"
+                                        [settings]="dropdownSettings"
+                                        [data]="rooms"
+                                        (onSelect)="handleRoomChange()"
+                                        (onDeSelect)="handleRoomChange()"
+                                        [(ngModel)]="selectedRoom"
+                                        [disabled]="false"
+                                    >
+                                    </ng-multiselect-dropdown> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form_group">
+                                    <div class="">
+                                        <label class="form_label">Allotment date<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <app-mat-date-picker [(selectedDate)]="allotment_date" [isRequired]="false" [templateDriven]="true"></app-mat-date-picker>
+
+                                            <!-- <input type="date" id="allotment_date" name="allotment_date" [(ngModel)]="allotment_date" placeholder="Allotment Date" class="form-control"> -->
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6 form_group">
+                                    <div class="">
+                                        <label class="form_label">Left date<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <app-mat-date-picker [(selectedDate)]="left_date" [isRequired]="false" [templateDriven]="true"></app-mat-date-picker>
+
+                                            <!-- <input type="date" id="left_date" name="left_date" placeholder="Left Date" [(ngModel)]="left_date" class="form-control"> -->
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6 form_group">
+                                    <label class=" form_label">To Year<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select  [items]="years" bindLabel="year" bindValue="id" (change)="handleYearChange()" [(ngModel)]="selectedYear" placeholder="select Room"></ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form_group">
+                                    <label for="" class="form_label">Applicable Fees<span class="text-danger">*</span></label>
+                                    <div class="col-md-12 d-flex px-0">
+                                        <div class="radio ml-1">
+                                            <label class="m-radio required" for="new" aria-required="true">
+                                                <input type="radio" id="new" name="fees" value="new" aria-required="true" [checked]="applicable_fees == 'new'" (change)="handleFees('new')">New Fees<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio ml-1">
+                                            <label class="m-radio required" for="old" aria-required="true">
+                                                <input type="radio" id="old" name="fees"  value="old" aria-required="true" [checked]="applicable_fees == 'old'" (change)="handleFees('old')">Old Fees<span></span>
+                                            </label>
+                                        </div>
+                                    </div> 
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class=" form_label">Select Students<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'select Room'"
+                                        [settings]="studentDropdownSettings"
+                                        [data]="students"
+                                        [(ngModel)]="selectedStudent"
+                                        [disabled]="false"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <button type="submit" (click)="clear()" class="btn clear-btn w-100">Clear</button>
+                        </div>
+                        <div class="col-md-auto">
+                            <button class="btn w-100 assign-btn" href="javascript:void(0)" (click)="transfer()" [disabled]="transferLoading">
+                                Assign
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="transferLoading">
+                                    <span class="visually-hidden">Loading...</span>
+                                    </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

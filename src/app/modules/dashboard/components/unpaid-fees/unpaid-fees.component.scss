@@ -1,0 +1,171 @@
+
+@import "../../../../../assets/scss/variables";
+@import"../../../../../assets/css/variable.scss";
+@import'../../../../../assets/css/variable.scss';
+.upcoming-exam-section {
+  .upcoming-header {
+    padding: 8px;
+    // background-color: #dfeeff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 0;
+    &::before{
+      content: "";
+      background-color: $primary;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 6px 6px 0 0;
+      opacity: 0.17;
+      z-index: -1;
+    }
+    .view-all-link {
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 600;
+        color: #000;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+        position: relative;
+        z-index: 9;
+        h3{
+            font-size: 17px;
+            line-height: 22px;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            padding-right: 30px;
+            margin-bottom: 0px;
+            text-transform: capitalize;
+            svg{
+                margin-right: 6px;
+                rect{
+                  fill: #fff;
+                }
+                path{
+                  fill:#000
+                }
+            }
+        }
+        &:hover {
+            color: $primary !important;
+            svg{
+                rect{
+                  fill: $primary !important;
+                }
+                path{
+                  fill:#fff !important;
+                }
+            }
+        }
+    }
+  }
+  .upcoming-table {
+    padding: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    .table-responsive {
+      max-height: 400px;
+      overflow-y: auto;
+      border-radius: 8px !important;
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      .table {
+        border-top: none !important;
+        tr {
+          th,
+          td {
+            font-size: 15px !important;
+            line-height: 20px;
+            font-weight: 600 !important;
+            color: #000;
+            padding: 9px 14px;
+            white-space: normal;
+
+            &.fees_paid_dashboard{
+              color: #50bc50;
+            }
+            &.fees_unpaid_dashboard{
+              color: #f65656;
+            }
+          }
+        }
+        thead {
+          position: sticky;
+          top: 0;
+          background-color: #fff;
+          border-bottom: 1px solid #939393;
+        }
+        thead {
+          tr {
+            th {
+              color: #000000;
+              font-size: 14px;
+              font-weight: 600;
+            }
+          }
+        }
+        tbody {
+          tr {
+            td {
+              flex-wrap: wrap;
+              vertical-align: middle;
+              border-right: none !important;
+              border-left: none !important;
+              span {
+                font-size: 13px;
+                line-height: 20px;
+                display: flex;
+                padding-right: 2px;
+                flex-wrap: wrap;
+                color: #ebad6b;
+                font-weight: 500;
+                &.batch-title-text {
+                    padding-top: 4px;
+                }
+              }
+              &.fees_paid_dashboard{
+                color: #50bc50;
+                text-align: center;
+              }
+              &.fees_unpaid_dashboard{
+                color: #f65656;
+                text-align: center;
+              }
+              &:first-child{
+                cursor: pointer;
+                &:hover{
+                  color: $primary;
+                  span{
+                    color: #C1690B;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .upcoming-exam-section .upcoming-header h3 {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .upcoming-exam-section .upcoming-table .table-responsive .table tr th,
+  .upcoming-exam-section .upcoming-table .table-responsive .table tr td {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .upcoming-exam-section .upcoming-header {
+    padding: 8px 10px;
+  }
+}

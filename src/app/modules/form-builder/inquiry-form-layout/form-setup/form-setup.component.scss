@@ -1,0 +1,38 @@
+::ng-deep{
+    .form-setup-main{
+        .page_inner{
+            .form_section{
+                .form_group{
+                    .form-check-inline{
+                        
+                        .form-check-input{
+                            min-width: 14px;
+                            cursor: pointer;
+                            &:checked{
+                                background-color: #01329C;
+
+                            }
+
+                            &:disabled{
+                                ~ .form_label{
+                                    cursor: default;
+                                }
+                            }
+                        }
+                        .form_label{
+                            cursor: pointer;
+                        }
+                    }
+                    ng-select{
+                        .ng-select-container{
+                            cursor: pointer;
+                        }
+                    }
+                }
+                .btn-sticky{
+                    bottom: 45px;
+                }
+            }
+        }
+    }
+}

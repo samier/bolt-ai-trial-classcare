@@ -1,0 +1,64 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Edit Exam Type</h3>
+                <div class="btn_right">
+                    <a class="btn"  href="#." [routerLink]="setUrl(URLConstants.EXAM_TYPE_LIST)">Exam List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <form [formGroup]="examtypecreateform" class="form_section">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Exam Type Name<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <div>
+                                            <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter Exam Type name" required>
+                                        </div>
+                                        <div *ngIf="submitted && examtypecreateform.controls['name'].invalid" class="text-danger"> Please enter Exam Type name. </div>
+                                        <div *ngIf="examtypecreateform.controls['name'].dirty && examtypecreateform.controls['name'].invalid" class="text-danger"> Please enter valid name. </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-3 form_group">
+                                    <label class="form_label">Select Template<span class="text-danger">*</span>:</label>
+                                    <div class="">
+                                        <ng-select #select [items]="templateList" formControlName="template_id"  [ngModel]="selectedTemplate"  bindLabel="name"
+                                            bindValue="id" placeholder="List Of Templates" >
+                                        </ng-select>
+                                        <div *ngIf="submitted && examtypecreateform.controls['template_id'].invalid" class="text-danger"> Please select template. </div>
+                                    </div>                 
+                                </div> -->
+                                <div class="col-md-4 form_group">
+                                    <label class=" form_label">Status<span class="text-danger">*</span></label>
+                                    <div class="radio">
+                                        <label class="px-0 m-radio required" for="inlineRadio1">
+                                            <input class="" formControlName="status" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+                                            Active
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="px-0 m-radio required" for="inlineRadio2">
+                                        <input formControlName="status" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0">InActive<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row w-100 ">
+                                <div class="col-md-1">
+                                    <a class="btn px-2 w-100" href="#" [routerLink]="setUrl(URLConstants.EXAM_TYPE_LIST)">Cancel</a>
+                                </div>
+                                <div class="col-md-1">
+                                    <button *ngIf="CommonService.hasPermission('settings_exam_type', 'has_update')" type="submit" (click)="onSubmit()" [disabled]="!examtypecreateform.valid" class="btn w-100" id="submitButton">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>

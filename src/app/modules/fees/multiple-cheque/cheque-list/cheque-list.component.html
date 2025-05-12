@@ -1,0 +1,59 @@
+<section class="notice-history-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Cheque List</h3>
+                <div class="d-flex align-items-center gap-2">
+                    <a class="add-btn btn" *ngIf="CommonService.hasPermission('finance_collect_cheque', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.COLLECT_CHEQUE)">Collect Cheque</a>
+                    <a *ngIf="CommonService.hasPermission('finance_collect_cheque', 'has_download')" type="button" class="btn pdf-btn" ngbTooltip="PDF"
+                        (click)="openChequeReportModal(chequeDetailsModal, 'pdf')">
+                        <img src="assets/images/pdf-icon.svg" alt="">
+                    </a>
+                    <a *ngIf="CommonService.hasPermission('finance_collect_cheque', 'has_download')" type="button" class="btn excel-btn" ngbTooltip="EXCEL"
+                        (click)="openChequeReportModal(chequeDetailsModal, 'excel')">
+                        <img src="assets/images/excel-icon.svg" alt="">
+                    </a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<ng-template #chequeDetailsModal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Download Cheque Report {{format == 'pdf' ? 'PDF' : 'EXCEL'}}</h4>
+        <button [ngbTooltip]="'Close'" triggers="hover" type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="chequeReportForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form_label">Date <span class="text-danger">*</span></label>
+                    <app-mat-date-picker controlName="cheque_date"></app-mat-date-picker>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="cancel-btn btn me-2 m-0" (click)="closeModal()">
+            Cancel
+        </button>
+        <button type="submit" class="btn save-btn m-0" style="text-align: left;" (click)="downloadChequeReport(format)" [disabled]="isDownloading">
+            Download
+            <div class="spinner-border spinner-border-sm" role="status"  style="margin-left: 6px;" *ngIf="isDownloading">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </button>
+    </div>
+</ng-template>

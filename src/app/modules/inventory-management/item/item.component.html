@@ -1,0 +1,112 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Add Item Type</h3>
+                <div class="btn_right">
+                    <button class="btn add-btn" (click)="openModel(model, null)">Add Item Type</button>
+					<!-- <a class="btn list-btn" [routerLink]="setUrl(URLConstants.INVENTORY_LIST)">Back to Inventory List</a> -->
+                </div>
+            </div>
+
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-lg-12 datatable_cls form_section">
+                                        <div class="datatable-action-design">
+                                            <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                                <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                              </svg>
+                                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                              </svg>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table datatable [dtOptions]="dtOptions"
+                                                    class="table table-hover  table-nowrap table-bordered display dataTable"
+                                                    style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Sr No.</th>
+                                                            <th>Item Name</th>
+                                                            <th class="action-btn-sticky">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let item of tbody ;let i = index;">
+                                                            <td class="orange-text-color">{{item.DT_RowIndex}}</td>   
+                                                            <td class="teal-text-color">{{item.name}}</td>
+                                                            <td class="action-btn-sticky text-center">
+                                                                <div class="btn-group" role="group">
+                                                                    <a class="lt-btn-icon action-edit" ngbTooltip="Edit"
+                                                                        (click)="openModel(model, item)"></a>
+                                                                    <button class="lt-btn-icon action-delete" ngbTooltip="Delete"
+                                                                        (click)="delete(item.id)"></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tbody *ngIf="tbody?.length == 0">
+                                                        <tr>
+                                                        <td colspan="3" class="text-center no-data-available">No data</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        <ng-template #model>
+            <div class="modal-header" style="z-index: 0;">
+            <h4 class="modal-title" id="modal-basic-title">{{ itemForm.value.record_id ? 'Edit' : 'Add'}} Item Type</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="itemForm" class="form_section">
+                    <div class="row global_form table_top">
+                        <div class="col-12 form_section form_group">
+                            <div>
+                                <label class="form_label">Item Type Name<span
+                                        class="text-danger">*</span></label>
+                                <div>
+                                    <app-input type="text" name="name" controlName="name"
+                                        placeholder="Item Type Name"></app-input>
+                                    <app-input type="hidden" name="record_id" controlName="record_id"
+                                        value="0"></app-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+            <div class="modal-footer" style="z-index: 0;">
+            <div class="col-md-3 p-0">
+                <button type="submit" class="w-100 btn save-btn" [disabled]="!itemForm.valid || isSaving" (click)="onSubmit()">
+                    Save
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaving">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                </button>
+            </div>
+            <div class="col-md-3 p-0">
+                <button type="submit" class="w-100 btn" (click)="closeModel()">
+                Cancel </button>
+            </div>
+            </div>
+        </ng-template>
+        </div>
+    </div>
+</section>

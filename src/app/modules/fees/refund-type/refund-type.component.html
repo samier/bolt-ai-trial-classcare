@@ -1,0 +1,123 @@
+<form [formGroup]="feesRefundForm" class="form_section"> 
+<div class="row global_form no-gutters table_top">
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label"> Name of Refund<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <input type="text" name="name" formControlName="name" placeholder="Name of Refund" class="form-control">
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Value<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <input type="text" name="refund_value" formControlName="refund_value" placeholder="Refund Value" class="form-control">
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Value In<span class="text-danger">*</span>:</label>
+            <div class="col-md-12 d-flex">
+                <div class="radio-inline ml-1">
+                    <label class="m-radio required" for="amount" aria-required="true">
+                        <input type="radio" id="amount" name="refund_in" formControlName="refund_in" value="1" aria-required="true" checked>Amount<span></span>
+                    </label>
+                </div>
+                <div class="radio-inline ml-1">
+                    <label class="m-radio required" for="percentage" aria-required="true">
+                        <input type="radio" id="percentage" name="refund_in" formControlName="refund_in" value="2" aria-required="true" >Percentage<span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Approval Authority<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <div class="form_group">
+                    <!-- <label class="col-md-12 form_label">Approval Authority</label> -->
+                    <div class="col-md-12">
+                        <ng-multiselect-dropdown
+                        [placeholder]="'Approver Authority'"
+                        [settings]="dropdownSettings"
+                        [data]="dropdownList"
+                        formControlName="approval_authority"
+                        [(ngModel)]="selectedItems"
+                        (onSelect)="onItemSelect($event)"
+                        (onSelectAll)="onSelectAll($event)"
+                        [disabled]="is_disabled"
+                        >
+                        </ng-multiselect-dropdown>
+                    </div>
+                </div>
+            <!-- </div> -->
+
+
+            <div class="checkbox_type">
+                <label for="approval" class="checkbox">
+                    <input type="checkbox" name="approval_required" [(ngModel)]="is_approved" (click)="isApproved()" formControlName="approval_required" id="approval" [value]="1">
+                    <span></span>
+                    Approval required
+                </label>
+            </div>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-12">
+        <hr class="horizontal_line">
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                <button type="submit" (click)="onSubmit()" [disabled]="!feesRefundForm.valid" class="w-100 btn btn-success btn-minwidth"> Save </button>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="w-100 btn btn-success btn-minwidth"> Cancel </button>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+<div class="">
+    <div class="row">
+        <div class="col-lg-12 datatable_cls form_section">
+            <div class="table-responsive form_group">
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap display dataTable" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Refund Name</th>
+                            <th>Refund Value</th>
+                            <th>Refund Value in</th>
+                            <th>Approval Authority</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;">				
+                            <td>1</td>            
+                            <td>Refund Name</td>   
+                            <td>20%</td>            
+                            <td>Percentage</td>
+                            <td>Authority</td> 
+                            <td> 
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-down"></i></button>
+                                    <a class="btn btn-primary" href='#'><i class="fa fa-pencil-alt"></i></a>
+                                    <button class="btn btn-primary"> <i class="fa fa-trash-alt"></i> </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="3" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>-->							
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

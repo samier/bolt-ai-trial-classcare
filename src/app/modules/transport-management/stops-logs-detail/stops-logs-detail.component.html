@@ -1,0 +1,47 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Stop Logs Detail</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn"  href="#."  [routerLink]="[CommonService.setUrl(URLConstants.STOPS_LOGS),stop_id]" > Stop Logs</a>
+                </div>
+            </div>
+            <div class="card">               
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>For</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="tbody?.length != 0">
+                                        <tr *ngFor="let item of tbody">
+                                            <td>{{item.created_at | date: dateFormateService.getDateTimeFormat()}}</td>
+                                            <td>{{item.for}}</td>
+                                            <td>{{item.name}}</td>
+                                            <td>{{item.status}}</td>
+                                            <td>{{item.message}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="tbody?.length == 0">
+                                        <tr>
+                                          <td colspan="5" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

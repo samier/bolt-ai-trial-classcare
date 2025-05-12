@@ -1,0 +1,66 @@
+<section class="add_assign_room_no">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Optional Fees Log</h3>
+                <div class="btn_right">
+                    <a href="javascript:void(0)" [routerLink]="CommonService.setUrl(URLConstants.ASSIGN_OPTIONAL_FEES)"  class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">Optional Fees</a>
+                </div>
+			</div>
+                    <div class="card">
+                        <div class="row global_form">
+                            <div class="col-lg-12 datatable_cls form_section">
+                                <div class="table-responsive form_group">
+                                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Category Fees</th>
+                                                <th>Course</th>
+                                                <th>Old Amount</th>
+                                                <th>New Amount</th>
+                                                <th>Status</th>
+                                                <th>Student Count</th>
+                                                <th>Success Count</th>
+                                                <th>Failed Count</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">  
+                                                <td>{{item.created_at}}</td>
+                                                <td>{{item?.category_fees?.type_name ?? '-'}}</td>
+                                                <td>{{item?.course?.name ?? '-'}}</td>
+                                                <td>{{item.old_fees}}</td>
+                                                <td>{{item.new_fees}}</td>
+                                                <td>{{item.status}}</td>
+                                                <td>{{item.student_count}}</td>
+                                                <td>{{item.success_count}}</td>
+                                                <td>{{item.failed_count}}</td>
+                                                <td> 
+                                                    <div class="btn-group" role="group">
+                                                        <a href="javascipt:void(0)" ngbTooltip="View" class="btn btn-sm action-edit" [routerLink]="[CommonService.setUrl(URLConstants.ASSIGN_OPTIONAL_FEES_LOG),item.id]">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                              <td colspan="10" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>							
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

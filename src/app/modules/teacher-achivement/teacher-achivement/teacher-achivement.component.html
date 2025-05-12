@@ -1,0 +1,191 @@
+<section class="teacher-achivement">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Teacher's Achievement</h3>
+                <div class="btn_right d-flex gap-3">
+                    <button class="button" *ngIf="CommonService.hasPermission('administrator_teacher_achivement','has_create')" type="submit" class="btn w-100 px-2 d-flex align-items-center add-btn"
+                        (click)="openPublishModal(achivementModel)">
+                        Add
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <form [formGroup]="achivementFilterForm">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Teacher</label>
+                                        <div>
+                                            <app-single-select controlName="teacher_id" placeholder="Select teacher"
+                                                [dropDownArray]="facultyList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Date</label>
+                                        <div>
+                                            <app-mat-date-picker  controlName="date" ></app-mat-date-picker>
+                                            <!-- <app-input type="date" controlName="date"
+                                                placeholder="Please enter row"></app-input> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="show-clear-btn d-flex">
+                                            <button type="button"
+                                                class="btn px-4 d-flex align-items-center me-3 show-btn"
+                                                [disabled]="false" (click)="getData()">
+                                                Show
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="false">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button class="btn clear-btn" (click)="clearFilterData()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report_filter card">
+                <div class="row">
+                    <div class="col-lg-12 datatable_cls">
+                        <div class="datatable-action-design">
+                            <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                              </svg>
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                              </svg>
+                            </div>
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptionsForAchivement" id="myTable"
+                                    class="table table-hover table-nowrap display dataTable table-bordered no-footer"
+                                    style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                    <!-- <thead class="thead-light">
+                                        <tr>
+                                            <th>Teacher </th>
+                                            <th>Achivement<th>
+                                            <th>Date</th>
+                                            <th>Remark</th>
+                                            <th>Image</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead> -->
+                                    <tbody>
+                                        <tr *ngFor="let item of achivementData ;let i = index;">
+                                            <td class="name_hover">{{item.teacher_full_name}}</td>
+                                            <td>{{item.achievement_name}}</td>
+                                            <td>{{item.date ? (item.date | date: dateFormateService.getDateFormat()) : '-'}}</td>
+                                            <td>{{item.remark}}</td>
+                                            <td class="action-btn-sticky text-center">
+                                                <div class="btn-group">
+                                                    <button *ngIf="CommonService.hasPermission('administrator_teacher_achivement','has_edit')" ngbTooltip="Edit"
+                                                        class="lt-btn-icon action-edit" (click)="editAchivement(item,achivementModel)"></button>
+                                                    <button *ngIf="CommonService.hasPermission('administrator_teacher_achivement','has_delete')" ngbTooltip="Delete"
+                                                        class="lt-btn-icon action-delete" (click)="deleteAchivement(item.id)"></button>
+                                                    <button class="lt-btn-icon action-download" *ngIf="item.achievement_document && CommonService.hasPermission('administrator_teacher_achivement','has_download')" ngbTooltip="Download"
+                                                        (click)="downloadAchivement(item.achievement_document)"></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr *ngFor="let items of tbody ;let i = index;">
+                                            <td *ngFor="let item of items; let j = index;"> {{item}} </td>
+                                        </tr> -->
+                                    </tbody>
+                                    <ng-container *ngIf="isAchivement else noDataFound">
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </ng-container>
+                                    <ng-template #noDataFound>
+                                        <tbody *ngIf="achivementData?.length == 0">
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="d-flex justify-content-center">
+                                                        No data Found
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </ng-template>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+<ng-template #achivementModel>
+    <div class="teacher-achivement-model">
+        <div class="modal-header" style="z-index: 0; border: none">
+            <h4 class="modal-title" id="modal-basic-title">Achievement </h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="achivementForm">
+                <div class="row">
+                    <div class="col-md-6 form_group">
+                        <label for="" class="form_label">Teacher<span class="text-danger">*</span></label>
+                        <app-single-select controlName="teacher_id" placeholder="Select teacher"
+                            [dropDownArray]="facultyList"></app-single-select>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label for="" class="form_label">Achievement</label>
+                        <app-input controlName="achievement_name" placeholder="Enter achievement name"></app-input>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label for="" class="form_label">Date</label>
+                        <app-mat-date-picker  controlName="achievement_date" ></app-mat-date-picker>
+                        <!-- <app-input type="date" controlName="achievement_date"
+                            placeholder="Select date"></app-input> -->
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="form_label">Upload Image</label>
+                        <app-input type="file" controlName="file" (change)="changeAttechment($event)"></app-input>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label for="" class="form_label">Remark</label>
+                        <app-textarea controlName="remark" placeholder="Enter remark"></app-textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+            <div class="col-auto pe-0">
+                <button type="submit" class="btn save-btn" (click)="saveAchivement()" [disabled]="isSaveAchivement">
+                    {{selectedId ? 'Update' : 'Save'}}
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveAchivement">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+            </div>
+            <div class="col-auto ps-0">
+                <button type="submit" class="btn cancel-btn" (click)="closeModel()">
+                    Cancel </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,28 @@
+@import '../../../../assets/scss/variables';
+::ng-deep body{
+
+    app-student-bulk-discount-log {
+        .text-danger {
+            color: #fc0000 !important;
+            // position: absolute;
+            font-size: 14px;
+            line-height: 16px;
+            &.sub-text-danger{
+                position: unset;
+            }
+        }
+        .remark {
+            max-width: 300px!important;
+            min-width: 300px!important;
+            span{
+                white-space: normal !important;
+            }
+        }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+        .border-circle {
+            border-radius: 100%;
+        }
+    }
+}

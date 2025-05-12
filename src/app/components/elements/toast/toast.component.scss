@@ -1,0 +1,42 @@
+::ng-deep{
+    ngb-toast .toast-header .close{
+        margin-left: 10px !important;
+    }
+    #tarns .close{
+        position: absolute !important;
+        right: 10px !important;
+    }
+    .toast{
+        width: 100% !important;
+    }
+}
+
+::ng-deep{
+    .primary-toast .toast-header{
+        background-color: var(--primary-bg-color) !important;
+        color: #fff !important;
+        padding: 10px;
+    }
+    .secondary-toast .toast-header{
+        background-color: #f74f75 !important;
+        padding: 10px;
+        color: #fff !important;
+    }
+    .success-toast .toast-header{
+        background-color: #22c03c  !important;
+        padding: 10px;
+        color: #fff !important;
+    }
+    .info-toast .toast-header{
+        background-color: #4ec2f0 !important;
+        padding: 10px;
+        color: #fff !important;
+    }
+
+    .dark-theme{
+        .btn-close{
+            filter: invert(1)
+        }
+    }
+}
+

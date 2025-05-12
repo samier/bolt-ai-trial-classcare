@@ -1,0 +1,135 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Bulk Discount Receipt Generate</h3>
+        <div class="d-flex">
+          <a [routerLink]="setUrl(URLConstants.GENERATE_DISCOUNT_RECEIPT_LOG)" class="btn me-2">Bulk Discount Receipt Log</a>
+        </div>
+      </div>
+
+      <div class="card student-list-card p-0">
+        
+        <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+          <div class="d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-primary me-2" (click)="clearAll($event)">Reset</button>
+            <button class="btn btn-primary border-circle">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="studentFilterForm" class="content_scroll">
+            <div class="row">
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Section</label>
+                <app-single-select [dropDownArray]="sectionList" controlName="section" (change)="getClassesList()" placeholder="All Section"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Class</label>
+                <app-multi-select [dropDownArray]="classes" controlName="classes" (change)="getBatchList()" placeholder="All Class"></app-multi-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Batch</label>
+                <app-multi-select [dropDownArray]="batches" controlName="batches" placeholder="All Batch"></app-multi-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Status</label>
+                <app-single-select [dropDownArray]="StudentStatus" controlName="status" placeholder="All Status"></app-single-select>
+              </div>
+
+              <div class="col-md-auto form_group">
+                <button type="button" class="btn form-row-button" (click)="reloadData()">Show</button>
+              </div>
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card_body">
+          <div class="row mx-0 no-gutters">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <div class="receipt-date">
+                  <div class="row" *ngIf="selectedStudentIds.length > 0">
+                    <div class="col-md-auto form_group mb-0 d-flex align-items-center">
+                      <label class="form_label mb-0 me-2">Receipt Date</label>
+                      <app-mat-date-picker controlName="date" (change)="changePaymentDate($event)"></app-mat-date-picker>
+                      <!-- <app-mat-date-picker controlName="date" (change)="changePaymentDate($event)"></app-mat-date-picker> -->
+                      <!-- <input type="date" formControlName="date" placeholder="Select Date" class="form-control" (input)="changePaymentDate($event)"/> -->
+                    </div>
+                    
+                    <div class="col-md-auto form_group mb-0 pe-4">
+                      <button type="button" class="btn generate-btn form-row-button mt-0" (click)="generate()" [disabled]="generating">
+                        {{generating ? 'Generating' : 'Generate'}}
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="generating">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                  	<thead class="thead-light">
+	                  	<tr>
+		                    <th>
+		                      <input class="ms-2" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+		                    </th>
+		                    <th>Section</th>
+		                    <th>Class</th>
+		                    <th>Batch</th>
+		                    <th>Name</th>
+		                    <th>Discount</th>
+	                  	</tr>
+	                </thead>
+	                <tbody>
+	                    <tr *ngFor="let item of tbody ;let i = index;">
+	                        <td>
+	                        	<input class="ms-2" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+	                        </td>
+	                        <td>{{item.class?.section?.name || 'N/A'}}</td>
+	                        <td class="orange-text-color">{{item.class?.name || 'N/A'}}</td>
+	                        <td class="teal-text-color">{{item.batch_detail?.name || 'N/A'}}</td>
+	                        <td class="name_hover">{{item.full_name || 'N/A'}}</td>
+	                        <td>
+	                        	<table class="table table-bordered mb-0 discount-details">
+						    		<tbody>
+						    			<tr *ngFor="let scf of item?.student_category_fees">
+						    				<td>{{(scf.month??"")+' '+(scf.category ? scf.category.type_name : 'School Fees')}}</td>
+						    				<td><i class="fas fa-rupee-sign tx-12 me-1"></i>{{scf.remaining_discount}}</td>
+						    			</tr>
+						    		</tbody>
+						    	</table>
+	                        </td>
+	                    </tr>
+	                </tbody>
+	                <tbody *ngIf="tbody?.length == 0">
+	                    <tr>
+	                      	<td colspan="12" class="text-center no-data-available">No data</td>
+	                    </tr>
+	                </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-quick-student-attendance{
+        .basic_table{
+			.table-responsive{
+				.table-bordered{
+                    z-index: 0;
+                    position: relative;
+					thead{
+                        position: sticky;
+                        top: 0;
+                        z-index: 1;
+						th{
+							padding: 8px 8px 8px 8px;
+							background-color: #e7e7e7;
+						}
+					}
+					tbody{
+                        max-height: 500px;
+                        overflow: auto;
+						tr{
+							&:nth-child(even){
+								background-color: #ecf0fa;
+							}
+                            input{
+                                &.form-control{
+                                    height: 35px;
+                                    &:disabled{
+                                        background-color: #e9ecef;
+                                    }
+                                }
+                            }
+                        }    
+                    }    
+                    .w-300{
+                        min-width: 300px;
+                    }
+                    .w-40{
+                        min-width: 40px;
+                    }
+                    .ng-select-disabled{
+                        .ng-select-container{
+                            background-color: #e9ecef;
+                        }
+                    }
+
+                }
+            }    
+        }    
+    }
+}

@@ -1,0 +1,152 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <h2 class="page_title"></h2>
+            <div class="">
+                <div class="card_title my-3">
+                    <h3 class="sub_title mb-0">Send Transport Message</h3>
+                    <div class="btn_right">
+                        <!-- <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.WHATSAPP_HISTORY_LIST)">Whatsapp History List</a> -->
+                    </div>
+                </div>
+                <div class="card_body">
+
+                        <div class="card">
+
+                            <form [formGroup]="sendsmsform" class="form_section">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label class=" form_label">Select Route<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select controlName="route_name" placeholder="Please select route name." (change)="fun($event)" [dropDownArray]="routes"></app-single-select>
+                                            <!-- <select name="route_name" formControlName="route_name" class="form-control" id="route_name" [(ngModel)]="selectedRoute" (change)="fun()" required>
+                                                <option value="">Please select route name.</option>
+                                                <option *ngFor="let item of routes" value="{{item.id}}">{{item.name}}</option>
+                                            </select> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Select Stops<span class="text-danger">*</span></label>
+                                        <div>
+                                            <ng-multiselect-dropdown formControlName="stop_name"
+                                                [placeholder]="'Select Stops'"
+                                                [settings]="dropdownSettings"
+                                                [data]="dropdownList"
+                                                [(ngModel)]="selectedItems"
+                                                (onSelect)="onItemSelect($event)"
+                                                (onDeSelect)="onItemDeSelect($event)"
+                                                (onDeSelectAll)="onItemDeSelectAll($event)"
+                                                (onSelectAll)="onSelectAll($event)"
+                                                >
+                                                </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Select Students<span class="text-danger">*</span></label>
+                                        <div>
+                                            <ng-multiselect-dropdown
+                                            [placeholder]="'Select Students'"
+                                            [settings]="dropdownSettings"
+                                            [data]="dropdownListStudent"
+                                            formControlName="studentList"
+                                            [(ngModel)]="selectedStudents"
+                                            (onSelect)="onItemSelectStudent($event)"
+                                            (onDeSelect)="onItemDeSelectStudent($event)"
+                                            (onDeSelectAll)="onItemDeSelectStudentAll($event)"
+                                            (onSelectAll)="onSelectAllStudent($event)"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Send to whom?</label>
+                                            <div class="d-flex">
+                                              <div class="m-checkbox-list d-flex align-items-center me-3">
+                                                <label class="m-checkbox mb-0">
+                                                  <input type="checkbox" id="checkbox" formControlName="is_father_message"><span></span>
+                                                </label>
+                                                <label for="checkbox" class="ms-2 mb-0 mt-1">Father</label>
+                                              </div>
+                                              <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                                <label class="m-checkbox mb-0">
+                                                  <input type="checkbox" id="checkbox1" formControlName="is_mother_message"><span></span>
+                                                </label>
+                                                <label for="checkbox1" class="ms-2 mb-0 mt-1">Mother</label>
+                                              </div>
+                                              <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                                <label class="m-checkbox mb-0">
+                                                  <input type="checkbox" id="checkbox2" formControlName="is_student_message"><span></span>
+                                                </label>
+                                                <label for="checkbox2" class="ms-2 mb-0 mt-1">Student</label>
+                                              </div>
+                                            </div>
+                                        <!-- <div>
+                                            <div class="m-radio-section">
+                                                <div class="radio">
+                                                    <label class="px-0 m-radio required" for="inlineRadio1">
+                                                        <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(1)" id="inlineRadio1" formControlName="radioBtn" value="1">Student<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label class="px-0 m-radio required" for="inlineRadio2">
+                                                        <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(2)" id="inlineRadio2" formControlName="radioBtn" value="2">Parents <span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label class="px-0 m-radio required" for="inlineRadio3">
+                                                        <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(3)" id="inlineRadio3" formControlName="radioBtn" value="3">Both <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>    
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Selected Whatsapp Number</label>
+                                        <div>
+                                            <textarea readonly [rows]="1" class="w-100 form-control" formControlName="whatsup_numbers" name="whatsup_numbers" [(ngModel)]="selectedNumbers" id="whatsup_numbers"></textarea>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Custom Number</label>
+                                        <div>
+                                            <textarea [rows]="1" name="custom_numbers" class="w-100 form-control" formControlName="customeNumbers" [(ngModel)]="customeNumbers" id="custom_numbers" placeholder="eg. 9999999999,9999999999"></textarea>
+                                            <!-- <div *ngIf="submitted && sendsmsform.controls['name'].invalid" class="text-danger"> Please enter role name. </div>
+                                            <div *ngIf="sendsmsform.controls['name'].dirty && sendsmsform.controls['name'].invalid" class="text-danger"> Please enter valid name. </div> -->
+                                            <div *ngIf="sendsmsform.controls['customeNumbers'].dirty && sendsmsform.controls['customeNumbers'].invalid" class="text-danger"> Please enter valid charaters.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="isTemplate !== 2 && isTemplate">
+                                        <label class="form_label">Select Template</label>
+                                        <div>
+                                            <app-single-select controlName="template" placeholder="Please select template" (change)="changeTemplate($event)" [dropDownArray]="templateList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Message</label>
+                                        <div>
+                                            <textarea [rows]="2" name="message" class="w-100 form-control" formControlName="message" [(ngModel)]="message" id="message" [readonly]="isTemplate == 1 || isTemplate == 3"></textarea>
+                                            <div *ngIf="sendsmsform.controls['message'].dirty && sendsmsform.controls['message'].invalid" class="text-danger"> Maximum character limit is 1000. Please enter valid character. </div>
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="row w-100">
+                                    <div class="form-group mb-0 ml-4 text-left w-100">
+                                        <!-- <small *ngIf="!sendsmsform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                        <div class="">
+                                            <!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a> -->
+                                            <button type="submit" *ngIf="CommonService.hasPermission('transport_send_transport_message', 'has_create')" (click)="onSubmit()" [disabled]="!sendsmsform.valid" class="btn msg-btn" id="submitButton">Send</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

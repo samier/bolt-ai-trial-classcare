@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <div class="modal-title">{{scf?.title}} Attachments</div>
+    <div class="modal-close" (click)="closeModal(true)"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xl-12">
+            <label class="form_label">Attachment</label>
+            <input type="file"
+                class="form-control rounded-0"
+                multiple 
+                accept="image/*" 
+                [disabled]="scf.remaining_amount == 0"
+                (change)="onFileSelected($event)">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-4" *ngFor="let row of scf?.files">
+            <div class="card attach-img p-0 mb-0 mt-3 w-100">
+                <div class="card-body p-0">
+                    <img src="{{row?.preview}}" >
+                    <input type="text" [(ngModel)]="row.file_name" class="form-control" placeholder="Please enter file name">
+                </div>
+                <span class="delete-button" (click)="remove(row)">
+                    <i class="fa fa-times"></i>
+                </span>
+            </div>
+            <span *ngIf="!row.file_name" class="text-danger tx-12">Please enter file name</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeModal()">Ok</button>
+    <button type="button" class="btn btn-primary" (click)="closeModal(true)">Clear</button>
+</div>

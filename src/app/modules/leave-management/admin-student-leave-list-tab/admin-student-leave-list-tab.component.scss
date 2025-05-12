@@ -1,0 +1,78 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-admin-student-leave-list-tab{
+    .page_inner{
+        .page_title{
+            display: none;
+        }
+        .img-thumbnail{
+            position: relative;
+            bottom: 0;
+            inset-inline-end: 0;
+            margin-right: 24px;
+            width: 160px;
+            height: auto;
+        }
+        .card_body{
+            h3{
+                font-weight: 700;
+                font-size: 18px;
+                text-transform: uppercase;
+                margin: 0 0 20px;
+            }
+            h5{
+                font-size: 1.25em;
+                margin-top: 13px;
+                i{
+                    font-size: 14.3px;
+                }
+            }
+            .student_details{
+                a{
+                    &.btn{
+                        color: $white;
+                        margin-top: 5px;
+                        padding: .774em 1.074em;
+                        &:hover{
+                            background: $btn-gradient-hover;
+                        }
+                        i{
+                            font-size: 1.1em;
+                        }
+
+                    }
+                }                
+            }
+        }
+    }
+    .students-info-tabs-view{
+        h3{
+            &.sub_title{
+                margin: 25px 0;
+            }
+        }
+		.img-thumbnail {
+			position: relative;
+			bottom: 0;
+			inset-inline-end: 0;
+			margin-right: 15px;
+			width: 110px;
+			height: 110px;
+		}
+		.student-details{
+			h3{
+				font-size: 18px;
+				margin-bottom: 5px;
+				text-transform: uppercase;
+			}
+			h6{
+				opacity: 0.5;
+			}
+			.btn{
+				i{
+					margin-right: 5px;
+                    font-size: 13px;
+				}
+			}
+		}
+    }
+}

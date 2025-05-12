@@ -1,0 +1,61 @@
+
+<!-- SCRIPT Code -->
+<ng-container *ngIf="inquiryFormId else elseBlock">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card inquiry_form_card">
+                <div class="inquiry_form_link">
+                    <a href="{{dynamicUrl}}" target="_blank">
+                        {{dynamicUrl}}
+                    </a>
+                    <button [cdkCopyToClipboard]="dynamicUrl" ngbTooltip="Copy" type="button" class="btn gray-copy-btn ms-2">
+                        <i aria-hidden="true" class="fa fa-clone"></i>
+                    </button>
+                </div>
+                <qrcode #qrcode class="d-flex justify-content-center" [qrdata]="dynamicUrl" [width]="256"
+                    [errorCorrectionLevel]="'M'">
+                </qrcode>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn report-btn" (click)="downloadQrCode()">Download</button>
+                </div>
+            </div>
+
+            <!-- <div class="qrcodeImage">
+                <qrcode
+                  [qrdata]="'https://github.com/Cordobo/angularx-qrcode'"
+                  [allowEmptyString]="true"
+                  [ariaLabel]="'QR Code image with the following content...'"
+                  [cssClass]="'center'"
+                  [colorDark]="'#000000ff'"
+                  [colorLight]="'#ffffffff'"
+                  [elementType]="'canvas'"
+                  [errorCorrectionLevel]="'M'"
+                  [imageSrc]="'./assets/angular-logo.png'"
+                  [imageHeight]="75"
+                  [imageWidth]="75"
+                  [margin]="4"
+                  [scale]="1"
+                  [title]="'A custom title attribute'"
+                  [width]="300"
+                ></qrcode>
+              </div> -->
+        </div>
+        <div class="col-md-8">
+            <div class="card mb-0">
+                <div class="text-end">
+                    <button [cdkCopyToClipboard]="scriptCode" (click)="copyCode()" ngbTooltip="Copy" type="button"
+                        class="btn black-copy-btn">
+                        <i class="fa fa-clone" aria-hidden="true" *ngIf="!isCopy"></i>
+                        <i class="fa fa-check" aria-hidden="true" *ngIf="isCopy"></i>
+                    </button>
+                </div>
+                <markdown [data]="scriptCode"></markdown>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-template #elseBlock>
+    <div class="card code_not_available">
+        <p>Integration Code Not Available..</p>
+    </div>
+</ng-template>

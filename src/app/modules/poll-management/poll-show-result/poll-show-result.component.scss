@@ -1,0 +1,34 @@
+@import '../../../../assets/scss/variables';
+.container-center {
+	width: 100%;
+	display: flex;
+}
+hr {
+	&.hr-bold {
+		border:2px #000 solid;
+	}
+}
+::ng-deep body{
+  app-poll-show-result{
+      .border-btm{
+        border-bottom: 3px solid $background;
+      }
+      .bg-gray-200{
+        .border-btm{
+          border-bottom: 3px solid $white;
+        } 
+      }
+    }
+    &.dark-theme{
+      app-poll-show-result{
+        .border-btm{
+          border-bottom: 3px solid $dark-body;
+        }
+        .bg-gray-200{
+          .border-btm{
+            border-bottom: 3px solid $dark-theme;
+          } 
+        }
+      }
+    }
+  }

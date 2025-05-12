@@ -1,0 +1,187 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Leave Edit</h3>
+        <div class="btn_right">
+          <a class="btn" href="#." [routerLink]="setUrl(URLConstants.FACULTY_STUDENT_LEAVEL_LIST)">Student Leave List</a>
+        </div>
+      </div>
+      <div class="">
+
+        <div class="card_body">
+          <div class="">
+            <div class="card">
+              <!-- form starts -->
+              <form [formGroup]="leavecreateform" (ngSubmit)="onSubmit()" class="form_section">
+                <div class="row">
+
+
+                  <div class="col-md-3 form_group">
+                    <label class="form_label">Select Student/Faculty<span class="text-danger">*</span></label>
+                    <div>
+                      <ng-select #select [items]="Faculty" (change)="changeFn(selectedFaculty)" [searchable]="true"
+                        [(ngModel)]="selectedFaculty" name="sender_id" bindLabel="name" bindValue="id"
+                        formControlName="sender_id" placeholder="Please select">
+                        <ng-template ng-header-tmp>
+                          <input style="width: 100%; line-height: 24px" (onclick)="changeFn(selectedFaculty)"
+                            type="text" (input)="select.filter($any($event.target).value)" />
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 form_group">
+                    <div>
+
+                      <label class="form_label">Leave Status :</label>
+                      <div> <select formControlName="leave_status" (change)="changeLeaveStatus(leave_status_val)"
+                          [(ngModel)]="leave_status_val" name="leave_status"
+                          class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1"
+                          aria-hidden="true">
+                          <option selected="">Please select</option>
+                          <option value="0">Pending</option>
+                          <option value="1">Approved</option>
+                          <option value="2">Rejected</option>
+                        </select>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3 form_group">
+                    <div>
+                      <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                      <div>
+                        <input type="date" id="start_date" formControlName="start_date" name="start_date"
+                          class="form-control">
+                      </div>
+                      <div *ngIf="submitted && leavecreateform.controls['start_date'].invalid" class="text-danger">
+                        Please enter valid date. </div>
+                      <div *ngIf="submitted && sd_sunday_alert" class="text-danger"> You can't select sunday. Please
+                        select other date. </div>
+                      <div *ngIf="leavecreateform.controls['start_date'].touched">
+                        <small *ngIf="leavecreateform.controls['start_date'].errors?.['required']"
+                          class="text-danger">Required</small>
+                      </div>
+                      <small *ngIf="invaineFrom" class="text-danger">
+                        Select a date Over today</small>
+                    </div>
+
+
+
+
+                    <!-- <div class="form_group">
+                                            <label class="form_label">Leave Type </label>
+                                            <div class="form-group col-md-10"> <select formControlName="leave_type" name="leave_type" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                                <option selected="">Please select</option>
+                                                <option value="Sick Leave">Sick Leave</option>
+                                                <option value="Medical Leave">Medical Leave</option>
+                                                <option value="Casual Leave">Casual Leave</option>
+                                                <option value="Hostpital Leave">Hostpital Leave</option>
+                                            </select> </div>
+                                        </div> -->
+
+                  </div>
+                  <div class="col-md-3 form_group">
+                    <label class="form_label">Leave Type<span class="text-danger">*</span></label>
+                    <div>
+                      <ng-select #select [items]="student" [searchable]="false" [(ngModel)]="selectedStudent"
+                        bindLabel="name" formControlName="leave_type" bindValue="name" placeholder="please select">
+                        <ng-template ng-header-tmp>
+                          <input style="width: 100%; line-height: 24px" type="text"
+                            (input)="select.filter($any($event.target).value)" />
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                  <div class="col-md-3 form_group">
+
+                    <div>
+                      <label class="form_label">End Date<span class="text-danger">*</span></label>
+                      <div>
+                        <input type="date" id="end_date" formControlName="end_date" name="end_date"
+                          class="form-control">
+                      </div>
+                      <div *ngIf="submitted && leavecreateform.controls['end_date'].invalid" class="text-danger"> Please
+                        enter valid date. </div>
+                      <div *ngIf="submitted && ed_sunday_alert" class="text-danger"> You can't select sunday. Please
+                        select other date. </div>
+
+                      <small *ngIf="dates" class="text-danger">
+                        End Date should be grater than start Date</small>
+                    </div>
+                  </div>
+                  <div class="col-md-3 form_group">
+                    <label class="form_label">Detail </label>
+                    <div>
+                      <div>
+                        <textarea [readonly]="read_only" class="form-control" name="detail" id="detail"
+                          formControlName="detail" placeholder="Enter reason for leave."></textarea>
+                      </div>
+                      <div *ngIf="submitted && leavecreateform.controls['detail'].invalid" class="text-danger"> Please
+                        enter reason for leave. </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 form_group">
+                    <!-- <label class="form_label">Gender<span class="text-danger">*</span></label>
+                                            <div class="form-group">
+                                                <div class="col-10">
+                                                    <div id="student_rightEducation">
+                                                        <div class="radio-inline">
+                                                            <label class="m-radio required" for="student_rightEducation_0" aria-required="true">
+                                                                <input type="radio" id="student_rightEducation_0" name="student[rightEducation]"  value="0" checked="checked" aria-required="true">Male <span></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio-inline">
+                                                            <label class="m-radio required" for="student_rightEducation_1" aria-required="true">
+                                                                <input type="radio" id="student_rightEducation_1" name="student[rightEducation]" required="required" value="1" aria-required="true">
+                                                                Female <span></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  -->
+                  </div>
+                  <div class="col-md-6">
+                    <!-- <div class="form_group">
+                                            <label class="form_label">Address </label>
+                                            <div class="form-group">
+                                                <div class="col-lg-10">
+                                                    <textarea class="form-control" name="" id="" placeholder="Enter your address"></textarea>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                  </div>
+                  <div class="col-md-12" *ngIf="rejected">
+                    <div class="form_group">
+                      <label class="form_label">Reason For Rejection :</label>
+                      <div class="form-group">
+                        <div class="col-lg-12">
+                          <textarea class="form-control" formControlName="reject_reason" name="reject_reason"
+                            id="reject_reason" [(ngModel)]="reject_reason" placeholder=""></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row w-100 ">
+                    <div class="col-md-1">
+                      <a class="btn px-2 w-100" href="#"
+                        [routerLink]="setUrl(URLConstants.FACULTY_STUDENT_LEAVEL_LIST)">Cancel</a>
+                    </div>
+                    <div class="col-md-1">
+                      <button *ngIf="CommonService.hasPermission('leave_approve_leave', 'has_update')" type="submit" [disabled]="!leavecreateform.valid || (rejected && reject_reason=='')"
+                        class="btn w-100" id="submitButton">Save</button>
+                    </div>
+                  </div>
+
+                  <!-- <button class="form" type="submit">Save</button> -->
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

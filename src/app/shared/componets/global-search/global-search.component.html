@@ -1,0 +1,402 @@
+<div class="row h-100 no-gutters search_layout">
+    <div class="col-md-9">
+        <!--<div class="modal-header">
+                  <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+              </div>-->
+        <div class="search_left">
+            <!-- seach here -->
+            <div class="search_bar">
+                <input id="search-input" type="text" class="form-control" placeholder="Search here.." [(ngModel)]="searchQuery" autocomplete="off" />
+                <a (click)="clearBtn()" class="clear"> <i class="fe fe-x"></i> </a>
+            </div>
+
+            <div class="panel panel-primary tabs-style-1">
+                <div class="tab-menu-heading">
+                    <div class="tabs-menu1">
+                        <ul ngbNav #nav="ngbNav" class="panel-tabs main-nav-line">
+
+                            <!-- Student Details -->
+                            <li [ngbNavItem]="1">
+                                <a ngbNavLink>Student</a>
+                                <ng-template ngbNavContent>
+
+                                    <div class="d-flex justify-content-between search_results_tab align-items-center">
+                                        <span class="result">RESULTS <b> ({{ pager.totalRecords || 0 }})</b></span>
+                                    </div>
+
+                                    <div class="student_tab">
+
+                                        <div *ngIf="search || start"  class="card border-0" id="spinner2">
+                                            <div class="spinner-border text-primary m-auto" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- student loop -->
+                                        <div *ngIf="studentData">
+                                            <ul *ngFor="let student of studentData">
+                                                <li class="list d-block" [class.inactive]="student?.status !== 1">
+                                                    <div class="content_description">
+                                                        <div class="content-top">
+                                                            <div class="img_profile d-flex align-items-center">
+                                                                <!-- <img src="./assets/img/student-search-profile.png" alt="" /> -->
+                                                                <img [src]="getPhoto(student)" alt="" />
+                                                                <!-- <a href="" class="profile_name" 
+                                                                    [href]="setsymfonyUrl('students/profile/'+ student?.unique_id,student)" >{{student.full_name }}</a> -->
+
+                                                                <a class="profile_name" (click)="navigateToProfile($event, student , URLConstants.STUDENT_NEW_PROFILE)">{{student.full_name}}
+                                                                <br><span class="gr-number">[GR No. : {{student?.studentId || 'N/A'}}]</span>
+                                                                </a>
+                                                            </div>
+                                                            <ul>
+                                                                <!-- Event Gallery -->
+                                                                <li *ngIf="permission[student.branch_id]['student_student']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="profile"
+                                                                        [href]="setsymfonyUrl('students/profile/'+ student?.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-directions"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Event Gallery" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDETN_EVENT)">
+                                                                        <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                            <path d="M3 0.5C3 0.223858 3.22386 0 3.5 0V0C3.77614 0 4 0.223858 4 0.5V3H3V0.5Z" />
+                                                                            <path d="M7 0.5C7 0.223858 7.22386 0 7.5 0V0C7.77614 0 8 0.223858 8 0.5V3H7V0.5Z" />
+                                                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 4C0 2.89543 0.895431 2 2 2H9C10.1046 2 11 2.89543 11 4V5H0V4ZM0 6H11V10C11 11.1046 10.1046 12 9 12H2C0.895431 12 0 11.1046 0 10V6ZM5.69021 7.58541C5.63034 7.40115 5.36966 7.40115 5.30979 7.58541L5.09587 8.24377C5.0691 8.32617 4.99231 8.38197 4.90566 8.38197H4.21342C4.01968 8.38197 3.93912 8.62989 4.09587 8.74377L4.6559 9.15066C4.726 9.20159 4.75533 9.29186 4.72855 9.37426L4.51464 10.0326C4.45477 10.2169 4.66567 10.3701 4.82241 10.2562L5.38244 9.84934C5.45254 9.79841 5.54746 9.79841 5.61756 9.84934L6.17759 10.2562C6.33433 10.3701 6.54523 10.2169 6.48536 10.0326L6.27145 9.37426C6.24467 9.29186 6.274 9.20159 6.3441 9.15066L6.90413 8.74377C7.06088 8.62989 6.98032 8.38197 6.78658 8.38197H6.09434C6.00769 8.38197 5.9309 8.32617 5.90413 8.24377L5.69021 7.58541Z"/>
+                                                                        </svg>                                                                                                                                                     
+                                                                    </a>
+
+                                                                    <ng-template #profile>
+                                                                        <div>Event Gallery</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!--Remark -->
+                                                                <li *ngIf="permission[student.branch_id]['student_student']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="profile"
+                                                                        [href]="setsymfonyUrl('students/profile/'+ student?.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-directions"></i>
+                                                                    </a> -->
+
+                                                                    <a class="remarks" href="" title="Remarks" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.REMARK_LIST)">
+                                                                        <svg _ngcontent-yqt-c282="" width="23" height="23" viewBox="-4 -4 20 22" fill="#01329c" xmlns="http://www.w3.org/2000/svg"><path _ngcontent-yqt-c282="" stroke="#01329c" stroke-linecap="round" stroke-linejoin="round" d="M6.11687 10.2714C5.8586 10.2182 5.58025 10.2197 5.31377 10.2877L5.10682 9.66684L5.10658 9.66612C4.94711 9.19015 4.50277 8.86913 3.99998 8.86913C3.49687 8.86913 3.05305 9.19066 2.8933 9.66554L2.89281 9.66703L2.43057 11.0555H2.22221C1.70052 11.0555 1.27777 11.4783 1.27777 11.9999C1.27777 12.5216 1.70052 12.9444 2.22221 12.9444H2.56638C3.13436 12.9444 3.65248 12.6632 3.96449 12.2127L3.99275 12.2975C3.99285 12.2977 3.99295 12.298 3.99304 12.2983C4.25671 13.0935 5.35714 13.1774 5.73386 12.4216L5.79692 12.2955C6.10973 12.6936 6.58589 12.9313 7.10147 12.9412L7.10147 12.9413L7.11065 12.9413L10.1666 12.944V13.5555C10.1666 13.6488 10.0933 13.7222 9.99996 13.7222H0.666664C0.573364 13.7222 0.5 13.6488 0.5 13.5555V0.666664C0.5 0.573363 0.573363 0.5 0.666664 0.5H5.7222V3.77776C5.7222 4.42057 6.24605 4.94443 6.88886 4.94443H10.1669V5.52932L6.75907 8.91292L6.61136 9.05958V9.26774V10.4509C6.45396 10.3659 6.2859 10.3062 6.11687 10.2714ZM9.90417 3.05554H7.61108V0.760103L9.90417 3.05554ZM15.4392 5.00159L15.4393 5.00177C15.5202 5.08257 15.5202 5.21377 15.4393 5.29458L15.4392 5.29476L15.0358 5.69814L13.8573 4.5197L14.2607 4.11631C14.3416 4.03547 14.473 4.03547 14.5539 4.11631L15.4392 5.00159ZM9.70825 11.0555H8.49997V9.8459L12.5206 5.85415L13.7015 7.03506L9.70825 11.0555Z"></path></svg>
+                                                                    </a>
+
+                                                                    <ng-template #profile>
+                                                                        <div>Remarks</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!-- Monthly Report -->
+                                                                <li *ngIf="permission[student.branch_id]['student_student']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="profile"
+                                                                        [href]="setsymfonyUrl('students/profile/'+ student?.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-directions"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Monthly Reports" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDENT_MONTHLY_REPORT_PROFILE)">
+                                                                        <i class="fas fa-file"></i>
+                                                                    </a>
+
+                                                                    <ng-template #profile>
+                                                                        <div>Monthly Reports</div>
+                                                                    </ng-template>
+                                                                </li>
+                                                                <!-- Profile -->
+                                                                <li *ngIf="permission[student.branch_id]['student_student']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="profile"
+                                                                        [href]="setsymfonyUrl('students/profile/'+ student?.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-directions"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Profile" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDENT_NEW_PROFILE)">
+                                                                        <i class="fas fa-directions"></i>
+                                                                    </a>
+
+                                                                    <ng-template #profile>
+                                                                        <div>Profile</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!-- Fees -->
+                                                                <li *ngIf="permission[student.branch_id]['finance_fees']??false">
+                                                                    <!-- <a  href="#." [ngbTooltip]="Fees"
+                                                                        [routerLink]="[setUrl(URLConstants.STUDENT_COLLECT_FEES),student.unique_id]" class="nav-item">
+                                                                        <i class="fas fa-coins"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Fees" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDENT_COLLECT_FEES)">
+                                                                        <i class="fas fa-coins"></i>
+                                                                    </a>
+
+
+                                                                    <ng-template #Fees>
+                                                                        <div>Fees</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!-- Transport -->
+                                                                <li *ngIf="permission[student.branch_id]['finance_wallets']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="Academics"
+                                                                        [routerLink]="[setUrl(URLConstants.ACADEMICS), student?.unique_id]" class="nav-item">
+                                                                        <i class="fas fa-bus"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Wallet" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDENT_WALLET_HISTORY)">
+                                                                        <i class="fas fa-wallet"></i>
+                                                                    </a>
+                                                                    <ng-template #Wallet>
+                                                                        <div>Wallet</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!-- Events -->
+                                                                <!-- <li *ngIf="permission[student.branch_id]['administrator_event_gallary']??false"> -->
+                                                                    <!-- <a href="#." [ngbTooltip]="Events"
+                                                                        [href]="setsymfonyUrl('students/events/'+ student.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-calendar-check"></i>
+                                                                    </a> -->
+                                                                    <!-- <a href="" title="Events" 
+                                                                        class="" (click)="navigateToProfile($event, student , 'event/addEvent', true)">
+                                                                        <i class="fas fa-calendar-check"></i>
+                                                                    </a>
+
+                                                                    <ng-template #Events>
+                                                                        <div>Events</div>
+                                                                    </ng-template>
+                                                                </li> -->
+
+                                                                <!-- Academics -->
+                                                                <li *ngIf="permission[student.branch_id]['student_student']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="Academics"
+                                                                        [routerLink]="[setUrl(URLConstants.ACADEMICS), student?.unique_id]" class="nav-item">
+                                                                        <i class="fas fa-book"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Academics" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.ACADEMICS)">
+                                                                        <i class="fas fa-book"></i>
+                                                                    </a>
+
+                                                                    <ng-template #Academics>
+                                                                        <div>Academics</div>
+                                                                    </ng-template>
+                                                                </li>
+
+                                                                <!-- Report -->
+                                                                <!-- <li>
+                                                                    <a href="#." [ngbTooltip]="Report"
+                                                                        [href]="setsymfonyUrl('students/report/'+ student?.unique_id,student)" class="nav-item">
+                                                                        <i class="fas fa-file-alt"></i>
+                                                                    </a>
+                                                                    <ng-template #Report>
+                                                                        <div>Report</div>
+                                                                    </ng-template>
+                                                                </li> -->
+
+                                                                <!-- Exam -->
+                                                                <!-- <li> -->
+                                                                    <!-- <a href="#." [ngbTooltip]="Exam"
+                                                                        [routerLink]="[setUrl(URLConstants.ADMIN_STUDENT_EXAM), student?.unique_id]" class="nav-item">
+                                                                        <i class="fas fa-laptop"></i>
+                                                                    </a> -->
+
+                                                                    <!-- a href="" title="Online Exam" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.ADMIN_STUDENT_EXAM , false)">
+                                                                        <i class="fas fa-laptop"></i>
+                                                                    </a>
+
+                                                                    <ng-template #Exam>
+                                                                        <div>Online Exam</div>
+                                                                    </ng-template>
+                                                                </li> -->
+
+                                                                 <!-- Report -->
+                                                                 <li *ngIf="permission[student.branch_id]['administrator_notice_history']??false">
+                                                                    <!-- <a href="#." [ngbTooltip]="Academics"
+                                                                        [routerLink]="[setUrl(URLConstants.ACADEMICS), student?.unique_id]" class="nav-item">
+                                                                        <i class="fas fa-bus"></i>
+                                                                    </a> -->
+
+                                                                    <a href="" title="Notice History" 
+                                                                        class="" (click)="navigateToProfile($event, student , URLConstants.STUDENT_NOTICE_HISTORY)">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+
+                                                            <!-- [routerLink]="[setUrl(URLConstants.USER_PROFILE), id]" -->
+                                                            <!-- [routerLink]="[setUrl(URLConstants.USER_PROFILE), item.id]" -->
+                                                            <!-- <li><a href="#." title="Transport"><i class="fas fa-bus"></i></a></li>
+                                                            <li><a href="#." title="Events"><i class="fas fa-calendar-check"></i></a></li>
+                                                            <li><a href="#." title="Academics"><i class="fas fa-book"></i></a></li>
+                                                            <li><a href="#." title="Exam & reports"><i class="fas fa-file-alt"></i></a></li>
+                                                            <li><a href="#." title="Online Exam"><i class="fas fa-laptop"></i></a></li>                                                         -->
+                                                        </div>
+                                                        <div class="content-bottom">
+                                                            <ul>
+                                                                <li><label>Institute</label><span>{{student?.branch?.branchName}} ({{student?.academic_year}})</span></li>
+                                                                <li><label>Department</label><span>{{student?.section_name || '-'}}</span></li>
+                                                                <li><label>Batch</label><span>{{student?.batch_detail?.name || '-'}}</span></li>
+                                                                <li><label>Unique code</label><span>{{student?.unique_id || '-'}}</span></li>
+                                                                <li><label>Status</label><span>{{student?.status == 1 ? 'Active' : 'In-Active'}}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+                                </ng-template>
+                            </li>
+
+                            <!-- Faculty  -->
+                            <!-- <li [ngbNavItem]="2">
+                                <a ngbNavLink (click)="onTabSwitch('faculty')">Faculty</a>
+                                <ng-template ngbNavContent>
+                                    <div class="d-flex justify-content-between search_results_tab align-items-center">
+                                        <span class="result">
+                                            RESULTS
+                                            <b> {{ pager.totalRecords || 0 }} </b>
+                                        </span>
+                                    </div> -->
+
+                                    <!-- faculty loop -->
+                                    <!-- <div class="student_tab">
+                                        <ul *ngFor="let faculty of facultyData">
+                                            <li class="list">
+                                                <div class="img_profile"> -->
+                                                    <!-- <img src="{{ faculty.image }}" alt="" /> -->
+                                                    <!-- <img src="./assets/img/student-search-profile.png" alt="" />
+                                                </div>
+
+                                                <div class="content_description">
+                                                    <a href="" class="profile_name"
+                                                        [href]="setsymfonyUrl('students/profile')">
+                                                        {{ faculty.full_name }}
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </ng-template>
+                            </li> -->
+
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="panel-body tabs-menu-body main-content-body-right">
+                    <div [ngbNavOutlet]="nav" class="tab-pane"></div>
+                    <div class="tab-content"></div>
+                </div>
+            </div>
+            <!--<div class="modal-footer border-0">
+                      <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                  </div> -->
+        </div>
+    </div>
+
+    <!-- Righ side part Branch and Filter part -->
+
+    <div class="col-md-3">
+        <div class="search_right">
+            <div class="d-flex">
+                <span class="innertitle">Quick Filters</span>
+                <a (click)="closeModal()" class="close-model"> <i class="fe fe-x"></i> </a>
+            </div>
+
+            <div class="filter_Select">
+
+                <!-- Branch Filter -->
+                <div>
+                    <label class="form_label">Branch</label>
+                    <ng-select
+                        class="form-control mb-2"
+                        placeholder="Select branch"
+                        [(ngModel)]="selectedBranch"
+                        (change)="onBranchSelect()"
+                        [items]="branchList"
+                        [multiple]="true"
+                        bindLabel="branchName"
+                        groupBy="selectedAllGroup"
+                        [selectableGroup]="true"
+                        [closeOnSelect]="false"
+                        [selectableGroupAsModel]="false"
+                        [searchable]="true">
+                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+                             Select All
+                        </ng-template>
+                        <ng-template  ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" />
+                             {{ item.branchName }}
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+                <!-- acadamic filter -->
+                <div *ngIf="this.selectedTab === 'student'">
+                    <label class="form_label">Academic year</label>
+                    <ng-select
+                        [items]="academicYearList"
+                        class="form-control mb-2"
+                        [multiple]="true"
+                        placeholder="Select Year"
+                        [(ngModel)]="selectedAcademicYear"
+                        (change)="onAcademicYearSelect()"
+                        bindLabel="year"
+                        groupBy="branch_id"
+                        bindValue="id"
+                        [closeOnSelect]="false"
+                        [selectableGroup]="true"
+                        [selectableGroupAsModel]="false"
+                        [groupValue]="groupValueFn"
+                        [searchable]="true">
+                        <!-- <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> Select All
+                        </ng-template> -->
+                        <!-- <ng-template ng-header-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" #select type="checkbox" (click)="selectAllAcademicYears(select.checked)" [checked]='selectedAcademicYear.length==academicYearList.length' /> Select All
+                        </ng-template> -->
+                        <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                            {{ item.branchName}}
+                        </ng-template>
+                        <ng-template  ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{ index }}" type="checkbox" [ngModel]="item$.selected" /> {{ item.year }}
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="d-flex align-items-center mt-4">
+                    <label class="form_label me-2 mb-0">Records Per Page</label>
+                    <select id="recordperpage" [(ngModel)]="pager.perPage" (change)="handleLengthChange()">
+                        <option value=10>10</option>
+                        <option value=25>25</option>
+                        <option value=50>50</option>
+                        <option value=100>100</option>
+                        <option value=200>200</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer_pagination" *ngIf="pager.totalRecords > 0">
+    <ngb-pagination
+        [collectionSize]="pager.totalRecords"
+        [(page)]="pager.currentPage"
+        [pageSize]="pager.perPage"
+        aria-label="Default pagination"
+        [maxSize]="5"
+        (pageChange)="onPaginationChange($event)">
+    </ngb-pagination>
+</div>

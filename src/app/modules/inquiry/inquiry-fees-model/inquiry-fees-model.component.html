@@ -1,0 +1,210 @@
+<section class="inquiry-fees-model">
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title"> Inquiry Fees </h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="inquiryFeesForm">
+            <div class="row justify-content-center">
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label">Student Name </label>
+                    <app-input class="w-100" controlName="student_name" [readonly]="true"></app-input>
+                </div>
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field" *ngIf="inquiryFeesForm.value.class">
+                    <label class="form_label">Class </label>
+                    <app-input class="w-100" controlName="class" [readonly]="true"></app-input>
+                </div>
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label">Category <span class="text-danger">*</span></label>
+                    <!-- <app-multi-select class="w-100" controlName="category_fees" placeholder="Please select category" (change)="changeCategory($event)"  [dropDownArray]="inquiryData.feesDetails ?? []"></app-multi-select> -->
+                    <app-multi-select class="w-100" controlName="category_fees" placeholder="Please select category" [dropDownArray]="inquiryData.feesDetails ?? []"></app-multi-select>
+                </div>
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label">Inquiry Form Fees <span class="text-danger">*</span> </label>
+                    <app-input class="w-100" controlName="amount" type="number" [readonly]="true"></app-input>
+                </div>
+
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label"> Payment Mode <span class="text-danger">*</span> </label>
+                    <div class="m-radio-section form-control">
+                        <ng-container *ngFor="let item of paymentModeList">
+                            <div class="radio">
+                                <label class="m-radio"><input type="radio" [value]="item.id" formControlName="payment_mode" class="mr-1" id="{{item.id}}" (change)="setValidationOnPaymentMode(item.id)">
+                                    {{item.name}} <span></span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+
+                <ng-container *ngIf="inquiryFeesForm?.value?.payment_mode == 2">
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Cheque No. <span class="text-danger">*</span> </label>
+                        <app-input class="w-100" controlName="cheque_no" placeholder="Enter Cheque No."></app-input>
+                    </div>
+
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Bank Name <span class="text-danger">*</span> </label>
+                        <div class="w-100">
+                            <app-dropdown-crud class="create-dropdown" placeholder="Select Bank" searchPlaceholder="Search Bank name"
+                                (selectedValue)="selectionChange($event)" [dropDownArray]="bankNames"
+                                (createUpdate)="createAndUpdateData($event)" (deleteData)="deleteData($event)">
+                            </app-dropdown-crud>
+                        </div>
+                    </div>
+                   
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Cheque Date </label>
+                        <app-mat-date-picker class="w-100" controlName="cheque_date" ></app-mat-date-picker>
+                    </div>
+                    
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Cheque Status <span class="text-danger"></span></label>
+                        <div  class="m-radio-section form-control">
+                            <div  class="radio">
+                                <label  class="m-radio">
+                                    <input  type="radio" formControlName="cheque_status" value="received" id="received" class="mr-1" checked>
+                                    Received
+                                    <span></span>
+                                </label>
+                            </div>
+                            <!-- <div  class="radio">
+                                <label  class="m-radio">
+                                    <input  type="radio" formControlName="cheque_status" value="deposited" id="deposited" class="mr-1">
+                                    Deposited
+                                    <span></span>
+                                </label>
+                            </div> -->
+                            <div  class="radio">
+                                <label  class="m-radio">
+                                    <input  type="radio" formControlName="cheque_status" value="clear" id="clear" class="mr-1">
+                                    Clear
+                                    <span></span>
+                                </label>
+                            </div>
+                            <!-- <div  class="radio">
+                                <label  class="m-radio">
+                                    <input  type="radio" formControlName="cheque_status" value="bounced" id="bounced" class="mr-1">
+                                    Bounced
+                                    <span></span>
+                                </label>
+                            </div> -->
+                         </div>
+                    </div>
+                </ng-container>
+
+                <ng-container class="row" *ngIf="inquiryFeesForm?.value?.payment_mode == 3">
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">RRN Number <span class="text-danger">*</span> </label>
+                        <app-input class="w-100" controlName="rrn_no" placeholder="Enter RRN Number."></app-input>
+                    </div>
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Bank Name <span class="text-danger">*</span> </label>
+                        <div class="w-100">
+                            <app-dropdown-crud class="create-dropdown" placeholder="Select Bank" searchPlaceholder="Search Bank name"
+                                (selectedValue)="selectionChange($event)" [dropDownArray]="bankNames"
+                                (createUpdate)="createAndUpdateData($event)" (deleteData)="deleteData($event)">
+                            </app-dropdown-crud>
+                        </div>
+                    </div>
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Type<span class="text-danger">*</span> </label>
+                        <div  class="m-radio-section form-control">
+                            <div  class="radio">
+                                <label  class="m-radio">
+                                    <input type="radio" value="1" formControlName="card_type" id="debit" class="mr-1" checked>
+                                    Debit
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div  class="radio">
+                                <label  class="m-radio">
+                                    <input type="radio" value="2" formControlName="card_type" id="credit" class="mr-1">
+                                    Credit
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div  class="radio">
+                                <label  class="m-radio">
+                                    <input type="radio"  value="3" formControlName="card_type" id="qr" class="mr-1">
+                                    QR
+                                    <span></span>
+                                </label>
+                            </div>
+                         </div>
+                    </div>
+                </ng-container>
+
+                <ng-container class="row" *ngIf="inquiryFeesForm?.value?.payment_mode == 4">
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Account Number <span class="text-danger">*</span> </label>
+                        <app-input class="w-100" controlName="account_no" placeholder="Enter Account Number."></app-input>
+                    </div>
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Account Holder Name <span class="text-danger">*</span> </label>
+                        <app-input class="w-100" controlName="account_holder_name" placeholder="Enter Account Holder Name"></app-input>
+                    </div>
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">IFSC Code <span class="text-danger">*</span> </label>
+                        <app-input class="w-100" controlName="ifsc_code" placeholder="Enter IFSC Code"></app-input>
+                    </div>
+                </ng-container>
+
+                <ng-container class="row" *ngIf="inquiryFeesForm?.value?.payment_mode == 5">
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">UPI ID <span class="text-danger">*</span></label>
+                        <app-input class="w-100" controlName="upi_id" placeholder="Enter UPI ID."></app-input>
+                    </div>
+                </ng-container>
+
+                <ng-container class="row" *ngIf="inquiryFeesForm?.value?.payment_mode == 6">
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Transaction/Ref No.<span class="text-danger">*</span></label>
+                        <app-input class="w-100" controlName="transaction_or_ref_no" placeholder="Enter Transaction/Ref Number"></app-input>
+                    </div>
+
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Bank Name <span class="text-danger">*</span> </label>
+                        <div class="w-100">
+                            <app-dropdown-crud class="create-dropdown" placeholder="Select Bank" searchPlaceholder="Search Bank name"
+                                (selectedValue)="selectionChange($event)" [dropDownArray]="bankNames"
+                                (createUpdate)="createAndUpdateData($event)" (deleteData)="deleteData($event)">
+                            </app-dropdown-crud>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                        <label class="form_label">Payment Type<span class="text-danger">*</span></label>
+                        <app-input class="w-100" controlName="payment_type" placeholder="Enter Payment Type"></app-input>
+                    </div>
+                </ng-container>
+
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label">Remarks </label>
+                    <app-input class="w-100" controlName="remark"></app-input>
+                </div>
+                <div class="col-lg-11 col-md-11 form-group inquiry-fees-field">
+                    <label class="form_label">Attechment</label>
+                    <app-input class="w-100" type="file" controlName="attechment" (change)="fileChange($event)" [accept]="'.jpg, .jpeg, .png, .pdf, .doc, .txt'"></app-input>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-auto pe-0">
+            <button type="submit" class="btn save-btn" [disabled]="isLoader" (click)="saveFees()">
+                Save
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoader">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-auto ps-0">
+            <button type="submit" class="btn cancel-btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</section>

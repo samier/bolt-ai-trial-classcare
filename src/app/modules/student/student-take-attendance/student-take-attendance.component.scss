@@ -1,0 +1,14 @@
+::ng-deep{
+    .total_student_number{
+        padding-bottom: 12px;
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between;
+        position: sticky;
+        left: 0;
+    }
+    .save_atten{
+        position: sticky;
+        left: 0;
+    }
+}

@@ -1,0 +1,26 @@
+::ng-deep app-assign-leave-role{
+    table{
+        &.table-bordered{
+            &.dataTable{
+                &.no-footer{
+                    .form-control {
+                        border: 1px solid #d0c9c0;
+                    }
+                    td,th{
+                        padding: 8px 10px;
+                        &:first-child{
+                            width: 290px;
+                        }
+                        
+                        &:nth-child(2){
+                            width: 290px;
+                        }
+                        &:nth-child(3){
+                            width: 290px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

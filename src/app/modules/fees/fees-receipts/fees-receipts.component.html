@@ -1,0 +1,205 @@
+<section class="leave_form new-student-list-section">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Fees Receipt</h3>
+      </div>
+
+      <div class="card student-list-card p-0"> 
+        <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn btn-primary me-2" (click)="clearAll($event)">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="receiptFilterForm" class="content_scroll">
+            <div class="row">
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Section</label>
+                <app-single-select [dropDownArray]="sectionList" controlName="section" (change)="getClassesList()" placeholder="All Section"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Class</label>
+                <app-single-select [dropDownArray]="classes" controlName="class" (change)="getBatchList()" placeholder="All Class"></app-single-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Batch</label>
+                <app-single-select [dropDownArray]="batches" controlName="batch" placeholder="All Batch"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Payment Mode</label>
+                <app-single-select [dropDownArray]="payment_modes" controlName="payment_mode" placeholder="All Payment Mode"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Payment Date</label>
+                <app-date-range-picker controlName="payment_date" placeholder="Select Payment Date"></app-date-range-picker>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Payment Receiver</label>
+                <app-single-select [dropDownArray]="receivers" controlName="receiver" placeholder="All Receiver"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Receipt Type</label>
+                <app-single-select [dropDownArray]="receipt_types" controlName="receipt_type" ></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class="form_label">Student Status</label>
+                <app-single-select [dropDownArray]="student_status" controlName="status" ></app-single-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Student Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" formControlName="rte" id="all" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="rte" id="rte" value="1" class="mr-1">RTE<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="rte" id="general" value="0" class="mr-1">General<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Admission Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" formControlName="old_new" id="male" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="old_new" id="female" value="1" class="mr-1">New<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" formControlName="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group add_doc">
+                <label class="form_label">Show</label>
+                <div>
+                  <button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card student-list-main-card">
+        <div class="card_body">
+          
+          <div class="row pb-3 mx-0 no-gutters">
+            <div class="datatable-action-design p-0">
+              <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                  <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                  <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                </svg>
+              </div>
+              <div class="table-responsive">
+                <div class="table-btn-right">
+                  <button class="btn action-print" *ngIf="commonService.hasPermission('fees_report_fees_receipt_report','has_download')" (click)="bulkReceipt($event)" [disabled]="printing">
+                    <i class="fe fe-printer" *ngIf="!printing"></i>
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="printing">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+                </div>
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered " [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>
+                        <input class="" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+                      </th>
+                      <th>Student ID / GR No.</th>
+                      <th>Roll No.</th>
+                      <th>Student Name</th>
+                      <th>Total Amount</th>
+                      <th>Paid Amount</th>
+                      <th>Discount Amount</th>
+                      <th>Payment Date</th>
+                      <th>Receipt No</th>
+                      <th class="action-btn-sticky">Print</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of receipts ;let i = index;">
+                      <td>
+                        <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                      </td>
+                      <td>{{item.studentId || 'N/A'}}</td>
+                      <td>{{item.rollno || 'N/A'}}</td>
+                      <td><a [routerLink]="[commonService.setUrl(URLConstants.STUDENT_PROFILE),item?.unique_id]">{{item.full_name}}</a></td>
+                      <td>{{item.total || 0}}</td>
+                      <td>{{item.paid || 0}}</td>
+                      <td>{{item.discount || 0}}</td>
+                      <td>{{item.payment_date | date:dateFormateService.getDateFormat()}}</td>
+                      <td>{{item.receipt_no}}</td>
+                      <td class="action-btn-sticky text-center">
+                        <div class="btn-group" role="group">
+                          
+                          <a class="lt-btn-icon action-print" 
+                            *ngIf="commonService.hasPermission('fees_report_fees_receipt_report', 'has_download')" 
+                            (click)="feesReceipt(item)" 
+                            ngbTooltip="Print"
+                          >
+                           
+                          </a>
+
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="receipts?.length == 0">
+                    <tr>
+                      <td colspan="12" class="text-center no-data-available">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

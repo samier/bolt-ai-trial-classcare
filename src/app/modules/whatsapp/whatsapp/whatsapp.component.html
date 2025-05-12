@@ -1,0 +1,62 @@
+<div class="embedded-signup-container">
+    <!-- Header Section -->
+    <header class="page-header">
+      <h1>Facebook Embedded Signup</h1>
+      <p>Effortlessly connect your business to WhatsApp using Facebook's Embedded Signup feature.</p>
+    </header>
+  
+    <!-- Information Section -->
+    <section class="info-section">
+      <h2>What is Embedded Signup?</h2>
+      <p>
+        Embedded Signup allows businesses to onboard to the WhatsApp Business Platform directly from your website. 
+        Streamline the process and get started in just a few clicks!
+      </p>
+      <ul>
+        <li>Quick and secure integration with Facebook's platform.</li>
+        <li>No need to leave your website during the signup process.</li>
+        <li>Manage your WhatsApp Business settings directly from the dashboard.</li>
+      </ul>
+    </section>
+  
+    <!-- Action Section -->
+    <section class="action-section">
+      <button class="signup-button" (click)="launchWhatsAppSignup()">Get Started with Facebook</button>
+    </section>
+  
+    <!-- Status Messages -->
+    <section class="message-container" *ngIf="errorMessage || successMessage">
+      <div *ngIf="successMessage" class="message success">
+        {{ successMessage }}
+        <button class="close-button" (click)="closeMessage('success')">✖</button>
+      </div>
+      <div *ngIf="errorMessage" class="message error">
+        {{ errorMessage }}
+        <button class="close-button" (click)="closeMessage('error')">✖</button>
+      </div>
+    </section>
+
+    <ng-container *ngIf="isLoading else errorTemp">
+      <div class="loader-for-embeded"></div>
+    </ng-container>
+
+    <ng-template #errorTemp>
+      <!-- Generate Token Status Messages -->
+      <section class="message-container" *ngIf="gentrateTokenErrorMessage || gentrateTokenSuccessMessage">
+        <div *ngIf="gentrateTokenSuccessMessage" class="message success">
+          {{ gentrateTokenSuccessMessage }}
+          <button class="close-button" (click)="generateTokenCloseMessage('success')">✖</button>
+        </div>
+        <div *ngIf="gentrateTokenErrorMessage" class="message error">
+          {{ gentrateTokenErrorMessage }}
+          <button class="close-button" (click)="generateTokenCloseMessage('error')">✖</button>
+        </div>
+      </section>
+    </ng-template>
+  
+    <!-- Footer Section -->
+    <footer class="page-footer">
+      <p>Return to the login page <a href="" target="_blank">login</a>.</p>
+      <p>Need help? Visit our <a href="https://business.facebook.com" target="_blank">support page</a>.</p>
+    </footer>
+  </div>

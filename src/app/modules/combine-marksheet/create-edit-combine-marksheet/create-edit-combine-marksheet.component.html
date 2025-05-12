@@ -1,0 +1,103 @@
+<section class="create-mark-section">
+    <div class="page-inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+          <h3 class="sub_title mb-0">{{ id ? 'EDIT COMBINE MARKSHEET' : 'CREATE COMBINE MARKSHEET'}}</h3>
+          <div>
+            <button class="btn me-2" [routerLink]="CommonService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN)"><i class="bi bi-vector-pen pe-2"></i>Marksheet Template Design</button>
+            <button [routerLink]="CommonService.setUrl(URLConstants.MARKSHEET_TEMP_LIST)" class="btn list-btn me-2">Marksheet Template List</button>
+            <button [routerLink]="CommonService.setUrl(URLConstants.COMBINE_MARKSHEET_LIST)" class="btn list-btn">Combine Marksheet List</button>
+          </div>
+        </div>
+        <div class="card">
+          <form [formGroup]="createCombineMarkSheetF">
+            <div class="row">
+
+              <!-- MARK SHEET NAME  -->
+              <div class="col-md-4 form-group">
+                <label class="form_label">Combine Marksheet Name <span class="text-danger">*</span> </label>
+                <app-input controlName="combine_markSheet_name" placeholder="Enter Combine Marksheet Name"></app-input>
+              </div>
+
+              <!-- COMBINE MARK SHEET DP -->
+              <div class="col-md-4 form-group">
+                <label class="form_label">Select Combine Marksheet <span class="text-danger">*</span> </label>
+                <app-multi-select controlName="combine_markSheet_id" placeholder="Select Combine Marksheet"
+                  [dropDownArray]="combineMarkSheetList"></app-multi-select>
+              </div>
+
+              <!-- TEMPLATE DESIGN DP -->
+              <div class="col-md-4 form-group">
+                <label class="form_label"> Student Marksheet Template Design </label>
+                <app-single-select controlName="template_id" placeholder="Select  Student Marksheet Template Design"
+                  [dropDownArray]="templateDesignList"></app-single-select>
+              </div>
+
+              <!-- SCHOOL TEMPLATE DESIGN DP -->
+              <div class="col-md-4 form-group">
+                <label class="form_label"> School Marksheet Template Design </label>
+                <app-single-select controlName="school_result_template_id" placeholder="Select  School Marksheet Template Design"
+                  [dropDownArray]="templateDesignList"></app-single-select>
+              </div>
+
+              <!-- ATTENDANCE CHECKBOX -->
+              <div class="col-md-4 form-group from-checkbox">
+                <label class="form_label opacity-0">Display Attendance in Result Card ?</label>
+                <div>
+                  <input type="checkbox" id="html" formControlName="show_attendance">
+                  <label for="html">Display Attendance in Result Card ?</label>
+                </div>  
+              </div>
+
+              <!-- MARK TYPE -->
+              <div class="col-md-4 form-group">
+                <label class="form_label">Mark Type<span class="text-danger">*</span></label>
+  
+                <div  class="m-radio-section">
+                  <div  class="radio">
+                      <label  class="m-radio" for="round-off">
+                          <input type="radio" formControlName="marks_type" [value]="1" id="round-off" class="mr-1">
+                          Round off
+                          <span></span>
+                      </label>
+                  </div>
+                  <div  class="radio">
+                      <label  class="m-radio" for="ceil">
+                          <input type="radio" formControlName="marks_type" [value]="2" id="ceil" class="mr-1">
+                          Ceil
+                          <span></span>
+                      </label>
+                  </div>
+                  <div  class="radio">
+                      <label  class="m-radio" for="floor">
+                          <input type="radio" formControlName="marks_type" [value]="3" id="floor" class="mr-1">
+                          Floor
+                          <span></span>
+                      </label>
+                  </div>
+                  <div  class="radio">
+                      <label  class="m-radio" for="none">
+                          <input type="radio" formControlName="marks_type" [value]="0" id="none" class="mr-1">
+                          None
+                          <span></span>
+                      </label>
+                  </div>
+               </div>
+              </div>
+
+              <!-- BUTTONs -->
+              <div class="col-md-12 create-marksheet-btn">
+                <button class="btn add-btn me-2" (click)="createOrUpdateMarkSheet()" [disabled]="is_createLoading"> {{ id ? 'Update Combine Marksheet' : 'Create Combine Marksheet'}} 
+                  <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="is_createLoading">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+                <button class="btn cancel-btn" (click)="clear()">Clear</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>

@@ -1,0 +1,255 @@
+::ng-deep {
+  @import "../../../../../assets/scss/variables";
+@import"../../../../../assets/css/variable.scss";
+@import'../../../../../assets/css/variable.scss';
+  .student-absent-section {
+    height: 100%;
+    .today-leave-header {
+      padding: 8px 8px;
+      // background-color: #DFEEFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      white-space: nowrap;
+      position: relative;
+      z-index: 0;
+      &::before{
+          content: "";
+          background-color: $primary;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          border-radius: 6px 6px 0 0;
+          opacity: 0.17;
+          z-index: -1;
+      }
+      .view-all-link{
+        font-size: 12px;
+        line-height: 14px;
+        font-weight: 600;
+        color: #000;
+        text-decoration: none;
+        transition: 0.3s;
+        display: inline-block;
+        position: relative;
+        z-index: 9;
+        h3{
+            font-size: 17px;
+            line-height: 22px;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            margin-bottom: 0px;
+            text-transform: capitalize;
+            span{
+                width: 16px;
+                height: 16px;
+                border-radius: 50px;
+                background-color: #FFD7E4;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                margin-left: 8px;
+            }
+            svg{
+                margin-right: 6px;
+                transition: 0.3s;
+                rect{
+                    fill: #fff; 
+                }
+                path{
+                    fill: #000;
+                }
+            }
+        }
+        &:hover{
+            color: $primary;
+            svg{
+                
+                rect{
+                    fill: $primary;
+                }
+                path{
+                    fill: #fff;
+                }
+            }
+        }
+    }
+      
+    }
+    .exam-mark-form{
+      width: 100%;
+      .row{
+          .form_group{
+              padding: 0 4px;
+              input{
+                  font-size: 11px;
+                  line-height: 16px;
+                  padding: 3px;
+                  color: #000;
+                  font-weight: 600;
+              }
+          }
+      }
+      .ng-select.ng-select-single{
+          .ng-select-container{
+              height: 30px;
+              .ng-value-container{
+                  padding: 0;
+                  padding-left: 6px;
+                  .ng-input{
+                      padding: 0 10px;
+                      position: unset;
+                      font-size: 12px;
+                      font-weight: 600;
+                  }
+                  .ng-value, .ng-placeholder{
+                      font-size: 12px;
+                      font-weight: 600;
+                  }
+                  .ng-input{
+                      display: none;
+                  }
+              }
+          }
+          .ng-dropdown-panel{
+              width: 300px;
+              left: unset;
+              right: -20px;
+              .ng-dropdown-panel-items{
+                  &::-webkit-scrollbar{
+                      width: 4px;
+                  }
+              }
+          }
+          
+      }
+      .multiselect-dropdown{
+          .dropdown-btn{
+              min-height: 30px !important;
+              line-height: 22px !important;
+              padding-left: 6px !important;
+              background-color: #fff !important;
+              display: flex;
+              align-items: center;
+              span{
+                  font-size: 12px;
+              }
+              .selected-item-container{
+                  .selected-item{
+                      margin-inline-end: 4px !important;
+                      margin-block-start: 4px !important;
+                      span{
+                          font-size: 10px;
+                          line-height: 14px;
+                          display: block;
+                          width: auto;
+                          max-width: 60px;
+                      }
+                      a{
+                          font-size: 11px !important;
+                      }
+                  }
+              }
+          }
+          .dropdown-list{
+              width: 250px;
+              right: 0;
+              ul{
+                  &::-webkit-scrollbar{
+                      width: 4px;
+                  }
+              }
+          }
+         
+      }
+  }
+    .birthday-wrapper {
+      height: 88.5%;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        li {
+          padding: 6px 14px;
+          border-bottom: 1px solid #dde2ef;
+          list-style: none;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          &:last-child {
+            border-bottom: 0;
+          }
+          .birthday-lt-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .leave-rt-content {
+              text-align: center;
+              display: flex;
+              align-items: center;
+              h4 {
+                color: #000;
+              }
+              img {
+                margin-right: 0;
+                margin-bottom: 0px;
+                margin-right: 5px;
+              }
+            }
+            a{
+              margin-left: 10px;
+            }
+            img {
+              max-width: 30px;
+              border-radius: 100px;
+              width: 100%;
+              width: 26px;
+            }
+            h4 {
+              font-size: 15px;
+              line-height: 22px;
+              font-weight: 600;
+              color: #000;
+              margin: 0;
+              span {
+                display: block;
+                font-size: 14px;
+                line-height: 15px;
+                font-weight: 500;
+                color: #939393;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // .whatsup-chip-box{
+    //   .popover{
+    //     left: -88px !important;
+    //     .popover-arrow{
+    //       left: 80px !important;
+    //     }
+    //   }
+    // }
+  }
+
+  @media (max-width: 992px) {
+    .student-absent-section .today-leave-header h3 {
+      font-size: 12px;
+      line-height: 16px;
+    }
+    .student-absent-section .birthday-wrapper {
+      max-height: 200px;
+    }
+    .student-absent-section .today-leave-header {
+      padding: 8px 10px;
+    }
+  }
+}

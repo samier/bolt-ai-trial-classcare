@@ -1,0 +1,114 @@
+<section class="create-mark-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">MARKSHEET TEMPLATE DESIGN</h3>
+        <div>
+          <a *ngIf="commonService.hasPermission('administrator_template_manager', 'has_create')" [routerLink]="commonService.setUrl(URLConstants.UPLOAD_DOCUMENT)" class="btn me-2">Upload Document</a>
+          <a [routerLink]="commonService.setUrl(URLConstants.MARKSHEET_TEMP_LIST)" class="btn me-2">Marksheet Template List</a>
+          <a [routerLink]="commonService.setUrl(URLConstants.MARKSHEET_LIST)" class="btn me-2">Marksheet List</a>
+          <a [routerLink]="commonService.setUrl(URLConstants.COMBINE_MARKSHEET_LIST)" class="btn">Combine Marksheet List</a>
+        </div>
+      </div>
+      <div class="card">
+        <form [formGroup]="templateForm">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-6">
+              <label class="form_label">Marksheet Template Name<span class="text-danger">*</span></label>
+              <app-input controlName="template_name" placeholder="Enter marksheet template name"></app-input>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <label class="form_label">Marksheet Body Template<span class="text-danger">*</span></label>
+              <app-single-select [dropDownArray]="marksheet_body_templates" controlName="certificate_template_id"  placeholder="Marksheet Body Template" (change)="handleBodyTemplateSelect($event)"></app-single-select>
+            </div>
+			<div class="col-lg-3 col-md-6">
+				<label class="form_label">Marksheet Per Page </label>
+				<div class="radio">
+					<label for="inlineRadio1" class="m-radio">
+						<input formControlName="template_type" type="radio" id="inlineRadio1" [value]="0">
+						One <span></span>
+					</label>
+				</div>
+				<div class="radio">
+					<label for="inlineRadio2" class="m-radio">
+						<input formControlName="template_type" type="radio" id="inlineRadio2" [value]="1">
+						Two <span></span>
+					</label>
+				</div>
+			</div>
+          
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="card">
+	<div class="result-listing-inner">
+	    <button class="btn btn-setup" *ngFor="let variable of template_variables|keyvalue" (click)="handleVariableClick(variable.key)">{{variable.value}}</button>
+	</div>
+	<mat-accordion [multi]="true">
+    	<mat-expansion-panel [expanded]="true">
+	        <mat-expansion-panel-header (click)="handleHeaderClick()">
+	          Top Header
+	        </mat-expansion-panel-header>
+	        <div class="mt-4">
+						<angular-editor 
+							(focus)="onFocus('top_header')" 
+							[placeholder]="'Enter HTML Source Code here...'" 
+							[(ngModel)]="htmlContent.top_header" 
+							[config]="editorConfig" 
+							#top_header
+						></angular-editor>
+	        </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+	        <mat-expansion-panel-header (click)="handleHeaderClick()">
+	          Bottom Header
+	        </mat-expansion-panel-header>
+	        <div class="mt-4">
+						<angular-editor 
+							(focus)="onFocus('bottom_header')" 
+							[placeholder]="'Enter HTML Source Code here...'" 
+							[(ngModel)]="htmlContent.bottom_header" 
+							[config]="editorConfig" 
+							#bottom_header
+						></angular-editor>
+	        </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+	        <mat-expansion-panel-header>
+	          Body Content
+	        </mat-expansion-panel-header>
+	        <div class="mt-4">
+						<angular-editor  
+							[(ngModel)]="htmlContent.body_content" 
+							[config]="editorConfig" 
+						></angular-editor>
+	        </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+	        <mat-expansion-panel-header (click)="handleHeaderClick()">
+	          Footer
+	        </mat-expansion-panel-header>
+	        <div class="mt-4">
+						<angular-editor 
+							(focus)="onFocus('footer')" 
+							[placeholder]="'Enter HTML Source Code here...'" 
+							[(ngModel)]="htmlContent.footer" 
+							[config]="editorConfig" 
+							#footer
+						></angular-editor>
+	        </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="col-lg-12 col-md-12 create-marksheet-btn" *ngIf="type !== 'view'">
+      <button class="btn" (click)="createTemplate()" [disabled]="saving"> {{saving ? 'Saving' : 'Save'}} 
+        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="saving">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+      <button class="btn  second-btn ms-2" (click)="clearForm()">Clear</button>
+    </div>
+</div>

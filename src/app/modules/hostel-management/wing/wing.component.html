@@ -1,0 +1,76 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Wing List</h3>
+        <div class="btn_right">
+          <button *ngIf="CommonService.hasPermission('hostel_management_wings', 'has_create')" class="btn add-btn" (click)="openCreateMdl(createMdl)">Add
+            Wing</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card_body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="datatable-action-design">
+                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                  </svg>
+                </div>
+                <div class="table-responsive">
+                  <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Hostel Name</th>
+                        <th>Wing Name</th>
+                        <th>Floors</th>
+                        <th class="action-btn-sticky">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="wings?.length != 0">
+                      <tr *ngFor="let wing of wings">
+                        <td class="orange-text-color"> {{wing.id }}</td>
+                        <td> {{wing.hostel_name}} </td>
+                        <td> {{wing.name}} </td>
+                        <td> {{wing.floors}} </td>
+                        <td class="action-btn-sticky text-center">
+                          <div class="btn-group" role="group">
+                            <button *ngIf="CommonService.hasPermission('hostel_management_wings', 'has_edit')" class="lt-btn-icon btn-sm action-edit" ngbTooltip="Edit" (click)="openCreateMdl(createMdl, wing)"></button>
+                            <button type="button" class="lt-btn-icon btn-sm action-delete" ngbTooltip="Delete"
+                              (click)="deleteWing(wing.id)" *ngIf="CommonService.hasPermission('hostel_management_wings', 'has_delete') && !wing.used_wing">
+                              
+                            </button>
+                            <button *ngIf="CommonService.hasPermission('hostel_management_floors', 'has_create')" class="lt-btn-icon btn-sm action-add" ngbTooltip="Add floor" (click)="openCreateFloorMdl(createFloorMdl, wing)"></button>
+                            <a *ngIf="CommonService.hasPermission('hostel_management_floors', 'has_access')" href="javascipt:void(0)" class="lt-btn-icon btn-sm action-list" ngbTooltip="list floor" [routerLink]="[setUrl('hostel/list-floor'), wing.id]">
+                              
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="wings?.length == 0">
+                      <tr>
+                        <td colspan="4" class="text-center no-data-available">No data</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <ng-template #createMdl let-modal>
+                <app-create-wing (reloadWings)="reloadData()" [wing]="wing"></app-create-wing>
+              </ng-template>
+              <ng-template #createFloorMdl let-modal>
+                <app-create-floor (reloadWings)="reloadData()" [wing]="wing"></app-create-floor>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

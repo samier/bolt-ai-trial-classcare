@@ -1,0 +1,43 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-sm-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0 text-center text-sm-left">Monthwise Working Days</h3>
+                <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                  <a class="global_btn btn" href="#." [routerLink]="setUrl(URLConstants.PAYROLL)" > Back to Payroll Home</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div>
+                        <div>
+                            <form class="form_section">
+                                   
+                                    <div class="">
+                                        <div class="mb-0">
+                                            <div class="row">                                               
+                                                <div class="mt-2 col-md-4 form_group" *ngFor="let item of monthwise_list; let i= index" style="display: flex;">                                                    
+                                                    <label class="form_label mb-0 d-flex align-content-center">{{item.month}}</label>  
+                                                    <input type="number" class="form-control" [disabled]="!item.is_editable" min="1" max="{{item.max_day}}" [ngModelOptions]="{standalone: true}" [(ngModel)]='edit_fields_list[item.id]' (keyup)="update($event,item.id,item.max_day)" />                                                                                                                                                    
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="row w-100">
+                                        <div class="form-group mt-5 ml-4 text-left w-100">                                           
+                                            <div class="col-lg-12">
+												<a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.PAYROLL)">Cancel</a>
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!payrollform.valid" class="btn btn-success btn-minwidth" id="submitButton">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>                                                                                                      -->
+                            </form>
+                        </div>
+                    </div>
+                    <a class="global_btn btn mt-4" (click)="onSubmit()" >Save all Records</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

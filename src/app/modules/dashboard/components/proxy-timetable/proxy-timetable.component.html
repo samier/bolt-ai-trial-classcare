@@ -1,0 +1,105 @@
+<div class="attendance-section proxy_timetable_dash">
+    <div class="attendance-header">
+        
+        <a class="view-all-link" [routerLink]="CommonService.setUrl(URLConstants.PROXY_TIMETABLE_LIST)">
+            <h3> 
+                <svg class="me-2" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7"/>
+                    <path d="M13.5 8.5C13.5 7.94772 13.0523 7.5 12.5 7.5C11.9477 7.5 11.5 7.94772 11.5 8.5V9.5C11.5 10.0523 11.9477 10.5 12.5 10.5C13.0523 10.5 13.5 10.0523 13.5 9.5V8.5Z"/>
+                    <path d="M24.5 8.5C24.5 7.94772 24.0523 7.5 23.5 7.5C22.9477 7.5 22.5 7.94772 22.5 8.5V9.5C22.5 10.0523 22.9477 10.5 23.5 10.5C24.0523 10.5 24.5 10.0523 24.5 9.5V8.5Z"/>
+                    <path d="M8 15V26.5C8 27.0304 8.21071 27.5391 8.58579 27.9142C8.96086 28.2893 9.46957 28.5 10 28.5H26C26.5304 28.5 27.0391 28.2893 27.4142 27.9142C27.7893 27.5391 28 27.0304 28 26.5V15H8ZM14 25C14 25.2652 13.8946 25.5196 13.7071 25.7071C13.5196 25.8946 13.2652 26 13 26H12C11.7348 26 11.4804 25.8946 11.2929 25.7071C11.1054 25.5196 11 25.2652 11 25V24C11 23.7348 11.1054 23.4804 11.2929 23.2929C11.4804 23.1054 11.7348 23 12 23H13C13.2652 23 13.5196 23.1054 13.7071 23.2929C13.8946 23.4804 14 23.7348 14 24V25ZM14 19.5C14 19.7652 13.8946 20.0196 13.7071 20.2071C13.5196 20.3946 13.2652 20.5 13 20.5H12C11.7348 20.5 11.4804 20.3946 11.2929 20.2071C11.1054 20.0196 11 19.7652 11 19.5V18.5C11 18.2348 11.1054 17.9804 11.2929 17.7929C11.4804 17.6054 11.7348 17.5 12 17.5H13C13.2652 17.5 13.5196 17.6054 13.7071 17.7929C13.8946 17.9804 14 18.2348 14 18.5V19.5ZM19.5 25C19.5 25.2652 19.3946 25.5196 19.2071 25.7071C19.0196 25.8946 18.7652 26 18.5 26H17.5C17.2348 26 16.9804 25.8946 16.7929 25.7071C16.6054 25.5196 16.5 25.2652 16.5 25V24C16.5 23.7348 16.6054 23.4804 16.7929 23.2929C16.9804 23.1054 17.2348 23 17.5 23H18.5C18.7652 23 19.0196 23.1054 19.2071 23.2929C19.3946 23.4804 19.5 23.7348 19.5 24V25ZM19.5 19.5C19.5 19.7652 19.3946 20.0196 19.2071 20.2071C19.0196 20.3946 18.7652 20.5 18.5 20.5H17.5C17.2348 20.5 16.9804 20.3946 16.7929 20.2071C16.6054 20.0196 16.5 19.7652 16.5 19.5V18.5C16.5 18.2348 16.6054 17.9804 16.7929 17.7929C16.9804 17.6054 17.2348 17.5 17.5 17.5H18.5C18.7652 17.5 19.0196 17.6054 19.2071 17.7929C19.3946 17.9804 19.5 18.2348 19.5 18.5V19.5ZM25 25C25 25.2652 24.8946 25.5196 24.7071 25.7071C24.5196 25.8946 24.2652 26 24 26H23C22.7348 26 22.4804 25.8946 22.2929 25.7071C22.1054 25.5196 22 25.2652 22 25V24C22 23.7348 22.1054 23.4804 22.2929 23.2929C22.4804 23.1054 22.7348 23 23 23H24C24.2652 23 24.5196 23.1054 24.7071 23.2929C24.8946 23.4804 25 23.7348 25 24V25ZM25 19.5C25 19.7652 24.8946 20.0196 24.7071 20.2071C24.5196 20.3946 24.2652 20.5 24 20.5H23C22.7348 20.5 22.4804 20.3946 22.2929 20.2071C22.1054 20.0196 22 19.7652 22 19.5V18.5C22 18.2348 22.1054 17.9804 22.2929 17.7929C22.4804 17.6054 22.7348 17.5 23 17.5H24C24.2652 17.5 24.5196 17.6054 24.7071 17.7929C24.8946 17.9804 25 18.2348 25 18.5V19.5ZM28 14V11C28 10.4696 27.7893 9.96086 27.4142 9.58579C27.0391 9.21071 26.5304 9 26 9H25.5V9.5C25.5 10.603 24.603 11.5 23.5 11.5C22.397 11.5 21.5 10.603 21.5 9.5V9H14.5V9.5C14.5 10.603 13.603 11.5 12.5 11.5C11.397 11.5 10.5 10.603 10.5 9.5V9H10C9.46957 9 8.96086 9.21071 8.58579 9.58579C8.21071 9.96086 8 10.4696 8 11V14H28Z"/>
+                </svg>
+                    
+                Proxy TimeTable 
+            </h3> 
+        </a>
+
+        <div [formGroup]="proxyTimeF" class="exam-mark-form">
+
+            <div class="row justify-content-end pe-2">
+                <div class="col-md-2 form_group m-0">
+                    <app-mat-date-picker class="dashboard-custom-date" controlName="date" (change)="getTimeTable(true)"  (clearDate)="getTimeTable(true)"></app-mat-date-picker>
+                </div>
+                <div class="col-auto form_group m-0">
+                    <div class="proxy_viewall_btn">
+                        <a class="view-all-link view-btn-link me-2" [routerLink]="CommonService.setUrl(URLConstants.PROXY_TIMETABLE_LIST)"> <span> <i class="fa fa-eye" aria-hidden="true"></i> </span> View All </a>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+   
+    <div class="upcoming-table basic_table proxy_timetable_list">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                       <th>Date</th>
+                       <th>Absent Faculty</th>
+                       <th>Lecture Time</th>
+                       <th>Batch</th>
+                       <th>Proxy Subject</th>
+                       <th>Room Name</th>
+                       <th>Proxy Teacher Name</th>
+                    </tr>
+                </thead>
+                <tbody infiniteScrollContainer infiniteScroll (scrolled)="onScrollChange()">
+                    <!-- <div infiniteScrollContainer infiniteScroll (scrolled)="onScrollChange()"> -->
+
+                        <ng-container *ngFor="let item of timeTableData">
+                            <tr>
+                                <td>{{item.date ? (item.date | date: dateFormateService.getDateFormat()) : '' }}</td>
+                                <td>
+                                    <a [routerLink]="[CommonService.setUrl(URLConstants.USER_PROFILE), item?.user?.id]" >
+                                        <div class="teacher-img-container">
+                                            <img [src]="item.user.image ? item.user.image : '/public/upload/facultyImage/professor-male.png' " class="proxy-teacher-image" alt="" srcset="">
+                                            <div>  {{item.user.full_name}} </div>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+                                    <p class="m-0">{{getTime(item.time_slot.from_time)}} to {{getTime(item.time_slot.to_time)}}</p>
+                                </td>
+                                <td>{{item.batch.name}}</td>
+                                <td> <span [ngStyle]="{'color': item?.subject?.color}">{{item.proxy_subject_name ?? '-'}}</span></td>
+                                <td>{{item.room?.room?.name ?? '-'}}</td>
+                                <td>
+                                    <a [routerLink]="[CommonService.setUrl(URLConstants.USER_PROFILE), item?.proxy.id]" >
+                                        <div class="teacher-img-container">
+                                            <img [src]="item.proxy.image ? item.proxy.image : '/public/upload/facultyImage/professor-male.png' " class="proxy-teacher-image" alt="" srcset="">
+                                            <div>{{item.proxy.full_name}}</div>
+                                        </div>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-container>
+
+                    <!-- </div> -->
+                </tbody>
+
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="7">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  timeTableData?.length == 0">
+                    <tr>
+                        <td colspan="7">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

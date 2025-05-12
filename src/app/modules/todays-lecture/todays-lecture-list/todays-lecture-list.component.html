@@ -1,0 +1,153 @@
+<section class="student-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">TODAY'S LECTURES</h3>   
+            </div>
+        <div class="">
+            <div class="card_body">
+                <div class="card">
+                    <div class="form_section  global_form table_top" *ngFor="let item of tbody; let i = index;">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a class="m-link m--font-boldest text-15 mb-2" href="" title="Schedule topic" data-toggle="popover" data-trigger="hover" data-content="">
+                                        <label class="list-item-header"> {{item.lecture.subject.class.name}} -  {{item.lecture.subject.name}}</label>
+                                    </a>
+                                </div>
+                                <div class="row info text-15 text-weight-500">
+                                    <div class="col-md-12">
+                                        <span class="mr-2">
+                                            <i class="fa fa-clock"></i> {{item.start_time | date:"HH:mm a" }} - {{item.end_time | date:"HH:mm a"}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="fa fa-user"></i> {{item.faculty.first_name}}
+                                        </span>
+                                        <span class="mr-2">
+                                            <i class="la la-group"></i>   {{item.lectures_batches.batches.name}} 
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row info text-15 text-weight-500">
+                                    <span class="ml-3 mt-2">
+                                        <i class="la la-book"></i> {{item.lecture.name}}
+                                    </span>
+                                </div>
+                                <div class="action"> 
+                                    <div class="row">
+                                                                                                             
+                                        <div class="col-md-2 p-0 ps-2">
+                                            <a class="btn btn-primary m-btn m-btn--custom btn-block mt-2" (click)="open(updateModal, item.id)" data-toggle="modal"> 
+                                                <i class="fa fa-pencil-alt"></i> Edit
+                                            </a>                                            
+                                        </div>
+                                        <div class="col-md-2 p-0 ps-2">                                            
+                                            <button class="btn btn btn-danger m-btn m-btn--custom btn-block mt-2" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> Delete </button>
+                                        </div>
+                                                                                                        
+
+                                        <div class="col-md-2 p-0 ps-2">
+                                            <a class="btn btn-warning m-btn m-btn--custom btn-block mt-2" (click)="markAttendance()" [href]="setsymfonyUrl('attendance/takeAttendance/'+item.id)">                                                 
+                                                <i class="fa fa-check-double" ></i> Mark Attendance                                                
+                                            </a> 
+                                        </div>                                
+                                    
+                                        <div class="col-md-2 p-0 ps-2">                                           
+                                            <button class="btn btn-brand m-btn m-btn--custom btn-block mt-2" (click)="cancelLecture(item.id)">
+                                                 <i class="fa fa-exclamation-circle"></i> Cancel Lecture 
+                                            </button>                                           
+                                        </div>
+                                                                                                             
+                                    </div>  
+                                    <hr>
+                                </div>                         
+                            </div>
+                        </div>                           
+                    </div>
+                    <div *ngIf="tbody != undefined && tbody.length == 0">
+                        <div style="text-align: center;">No Lecture Today</div>
+                    </div>
+                    <ng-template #updateModal let-modal>
+                        <div class="modal-header" style="z-index: 0;">
+                            <h4 class="modal-title" id="modal-basic-title">Update Lectures </h4>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="z-index: 0;">
+    
+                            <div class="page_inner">
+                                <div class="card">
+                                    <div class="card_body">
+                                        <form [formGroup]="leavecreateform ">
+                                        <div class="row form_section">
+                                            <div class="col-md-12 form_group">
+                                                <label class="form_label">Faculty<span class="text-danger">*</span></label>
+                                                <div class="">                                                  
+                                                    <ng-select #select [items]="Faculties" name="faculty" bindLabel="name" bindValue="id"  
+                                                    formControlName="faculty" 
+                                                    placeholder="please select" required>                                                        
+                                                    </ng-select>
+                                                </div>                                                
+                                                <div *ngIf="leavecreateform.controls['faculty'].invalid && leavecreateform.controls['faculty'].touched" class=" error text-danger mb-2">
+                                                    <div *ngIf="leavecreateform.controls['faculty'].errors?.['required']">Please select faculty</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form_group">
+                                                <label class="form_label">Date<span class="text-danger">*</span></label>
+                                                <app-mat-date-picker  controlName="create_at" ></app-mat-date-picker>
+                                                <!-- <div class="">
+                                                    <input class="form-control" type="date" name="name" id="name" formControlName="create_at"
+                                                    placeholder="Date" required> 
+                                                </div>
+                                                <div *ngIf="leavecreateform.controls['create_at'].invalid && leavecreateform.controls['create_at'].touched" class=" error text-danger mb-2">
+                                                    <div *ngIf="leavecreateform.controls['create_at'].errors?.['required']">Please select date</div>
+                                                </div> -->
+                                            </div>
+                                            <div class="col-md-6 form_group">
+                                                <label class=" form_label">From<span class="text-danger">*</span></label>
+                                                <input class="form-control" type="time" name="name" id="name" formControlName="start_time"
+                                                    placeholder="From" required>
+                                                <div *ngIf="leavecreateform.controls['start_time'].invalid && leavecreateform.controls['start_time'].touched" class=" error text-danger mb-2">
+                                                    <div *ngIf="leavecreateform.controls['start_time'].errors?.['required']">Please select time</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 form_group">
+                                                <label class=" form_label">To<span class="text-danger">*</span></label>
+                                                <input class="form-control" type="time" name="name" id="name" formControlName="end_time"
+                                                placeholder="To" required>
+                                                <div *ngIf="leavecreateform.controls['end_time'].invalid && leavecreateform.controls['end_time'].touched" class=" error text-danger mb-2">
+                                                    <div *ngIf="leavecreateform.controls['end_time'].errors?.['required']">Please select time</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 form_group">
+                                                <label class="form_label">Topic</label>
+                                                <div class="">
+                                                    <input class="form-control" type="text" name="name" id="name" formControlName="schedule_topic"
+                                                    placeholder="Topic" >
+                                                </div>                                                
+                                            </div>                                         
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="modal-footer" style="z-index: 0;">
+                            <div class="col-md-3">
+                                <button type="submit" class="w-100 btn btn-success btn-minwidth"
+                                    (click)="update(data)"> Update </button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="w-100 btn btn-success btn-minwidth"
+                                    (click)="modal.close('cancel')">
+                                    Cancel </button>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>                
+            </div>
+        </div>
+        </div>
+    </div>
+</section>

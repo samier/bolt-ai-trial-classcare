@@ -1,0 +1,94 @@
+<ng-container *ngIf="visible == 1">
+  <a href="" [routerLink]="setUrl(URLConstants.STUDENT_LIST)" >
+    <div class="count-card count-card-green">
+  
+      <div class="count-lt-content">
+        <h4>Total Students</h4>
+        <p>{{ countData?.total_students ?? "" }}</p>
+      </div>
+      <div class="count-rt-content">
+        <svg viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9.98125 10.0195L7 13.0008L4.01875 10.0195C1.78438 10.1164 0 11.9445 0 14.2008V14.5008C0 15.3289 0.671875 16.0008 1.5 16.0008H12.5C13.3281 16.0008 14 15.3289 14 14.5008V14.2008C14 11.9445 12.2156 10.1164 9.98125 10.0195ZM0.425 2.49453L0.625 2.54141V4.36641C0.40625 4.49766 0.25 4.72578 0.25 5.00078C0.25 5.26328 0.39375 5.48203 0.596875 5.61641L0.109375 7.56328C0.05625 7.77891 0.175 8.00078 0.346875 8.00078H1.65313C1.825 8.00078 1.94375 7.77891 1.89062 7.56328L1.40313 5.61641C1.60625 5.48203 1.75 5.26328 1.75 5.00078C1.75 4.72578 1.59375 4.49766 1.375 4.36641V2.72266L3.4375 3.21953C3.16875 3.75703 3 4.35703 3 5.00078C3 7.21016 4.79063 9.00078 7 9.00078C9.20938 9.00078 11 7.21016 11 5.00078C11 4.35703 10.8344 3.75703 10.5625 3.21953L13.5719 2.49453C14.1406 2.35703 14.1406 1.64766 13.5719 1.51016L7.62187 0.0726562C7.21562 -0.0242188 6.7875 -0.0242188 6.38125 0.0726562L0.425 1.50703C-0.140625 1.64453 -0.140625 2.35703 0.425 2.49453Z"/>
+          </svg>
+          
+      </div>
+    </div>
+  </a>
+</ng-container>
+
+<ng-container *ngIf="visible == 2">
+  <a href="" [routerLink]="setUrl(URLConstants.USER_LIST)">
+    <div class="count-card count-card-purple">
+      <div class="count-lt-content">
+        <h4>Total Staff</h4>
+        <p>{{ countData?.total_faculties ?? "" }}</p>
+      </div>
+      <div class="count-rt-content">
+        <svg viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 8C9.20937 8 11 6.20938 11 4C11 1.79063 9.20937 0 7 0C4.79063 0 3 1.79063 3 4C3 6.20938 4.79063 8 7 8ZM9.99375 9.01875L8.5 15L7.5 10.75L8.5 9H5.5L6.5 10.75L5.5 15L4.00625 9.01875C1.77812 9.125 0 10.9469 0 13.2V14.5C0 15.3281 0.671875 16 1.5 16H12.5C13.3281 16 14 15.3281 14 14.5V13.2C14 10.9469 12.2219 9.125 9.99375 9.01875Z"/>
+          </svg>
+      </div>
+    </div>
+  </a>
+</ng-container>
+
+<ng-container *ngIf="visible == 3">
+  <a [routerLink]="setUrl(URLConstants.STUDENT_TAKE_ATTENDANCE)" >
+    <div class="count-card count-card-red">
+      <div class="count-lt-content">
+  
+        <h4>Student Attendance</h4>
+        <!--<p>{{ countData?.total_students }}</p>-->
+        <!-- <h4>Student Attendance</h4> -->
+        <!-- <p>1289</p> -->
+        <div class="present-count">
+          <span>Present</span>
+          <em> {{ countData?.attendance_counter?.student?.total_present }} </em>
+        </div>
+        <div class="present-count">
+          <span>Absent</span>
+          <em> {{ countData?.attendance_counter?.student?.total_absent + countData?.attendance_counter?.student?.total_leave }} </em>
+        </div>
+      </div>
+      <div class="count-rt-content">
+        <svg viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5.6 6.4C7.3675 6.4 8.79999 4.9675 8.79999 3.2C8.79999 1.4325 7.3675 0 5.6 0C3.8325 0 2.4 1.4325 2.4 3.2C2.4 4.9675 3.8325 6.4 5.6 6.4ZM7.84 7.2H7.4225C6.8675 7.455 6.25 7.6 5.6 7.6C4.95 7.6 4.335 7.455 3.7775 7.2H3.36C1.505 7.2 0 8.705 0 10.56V11.6C0 12.2625 0.5375 12.8 1.2 12.8H9.99999C10.6625 12.8 11.2 12.2625 11.2 11.6V10.56C11.2 8.705 9.69499 7.2 7.84 7.2ZM15.915 3.99L15.22 3.2875C15.105 3.17 14.9175 3.17 14.8 3.285L12.18 5.885L11.0425 4.74C10.9275 4.6225 10.74 4.6225 10.6225 4.7375L9.91999 5.435C9.80249 5.55 9.8025 5.7375 9.91749 5.855L11.96 7.9125C12.075 8.03 12.2625 8.03 12.38 7.915L15.9125 4.41C16.0275 4.2925 16.03 4.105 15.915 3.99Z"/>
+          </svg>
+        </div>
+      <!-- <div class="present-count">
+        <span>Absent</span>
+        <em> {{ countData?.attendance_counter?.student?.total_absent  +  countData?.attendance_counter?.student?.total_leave }} </em>
+      </div> -->
+    </div>
+  </a>
+</ng-container>
+
+<ng-container *ngIf="visible == 4">
+  <a [routerLink]="setUrl(URLConstants.STAFF_TAKE_ATTENDANCE)" >
+    <div class="count-card count-card-lightblue">
+      <div class="count-lt-content">
+        <h4>Staff Attendance</h4>
+        <!--<p>{{ countData?.total_faculties }}</p>-->
+        <!-- <h4>Faculty Attendance</h4> -->
+        <!-- <p>1289</p> -->
+        <div class="present-count">
+          <span>Present</span>
+          <em> {{ countData?.attendance_counter?.faculty?.total_present }} </em>
+        </div>
+        <div class="present-count">
+          <span>Absent</span>
+          <em> {{ countData?.attendance_counter?.faculty?.total_absent +  countData?.attendance_counter?.faculty?.total_leave }} </em>
+        </div>
+      </div>
+      <div class="count-rt-content">
+        <svg viewBox="0 0 17 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13.175 5.95C11.0606 5.95 9.35 7.66063 9.35 9.775C9.35 11.8894 11.0606 13.6 13.175 13.6C15.2894 13.6 17 11.8894 17 9.775C17 7.66063 15.2894 5.95 13.175 5.95ZM14.875 9.94235C14.875 10.0831 14.7581 10.2 14.6173 10.2H13.0077C12.8669 10.2 12.75 10.0831 12.75 9.94235V7.90766C12.75 7.76688 12.8669 7.65 13.0077 7.65H13.3423C13.4831 7.65 13.6 7.76688 13.6 7.90766V9.35H14.6173C14.7581 9.35 14.875 9.46688 14.875 9.60766V9.94235ZM8.5 9.775C8.5 9.03656 8.67797 8.33797 8.98344 7.71641C8.77094 7.67656 8.55313 7.65 8.33 7.65H7.88641C7.29672 7.92094 6.64062 8.075 5.95 8.075C5.25938 8.075 4.60594 7.92094 4.01359 7.65H3.57C1.59906 7.65 0 9.24906 0 11.22V12.325C0 13.0289 0.571094 13.6 1.275 13.6H10.4948C9.29156 12.7527 8.5 11.3555 8.5 9.775ZM5.95 6.8C7.82797 6.8 9.35 5.27797 9.35 3.4C9.35 1.52203 7.82797 0 5.95 0C4.07203 0 2.55 1.52203 2.55 3.4C2.55 5.27797 4.07203 6.8 5.95 6.8Z"/>
+          </svg>
+        </div>
+      <!-- <div class="present-count">
+        <span>Absent</span>
+        <em> {{ countData?.attendance_counter?.faculty?.total_absent  +  countData?.attendance_counter?.faculty?.total_leave }} </em>
+      </div> -->
+    </div>
+  </a>
+</ng-container>

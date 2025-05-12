@@ -1,0 +1,360 @@
+::ng-deep app-exam-form{
+    .head_div{
+        background: linear-gradient(to right top,#2b5876 17%,#4e4376 86%,#2b5876 100%);
+        padding: 10px 15px 5px;
+        border-radius: 8px;
+        margin: 15px 0 10px;
+        min-height: 66px;
+        display: flex;
+        align-items: center;
+        p{
+            color: #fff;
+            margin-bottom: 6px;
+        }
+    }
+    .q_n_a-div{
+        box-shadow: 0 0 6px #00000045;
+        background-color: #ccccce66;
+        padding: 21px 0;
+        border-radius: 8px;
+        h4 {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #454a7445;
+            color: #454a74;
+        }
+        .inner_q_n_a{
+            padding: 0 10px;
+            p{
+                span{
+                    &.question_des{
+                        font-size: 18px;
+                        text-transform: capitalize;
+                        padding: 12px 0 0;
+                        display: inline-block;
+                    }
+                }
+            }
+            span {
+                padding-left: 8px;
+                padding-top: 1px;
+                font-size: 15px;
+                font-family: poppins;
+                font-weight: normal;
+            }
+        }
+        form{
+            &.qna_form{
+                span {
+                    padding-left: 8px;
+                    padding-top: 1px;
+                    font-size: 15px;
+                    font-family: poppins;
+                    font-weight: normal;
+                }
+            }
+        }
+    }
+    .total_ques{
+        .max-height-ans-btn{
+            button {
+                width: 35px;
+                height: 35px;
+                padding: 0;
+                margin: 0 5px;
+            }
+        }
+        .color-box {
+            width: 15px;
+            height: 15px;
+            vertical-align: middle;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 0;
+        }
+        .padding-span{
+            margin-left: 5px;
+            font-weight: 500;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+}
+
+
+.tab-cont {
+    margin: 15px 0px;
+}
+.tab-text-left {
+    text-align: left;
+}
+.tab-text-center {
+    text-align: right;
+}
+.tab-text-center {
+    text-align: center;
+}
+/*exam classes*/
+.box-border {
+    border-radius: 4px;
+}
+.exam-cont {
+    margin: 15px 0px 0px 15px;
+}
+.lable-margin p {
+    margin-top : 10px;
+}
+.bg-hadding-color {
+    background-color: #337ab7;
+    color: #fff !important;
+}
+.bg-color {
+    background-color: #337ab7;
+    color: #fff !important;
+}
+/*.count-color-red {
+    color: #F66D50;
+}*/
+.max-height {
+    max-height: 65px;
+    overflow: auto;
+}
+.max-height-ans-btn {
+    max-height: 235px;
+    overflow: auto;
+}
+.top-hadding-height {
+    height: 70px;
+}
+.margin-top-15 {
+    margin: 15px 0px;
+}
+.margin-top-30 {
+    margin: 30px 0px;
+}
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
+.margin-left-20 {
+    margin-left: 20px;
+}
+.margin-right-15 {
+    margin-right: 15px;
+}
+.padding-top-15 {
+    padding-top: 15px;
+}
+.left {
+    margin-left: -15px;
+}
+.font-size-16 {
+    font-size: 16px;
+}
+.border input:checked + i {
+    border-color: #337ab7;
+}
+.border input:checked + i::before {
+    background-color: #337ab7;
+}
+button {
+    margin-left: 5px;
+    margin-bottom: 10px !important;
+}
+.bg-color:focus, .bg-color.focus, .bg-color:active, .bg-color.active,.bg-color.hover,.bg-color:hover, .open > .dropdown-toggle.bg-color {
+    color: #fff;
+    background-color: #1e6cb9  !important;
+    border-color: #337ab7;
+}
+.color-box {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+.padding-span {
+    margin-left: 5px;
+}
+tbody th {
+    background-color:#337ab7;
+    color: #fff;
+    font-weight: normal;
+    width: 20%;
+}
+tbody td {
+    background-color: #fff;
+    border: none;
+}
+.fg-orange {
+    color: orange;
+}
+.fg-green {
+    color: green;
+}
+.fg-red {
+    color: red;
+}
+.fg-blue {
+    color: blue;
+}
+.fg-purple {
+    color: purple;
+}
+
+/*** Branch css ***/
+.margin-top-20 {
+    margin-top: 20px;
+}
+.margin-bottom-80 {
+    margin-bottom: 80px;
+}
+.margin-left-0 {
+    margin-left: 0px;
+}
+.list-item-header span {
+    margin-right: 10px;
+}
+.info span {
+    margin-right: 10px;
+}
+.margin-right-10 {
+    margin-right: 10px;
+}
+.padding-bottom {
+    padding-bottom: 50px;
+}
+.branch-btn {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    margin-bottom: 15px;
+}
+.branch-btn:hover,.branch-btn:active,.branch-btn:focus {
+    background-color: #3276b1;
+    border-color: #285e8e;
+}
+.user-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+    margin-top: 5px;
+}
+.action,.info {
+    font-size: 16px;
+    margin-top: 5px;
+}
+.action a {
+    margin-right: 10px;
+}
+a {
+    color: #428bca;
+    text-decoration: none;
+}
+/*** End branch css ***/
+.header-info{
+    float: left;
+    width: 78%;
+    margin-left: -15px;
+    text-align: center;
+    color: #484848;
+}
+.year {
+
+    padding-top: 14px;
+}
+/*** End header-css ***/
+/*** Dashboard style ***/
+.panel-bg {
+    color: #423877;
+    background-color: rgba(114, 102, 186, 0.63);
+    font-weight: bold;
+    border-color: rgba(114, 102, 186, 0.63);
+}
+.counter{
+    margin: 15px 0px;
+    float: right;
+}
+.counter-title {
+    float: left;
+    margin-right: 10px;
+    font-size: 20px;
+}
+.counter-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: #423877;
+    background-color: rgba(114, 102, 186, 0.63);
+    font-weight: bold;
+    border-color: rgba(114, 102, 186, 0.63);
+    text-align: center;
+    padding-top: 5px;
+    float: left;
+}
+.border-none {
+    border:none;
+}
+.title {
+    font-size: 20px;
+}
+/*.exam-info {
+    border:1px solid #aeaeae;
+}*/
+.exam-heading {
+    font-size: 16px;
+    margin: 5px;
+    font-weight: bold;
+}
+.student-img {
+    float: left;
+    margin: 5px;
+}
+.exam {
+    border:1px solid #aeaeae;
+}
+.exam th, .stu-dash th {
+    background-color: rgba(114, 102, 186, 0.63);
+    color: #fff;
+    font-weight: normal;
+    width: 40%;
+}
+/*** End Dashboard style ***/
+
+
+/*** Sagar changes start ***/
+.ans-editor .cke_top{
+    -moz-user-select: none;
+    border: medium none;
+    box-shadow: none;
+    background: transparent none repeat scroll 0% 0%;
+    display: inline;
+    padding: 0px;
+}
+.ans-editor .cke_bottom{
+    display: none;
+}
+.ans-editor .cke_toolbar{
+    float: right;
+}
+
+.ans-editor .cke_toolgroup{
+    margin:0 auto;
+    padding-top: 4px;
+}
+
+.ans-editor .cke_contents {
+    height: 32px !important;
+}
+
+/** End **/
+
+.big {
+    height: 43px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+}

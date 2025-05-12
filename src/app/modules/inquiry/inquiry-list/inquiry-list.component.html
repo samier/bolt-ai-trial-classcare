@@ -1,0 +1,851 @@
+<section class="inquiry-list">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Inquiry List</h3>
+        <div class="d-flex">
+          <a class="btn me-2 setting-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.INQUIRY_FIELD_SETTING)"
+            *ngIf="commonService.hasPermission('inquiry_inquiry_field_setting', 'has_access')"> Field Setting </a>
+          <a class="add-btn btn me-2" href="#" [routerLink]="CommonService.setUrl(URLConstants.ADD_INQUIRY)"
+            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_create')"> Add Inquiry </a>
+          <a class="import-btn btn me-2" href="#" [routerLink]="CommonService.setUrl(URLConstants.INQUIRY_IMPORT)"
+            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_import')"> Import Inquiry </a>
+        </div>
+      </div>
+
+      <!-- Filter Section -->
+      <!-- <div class="card">
+          <div class="card_body">
+            <div class="form_section global_form">
+                <form [formGroup]="inquiryForm">
+                  <div class="row align-items-center">
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                        <label class="form_label">Select Date Range</label>                     
+                        <div>
+                            <app-date-range-picker controlName="follow_up_date" placeholder="select date range"></app-date-range-picker>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                        <label class="form_label">All Section</label>
+                        <div>
+                            <app-multi-select controlName="section" [dropDownArray]="sectionsList" placeholder="All Section" (change)="getClassesList()"></app-multi-select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label class="form_label">All Standards</label>
+                      <div>
+                        <app-multi-select controlName="standard" [dropDownArray]="standardList" placeholder="All Standards"></app-multi-select>
+                      </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label class="form_label">Status</label>
+                      <div>
+                        <app-multi-select controlName="status" [dropDownArray]="statusList" placeholder="Select Status"></app-multi-select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-auto">
+                          <button class="btn show-btn" (click)="handleShow()" [disabled]="is_show">Show
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_show">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn clear-btn" (click)="handleClear()">Clear</button>
+                        </div>
+                        <div class="col-auto d-flex">
+                            <button class="btn pdf-btn me-2" ngbTooltip="PDF" (click)="exportInquiry('pdf')" [disabled]="isPdfLoading" *ngIf="commonService.hasPermission('inquiry_inquiry_list', 'has_download')"><img src="assets/images/pdf-icon.svg" alt="" >
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isPdfLoading">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+
+                            <button class="btn excel-btn" ngbTooltip="EXCEL" (click)="exportInquiry('excel')" [disabled]="isExcelLoading" *ngIf="commonService.hasPermission('inquiry_inquiry_list', 'has_download')"><img src="assets/images/excel-icon.svg" alt="" >
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isExcelLoading">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn msg-btn" (click)="openModal(publishModel,true)">Send Message</button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn delete-btn" (click)="multiDelete()" [disabled]="is_multiDelete" *ngIf="commonService.hasPermission('inquiry_inquiry_list', 'has_delete')">Delete
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_multiDelete">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+                        </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+        </div> -->
+      <!-- -------- -->
+
+      <div class="card student-list-card p-0">
+
+        <div class="card-header border-bottom justify-content-between d-flex">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn btn-primary me-2" (click)="handleClear()">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="inquiryForm" class="content_scroll">
+            <div class="row">
+
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">Select Date Range</label>
+                <div>
+                  <app-date-range-picker controlName="date" placeholder="select date range"></app-date-range-picker>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">All Section</label>
+                <div>
+                  <!-- <app-multi-select controlName="section" [dropDownArray]="sectionsList" placeholder="All Section"
+                    (change)="getClassesList()"></app-multi-select> -->
+                  <app-single-select controlName="section" [dropDownArray]="sectionsList" placeholder="All Section"
+                    (change)="getClassesList()"></app-single-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">All Standards</label>
+                <div>
+                  <app-multi-select controlName="standard" [dropDownArray]="standardList"
+                    placeholder="All Standards"></app-multi-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">Status</label>
+                <div>
+                  <app-multi-select controlName="status" [dropDownArray]="statusList"
+                    placeholder="Select Status"></app-multi-select>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label" for="flexSwitchCheckFilter">Visibility</label>
+                <div class="student-dropdown inquiry-radio-content w-100">
+                  <div class="inquiry-radio-btn">
+                    <input type="radio" id="visible" formControlName="is_visible" [value]="2">
+                    <label for="visible">Visible</label>
+                  </div>
+                  <div class="inquiry-radio-btn">
+                    <input type="radio" id="invisible" formControlName="is_visible" [value]="1">
+                    <label for="invisible">InVisible</label>
+                  </div>
+                  <div class="inquiry-radio-btn">
+                    <input type="radio" id="both" formControlName="is_visible" [value]="0">
+                    <label for="both">Both</label>
+                  </div>
+                </div>
+
+                <!-- <div class="form-check form-switch custom-check-exam">
+                  <input class="form-check-input" type="checkbox" formControlName="is_visible"
+                     role="switch" id="flexSwitchCheckFilter" >
+                </div> -->
+              </div>
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">Field Set For PDF Download</label>
+                <div>
+                  <app-multi-select controlName="download_fields" [dropDownArray]="downloadFields"
+                    placeholder="Select field set For PDF download"></app-multi-select>
+                </div>
+              </div>
+
+              <div class="col-lg-4 col-md-4 form_group">
+                <label class="form_label">Inquiry Form </label>
+                <div>
+                  <app-multi-select controlName="form_builder_id" [dropDownArray]="formList"
+                    placeholder="Select form name"></app-multi-select>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-auto">
+              <button class="btn show-btn" (click)="handleShow()" [disabled]="is_show">Show
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_show">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- -------- -->
+
+      <!-- counter card -->
+      <div class="card card-student-inquiry">
+        <div class="row">
+          <div class="col-md-2 counter_card">
+            <div class="bg_counter success-bg">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/total-icon.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.total ?? 0}}</strong><br>
+                <span class="counter_title">Total</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 counter_card" [ngClass]="{'active': inquiryForm.value.status ? isActiveStatus(0) : false}" >
+            <div (click)="handleStatusClicked({ id : 0 , name : 'New'})" style="cursor:pointer" class="bg_counter success-bg">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/new-plus.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.new ?? 0}}</strong><br>
+                <span class="counter_title">New</span>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="col-md-2 counter_card">
+            <div class="bg_counter success-bg">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/qualification.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.qualified ?? 0}}</strong><br>
+                <span class="counter_title">Qualified</span>
+              </div>
+            </div>
+          </div> -->
+          <div class="col-md-2 counter_card" [ngClass]="{'active': inquiryForm.value.status ? isActiveStatus(2) : false}">
+            <div (click)="handleStatusClicked({ id : 2 , name : 'In-Process'})" style="cursor:pointer" class="bg_counter success-bg super_admin">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/inprogress.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.in_process ?? 0}}</strong><br>
+                <span class="counter_title">In Process</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 counter_card" [ngClass]="{'active': inquiryForm.value.status ? isActiveStatus(3) : false}">
+            <div (click)="handleStatusClicked({ id : 3 , name : 'Confirm'})" style="cursor:pointer"  class="bg_counter success-bg super_admin">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/conform.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{((countData?.confirm ?? 0) - (countData?.admission_confirmed ?? 0))}}</strong><br>
+                <span class="counter_title">Confirm</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 counter_card" [ngClass]="{'active': inquiryForm.value.status ? isActiveStatus(5) : false}">
+            <div class="bg_counter success-bg" (click)="handleStatusClicked({ id : 5 , name : 'Admission Confirm'})" style="cursor:pointer">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/qualification.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.admission_confirmed ?? 0}}</strong><br>
+                <span class="counter_title">Admission Confirmed</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 counter_card" [ngClass]="{'active': inquiryForm.value.status ? isActiveStatus(4) : false}">
+            <div (click)="handleStatusClicked({ id : 4 , name : 'Rejected'})" style="cursor:pointer" class="bg_counter success-bg super_admin">
+              <div class="product-icon">
+                <img src="./assets/img/svgicons/rejected.svg" alt="">
+              </div>
+              <div class="content">
+                <strong>{{countData?.rejected ?? 0}}</strong><br>
+                <span class="counter_title">Rejected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table Section -->
+      <div class="card exam-list-card">
+        <div class="row" *ngIf="dtRender else loaderContent">
+          <div class="col-lg-12">
+            <div class="assign-transport-table">
+              <div class="datatable-action-design">
+                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                  </svg>
+                </div>
+                <div class="table-responsive" [ngClass]="{ 'table-dynamic-search' : !commonService.hasPermission('inquiry_inquiry_visibility', 'has_edit')}">
+                  <div class="dataTables_wrapper">
+                    <div class="head-btn">
+
+                      <div [formGroup]="responsibleForm" class="col-md-6 form_group" *ngIf="is_admin">
+                        <div>
+                            <app-single-select controlName="assign_user_id" [dropDownArray]="responsibleUserList" placeholder="Select Responsible User"
+                            (change)="reloadData()"></app-single-select>
+                        </div>
+                      </div>
+
+                    <ng-container *ngIf="commonService.hasPermission('inquiry_inquiry_visibility', 'has_edit')">
+                        <label class="form_label multicheck-label" for="flexSwitchCheckFilter">Visibility </label>
+                        <div class="form-check form-switch custom-check-exam multicheck">
+                          <input class="form-check-input" type="checkbox"
+                            role="switch" id="flexSwitchCheckDefault" [(ngModel)]="isVisibility">
+                          <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label> -->
+                        </div>
+                          <!-- CONFIRM BTN -->
+                        <button type="button" ngbTooltip="save visibility" class="btn action-approve visibility-save" [disabled]="selectedArray.length == 0" (click)="onCheckboxChange(null)"> 
+                          <a>
+                            <i class="fa fa-check-double"></i>
+                          </a>
+                        </button>
+                    </ng-container>
+                      <div ngbDropdown class="d-inline-block operations m-0">
+                        <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                          <i class="far fa-plus-square me-2"></i>Operations
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                          <!-- <button *ngIf="commonService.hasPermission('student_student', 'has_download')" ngbDropdownItem (click)="studentIdGeneration('pdf')"><i class="far fa-id-badge"></i>StudentId Generation</button> -->
+
+                        <!-- INQUIRY LIST  -->
+                          <button ngbDropdownItem (click)="exportInquiry('pdf')" [disabled]="isPdfLoading"
+                            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_download')"><i class="fa fa-file-pdf"></i>Inquiry List 
+                            PDF
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isPdfLoading">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                          <button ngbDropdownItem (click)="exportInquiry('excel')" [disabled]="isExcelLoading"
+                            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_download')"><i class="fa fa-file-excel"></i>Inquiry List 
+                            EXCEL
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isExcelLoading">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                        <!--------------->
+
+                        <!-- STATUS LOG EXCEL AND PDF -->
+                          <button ngbDropdownItem (click)="exportInquiryStatusLog('pdf')"
+                            [disabled]="isPdfLoadingStatusLog"
+                            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_download')"><i class="fa fa-file-pdf"></i>Status Log PDF
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isPdfLoadingStatusLog">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+
+                          <button ngbDropdownItem (click)="exportInquiryStatusLog('excel')"
+                            [disabled]="isExcelLoadingStatusLog"
+                            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_download')"><i class="fa fa-file-excel"></i>Status Log EXCEL
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isExcelLoadingStatusLog">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+
+                        <!----------->
+
+                        <!-- FOLLOW UP EXCEL AND PDF -->
+
+                          <button ngbDropdownItem (click)="followUp('pdf')"
+                            [disabled]="isFollowUpPDF"
+                            *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')"><i class="fa fa-file-pdf"></i>Follow Up PDF
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isFollowUpPDF">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                          <button ngbDropdownItem (click)="followUp('excel')"
+                            [disabled]="isFollowUpEXCEL"
+                            *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')"><i class="fa fa-file-excel"></i>Follow Up EXCEL
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isFollowUpEXCEL">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+
+                        <!------------>
+
+                        <!-- INQUIRY REPORT EXCEL AND PDF -->
+
+                          <button ngbDropdownItem (click)="downloadReport('pdf')"
+                            [disabled]="isReportPDF"
+                            *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')"><i class="fa fa-file-pdf"></i>Inquiry Report PDF
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isFollowUpPDF">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                          <button ngbDropdownItem (click)="downloadReport('excel')"
+                            [disabled]="isReportEXCEL"
+                            *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_download')"><i class="fa fa-file-excel"></i>Inquiry Report EXCEL
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isFollowUpEXCEL">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+
+                        <!------------>
+      
+                          
+                          <button ngbDropdownItem (click)="openModal(publishModel,true)"><i class="fa fa-paper-plane"></i> Send Message</button>
+                          <button ngbDropdownItem (click)="multiDelete()" [disabled]="is_multiDelete"
+                            *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_delete')"><i _ngcontent-tpe-c263="" class="far fa-trash-alt"></i> Delete
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_multiDelete">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                      </div>
+                    </div>
+                    </div>
+
+                    <table datatable [dtOptions]="dtOptions"
+                      class="row-border datatable hover table-bordered table-striped" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+
+                      <thead>
+                        <tr>
+                          <th>
+                            <label class="m-checkbox mb-0">
+                              <input type="checkbox" id="checkbox" class="main_checkbox" [(ngModel)]="allChecked"
+                                (change)="handleSelectAll($event)"><span></span>
+                            </label>
+                          </th>
+                          <th>Inquiry <br> No.</th>
+                          <th>Date</th>
+                          <th>Std/Class</th>
+                          <th>Section</th>
+                          <th style="min-width: 190px !important;">Student Name</th>
+                          <!-- <th>Student Mobile No.</th> -->
+                          <th>Father <br> Mobile <br>  No.</th>
+                          <th>Mother <br> Mobile <br>  No.</th>
+                          <th *ngIf="inquiryFieldData?.format_data_details?.discussion_with?.is_visible">Discussed With</th>
+                          <th>Inquiry Form</th>
+                          <th style="width: 180px;">Status</th>
+                          <th *ngIf="commonService.hasPermission('inquiry_inquiry_visibility', 'has_edit') || commonService.hasPermission('inquiry_inquiry_visibility', 'has_access')">Visibility</th>
+                          <th style="width: 180px;" *ngIf="isInquirySetting">Inquiry Fees </th>
+                          <!-- <th>Follow Up</th> -->
+                          <th>Created By</th>
+                          <th class="action-btn-sticky">Action</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;" [ngClass]="{ 'inquiry-remainder' : isDateToday(item)}" >
+                          <td>
+                            <label class="m-checkbox mb-0">
+                              <input type="checkbox" id="checkbox" [(ngModel)]="item.selected"
+                                (change)="handleSelect($event,item?.id)" class="main_checkbox"><span></span>
+                            </label>
+                          </td>
+                          <td> {{ item?.inquiry_no || '-' }} </td>
+                          <td>{{ item?.create_at | date : dateFormateService.getDateFormat() }}</td>
+                          <td>{{ item?.class || '-' }}</td>
+                          <td>{{ item?.section || '-' }}</td>
+                          <td style="white-space: normal;">{{ item?.last_name + " " + item?.first_name + " " + (item?.middle_name || "") }} <br><span
+                              class="primary-text" *ngIf="item?.student_id">Admission Confirmed</span></td>
+                          <!-- <td>{{ item?.student_mobile || '-' }}</td> -->
+                          <td>{{ item?.parent_mobile || '-' }}</td>
+                          <td>{{ item?.mother_number || '-' }}</td>
+                          <td *ngIf="this.inquiryFieldData?.format_data_details?.discussion_with?.is_visible">{{ item?.discussion_with_name || '-'}}</td>
+                          <td>{{ item?.inquiry_form_name || '-'}}</td>
+                          
+
+                          <td *ngIf="commonService.hasPermission('inquiry_inquiry_status', 'has_edit'); else disabledBlock">
+                            <ng-container *ngIf="item.student_id || (item.reason_for_rejection && !isAdmin); else notStudent">
+                              {{ item?.status == '1' ? "In-Process" : item?.status_name }}
+                            </ng-container>
+
+                            <ng-template #notStudent>
+                              <ng-container *ngIf="!item.is_dropDown; else dropdown">
+                                {{ item?.status == '1' ? "In-Process" : item?.status_name }}
+                                <i class="fa fa-pencil-alt"
+                                  style="color: #f28726; padding-left: 5px; font-size:11px; cursor: pointer;"
+                                  (click)="handleStatus(item ,false,null,inquiryRejectModel)">
+                                </i>
+                              </ng-container>
+
+                              <ng-template #dropdown>
+                                <select [(ngModel)]="item.status" (change)="handleStatus(item, true, item?.status, inquiryRejectModel)"
+                                  class="form-control">
+                                  <option value="0">New</option>
+                                  <!-- <option value="1">Qualified</option> -->
+                                  <option value="2">In-Process</option>
+                                  <option value="3">Confirm</option>
+                                  <option value="4">Rejected</option>
+                                </select>
+                              </ng-template>
+                            </ng-template>
+                          </td>
+
+                          <ng-template #disabledBlock>
+                            <td style="opacity: 0.5; pointer-events: none;">
+                              <ng-container *ngIf="item.student_id; else notStudentDisabled">
+                                {{ item?.status == '1' ? "In-Process" : item?.status_name }}
+                              </ng-container>
+
+                              <ng-template #notStudentDisabled>
+                                <ng-container *ngIf="!item.is_dropDown">
+                                  {{ item?.status == '1' ? "In-Process" : item?.status_name }}
+                                  <i class="fa fa-pencil-alt" style="color: #f28726; padding-left: 5px; font-size:11px;">
+                                  </i>
+                                </ng-container>
+
+                                <ng-template>
+                                  <select class="form-control" disabled>
+                                    <option value="0">New</option>
+                                    <!-- <option value="1">Qualified</option> -->
+                                    <option value="2">In-Process</option>
+                                    <option value="3">Confirm</option>
+                                    <option value="4">Rejected</option>
+                                  </select>
+                                </ng-template>
+                              </ng-template>
+                            </td>
+                          </ng-template>
+
+                          <td *ngIf="commonService.hasPermission('inquiry_inquiry_visibility', 'has_edit') || commonService.hasPermission('inquiry_inquiry_visibility', 'has_access')">
+                            <div class="form-check form-switch custom-check-exam">
+                              <input class="form-check-input" type="checkbox" (change)="onCheckboxChange($event, item)"
+                                [checked]="item.is_visible == 1 ? false : true" role="switch" id="flexSwitchCheckDefault" [disabled]="commonService.hasPermission('inquiry_inquiry_visibility', 'has_edit') == false ? true : false">
+                              <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label> -->
+                            </div>
+                          </td>
+
+                          <td *ngIf="isInquirySetting" class="inquiry-fees-status">
+                            <ng-container *ngIf="item?.fees_status.length > 0">
+                              <div class="d-flex justify-content-start align-items-center" >
+                                <div>
+                                  <ng-container *ngFor="let fees of item?.fees_status">
+                                    <div *ngIf="fees?.name">
+                                      <div>{{ fees?.name }} - <span *ngIf="fees.status == 1" class="collected">collected</span><span
+                                          *ngIf="fees.status !== 1" class="pending">pending</span> </div>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                                  <div *ngIf="!item.inquiry_fees_status" ngbTooltip="Fees Collect" (click)="openFeesPaymentModel(item)"
+                                    style="margin-left: 10px; width: 35px;">
+                                    <img src="assets/images/FEES COLLECTED.svg" width="30px" style="cursor:pointer" />
+                                  </div>
+                              </div>
+                            </ng-container>
+                          </td>
+
+                          <!-- <td>{{ item?.follow_up | date: 'dd-MM-yyyy'}}</td> -->
+                          <td>
+                            <p class="m-0">{{ item?.user_created?.full_name ?? '-'}}</p>
+                            {{ item?.update_at | date : dateFormateService.getDateTimeFormat() }}
+                          </td>
+                          <td class="action-btn-sticky text-center">
+                            <div class="btn-group">
+
+                              <!-- EDIT BTN -->
+                              <a class="lt-btn-icon action-edit" [class.disabled]="item?.student_id"
+                                [routerLink]="[CommonService.setUrl(URLConstants.INQUIRY_EDIT),item?.id]" ngbTooltip="Edit"
+                                *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_edit') && !(item.student_id || item.reason_for_rejection)">
+                              </a>
+                              <!-- <button type="button" ngbTooltip="Edit" class="btn action-edit"><i class="fa fa-pencil-alt"></i></button> -->
+
+                              <!-- DELETE BTN -->
+                              <button type="button" ngbTooltip="Delete" class="lt-btn-icon action-delete"
+                                (click)="deleteInquiry(item?.id)"
+                                *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_delete')">
+                                
+                              </button>
+
+                              <!-- VIEW BTN -->
+                              <button type="button" ngbTooltip="View" class="lt-btn-icon action-view">
+                                <a href="#" [routerLink]="[CommonService.setUrl(URLConstants.INQUIRY_VIEW),item.id]">
+                                </a>
+                              </button>
+
+                              <!-- MESSAGE BTN -->
+                              <!-- <button type="button" [class.disabled]="item?.student_id" ngbTooltip="Send Message"
+                                class="btn action-msg" (click)="openModal(publishModel,false,item?.id)">
+                                <i class="fa fa-envelope"></i>
+                              </button> -->
+
+                              <!-- CONFIRM BTN -->
+                              <button type="button" ngbTooltip="Confirm" class="lt-btn-icon action-approve" [class.disabled]="item?.student_id"
+                                *ngIf="item?.status == 3 && (isInquirySetting ? item?.inquiry_fees_status : true)"> <a href="#"
+                                  [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_ADD),item.id]"> 
+                                  </a>
+                              </button>
+
+                              <!-- FOLLOW UP BTN -->
+                              <button type="button" ngbTooltip="Follow Up" class="lt-btn-icon action-follow"
+                                  *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_access')">
+                                  <a href="#" [routerLink]="[CommonService.setUrl(URLConstants.INQUIRY_FOLLOW_UP),item?.id]">
+                                    
+                                  </a>
+                              </button>
+                              <!-- <button type="button" ngbTooltip="Rejected" class="btn action-reject"
+                                *ngIf="item?.status == 4 && !item?.reason_for_rejection"
+                                (click)="openRejectModal(inquiryRejectModel,item)"> <i
+                                  class="las la-times-circle"></i></button> -->
+
+                              <!-- REJECT VIEW BTN -->
+                              <button type="button" ngbTooltip="Rejection View" class="lt-btn-icon action-reject"
+                                *ngIf="item?.reason_for_rejection" (click)="openRejectModal(inquiryRejectModel,item)"> 
+                                
+                              </button>
+
+                              <button *ngIf="commonService.hasPermission('inquiry_inquiry', 'has_download') && item?.inquiry_fees_download"
+                              type="button" (click)="openReciptDownloadModel(inquiryReciptDownloadModel,item)" ngbTooltip="Receipt Download"
+                                class="lt-btn-icon action-download">
+                                
+                              </button>
+                              
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                      <!-- <tbody *ngIf="is_loading">
+                        <tr>
+                          <td colspan="13">
+                            <div class="d-flex justify-content-center">
+                              <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody> -->
+                      <tbody *ngIf="!is_loading &&  tbody?.length == 0">
+                        <tr>
+                          <td colspan="13">
+                            <div class="d-flex justify-content-center">
+                              No Data Found.
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
+        </div>
+        <ng-template #loaderContent>
+          <div class="d-flex justify-content-center" role="status">
+            <span class="loading">Loading...</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</section>
+<ng-template #publishModel class="publish-update-modal">
+  <div class="modal-header publish-modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Broadcast Message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body publish-modal-body">
+
+    <div class="col-md-12 form_group">
+
+      <div class="d-flex me-6">
+
+        <!-- <div class="radio ">
+              <label class=" required ">
+                <input type="radio" id="all" [value]="1" class="mr-1" [(ngModel)]="selectedOption">Student<span></span>
+              </label>
+            </div>
+            <div class="radio ">
+              <label class="required " aria-required="true">
+                <input type="radio" id="rte" [value]="2" class="mr-1" [(ngModel)]="selectedOption">Parent<span></span>
+              </label>
+            </div>
+            <div class="radio ">
+              <label class="required " aria-required="true">
+                <input type="radio" id="general" [value]="3" class="mr-1" [(ngModel)]="selectedOption">Both<span></span>
+              </label>
+            </div> -->
+
+        <div class="m-checkbox-list d-flex align-items-center me-3">
+          <label class="m-checkbox">
+            <input type="checkbox" id="cbx1" [(ngModel)]="message.send_for_father" [value]="true"><span></span>
+          </label>
+          <label for="cbx1" class="ms-2">Father</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox">
+            <input type="checkbox" id="cbx2" [(ngModel)]="message.send_for_mother" [value]="true"><span></span>
+          </label>
+          <label for="cbx2" class="ms-2">Mother</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox">
+            <input type="checkbox" id="cbx3" [(ngModel)]="message.send_for_student" [value]="true"><span></span>
+          </label>
+          <label for="cbx3" class="ms-2">Student</label>
+        </div>
+
+      </div>
+
+      <div class="">
+        <textarea class="form-control" placeholder="Enter Note" rows="3" style="resize: none;"
+          [(ngModel)]="note"></textarea>
+      </div>
+
+    </div>
+
+    <!-- </form> -->
+  </div>
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button (click)="sendMessage()" class="button px-1" type="submit" class="btn w-100" [disabled]="is_sendSms">Send
+
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_sendSms">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #inquiryRejectModel class="publish-update-modal">
+  <div class="modal-header publish-modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Inquiry Reject Details</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeRejectModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body publish-modal-body rejeced_modal">
+
+    <div class="col-md-12 form_group">
+      <ng-container *ngIf="selectedData?.reason_for_rejection; else editMode">
+      <!-- <ng-container > -->
+        <div class="">
+          <p> <b>Reject Date</b> : {{selectedData?.date_for_rejection | date : dateFormateService.getDateFormat()}} </p>
+          <p> <b>Reject By User</b> : {{selectedData?.inquiry_user?.full_name || '-' }} </p>
+          <p> <b>Reject By</b> : {{selectedData?.rejected_by || '-' }} </p>
+          <p> <b>Reject Reason</b> : {{selectedData?.reject_remark?.reason || '-'}} </p>
+          <p class="d-flex"> <b class="pe-1">Reject Remark</b> : <span
+              class="ps-1">{{selectedData?.reason_for_rejection || '-'}}</span> </p>
+        </div>
+      </ng-container>
+      <ng-template #editMode>
+        <div class="form_group">
+          <label class=" form_label">Reject By <span class="text-danger"> * </span></label>
+          <div class="">
+            <div class="radio-section d-flex">
+              <div class="radio ">
+                <label class=" required ">
+                  <input type="radio" id="school" name="reject_by" value="School" class="mr-1" (change)="handleFeesStatus('School')">School<span></span>
+                </label>
+              </div>
+              <div class="radio ">
+                <label class="required " aria-required="true">
+                  <input type="radio" id="parents" name="reject_by" value="Parents" class="mr-1" (change)="handleFeesStatus('Parents')">Parents<span></span>
+                </label>
+              </div>
+              <div class="radio" *ngIf="is_admin">
+                <label class="required " aria-required="true">
+                  <input type="radio" id="admin" name="reject_by" value="admin" class="mr-1" (change)="handleFeesStatus('admin')">Admin<span></span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form_group student-form-group">
+          <label for="" class="form_label">Reject Reason <span class="text-danger"> * </span>
+          </label>
+
+          <div class="student-dropdown w-full">
+            <app-dropdown-crud class="reject-reason-dropdown"
+              placeholder="Select Reject Reason" searchPlaceholder="Search Reason" 
+              [selectedId]="reasonId" (selectedValue)="selectionChange($event)" [dropDownArray]="reasonList" 
+              (createUpdate)="createAndUpdateData($event)" 
+              (deleteData)="deleteData($event)">
+            </app-dropdown-crud>
+          </div>
+
+        </div>
+
+        <div class="">
+          <label for="" class="form_label"> Reject Remark <span class="text-danger"> * </span> </label>
+          <textarea class="form-control" placeholder="Enter Reason" rows="3" [(ngModel)]="rejectReason"></textarea>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-auto" *ngIf="!selectedData?.reason_for_rejection">
+      <button class="button px-1" type="submit" class="btn cancel-btn" (click)="reject()"
+        [disabled]="isRejectReason">Reject
+
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isRejectReason">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+      </button>
+    </div>
+    <div class="col-md-auto p-0">
+      <button type="submit" class="btn cleare-btn" (click)="closeRejectModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #inquiryReciptDownloadModel class="recipt-download-modal">
+  <div class="modal-header publish-modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Recipt Download</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeReciptDownloadModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body publish-modal-body download-recipt">
+    <ng-container *ngFor="let item of selectedData?.fees_status">
+      <div class="col-md-12 form_group">
+        <div class="form_group recipt-checkbox-group inquiry-fees-status">
+          <div class="m-checkbox-list">
+            <label class="m-checkbox mb-0 me-3"><input [disabled]="item.status != 1" [(ngModel)]="item.selected" id="category-{{item.id}}" type="checkbox">
+              <span></span>
+            </label>
+          </div>
+          <label for="category-{{item.id}}" class="form_label"> 
+            <div>{{ item?.name }} - <span *ngIf="item.status == 1" class="collected">collected</span><span *ngIf="item.status !== 1" class="pending">pending</span> </div> </label>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-auto">
+      <button class="button px-1" type="submit" class="btn report-btn" (click)="downloadRecipt()"
+        [disabled]="isDownloadRecipt">Download
+
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDownloadRecipt">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+
+      </button>
+    </div>
+    <div class="col-md-auto p-0">
+      <button type="submit" class="btn clear-btn" (click)="closeRejectModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>

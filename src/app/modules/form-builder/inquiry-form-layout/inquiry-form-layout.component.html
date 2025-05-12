@@ -1,0 +1,51 @@
+<section class="inquiry-form-layout inquiry_tab_content_layout">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-4">
+                <h3 class="sub_title mb-0">Inquiry Form Setup</h3>
+                <div class="btn_right d-flex gap-3">
+                    <button [routerLink]="CommonService.setUrl(URLConstants.FORM_BUILDER_INQUIRY_LIST)" class="btn me-2 list-btn">
+                        Web Form List
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <ng-container *ngIf="!isLoader else loaderContent"> 
+                    <div class="col-lg-12 d-flex nav nav-tabs">
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="type === 1" for="student">
+                                <input type="radio" (click)="type = 1" name="for" id="student" value="1" class="mr-1" hidden>Form
+                                Setup<span></span>
+                            </label>
+                        </div>
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="type === 2" for="employee">
+                                <input type="radio" (click)="type = 2" name="for" id="employee" value="2" class="mr-1" hidden>Form
+                                Builder<span></span>
+                            </label>
+                        </div>
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="type === 3" for="myLeave">
+                                <input type="radio" (click)="type = 3" name="for" id="myLeave" value="3" class="mr-1"
+                                    hidden>Integration Code<span></span>
+                            </label>
+                        </div>
+                    </div>
+            
+                    <div class="card-body border-0 p-0">
+                        <app-form-setup (typeChange)="typeChange($event)" (formSetupChange)="formSetupChange($event)" [editData]="editData"
+                            [hidden]="type !== 1"></app-form-setup>
+                        <app-form-builder (typeChange)="typeChange($event)" (formBuilderChange)="formBuilderChange($event)"
+                            [formSetupData]="formSetupData" [editData]="editData" [hidden]="type !== 2"></app-form-builder>
+                        <app-integration-code [hidden]="type !== 3" [inquiryFormId]="inquiryFormId" ></app-integration-code>
+                    </div>
+                </ng-container>
+                <ng-template #loaderContent>
+                  <div class="d-flex justify-content-center">
+                    <div class="loader-for-inquiry-edit"></div>
+                  </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

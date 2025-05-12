@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add New Photo Gallery</h4>
+    <button ngbTooltip="Close" type="button" class="close" triggers="hover" aria-label="Close"
+        (click)="handleSave(false,false)">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="eventForm">
+        <div class="row">
+            <div class="col-md-12 form_group inquiry-form-group" *ngIf="!isEventAdd">
+                <label for="" class="form_label">Event For</label>
+                <div class="radio-section member_type">
+                    <div class="radio">
+                        <input type="radio" id="employee" formControlName="eventFor" [value]="3"
+                            (change)="changeEventFor(3)">
+                        <label for="employee">Employee</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="batch" formControlName="eventFor" [value]="2"
+                            (change)="changeEventFor(2)">
+                        <label for="batch">Batch</label>
+                    </div>
+                    <div class="radio">
+                        <input type="radio" id="all" formControlName="eventFor" [value]="1"
+                            (change)="changeEventFor(1)">
+                        <label for="all">All</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form_group" *ngIf="!isEventAdd">
+                <label class=" form_label">Photo Gallery Name<span class="text-danger">*</span></label>
+                <app-input controlName="eventname" placeholder="Enter Photo Gallery Name"></app-input>
+            </div>
+
+            <div class="col-md-12 form_group">
+                <label class="form_label">Attachment<span class="text-danger">*</span></label>
+                <input type="file" multiple="true" formControlName="attachment" (change)="onFileSelected($event)"
+                    class="form-control" accept=".jpg, .jpeg, .png, .webp, .gif">
+                <span class="text-danger static-text-danger img-error d-flex mt-2"><i class="fa fa-info"></i> You can
+                    upload 20 images at a time.</span>
+                <div *ngIf="formSubmitted && eventForm.controls['attachment'].invalid || (eventForm.controls['attachment'].dirty && eventForm.controls['attachment'].touched)"
+                    class=" error text-danger mb-2">
+                    <div *ngIf="eventForm.controls['attachment'].errors?.['required']">
+                        The input is required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 form_group" *ngIf="isEvent == 2 && !isEventAdd">
+                <label class=" form_label">Batches<span class="text-danger">*</span></label>
+                <app-multi-select [dropDownArray]="batches" controlName="batch_id"
+                    placeholder="Please Select Batch"></app-multi-select>
+            </div>
+
+            <div class="col-md-12 form_group" *ngIf="isEvent == 3 && !isEventAdd">
+                <label class=" form_label">Employee<span class="text-danger">*</span></label>
+                <app-multi-select [dropDownArray]="employee" controlName="user_id"
+                    placeholder="Please Select Employee"></app-multi-select>
+            </div>
+
+            <div class="col-md-12 form_group" *ngIf="!isEventAdd">
+                <label class=" form_label">Date</label>
+                <app-mat-date-picker controlName="event_date" placeholder="Select Payment Date"></app-mat-date-picker>
+            </div>
+
+            <div class="col-md-12 form_group" *ngIf="!isEventAdd">
+                <label class=" form_label">Details</label>
+                <app-textarea [rows]="3" controlName="details"></app-textarea>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    <button class="btn save-btn me-2" (click)="handleSave(true,isEventAdd)" [disabled]="isSaving">Save
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaving">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </button>
+    <button class="btn clear-btn" (click)="handleSave(false,false)">cancel</button>
+</div>

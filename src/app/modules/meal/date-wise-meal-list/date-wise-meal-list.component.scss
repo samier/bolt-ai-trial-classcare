@@ -1,0 +1,37 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-date-wise-meal-list{
+    .table{
+        td{
+            &.action_btn{
+                a,button{
+                    margin-left:5px;
+                    padding: 5px;
+                    width: 40px;
+                    height: 40px;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+                    i{
+                        font-size: 18px;
+                    }
+                    &.btn-primary{
+                        &:hover{
+                            background:$purple-58;
+                            border-color:$purple-58;
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
+            &.status{
+                span{
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+}
+tr td{
+    text-transform: capitalize;
+    text-align:left;
+}

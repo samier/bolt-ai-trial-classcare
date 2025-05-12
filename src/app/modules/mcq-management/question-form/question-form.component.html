@@ -1,0 +1,199 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{page}} Question</h3>
+                <div class="btn_right">
+                    <a class="btn"  href="#." [routerLink]="setUrl(URLConstants.QUESTION_LIST)">Question List</a>
+                    </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                       <div class="card">
+                            <form [formGroup]="form" class="form_section" id="question-form">
+                                <div class="row">
+                                    <div class=" row">
+                                        <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Class<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #select
+                                                    	[items]="classes"
+                                                    	(change)="changeClass(selectedClass)"
+                                                    	[searchable]="false"
+                                                    	[(ngModel)]="selectedClass"
+                                                    	name="questions[class]"
+                                                    	bindLabel="name"
+                                                    	bindValue="id"
+			                                            formControlName="class"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px"
+		                                                    		(onclick)="changeClass(selectedClass)" type="text"
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Subject<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #select
+                                                    	[items]="subjects"
+                                                    	(change)="changeSubject(selectedSubject)"
+                                                    	[searchable]="false"
+                                                    	[(ngModel)]="selectedSubject"
+                                                    	name="questions[subject]"
+                                                    	bindLabel="name"
+                                                    	bindValue="id"
+			                                            formControlName="subject"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" type="text"
+		                                                    		(onclick)="changeSubject(selectedSubject)"
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['subject'].invalid && (form.controls['subject'].dirty || form.controls['subject'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['subject'].errors?.['required']">please select subject.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+			                                <div class="">
+			                                    <label class=" form_label">Chapter<span class="text-danger">*</span></label>
+			                                    <div class="">
+			                                        <ng-select #select
+			                                        	[items]="chapters"
+			                                        	[searchable]="false"
+			                                        	[(ngModel)]="selectedChapter"
+			                                        	bindLabel="chapter_name"
+			                                        	bindValue="id"
+			                                        	name="questions[chapter]"
+			                                        	formControlName="chapter"
+			                                            placeholder="please select chapter"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+			                                            <ng-template ng-header-tmp>
+			                                                <input style="width: 100%; line-height: 24px" type="text"
+			                                                		(input)="select.filter($any($event.target).value)" />
+			                                            </ng-template>
+			                                        </ng-select>
+			                                    </div>
+			                                    <div *ngIf="form.controls['chapter'].invalid && (form.controls['chapter'].dirty || form.controls['chapter'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['chapter'].errors?.['required']">please select chapter.</div>
+                                                </div>
+			                                </div>
+			                            </div>
+			                            <div class="col-md-3 form_group">
+			                                <div class="">
+			                                    <label class=" form_label">Question Photo:</label>
+			                                    <div class="" [class.row]="image">
+				                                    <div [class.col-md-10]="image">
+	            										<input accept="image/*" name="file" ngf-select ngf-multiple="false" ngf-min-size='1' ui-jq="filestyle" type="file" data-icon="false" data-classButton="btn btn-default" data-classInput="form-control inline v-middle input-s">
+	                                                </div>
+				                                    <div class="col-md-2" *ngIf="image">
+				                                    	<a [href]="getImage()" class="btn btn-primary">view</a>
+				                                    </div>
+				                                </div>
+			                                </div>
+			                            </div>
+			                            <div class="col-md-3 form_group">
+			                                <div class="">
+			                                    <label class=" form_label">Question<span class="text-danger">*</span></label>
+			                                    <div class="">
+			                                    	<textarea name="questions[question]" class="form-control" formControlName="question" placeholder="please enter question.." cols="4"></textarea>
+			                                    </div>
+			                                    <div *ngIf="form.controls['question'].invalid && (form.controls['question'].dirty || form.controls['question'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['question'].errors?.['required']">please enter question.</div>
+                                                </div>
+			                                </div>
+			                            </div>
+			                            <div class="col-md-3 form_group">
+			                                <div class="">
+			                                    <label class=" form_label">Solution:</label>
+			                                    <div class="">
+			                                    	<textarea name="questions[solution]" class="form-control" formControlName="solution" placeholder="please enter solution.." cols="4"></textarea>
+			                                    </div>
+			                                </div>
+			                            </div>
+                                        <div class="col-md-2  add_doc form_group" >
+                                            <div class="">
+                                            	<label class=" form_label">button</label>
+                                            	<input type="hidden" name="questions[answer]" [value]="selectedAnswer">
+                                            	<input type="hidden" name="questions[subject]" [value]="selectedSubject">
+                                            	<input type="hidden" name="questions[chapter]" [value]="selectedChapter">
+                                                <button type="button" (click)="addOption()" class="btn doc-button w-100" *ngIf="optionArray.length < 5">
+                                                    Add Option
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 form_group" *ngIf="optionArray.controls">
+                                    		<label class=" form_label">Options</label>
+                                            <div *ngFor="let control of  optionArray.controls ;let i = index;" formArrayName='options' class="">
+                                                <div [formGroupName]="i" class="document_type_add m-0 p-1" >
+                                                    <div class="row no-gutters" >
+                                                        <div class="input-field col-lg-9">
+                                                            <div class="radio w-100 row pl-4">
+                                                            	<label class="m-radio required col-md-1 mt-1" aria-required="true">
+			                                                        <input type="radio" name="id" (click)="answer(i+1)" value="{{i+1}}" [checked]="id && selectedAnswer == i+1" aria-required="true"><span></span>
+			                                                        </label>
+                                                                <input  type="text" formControlName="option" name="answer[{{i}}][option]" placeholder="Plesae enter option {{i+1}} value" class="form-control col-md-11 w-100">
+                                                              </div>
+                                                              <div *ngIf="get_option(i)?.invalid && (get_option(i)?.dirty || get_option(i)?.touched)" class="error text-danger col-md-10 ml-auto">
+                                                                  <div *ngIf="get_option(i)?.errors?.['required']">please enter option detail</div>
+                                                              </div>
+                                                        </div>
+                                                        <div class="input-field col-lg-2 add_doc" *ngIf="optionArray.length > 1">
+                                                            <div class="">
+                                                                <button class="button" type="button" (click)="remove(i)"  class="btn btn-danger">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    	<div class="col-md-4 form_group">
+			                                <div class="">
+			                                    <label class=" form_label">Marks<span class="text-danger">*</span></label>
+			                                    <div class="">
+            										<input name="questions[marks]" type="number" class="form-control" placeholder="please enter marks" formControlName="marks" min="1">
+                                                </div>
+			                                    <div *ngIf="form.controls['marks'].invalid && (form.controls['marks'].dirty || form.controls['marks'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['marks'].errors?.['required']">please enter marks.</div>
+                                                </div>
+			                                </div>
+			                            </div>
+                                    </div>
+                                </div>
+                                <div class="row w-100">
+                                    <div class="col-md-1">
+                                        <a class="btn px-2 w-100" href="#" [routerLink]="setUrl(URLConstants.QUESTION_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-md-1">
+                                            <button type="submit" (click)="submit()" [disabled]="form.invalid" class="btn px-2   w-100">
+                                                                                    {{saveBtn}}
+                                                                                </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

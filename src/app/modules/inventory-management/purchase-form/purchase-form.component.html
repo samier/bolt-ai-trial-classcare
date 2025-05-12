@@ -1,0 +1,145 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Add Purchase Details</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="[setUrl(URLConstants.PURCHASE_LIST),0]">Purchase List</a>
+				</div>
+			</div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="purchaseForm" class="form_section global_form">
+
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <input type="hidden" name="record_id" formControlName="record_id" value="0">
+                                            <label class="form_label">Item Name<span class="text-danger">*</span></label>
+                                            <div>
+
+                                                <ng-select #select1 [items]="itemTypeList" [searchable]="false" (change)="itemChange($event)" name="inventory_item_id" bindLabel="item_name" bindValue="id"  
+                                                formControlName="inventory_item_id"
+                                                 placeholder="please select" required>
+                                                    <ng-template ng-header-tmp>
+                                                        <input style="width: 100%; line-height: 24px" type="text" (input)="select1.filter($any($event.target).value)" />
+                                                    </ng-template>
+                                                </ng-select>
+
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Vendor Type</label>
+                                            <div>
+
+                                                <ng-select #select2 [items]="vendorTypeList" [searchable]="false" name="vendor_id" bindLabel="name" bindValue="id"  
+                                                formControlName="vendor_id"
+                                                 placeholder="Please Select" required>
+                                                    <ng-template ng-header-tmp>
+                                                        <input style="width: 100%; line-height: 24px" type="text" (input)="select2.filter($any($event.target).value)" />
+                                                    </ng-template>
+                                                </ng-select>
+
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['vendor_id'].invalid" class="error error text-danger"> Please select vendor_type. </div>                                       -->
+                                        </div>
+
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Quantity<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="quantity" id="quantity" formControlName="quantity" placeholder="Enter your Quantity" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['quantity'].invalid" class="error text-danger"> Please enter Quantity. </div> -->
+                                            <div *ngIf="purchaseForm.controls['quantity'].dirty && purchaseForm.controls['quantity'].invalid" class="error text-danger">Please enter valid Quantity.</div>                                       
+                                        </div>
+                                   
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Measurement Type<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="measurement_type_id" style="pointer-events: none;" id="measurement_type_id" id="measurement_type_id" class="form-control" formControlName="measurement_type_id">
+                                                    <option value="" disabled selected class="disabled">Select your option</option>
+                                                    <option *ngFor="let item of measurementTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                </select>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['measurement_type_id'].invalid" class="error text-danger"> Please enter Measurement Type. </div> -->
+                                            <div *ngIf="purchaseForm.controls['measurement_type_id'].dirty && purchaseForm.controls['measurement_type_id'].invalid" class="error text-danger">Please enter valid Measurement Type.</div>                                       
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Purchase Order Number<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="purchased_order_no" id="purchased_order_no" formControlName="purchased_order_no" placeholder="Enter your purchased order no" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['purchased_order_no'].invalid" class="error text-danger"> Please enter purchased order no. </div> -->
+                                            <div *ngIf="purchaseForm.controls['purchased_order_no'].dirty && purchaseForm.controls['purchased_order_no'].invalid" class="error text-danger">Please enter valid purchased order no.</div>                                       
+                                        </div>     
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Total Amount<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="total_amount" id="total_amount" formControlName="total_amount" placeholder="Enter your Total amount" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['total_amount'].invalid" class="error text-danger"> Please enter Total amount. </div> -->
+                                            <div *ngIf="purchaseForm.controls['total_amount'].dirty && purchaseForm.controls['total_amount'].invalid" class="error text-danger">Please enter valid Total amount.</div>                                       
+                                        </div> 
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Tax Amount<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="tax_amount" id="tax_amount" formControlName="tax_amount" placeholder="Enter your Tax amount" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['tax_amount'].invalid" class="error text-danger"> Please enter Tax amount. </div> -->
+                                            <div *ngIf="purchaseForm.controls['tax_amount'].dirty && purchaseForm.controls['tax_amount'].invalid" class="error text-danger">Please enter valid Tax amount.</div>                                       
+                                        </div> 
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Invoice Number<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="invoice_no" id="invoice_no" formControlName="invoice_no" placeholder="Enter your Invoice Number" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && purchaseForm.controls['invoice_no'].invalid" class="error text-danger"> Please enter Invoice Number. </div> -->
+                                            <div *ngIf="purchaseForm.controls['invoice_no'].dirty && purchaseForm.controls['invoice_no'].invalid" class="error text-danger">Please enter valid Invoice Number.</div>                                       
+                                        </div>                                         
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Invoice Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="invoice_date"></app-mat-date-picker>
+
+                                            <!-- <div>
+                                                <input class="form-control" type="date" name="invoice_date" id="invoice_date" formControlName="invoice_date" placeholder="Enter your purchase date" required>
+                                            </div>
+                                            <div *ngIf="submitted && purchaseForm.controls['invoice_date'].invalid" class="error text-danger"> Please enter Purchase Date.</div>                                       -->
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Purchase Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="purchased_date"></app-mat-date-picker>
+
+                                            <!-- <div>
+                                                <input class="form-control" type="date" name="purchased_date" id="purchased_date" formControlName="purchased_date" placeholder="Enter your purchase date" required>
+                                            </div>
+                                            <div *ngIf="submitted && purchaseForm.controls['purchased_date'].invalid" class="error text-danger"> Please enter Purchase Date.</div>                                       -->
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="[setUrl(URLConstants.PURCHASE_LIST),0]">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" [disabled]="!purchaseForm.valid" class="btn save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                                                                                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

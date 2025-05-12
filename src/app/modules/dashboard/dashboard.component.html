@@ -1,0 +1,237 @@
+<div class="new-dashboard">
+
+  <!-- <div class="dashboard-tab">
+    <ul class="dashboard-list">
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> all</a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> 1 Week Fees Collection</a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> Event & Exam </a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> Upcoming Exam </a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> School Performance </a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> Homework </a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> Attendance </a></li>
+      <li><a href="#"><img src='assets/images/right-grey-icon.svg' alt="profile" class="right-grey-icon" />
+        <img src='assets/images/right-blue-icon.svg' alt="profile" class="right-blue-icon" /> Birthday Details </a></li>
+    
+    </ul>
+  </div> -->
+
+  <!-- <div class="dashboard-option-btn">
+    <button class="btn btn-primary">Dashboard Options</button>
+  </div> -->
+
+  <div style="display: inline" *ngIf="dashboard?.length > 0 else noDataFound">
+    <gridster [options]="options" class="dashboard-gridster">
+      <ng-container *ngFor="let item of dashboard">
+        <gridster-item [item]="item" class="card-grid-item">
+
+           <!-- 1 -> std-cnt     -> Student Count Only  -->
+           <!-- 2 -> faculty-cnt -> Staff Count Only -->
+           <!-- 3 -> temp-cnt    -> Student Present Absent  -->
+           <!-- 4 -> present-cnt -> Staff Present Absent  -->
+
+            <!-- <ng-container *ngIf="CommonService.hasPermission('', 'has_access')"> -->
+            <ng-container *ngIf="item?.id == 'std-cnt'">
+              <app-counter-card [visible]="1" [countData]="countData">
+              </app-counter-card>
+            </ng-container>
+            <!-- </ng-container> -->
+
+            <ng-container *ngIf="is_admin || this.CommonService.hasPermission('faculty_faculty', 'has_access')">
+              <ng-container *ngIf="item?.id == 'faculty-cnt'">
+                <app-counter-card [visible]="2" [countData]="countData">
+                </app-counter-card>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="this.is_admin || this.CommonService.hasPermission('student_attendance', 'has_access')">
+              <ng-container *ngIf="item?.id == 'temp-cnt'">
+                <app-counter-card [visible]="3" [countData]="countData">
+                </app-counter-card>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="this.is_admin || this.CommonService.hasPermission('faculty_staff_attendance', 'has_access')">
+              <ng-container *ngIf="item?.id == 'present-cnt'">
+                <app-counter-card [visible]="4" [countData]="countData">
+                </app-counter-card>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="CommonService.hasPermission('', 'has_access')">
+            <ng-container *ngIf="item?.id == 'calender-cnt'">
+              <app-calender-event>
+              </app-calender-event>
+            </ng-container>
+          </ng-container>
+
+            <!-- <ng-container *ngIf="CommonService.hasPermission('', 'has_access')">
+          <ng-container *ngIf="item?.id == 'fees-cnt'">
+            <app-fees-collection>
+            </app-fees-collection>
+          </ng-container> 
+          </ng-container>-->
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('student_exam', 'has_access')">
+              <ng-container *ngIf="item?.id == 'exam-mark'">
+                <app-exam-mark [classlist]="classes" [batchList]="batches">
+                </app-exam-mark>
+              </ng-container>
+            </ng-container>
+
+            <ng-container
+              *ngIf="is_admin || CommonService.hasPermission('student_exam', 'has_access')">
+              <ng-container *ngIf="item?.id == 'upcoming-exam'">
+                <app-upcoming-exam>
+                </app-upcoming-exam>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('fees_report_dashboard_fees', 'has_access')">
+              <ng-container *ngIf="item?.id == 'today-collection'">
+                <app-today-collection>
+                </app-today-collection>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('report_birthday_report', 'has_access')">
+              <ng-container *ngIf="item?.id == 'today-birthday'">
+                <app-today-birthday>
+                </app-today-birthday>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_homework', 'has_access')">
+              <ng-container *ngIf="item?.id == 'homework'">
+                <app-homework [classlist]="classes" [batchList]="batches">
+                </app-homework>
+              </ng-container>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="CommonService.hasPermission('', 'has_access')"> 
+          <ng-container *ngIf="item?.id == 'scool-perfomance'">
+            <app-scool-perfomance>
+            </app-scool-perfomance>
+          </ng-container> 
+          </ng-container>-->
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_assignment', 'has_access')">
+              <ng-container *ngIf="item?.id == 'assignment'">
+                <app-assignment [classes]="classes" [batches]="batches">
+                </app-assignment>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('student_attendance', 'has_access')">
+              <ng-container *ngIf="item?.id == 'attendance'">
+                <app-attendance [batchList]="batches">
+                </app-attendance>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('report_birthday_report', 'has_access')">
+              <ng-container *ngIf="item?.id == 'student-birthday'">
+                <app-student-birthday>
+                </app-student-birthday>
+              </ng-container>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="CommonService.hasPermission('administrator_homework', 'has_access')">
+          <ng-container *ngIf="item?.id == 'timetable'">
+            <app-timetable>
+            </app-timetable>
+          </ng-container>
+           </ng-container> -->
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_videolink', 'has_access')">
+              <ng-container *ngIf="item?.id == 'video-link'">
+                <app-video-link>
+                </app-video-link>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('student_attendance', 'has_access')">
+              <ng-container *ngIf="item?.id == 'student-absent'">
+                <app-student-absent  [classlist]="classes" [batchList]="batches">
+                </app-student-absent>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_leave', 'has_access')">
+              <ng-container *ngIf="item?.id == 'staff-leave'">
+                <app-staff-leave>
+                </app-staff-leave>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('fees_report_dashboard_fees', 'has_access')">
+              <ng-container *ngIf="item?.id == 'unpaid-fees'">
+                <app-unpaid-fees>
+                </app-unpaid-fees>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="CommonService.hasPermission('', 'has_access')"> 
+          <ng-container *ngIf="item?.id == 'top-student-list'">
+            <app-top-student-list>
+            </app-top-student-list>
+          </ng-container>
+          </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('inquiry_inquiry', 'has_access')">
+              <ng-container *ngIf="item?.id == 'inquiry'">
+                <app-inquiry [classlist]="classes" >
+                </app-inquiry>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_homework', 'has_access')">
+              <ng-container *ngIf="item?.id == 'present-staff'">
+                <app-present-staff>
+                </app-present-staff>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_proxy_lecture', 'has_access')">
+              <ng-container *ngIf="item?.id == 'proxy-timetable'" >
+                <app-proxy-timetable ></app-proxy-timetable>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_admin || CommonService.hasPermission('administrator_calender', 'has_access')">
+              <ng-container *ngIf="item?.id == 'calendar'">
+                <app-calendar-dashboard></app-calendar-dashboard>
+              </ng-container>
+            </ng-container>
+
+            <!-- new dashboard timetable -->
+            <ng-container *ngIf="is_admin">
+              <ng-container *ngIf="item?.id == 'dashboard-timetable'">
+                <app-dashboard-timetable></app-dashboard-timetable>
+              </ng-container>
+            </ng-container>
+
+        </gridster-item>
+      </ng-container>
+    </gridster>
+
+    <!-- <ng-container *ngIf="is_admin">
+      <ng-container>
+        <app-proxy-timetable ></app-proxy-timetable>
+      </ng-container>
+    </ng-container> -->
+    
+  </div>
+  <ng-template #noDataFound>
+    <div class="d-flex justify-content-center mt-3">
+      <div class="spinner-border spinner-border-sm ms-2" role="status" >
+          <span class="visually-hidden">Loading...</span>
+      </div>
+  </div>
+  </ng-template>
+</div>

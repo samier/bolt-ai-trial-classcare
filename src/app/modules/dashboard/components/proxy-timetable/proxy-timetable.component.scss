@@ -1,0 +1,119 @@
+@import"../../../../../assets/css/variable.scss";
+::ng-deep{
+    .proxy_timetable_dash{
+        // margin: 0 35px 0 5px;
+
+        .attendance-header{
+            .view-all-link{
+                font-size: 12px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-decoration: none;
+                transition: .3s;
+                display: inline-block;
+                position: relative;
+                z-index: 9;
+                h3{
+                    font-size: 17px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    margin: 0;
+                    white-space: nowrap;
+                    text-transform: capitalize;
+
+                    svg{
+                        transition: 0.3s;
+                        rect{
+                            fill: #fff;
+                        }
+                        path{
+                            fill: #000;
+                        }
+                    }
+                }
+
+                &:hover{
+                    color: $primary !important;
+                    h3{
+                        color: $primary !important;
+                        svg{
+
+                            rect{
+                                fill: $primary;
+                            }
+                            path{
+                                fill: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+            .exam-mark-form{
+                .proxy_viewall_btn{
+                    // .proxy_view_button{
+                    //     background-color: $primary;
+                    //     padding: 5px 10px;
+                    //     border-radius: 5px;
+                    //     font-size: 14px;
+                    //     border: 1px solid $primary;
+                    //     color: #fff;
+                    //     transition: all 0.3s ease-in-out;
+                    // }
+                    .view-btn-link{
+                        background-color: $primary;
+                        color: #fff;
+                        font-weight: 500;
+                        border-radius: 2px;
+                        padding: 1px 16px 1px 33px;
+                        position: relative;
+                        border: 1px solid $primary;
+                        transition: 0.3s;
+                        position: relative;
+                        z-index: 9;
+                        line-height: 1.5;
+                        font-size: .875rem;
+                        span{
+                            width: 24px;
+                            height: 25px;
+                            background-color: #fff;
+                            color: $primary;
+                            border-radius: 2px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            position: absolute;
+                            left: -1px;
+                            top: -1px;
+                            transition: 0.3s;
+                        }
+                        &:hover{
+                            background-color: #fff;
+                            color:$primary;
+                            span{
+                                background-color:$primary;
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .proxy_timetable_list{
+            .table-responsive{
+                max-height:400px;
+                overflow: auto;
+            }
+            .teacher-img-container{
+                display: flex;
+                align-items: center;
+                .proxy-teacher-image{
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
+}

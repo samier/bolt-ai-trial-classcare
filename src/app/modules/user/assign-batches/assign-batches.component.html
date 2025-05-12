@@ -1,0 +1,123 @@
+<section class="assign-batch-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Assign Batch To {{userName}}</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.USER_LIST)">Back to User List</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <form [formGroup]="assignBatchForm">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Section</label>
+                                        <div>
+                                            <app-single-select controlName="section_id" placeholder="Select section"
+                                                (change)="getClasses()"
+                                                [dropDownArray]="sectionList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Class
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="class_id" placeholder="Select class"
+                                                (change)="getBatches()" [dropDownArray]="classList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Batch</label>
+                                        <div>
+                                            <app-multi-select controlName="batch_id" placeholder="Select batch"
+                                                [dropDownArray]="batchList" ></app-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="show-clear-btn d-flex">
+                                            <button type="button"
+                                                class="btn px-4 d-flex align-items-center me-3 show-btn"
+                                                [disabled]="isShowData" (click)="showData()">
+                                                show
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="isShowData">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="justify-content-between d-flex">
+                    <!-- <div class="d-flex ml-0">
+                        <h5 class="mb-0 pt-2">Assigned Subject List</h5>
+                    </div>
+                    <div class="d-flex delete-all-button mb-2">
+                        <button class="btn" *ngIf="CommonService.hasPermission('faculty_assign_subjects', 'has_delete')" (click)="deleteSelected()" [disabled]="isDeleteAllLoading"> 
+                            <i class="fa fa-trash-alt"></i>&nbsp; Delete Selected {{selectedUserSubjectIds.size === 0 ? '' : '(' + selectedUserSubjectIds.size + ')'}}
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDeleteAllLoading">
+                                <span class="visually-hidden">Loading..."</span>
+                            </div>
+                        </button>
+                    </div> -->
+                </div>
+                <div class="table-responsive">
+                    <table  datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered  table-bordered ">
+                        <thead class="thead-light">
+                            <tr>
+                                <!-- <th>
+                                    <input type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)">
+                                </th> -->
+                                <th>Sr No.</th>
+                                <th>Class</th>
+                                <th>Batch</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="batchData?.length != 0">
+                            <tr *ngFor="let item of batchData; let i = index" >	
+                                <td>{{i+1}}</td>           
+                                <td>{{item.class_name}}</td>           
+                                <td>{{item.batch_name}}</td>            
+                                <td>   
+                                    <div class="btn-group" role="group">
+                                        <button  ngbTooltip="Delete" (click)="deleteBatchFromEmp(item)" class="btn action-delete"><i  class="fa fa-trash-alt"></i></button>											
+                                        <!-- <button class="btn btn " *ngIf="CommonService.hasPermission('faculty_assign_subjects', 'has_delete')" (click)="deleteBatchFromEmp(item)"> <i class="fa fa-trash-alt"></i> </button> -->
+                                    </div>
+                                    
+                                </td>                                             
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="batchData?.length == 0">
+                            <ng-container *ngIf="isAssignBatch">
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="!isAssignBatch">
+                                <tr>
+                                  <td colspan="4" class="text-center no-data-available">No data</td>
+                                </tr>
+                            </ng-container>
+                        </tbody>									
+                    </table>
+                </div>
+            </div> 
+        </div>
+    </div>
+</section>

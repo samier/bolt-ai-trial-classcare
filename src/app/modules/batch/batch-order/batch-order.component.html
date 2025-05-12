@@ -1,0 +1,34 @@
+<section class="batch-transfer">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Set order for class and batches</h3>
+                <button [routerLink]="batchService.setUrl(URLConstants.BATCH)" type="button" class="btn list-btn px-2 d-flex align-items-center me-2">
+                    Batch List
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="basic_table">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-nowrap table w-100 d-table ">
+                                <thead>
+                                    <tr>
+                                        <th>Batch</th>
+                                        <th>Class</th>
+                                    </tr>
+                                </thead>
+                                <tbody cdkDropList (cdkDropListDropped)="drop($event)" class="example-list">
+                                    <tr *ngFor="let batch of sortedBatch" cdkDrag cdkDragPreviewContainer="parent" class="example-box">
+                                        <td>{{ batch.name }}</td>
+                                        <td>{{ batch.class_name ?? batch.classes_id }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

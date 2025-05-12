@@ -1,0 +1,81 @@
+<div class="modal-header">
+    <div class="d-flex">
+      <h4 class="modal-title" id="modal-basic-title">{{selectedData?.type == 1 ? 'Exam' : selectedData?.type == 2 ? 'Holiday' : 'Event'}} Details</h4>
+      <button *ngIf="selectedData?.type != 1 && CommonService.hasPermission(selectedData?.type == 2 ? 'administrator_holiday' : 'administrator_event', 'has_edit')" ngbTooltip="Edit" triggers="hover" type="button" class="edit ms-2" aria-label="Edit" (click)="closeModal(true)">
+        <i class="fa fa-pen"></i>
+      </button>
+    </div>  
+    <button ngbTooltip="Close" triggers="hover" type="button" class="close" aria-label="Close" (click)="closeModal(false)">
+      <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+      <div class="col-md-12 form_group">
+        <label class="form_label">{{selectedData?.type == 1 ? 'Exam' : selectedData?.type ==  2 ? 'Holiday' : 'Event'}} Title</label>
+        <p>{{selectedData?.name || selectedData?.exam_name}}</p>
+      </div>
+      <ng-container *ngIf="selectedData?.type == 1 ">
+        <div class="col-md-6 form_group" >
+          <label class="form_label">Class</label>
+          <p>{{selectedData?.batch[0]?.class?.name ?? '-'}}</p>
+        </div>
+        <div class="col-md-6 form_group" >
+          <label class="form_label">Batch</label>
+          <p>{{selectedData?.batch[0]?.name ?? '-'}}</p>
+        </div>
+      </ng-container>
+      <div class="col-md-6 form_group"  *ngIf="selectedData?.type != 1 && selectedData?.type != 2">
+        <label class="form_label">Event Type</label>
+        <p>{{selectedData?.type ?? '-'}}</p>
+      </div>
+      <div class="col-md-6 form_group"  *ngIf="selectedData?.type !=  1" >
+        <label class="form_label">{{selectedData?.type == 1 ? 'Exam' : selectedData?.type ==  2 ? 'Holiday' : 'Event'}} For</label>
+        <p>{{ selectedData?.assignTo == 3 ? 'Student,Employee' : selectedData?.assignTo == 2 ? 'Employee' : selectedData?.assignTo == 1 ? 'Student' : '-' }}</p>
+      </div>
+      <div class="col-md-6 form_group" >
+        <label class="form_label">Start date</label>
+        <p>{{selectedData?.start_date | date: dateFormateService.getDateFormat()}}</p>
+      </div>
+      <div class="col-md-6 form_group" *ngIf="selectedData?.type !=  2 ">
+        <label class="form_label">Start time</label>
+        <p>{{ selectedData?.start_time ? (formatTimeString(selectedData.start_time) | date:'shortTime') : '-' }}</p>
+      </div>
+      <div class="col-md-6 form_group">
+        <label class="form_label">End date</label>
+        <p>{{selectedData?.end_date | date: dateFormateService.getDateFormat()}}</p>
+      </div>
+      <div class="col-md-6 form_group" *ngIf="selectedData?.type != 2 ">
+        <label class="form_label">End Time</label>
+        <p>{{ selectedData?.end_time ? (formatTimeString(selectedData.end_time) | date:'shortTime') : '-' }}</p>
+      </div>
+      <ng-container  *ngIf="selectedData?.type == 1 ">
+        <div class="col-md-6 form_group">
+          <label class="form_label">Total Marks</label>
+          <p>{{selectedData?.total_mark ?? '-'}}</p>
+        </div>
+        <div class="col-md-6 form_group" *ngIf="selectedData?.type == 1 ">
+          <label class="form_label">Passing Marks</label>
+          <p>{{selectedData?.passing_mark ?? '-'}}</p>
+        </div>
+        <div class="col-md-6 form_group">
+          <label class="form_label">Syllabus</label>
+          <p appHorizontalScroll>{{selectedData?.exam_topic ?? '-'}}</p>
+        </div>
+      </ng-container>
+      <div class="col-md-6 form_group" *ngIf="selectedData?.type !== 1 ">
+        <label class="form_label">Description</label>
+        <p appHorizontalScroll>{{selectedData?.description ?? '-'}}</p>
+      </div>
+      <div class="col-md-6 form_group" *ngIf="selectedData?.type != 1 && selectedData?.type != 2">
+        <label class="form_label">Reference Link</label>
+        <p appHorizontalScroll><a *ngIf="selectedData?.reference" href="{{selectedData?.reference }}" target="_blank">{{selectedData?.reference}}</a></p>
+      </div>
+    </div>
+</div>
+<div class="modal-footer">
+  <button type="submit" class="cancel-btn btn m-0" (click)="closeModal()">
+    Cancel
+  </button>
+</div>

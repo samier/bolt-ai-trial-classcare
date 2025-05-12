@@ -1,0 +1,91 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+          <h3 class="sub_title mb-0">Exam General Report</h3>
+        </div>
+        <div class="card student-list-card p-0">
+          
+          <div class="card-header justify-content-between d-flex">
+            <div class="card-student-heading d-flex align-items-center">
+              <h5 class="mb-0">Filters</h5>
+            </div>
+            <div class="d-flex student-accordion-btn">
+              <button class="btn me-2" (click)="reset()">Reset</button>
+              <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                <i class="fa fa-angle-up" *ngIf="filter"></i>
+              </button>
+            </div>
+          </div>
+  
+          <div class="card-body" *ngIf="filter">
+            <div [formGroup]="examReportFilterForm" class="content_scroll">
+                <div class="row">
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Section</label>
+                        <app-single-select [dropDownArray]="sectionsList" controlName="sectionId" placeholder="Select Section" (change)="onSectionChange()"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Class</label>
+                        <app-single-select [dropDownArray]="classesList" controlName="classId" placeholder="Select Class" (change)="onClassChange()"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Batch <span class="text-danger">*</span></label>
+                        <app-single-select [dropDownArray]="batchesList" controlName="batchId" placeholder="Select Batch"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Date <span class="text-danger">*</span></label>
+                        <app-date-range-picker controlName="date" placeholder="Select Date"></app-date-range-picker>
+                        <div *ngIf="examReportFilterForm.get('date')?.touched && examReportFilterForm.get('date')?.errors">
+                          <small class="text-danger" *ngIf="examReportFilterForm.get('date')?.errors?.['required']">
+                            The input is required.
+                          </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 form_group">
+                    <label class=" form_label">Exam Type</label>
+                    <app-single-select [dropDownArray]="examTypeList" controlName="exam_type" placeholder="Select Exam Type"></app-single-select>
+                  </div>
+                  <div class="col-md-3 form_group">
+                    <label class=" form_label">Signature</label>
+                    <app-single-select [dropDownArray]="faculties" controlName="userId" placeholder="Select Employee"></app-single-select>
+                  </div>
+                  <div class="col-md-3 form_group">
+                    <label class=" form_label">Exam Report</label>
+                    <div class="">
+                      <div class="radio-section ">
+                        <div class="radio">
+                          <label>
+                            <input type="radio" formControlName="report_type" name="report_type" id="rollwise" [value]="1" class="mr-1" checked>Roll No Wise<span></span>
+                          </label>
+                        </div>
+                        <div class="radio">
+                          <label aria-required="true">
+                            <input type="radio" formControlName="report_type" name="report_type" id="rankwise" [value]="2" class="mr-1">Rank Wise<span></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">  
+                  <div class="col-md-3 form_group">
+                      <button type="button" class="btn report-btn" (click)="getReport()" [disabled]="is_loading">Get Report
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                          <span class="visually-hidden">Loading..."</span>
+                      </div>
+                      </button>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

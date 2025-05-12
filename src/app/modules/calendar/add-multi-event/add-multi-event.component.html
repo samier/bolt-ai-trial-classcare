@@ -1,0 +1,178 @@
+<section class="event_form new-event-form-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">Add {{ pageType == 'event' ? 'Events' : 'Holidays' }}</h3>
+                <div>
+                    <a *ngIf="pageType == 'event' && commonService.hasPermission('administrator_event_type', 'has_access')" class="btn list-btn me-2" [routerLink]="[commonService.setUrl(URLConstants.EVENT_TYPE_LIST)]">Event Type List</a>
+                    <a class="btn list-btn"*ngIf="commonService.hasPermission(pageType == 'event' ? 'administrator_event' : 'administrator_holiday', 'has_access')" [routerLink]="[commonService.setUrl(URLConstants.EVENT_HOLIDAY_LIST)]" [queryParams]="{isDefaultTemplate: pageType}" >{{ pageType == 'event' ? 'Event' : 'Holiday' }} List</a>
+                </div>
+            </div>
+
+            <form [formGroup]="addEventHolidayF">
+                <div class="card position-relative" *ngFor="let eventCard of eventCards.controls; let i = index" [id]="'eventCard' + i">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">{{ pageType == 'event' ? 'Event' : 'Holiday' }} Title<span class="text-danger">*</span></label>
+                            <app-input 
+                                type="text" 
+                                controlName="name"
+                                [GroupName]="i" 
+                                formArrayName="events"  
+                                [placeholder]="pageType == 'event' ? 'Enter Event Title' : 'Enter Holiday Title'"
+                            ></app-input>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">{{ pageType == 'event' ? 'Event' : 'Holiday' }} For</label>
+                            <ng-container formArrayName="events">
+                                <div class="radio-section mt-2" [formGroupName]="i">
+                                    <div class="radio ">
+                                        <label class="required">
+                                            <input 
+                                                type="radio" 
+                                                formControlName="assignTo" 
+                                                id="student" value="1" class="mr-1"
+                                            >Student<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ">
+                                        <label class="required" aria-required="true">
+                                            <input 
+                                                type="radio" 
+                                                formControlName="assignTo" 
+                                                id="employee" value="2" class="mr-1"
+                                                >Employee<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ">
+                                        <label class="required" aria-required="true">
+                                            <input 
+                                                type="radio" 
+                                                formControlName="assignTo" 
+                                                id="both" value="3" class="mr-1"
+                                                >Both<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <ng-container *ngIf="eventCard.value?.assignTo == '1'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Batch<span class="text-danger">*</span></label>
+                                <app-multi-select 
+                                    controlName="batches" 
+                                    [GroupName]="i" 
+                                    formArrayName="events"
+                                    placeholder="Select Batch" [dropDownArray]="batchList"
+                                ></app-multi-select>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="eventCard.value?.assignTo == '2'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Employee<span class="text-danger">*</span></label>
+                                <app-multi-select 
+                                    controlName="users"
+                                    [GroupName]="i" 
+                                    formArrayName="events" 
+                                    placeholder="Select Employee" [dropDownArray]="facultyList"
+                                ></app-multi-select>
+                            </div>
+                        </ng-container>
+                        <div class="col-md-1 form_group">
+                            <label class="form_label">Color</label>
+                            <div class="">
+                                <app-input 
+                                    controlName="color"
+                                    [GroupName]="i" 
+                                    formArrayName="events" 
+                                    type="color"
+                                ></app-input>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="pageType == 'event'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Event Type<span class="text-danger">*</span></label>
+                                <app-single-select 
+                                    controlName="event_type_id"
+                                    [GroupName]="i" 
+                                    formArrayName="events" 
+                                    placeholder="Select Event Type" [dropDownArray]="eventTypeList"
+                                ></app-single-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                                <app-input 
+                                    type="datetime-local" 
+                                    controlName="start_date"
+                                    [GroupName]="i" 
+                                    formArrayName="events"
+                                ></app-input>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">End Date<span class="text-danger">*</span></label>
+                                <app-input 
+                                    type="datetime-local" 
+                                    controlName="end_date"
+                                    [GroupName]="i" 
+                                    formArrayName="events"
+                                ></app-input>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Reference Link</label>
+                                <app-input 
+                                    type="text" 
+                                    controlName="reference"
+                                    [GroupName]="i" 
+                                    formArrayName="events" 
+                                    placeholder="Enter Reference Link"
+                                ></app-input>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="pageType == 'holiday'">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                                <app-mat-date-picker 
+                                    controlName="start_date"
+                                    [GroupName]="i" 
+                                    formArrayName="events"
+                                ></app-mat-date-picker>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">End Date<span class="text-danger">*</span></label>
+                                <app-mat-date-picker 
+                                    controlName="end_date"
+                                    [GroupName]="i" 
+                                    formArrayName="events"
+                                ></app-mat-date-picker>
+                            </div>
+                        </ng-container>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Description</label>
+                            <app-input 
+                                type="text-area" 
+                                controlName="description" 
+                                [GroupName]="i" 
+                                formArrayName="events"
+                                placeholder="Enter Description"
+                            ></app-input>
+                        </div>
+                    </div>
+                    <div class="btn-group position-absolute top-0 end-0 m-2 add_event_btn_group">
+                        <div class="col-auto">
+                            <button *ngIf="i > 0" class="btn cancel-btn me-2" (click)="removeEventCard(i)" ngbTooltip="Remove"><i class="fa fa-trash"></i></button>
+                            <button class="btn add-btn" (click)="addEventCard()" ngbTooltip="Add More"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="save-cancel-field">
+                <button class="btn save-btn ng-star-inserted" (click)="saveData()" [disabled]="isShowLoading">
+                    Save
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                        <span class="visually-hidden">Loading..."</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

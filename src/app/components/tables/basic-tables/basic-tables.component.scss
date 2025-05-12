@@ -1,0 +1,14 @@
+::ng-deep{
+    table th, table td {
+        font-size: 0.876rem !important;
+    }
+    .dark-theme .table-hover tbody tr:hover {
+        color: #fffc !important;
+    }
+    .dark-theme .table-hover tbody tr:hover, .dark-theme .table-hover tbody th:hover {
+    background-color: var(--primary-1) !important;
+}
+}
+.table > :not(:last-child) > :last-child > *{
+    border-bottom-color: rgba(0,0,0, 0.1) !important;
+}

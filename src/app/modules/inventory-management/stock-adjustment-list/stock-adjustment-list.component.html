@@ -1,0 +1,128 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Stock Adjustment List</h3>
+                <div class="btn_right">
+                    <a class="btn add-btn" href="#." [routerLink]="[setUrl(URLConstants.ADJUST_STOCK_ITEM_FORM),0]" >Add Stock Adjustment</a>
+                </div>
+            </div>
+            <div class="card">       
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered table datatable w-100" [ngClass]="{'table-action-col-active' : isOpenByClick}"[ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead class="thead-light">
+											<tr>
+												<th>Id</th>
+												<th>Date</th>
+												<th>Store</th>
+												<th>Reason</th>
+												<th class="action-btn-sticky">Action</th>                                            
+											</tr>
+										</thead>
+										<tbody *ngIf="tbody?.length != 0">
+											<tr *ngFor="let item of tbody ;let i = index;" >				
+												<td class="orange-text-color">{{item.id}}</td>            
+												<td>{{item.date}}</td>            
+												<td>{{item.store_name}}</td>            
+												<td>{{item.reason}}</td>            
+												<td class="action-btn-sticky text-center">
+													<div class="btn-group" role="group">
+														<a class="lt-btn-icon action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)"></a>                                                  
+														<a class="lt-btn-icon action-edit" ngbTooltip="Edit" href='#' [routerLink]="[setUrl(URLConstants.ADJUST_STOCK_ITEM_FORM),item.id]"></a>
+														<button class="lt-btn-icon action-delete" ngbTooltip="Delete" (click)="delete(item.id)"></button>
+													</div>
+												</td>                                             
+											</tr>
+										</tbody>									
+										<tbody *ngIf="tbody?.length == 0">
+											<tr>
+											<td colspan="11" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>										
+									</table>
+
+									<!-- <ng-template #mymodal let-modal >
+										<div class="modal-header" style="z-index: 0;">
+										<h4 class="modal-title" id="modal-basic-title">Reason for Requisition Rejection</h4>
+										<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+											<span aria-hidden="true">×</span>
+										</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+																							
+											<div class="form_group">
+												<label class="col-md-12 form_label">Reason for Requisition Rejection<span class="text-danger">*</span>:</label>
+												<div class="form-group">
+													<div class="col-lg-10">
+														<textarea class="form-control" [(ngModel)]="reasonForRejection" name="detail" id="detail" placeholder="Enter reason for leave rejection." required></textarea>
+													</div>
+												</div>
+											</div>           
+				
+										</div>
+										<div class="modal-footer" style="z-index: 0;">
+										<button type="button" [disabled]="true" class="btn btn-outline-dark" *ngIf="reasonForRejection=='' " (click)="modal.close('Save click')">Submit</button>                          
+										<button type="button" [disabled]="false" class="btn btn-outline-dark" *ngIf="reasonForRejection && reasonForRejection!='' " (click)="modal.close('Save click')">Submit</button>                          
+										</div>
+									</ng-template> -->
+
+									<ng-template #myviewmodal let-modal >
+										<div class="modal-header" style="z-index: 0;">
+										<h4 class="modal-title" id="modal-basic-title">Stock Adjustment Details</h4>
+										<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+											<span aria-hidden="true">×</span>
+										</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+																							
+										<div class="form_group modal-table">
+											<label class="col-sm-6 col-md-auto form_label"><b>Date : </b> <span class="c-primary">{{discard_modal_data.stock_adjustment.date}}</span></label>										
+											<label class="col-sm-6 col-md-auto form_label"><b>Store : </b> <span class="c-primary">{{discard_modal_data.stock_adjustment.store.name}}</span></label>										
+											<label class="col-sm-6 col-md-auto form_label"><b>Reason: </b> <span class="c-primary">{{discard_modal_data.stock_adjustment.reason}}</span></label>					
+											<div class="basic_table mt-2">
+												<div class="table-responsive">
+													<table class="table table-hover table-bordered table-nowrap table datatable w-100 mb-0">
+														<thead>
+															<tr>
+																<th>Item Type</th>
+																<th>Item Name</th>
+																<th>Available Quantity</th>
+																<th>Adjusted Quantity</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr *ngFor="let item of discard_modal_data.stock_adjustment_items">
+																<td>{{item.item_type.name}}</td>
+																<td>{{item.item_name.item_name}}</td>
+																<td>{{item.available_quantity}}</td>
+																<td>{{item.adjust_quantity}}</td>
+															</tr>
+														</tbody>
+													</table>	 
+												</div>
+											</div>								
+										</div>           			
+										</div>
+									</ng-template>								  
+
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

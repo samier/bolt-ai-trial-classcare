@@ -1,0 +1,221 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title m-0">{{refund_id ? 'Edit' : 'Add'}} Fees Refund</h3>
+                <div class="btn_right"  *ngIf="!studentDetail">
+                    <a class="global_btn btn" [routerLink]="[setUrl('/fees/fees-refund-list')]"> Refund List</a>
+                    <!-- <a class="global_btn btn" (click)="load()"> Load</a> -->
+                </div>
+            </div>
+            <div class="card">  
+                <form class="form-section" id="fees-refund">
+                    <div class="row">
+                        <div class="col-md-3" *ngIf="!studentDetail">
+                            <label for="" class="form_label">Student Search</label>
+                            <app-student-search (student)="onStudentSelect($event)" [inActive]="true" *ngIf="!refund_id"></app-student-search>
+                            <input type="text" class="form-control mb-3" [value]="feesRefund?.student?.full_name" *ngIf="refund_id" readonly>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form_label">Refund Mode<span class="text-danger">*</span></label>
+                            <div class="">
+                                <ng-select 
+                                    class="mb-3" 
+                                    placeholder="Select Pyament Type"
+                                    name="payment_mode" 
+                                    [(ngModel)]="payment_mode" 
+                                    [items]="payment_modes"
+                                    bindLabel="name"
+                                    bindValue="id"
+                                    [searchable]="true"
+                                    [readonly]="refund_id"
+                                    (change)="paymentModeValidate(50)"
+                                >
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form_label">Refund Date<span class="text-danger">*</span></label>
+                            <app-mat-date-picker [(selectedDate)]="refund_date" [isRequired]="false" [maxDate]="currentDate()" [minDate]="backDate == 0 ? currentDate() : ''" [templateDriven]="true"></app-mat-date-picker>
+                            <!-- <div class="">
+                                <input type="date" name="refund_date" [value]="refund_date" (input)="changeRefundDate($event)" placeholder="Select Refund mode" class="form-control">
+                            </div> -->
+                        </div>
+                        <div class="col-md-3" *ngIf="payment_mode == 5">
+                            <label class="form_label">UPI ID</label>
+                            <input type="text" class="form-control" name="upi_id" placeholder="Enter UPI ID." [value]="feesRefund?.upi_id">
+                        </div>
+                    </div>
+                    <div class="row" [class.mb-3]="[2,3,4,6].includes(payment_mode)">
+                        <div class="row" *ngIf="payment_mode == 2">
+                            <div class="col-md-3">
+                                <label class="form_label">Cheque No.<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="cheque[cheque_no]" (input)="paymentModeValidate()" placeholder="Enter Cheque No." [value]="feesRefund?.cheque?.cheque_no">
+                                <span class="text-danger" *ngIf="errors?.cheque_no && formSubmitted">{{errors?.cheque_no}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="cheque[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" [value]="feesRefund?.cheque?.bank_name">
+                                <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Cheque Date</label>
+                                <input type="date" class="form-control" name="cheque[cheque_date]" placeholder="Select date" [value]="feesRefund?.cheque?.cheque_date" >
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="payment_mode == 4">
+                            <div class="col-md-3">
+                                <label class="form_label">Account Number</label>
+                                <input type="text" class="w-100 form-control" name="bank[account_no]" placeholder="Enter Account Number." [value]="feesRefund?.fees_bank_detail?.account_no">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Account Holder Name</label>
+                                <input type="text" class="w-100 form-control" name="bank[account_holder_name]" placeholder="Enter Account Holder Name" [value]="feesRefund?.fees_bank_detail?.account_holder_name">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">IFSC Code</label>
+                                <input type="text" class="w-100 form-control" name="bank[ifsc_code]" placeholder="Enter IFSC Code" [value]="feesRefund?.fees_bank_detail?.ifsc_code">
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="payment_mode == 3">
+                            <div class="col-md-3">
+                                <label class="form_label">RRN Number<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="card[rrn_no]" (input)="paymentModeValidate()" placeholder="Enter RRN Number." [value]="feesRefund?.card_detail?.rrn_no">
+                                <span class="text-danger" *ngIf="errors?.rrn_no && formSubmitted">{{errors?.rrn_no}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="card[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" [value]="feesRefund?.card_detail?.bank_name">
+                                <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Type<span class="text-danger">*</span></label>
+                                <div  class="m-radio-section">
+                                    <div  class="radio">
+                                        <label  class="m-radio">
+                                            <input type="radio" name="card[card_type]" value="1" [(ngModel)]="card_type" id="debit" class="mr-1" checked>
+                                            Debit
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div  class="radio">
+                                        <label  class="m-radio">
+                                            <input type="radio" name="card[card_type]" value="2" [(ngModel)]="card_type" id="credit" class="mr-1">
+                                            Credit
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div  class="radio">
+                                        <label  class="m-radio">
+                                            <input type="radio" name="card[card_type]" value="3" [(ngModel)]="card_type" id="qr" class="mr-1">
+                                            QR
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="payment_mode == 6">
+                            <div class="col-md-3">
+                                <label class="form_label">Transaction/Ref No.<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="other_payment[transaction_or_ref_no]" (input)="paymentModeValidate()" placeholder="Enter Transaction/Ref Number" 
+                                    [value]="feesRefund?.other_payment_detail?.transaction_or_ref_no">
+                                <span class="text-danger" *ngIf="errors?.transaction_or_ref_no && formSubmitted">{{errors?.transaction_or_ref_no}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="other_payment[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" 
+                                    [value]="feesRefund?.other_payment_detail?.bank_name">
+                                <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Payment Type<span class="text-danger">*</span></label>
+                                <input type="text" class="w-100 form-control" name="other_payment[payment_type]" (input)="paymentModeValidate()" placeholder="Enter Payment Type" 
+                                    [value]="feesRefund?.other_payment_detail?.payment_type">
+                                <span class="text-danger" *ngIf="errors?.payment_type && formSubmitted">{{errors?.payment_type}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form_label">Note</label>
+                                <textarea name="" class="form-control" name="remarks" [value]="feesRefund?.remarks" placeholder="Enter Note"></textarea>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form_label">Add Attachment <small>(1MB)</small></label>
+                                <div  class="input-group attachment">
+                                    <input  type="file" id="inputGroupFile02" name="attachments[]" multiple class="form-control" placeholder="abc">
+                                </div>
+                                <span class="tx-10 text-muted">Select file with less than 1MB of size.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" px-0">
+                        <div class="row pb-3 mx-0 no-gutters">
+                            <div class="col-lg-12 form_section">
+                                <div class="table-responsive form_group">
+                                    <table  class=" table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Fee Category</th>
+                                                <th>Paid Amount</th>
+                                                <th>Refund Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let row of feesHistory;">	         
+                                                <td>{{row.category?.type_name??row.month}}</td>
+                                                <td>{{row?.paid_amount}}</td>
+                                                <td>
+                                                    <input type="number" 
+                                                        class="form-control" 
+                                                        name="refund[{{row.category?.id??row.month}}]" 
+                                                        (input)="changeRefundAmount(row, $event)"
+                                                        [max]="row.paid_amount" 
+                                                        [min]="0" 
+                                                        [value]="row.refund_amount" 
+                                                        [readonly]="editableCategories?.length > 0 && !editableCategories?.includes(row.category?.id?.toString()??row.month)"
+                                                    >
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td class="text-end">Total Amount</td>
+                                                <td>{{total_paid}}</td>
+                                                <td>
+                                                    <input name='total_refund' type="text" placeholder="Total Amount" [value]="total_refund" class="form-control" readonly>
+                                                </td>
+                                            </tr>
+                                        </tfoot>						
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-right align-items-center my-3">
+                    <div class="btn_right">
+                        <button type="button" (click)="onSubmit()" class="save-btn btn" [disabled]="disableSave"> 
+                            {{disableSave == 1 ? 'Saving' : 'Save'}}
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="disableSave == 1">
+                                <span class="visually-hidden">Loading...</span>
+                            </div> 
+                        </button>
+                        <button type="button" (click)="onSubmit(true)" class="save-btn btn ms-2" [disabled]="disableSave"> 
+                            {{disableSave == 2 ? 'Saving and Priting' : 'Save and Print'}}
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="disableSave == 2">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <a  *ngIf="!studentDetail" class="cancel-btn btn ms-2" [routerLink]="[setUrl('/fees/fees-refund-list')]"> Cancel</a>
+                        <a  *ngIf="studentDetail" class="cancel-btn btn ms-2" (click)="clear()"> Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>    
+</section>  

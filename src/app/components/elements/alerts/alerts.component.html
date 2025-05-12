@@ -1,0 +1,587 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+  <div class="my-auto">
+    <div class="d-flex">
+      <h4 class="content-title mb-0 my-auto">Elements</h4>
+      <span class="text-muted mt-1 tx-13 ms-2 mb-0">/ Alerts</span>
+    </div>
+  </div>
+  <div class="d-flex my-xl-auto right-content mr-2">
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-info btn-icon me-2">
+        <i class="mdi mdi-filter-variant"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-danger btn-icon me-2">
+        <i class="mdi mdi-star"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-warning btn-icon me-2">
+        <i class="mdi mdi-refresh"></i>
+      </button>
+    </div>
+    <div class="mb-3 mb-xl-0">
+      <div ngbDropdown class="btn-group">
+        <button type="button" class="btn btn-primary">14 Aug 2019</button>
+        <button type="button" ngbDropdownToggle class="btn btn-primary dropdown-toggle-split" id="dropdownMenuDate"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+          data-x-placement="bottom-end">
+          <a ngbDropdownItem href="javascript:;">2015</a>
+          <a ngbDropdownItem href="javascript:;">2016</a>
+          <a ngbDropdownItem href="javascript:;">2017</a>
+          <a ngbDropdownItem href="javascript:;">2018</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb -->
+<!-- row -->
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="basic-alert">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Basic Alerts</h6>
+            <p class="text-muted card-sub-title">
+              Use one of the four required contextual classes.
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"></span>
+            </label>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert class="" [type]="alert.type" (closed)="close(alert)" *ngFor="let alert of alerts">
+                {{ alert.message }}
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav1="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="outline-alert">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Outline Alerts</h6>
+            <p class="text-muted card-sub-title">
+              Use one of the four required contextual classes.
+            </p>
+          </div>
+          <div>
+            <label class="form-switch float-end mb-0">
+              <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+              <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+              <span class="form-switch-indicator custom-radius"  (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed2"></span>
+          </label>
+        </div>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ng-container *ngFor="let alert of outlineAlerts">
+                <ngb-alert type="{{ alert.type }}" (closed)="outlineClose(alert)">{{ alert.message }}
+                </ngb-alert>
+              </ng-container>
+            </div>
+          </div>
+          <div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav2="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav2" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="solid-alert">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Solid Colored Alerts</h6>
+            <p class="text-muted card-sub-title">
+              Use one of the four required contextual classes.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed3"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ng-container *ngFor="let alert of solidAlerts">
+                <ngb-alert type="{{ alert.type }}" (closed)="solidClose(alert)">{{ alert.message }}
+                </ngb-alert>
+              </ng-container>
+            </div>
+          </div>
+          <div #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav3="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav3" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card custom-card" id="link-alerts">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Link color Alerts</h6>
+            <p class="text-muted card-sub-title">
+              Use the <code class="highlighter-rouge">.alert-link</code> utility
+              class to quickly provide matching colored links within any alert.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed4"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert type="primary" [dismissible]="false">
+                <span class="alert-inner--text">This is a primary alert with <a href="javascript:;"><strong>an example link</strong></a> Give it a click if you like.</span>
+              </ngb-alert>
+              <ngb-alert type="secondary" [dismissible]="false">
+                This is a secondary alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="success" [dismissible]="false">
+                This is a success alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="danger" [dismissible]="false">
+                This is a danger alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="warning" [dismissible]="false">
+                This is a warning alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="info" [dismissible]="false">
+                This is a info alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="light" [dismissible]="false">
+                This is a light alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+              <ngb-alert type="dark" [dismissible]="false">
+                This is a dark alert with
+                <a href="javascript:;" class="alert-link">an example link</a>.
+                Give it a click if you like.
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav4="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav4" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card custom-card" id="additional-alerts">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Additional Content Alert</h6>
+            <p class="text-muted card-sub-title">
+              Alerts can also contain additional HTML elements like headings,
+              paragraphs and dividers.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed5"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert type="success" [dismissible]="false">
+                <h4 class="alert-heading">Well done!</h4>
+                <p>
+                  Aww yeah, you successfully read this important alert message.
+                  This example text is going to run a bit longer so that you can
+                  see how spacing within an alert works with this kind of content.
+                </p>
+                <hr />
+                <p class="mb-0">
+                  Whenever you need to, be sure to use margin utilities to keep
+                  things nice and tidy.
+                </p>
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed5">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav5="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav5" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card custom-card" id="dismiss-alerts">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Dismissing Alerts</h6>
+            <p class="text-muted card-sub-title">
+              Using the alert JavaScript plugin, it’s possible to dismiss any
+              alert inline.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse6.toggle()" [attr.aria-expanded]="!isCollapsed6"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert type="warning">
+                <span class="alert-inner--text"><strong>Holy guacamole!</strong> You should check in on some of
+                  those fields below.</span>
+              </ngb-alert>
+              <ngb-alert type="success">
+                <span class="alert-inner--text"><strong>Holy guacamole!</strong> You should check in on some of
+                  those fields below.</span>
+              </ngb-alert>
+              <ngb-alert type="danger">
+                <span class="alert-inner--text"><strong>Holy guacamole!</strong> You should check in on some of
+                  those fields below.</span>
+              </ngb-alert>
+              <ngb-alert type="info">
+                <span class="alert-inner--text"><strong>Holy guacamole!</strong> You should check in on some of
+                  those fields below.</span>
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse6="ngbCollapse" [(ngbCollapse)]="isCollapsed6">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav6="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html6}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts6}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav6" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card custom-card" id="icon-alerts">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Alert With Icon</h6>
+            <p class="text-muted card-sub-title">
+              Alerts can also contain additional HTML elements like headings,
+              paragraphs and dividers.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse7.toggle()" [attr.aria-expanded]="!isCollapsed7"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert type="default" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-download me-2"></i></span>
+                <span class="alert-inner--text"><strong>Default!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="primary" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-check-square me-2"></i></span>
+                <span class="alert-inner--text"><strong>Primary!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="success" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-thumbs-up me-2"></i></span>
+                <span class="alert-inner--text"><strong>Success!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="info" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-bell me-2"></i></span>
+                <span class="alert-inner--text"><strong>Info!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="warning" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-info me-2"></i></span>
+                <span class="alert-inner--text"><strong>Warning!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="danger" [dismissible]="false">
+                <span class="alert-inner--icon"><i class="fe fe-slash me-2"></i></span>
+                <span class="alert-inner--text"><strong>Danger!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed7">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav7="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav7" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card custom-card" id="icon-dismissalerts">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="card-title mb-1">Alert With Icon Dismissing</h6>
+            <p class="text-muted card-sub-title">
+              Alerts can also contain additional HTML elements like headings,
+              paragraphs and dividers.
+            </p>
+          </div>
+          <label class="form-switch float-end mb-0">
+            <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+            <span class="form-switch-indicator custom-radius"  (click)="collapse8.toggle()" [attr.aria-expanded]="!isCollapsed8"></span>
+        </label>
+        </div>
+        <div class="card-body">
+          <div class="text-wrap ">
+            <div class="example">
+              <ngb-alert type="default">
+                <span class="alert-inner--icon"><i class="fe fe-download me-2"></i></span>
+                <span class="alert-inner--text"><strong>Default!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="primary">
+                <span class="alert-inner--icon"><i class="fe fe-check-square me-2"></i></span>
+                <span class="alert-inner--text"><strong>Primary!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="success">
+                <span class="alert-inner--icon"><i class="fe fe-thumbs-up me-2"></i></span>
+                <span class="alert-inner--text"><strong>Success!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="info">
+                <span class="alert-inner--icon"><i class="fe fe-bell me-2"></i></span>
+                <span class="alert-inner--text"><strong>Info!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="warning">
+                <span class="alert-inner--icon"><i class="fe fe-info me-2"></i></span>
+                <span class="alert-inner--text"><strong>Warning!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+              <ngb-alert type="danger">
+                <span class="alert-inner--icon"><i class="fe fe-slash me-2"></i></span>
+                <span class="alert-inner--text"><strong>Danger!</strong> This is a warning alert—check it out
+                  that has an icon too!</span>
+              </ngb-alert>
+            </div>
+          </div>
+          <div #collapse8="ngbCollapse" [(ngbCollapse)]="isCollapsed8">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav8="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html8}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts8}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav8" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /row -->

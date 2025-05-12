@@ -1,0 +1,268 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep {
+    .latest-design-modal{
+        .modal-dialog{
+            max-width: 600px;
+            .modal-content{
+                border-radius: 20px;
+                background-color: #eaf1ff;
+                .modal-header {
+                    padding: 20px;
+                    padding-bottom: 15px;
+                    align-items: center;
+                    border: none;
+                    .modal-title{
+                        font-size: 20px;
+                        line-height: 26px;
+                        color: #031b4e;
+                    }
+                    .close{
+                        width: 30px;
+                        height: 30px;
+                        margin: 0;
+                        border: 1.5px solid #000;
+                        padding: 5px;
+                        font-size: 18px;
+                        border-radius: 50%;
+                        opacity: 1;
+                        transition: all 0.3s ease-in-out;
+                        color: #000;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        // .fa-times{
+                        //     font-weight: 600;
+                        //     color: #000;
+                        // }
+
+                        &:hover{
+                            background-color: #000;
+                            color: #fff;
+                        }
+                    }
+                }
+                .modal-body{
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    padding: 0 20px;
+                    .form_group{
+
+                        &.event_title{
+                            margin-bottom: 20px;
+                            .form-control{
+                                font-size: 20px;
+                                color: #000;
+                                ::placeholder{
+                                    color: #4d5875;
+                                }
+                            }
+                        }
+
+                        .form_label{
+                            font-size: 14px;
+                            margin-bottom: 4px;
+                        }
+
+                        .form-control{
+                            background: transparent;
+                            border-bottom: 1px solid #000 !important;
+                            border: none;
+                            padding: 0.375rem 0px !important;
+                            border-radius: 0;
+                            color: #000;
+
+                            ::placeholder{
+                                color: #4d5875;
+                            }
+
+                            &:focus{
+                                border-color: $primary !important;
+                            }
+                            &::file-selector-button {
+                                font-weight: 500;
+                                background-color: #bbd2ff;
+                                color: $primary;
+                                padding: 6px 8px;
+                                margin-left: 0;
+                                border: none;
+                            }
+                        }
+
+                        // custom radio
+                        .member_type{
+                            .radio{
+                                &:last-child{
+                                    padding-right: 0;
+                                }
+                                input[type="radio"] {
+                                    display: none;
+                                    height: 0;
+                                    width: 0;
+
+                                    &:checked + label{
+                                        background-color: #bbd2ff;
+                                        color: #000;
+                                    }
+                                }
+                                label{
+                                    padding: 8px 15px;
+                                    background: none;
+                                    cursor: pointer;
+                                    color: $primary;
+                                    margin: 0;
+                                    font-weight: 600;
+                                    border-radius: 5px;
+                                    transition: all 0.5s ease-in-out;
+
+                                    &:hover{
+                                        background-color: #bbd2ff;
+                                    }
+                                }
+                            }
+                        }
+
+                        .calendar_type_radio{
+                            .radio{
+                                padding-right: 0;
+                                // &:last-child{
+                                // }
+                                input[type="radio"] {
+                                    display: none;
+                                    height: 0;
+                                    width: 0;
+
+                                    &:checked + label{
+                                        background-color: #41cbef;
+                                        color: #fff;
+                                    }
+                                }
+                                label{
+                                    padding: 8px 20px;
+                                    background: none;
+                                    cursor: pointer;
+                                    color: #727277;
+                                    margin: 0;
+                                    font-weight: 700;
+                                    border-radius: 0;
+                                    transition: all 0.5s ease-in-out;
+                                    background-color: #fff;
+                                    letter-spacing: 2px;
+
+                                    &:hover{
+                                        background-color: #41cbef;
+                                        color: #fff;
+                                    }
+                                }
+                            }
+                        }
+
+                        app-multi-select{
+                            ng-multiselect-dropdown{
+                                .multiselect-dropdown{
+                                    .dropdown-btn{
+                                        border: none !important ;
+                                        border-bottom: 1px solid #000 !important;
+                                        padding: 0 !important;
+                                        background-position: right 0 center !important;
+                                        border-radius: 0 !important;
+
+                                        .dropdown-multiselect__caret{
+                                            padding: 0 !important;
+                                        }
+
+                                        &:focus{
+                                            border-color: $primary !important;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        .ng-select-container{
+                            border: none !important;
+                            background: transparent;
+                            border-bottom: 1px solid #000 !important;
+                            border-radius: 0;
+                            color: #000;
+
+                            .ng-value-container{
+                                padding: 0;
+                            }
+
+                            .ng-arrow-wrapper{
+                                padding: 0;
+                                text-align: right;
+                            }
+
+                            &:focus{
+                                border-color: $primary !important;
+                            }
+                        }
+
+                        app-input{
+                            input[type="color"]{
+                                height: 37px;
+                                border: none !important;
+                                padding: 0 !important;
+                                width: 120px;
+                            }
+                        }
+
+                        .mat-form-field-wrapper{
+                            .mat-form-field-outline{
+                                .mat-form-field-outline-start{
+                                    border: none;
+                                }
+                                .mat-form-field-outline-end{
+                                    border-bottom: 1px solid #000 !important;
+                                    border: none;
+                                    border-radius: 0;
+
+                                    &:focus{
+                                        border-color: $primary !important;
+                                    }
+                                }
+                            }
+                        }
+
+                        p{
+                            margin: 0;
+                            padding-bottom: 5px;
+                            border-bottom: 1px solid #000;
+                            color: #000;
+                            min-height: 35px;
+                        }
+                        .img-error {
+                            i {
+                                font-size: 9px;
+                                border: 1px solid red;
+                                border-radius: 50%;
+                                height: 18px;
+                                width: 18px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin: 0 10px;
+                            }
+                        }
+                    }
+                }
+
+                .modal-footer{
+                    border: none;
+                    justify-content: end;
+                    padding: 20px !important;
+                }
+            }
+        }
+    }
+
+    .duplicate-modal-section {
+        z-index: 10 !important;
+    }
+
+    .duplicate-modal-backdrop {
+        z-index: 10 !important;
+    }
+    
+}

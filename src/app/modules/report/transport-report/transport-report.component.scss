@@ -1,0 +1,88 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body {
+    app-transport-report{
+        .page_inner {
+            .card {
+                .table-responsive {
+                    position: relative;
+                    .table-btn-right{
+                        position: absolute;
+                        right: 0;
+                        z-index: 1;
+                    }
+                    .dataTables_filter{
+                        padding-right: 80px;
+                    }
+                }
+                .card_body {
+                    .table-responsive {
+                        .table{
+                            thead {
+                                tr{
+                                    th{
+                                        padding: 10px 24px 10px 15px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .datatable_cls{
+                        .table-responsive{
+                            table{
+                                &.dataTable {
+                                    thead{
+                                        >tr{
+                                            >th{
+                                                &.sorting, &.sorting_asc{
+                                                    &::before, &::after{
+                                                        top: 26%;
+                                                    }
+                                                }
+                                            }
+                                            &:first-child{
+                                                th{
+                                                    &:first-child{
+                                                        &::before, &::after{
+                                                            display: none;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    tbody{
+                                        tr{
+                                            td{
+                                                &:first-child{
+                                                    position: relative;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    tr{
+                                        td,th{
+                                            &:last-child{
+                                                text-align: left;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .trans-blue-btn{
+                        a{
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+                   
+            .btn_right{
+                a{
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,90 @@
+<section>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h3 class="sub_title mb-0">{{subjectId ? 'Edit' : 'Add'}} Subject</h3>
+    </div>
+    <div class="card">
+        <form [formGroup]="addSubjectForm" (ngSubmit)="onSave()">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label for="name" class="form_label">{{addSubjectForm?.value?.is_child_subject ? 'Subject Group Name' : 'Subject Name'}}<span class="text-danger">*</span></label>
+                        <app-input  placeholder="Enter Subject Name" controlName="name"></app-input>
+                    </div>
+                </div>
+                <!-- *ngIf="subjectId && addSubjectForm?.value?.is_child_subject" -->
+                <div class="col-lg-2">
+                    <div class="form-group">
+                        <label for="" class="form_label"></label>
+                        <div class="form-check" style="top:12px">
+                            <input type="checkbox" formControlName="is_child_subject" class="form-check-input" 
+                            id="child_subject_check" (change)="subSubjectSelect($event)"
+                            [attr.disabled]="(subjectId && !isDisable) ? true : null">
+                            <label class="form-check-label form_label" for="child_subject_check"> 
+                                Sub Subject
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="addSubjectForm?.value?.is_child_subject">
+                    <ng-container  *ngFor="let control of childSubjectFormArry.controls; let i = index">
+                        <div class="col-md-6 mb-3">
+                            <div class="row align-items-end">
+                                <div class="col-md-6">
+                                    <label class="form_label">Sub Subject<span class="text-danger">*</span></label>
+                                    <app-input style="width:60%" formArrayName="child_subject" [GroupName]="i" controlName="name" placeholder="Enter your sub subject"></app-input>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="mx-2 d-flex align-items-end" *ngIf="i === 1">
+                                        <button (click)="addChildSubject()" type="button" class="btn d-flex align-items-center justify-content-center">
+                                            +
+                                        </button>
+                                    </div>
+                                    <div class="mx-2 d-flex align-items-end" *ngIf="i !== 0 && i !== 1">
+                                        <button (click)="removeChildSubject(i,control?.value?.id)" type="button" class="btn d-flex align-items-center justify-content-center">
+                                            -
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <ng-container formArrayName="child_subject">
+                                        <div class="" [formGroupName]="i">
+                                            <label class="form_label" for="color">Color</label>
+                                            <input type="color" class="color" id="color" formControlName="color">
+                                        </div>
+                                    </ng-container>
+                                </div>
+                                <div class="col-md-3">
+                                    <ng-container formArrayName="child_subject">
+                                        <div class="">
+                                            <a class="btn cancel-btn" (click)="resetColor(i)">Reset Color</a>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <div class="col-lg-4">
+                    <div class="d-flex align-items-end">
+                        <div *ngIf="!addSubjectForm?.value?.is_child_subject">
+                            <label for="color">Color</label>
+                            <input type="color" class="color" id="color" formControlName="color">
+                        </div>
+                        <div class="ms-2 add_doc" *ngIf="!addSubjectForm?.value?.is_child_subject">
+                            <label for="form_label">Btn</label>
+                            <a class="btn cancel-btn" (click)="resetColor(null)">Reset
+                                Color</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn save-btn m-1" [disabled]="is_loading" >{{subjectId ? 'Update' : 'Save'}}
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                        <span class="visually-hidden">Loading..."</span>
+                    </div>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

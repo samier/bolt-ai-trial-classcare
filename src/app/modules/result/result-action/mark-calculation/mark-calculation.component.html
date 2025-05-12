@@ -1,0 +1,192 @@
+<div class="subject-setup exam-action-setup">
+    <mat-accordion [multi]="true" *ngIf="!isMarkCalculation">
+      <mat-expansion-panel *ngFor="let section of data?.section_details; let i = index" [expanded]="true">
+        <mat-expansion-panel-header >
+          {{section.section_name}}
+        </mat-expansion-panel-header>
+        <div class="exam-action-body subject-action-body">
+          <div class="d-flex mb-2 align-items-center">
+            <label class="mb-0">Select Additional Mark Subject</label> &nbsp;&nbsp;
+            <ng-multiselect-dropdown placeholder="Select subject" [settings]="multiSelectDropdownSettings" [data]="section?.addational_subjects"
+              [(ngModel)]="selectedSubjects[i]" (ngModelChange)="onSubjectSelect($event, section)">
+            </ng-multiselect-dropdown>
+          </div>
+
+          <ng-container *ngIf="section?.subjects?.length > 0 else noDataFound">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Subject</th>
+                    <th colspan="3">Marks</th>
+                    <ng-container *ngFor="let exam of section?.subjects[0]?.exams; let i = index" >
+                      <th colspan="2">{{exam.name}}</th>
+                    </ng-container>
+                  </tr>
+                  <tr>
+                    <th>Total Marks</th>
+                    <th>Passing Marks</th>
+                    <th>Additional Marks</th>
+                    <ng-container *ngFor="let exam of section?.subjects[0]?.exams">
+                      <th>Converted Marks</th>
+                      <th>Passing Marks</th>
+                    </ng-container>
+                  </tr>
+                </thead> 
+               
+                <tbody>
+                  <tr *ngFor="let subject of section?.subjects">
+                    <td>
+                      <label style="width: 100%;">{{ subject.name }}</label>
+                    </td>
+                    <td>
+                      <input type="number" class="mark-input" [(ngModel)]="subject.totalMarks" placeholder="marks" readonly>
+                    </td>
+                    <td>
+                      <input type="number" class="mark-input" [(ngModel)]="subject.passingMarks" placeholder="marks" readonly>
+                    </td>
+                    <td>
+                      <input type="number" class="mark-input" [(ngModel)]="subject.additional_marks" placeholder="marks" >
+                    </td>
+                    <ng-container *ngFor="let exam of subject.exams">
+                      <td>
+                        <input *ngIf="exam.is_exist" type="number" class="mark-input" [(ngModel)]="exam.converted_marks" placeholder="marks" readonly>
+                      </td>
+                      <td>
+                        <input *ngIf="exam.is_exist" type="number" class="mark-input" [(ngModel)]="exam.converted_passing_marks" placeholder="marks" readonly>
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-container>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true" *ngIf="data?.CoScholastic?.subjects?.length > 0">
+        <mat-expansion-panel-header>
+          Co- scholastic
+        </mat-expansion-panel-header>
+
+        <ng-container *ngIf="data?.CoScholastic?.subjects?.length > 0 else noDataFound">
+          <div class="exam-action-body subject-action-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered grade-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Subject Name</th>
+                    <th *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams; let i = index" colspan="3" class="text-center" >
+                      {{exam.name}}
+                    </th>
+                  </tr>
+                  <tr>
+                    <ng-container *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams">
+                      <th>Marks Type</th>
+                      <th>Total/ Passing Marks</th>
+                      <th>Grade</th>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subject of data?.CoScholastic?.subjects">
+                    <td>
+                      <label>{{subject.name}}</label>
+                    </td>
+                    <ng-container *ngFor="let exam of subject?.exams">
+                      <td>
+                        <input type="text" class="mark-input mark-type-input" value="{{exam?.exam_type_label}}"  readonly />
+                      </td>
+                      <td>
+                        <div  class="d-flex">
+                          <input type="number" class="mark-input" value="{{exam?.converted_marks ?? exam?.total_marks}}" placeholder="marks" readonly /> / <input type="number" class="mark-input" value="{{exam?.converted_passing_marks}}" placeholder="marks" readonly/>
+                        </div>
+                      </td>
+                      <td>
+                        <input *ngIf="exam?.grade_id" type="text" class="mark-input mark-type-input" value="{{exam?.grade_id ? exam?.grade_id?.name : ''}}" readonly />
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="true" *ngIf="data?.skill_subjects?.subjects?.length > 0">
+        <mat-expansion-panel-header>
+          Skill Subjects
+        </mat-expansion-panel-header>
+
+        <ng-container *ngIf="data?.skill_subjects?.subjects?.length > 0 else noDataFound">
+          <div class="exam-action-body subject-action-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered grade-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">Subject Name</th>
+                    <th *ngFor="let exam of data?.skill_subjects?.subjects?.[0]?.exams; let i = index" colspan="3" class="text-center" >
+                      {{exam.name}}
+                    </th>
+                  </tr>
+                  <tr>
+                    <ng-container *ngFor="let exam of data?.skill_subjects?.subjects?.[0]?.exams">
+                      <th>Marks Type</th>
+                      <th>Total/ Passing Marks</th>
+                      <th>Grade</th>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let subject of data?.skill_subjects?.subjects">
+                    <td>
+                      <label>{{subject.name}}</label>
+                    </td>
+                    <ng-container *ngFor="let exam of subject?.exams">
+                      <td>
+                        <input type="text" class="mark-input mark-type-input" value="{{exam?.exam_type_label}}"  readonly />
+                      </td>
+                      <td>
+                        <div  class="d-flex">
+                          <input type="number" class="mark-input" value="{{exam?.converted_marks ?? exam?.total_marks}}" placeholder="marks" readonly /> / <input type="number" class="mark-input" value="{{exam?.converted_passing_marks}}" placeholder="marks" readonly/>
+                        </div>
+                      </td>
+                      <td>
+                        <input *ngIf="exam?.grade_id" type="text" class="mark-input mark-type-input" value="{{exam?.grade_id ? exam?.grade_id?.name : ''}}" readonly />
+                      </td>
+                    </ng-container>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </ng-container>
+
+      </mat-expansion-panel>
+
+      <ng-template #noDataFound>
+        <div class="card p-3">
+          <div class="d-flex justify-content-center">
+              No Data Found.
+          </div>
+      </div>
+      </ng-template>
+  
+    </mat-accordion>
+
+    <ng-container *ngIf="isMarkCalculation">
+      <div class="card p-3">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border spinner-border-sm ms-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="exam-action-footer">
+      <button class="btn btn-primary mx-3" (click)="onSave()">Save & Next</button>
+      <button class="btn btn-primary" (click)="getMarkCalculationList()">Reset</button>
+    </div>
+  </div>

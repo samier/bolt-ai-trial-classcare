@@ -1,0 +1,45 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Import Fees Detail</h3>
+				<div class="btn_right">
+					<a class="global_btn btn" href="#."  [routerLink]="setUrl(URLConstants.FEES_IMPORT_LIST)">Fees List</a>
+				</div>
+			</div>
+            <div class="card">              
+                <div class="card_body">
+                    <!-- <div class="row"> -->
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Raw Number</th>											
+                                            <th>Message</th>
+                                            <th>created_at</th>
+                                            <th>updated_at</th>                                            
+				                        </tr>
+				                    </thead>																	
+				                    <tbody *ngIf="tbody?.length != 0">																							
+				                        <tr *ngFor="let item of tbody ;let i = index;">				
+											<td>{{item?.row_number}}</td>
+											<td>{{item?.message}}</td>
+											<td>{{datePipe.transform(item?.created_at,'dd-MM-yyyy')}}</td>
+											<td>{{datePipe.transform(item?.updated_at,'dd-MM-yyyy')}}</td>
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="4" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>
+				                </table>
+				            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

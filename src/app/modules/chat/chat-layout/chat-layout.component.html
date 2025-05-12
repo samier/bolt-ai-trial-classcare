@@ -1,0 +1,264 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+	<div class="card_title">
+		<h3 class="sub_title">Chats</h3>
+	</div>
+</div>
+<!-- breadcrumb -->
+
+<!-- row -->
+<div class="card" *ngIf="isAdmin?.includes('ROLE_ADMIN')">
+	<div class="card_body">
+		<div class="form_section  global_form table_top">
+			<div class="">
+				<div class="row">
+					<div class="col-md-3 form_group">
+						<label for="" class="form_label">Select Section</label>
+						<ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section"
+							(change)="handleSectionChange()" bindLabel="name" bindValue="id"
+							placeholder="Please select section">
+						</ng-select>
+					</div>
+					<div class="col-md-3 form_group">
+						<label for="" class="form_label">Select Class</label>
+						<ng-select #select [items]="classList" [searchable]="true" [(ngModel)]="params.class"
+							(change)="handleClassChange()" bindLabel="name" bindValue="id"
+							placeholder="Please select class">
+						</ng-select>
+					</div>
+					<div class="col-md-3 form_group">
+						<label for="" class="form_label">Select Batch</label>
+						<ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch"
+							(change)="handleBatchChange()" bindLabel="name" bindValue="id"
+							placeholder="Please select batch">
+						</ng-select>
+					</div>
+					<div class="col-md-3 form_group">
+						<label for="" class="form_label">Select Type</label>
+						<ng-select #select [items]="types" [searchable]="true" [(ngModel)]="params.type"
+							(change)="params.user = null; getFilters()" bindLabel="name" bindValue="id"
+							placeholder="Please select type">
+						</ng-select>
+					</div>
+					<div class="col-md-3 form_group" *ngIf="params.type">
+						<label for="" class="form_label">{{params.type}}</label>
+						<ng-select #select [items]="users" [searchable]="true" [(ngModel)]="params.user"
+							(change)="getChats()" bindLabel="name" bindValue="id"
+							placeholder="Please select user">
+						</ng-select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row row-sm mb-4">
+	<div class="col-xl-12">
+		<div class="row">
+			<div class="col-xl-3 col-lg-12">
+				<div class="card">
+					<div class="main-content-app">
+						<div class="main-content-left main-content-left-chat">
+							<div class="search"  *ngIf="!isAdmin?.includes('ROLE_ADMIN')">
+								<input type="search" [(ngModel)]="search" (keyup)="onSearch()"  placeholder="Search here">
+								<button  class="btn" (click)="cancelSearch()"><i class="fa fa-times d-none d-md-block"></i></button>
+							</div>
+							<div>Chats</div>
+							<div class="main-chat-list chat-body-scroll" id="ChatList">
+								<ng-container *ngFor="let user of userList ;let i = index;">
+									<div class="media" [class]="dynamicClass(user)" [id]="'user-'+user.id"
+										(click)="handleUserClick(user)">
+										<div class="main-img-user online">
+											<img alt="" src="{{user?.profile_image}}"> <span>{{user?.unread}}</span>
+										</div>
+										<div class="media-body">
+											<div class="media-contact-name">
+												<span>{{user?.full_name}} {{user.subject ? '('+user.subject+')' : ''}}</span> <span>	</span>
+											</div>
+											<p class="limit-text">{{user?.last_message ? user?.last_message : ''}}</p>
+										</div>
+									</div>
+								</ng-container>
+							</div><!-- main-chat-list -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-xl-6">
+				<div class="card">
+					<div class="main-content-app">
+						<a class="main-header-arrow" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+						<div class="main-content-body main-content-body-chat" *ngIf="chatLoading; else block1" >
+							<div class="main-chat-header">
+								<div class="main-img-user"><img alt="" src="{{selectedUser?.profile_image}}"></div>
+								<div class="main-chat-msg-name">
+									<h6>{{selectedUser?.full_name}}</h6><small></small>
+								</div>
+								<nav class="nav">
+									<a class="nav-link"><i class="icon ion-md-more"></i></a>
+									<!-- <a class="nav-link"><i class="fe fe-star"></i></a> -->
+									<!-- <a  *ngIf="!isAdmin?.includes('ROLE_ADMIN')" href="javascript:void(0)" (click)="deleteChat()" class="nav-link"><i class="fe fe-trash"></i></a> -->
+									<!-- <a class="nav-link"><i class="fe fe-alert-circle"></i></a> -->
+								</nav>
+							</div><!-- main-chat-header -->
+							<div class="main-chat-body chat-body-scroll" id="ChatBody" #ChatBody>
+								<div class="content-inner">
+									<ng-container *ngFor="let chat of chats ;let i = index;">
+										<label class="main-chat-time"><span>{{chat[0].time}}</span></label>
+										<ng-container *ngFor="let message of chat ;let i = index;">
+											<div class="media"
+												[ngClass]="message.sender_id == SharedUserService.user?.id || message.sender_id == params.user ? 'flex-row-reverse' : ''">
+												<div class="main-img-user online"><img alt=""
+														src="{{message.sender_id == params.user ? SharedUserService.user?.profile : selectedUser.profile_image}}">
+												</div>
+												<div class="media-body">
+													<div class="alert" *ngIf="message.reply_id != null">
+														<label>{{message.reply_to_id == selectedUser.id ? selectedUser.full_name : 'You'}}</label>
+														<p>{{message.reply_message}}</p>
+														<div class="main-msg-wrapper right" >
+															{{message.message}}
+														</div>
+													</div>
+													<div class="main-msg-wrapper right" *ngIf="message.reply_id == null">
+														{{message.message}}
+													</div>
+													<div class="onhover_reply" *ngIf="!isAdmin?.includes('ROLE_ADMIN')">
+														<div class="onhover_reply_inr">
+															<div class="d-flex">
+																<!-- <button class="mx-1"><span class="ti-face-smile"></span></button> -->
+																<!-- <button class="mx-1"><span class="ti-comments"></span></button> -->
+																<button class="mx-1" title="Reply" (click)="reply(message)"><span class="ti-share-alt"></span></button>
+																<!-- <button *ngIf="message.sender_id == SharedUserService.user?.id"  class="mx-1" title="Delete"><span class="ti-trash" (click)="delete(message)"></span></button> -->
+																<!-- <button class="mx-1"><span class="ti-more-alt"></span></button> -->
+															</div>
+														</div>
+													</div>
+													<div>
+														<span>{{message.msg_time}}</span> <a href=""><i
+																class="icon ion-android-more-horizontal"></i></a>
+													</div>
+												</div>
+											</div>
+										</ng-container>
+									</ng-container>
+									<!-- <div class="media">
+										<div class="main-img-user online"><img alt="" src="{{selectedUser?.profile_image}}">
+										</div>
+										<div class="media-body">
+											<div class="main-msg-wrapper left">
+												Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
+												ligula eget dolor.
+											</div>
+											<div>
+												<span>9:32 am</span> <a href=""><i class="icon ion-android-more-horizontal"></i></a>
+											</div>
+										</div>
+									</div> -->
+								</div>
+							</div>
+							<div class="main-chat-footer reply-footer" *ngIf="forwardedMessage.message != ''">
+								<!-- <span class="ti-share-alt"></span> -->
+								<div class="d-block">
+									<label>{{forwardedMessage.reply_to_id == selectedUser.id ? selectedUser.full_name : 'You'}}</label>
+									<p>{{forwardedMessage.message}}</p>
+								</div> 
+								<span class="zmdi zmdi-close" (click)="cancelReply()"></span>
+							</div>
+							<div class="main-chat-footer" *ngIf="!isAdmin?.includes('ROLE_ADMIN')">
+								<nav class="nav">
+								</nav><input class="form-control" placeholder="Type your message here..." type="text"
+									[(ngModel)]="message" (keyup.enter)="sendMessage()">
+								<!-- <a class="nav-link me-2"><i class="fe fe-paperclip" ngbTooltip="Add Emoticons"></i></a> -->
+								<a class="main-msg-send" (click)="sendMessage()"><i class="fe fe-send"></i></a>
+							</div>
+						</div>
+						<ng-template #block1>
+							<div *ngIf="userList.length > 0 && selectedUser != null && search != null; else block2" class="main-content-app justify-content-center">
+								Loading chat...
+							</div>
+						</ng-template>
+						<ng-template #block2>
+							<div  *ngIf="!isAdmin?.includes('ROLE_ADMIN')" class="main-content-app justify-content-center">
+								Search user to start chat
+							</div>
+						</ng-template>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-12 col-xl-3">
+				<div class="card">
+					<div class="main-content-app overflow-hidden">
+						<div class="right-details scroll">
+							<div class="card-body p-0 chat-main">
+								<!-- <div class="float-end m-4">
+									<div class="float-end ms-auto" ngbDropdown>
+                                        <div class="option-dots no-caret" ngbDropdownToggle ><i class="fe fe-more-vertical"></i></div>
+                                        <div ngbDropdownMenu class="dropdown-menu-start">
+                                          <a ngbDropdownItem href="javascript:void(0);"><i class="fe fe-edit me-2"></i> Edit</a>
+                                          <a ngbDropdownItem href="javascript:void(0);"><i class="fe fe-share me-2"></i> Share</a>
+                                          <a ngbDropdownItem href="javascript:void(0);"><i class="fe fe-trash me-2"></i> Delete</a>
+                                        </div>
+                                    </div>
+								</div> -->
+								<div class="text-center border-bottom chat-image p-4 pb-0 mb-4 rounded-5 mt-3">
+									<div class="main-img-user avatar-xl main-avatar online mb-3 mx-auto">
+										<a class="" href="javascript:voide(0)"><img alt="" class="rounded-circle"
+												src="{{SharedUserService.user?.profile}}"></a>
+									</div>
+									<a href="profile.html">
+										<h5 class="mb-1 text-dark">{{SharedUserService.user?.full_name}}</h5>
+									</a>
+									<p class="text-muted mt-0 mb-1 pt-0 tx-13">{{SharedUserService.user?.designation}}
+									</p>
+									<p class="text-muted mt-0 pt-0 tx-13 mb-0">{{SharedUserService.user?.phone_number}}
+									</p>
+								</div>
+								<div class="">
+									<div class="px-4">
+										<h6 class="mb-3">Contact Details :</h6>
+										<div class="d-flex">
+											<div>
+												<a class="nav-link border rounded-pill chat-profile me-2" href=""><i
+														class="fe fe-shield"></i></a>
+											</div>
+											<div class="ms-2">
+												<p class="tx-13 font-weight-semibold mb-0">Id</p>
+												<p class="tx-12 text-muted">{{SharedUserService.user?.employee_number ?
+													SharedUserService.user?.employee_number :
+													SharedUserService.user?.student_id}}
+												</p>
+											</div>
+										</div>
+										<div class="d-flex">
+											<div>
+												<a class="nav-link border rounded-pill chat-profile me-2" href=""><i
+														class="fe fe-mail"></i></a>
+											</div>
+											<div class="ms-2">
+												<p class="tx-13 font-weight-semibold mb-0">Email</p>
+												<p class="tx-12 text-muted text-break">{{SharedUserService.user?.email}}
+												</p>
+											</div>
+										</div>
+										<div class="d-flex mt-2">
+											<div>
+												<a class="nav-link border rounded-pill chat-profile me-2" href=""><i
+														class="fe fe-map-pin"></i></a>
+											</div>
+											<div class="ms-2">
+												<p class="tx-13 font-weight-semibold mb-0">Address</p>
+												<p class="tx-12 text-muted">{{SharedUserService.user?.current_address}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row -->

@@ -1,0 +1,30 @@
+::ng-deep{
+    app-lectures-list{
+        app-date-range-picker{
+            .show-ranges{
+                top: auto !important;
+                left: auto !important;
+                right: 12px !important;
+            }
+        }
+    }
+    .lectures-list{
+        .table{
+            th.sorting_desc::before{
+                opacity: 0 !important;
+            }
+            th.sorting_desc::after{
+                opacity: 0 !important;
+            }
+            tbody{
+                tr{
+                    td {
+                        .text-danger {
+                            font-size: 14px !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

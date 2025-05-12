@@ -1,0 +1,54 @@
+<section class="bank-detail-tab">
+    <div class="page_inner students-datail-tabs-view card">
+        <div class="m-container">
+            <h3>Bank Details</h3>
+            <form [formGroup]="bankDetailForm">    
+                <div class="row">
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Bank Name</label>
+                        <div>
+                            <app-input controlName="bank_name" placeholder="Enter Bank name"></app-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Account Number</label>
+                        <div>
+                            <app-input controlName="account_number" placeholder="Enter account number"></app-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">IFSC Code</label>
+                        <div>
+                            <app-input controlName="ifsc_code" placeholder="Enter ifsc code"></app-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Branch IFSC Number</label>
+                        <div>
+                            <app-input controlName="branch_ifsc_code" placeholder="Enter bank ifsc number"></app-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Adharcard Number</label>
+                        <div>
+                            <app-input controlName="adhar_number" placeholder="Enter adharcard number"></app-input>
+                        </div>
+                    </div>
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Other Number</label>
+                        <div>
+                            <app-input controlName="other_number" placeholder="Enter other number"></app-input>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn save-btn" (click)="handleSaveBtn()" [disabled]="is_loading">Save
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                            <span class="visually-hidden">Loading..."</span>
+                        </div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

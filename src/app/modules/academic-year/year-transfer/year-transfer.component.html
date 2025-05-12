@@ -1,0 +1,229 @@
+<section class="batch-transfer">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Year Transfer</h3>
+          <button class="button" [routerLink]="academicYearService.setUrl(URLConstants.YEAR_LIST)" type="button" class="btn list-btn d-flex align-items-center">
+            Transfer List
+          </button>
+        </div>
+        <div class="">
+          <div class="form_section  global_form table_top">
+            <form action="" [formGroup]="yearTransferForm">
+              <div class="card p-0">
+                <div class="row">
+                  <div class="col-md-6 from_card mb-0 d-flex pe-0">
+                    <div class="d-flex flex-column w-100">
+                      <div class="card-label">
+                        <h3 class="text-center mb-0">From</h3>
+                      </div>
+                      <div class="p-3 mb-0 d-flex flex-column w-100">
+                        <div class="row">
+                          <div class="col-md-6 form_group">
+                              <label class="form_label">Select Section</label>
+                              <app-single-select controlName="from_section_id" [dropDownArray]="sectionList" (change)="getFromClasses()" placeholder="Select Section"></app-single-select>
+                          </div>
+                          <div class="col-md-6 form_group">
+                            <label class="form_label">Select Class <span class="text-danger">*</span></label>
+                            <app-single-select controlName="from_class_id" [dropDownArray]="fromClassList" (change)="getBatches('from')" placeholder="Select Class"></app-single-select>
+                          </div>
+                          <div class="col-md-6 form_group">
+                            <label class="form_label">Select Batch<span class="text-danger">*</span></label>
+                            <app-single-select controlName="from_batch_id" [dropDownArray]="fromBatchList" placeholder="Select Batch"></app-single-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 to_card mb-0 d-flex ps-0">
+                    <div class="d-flex flex-column w-100">
+                      <div class="card-label">
+                        <h3 class="text-center mb-0">To</h3>
+                      </div>
+                      <div class="p-3 flex-column w-100 mb-0">
+                        <div class="row">
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">Select Year <span class="text-danger">*</span></label>
+                                <app-single-select controlName="to_year_id" [dropDownArray]="yearList" (change)="getToClassList()" placeholder="Select Year"></app-single-select>
+                            </div>
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">Select Section</label>
+                                <app-single-select controlName="to_section_id" [dropDownArray]="sectionList" (change)="getToClassList()" placeholder="Select Section"></app-single-select>
+                            </div>
+                            <div class="col-md-6 form_group">
+                              <label class="form_label">Select Class <span class="text-danger">*</span></label>
+                              <app-single-select controlName="to_class_id" [dropDownArray]="toClassList" (change)="getBatches('to')" placeholder="Select Class"></app-single-select>
+                            </div>
+                            <div class="col-md-6 form_group">
+                              <label class="form_label">Select Batch<span class="text-danger">*</span></label>
+                              <app-single-select controlName="to_batch_id" [dropDownArray]="toBatchList" placeholder="Select Batch"></app-single-select>
+                            </div>
+                            <div class="col-md-3">
+                              <label class="form_label"> Student Type <span class="text-danger"> * </span></label>
+                              <div class="d-flex">                                  
+                                  <label for="old"><input type="radio" id="old" formControlName="to_old_new" [value]="0"> Old</label>
+                                  <label for="new"><input type="radio" id="new" formControlName="to_old_new" [value]="1"> New</label>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-3 show_clear_btn">
+                  <div class="btn_right d-flex justify-content-center gap-3">
+                    <button class="button" type="button" class="btn show-btn" [disabled]="isStudentReportGet || yearTransferForm.invalid" (click)="showStudentRecord()">
+                      SHOW
+                      <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isStudentReportGet">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                    <button class="button" (click)="clearForm()" type="button" class="btn cancel-btn">
+                      CLEAR
+                    </button>
+                  </div>
+                </div>
+              </div>  
+            </form>
+          </div>
+  
+          <div class="">
+            <div class="card_body">
+              <div class="row">
+                <div class="col-md-6 d-flex form_group">
+                  <div class="card student-card p-0 d-flex flex-column w-100">
+                    <div class="form_section  global_form table_top">
+                      <div class="">
+                        <h5 class="sub_title mb-0">SELECT STUDENTS TO TRANSFER FROM <span>{{getBatchFromId(yearTransferForm.value.from_batch_id,'from')}}</span></h5>
+                      </div>
+                      <div class="p-4">
+                        <div class="d-flex justify-content-between">
+                          <div class="col-md-8 p-0 search_box">
+                            <input type="text" placeholder="Search Student" class="form-control" [(ngModel)]="searchTextStudent"><i class="fas fa-search"></i>
+                          </div>
+                          <div class="p-0">
+                            <button class="button" type="button" class="btn transfer-btn" *ngIf="CommonService.hasPermission('settings_academic_year_transfer','has_create')" [disabled]="transfering" (click)="transferStudent()">
+                              Transfer
+                              <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="transfering">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+                          </div>
+                        </div>  
+                        <ng-container>
+                          <div class="m-checkbox-list d-flex mt-3 mb-2">
+                              <div class="d-flex align-content-center ps-2" *ngIf="studentList?.from_student_list.length > 0 && searchTextStudent == ''">
+                                <!-- <label class="m-checkbox mb-0">
+                                  <input type="checkbox" id="checkbox" [(ngModel)]="selectAllStudent" (ngModelChange)="selectAll()"><span></span>
+                                </label> -->
+                                <label for="checkbox" class="mb-0">
+                                  <b class="ps-2">Selected <span class="text-primary">( {{selectedStudentCount}} )</span></b>
+                                </label>
+                              </div>
+                              <div class="ms-auto"><Span>Total Student : <b>{{studentList?.from_student_list.length ?? 0}}</b></Span></div>
+                          </div>
+                        </ng-container>
+                        <div class="student-list curent_student_list">
+                          <div class="basic_table">
+                            <div class="table-responsive overflow-unset">
+                                <table class="table table-hover table-bordered table-nowrap table datatable w-100 d-table student-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">
+                                              <label class="m-checkbox mb-0">
+                                                <input type="checkbox" id="checkbox" [(ngModel)]="selectAllStudent" (ngModelChange)="selectAll()"><span></span>
+                                              </label>
+                                            </th>
+                                            <th>Roll No.</th>
+                                            <th>Student Name</th>
+                                            <th>Current GR No.</th>
+                                            <th>New GR No.</th>
+                                            <th>Admission Form Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of studentList?.from_student_list | batchStudent:searchTextStudent">
+                                            <td class="text-center"><label class="m-checkbox mb-0">
+                                              <input type="checkbox" id="checkbox{{item.id}}" [(ngModel)]="item.isSelect" [disabled]="item.to_year_transfer_batch_id" (ngModelChange)="singleSelect()"><span></span>
+                                            </label>
+                                            </td>
+                                            <td>{{item?.student_roll_number?.rollno}}</td>
+                                            <td>
+                                              {{item?.full_name}}<br>
+                                              <span class="text-success tx-12" *ngIf="item.to_year_transfer_batch_id">{{item.to_year_transfer_batch?.name}} ( {{item.to_year_transfer_batch?.academic_year?.year}} )</span>
+                                            </td>
+                                            <td>{{ item?.full_name_gr_number?.split('|')[1]?.trim() || '-' }}</td>
+                                            <td><input type="text" class="form-control new_gr" [(ngModel)]="item.studentId" *ngIf="item.isSelect" [disabled]="item.to_year_transfer_batch != null"></td>
+                                            <td><input type="text" class="form-control new_gr" [(ngModel)]="item.admission_form_number" [disabled]="item.isAdmissionFormYear" ></td>
+                                            </tr>
+                                    </tbody>
+                                    <tbody>
+                                      <tr *ngIf="studentList?.from_student_list.length == 0">
+                                        <td colspan="5" class="text-center">No Record Found</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>   
+                        </div>
+                      </div>
+  
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 d-flex form_group">
+                  <div class="card d-flex flex-column w-100 student-card p-0">
+                    <div class="form_section  global_form table_top">
+                      <div class="">
+                        <h5 class="sub_title mb-0">CURRENT STUDENT IN <span>{{getBatchFromId(yearTransferForm.value.to_batch_id,'to')}}</span></h5>
+                      </div>
+                      <div class="p-4">
+                        <div class="col-md-8 p-0 search_box">
+                          <input type="text" placeholder="Search Student" class="form-control" [(ngModel)]="searchTextStudentTo"><i class="fas fa-search"></i>
+                        </div>
+                        <div class="m-checkbox-list d-flex justify-content-end mt-3">
+                          <p class="mb-2">Total Students : <b>{{studentList?.to_student_list.length ?? 0}}</b> </p>
+                        </div>
+                        <div class="student-list">
+                          <div class="basic_table">
+                            <div class="table-responsive overflow-unset">
+                                <table class="table table-hover table-bordered table-nowrap table datatable w-100 d-table student-table">
+                                    <thead>
+                                        <tr>
+                                          <th>Roll No.</th>
+                                          <th>Student Name</th>
+                                          <th>GR No.</th>
+                                          <th>admission Form Number</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of studentList?.to_student_list | batchStudent:searchTextStudentTo">
+                                            <td><span class="student_roll_no">{{item?.student_roll_number?.rollno}}</span></td>
+                                            <td>{{item?.full_name}}</td>
+                                            <td>{{item?.studentId || '-'}}</td>
+                                            <td>{{item?.admission_form_number || '-'}}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                      <tr *ngIf="studentList?.to_student_list.length == 0">
+                                        <td colspan="3" class="text-center">No Record Found</td>
+                                      </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>   
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+  

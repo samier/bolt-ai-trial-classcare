@@ -1,0 +1,268 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0"> {{edit_view ? 'Edit' : 'Add'}} Item Issue</h3>
+                <div class="btn_right">
+                    <a class="btn add-btn me-2" href="#." [routerLink]="CommonService.setUrl(URLConstants.KIT_FORM)">Add Kit</a>
+                    <a class="btn list-btn " href="#." [routerLink]="CommonService.setUrl(URLConstants.INTERNAL_ISSUE_LIST)">Item Issue List</a>
+                </div>
+            </div>
+            <form [formGroup]="itemIssueForm" class="form_section global_form">
+                <div class="card">
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-3 form_section">
+                                        <div class="form_group">
+                                            <label class="form_label">Item Issue For ?</label>
+                                            <div>
+                                                <div id="student_rightEducation" class="d-flex">
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="type_student" aria-required="true">
+                                                            <input type="radio" id="type_student" name="item_issue_for" formControlName="item_issue_for" (change)="issueForChange($event)" value="1"> Student <span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="type_faculty" aria-required="true">
+                                                            <input type="radio" id="type_faculty" name="item_issue_for" formControlName="item_issue_for" (change)="issueForChange($event)" value="2">Employee<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="itemIssueForm.value.item_issue_for == 1">
+                                        <label class="form_label">Select Student<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select placeholder="Please Select Student" controlName="issue_for" [dropDownArray]="studentList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="itemIssueForm.value.item_issue_for == 2">
+                                        <label class="form_label">Select Employee<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select placeholder="Please Select Employee" controlName="issue_for" [dropDownArray]="issuedByUserList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Issue No<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-input placeholder="Enter Issue No" controlName="issue_no" name="issue_no"></app-input>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_section">
+                                        <div class="form_group">
+                                            <label class="form_label">Choose</label>
+                                            <div>
+                                                <div id="student_rightEducation" class="d-flex">
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="type_item" aria-required="true">
+                                                            <input type="radio" id="type_item" name="issue_type" formControlName="issue_type" (change)="issueTypeChange($event)" value="1"> Issue Item <span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="type_kit" aria-required="true">
+                                                            <input type="radio" id="type_kit" name="issue_type" formControlName="issue_type" (change)="issueTypeChange($event)" value="2">Issue Kit<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="itemIssueForm.value.issue_type == 2">
+                                        <label class="form_label">Select Kit<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select placeholder="Please Select Kit" controlName="kit_id" [dropDownArray]="kitList" (change)="handleKitChange()"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Item Issue Date<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-mat-date-picker placeholder="Enter Issue Date" controlName="item_issue_date" name="item_issue_date"></app-mat-date-picker>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_section">
+                                        <div class="form_group">
+                                            <label class="form_label">Payment Required</label>
+                                            <div>
+                                                <div id="student_rightEducation" class="d-flex">
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="payment_yes" aria-required="true">
+                                                            <input type="radio" id="payment_yes" name="payment_required" formControlName="payment_required" (change)="handlePaymentRequired($event)" value="1"> Yes<span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="payment_no" aria-required="true">
+                                                            <input type="radio" id="payment_no" name="payment_required" formControlName="payment_required"  (change)="handlePaymentRequired($event)" value="0">No<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-nowrap table datatable w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Item Type</th>
+                                            <th>Item name</th>
+                                            <th>Unit Sale Price</th>
+                                            <th>Available Quantity</th>
+                                            <th>Quantity</th>
+                                            <th>Amount</th>
+                                            <th>Discount</th>
+                                            <th>Remark</th>
+                                            <th colspan="2">Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let quantity of quantities.controls; let i=index">
+                                        <tr>
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <div>
+                                                    <app-single-select [GroupName]="i" formArrayName="quantities" [readonly]="item_disabled[i]" placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList" (change)="itemTypeChange($event,i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-single-select [GroupName]="i" formArrayName="quantities" [readonly]="item_disabled[i]" placeholder="Please Select Item Name" controlName="inventory_item_id" [dropDownArray]="itemList[i]" (change)="itemChange($event,i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="0" type="number"  [GroupName]="i" formArrayName="quantities" controlName="unit_sale_price" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="0" type="number" [readonly]="true"  [GroupName]="i" formArrayName="quantities" controlName="available_quantity" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="1" type="number" max="{{max_availability[i]}}" min="0" [GroupName]="i" formArrayName="quantities" controlName="quantity" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <!-- <app-input [readonly]="true" type="number" [GroupName]="i"  formArrayName="quantities" controlName="grand_total" ></app-input> -->
+                                                    {{getAmount(i).value | number:'1.2-2'}}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <app-input type="number" min="0" [GroupName]="i" formArrayName="quantities" controlName="discount" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                    <app-single-select [GroupName]="i" formArrayName="quantities" controlName="discount_type" [dropDownArray]="discount_type" (change)="updateAmount(i)"></app-single-select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [GroupName]="i" formArrayName="quantities" controlName="remark"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <!-- <app-input [readonly]="true" type="number" [GroupName]="i"  formArrayName="quantities" controlName="grand_total" ></app-input> -->
+                                                    {{getGrandTotal(i).value | number:'1.2-2'}}
+                                                </div>
+                                            </td>
+                                            <td class="col-md-1 form_group">
+                                                <div  *ngIf="itemIssueForm.value.issue_type == 1">
+                                                    <button *ngIf="i != quantities.length - 1" (click)="removeQuantity(i)" class="btn"><i class="fa fa-minus"></i></button>
+                                                    <button *ngIf="i == quantities.length - 1" (click)="addQuantity()" class="btn"><i class="fa fa-plus"></i></button>
+                                                </div>
+                                            </td>    
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-end" *ngIf="quantities.controls.length > 0">
+                                    <div class="col-3">
+                                        <table class="table table-bordered table-nowrap table datatable w-100">
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>Sub Total</div>
+                                                        <div>{{itemIssueForm.value.sub_total | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div>Discount</div>
+                                                        <div>{{itemIssueForm.value.discount_amount | number:'1.2-2'}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div><strong>Total Amount</strong></div>
+                                                        <div><strong>{{itemIssueForm.value.total | number:'1.2-2'}}</strong></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form_section" *ngIf="itemIssueForm.value.payment_required == 1">
+                                        <div class="form_group">
+                                            <label class="form_label">Payment Status</label>
+                                            <div>
+                                                <div id="student_rightEducation" class="d-flex">
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="pending" aria-required="true">
+                                                            <input type="radio" id="pending" name="payment_status" formControlName="payment_status" value="1"> Pending <span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="collected" aria-required="true">
+                                                            <input type="radio" id="collected" name="payment_status" formControlName="payment_status" value="2">Collected<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="itemIssueForm.value.payment_required == 1">
+                                        <label class="form_label">Payment Mode<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select placeholder="Please Select Payment Mode" controlName="payment_mode_id" [dropDownArray]="paymentTypeList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Issued By<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select placeholder="Please Select User" controlName="issued_by" [dropDownArray]="issuedByUserList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 form_group">
+                                        <label class="form_label">Attachment</label>
+                                        <div>
+                                            <app-input type="file" accept="image/*,application/pdf" name="attachment" controlName="attachment" placeholder="Attachment" (change)="onFileChange($event)" required></app-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row w-100 mb-4">
+                                    <div class="col-auto">
+                                        <a class="btn cancel-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.PURCHASE_RETURN_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" (click)="onSubmit()" [disabled]="!itemIssueForm.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || itemIssueForm.invalid">Save
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

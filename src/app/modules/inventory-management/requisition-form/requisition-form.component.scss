@@ -1,0 +1,16 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-requisition-form{
+    table{
+        thead{
+            background-color: $primary;
+            tr{
+                th{
+                    color: $white !important;
+                    padding: 0.75rem !important;
+                }
+            }
+        }
+    }
+}
+}

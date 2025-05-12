@@ -1,0 +1,131 @@
+<section class="performace_category">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Performance</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.PERFORMANCE_CRITERIA)"
+                    class="mx-2 active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air performance-btn">Performance
+                    Criteria</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Section</label>
+                                    <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section" (change)="handleSectionChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select section">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Class</label>
+                                    <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class" (change)="handleClassChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select class">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Batch</label>
+                                    <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch" (change)="handleBatchChange()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select batch">
+                                    </ng-select>
+                                </div>
+                                <!-- <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Exam Type</label>
+                                    <ng-select #select [items]="examTypes" [searchable]="true" [(ngModel)]="params.exam_type" (change)="handleExamTypeChange()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select exam Type">
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Performance criteria</label>
+                                    <ng-select #select [items]="criteria" [searchable]="true" [(ngModel)]="params.performance_criteria" (change)="handleCriteriaChange()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select performance criteria">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="row global_form">
+                            <div class="col-lg-12 datatable_cls form_section">
+                                <div class="table-responsive">
+                                    <table *ngIf="dtRendered" datatable [dtOptions]="dtOptions" id="myTable_new" class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of columns; let i = index;" style="text-transform: capitalize;">{{formatName(field['data'])}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="!loading">
+                                            <tr *ngFor="let item of tbody ;let i = index;" >    
+                                                <td class="orange-text-color">{{item.rollno}}</td>
+                                                <td>{{item.full_name}}</td>
+                                                <ng-container *ngIf="criteria_details.attendance == 0">
+                                                    <td *ngIf="criteria_details.is_grade == 1 && (criteria_details.semester == 1 || criteria_details.semester == 3 || criteria_details.semester == 0)" >
+                                                        <ng-select  [(ngModel)]="editable[i].details.grade_sem_1" style="width: 200px" [name]="'grade_sem_1'+[i]" [id]="'grade_sem_1'+[i]" (change)="handleInput('grade_sem_1',i)">
+                                                            <ng-option  value="A">A</ng-option>
+                                                            <ng-option  value="B">B</ng-option>
+                                                            <ng-option  value="C">C</ng-option>
+                                                            <ng-option  value="D">D</ng-option>
+                                                        </ng-select>
+                                                        <span class="error-msg"  [id]="[i]+'grade_sem_1'">{{errors['students.'+i+'.details.grade_sem_1']}}</span>
+                                                    </td>
+                                                    <td *ngIf="criteria_details.is_remark == 1 && (criteria_details.semester == 1 || criteria_details.semester == 3 || criteria_details.semester == 0)">
+                                                        <input  class=""  type="text" [name]="'remark_sem_1'+[i]" [id]="'remark_sem_1'+[i]" [(ngModel)]="editable[i].details.remark_sem_1" (change)="handleInput('remark_sem_1',i)">
+                                                        <span class="error-msg" [id]="[i]+'remark_sem_1'" style="display: block;">{{errors['students.'+i+'.details.remark_sem_1']}}</span>
+                                                    </td>
+                                                    <td *ngIf="criteria_details.is_grade == 1 && (criteria_details.semester == 2 || criteria_details.semester == 3)" >
+                                                        <ng-select  [(ngModel)]="editable[i].details.grade_sem_2" style="width: 200px" [name]="'grade_sem_2'+[i]" [id]="'grade_sem_2'+[i]" (change)="handleInput('grade_sem_2',i)">
+                                                            <ng-option  value="A">A</ng-option>
+                                                            <ng-option  value="B">B</ng-option>
+                                                            <ng-option  value="C">C</ng-option>
+                                                            <ng-option  value="D">D</ng-option>
+                                                        </ng-select>
+                                                        <span class="error-msg" [id]="[i]+'grade_sem_2'">{{errors['students.'+i+'.details.grade_sem_2']}}</span>
+
+                                                    </td>
+                                                    <td *ngIf="criteria_details.is_remark == 1 && (criteria_details.semester == 2 || criteria_details.semester == 3)">
+                                                        <input  class=""  type="text" [name]="'remark_sem_2'+[i]" [id]="'remark_sem_2'+[i]" [(ngModel)]="editable[i].details.remark_sem_2" (change)="handleInput('remark_sem_2',i)">
+                                                        <span class="error-msg" [id]="[i]+'remark_sem_2'" style="display: block;">{{errors['students.'+i+'.details.remark_sem_2']}}</span>
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container *ngIf="criteria_details.attendance == 1">
+                                                    <td *ngIf="criteria_details.is_remark == 1 && (criteria_details.semester == 1 || criteria_details.semester == 3 || criteria_details.semester == 0)">
+                                                        <input style="width: 150px;"  type="text" [name]="'remark_sem_1'+[i]" [id]="'remark_sem_1'+[i]" [(ngModel)]="editable[i].details.attendance['sem_1'].present_day" (change)="handleInput('sem_1',i)" placeholder="Present Days">
+                                                        <span> / </span>
+                                                        <input style="width: 150px;"  type="text" [name]="'remark_sem_1'+[i]" [id]="'remark_sem_1'+[i]" [(ngModel)]="editable[i].details.attendance['sem_1'].total_days" (change)="handleInput('sem_1',i)" placeholder="Total Days">
+                                                        <span class="error-msg"  [id]="[i]+'sem_1'" ></span>
+                                                    </td>
+                                                    <td *ngIf="criteria_details.is_remark == 1 && (criteria_details.semester == 2 || criteria_details.semester == 3)">
+                                                        <input style="width: 150px;"  type="text" [name]="'remark_sem_2'+[i]" [id]="'remark_sem_2'+[i]" [(ngModel)]="editable[i].details.attendance['sem_2'].present_day" (change)="handleInput('sem_2',i)" placeholder="Present Days">
+                                                        <span> / </span>
+                                                        <input style="width: 150px;"  type="text" [name]="'remark_sem_2'+[i]" [id]="'remark_sem_2'+[i]" [(ngModel)]="editable[i].details.attendance['sem_2'].total_days" (change)="handleInput('sem_2',i)" placeholder="Total Days">
+                                                        <span class="error-msg"  [id]="[i]+'sem_2'" ></span>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>                                      
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <button *ngIf="dtRendered && CommonService.hasPermission('student_student_performance','has_update')" (click)="editRecord()" class="btn mt-3 save-btn">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

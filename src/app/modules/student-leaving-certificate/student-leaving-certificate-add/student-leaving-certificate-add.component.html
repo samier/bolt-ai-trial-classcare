@@ -1,0 +1,658 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{page}} Student Leaving Certificate</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)">Student LC List</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div *ngIf="!student_id">
+                    <form [formGroup]="form" class="form_section" id="student-leaving-certificate-form">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <!-- Section and Class dropdown -->
+                                            <div class="col-md-3 form_group">
+                                                <label class="form_label">Select Sections</label>
+                                                <div class="">
+                                                    <ng-select #selectSection
+                                                        [items]="sections"
+                                                        (change)="changeSection()"
+                                                        [searchable]="true"
+                                                        name="section"
+                                                        bindLabel="name"
+                                                        bindValue="id"
+                                                        formControlName="section"
+                                                        placeholder="please select section"
+                                                        [disabled]="id ? true : false"
+                                                        [required]="false">
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px"
+                                                                    (onclick)="changeSection()" type="text"
+                                                                    (input)="selectBatch.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 form_group">
+                                                <label class="form_label">Select Class<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #selectClass
+                                                        [items]="classes"
+                                                        (change)="changeClass()"
+                                                        [searchable]="true"
+                                                        name="class"
+                                                        bindLabel="name"
+                                                        bindValue="id"
+                                                        formControlName="class"
+                                                        placeholder="please select class"
+                                                        [disabled]="id ? true : false"
+                                                        [required]="true">
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px"
+                                                                    (onclick)="changeClass()" type="text"
+                                                                    (input)="selectClass.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                                <div *ngIf="isSubmitStudent || form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)" class="error text-danger mb-2">
+                                                    <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                                                </div>
+                                            </div>
+                                            <!-- Batch dropdown -->
+                                            <div class="col-md-3 form_group">
+                                                <label class="form_label">Select Batch<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #selectBatch
+                                                        [items]="batches"
+                                                        (change)="changeBatch()"
+                                                        [searchable]="true"
+                                                        name="batch"
+                                                        bindLabel="name"
+                                                        bindValue="id"
+                                                        formControlName="batch"
+                                                        placeholder="please select batch"
+                                                        [disabled]="id ? true : false"
+                                                        [required]="true">
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px"
+                                                                    (onclick)="changeBatch()" type="text"
+                                                                    (input)="selectBatch.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                                <div *ngIf="isSubmitStudent || form.controls['batch'].invalid && (form.controls['batch'].dirty || form.controls['batch'].touched)" class="error text-danger mb-2">
+                                                    <div *ngIf="form.controls['batch'].errors?.['required']">please select batch.</div>
+                                                </div>
+                                            </div>
+                                            <!-- Student dropdown -->
+                                            <div class="col-md-3 form_group">
+                                                <label class="form_label">Select Student<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                  <ng-multiselect-dropdown
+                                                    formControlName="student"
+                                                    placeholder="please select student"
+                                                    [settings]="sectionDropdownSettings"
+                                                    [data]="students"
+                                                    >
+                                                  </ng-multiselect-dropdown>
+                                                </div>
+                                                <div *ngIf="isSubmitStudent || (form.controls['student'].invalid && (form.controls['student'].touched))" class="error text-danger mb-2">
+                                                    <div *ngIf="form.controls['student'].errors?.['required']">please select student.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto add_doc">
+                                              <button class="btn report-btn" (click)="submit()" [disabled]="isStudentGet">
+                                                Get Record
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isStudentGet">
+                                                  <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                              </button>
+                                            </div>
+                                            <div class="col-auto add_doc">
+                                              <div>
+                                                <button class="btn clear-btn" (click)="clearForm()">Clear</button>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                    </form>
+                    </div>
+                    <div class="row" *ngIf="studentList.length > 0">
+                      <div class="col-12">
+                          <div class="card basic_table mt-2 mb-4">
+                              <div class="table-responsive">
+                                  <div class="d-flex justify-content-between align-content-center mb-3">
+                                      <div class="m-radio-section d-flex align-content-center">
+                                          <div class="radio">
+                                              <label class="form_label mb-0"><b>LC Type:</b></label>
+                                          </div>
+                                          <div class="radio">
+                                              <label class="m-radio required mb-0">
+                                                  <input type="radio" [value]="1" (change)="handleLcTypeChange(1)" [(ngModel)]="lc_type" class="" name="lcType">With LC<span></span>
+                                              </label>
+                                          </div>
+                                          <div class="radio">
+                                              <label class="m-radio required mb-0">
+                                                  <input type="radio" [value]="2" (change)="handleLcTypeChange(2)" [(ngModel)]="lc_type" class="" name="lcType">Without LC<span></span>
+                                              </label>
+                                          </div>
+                                      </div>
+                                      <div *ngIf="isBulkCreated">
+                                          <button class="btn" (click)="open2(myviewmodal,0)">Bulk Generate</button>
+                                      </div>
+                                  </div>
+                                  <table class="table table-hover table-nowrap table-bordered d-table table datatable w-100 mb-0">
+                                      <thead>
+                                          <tr>
+                                              <th class="text-center">
+                                                  <div class="m-checkbox-list">
+                                                      <label class="m-checkbox mb-0">
+                                                          <input type="checkbox" [(ngModel)]="selectAllStudent" (ngModelChange)="selectAll()"><span></span>
+                                                      </label>
+                                                  </div>
+                                              </th>
+                                              <th class="text-center">Sr.No.</th>
+                                              <th class="text-center">Student Name</th>
+                                              <th class="text-center">Remaining Fees</th>
+                                              <th class="text-center">Wallet</th>
+                                              <th class="text-center">Action</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody *ngIf="!isStudentGet">
+                                        <ng-container *ngFor="let item of studentList; let i = index">
+                                              <tr *ngIf="studentList?.length > 0">
+                                              <td class="text-center align-middle">
+                                                  <div class="m-checkbox-list">
+                                                      <label class="m-checkbox mb-0">
+                                                          <input type="checkbox" [(ngModel)]="item.isSelect" (ngModelChange)="singleSelect()"><span></span>
+                                                      </label>
+                                                  </div>
+                                              </td>
+                                              <td class="text-center align-middle">{{i+1}}.</td>
+                                              <td class="text-center align-middle">{{item?.full_name ?? ''}}</td>
+                                              <td class="align-middle"> 
+                                                <!-- <span *ngIf="item?.total_due_fees > 0">
+                                                    <div *ngFor="let item of item.due_fees" class="d-flex justify-content-center">
+                                                        <p class="m-0 {{item.amount == 0 ? 'text-success' : 'text-danger'}}">{{item.year}} : </p>
+                                                        <p class="m-0 {{item.amount == 0 ? 'text-success' : 'text-danger'}}">&nbsp;Fees Due : {{item.amount}}</p>
+                                                    </div>
+                                                </span> 
+                                                <span class="text-success" *ngIf="item?.total_due_fees == 0">All Ok</span> -->
+                                                <div *ngIf="item?.total_due_fees > 0">
+                                                <cdk-accordion class="example-accordion card-body p-0" *ngIf="item?.all_time_category_wise_remaining_fees?.current_year_remaining?.remaining_fees > 0">
+                                                    <cdk-accordion-item
+                                                        #accordionItem="cdkAccordionItem"
+                                                        class="example-accordion-item"
+                                                        role="button"
+                                                        tabindex="0"
+                                                        [attr.id]="'accordion-header'"
+                                                        [attr.aria-expanded]="accordionItem.expanded"
+                                                        [attr.aria-controls]="'accordion-body'" [class.active]="accordionItem.expanded">
+                                                        <div class="example-accordion-item-header d-flex justify-content-between" (click)="accordionItem.toggle()" >
+                                                            {{item?.all_time_category_wise_remaining_fees?.current_year_remaining?.year}} - Current Year
+                                                            <span class="example-accordion-item-description">
+                                                                <span class="me-2">Total Amount : {{item?.all_time_category_wise_remaining_fees?.current_year_remaining?.remaining_fees || 0}} </span>
+                                                                <i *ngIf="accordionItem.expanded" class="fa fa-angle-up" aria-hidden="true"></i>
+                                                                <i *ngIf="!accordionItem.expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="example-accordion-item-body"
+                                                            role="region"
+                                                            [style.display]="accordionItem.expanded ? '' : 'none'"
+                                                            [attr.id]="'accordion-body'"
+                                                            [attr.aria-labelledby]="'accordion-header'"
+                                                        >
+                                                            <table class="remaining-fees-categories w-100">
+                                                                <tr>
+                                                                    <th>Category</th>
+                                                                    <th class="text-end pe-32">Amount</th>
+                                                                </tr>
+                                                                <tr *ngFor="let row of item?.all_time_category_wise_remaining_fees?.current_year_remaining?.categories">
+                                                                    <td>{{row.month??row?.category?.type_name}}</td>
+                                                                    <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{row?.remaining_fees || 0}}</td>
+                                                                </tr>
+                                                            </table>
+                            
+                                                        </div>
+                                                    </cdk-accordion-item>
+                                                </cdk-accordion> 
+                                                <cdk-accordion class="example-accordion card-body p-0" *ngIf="item?.all_time_category_wise_remaining_fees?.previous_years_remaining?.length > 0">
+                                                    <cdk-accordion-item
+                                                        *ngFor="let year of item?.all_time_category_wise_remaining_fees?.previous_years_remaining; let index = index;"
+                                                        #accordionItem="cdkAccordionItem"
+                                                        class="example-accordion-item"
+                                                        role="button"
+                                                        tabindex="0"
+                                                        [attr.id]="'accordion-header-' + index"
+                                                        [attr.aria-expanded]="accordionItem.expanded"
+                                                        [attr.aria-controls]="'accordion-body-' + index" [class.active]="accordionItem.expanded">
+                                                        <div class="example-accordion-item-header d-flex justify-content-between" (click)="accordionItem.toggle()" >
+                                                            {{ year.year }} - Previous Year
+                                                            <span class="example-accordion-item-description">
+                                                                <span class="me-2">Total Amount : {{year.remaining_fees || 0}} </span>
+                                                                <i *ngIf="accordionItem.expanded" class="fa fa-angle-up" aria-hidden="true"></i>
+                                                                <i *ngIf="!accordionItem.expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                                                            </span>
+                                                        </div>
+                                                        <div
+                                                            class="example-accordion-item-body"
+                                                            role="region"
+                                                            [style.display]="accordionItem.expanded ? '' : 'none'"
+                                                            [attr.id]="'accordion-body-' + index"
+                                                            [attr.aria-labelledby]="'accordion-header-' + index"
+                                                        >
+                                                            <table class="remaining-fees-categories w-100">
+                                                                <tr>
+                                                                    <th>Category</th>
+                                                                    <th class="text-end pe-32">Amount</th>
+                                                                </tr>
+                                                                <tr *ngFor="let row of year?.categories">
+                                                                    <td>{{row.month??row?.category?.type_name}}</td>
+                                                                    <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{row?.remaining_fees || 0}}</td>
+                                                                </tr>
+                                                            </table>
+                            
+                                                        </div>
+                                                    </cdk-accordion-item>
+                                                </cdk-accordion> 
+                                                </div>
+                                                <div class="text-center text-success" *ngIf="item?.total_due_fees == 0">All Ok</div>
+                                            </td>
+                                              <td class="text-center align-middle"> <span class="text-danger" *ngIf="item?.wallet > 0">{{'Wallet: ' + item?.wallet }}</span> <span class="text-success" *ngIf="item?.wallet == 0">Wallet Ok</span> </td>
+                                              <td class="text-center align-middle generate_lc"><div class="text-center" (click)="open2(myviewmodal,item.id)">
+                                                <button class="btn btn-danger" *ngIf="!item.status">Generate LC <br>(Forcefully)</button>
+                                                <button class="btn btn-success" *ngIf="item.status">Generate LC </button>
+                                              </div></td>
+                                            </tr>
+                                          </ng-container>
+                                            <tr *ngIf="studentList?.length === 0">
+                                              <td class="text-center" colspan="6">
+                                                No Record Found
+                                              </td>
+                                            </tr>
+                                      </tbody>
+                                      <tbody *ngIf="isStudentGet">
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+            <ng-template #myviewmodal let-modal >
+              <div class="modal-header" style="z-index: 0;">
+                <h4 class="modal-title" id="modal-basic-title">Student Leaving Certificate Details</h4>
+                <button type="button" id="model-close" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');studentLcForm.reset()">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div class="modal-body px-4" style="z-index: 0;">
+                <form action="" [formGroup]="studentLcForm">
+                    <div class="card" *ngIf="student">
+                      <div class="row" >
+                          <!-- *ngIf="student" -->
+                          <!-- <div class="form_group">
+                              <h3 class="text-uppercase text-center">Student Leaving Certificate Details</h3>
+                          </div> -->
+                          <div>
+                              <table class="table student_leaving_tbl">
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Student ID/GR No.</span> : <span class="ps-1">{{student?.studentId || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>UID No.</span> : <span class="ps-1">{{student?.uidNo || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="" class="form-control" disabled> -->
+                                          </div>
+                                          <!-- <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">LC Book No.</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.lc_book_no}} " class="form-control student-detail">
+                                          </div> -->
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                            <!-- <div class="col input-group">
+                                                <span class="input-group-text">UID No.</span>
+                                                <input type="text" value="{{student?.uidNo}}" class="form-control">
+                                            </div> -->
+                                            <div class="col d-flex">
+                                                <label class="form_label d-flex"><span>Full Name of the Student</span> : <span class="ps-1">{{student?.full_name}}</span></label>
+                                                <!-- <input type="text" value="{{student?.full_name}}" class="form-control" disabled> -->
+                                            </div>
+                                            <div class="col d-flex">
+                                                <label class="form_label"><span>Roll No.</span> : <span class="ps-1">{{student?.student_roll_number?.rollno ?? 'N/A'}}</span></label>
+                                                <!-- <input type="text" value="{{student?.rollno}}" class="form-control" disabled> -->
+                                            </div>
+                                      </th>
+                                  </tr>
+                                  <!-- <tr>
+                                      <th class="row p-0">
+                                      </th>
+                                  </tr> -->
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Father's Name</span> : <span class="ps-1">{{(student?.father_name ? student?.father_name : student?.middle_name)  || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.father_name ? student?.father_name : student?.middle_name}}" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Mother's Name</span> : <span class="ps-1">{{student?.mother_name || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.mother_name}}" class="form-control" disabled> -->
+                                          </div>
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Nationality</span> : <span class="ps-1">{{student?.nationality || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.nationality}}" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Religion</span> : <span class="ps-1">{{student?.religion || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.religion}}" class="form-control" disabled> -->
+                                          </div>
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Caste & Sub Cast</span> : <span class="ps-1">{{studentCategory ? studentCategory : 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{studentCategory ? studentCategory : '-'}}" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Place of Birth</span> : <span class="ps-1">{{student?.birthPlace || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.birthPlace}}" class="form-control" disabled> -->
+                                          </div>
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Date of Birth</span> : <span class="ps-1">{{studentDob}}</span></label>
+                                              <!-- <input type="text" value="{{studentDob}}" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Standard</span> : <span class="ps-1">{{student?.batch_detail?.class?.name}} ({{student?.batch_detail?.name}})</span></label>
+                                              <!-- <input type="text" value="{{student?.school}}" class="form-control" disabled> -->
+                                          </div>
+                                          <!-- <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Previous School Attended</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.school}}" class="form-control student-detail">
+                                          </div> -->
+                                      </th>
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <!-- <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Standard in which he/she was studying</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.batch_detail?.class?.name}} {{student?.batch_detail?.name}}" class="form-control student-detail">
+                                          </div> -->
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Date of First Admission</span> : <span class="ps-1">{{studentDoA}}</span></label>
+                                              <!-- <input type="text" value="{{studentDoA}}" class="form-control" disabled> -->
+                                          </div>
+                                          <div class="col d-flex">
+                                              <label class="form_label"><span>Date of Leaving</span> : <span class="ps-1">{{student?.leaving_date || 'N/A'}}</span></label>
+                                              <!-- <input type="text" value="{{student?.leaving_date}}" class="form-control" disabled> -->
+                                          </div>
+                                      </th>
+                                  </tr>
+                                  <!-- <tr>
+                                      <th class="row p-0">
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Date of Leaving</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.leaving_date}}" class="form-control">
+                                          </div>
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Progress</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.progress}}" class="form-control">
+                                          </div>
+                                      </th>
+                                      <hr class="my-2">
+                                  </tr> -->
+                                  <!-- <tr>
+                                      <th class="row p-0">
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Conduct</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.conduct}}" class="form-control">
+                                          </div>
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Total No. of working days in the academic session</span>
+                                              <span>:</span>
+                                              <input type="text" value="220" class="form-control">
+                                          </div>
+                                      </th>
+                                      <hr class="my-2">
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Total No. of working days present in the schoo</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.working_days_school}}" class="form-control">
+                                          </div>
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Reason for leaving the school</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.reason_leaving_school}}" class="form-control">
+                                          </div>
+                                      </th>
+                                      <hr class="my-2">
+                                  </tr>
+                                  <tr>
+                                      <th class="row p-0">
+                                          <div class="col py-0 input-group align-items-center">
+                                              <span class="student-detail-title">Result of last anual examination</span>
+                                              <span>:</span>
+                                              <input type="text" value="{{student?.result_last_examination}}" class="form-control">
+                                          </div>
+                                      </th>
+                                      <hr class="my-2">
+                                  </tr> -->
+                              </table>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <!-- *ngIf="student" -->
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>LC Book No.</b></label>
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="text" formControlName="lc_book_no" placeholder="Enter lc book no" name="lc_book_no" class="form-control">
+                                </div>
+                                <!-- <div *ngIf="form.controls['lc_book_no'].invalid && (form.controls['lc_book_no'].dirty || form.controls['lc_book_no'].touched)" class="col-md-12 error text-danger mb-2">
+                                    <div *ngIf="form.controls['lc_book_no'].errors?.['required']">please enter lc book no.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Leaving Date</b><span class="text-danger">*</span></label>
+                            <div class="form-group">
+                                <app-mat-date-picker controlName="leaving_date"></app-mat-date-picker>
+
+                                <!-- <div class="">
+                                    <input type="date" id="leaving_date" formControlName="leaving_date" name="leaving_date" class="form-control" placeholder="Enter leaving date">
+                                </div>
+                                <div *ngIf="isSubmitLC || studentLcForm.controls['leaving_date'].invalid && (studentLcForm.controls['leaving_date'].dirty || studentLcForm.controls['leaving_date'].touched)" class="col-md-12 error text-danger mb-2">
+                                    <div *ngIf="studentLcForm.controls['leaving_date'].errors?.['required']">please pickup leave date.</div>
+                                </div>
+                                <div class="error text-danger mb-2" *ngIf="invalidLeaveDate">
+                                    <div>leave date is current or future only.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Progress</b></label>
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="text" formControlName="progress" placeholder="Enter middle name" name="progress" class="form-control">
+                                </div>
+                                <!-- <div *ngIf="form.controls['progress'].invalid && (form.controls['progress'].dirty || form.controls['progress'].touched)" class="error text-danger mb-2">
+                                    <div *ngIf="form.controls['progress'].errors?.['required']">please enter progress.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Conduct</b></label>
+                            <div class="form-group">
+                                <div>
+                                    <input type="text" formControlName="conduct" name="conduct" placeholder="Enter Conduct" class="form-control">
+                                </div>    
+                                <!-- <div *ngIf="form.controls['conduct'].invalid && (form.controls['conduct'].dirty || form.controls['conduct'].touched)" class="error text-danger mb-2">
+                                    <div *ngIf="form.controls['conduct'].errors?.['required']">please enter conduct.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Remark</b></label>
+                            <div class="form-group">
+                                <div>
+                                    <input type="text" formControlName="lc_remark" name="lc_remark" placeholder="Enter Remark" class="form-control">
+                                </div>    
+                                <!-- <div *ngIf="form.controls['conduct'].invalid && (form.controls['conduct'].dirty || form.controls['conduct'].touched)" class="error text-danger mb-2">
+                                    <div *ngIf="form.controls['conduct'].errors?.['required']">please enter conduct.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Result of last annual examination</b></label>
+                            <div class="form-group">
+                                <div>
+                                    <textarea class="form-control ng-untouched ng-pristine ng-invalid" name="result_last_examination" id="result_last_examination" formControlName="result_last_examination" placeholder="Enter result of last annual examination"></textarea>
+                                </div>
+                                <!-- <div *ngIf="form.controls['result_last_examination'].invalid && (form.controls['result_last_examination'].dirty || form.controls['result_last_examination'].touched)" class="error text-danger mb-2">
+                                    <div *ngIf="form.controls['result_last_examination'].errors?.['required']">please enter result of last annual examination.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Reason for leaving the school</b></label>
+                            <div class="form-group">
+                                <div>
+                                    <textarea class="form-control ng-untouched ng-pristine ng-invalid" name="reason_leaving_school" id="reason_leaving_school" formControlName="reason_leaving_school" placeholder="Enter reason for leaving the school"></textarea>
+                                </div>
+                                <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                    <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group mb-2">
+                            <label class="form_label"><b>Total number of working day's in school</b></label>
+                            <div class="form-group">
+                                <div class="">
+                                    <input type="number" formControlName="working_days_school" name="working_days_school" placeholder="Enter total number of working day's in school" class="form-control">
+                                </div>
+                                <!-- <div *ngIf="form.controls['working_days_school'].invalid && (form.controls['working_days_school'].dirty || form.controls['working_days_school'].touched)" class="col-md-12 error text-danger mb-2">
+                                    <div *ngIf="form.controls['working_days_school'].errors?.['required']">please enter working days.</div>
+                                    <div *ngIf="form.controls['working_days_school'].errors?.['min'] || form.controls['working_days_school'].errors?.['max']">please enter working days in between 100 to 360</div>
+                                    <div *ngIf="form.controls['working_days_school'].errors?.['pattern']">Please enter a valid number.</div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <ng-container formArrayName="attachment" *ngFor="let item of attechmentArray.controls; let i = index;">
+                            <div class="col-md-12 form_group mb-2" >
+                              <ng-container [formGroupName]="i">
+                                <div class="row">
+                                    <label class="form_label"><b>Attachment Name</b></label>
+                                    <div class="col-md-6 form_group mb-2" >
+                                        <input type="text" formControlName="attachment_name" name="working_days_school" placeholder="Attachment Name" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 form_group mb-2">
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between">
+                                              <input type="file" class="form-control" (change)="selectAttechment($event,item)">
+                                              <div *ngIf="i == 0">
+                                                <button class="btn ms-2" type="button" (click)="addAttechment()"><i class="fa fa-plus"></i></button>
+                                              </div>
+                                              <div *ngIf="i !== 0">
+                                                <button class="btn ms-2" type="button" (click)="removeAttechment(i)"><i class="fa fa-minus"></i></button>
+                                              </div>
+                                            </div>
+                                            <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                                <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                        </ng-container>
+                    </div>
+                  <div class="col-md-12 row">
+                       <!-- *ngIf="student" -->
+                      <!-- <div class="col-md-6">
+                          <div class="form_group">
+                              <label class="form_label"><b>Leaving Date</b><span class="text-danger">*</span></label>
+                              <div class="form-group">
+                                  <div class="">
+                                      <input type="date" id="leaving_date" formControlName="leaving_date" name="leaving_date" class="form-control" placeholder="Enter leaving date">
+                                  </div>
+                                  <div *ngIf="form.controls['leaving_date'].invalid && (form.controls['leaving_date'].dirty || form.controls['leaving_date'].touched)" class="error text-danger mb-2">
+                                      <div *ngIf="form.controls['leaving_date'].errors?.['required']">please pickup leave date.</div>
+                                  </div>
+                                  <div class="error text-danger mb-2" *ngIf="invalidLeaveDate">
+                                      <div>leave date is current or future only.</div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div> -->
+                  </div>
+                  <div class="row">
+                       <!-- *ngIf="student" -->
+                      <div class="col-md-6">
+
+                      </div>
+                      <div class="col-md-6">
+
+                      </div>
+                  </div>
+                  <div class="row">
+                       <!-- *ngIf="student" -->
+                  </div>
+              <div class="row justify-content-center mb-4">
+                  <div class="col-md-3">
+                      <a class="btn w-100 clear-btn" (click)="modal.dismiss('Cross click');studentLcForm.reset()">Cancel</a>
+                  </div>
+                  <div class="col-md-3">
+                      <button class="btn save-btn w-100" type="submit" [disabled]="studentLcForm.invalid" (click)="createLc()">
+                        Confirm To Leaving
+                      </button>
+                  </div>
+              </div>
+            </form>
+              </div>
+            </ng-template>
+
+        </div>
+    </div>
+</section>

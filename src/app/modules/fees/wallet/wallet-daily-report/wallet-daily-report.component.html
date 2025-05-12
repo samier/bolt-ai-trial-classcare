@@ -1,0 +1,101 @@
+<section class="leave_form">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Wallet Day Wise Report</h3>
+          <div class="btn_right">
+            <a class="list-btn btn" href="#."  [routerLink]="setUrl(URLConstants.WALLETS)">Wallet List</a>
+          </div>
+        </div>
+        <div class="">
+          <div class="card_body">
+            <div class="mt-0">
+              <div class="card pb-2">
+              <form [formGroup]="form" class="form_section">
+                <div class="row">
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Section<span
+                      class="text-danger">*</span></label>
+                    <ng-multiselect-dropdown
+                      [placeholder]="'Please Select Section'"
+                      [settings]="sectionDropdownSettings"
+                      [data]="sectionList"
+                      [(ngModel)]="selectedSection"
+                      (onSelectAll)="onSelectAll($event)"
+                      (onSelect)="onItemSelect($event)"
+                      formControlName="section"
+                    >
+                    </ng-multiselect-dropdown>   
+                    <div *ngIf="form.controls['section'].invalid && form.controls['section'].dirty && form.controls['section'].touched" class=" error text-danger mb-2">
+                      <div *ngIf="form.controls['section'].errors?.['required']">Please Select Section</div>
+                    </div>                
+                  </div>
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Date Range</label>
+                    <input type="text"
+                           class="form-control" 
+                           [placeholder]="'Please Select Dates'"
+                           ngxDaterangepickerMd
+                           [linkedCalendars]="true"
+                           [(ngModel)]="selectedRange"
+                           (datesUpdated)="datesUpdated($event)"
+                           [locale]="dateConfig"
+                           [showCustomRangeLabel]="true"
+                           [ranges]="ranges"
+                           [showClearButton]="true"
+                           [showCancel]="true" 
+                           formControlName="date"
+                    >                                      
+                  </div>                 
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Transaction Type</label>
+                    <ng-select #select [items]="transactionType" [searchable]="true" [(ngModel)]="selectedType"
+                         bindLabel="name" bindValue="id" name="transactionType" formControlName="transactionType"
+                        placeholder="please select" formControlName="transactionType">
+                    </ng-select>
+                  </div>
+                <div class="col-md-3 form_group">
+                  <label for="" class="form_label">payment Mode</label>
+                  <ng-select #select [items]="modes" [searchable]="true"
+                      [(ngModel)]="selectedMode"  bindLabel="name" formControlName="payment_mode"
+                      bindValue="id" name="payment_mode" placeholder="please select">
+                  </ng-select>
+                </div>
+                <div class="col-md-3 form_group">
+                  <label for="" class="form_label">Collector Name</label>
+                  <ng-multiselect-dropdown
+                    [placeholder]="'Select Collector'"
+                    [settings]="collectorDropdownSettings"
+                    [data]="users"
+                    [(ngModel)]="selectedUser"
+                    formControlName="user"
+                  >
+                  </ng-multiselect-dropdown>
+                </div>               
+                </div>
+                <div class="d-flex">
+                    <button  *ngIf="commonService.hasPermission('finance_wallets', 'has_access')" [disabled]="!form.valid || getReport" (click)="getWalletHistoryDayWiseReport()" class="btn report-btn">
+                      Get Report
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="getReport">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                    <button (click)="clear()" class="btn cancel-btn ms-2">Clear</button>
+                    <div class="btn_right">
+                      <button *ngIf="commonService.hasPermission('finance_wallets', 'has_download')" [disabled]="!form.valid || pdf" class="btn pdf-btn ms-2" ngbTooltip="PDF" (click)="downloadPdf('pdf')"><img src="assets/images/pdf-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="pdf">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                  </div>
+                </div>                
+              </form>
+            </div>
+              <div [innerHTML]="htmlContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

@@ -1,0 +1,775 @@
+<div class="page_inner">
+    <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3" *ngIf="!studentId">
+            <h3 class="sub_title mb-0">Fees</h3>
+        </div>
+        <div class="card_body">
+            <div class="card">
+               <div class="d-flex">
+                  <div class="counter_card flex-1">
+                     <div class="bg_counter success-bg">
+                        <div class="product-icon"><img src="./assets/img/fees.png" alt=""></div>
+                        <div class="content"><strong>Rs.{{fees?.total_fees?.total_fees || 0}}</strong><br><span class="counter_title">Total Fees</span></div>
+                     </div>
+                  </div>
+                  <div class="counter_card flex-1">
+                     <div class="bg_counter success-bg">
+                        <div class="product-icon"><img src="./assets/img/paid-fees.png" alt=""></div>
+                        <div class="content"><strong>Rs.{{fees?.total_fees?.paid_fees || 0}}</strong><br><span class="counter_title">Paid Fees</span></div>
+                     </div>
+                  </div>
+                  <div class="counter_card flex-1">
+                     <div class="bg_counter success-bg">
+                        <div class="product-icon"><img src="./assets/img/remaining-fees.png" alt=""></div>
+                        <div class="content"><strong>Rs.{{fees?.total_fees?.remaining_fees || 0}}</strong><br><span class="counter_title">Remaining Fees</span></div>
+                     </div>
+                  </div>
+                  <div class="counter_card flex-1">
+                     <div class="bg_counter success-bg super_admin">
+                        <div class="product-icon"><img src="./assets/img/discount-fees.png" alt=""></div>
+                        <div class="content"><strong>Rs.{{fees?.total_fees?.discount_on_fees || 0}}</strong><br><span class="counter_title">Discount on Fees</span></div>
+                     </div>
+                  </div>
+                  <div class="counter_card flex-1">
+                    <div class="bg_counter success-bg super_admin">
+                       <div class="product-icon"><img src="./assets/img/svgicons/money.svg" alt=""></div>
+                       <div class="content"><strong>Rs.{{fees?.total_fees?.wallet_balance || 0}}</strong><br><span class="counter_title">Wallet Amount</span></div>
+                    </div>
+                 </div>
+               </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 d-flex">                
+                <div class="card">
+                    <div class="card_body pb-2">
+                        <div class="row align-items-center" *ngIf="!studentId">
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Select Section</label>
+                            </div>
+                            <div class="col-md-8 mb-3 select_section">
+                                <ng-select 
+                                    [items]="sectionList"
+                                    bindLabel="name"
+                                    bindValue="id"
+                                    class="form-control" 
+                                    placeholder="Select Section"
+                                    name="fee_type"
+                                    id="section"
+                                    appendTo="body"
+                                    [(ngModel)]="selectedSection" 
+                                    (change)="onSectionChange()">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="row align-items-center student-search" *ngIf="!studentId">
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Select Student</label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <app-student-search [selectedSectionId]="selectedSection" (student)="getStudent($event)"></app-student-search>
+                            </div>
+                        </div>
+                        <form class="new-form" id="collect-fees">
+                        <div class="row align-items-center">
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Payment Date</label>
+                            </div>
+                            <div class="col-md-8 mb-3" *ngIf="today">
+                                <app-mat-date-picker [(selectedDate)]="today" [isRequired]="false" [maxDate]="currentDate()" [minDate]="backDate == 0 ? currentDate() : ''" (change)="changePaymentDate($event)" [templateDriven]="true"></app-mat-date-picker>
+                                <!-- <input type="date" name="payment_date" class="form-control" [(ngModel)]="today" placeholder="Select date" (input)="changePaymentDate($event)" [ngModelOptions]="{standalone: true}"> -->
+                            </div>
+                            <div class="col-md-4 mb-3" *ngIf="total_bkp > 0">
+                                <label class="form_label mb-0">Adjust Amount</label>
+                            </div>
+                            <div class="col-md-6 mb-3" *ngIf="total_bkp > 0">
+                                <input type="number" min="0" class="w-100 form-control" [max]="total_bkp" name="adjust_amount" [(ngModel)]="adjust_amount" placeholder="Adjust Amount"  [disabled]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id) && payment_mode == 2">
+                            </div>
+                            <div class="col-md-2 mb-3 ps-0" *ngIf="total_bkp > 0">
+                                <button type="button" class="btn btn-primary" (click)="totalChange()" [disabled]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id) && payment_mode == 2">Adjust</button>
+                            </div>
+                            <div class="col-md-4 mb-3" [class.d-none]="!fees?.collect_fees_settings?.is_quarter_wise_fees">
+                                <label class="form_label mb-0">Payment Quarter</label>
+                            </div>
+                            <div class="col-md-8 mb-3" [class.d-none]="!fees?.collect_fees_settings?.is_quarter_wise_fees">
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'Select Quarter'"
+                                    [settings]="dropdownSettings"
+                                    [data]="fees?.quarters"
+                                    [(ngModel)]="selectedQuarter"
+                                    (onSelect)="onQuarterSelect()"
+                                    (onDeSelect)="onQuarterSelect()"
+                                    name="quarter"
+                                    [disabled]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit) && payment_mode == 2"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div class="col-md-4 mb-3" [class.d-none]="fees?.collect_fees_settings?.is_quarter_wise_fees">
+                                <label class="form_label mb-0">Payment Month</label>
+                            </div>
+                            <div class="col-md-8 mb-3" [class.d-none]="fees?.collect_fees_settings?.is_quarter_wise_fees">
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'select month'"
+                                    [settings]="dropdownSettings"
+                                    [data]="fees?.remaining_fees"
+                                    [(ngModel)]="selectedMonths"
+                                    (onSelect)="onMonthSelect()"
+                                    (onDeSelect)="onMonthSelect()"
+                                    name="months"
+                                    [disabled]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit) && payment_mode == 2"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div *ngFor="let row of (fees?.collect_fees_settings?.is_quarter_wise_fees ? selectedQuarter : selectedMonths)" class="">
+                                <div class="card border pb-0 mt-2">
+                                    <label class="card-label">{{row.name}}</label>
+                                    <div *ngFor="let row of getMonthWiseFees(row.name)" class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <label class="form_label mb-0">{{row.month}} {{row?.category?.type_name}} {{row.is_late_fees ? "Late Fees" : ""}}</label>
+                                        </div>
+                                        <div class="col-md-8 mb-3">
+                                            <div class="info_data">
+                                                <input type="number" 
+                                                    min="0" 
+                                                    class="w-100 form-control" 
+                                                    name="fees[{{row.month}}][{{getCategory(row)}}]" 
+                                                    placeholder="{{row.month}} {{getCategory(row,true)}}" 
+                                                    (input)="updateRemainingFeesModel(row, $event)"
+                                                    [max]="row.remaining_amount" 
+                                                    [min]="fees.discount_type == 1 ? row.remaining_discount : 0" 
+                                                    value="{{row.paying_amount}}"
+                                                    [readOnly]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit) && payment_mode == 2"
+                                                >
+                                                <button *ngIf="row.is_late_fees"  placement="bottom" ngbTooltip="late Fees calculate from {{row.lateFeesDate}} this date Note : if you take whole course fees so please take whole late fees too other wise remaning late fees are negligible"><i class="fas fa-info-circle"></i></button>
+                                                <button class="btn btn-primary" type="bottom" (click)="removeFees(row)" [disabled]="collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit"><i class="fa fa-minus"></i></button>
+                                            </div>
+                                            <span class="tx-12" *ngIf="fees?.discount_type == 0 && row?.remaining_discount > 0">Remaining discount amount {{row.remaining_discount}} ₹</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                            <div class="card border pb-0 mt-2" *ngIf="fees?.onetime?.length > 0">
+                                <label class="card-label">OneTime Fees</label>
+                                <div *ngFor="let row of fees?.onetime" class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form_label mb-0">{{row?.category?.type_name}}</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="info_data">
+                                            <input type="number" 
+                                                min="0" 
+                                                class="w-100 form-control" 
+                                                [value]="row?.paying_amount??row?.remaining_amount" 
+                                                name="onetime_fees[{{row?.category_id}}]" 
+                                                placeholder="{{row?.category?.type_name}}"
+                                                [max]="row.remaining_amount??0"
+                                                (input)="updateOnetimeModel(row, $event)"
+                                                [readOnly]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit) && payment_mode == 2"
+                                            >
+                                        </div>
+                                        <span class="tx-12" *ngIf="fees?.discount_type == 0 && row?.remaining_discount > 0">Remaining discount amount {{row.remaining_discount}} ₹</span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div class="col-md-4 mb-3" *ngIf="discount_for?.length > 0">
+                                <label class="form_label mb-0">Discount For</label>
+                            </div>
+                            <div class="col-md-8 mb-3" *ngIf="discount_for?.length > 0">
+                                <ng-multiselect-dropdown
+                                    [placeholder]="'Select Discount'"
+                                    [settings]="discountdropdownSettings"
+                                    [data]="discount_for"
+                                    [(ngModel)]="selectedDiscountFor"
+                                    (onSelect)="onDiscountSelect()"
+                                    (onDeSelect)="onDiscountSelect()"
+                                    name="discounts"
+                                    [disabled]="(collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id || edit) && payment_mode == 2"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>
+                            <div> 
+                            <div class="card border pb-0 mt-2" *ngIf="discountFor?.length > 0 || automaticDiscount(selectedChildren)?.length > 0 || onetimeAutomaticDiscount(fees?.onetime)?.length > 0">
+                                <label class="card-label">Discount</label>
+                                <div *ngFor="let row of automaticDiscount(selectedChildren)" class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form_label mb-0">{{row.month}} {{row?.category?.type_name}} {{row.is_late_fees ? "Late Fees" : ""}}</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="info_data">
+                                            <input type="number" 
+                                                min="0" 
+                                                class="w-100 form-control" 
+                                                name="discount[{{row.month}}][{{getCategory(row)}}]" 
+                                                placeholder="{{row.month}} {{getCategory(row,true)}}" 
+                                                value="{{row.added_discount??0}}"
+                                                [max]="row.max_discount??0"
+                                                (input)="updateDiscountModel(row, $event)"
+                                                readonly
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let row of onetimeAutomaticDiscount(fees?.onetime)" class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form_label mb-0">{{row?.category?.type_name}}</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="info_data">
+                                            <input type="number" 
+                                                min="0" 
+                                                class="w-100 form-control" 
+                                                name="onetime_discount[{{row?.category_id}}]" 
+                                                placeholder="{{getCategory(row,true)}}" 
+                                                value="{{row.added_discount??0}}"
+                                                [max]="row.max_discount??0"
+                                                (input)="updateDiscountModel(row, $event)"
+                                                readonly
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let row of discountFor" class="row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form_label mb-0">{{row.month}} {{row?.category?.type_name}} {{row.is_late_fees ? "Late Fees" : ""}}</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <div class="info_data">
+                                            <input type="number" 
+                                                min="0" 
+                                                class="w-100 form-control" 
+                                                name="discount[{{row.month}}][{{getCategory(row)}}]" 
+                                                placeholder="{{row.month}} {{getCategory(row,true)}}" 
+                                                value="{{row.added_discount??0}}"
+                                                [max]="row.max_discount??0"
+                                                (input)="updateDiscountModel(row, $event)"
+                                                *ngIf="row.month"
+                                            >
+                                            <input type="number" 
+                                                min="0" 
+                                                class="w-100 form-control" 
+                                                name="onetime_discount[{{row.category_id}}]" 
+                                                placeholder="{{row.month}} {{getCategory(row,true)}}" 
+                                                value="{{row.added_discount??0}}"
+                                                [max]="row.max_discount??0"
+                                                (input)="updateDiscountModel(row, $event)"
+                                                *ngIf="!row.month"
+                                            >
+                                            <button class="btn btn-primary" type="bottom" (click)="removeDiscount(row)"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Total Amount*</label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <input type="number" min="0" readonly class="w-100 form-control" [max]="total_bkp" [(ngModel)]="total_amount" name="total_amount" placeholder="Total Amount">
+                                <span *ngIf="late_fees > 0 || onetime > 0" class=" tx-10">Rs.{{(total_amount - late_fees) - onetime}} Actual Amount {{late_fees > 0 ? '+ Rs.'+late_fees+' late fees' : ''}} {{onetime > 0 ? '+ Rs.'+onetime+' onetime fees' : ''}}</span>
+                            </div>
+                            <div class="col-md-4 mb-3" *ngIf="discountFor?.length > 0">
+                                <label class="form_label mb-0">Discount By</label>
+                            </div>
+                            <div class="col-md-8 mb-3" *ngIf="discountFor?.length > 0">
+                                <ng-select [selectOnTab]="true" [searchable]="true" class="w-100 form-control" name="discount_by_id" [(ngModel)]="discount_by_id" placeholder="Select Discount By" (change)="selectUser($event)">
+                                    <ng-option *ngFor="let row of users" [value]="row.id">{{row.full_name}}</ng-option>
+                                </ng-select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Payment Mode</label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <div  class="m-radio-section form-control">
+                                    <div  class="radio" *ngFor="let row of payment_modes_list">
+                                        <label  class="m-radio">
+                                            <input type="radio" name="payment_mode" [value]="row.id" id="{{row.name}}" class="mr-1" [(ngModel)]="payment_mode" [disabled]="edit">
+                                            {{row.name}}
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                 </div>
+                            </div>
+                            <div class="row" *ngIf="payment_mode == 2">
+                                <ng-container *ngIf="chequeList?.length > 0 && (!edit || edit?.other_data?.collected_cheque_detail_id || collected_cheque_detail_id)">
+                                    <div class="col-md-4  mb-3">
+                                        <label class="form_label mb-0">Select Cheque</label>
+                                    </div>
+                                    <div class="col-md-8 mb-3">
+                                        <ng-select
+                                            [items]="chequeList"
+                                            bindLabel="displayContent"
+                                            bindValue="id"
+                                            class="form-control" 
+                                            placeholder="Select Cheque"
+                                            name="collected_cheque_detail_id"
+                                            id="section"
+                                            appendTo="body"
+                                            [(ngModel)]="collected_cheque_detail_id" 
+                                            (change)="onChequeChange($event)"
+                                            [readonly]="edit?.other_data?.collected_cheque_detail_id"
+                                        ></ng-select>
+                                    </div>
+                                </ng-container>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Cheque No.*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" [(ngModel)]="cheque_no" name="cheque[cheque_no]" placeholder="Enter Cheque No." [value]="edit?.other_data?.cheque?.cheque_no" [disabled]="collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Bank Name*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <!-- <input type="text" class="w-100 form-control" name="cheque[bank_name]" placeholder="Enter Bank Name" [value]="edit?.other_data?.cheque?.bank_name"> -->
+                                    <div class="w-100">
+                                        <app-dropdown-crud class="create-dropdown" placeholder="Select Bank" searchPlaceholder="Search Bank name" 
+                                                           [selectedId]="edit?.other_data?.cheque?.bank_name_id ?? bank_name_id" (selectedValue)="selectionChange($event)" [dropDownArray]="bank_names" 
+                                                           (createUpdate)="createAndUpdateData($event)" 
+                                                           (deleteData)="deleteData($event)"
+                                                           [disabled]="collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id">
+                                        </app-dropdown-crud>
+                                      </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Cheque Date</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                <!-- <app-mat-date-picker [(selectedDate)]="edit?.other_data?.cheque.cheque_date" [isRequired]="false" [templateDriven]="true"></app-mat-date-picker> -->
+                                    <input type="date" class="form-control" [(ngModel)]="cheque_date" name="cheque[cheque_date]" placeholder="Select date" [value]="edit?.other_data?.cheque?.cheque_date" [disabled]="collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Cheque Status</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <div  class="m-radio-section form-control">
+                                        <div  class="radio">
+                                            <label  class="m-radio" [ngStyle]="{'opacity': collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id ? '0.5' : '1'}">
+                                                <input  type="radio" name="cheque[cheque_status]" [(ngModel)]="cheque_status" value="received" id="received" class="mr-1" checked [disabled]="collected_cheque_detail_id || edit?.other_data?.collected_cheque_detail_id">
+                                                Received
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <!-- <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input  type="radio" name="cheque[cheque_status]" [(ngModel)]="cheque_status" value="deposited" id="deposited" class="mr-1">
+                                                Deposited
+                                                <span></span>
+                                            </label>
+                                        </div> -->
+                                        <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input  type="radio" name="cheque[cheque_status]" [(ngModel)]="cheque_status" value="clear" id="clear" class="mr-1">
+                                                Clear
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <!-- <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input  type="radio" name="cheque[cheque_status]" [(ngModel)]="cheque_status" value="bounced" id="bounced" class="mr-1">
+                                                Bounced
+                                                <span></span>
+                                            </label>
+                                        </div> -->
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="payment_mode == 4">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Account Number</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="bank[account_no]" placeholder="Enter Account Number." [value]="edit?.other_data?.fees_bank_detail?.account_no">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Account Holder Name</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="bank[account_holder_name]" placeholder="Enter Account Holder Name" [value]="edit?.other_data?.fees_bank_detail?.account_holder_name">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">IFSC Code</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="bank[ifsc_code]" placeholder="Enter IFSC Code" [value]="edit?.other_data?.fees_bank_detail?.ifsc_code">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="payment_mode == 5">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">UPI ID</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="upi_id" placeholder="Enter UPI ID." [value]="edit?.other_data?.upi_id">
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="payment_mode == 3">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">RRN Number*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="card[rrn_no]" placeholder="Enter RRN Number." [value]="edit?.other_data?.card_detail?.rrn_no">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Bank Name*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="card[bank_name]" placeholder="Enter Bank Name" [value]="edit?.other_data?.card_detail?.bank_name">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Type*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <div  class="m-radio-section form-control">
+                                        <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input type="radio" name="card[card_type]" value="1" [(ngModel)]="card_type" id="debit" class="mr-1" checked>
+                                                Debit
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input type="radio" name="card[card_type]" value="2" [(ngModel)]="card_type" id="credit" class="mr-1">
+                                                Credit
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                        <div  class="radio">
+                                            <label  class="m-radio">
+                                                <input type="radio" name="card[card_type]" value="3" [(ngModel)]="card_type" id="qr" class="mr-1">
+                                                QR
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row" *ngIf="payment_mode == 6">
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Transaction/Ref No.*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="other_payment[transaction_or_ref_no]" placeholder="Enter Transaction/Ref Number" 
+                                        [value]="edit?.other_data?.other_payment_detail?.transaction_or_ref_no">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Bank Name*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="other_payment[bank_name]" placeholder="Enter Bank Name" 
+                                        [value]="edit?.other_data?.other_payment_detail?.bank_name">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form_label mb-0">Payment Type*</label>
+                                </div>
+                                <div class="col-md-8 mb-3">
+                                    <input type="text" class="w-100 form-control" name="other_payment[payment_type]" placeholder="Enter Payment Type" 
+                                        [value]="edit?.other_data?.other_payment_detail?.payment_type">
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Pay Next On</label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <app-mat-date-picker [(selectedDate)]="nextPayOnDate" [isRequired]="false" [minDate]="tomorrowDate" [templateDriven]="true"></app-mat-date-picker>
+
+                                <!-- <input type="date" name="payOnDate" class="form-control" placeholder="Select date" (input)="changeNextPaymentDate($event)"> -->
+                            </div>
+                            <!-- <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Receipt No.*</label>
+                            </div> -->
+                            <!-- <div class="col-md-8 mb-3"> -->
+                                <input type="text" class="w-100 form-control" name="receipt_no" [value]="fees?.receipt_no" placeholder="Enter Receipt No." readonly hidden>
+                            <!-- </div> -->
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Remarks<span class="text-danger static-text-danger" *ngIf="is_remarks_required">*</span></label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <textarea name="" class="form-control" name="remarks" [(ngModel)]="remarks" [value]="edit?.other_data?.remarks" placeholder="Enter Remarks"></textarea>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form_label mb-0">Add Attachment <small>(1MB)</small><span class="text-danger static-text-danger" *ngIf="is_attachments_required">*</span></label>
+                            </div>
+                            <div class="col-md-8 mb-3">
+                                <div  class="input-group attachment">
+                                    <input  type="file" id="inputGroupFile02" name="attachments[]" multiple class="form-control" placeholder="abc">
+                                    <label  for="inputGroupFile02" class="input-group-text">
+                                        <i class="fe fe-plus"></i>Add Attachment
+                                    </label>
+                                </div>
+                                <span class="tx-10 text-muted">Select file with less than 1MB of size.</span>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="d-flex button-footer">
+                                <button *ngIf="edit ? commonService.hasPermission('finance_collect_fees', 'has_update') : commonService.hasPermission('finance_collect_fees', 'has_create')" type="button" class="btn save-btn me-2" (click)="edit ? editReason() : pay()" [disabled]="((fees?.onetime?.length == undefined || fees?.onetime?.length == 0) && (selectedMonths?.length == undefined || selectedMonths?.length == 0)) || disableSave || disableSaveForInactiveStudent">Save</button>
+                                <button *ngIf="edit ? commonService.hasPermission('finance_collect_fees', 'has_update') : commonService.hasPermission('finance_collect_fees', 'has_create')" type="button" class="btn save-btn mx-2" (click)="edit ? editReason(true) : pay(true)" [disabled]="((fees?.onetime?.length == undefined || fees?.onetime?.length == 0) && (selectedMonths?.length == undefined || selectedMonths?.length == 0)) || disableSave || disableSaveForInactiveStudent">Save & Print</button>
+                                <button type="button" class="btn clear-btn mx-2" (click)="getFeesDetails(); getChequeListByStudent(student?.id)">Cancel</button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">  
+                <div class="card w-100 info_title p-0 mb-3" *ngIf="fees?.total_fees">
+                    <div class="card-header d-flex justify-content-between pe-32">
+                        <span class="title">{{fees?.academicYear?.year}} - Fees Details</span>
+                        <span class="title">Total Fees : {{fees?.total_fees?.total_fees || 0}}</span>
+                    </div>
+                </div>              
+                <div class="card w-100 student_details p-0 pb-2 mb-3" *ngIf="fees?.total_fees">
+                    <div class="card_body p-0">
+                        <table class="fee_summary">
+                            <tr>
+                                <th>Category</th>
+                                <th class="text-end pe-32">Amount</th>
+                            </tr>
+                            <tr *ngFor="let row of fees?.total_fees?.category_wise">
+                                <td>{{row.month??row?.category?.type_name}}</td>
+                                <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{row?.amount || 0}}</td>
+                            </tr>
+                            <tr *ngIf="fees?.total_fees?.late_fees_paid > 0">
+                                <td>Late Fees Paid</td>
+                                <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{fees?.total_fees?.late_fees_paid || 0}}</td>
+                            </tr>
+                            <tr *ngIf="fees?.total_fees?.late_fees_discount > 0">
+                                <td>Late Fees Discount</td>
+                                <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{fees?.total_fees?.late_fees_discount || 0}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="card w-100 paid_fees_card remaining_fees highlight px-0" *ngIf="fees?.all_time_category_wise_remaining_fees?.grand_total_remaining > 0">
+                    <div class="card-header pt-0 d-flex justify-content-between pe-32">
+                        <span class="title">Remaining Fees</span>
+                        <span class="text-danger static-text-danger">Total Due : {{fees?.all_time_category_wise_remaining_fees?.grand_total_remaining || 0}}</span>
+                    </div>
+                    <cdk-accordion class="example-accordion card-body p-0" *ngIf="fees?.all_time_category_wise_remaining_fees?.current_year_remaining?.remaining_fees > 0">
+                        <cdk-accordion-item
+                            #accordionItem="cdkAccordionItem"
+                            class="example-accordion-item"
+                            role="button"
+                            tabindex="0"
+                            [attr.id]="'accordion-header'"
+                            [attr.aria-expanded]="accordionItem.expanded"
+                            [attr.aria-controls]="'accordion-body'" [class.active]="accordionItem.expanded">
+                            <div class="example-accordion-item-header d-flex justify-content-between" (click)="accordionItem.toggle()" >
+                                {{fees?.all_time_category_wise_remaining_fees?.current_year_remaining?.year}} - Current Year
+                                <span class="example-accordion-item-description">
+                                    <span class="me-2">Total Amount : {{fees?.all_time_category_wise_remaining_fees?.current_year_remaining?.remaining_fees || 0}} </span>
+                                    <i *ngIf="accordionItem.expanded" class="fa fa-angle-up" aria-hidden="true"></i>
+                                    <i *ngIf="!accordionItem.expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div
+                                class="example-accordion-item-body"
+                                role="region"
+                                [style.display]="accordionItem.expanded ? '' : 'none'"
+                                [attr.id]="'accordion-body'"
+                                [attr.aria-labelledby]="'accordion-header'"
+                            >
+                                <table class="remaining-fees-categories w-100">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th class="text-end pe-32">Amount</th>
+                                    </tr>
+                                    <tr *ngFor="let row of fees?.all_time_category_wise_remaining_fees?.current_year_remaining?.categories">
+                                        <td>{{row.month??row?.category?.type_name}}</td>
+                                        <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{row?.remaining_fees || 0}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </cdk-accordion-item>
+                    </cdk-accordion> 
+                    <cdk-accordion class="example-accordion card-body p-0" *ngIf="fees?.all_time_category_wise_remaining_fees?.previous_years_remaining?.length > 0">
+                        <cdk-accordion-item
+                            *ngFor="let year of fees?.all_time_category_wise_remaining_fees?.previous_years_remaining; let index = index;"
+                            #accordionItem="cdkAccordionItem"
+                            class="example-accordion-item"
+                            role="button"
+                            tabindex="0"
+                            [attr.id]="'accordion-header-' + index"
+                            [attr.aria-expanded]="accordionItem.expanded"
+                            [attr.aria-controls]="'accordion-body-' + index" [class.active]="accordionItem.expanded">
+                            <div class="example-accordion-item-header d-flex justify-content-between" (click)="accordionItem.toggle()" >
+                                {{ year.year }} - Previous Year
+                                <span class="example-accordion-item-description">
+                                    <span class="me-2">Total Amount : {{year.remaining_fees || 0}} </span>
+                                    <i *ngIf="accordionItem.expanded" class="fa fa-angle-up" aria-hidden="true"></i>
+                                    <i *ngIf="!accordionItem.expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <div
+                                class="example-accordion-item-body"
+                                role="region"
+                                [style.display]="accordionItem.expanded ? '' : 'none'"
+                                [attr.id]="'accordion-body-' + index"
+                                [attr.aria-labelledby]="'accordion-header-' + index"
+                            >
+                                <table class="remaining-fees-categories w-100">
+                                    <tr>
+                                        <th>Category</th>
+                                        <th class="text-end pe-32">Amount</th>
+                                    </tr>
+                                    <tr *ngFor="let row of year?.categories">
+                                        <td>{{row.month??row?.category?.type_name}}</td>
+                                        <td class="d-flex justify-content-between align-items-center pe-32"><i class="fas fa-rupee-sign me-3"></i>{{row?.remaining_fees || 0}}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </cdk-accordion-item>
+                    </cdk-accordion> 
+                </div>
+            </div>
+        </div>
+        <div class="card"> 
+            <div class="card_body">
+                <div class="col-lg-12 datatable_cls">
+                    <div class="assign-transport-table">
+                        <div class="datatable-action-design">
+                            <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                  <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                  <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                </svg>
+                              </div>
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered paid-fees-history" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Receipt No</th>
+                                            <th>Payment Date</th>
+                                            <th>Total Amount</th>
+                                            <th>Paid Amount</th>
+                                            <th>Discount</th>
+                                            <th>Payment Mode</th>
+                                            <th>Category</th>
+                                            <th>Details</th>
+                                            <th class="action-btn-sticky">Action</th>
+                                        </tr>
+                                    </thead>                                                                    
+                                    <tbody *ngIf="fees_history?.length != 0">                                                                                          
+                                        <tr *ngFor="let row of fees_history ;let i = index;" [class.cancelled]="row?.is_cancelled == 1" [class.refund]="row?.is_refund" [class.due-cheque]="row.cheque?.cheque_status == 'received'">                
+                                            <td>{{i+1}}</td> 
+                                            <td class="orange-text-color">{{row.receipt_no}}</td> 
+                                            <td>{{row.payment_date | date: dateFormateService.getDateFormat()}}</td>                     
+                                            <td class="teal-text-color">{{row.is_refund ? '-' : ''}}{{row.total_amount}}</td>           
+                                            <td class="green-text-color">{{row.is_refund ? '-' : ''}}{{row.paid_amount}}</td>           
+                                            <td class="orange-text-color">{{row.discount}}</td>              
+                                            <td class="collect_tooltip">{{row.payment_mode?.name??row.fees_refund?.payment_mode?.name}} 
+                                                <div *ngIf="[6, 5, 2, 3, 4].includes(row?.payment_mode_id)" class="tooltip" [ngbTooltip]="tipContentMode" container="body" placement="left" tooltipClass="my-custom-class">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <ng-template #tipContentMode >
+                                                        <span  *ngIf="row?.payment_mode_id == 2">
+                                                            <p><b>Cheque No : </b>{{row.cheque?.cheque_no || 'N/A'}} </p>
+                                                            <p><b>Cheque Date : </b>{{!row.cheque?.cheque_date ? 'N/A' : row.cheque?.cheque_date | date:dateFormateService.getDateFormat()}} </p>
+                                                            <p><b>Bank Name : </b>{{row.cheque?.bank_name || 'N/A'}} </p>
+                                                            <p><b>Cheque Status : </b>{{row.cheque?.cheque_status || 'N/A'}} </p>
+                                                        </span>
+                                                        <span *ngIf="row?.payment_mode_id == 4">
+                                                            <p><b>Account No : </b>{{row.fees_bank_detail?.account_no || 'N/A'}} </p>
+                                                            <p><b>Account Holder Name : </b>{{row.fees_bank_detail?.account_holder_name || 'N/A'}} </p>
+                                                            <p><b>IFSC Code : </b>{{row.fees_bank_detail?.ifsc_code || 'N/A'}} </p>
+                                                        </span>
+                                                        <span *ngIf="row?.payment_mode_id == 3">
+                                                            <p><b>RRN No : </b>{{row.card_detail?.rrn_no || 'N/A'}} </p>
+                                                            <p><b>Bank Name : </b>{{row.card_detail?.bank_name || 'N/A'}} </p>
+                                                            <p><b>Type : </b>{{row.card_detail?.card_type_label || 'N/A'}} </p>
+                                                        </span>
+                                                        <span *ngIf="row?.payment_mode_id == 6">
+                                                            <p><b>Transaction/Ref No : </b>{{row.other_payment_detail?.transaction_or_ref_no || 'N/A'}} </p>
+                                                            <p><b>Bank Name : </b>{{row.other_payment_detail?.bank_name || 'N/A'}} </p>
+                                                            <p><b>Payment Type : </b>{{row.other_payment_detail?.payment_type || 'N/A'}} </p>
+                                                        </span>
+                                                        <span  *ngIf="row?.payment_mode_id == 5">
+                                                            <p><b>UPI : </b>{{row.upi_id || 'N/A'}} </p>
+                                                        </span>
+                                                    </ng-template>
+                                                </div>
+                                            </td>           
+                                            <td>{{row.category_names}} {{row.is_refund && row.months ? (row.category_names ? ','+row.months : row.months) : ''}}</td>
+                                            <td>
+                                                <div class="tooltip" [ngbTooltip]="tipContentDetails" container="body" placement="left" tooltipClass="my-custom-class">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <ng-template #tipContentDetails >
+                                                    <span>
+                                                        <p>
+                                                            <b>Amount : </b>{{row.total_amount}}
+                                                        </p>
+                                                        <p *ngIf="row.is_cancelled == 1">
+                                                            <b>Cancelled By : </b>{{row.cancelled_by}}
+                                                        </p>
+                                                        <p *ngIf="row.is_cancelled == 1">
+                                                            <b>Cancelled Time : </b>{{row.cancelled_time | date:dateFormateService.getDateTimeFormat()}}
+                                                        </p>
+                                                        <p *ngIf="row.is_cancelled == 1">
+                                                            <b>Cancelled Reason : </b><span [innerHtml]="decodeString(row.cancel_reason)"></span>
+                                                        </p>
+                                                        <p *ngIf="!row.is_refund">
+                                                            <b>Fee Taken By : </b>{{row.taken_by}}
+                                                        </p>
+                                                        <p *ngIf="!row.is_refund">
+                                                            <b>Fee Collection Time : </b>{{row.created_at | date:dateFormateService.getDateTimeFormat()}}
+                                                        </p>
+                                                        <p *ngIf="row.is_refund">
+                                                            <b>Refunded By : </b>{{row.refunded_by}}
+                                                        </p>
+                                                        <p *ngIf="row.is_refund">
+                                                            <b>Refund Time : </b>{{row.created_at | date:dateFormateService.getDateTimeFormat()}}
+                                                        </p>
+                                                    </span>
+                                                    </ng-template>
+                                                </div>
+                                            </td>                                                
+                                            <td class="action-btn-sticky">
+                                                <div class="btn-group" role="group">
+                                                    <button class="lt-btn-icon action-edit" *ngIf="row?.is_cancelled == 0 && !edit && hasAccess('Edit', row.is_discount_receipt) && hasBackDate(row.payment_date) && !row.is_refund && !disableSaveForInactiveStudent" (click)="editFn(row)" container="body" ngbTooltip="Edit" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-edit" *ngIf="row?.is_cancelled == 0 && hasAccess('Edit') && hasBackDate(row.refund_date) && row.is_refund && !disableSaveForInactiveStudent" (click)="editRefund(row)" container="body" ngbTooltip="Edit" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-reject" *ngIf="row?.is_cancelled == 0 && !edit && hasAccess('Cancel', row.is_discount_receipt) && !disableSaveForInactiveStudent" (click)="deleteOrCancel(row,true)" container="body" ngbTooltip="Cancel" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-delete" (click)="deleteOrCancel(row)" container="body" ngbTooltip="Delete" *ngIf="!edit && hasAccess('Delete', row.is_discount_receipt) && !disableSaveForInactiveStudent" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-print" *ngIf="commonService.hasPermission('finance_collect_fees', 'has_download')" (click)="feesReceipt(row)" ngbTooltip="Print" container="body">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-attech" *ngIf="commonService.hasPermission('finance_collect_fees', 'has_download')" (click)="attachment(row)" ngbTooltip="Attachment" container="body" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                    <button class="lt-btn-icon action-attech" (click)="editHistory(row)" ngbTooltip="Edit History" container="body" *ngIf="row?.fees_edit_history?.length > 0" [disabled]="row?.payment_mode?.is_online">
+                                                        
+                                                    </button>
+                                                </div>
+                                            </td>                                             
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="fees_history?.length == 0">
+                                        <tr>
+                                        <td colspan="10" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>                                        
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Exam Timetable</h3>
+                <div class="d-flex">
+                    <button class="btn list-btn me-2" [routerLink]="setUrl(URLConstants.EXAM_VIEW_LIST)">Exam List</button>
+                    <button type="submit" (click)="onSubmit('pdf')" [disabled]="!examTimeTableform.valid" class="btn pdf-btn me-2" ngbTooltip="PDF" id="submitButton"><img src="assets/images/pdf-icon.svg" alt=""></button>
+                    <button type="submit" (click)="onSubmit('excel')" [disabled]="!examTimeTableform.valid" class="btn excel-btn" ngbTooltip="EXCEL" id="submitButton"><img src="assets/images/excel-icon.svg" alt=""></button>
+                </div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            
+                            <form [formGroup]="examTimeTableform" class="form_section">
+                                <div class="row">
+                                    <div class="col-md-4 form_group mb-0">
+                                        <label for="" class="form_label">Section <span class="text-danger">*</span></label>
+                                        <app-single-select controlName="section_id" placeholder="Select section" (change)="fun($event)"
+                                            [dropDownArray]="sectionList"></app-single-select>
+                                    </div>
+                                    <div class="col-md-4 form_group mb-0">
+                                        <label class="form_label">Select exam type<span class="text-danger">*</span></label>
+                                        <div>
+                                            <select name="exam_type" #examtypes formControlName="exam_type" class="form-control" id="exam_type" [(ngModel)]="selectedExam" (change)="fun()" required>
+                                                <option value="">Please select exam type.</option>
+                                                <option *ngFor="let item of exam_types" value="{{item.name}}">{{item.name}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form_group mb-0">
+                                        <label class="form_label">Select classes<span class="text-danger">*</span></label>
+                                        <div>
+                                            <ng-multiselect-dropdown formControlName="class_name"
+                                                [placeholder]="'Select classes'"
+                                                [settings]="dropdownSettings"
+                                                [data]="dropdownList"
+                                                [(ngModel)]="selectedItems"
+                                                (onSelect)="onItemSelect($event)"
+                                                (onDeSelect)="onItemDeSelect($event)"
+                                                (onDeSelectAll)="onItemDeSelectAll($event)"
+                                                (onSelectAll)="onSelectAll($event)"
+                                                >
+                                                </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-auto form_group mb-0 add_doc">
+                                        <label>PDF</label>
+                                        
+                                    </div>
+                                    <div class="col-auto form_group mb-0 add_doc">
+                                        <label>Excel</label>
+                                        
+                                    </div> -->
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

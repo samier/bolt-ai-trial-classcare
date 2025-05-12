@@ -1,0 +1,42 @@
+<div>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Wing</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="page_inner">
+
+      <div class="card_body">
+        <div class="row">
+          <div class="form_group">
+            <label class="form_label">Select Hostel<span class="text-danger">*</span></label>
+            <div>
+              <ng-select [placeholder]="'Select Hostel'" [(ngModel)]="params.hostel_id" bindLabel="name"
+                bindValue="id" [items]="hostels">
+              </ng-select>
+              <div class="text-danger">{{validationError['hostel_id']}} </div>
+            </div>
+          </div>
+          <div class="form_group">
+            <label class="form_label">Name<span class="text-danger">*</span></label>
+            <input type="text" name="name" placeholder="Name" class="form-control" [(ngModel)]="params.name"
+              (keyup)="validationError['name'] = null">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-auto">
+      <button type="submit" class="w-100 btn save-btn" (click)="submit()"> Save </button>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="w-100 clear-btn btn" (click)="close()">
+        Cancel </button>
+    </div>
+  </div>
+</div>

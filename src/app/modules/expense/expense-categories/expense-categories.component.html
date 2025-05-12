@@ -1,0 +1,51 @@
+<div class="card expense-list-card border-0 p-0">
+    <div class="card-header border-0 justify-content-left border-none d-flex">
+        <div [formGroup]="categoriesFilterForm" class="card-expense-heading d-flex align-items-center mx-2">
+            <app-date-range-picker type="date" controlName="date" placeholder="Select Date"></app-date-range-picker>
+        </div>
+        <div class="d-flex expense-reset-btn">
+        <button class="btn btn me-2" (click)="clearAll()" [disabled]="isResetloading">Reset
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetloading">
+              <span class="visually-hidden">Loading..."</span>
+            </div>
+        </button>
+      </div>
+    </div>
+    <div class="card-body border-0 py-0">
+        <div class="row pb-3 mx-0 no-gutters">
+        <div class="col-lg-12">
+            <div class="expense-list-table">
+                <div *ngIf="configArray && configArray.length > 0 ">
+                    <highcharts-chart [Highcharts]="Highcharts" [constructorType]="chartConstructor" [options]="chartOptions"
+                        [callbackFunction]="chartCallback" [(update)]="updateFlag" [oneToOne]="oneToOneFlag"
+                        [runOutsideAngular]="runOutsideAngular" style="width: 100%; height: 400px; display: block;">
+                    </highcharts-chart>
+                </div>
+                <div class="table-list-heading">              
+                </div>
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                        <thead class="thead-light">
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody *ngIf="tbody?.length > 0">
+                                <tr *ngFor="let item of tbody ;let i = index;">
+                                <td>{{item.categoryName}}</td>
+                                <td>{{item.amount || 0}}</td>
+                                </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length == 0">
+                            <tr>
+                                <td colspan="10" class="text-center no-data-available">No data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

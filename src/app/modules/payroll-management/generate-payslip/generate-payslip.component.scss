@@ -1,0 +1,16 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    app-generate-payslip{
+        .lable-h-l{
+            color: black;
+            span{
+                color: var(--primary-bg-color);
+            }
+        }
+    }
+    &.dark-theme{
+        .lable-h-l{
+            color: var(--031);
+        }
+    }
+}

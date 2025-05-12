@@ -1,0 +1,278 @@
+<header *ngIf="is_admin || is_faculty || is_staff || is_branch_admin" class="header">
+  
+  <div class="header_top">
+      <div class="m-container">
+          <div class="d-flex justify-content-between align-items-center header_layout">
+              <div class="h_left">
+                  <a [href]="setsymfonyBranchUrl('BranchList')">{{branch_name()}}</a>
+              </div>
+              <div class="h_right">
+                  <span id="currentYear">Current Year: {{currentYear()}}</span>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" (click)="toggle()">
+                    <span class="navbar-toggler-icon" >
+                        <i class="fa fa-bars" aria-hidden="true"></i></span>
+                    </button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <nav class="navbar navbar-expand-xl navbar-light menu">
+    <div class="m-container">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="nav_layout">
+          <ul class="navbar-nav ul_left">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" [routerLink]="setUrl(URLConstants.DASHBOARD)">Dashboard</a>
+            </li>
+            <li class="nav-item dropdown" [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" *ngIf="is_admin || is_staff || is_branch_admin">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                Student<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('students')" class="dropdown-item">Students</a></li>
+                  <li *ngIf="getAttendanceType() == 2" ><a [href]="setsymfonyUrl('report/viewattendance')"class="dropdown-item">Attendance</a></li>
+                  <li><a [href]="setsymfonyUrl('exam/viewExam')" class="dropdown-item">Exam</a></li>
+                  <li><a href="#." *ngIf="getInstituteModule('Leaving Certificate')" [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)" class="dropdown-item">Leaving Certificate</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="nav-item" *ngIf="(is_staff || is_branch_admin || is_admin) && getAttendanceType() == 1"><a href="#." class="nav-link" [href]="setsymfonyUrl('lecture/list')" >Lecture</a></li>
+
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="(is_staff || is_branch_admin || is_admin) && (getInstituteModule('HRA') || getInstituteModule('Lesson Planning') || getInstituteModule('Teacher\'s Diary'))">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Faculty<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li *ngIf="getInstituteModule('HRA')"><a href="#." class="dropdown-item" [routerLink]="setUrl(URLConstants.USER_LIST)">Faculty</a></li>              
+                  <li *ngIf="getInstituteModule('Lesson Planning')"><a href="#." class="dropdown-item" [routerLink]="setUrl(URLConstants.LESSON_LIST)">Lesson Planning</a></li>
+                  <li *ngIf="getInstituteModule('Teacher\'s Diary')"><a href="#." class="dropdown-item" [routerLink]="setUrl(URLConstants.ADMIN_DIARY_LIST)">Teacher's Diary</a></li>
+                </ul>
+                </div>
+            </li>
+            <li class="nav-item dropdown" *ngIf="is_staff || is_branch_admin || is_admin">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Finance<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('feesView')" class="dropdown-item">Fees</a></li>
+                  <li><a [href]="setsymfonyUrl('expense/expenseReport')" class="dropdown-item">Expenses</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.FEES_DISCOUNT)" class="dropdown-item">Fees Discount</a></li>                  
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.EDIT_DISCOUNT)" class="dropdown-item">Edit Discount</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.STUDENT_DISCOUNT)" class="dropdown-item">Student Discount</a></li>
+                </ul>
+              </div>
+            </li>
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="is_staff || is_branch_admin || is_admin">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" routerLinkActive="active">
+                Administrator<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li *ngIf="getInstituteModule('Meal')"><a href="#." class="dropdown-item" *ngIf="is_admin" [routerLink]="setUrl(URLConstants.MEALS_LIST)" routerLinkActive="active">Meal</a></li>
+                  <li *ngIf="getInstituteModule('Meal')"><a href="#." class="dropdown-item" *ngIf="is_admin" [routerLink]="setUrl(URLConstants.DATE_WISE_MEALS_LIST)" routerLinkActive="active">Date Wise Meal</a></li>
+                  <li *ngIf="getInstituteModule('Leave')"><a href="#." class="dropdown-item" [routerLink]="setUrl(URLConstants.LEAVES_LIST)" routerLinkActive="active">Leave</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('attachment/attachmentList')" class="dropdown-item">Assignment</a></li>
+                  <li *ngIf="notification.timetable_module == 0"><a [href]="setsymfonyUrl('timetable/list')" class="dropdown-item">Time Table</a></li>
+                  <li *ngIf="notification.timetable_module == 1"><a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="dropdown-item">Time Table</a></li>
+                  <li><a [href]="setsymfonyUrl('timetable/calendar')" class="dropdown-item">Calendar</a></li>
+                  <li><a [href]="setsymfonyUrl('event/addEvent')" class="dropdown-item">Events Gallery</a></li>
+                </ul>
+              </div>
+            </li>
+
+
+            <li class="nav-item dropdown" *ngIf="is_faculty">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Attendance<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('report/viewattendance')"class="dropdown-item">Attendance</a></li>
+                </ul>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown" *ngIf="is_faculty">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Exam<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('exam/viewExam')" class="dropdown-item">Exam</a></li>              
+                </ul>
+              </div>
+            </li>          
+
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="is_faculty && getInstituteModule('Leave')">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Leave<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.FACULTY_STUDENT_LEAVEL_LIST)" class="dropdown-item">Approve Leave</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.FACULTY_LEAVE_LIST)" class="dropdown-item">Faculty Leave List</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown" *ngIf="is_faculty">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Administrator<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('attachment/attachmentList')" class="dropdown-item">Assignment</a></li>
+                  <li><a [href]="setsymfonyUrl('timetable/calendar')" class="dropdown-item">Calendar</a></li>
+                  <li><a [href]="setsymfonyUrl('event/addEvent')" class="dropdown-item">Events Gallery</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item" *ngIf="is_faculty && getInstituteModule('Lesson Planning')"><a href="#." class="nav-link" [routerLink]="setUrl(URLConstants.FACULTY_LESSON_LIST)" >Lesson</a></li>
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item" *ngIf="is_faculty && getInstituteModule('Teacher\'s Diary')"><a href="#." class="nav-link" [routerLink]="setUrl(URLConstants.TEACHER_DIARY_LIST)" >Teacher's Diary</a></li>
+
+            <li class="nav-item dropdown" *ngIf="(is_staff || is_branch_admin || is_admin)">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Report<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('report/student-of-the-month')" class="dropdown-item">Student of the Month</a></li>
+                  <li><a [href]="setsymfonyUrl('report/batch-students')" class="dropdown-item">School Marksheet</a></li>
+                  <li><a [href]="setsymfonyUrl('report/exam')" class="dropdown-item">All Reports</a></li>
+                  <li><a [href]="setsymfonyUrl('report/generate-marksheet')" class="dropdown-item">Generate Marksheet</a></li>
+                  <li><a [href]="setsymfonyUrl('report/marksheet-create')" class="dropdown-item">Create Marksheet</a></li>
+                  <li><a href="#" [routerLink]="setUrl(URLConstants.STUDENT_REPORT)" class="dropdown-item">Student Report</a></li>
+                  <li><a href="#" [routerLink]="setUrl(URLConstants.FEES_REPORT)" class="dropdown-item">Fees Report</a></li>
+                  
+                  <li><a href="#" [routerLink]="setUrl(URLConstants.APPLICATION_LOGIN_REPORT)" class="dropdown-item">Application Login Report</a></li>
+                  <li><a href="#" [routerLink]="setUrl(URLConstants.TRANSPORT_REPORT)" class="dropdown-item" *ngIf="(is_staff || is_admin) && getInstituteModule('Transport')">Transport Report</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li class="nav-item" *ngIf="is_staff || is_branch_admin || is_admin"><a href="#." class="nav-link" [href]="setsymfonyUrl('sms/send')" >Message</a></li>
+
+            <li class="nav-item dropdown" *ngIf="is_staff || is_branch_admin || is_admin">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Inquiry<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a [href]="setsymfonyUrl('inquiry/list')" class="dropdown-item">Inquiry List</a></li>
+                  <li><a [href]="setsymfonyUrl('inquiry/customFieldList')" class="dropdown-item">Custom Field List</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <li class="nav-item" *ngIf="is_staff || is_branch_admin || is_admin"><a href="#." class="nav-link" [href]="setsymfonyUrl('frontoffice/callFollowup')" >Front Office</a></li>
+
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="(is_staff || is_admin) && getInstituteModule('Transport')">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Transport<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.DOCUMENT_TYPE_LIST)" class="dropdown-item">Document Type</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.STOPS_LIST)" class="dropdown-item">Stops</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.DRIVER_LIST)" class="dropdown-item">Driver</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.VEHICLE_LIST)" class="dropdown-item">Vehicle</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.ROUTE_LIST)" class="dropdown-item">Route</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.ASSIGN_TRANSPORT_LIST)" class="dropdown-item">Assign transport</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.SEND_TRANSPORT_WHATSAPP_MESSAGE)" class="dropdown-item">Send Tranport Message</a></li>
+                </ul>
+              </div>
+            </li>
+            
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item" *ngIf="is_faculty && getInstituteModule('Transport')">
+              <a href="#." class="nav-link" [routerLink]="setUrl(URLConstants.TRANSPORT)" >Transport</a>
+            </li>
+
+            
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="(is_staff || is_admin) && getInstituteModule('MCQ')">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Online Exam<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.CHAPTER_LIST)" class="dropdown-item">Chapter</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.QUESTION_LIST)" class="dropdown-item">Question</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.EXAM_LIST)" class="dropdown-item">Exam</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.RESULT_LIST)" class="dropdown-item">Result</a></li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- <li class="nav-item dropdown" *ngIf="(is_staff || is_admin) && getInstituteModule('Leaving Certificate')" >
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Leaving Certificate<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)" class="dropdown-item">Leaving Certificate List</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_ADD)" class="dropdown-item">Leaving Certificate Add</a></li>
+                </ul>
+              </div>
+            </li> -->
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown" *ngIf="(is_staff || is_admin) && getInstituteModule('HRA')">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                HRA<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.ROLE_LIST)" class="dropdown-item">Role List</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.LEAVE_TYPE_LIST)" class="dropdown-item">Leave Type</a></li>
+                  <li><a href="#." [routerLink]="setUrl(URLConstants.PAYROLL)" class="dropdown-item">Payroll</a></li>
+                </ul>
+              </div>
+            </li>          
+
+          </ul>
+          <ul class="navbar-nav ul_right" >
+            <li [routerLinkActive]='active' [routerLinkActiveOptions]="{exact: true}" class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Settings<i class="las la-angle-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <ul>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('yearList')" class="dropdown-item">Academic Year</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('viewSection')" class="dropdown-item">Section</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('viewSubjectDetail')" class="dropdown-item">Subject</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('viewCourse')" class="dropdown-item">Course</a></li>
+                  <li *ngIf="(is_staff || is_branch_admin || is_admin || !is_faculty) && notification.course_as_class != 1"><a [href]="setsymfonyUrl('class/viewClass')" class="dropdown-item">Class</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('batch/')" class="dropdown-item">Batch</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [routerLink]="setUrl(URLConstants.EXAM_TYPE_LIST)" class="dropdown-item">Exam Type</a></li>
+                  <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('notification')" class="dropdown-item">Notification</a></li>
+                  <!-- <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty"><a [href]="setsymfonyUrl('notification')" class="dropdown-item">Faculty Rating</a></li> -->
+                  <!-- <li *ngIf="is_staff || is_branch_admin || is_admin || !is_faculty" ><a [href]="setsymfonyUrl('staffFeesView/')" class="dropdown-item">View Staff Fees</a></li> -->                  
+                  <li><a href="/logout" class="dropdown-item">Sign Out</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+      </div>
+      </div>
+      <span class="close_icon" (click)="toggleclose()"><i class="la la-close"></i></span>
+    </div>
+  </nav>
+</header>
+<header *ngIf="is_student" class="header header_new">
+  <div class="m-container">
+    <div class="row align-items-center">
+      <div class="col">
+        <!-- <label class="lbl_id">User Name:<span>A_8781</span></label> -->
+        <label class="lbl_id">Welcome to Dashboard</label>
+      </div>
+      <div class="col">
+        <ul class="student_settings">
+          <li><a href="/student/showProfile">Profile</a></li>
+          <li><a href="/student/changePassword">Change Password</a></li>
+          <li><a href="/student/studentlogout">Log out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>

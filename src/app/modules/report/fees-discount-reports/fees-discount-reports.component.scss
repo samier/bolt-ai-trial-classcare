@@ -1,0 +1,148 @@
+@import'../../../../assets/css/variable.scss';
+
+::ng-deep body {
+    app-fees-discount-reports {
+
+        // .section_title{
+        //     background-color: $primary;
+        //     color: white;
+        //     padding: 10px 20px;
+        //     border-radius: 7px 7px 0 0;
+        // }
+        .card-header {
+            .border-circle {
+                border-radius: 50%;
+            }
+        }
+
+        .form-switch {
+            .form-check-input {
+                margin-left: 0;
+                width: 50px;
+                height: 25px;
+
+                &:checked {
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+
+                &:focus {
+                    box-shadow: 0 0 0 0.25rem rgb(1 50 156 / 25%);
+                    ;
+                }
+            }
+        }
+        .bg_counter {
+            display: flex;
+            align-items:center;
+            border: 1px solid #d7d6d6;
+            padding: 12px;
+            border-radius: 12px;
+            height: 100%;
+            // width: max-content;
+            // margin:0 auto;
+            .content{
+                strong{
+                    font-size: 20px;
+                    line-height: 1.2;
+                }
+                .counter_title{
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: $primary;
+                    opacity: 0.8;
+                }
+            }
+        }
+        .product-icon{
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 20px;
+            background: $primary;
+            img{
+                position: relative;
+            }
+            &.active_user{
+                img{
+                    left: 3px;
+                }
+            }
+            &.teacher{
+                img{
+                    top: -1px;
+                }
+            }
+            &.super_admin{
+                img{
+                    top: 1px;
+                }
+            }
+        }
+        .counter_card{
+            // border-right: 2px solid #C7C7C7;
+            margin: 12px 0;
+            &:last-child{
+                border-right: none;
+            }
+            &:nth-child(6n){
+                border-right: none;
+            }
+        }
+
+        .student-list-table {
+            .table-responsive {
+                .dataTables_filter{
+                    position: absolute;
+                    right: 100px;
+                }
+                .tgenerate-btn{
+                    position: absolute;
+                    right: 0;
+                    z-index: 1;
+                    width: 85px;
+                    button{
+                        width: 100%;
+                    }
+                }
+                .table {
+                    thead {
+                        tr {
+                            th {
+                                input[type=date]{
+                                    width: auto;
+                                }
+                            }
+                        }
+                    }
+                    tbody {
+                        tr {
+                            td {
+                                white-space: nowrap;
+                                &:nth-child(4){
+                                    min-width: 300px;
+                                }
+                                &:nth-child(9){
+                                    min-width: 300px;
+                                    white-space: normal;
+                                }
+                                input[type=date]{
+                                    width: auto;
+                                    margin-left: 54px;
+                                }
+                            }
+                        }
+                    }
+                   
+                }
+            }
+            .dataTables_wrapper .dataTables_length select{
+                background-size: 20px;
+            }
+        }
+    }
+}

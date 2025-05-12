@@ -1,0 +1,73 @@
+<section class="position-relative card mb-0 subject-card" style="height: 100%;">
+    <div class="card-body">
+        <div class="d-flex justify-content-center align-items-center mb-2">
+            <h4 class="fw-bold card-title m-0" [ngStyle]="{'color' : subject?.color }">{{subject.subject_group_name}} </h4>
+            <!-- (click)="openSubjectViewModel(subjectGroupModel)" -->
+            <div *ngIf="subject?.is_child_subject" [ngbTooltip]="tipContentMode" container="body" placement="right " tooltipClass="my-custom-class" class="ms-2">
+                <i class="fas fa-info-circle" style="cursor: pointer;"></i>
+                <ng-template #tipContentMode>
+                    <ng-container *ngFor="let item of subject?.child_subject">
+                        <p style="font-weight: 500;" [ngStyle]="{'color' : item?.color }">{{item.name}}</p>
+                    </ng-container>
+                </ng-template>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <a *ngIf="commonService.hasPermission('settings_subject', 'has_update')" (click)="onEdit(subject)" class="btn edit-btn me-3">Edit </a>
+            <a *ngIf="commonService.hasPermission('settings_subject', 'has_delete')" (click)="onDelete(subject)" class="btn delete-btn">Delete</a>
+        </div>  
+    </div>
+</section>
+
+<!-- <ng-template #subjectGroupModel>
+    <div class="subject-group-model">
+        <div class="modal-header" style="z-index: 0; border: none">
+            <h4 class="modal-title" id="modal-basic-title">{{subject.name}} View</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeSubjectViewModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <ng-container *ngFor="let item of subject?.child_subject">
+                <p [ngStyle]="{'color' : item?.color }">{{item.name}}</p>
+            </ng-container>
+            <ng-container *ngIf="subject?.is_child_subject">
+                <form [formGroup]="subjectGroupForm">
+                    <ng-container *ngFor="let item of subjectArray.controls; let i=index">
+                        <div class="row">
+                            <div class="col-md-7 form_group">
+                                <label for="subjectGroupName" class="form_label">Subject Name<span class="text-danger">*</span></label>
+                                <app-input formArrayName="subjects" [GroupName]="i" controlName="name"
+                                    placeholder="Enter subject name"></app-input>
+                            </div>
+                            <div class="col-md-4">
+                                <ng-container formArrayName="subjects">
+                                    <div class="d-flex justify-content-center align-items-center">
+                                        <div class="" [formGroupName]="i">
+                                            <label for="color">Color</label>
+                                            <input type="color" class="color" id="color" formControlName="color">
+                                        </div>
+                                        <div class="add_doc">
+                                            <label for="form_label">Reset Color</label>
+                                            <button class="btn cancel-btn" (click)="resetColor(i)" [disabled]="!isEdit">Reset
+                                                Color</button>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                            <div class="col-md-1 add_doc">
+                                <label for="form_label">Btn</label>
+                                <div class="">
+                                    <button ngbTooltip="Save" *ngIf="isEdit" (click)="saveSubject(i)" class="btn action-approve"><i
+                                            class="fa fa-check-double"></i></button>
+                                    <button ngbTooltip="Edit" *ngIf="!isEdit" (click)="editSubject(i)" class="btn action-edit"><i
+                                            class="fa fa-pencil-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form>
+            </ng-container>
+        </div>
+    </div>
+</ng-template> -->

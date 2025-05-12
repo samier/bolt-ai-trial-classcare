@@ -1,0 +1,82 @@
+.add_event_btn_group{
+    .btn{
+      width: 30px;
+      height: 30px;
+      padding: 5px !important;
+
+      &.add-btn{
+        border: 1px solid #02a3c3;
+        color: #fff;
+        background-color: #02a3c3;  
+
+        &::before{
+          display: none;
+        }
+      }
+
+      &.cancel-btn{
+        border: 1px solid #ff7474;
+        color: #fff;
+        background-color: #ff7474;
+
+        &::before{
+          display: none;
+        }
+      }
+    }
+}
+.chequeRow {
+  scroll-margin-bottom: 120px;
+  h3{
+    font-size: 16px;
+    line-height: 20px;
+    margin: 14px 0 0 0;
+    font-weight: 700;
+    margin-left: 16px;
+  }
+}
+.disabled{
+  cursor: not-allowed;
+}
+.calendar-loader {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 10;
+  pointer-events: all;
+}
+
+.fees-details-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 12px;
+}
+
+.fees-detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.fees-label {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.fees-value {
+    color: #212529;
+    font-weight: 600;
+} 
+::ng-deep {
+  .readonly{ 
+    .mat-form-field-flex {
+      background-color: #dde2ef;
+    }  
+  }
+}

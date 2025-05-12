@@ -1,0 +1,96 @@
+<div class="upcoming-exam-section">
+    <div class="upcoming-header">
+        <!-- <h3>Inquiry</h3> -->
+        <a class="view-all-link" [routerLink]="setUrl(URLConstants.INQUIRY_LIST)"> 
+            <h3> 
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7" fill="white"/>
+                    <path d="M18 8C12.4772 8 8 12.4772 8 18C8 23.5228 12.4772 28 18 28C23.5228 28 28 23.5228 28 18C28 12.4772 23.5228 8 18 8Z" fill="black"/>
+                    <path d="M18.0098 14H17.9998" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M18.0098 22V18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> 
+                Inquiry
+            </h3> 
+        </a>
+        <div [formGroup]="inquiryF" class="exam-mark-form">
+
+            <div class="row justify-content-end pe-2" >
+                <div class="col-md-3 form_group m-0">
+                    <app-single-select controlName="class"  placeholder="Select Class" [dropDownArray]="classlist" (change)="classChange()"></app-single-select>
+                </div>
+                <div class="col-md-3 form_group m-0" style="padding-right: 8px;">
+                    <app-date-range-picker class="date-icons" appendTo="body" controlName="date" placeholder="Select Date" ></app-date-range-picker>
+                </div>
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-4 form_group m-0">
+                    <app-single-select controlName="class"  placeholder="Select Class" [dropDownArray]="classlist" (change)="classChange()"></app-single-select>
+                </div>
+                <div class="col-md-4 form_group m-0">
+                    <app-date-range-picker appendTo="body" controlName="date" placeholder="Select Date" ></app-date-range-picker>
+                </div>
+                <div class="col-md-4 form_group m-0">
+                    <app-date-range-picker type="date" controlName="date"  placeholder="Select Date"></app-date-range-picker>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Student Full Name</th>
+                        <th>Contact No.</th>
+                        <th>Class</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="inquiryList?.length > 0">
+                        <ng-container *ngFor="let inquiry of inquiryList">
+                            <tr>
+                                <td> 
+                                    <a class="view-all-link" [routerLink]="[CommonService.setUrl(URLConstants.INQUIRY_VIEW),inquiry.id]"> 
+                                        {{ inquiry?.first_name ?? "-" }} {{ inquiry?.middle_name ?? "-" }} {{ inquiry?.last_name ?? "-" }} 
+                                    </a> 
+                                </td>
+                                <td class="text_contact"> {{ inquiry?.parent_mobile ?? "-"}} </td>
+                                <td> {{ inquiry?.class ?? "-" }} </td>
+                                <td [ngClass]="{
+                                    'text-warning': inquiry?.status === 0,
+                                    'text-info': inquiry?.status === 1,
+                                    'text-primary': inquiry?.status === 2,
+                                    'text-success': inquiry?.status === 3,
+                                    'text-danger static-text-danger': inquiry?.status === 4
+                                }"> {{ inquiry?.status_name ?? "-" }} </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  inquiryList?.length == 0">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,154 @@
+<section class="manage-subject">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Set Optional Subjects for {{role}} Batch Students</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" [routerLink]="commonService.setUrl(URLConstants.BATCH)">Batch List</a>
+                </div>
+            </div>
+            <div>
+                <ng-container *ngIf="!isLoader else loaderContent">
+                    <div class="card_body">
+                        <div class="card">
+                            <div class="col align-self-end student_sub_options"
+                                *ngIf="error_message==false && student_list_error==false">
+                                <div class="row justify-content-start mb-4">
+                                    <div class="col-3">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h6>Selected Optional Subjects : </h6>
+                                                <select name="group" class="form-control" (change)="groupChange()"
+                                                    [(ngModel)]="groupId" id="">
+                                                    <option *ngFor="let item of groups | keyvalue" value="{{item.key}}">
+                                                        {{item.value}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h6> Select All at Once</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <form [formGroup]="radioForm">
+                                                <div class="col" formArrayName="records">
+                                                    <div *ngFor="let q of records().controls; let i=index"
+                                                        [formGroupName]="i">
+                                                        <div class="form-check form-check-inline"
+                                                            *ngFor="let subject of subjects; let i=index">
+                                                            <input class="form-check-input"
+                                                                value="{{subject.subject_detail_group_id}}"
+                                                                formControlName="rdm"
+                                                                (change)="fun2(subject.subject_detail_group_id,i)"
+                                                                type="radio"
+                                                                id="flexRadio{{subject.subject_detail_group_id}}">
+                                                            <label class="form-check-label"
+                                                                for="flexRadio{{subject.subject_detail_group_id}}">
+                                                                {{subject.subject_detail_group_name}}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="student_list_error==true" class="manage_subject_info">
+                                <h4>Please add <a
+                                        [href]="commonService.setsymfonyUrl('batch/student/'+batch_id)">students</a> to
+                                    batch.
+                                </h4>
+                            </div>
+
+                            <div *ngIf="error_message==true" class="manage_subject_info">
+                                <h4>Some data is missig. Please make sure 2 things.</h4>
+                                <ol>
+                                    <li>
+                                        You have <a
+                                            [routerLink]="commonService.setUrl(URLConstants.SUBJECT_LIST)">Subjects</a>
+                                        in
+                                        subject section.
+                                    </li>
+                                    <li>
+                                        You have <a
+                                            [routerLink]="[commonService.setUrl(URLConstants.COURSE_EDIT),class_id]">added
+                                            those
+                                            subject</a> to
+                                        current class.
+                                    </li>
+                                    <!-- <li>
+                                            And you have assign <a [href]="commonService.setsymfonyUrl('addCourse/'+batch_id)">optional subjects</a>
+                                            to current batch.
+                                        </li> -->
+                                </ol>
+                            </div>
+
+                        </div>
+                        <div class="" *ngIf="error_message==false && student_list_error==false">
+                            <div class="card">
+                                <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                                    <table class="table table-bordered" formArrayName="oldRecords">
+                                        <thead>
+                                            <tr>
+                                                <th>Roll No</th>
+                                                <th>Student Name</th>
+                                                <th>Optional Subject</th>
+                                            </tr>
+                                        </thead>
+                                        <tr *ngFor="let q of oldRecords().controls; let i=index" [formGroupName]="i">
+                                            <td>
+                                                {{ q.value.rollno }}
+                                            </td>
+                                            <td>
+                                                <input type="hidden" formControlName="hidden_id" name="hidden_id"
+                                                    class="form-control">
+                                                <input type="text" readonly style="border: none;" formControlName="name"
+                                                    name="name" class="form-control">
+                                            </td>
+                                            <td width="60%">
+                                                <div class="form-check form-check-inline"
+                                                    *ngFor="let subject of subjects; let j=index">
+                                                    <!-- checked="{{ console.log(oldRecords().controls[i].get('option_subject')?.value)}}" -->
+                                                    <input class="form-check-input"
+                                                        value="{{subject.subject_detail_group_id}}" type="radio"
+                                                        formControlName="optiona_subject_details_group_id" id="flexRadioDefault{{i+subject?.id}}">
+                                                    <label class="form-check-label" for="flexRadioDefault{{i+subject?.id}}">
+                                                        {{subject.subject_detail_group_name}}
+                                                    </label>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <button type="submit" class="btn save-btn" [disabled]="isSave">Save
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSave">
+                                            <span class="visually-hidden">Loading..."</span>
+                                        </div>
+                                    </button>
+                                    <!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a>                                   -->
+                                </form>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-template #loaderContent>
+                    <div class="card">
+                        <div class="d-flex justify-content-center">
+                            <div class="loader-for-inquiry-edit"></div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

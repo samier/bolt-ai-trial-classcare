@@ -1,0 +1,17 @@
+.container-center {
+	width: 100%;
+	display: flex;
+}
+.left-side {
+	flex: 80%;
+	padding: 5px 20px;
+}
+.right-side {
+	flex: 20%;
+	padding: 5px 20px;	
+}
+hr {
+	&.hr-bold {
+		border:2px #000 solid;
+	}
+}

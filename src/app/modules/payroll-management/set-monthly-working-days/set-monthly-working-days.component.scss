@@ -1,0 +1,12 @@
+::ng-deep body{
+    app-set-monthly-working-days{
+        .form_section{
+            .form_group{
+                label{
+                    min-width: 132px;
+                    max-width: 132px;
+                }
+            }
+        }
+    }
+}

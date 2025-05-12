@@ -1,0 +1,26 @@
+::ng-deep body{
+    app-auto-fee-reminder-setup {
+        .basic_table {
+            .table-responsive {
+                display: unset;
+                tr {
+                    th {
+                        &.reminder_type {
+                            width: 226px;
+                        }
+                    }
+                }
+            }
+            .fees-reminder-select-space{
+                .ng-select{
+                    margin-bottom: 6px;
+                }
+            }
+            // .fees-amount-right{
+            //     input{
+            //         text-align: right;
+            //     }
+            // }
+        }
+    }
+}

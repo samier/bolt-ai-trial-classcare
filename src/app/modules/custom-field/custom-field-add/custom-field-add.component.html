@@ -1,0 +1,72 @@
+<section class="student-gender-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Custom Field List</h3>
+                <div class="btn_right d-flex gap-3">
+                    <a class="btn me-2 list-btn" [routerLink]="customFieldService.setUrl(URLConstants.CUSTOM_FIELD)">Custom Field List</a>
+                </div>
+            </div>
+
+            <div class="report_filter card">
+                <form action="" [formGroup]="customFieldForm">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="">Field Title <span class="text-danger">*</span></label>
+                            <app-input placeholder="Enter field title" controlName="field_title" (input)="fieldTitleChange()"></app-input>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Field Name</label>
+                            <app-input  placeholder="Enter field name" controlName="field_name" [readonly]="true"></app-input>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Field Type <span class="text-danger">*</span></label>
+                            <app-single-select [dropDownArray]="fieldTypeList" placeholder="Select field type" controlName="field_type" (change)="fieldTypeChange($event)"></app-single-select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="">Where to use <span class="text-danger">*</span></label>
+                            <app-single-select [dropDownArray]="whereToUse" placeholder="Select where to use" controlName="where_to_use" ></app-single-select>
+                        </div>
+                        <div class="col-md-1 d-flex align-items-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" formControlName="required" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  Required
+                                </label>
+                              </div>
+                        </div>
+
+                        <div class="form-group row mt-3" *ngIf="customFieldForm.value.field_type === 'dropdown'">
+                            <label class="col-form-label">Enter Options</label>
+                              <div formArrayName="values">
+                                <div class="row">
+                                    <div class="col-md-3" *ngFor="let option of values.controls; let i = index">
+                                        <div  class="input-group mb-2">
+                                            <input [formControlName]="i" type="text" class="form-control " placeholder="Option {{ i + 1 }}" />
+                                            <div class="input-group-append">
+                                              <button type="button" class="btn btn-primary ms-2" *ngIf="i !== 0" (click)="removeOption(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                                              <button type="button" class="btn btn-primary ms-2" *ngIf="i == 0" (click)="addOption()"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                                            </div>
+                                          </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                          </div>
+                        <div class="col-md-12 mt-3">
+                            <button type="submit" class="w-auto btn save-btn me-3"  [disabled]="isCustomField" (click)="saveCustomField()" *ngIf="customFieldId ? CommonService.hasPermission('inquiry_custom_field_list', 'has_update') : CommonService.hasPermission('inquiry_custom_field_list', 'has_create')"> 
+                              {{customFieldId ? 'Update' : 'Save'}}
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isCustomField">
+                                  <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </button>
+                            <button type="submit" class="w-auto btn cancel-btn" (click)="resetForm()"> 
+                              reset
+                            </button>
+                          </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

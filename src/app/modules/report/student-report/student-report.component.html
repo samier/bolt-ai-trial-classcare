@@ -1,0 +1,560 @@
+<section class="student-report">
+    <div class="page_inner">
+        <div class="m-container">
+<div class="d-flex justify-content-between align-items-center my-3">
+    <h3 class="sub_title mb-0">{{queryParams ? 'Student Call Report' : 'Student Report'}}</h3>
+      <!-- <a *ngIf="CommonService.hasPermission('report_student_report', 'has_download')" class="btn btn-blue pdfBtn me-2" href="javascript:void(0)" (click)="downloadGrReportPdf('pdf')">PDF</a>
+      <a *ngIf="CommonService.hasPermission('report_student_report', 'has_download')" class="btn btn-blue" href="javascript:void(0)" (click)="downloadGrReportPdf('excel')">EXCEL</a> -->
+  </div>
+        <div class="">
+            <div class="card_body">
+                <div class="card">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <ng-container>
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Template</label>
+                                        <ng-select #select [items]="templateList" [searchable]="true" [(ngModel)]="selectedTemplate" (ngModelChange)="templateSelectionChange()"
+                                            bindLabel="template_name" bindValue="id" placeholder="Please select" [disabled]="queryParams && selectedTemplate && isDelete">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Template Name<span
+                                          class="text-danger">*</span></label>
+                                        <input type="text" name="template_name" placeholder="Template Name" [(ngModel)]="tamplateName"
+                                            class="form-control" [disabled]="selectedTemplate && isDelete">
+                                            <span class="text-danger" *ngIf="isSubmitTamplate && tamplateName.length == 0">
+                                                Please enter template name.
+                                            </span>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Fields<span
+                                          class="text-danger">*</span></label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'Select fields'"
+                                        [settings]="commonDropdownSettings"
+                                        [data]="dropdownList"
+                                        [(ngModel)]="selectedItems"
+
+                                        >
+                                        <!-- (onDeSelect)="onItemDeSelect($event)"
+                                        (onSelect)="onItemSelect($event)"
+                                        (onSelectAll)="onSelectAll($event)" -->
+                                        </ng-multiselect-dropdown>
+                                        <span class="warning-text">(Maximum 10 Fields can be selected)</span><br>
+                                        <span class="text-danger" *ngIf="selectedItems.length == 0">
+                                          Please select fields.
+                                      </span>
+                                    </div>
+                                    <div class="col-md-3 form-group add_doc">
+                                        <label class="form_label">Save Template</label>
+                                        <div class="w-100">
+                                            <button *ngIf="CommonService.hasPermission('student_report_student_report', 'has_update')" class="btn btn-blue px-2 save-btn" (click)="saveTemplate()"> {{selectedTemplate ? 'Update Template' : 'Save Template'}}</button>
+                                            <button class="btn delete-btn ms-2 px-2" (click)="deleteTemplate()" *ngIf="selectedTemplate && !isDelete && CommonService.hasPermission('student_report_student_report', 'has_delete')"> Delete Template</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div class="row">
+                                <!-- <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">School</label>
+                                    <ng-select #select [items]="schools" [searchable]="true" [(ngModel)]="params.school" (change)="schoolChange()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select">
+                                    </ng-select>
+                                </div> -->
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Section</label>
+                                    <div>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'Select sections'"
+                                        [settings]="classDropdownSettings"
+                                        [data]="sections"
+                                        [(ngModel)]="selectedSections"
+                                        (onSelect)="sectionChange($event, 'single')"
+                                        (onSelectAll)="sectionChange($event, 'all')"
+                                        (onDeSelect)="sectionChange($event, 'single')"
+                                        (onDeSelectAll)="sectionChange($event, 'all')"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                      </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Class</label>
+                                      <div>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'Select class'"
+                                        [settings]="classDropdownSettings"
+                                        [data]="classes"
+                                        [(ngModel)]="selectedClasses"
+                                        (onSelect)="onClassSelect()"
+                                        (onSelectAll)="onClassSelect()"
+                                        (onDeSelect)="onClassSelect()"
+                                        (onDeSelectAll)="onClassSelect()"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                      </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Batch</label>
+                                    <div>
+                                      <ng-multiselect-dropdown
+                                      [placeholder]="'Select batch'"
+                                      [settings]="classDropdownSettings"
+                                      [data]="batches"
+                                      [(ngModel)]="selectedBatches"
+                                      (onSelect)="onBatchSelect()"
+                                      (onSelectAll)="onBatchSelect()"
+                                      (onDeSelect)="onBatchSelect()"
+                                      (onDeSelectAll)="onBatchSelect()"
+                                      >
+                                      </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Student Status</label>
+                                    <ng-select #select [items]="student_status" [searchable]="true" [(ngModel)]="params.status"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Select status">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Student Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.rte" name="right_to_education" id="all" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.rte" name="right_to_education" id="rte" value="1" class="mr-1">RTE<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.rte" name="right_to_education" id="general" value="0" class="mr-1">General<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Admission Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.old_new" name="old_new" id="male" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.old_new" name="old_new" id="female" value="1" class="mr-1">New<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.old_new" name="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                    <!-- <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Admission From Date</label>
+                                        <input class="form-control" type="date"  name="date_range" id="date_range"
+                                                placeholder="Enter Date" [(ngModel)]="params.admission_start_date" (change)="fromDateChange($event)" >
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Admission To Date</label>
+                                        <input class="form-control" type="date" name="date_range" id="date_range" [(ngModel)]="params.admission_end_date"
+                                                            placeholder="Enter Date" (change)="toDateChange($event)" >
+                                    </div> -->
+                                </div>
+                            </div>
+                            <div class="pdf-excel-btn">
+                                <div class="row">
+                                    <div class="col-md-auto form_group">
+                                        <!-- <label for="" class="form_label">Student Category Report</label> -->
+                                        <button type="submit" (click)="getStudentReport()"
+                                            class="btn w-100 report-btn">
+                                            Get Report
+                                        </button>
+                                    </div>
+                                    <div class="col-md-auto form_group">
+                                        <button class="btn clear-btn" type="button" (click)="resetTemplateData()">
+                                            CLEAR
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 ms-2 form_group">
+                                        <!-- <label for="" class="form_label">Student Category Report</label> -->
+                                        <div class="d-flex">
+                                        <!-- <button type="submit" (click)="setReportType(2)"
+                                            class="btn w-100 download-btn">
+                                            Student Category Report
+                                        </button> -->
+
+                                        <!--
+                                            <button class="btn" type="submit" (click)="downloadPdf('pdf')"
+                                                class="btn   download-btn">
+                                                PDF
+                                            </button>
+                                            <button class="btn" type="submit" (click)="downloadExcel('excel')"
+                                                class="btn   download-btn">
+                                                Excel
+                                            </button>
+                                        -->
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ms-2 form_group">
+                                        <!-- <label for="" class="form_label">Student Gender</label> -->
+                                        <div class="d-flex">
+                                            <!-- <button  type="submit" (click)="setReportType(3)"
+                                                class="btn w-100 download-btn">
+                                                Student Gender
+                                            </button> -->
+                                            <!-- <button  type="submit" (click)="downloadGenderPdf('pdf')"
+                                                class="btn   download-btn">
+                                                PDF
+                                            </button>
+                                            <button  type="submit" (click)="downloadGenderExcel('excel')"
+                                                class="btn   download-btn">
+                                                Excel
+                                            </button>   -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ms-2 form_group">
+                                        <!-- <label for="" class="form_label">Student Active InActive</label> -->
+                                        <div class="d-flex">
+                                            <!-- <button  type="submit" (click)="setReportType(4)"
+                                                class="btn w-100 download-btn">
+                                                Student Active InActive
+                                            </button> -->
+                                            <!-- <button  type="submit" (click)="downloadActiveInActivePdf('pdf')"
+                                                class="btn   download-btn">
+                                                PDF
+                                            </button>
+                                            <button  type="submit" (click)="downloadActiveInActiveExcel('excel')"
+                                                class="btn   download-btn">
+                                                Excel
+                                            </button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="report_filter card">
+                        <div  class="row">
+                            <div class="datatable_cls">
+                                <div class="table-responsive"  *ngIf="dtRendered">
+                                    <div class="btn_right d-flex gap-2">
+                                        <button *ngIf="CommonService.hasPermission('student_report_student_report', 'has_download')" class="button" type="button"
+                                            class="btn w-100 px-2 pdf-btn d-flex align-items-center" ngbTooltip="PDF" (click)="downloadPdfAndExcel('pdf')"
+                                            [disabled]="tbody.length > 0 && isPdfLoading">
+                                            <img src="assets/images/pdf-icon.svg" alt="">
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                        <button *ngIf="CommonService.hasPermission('student_report_student_report', 'has_download')" class="button" type="button"
+                                            class="btn w-100 px-2 excel-btn d-flex align-items-center"  ngbTooltip="EXCEL" (click)="downloadPdfAndExcel('excel')"
+                                            [disabled]="tbody.length > 0 && isExcelLoading">
+                                            <img src="assets/images/excel-icon.svg" alt="">
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                    <!-- <table *ngIf="dtRendered2" datatable [dtOptions]="dtOptions" id="myTable" class="table table-hover table-nowrap display dataTable table-bordered no-footer">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of field_list_for_html; let i = index;">{{ field['data'] }}</th>
+                                                <th>ID</th>
+                                                <th>First Name</th>
+                                                <th>Secondary First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Secondary Middle Name</th>
+                                                <th>Last Name</th>
+                                                <th>Secondary Last Name</th>
+                                                <th>Student Display Name</th>
+                                                <th>Section Name</th>
+                                                <th>Class Name</th>
+                                                <th>Batch Name</th>
+                                                <th>Address</th>
+                                                <th>School</th>
+                                                <th>Previous school category</th>
+                                                <th>Previous school city/village</th>
+                                                <th>Date of Birth</th>
+                                                <th>Email</th>
+                                                <th>Gender</th>
+                                                <th>Admission date</th>
+                                                <th>Admission year</th>
+                                                <th>Rollno</th>
+                                                <th>Username</th>
+                                                <th>Password</th>
+                                                <th>Phone Number</th>
+                                                <th>Pay On Date</th>
+                                                <th>Categories</th>
+                                                <th>Percentage</th>
+                                                <th>Bankname</th>
+                                                <th>Branch ifsc</th>
+                                                <th>Adhaar Number</th>
+                                                <th>Othernumber</th>
+                                                <th>Account Number</th>
+                                                <th>Ifsc code</th>
+                                                <th>GR Number</th>
+                                                <th>Mother Name</th>
+                                                <th>Residential Area</th>
+                                                <th>Hometown</th>
+                                                <th>College Area</th>
+                                                <th>Reference</th>
+                                                <th>SSC</th>
+                                                <th>HSC</th>
+                                                <th>Right To Education</th>
+                                                <th>Old New</th>
+                                                <th>Father Name</th>
+                                                <th>Mother Occupation</th>
+                                                <th>Father Occupation</th>
+                                                <th>Father Number</th>
+                                                <th>Mother Number</th>
+                                                <th>Send SMS Number</th>
+                                                <th>Status</th>
+                                                <th>UidNo</th>
+                                                <th>Student Whatsapp No</th>
+                                                <th>Blood Group</th>
+                                                <th>Birth Place</th>
+                                                <th>Religion</th>
+                                                <th>Nationality</th>
+                                                <th>Parent Whatsapp No</th>
+                                                <th>Parent Email</th>
+                                                <th>Permanent Address</th>
+                                                <th>Same Address</th>
+                                                <th>Current City</th>
+                                                <th>Sibling Info</th>
+                                                <th>Leaving Date</th>
+                                                <th>Progress</th>
+                                                <th>Conduct</th>
+                                                <th>Working Days School</th>
+                                                <th>Reason Leaving School</th>
+                                                <th>Result Last Examination</th>
+                                                <th>Age</th>
+                                                <th>Permanent City</th>
+                                                <th>Remark</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td>{{item.id}}</td>
+                                                <td>{{item.first_name ?? "-"}}</td>
+                                                <td>{{item.secondary_first_name ?? "-"}}</td>
+                                                <td>{{item.middle_name ?? "-"}}</td>
+                                                <td>{{item.secondary_middle_name ?? "-"}}</td>
+                                                <td>{{item.last_name ?? "-"}}</td>
+                                                <td>{{item.secondary_last_name ?? "-"}}</td>
+                                                <td>{{item.student_display_name ?? "-"}}</td>
+                                                <td>{{item.section_name }}</td>
+                                                <td>{{item.class_name}}</td>
+                                                <td>{{item.batch_name}}</td>
+                                                <td>{{item.address ?? "-"}}</td>
+                                                <td>{{item.school ?? "-"}}</td>
+                                                <td>{{item.previous_school_category ?? "-"}}</td>
+                                                <td>{{item.previous_school_city_village ?? "-"}}</td>
+                                                <td>{{item.date_of_birth ?? "-"}}</td>
+                                                <td>{{item.email ?? "-"}}</td>
+                                                <td>{{item.gender ?? "-"}}</td>
+                                                <td>{{item.admission_date ?? "-"}}</td>
+                                                <td>{{item.admission_year ?? "-"}}</td>
+                                                <td>{{item.rollno ?? "-"}}</td>
+                                                <td>{{item.username ?? "-"}}</td>
+                                                <td>{{item.password ?? "-"}}</td>
+                                                <td>{{item.phone_number ?? "-"}}</td>
+                                                <td>{{item.payOnDate ?? "-"}}</td>
+                                                <td>{{item.categories ?? "-"}}</td>
+                                                <td>{{item.percentage ?? "-"}}</td>
+                                                <td>{{item.bankname ?? "-"}}</td>
+                                                <td>{{item.branchifsc ?? "-"}}</td>
+                                                <td>{{item.adharcard ?? "-"}}</td>
+                                                <td>{{item.othernumber ?? "-"}}</td>
+                                                <td>{{item.accountnumber ?? "-"}}</td>
+                                                <td>{{item.ifsccode ?? "-"}}</td>
+                                                <td>{{item.gr_number ?? "-"}}</td>
+                                                <td>{{item.mother_name ?? "-"}}</td>
+                                                <td>{{item.residential_area ?? "-"}}</td>
+                                                <td>{{item.hometown ?? "-"}}</td>
+                                                <td>{{item.college_area ?? "-"}}</td>
+                                                <td>{{item.reference ?? "-"}}</td>
+                                                <td>{{item.ssc ?? "-"}}</td>
+                                                <td>{{item.hsc ?? "-"}}</td>
+                                                <td>{{item.rightToEducation ?? "-"}}</td>
+                                                <td>{{item.old_new ?? "-"}}</td>
+                                                <td>{{item.father_name ?? "-"}}</td>
+                                                <td>{{item.mother_occupation ?? "-"}}</td>
+                                                <td>{{item.father_occupation ?? "-"}}</td>
+                                                <td>{{item.father_number ?? "-"}}</td>
+                                                <td>{{item.mother_number ?? "-"}}</td>
+                                                <td>{{item.send_sms_number ?? "-"}}</td>
+                                                <td>{{item.status ?? "-"}}</td>
+                                                <td>{{item.uidNo ?? "-"}}</td>
+                                                <td>{{item.studentWhatsappNo ?? "-"}}</td>
+                                                <td>{{item.bloodGroup ?? "-"}}</td>
+                                                <td>{{item.birthPlace ?? "-"}}</td>
+                                                <td>{{item.religion ?? "-"}}</td>
+                                                <td>{{item.nationality ?? "-"}}</td>
+                                                <td>{{item.parentWhatsappNo ?? "-"}}</td>
+                                                <td>{{item.parentEmail ?? "-"}}</td>
+                                                <td>{{item.permanentAddress ?? "-"}}</td>
+                                                <td>{{item.sameAddress ?? "-"}}</td>
+                                                <td>{{item.currentCity ?? "-"}}</td>
+                                                <td>{{item.siblingInfo ?? "-"}}</td>
+                                                <td>{{item.leaving_date ?? "-"}}</td>
+                                                <td>{{item.progress ?? "-"}}</td>
+                                                <td>{{item.conduct ?? "-"}}</td>
+                                                <td>{{item.working_days_school ?? "-"}}</td>
+                                                <td>{{item.reason_leaving_school ?? "-"}}</td>
+                                                <td>{{item.result_last_examination ?? "-"}}</td>
+                                                <td>{{item.age ?? "-"}}</td>
+                                                <td>{{item.permanentCity ?? "-"}}</td>
+                                                <td>{{item.remark ?? "-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="!loading && tbody.length == 0">
+                                            <tr><td colspan="62" style="text-align: center;"> No data</td></tr>
+                                        </tbody>
+                                    </table> -->
+                                    <table datatable [dtOptions]="dtOptions" id="myTable_new" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of field_list_for_html; let i = index;">{{ field['data'] }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td *ngFor="let field of field_list">{{item[field]??"-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="isStudentReportLoad && tbody.length == 0">
+                                          <tr>
+                                              <td [attr.colspan]="field_list_for_html.length">
+                                                  <div class="d-flex justify-content-center">
+                                                      <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                          <span class="visually-hidden">Loading...</span>
+                                                      </div>
+                                                  </div>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                        <tbody *ngIf="tbody.length == 0 && field_list_for_html.length > 0 && !isStudentReportLoad">
+                                          <tr>
+                                              <td [attr.colspan]="field_list_for_html.length">
+                                                  <div class="d-flex justify-content-center ">No Data Found</div>
+                                              </td>
+                                          </tr>
+                                      </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="report_type==2" class="row">
+                                <div class="col-lg-12 datatable_cls">
+                                    <div class="table-responsive" >
+                                        <table datatable [dtOptions]="dtOptionsForCategory" id="myTable" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Class Name</th>
+                                                    <th>Gender</th>
+                                                    <th>Open</th>
+                                                    <th>OBC</th>
+                                                    <th>SC</th>
+                                                    <th>ST</th>
+                                                    <th>S.E.B.C</th>
+                                                    <th>LAGUMATI</th>
+                                                    <th>BHIL</th>
+                                                    <th>OTHER</th>
+                                                    <th>TOTAL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of tbody ;let i = index;" >
+                                                    <td *ngIf="item.gender == 'boys'" rowspan="2">{{item.class_name}}</td>
+                                                    <td *ngIf="item.gender == 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                                    <td *ngIf="item.gender != 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                                    <td>{{item.open}}</td>
+                                                    <td>{{item.OBC ?? "-"}}</td>
+                                                    <td>{{item.SC ?? "-"}}</td>
+                                                    <td>{{item.ST ?? "-"}}</td>
+                                                    <td>{{item.S_E_B_C ?? "-"}}</td>
+                                                    <td>{{item.LAGUMATI ?? "-"}}</td>
+                                                    <td>{{item.bhill ?? "-"}}</td>
+                                                    <td>{{item.OTHER ?? "-"}}</td>
+                                                    <td>{{item.Total ?? "-"}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                        </div>
+                        <div *ngIf="report_type==3" class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive" >
+                                    <table datatable [dtOptions]="dtOptionsForGender" id="myTable" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Class Name</th>
+                                                <th>Boys</th>
+                                                <th>Girls</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td>{{item.class}}</td>
+                                                <td>{{item.boys}}</td>
+                                                <td>{{item.girls}}</td>
+                                                <td>{{item.total ?? "-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="report_type==4" class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive" >
+                                    <table datatable [dtOptions]="dtOptionsForActiveStatus" id="myTable" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Class Name</th>
+                                                <th>Gender</th>
+                                                <th>Active</th>
+                                                <th>Inacive</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td *ngIf="item.gender == 'boys'" rowspan="2">{{item.class_name}}</td>
+                                                <td *ngIf="item.gender == 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                                <td *ngIf="item.gender != 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                                <td>{{item.active}}</td>
+                                                <td>{{item.in_active}}</td>
+                                                <td>{{item.total ?? "-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

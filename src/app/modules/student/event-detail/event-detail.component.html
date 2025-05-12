@@ -1,0 +1,94 @@
+<section class="event_details">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="card">
+        <div class="card_head d-flex justify-content-between align-items-center">
+          <h3>{{ eventDetail?.eventname }}</h3>
+          <a class="list-btn btn" [routerLink]="[setUrl(URLConstants.STUDETN_EVENT),uniqueId]">EVENT LIST</a>
+        </div>
+        <div class="card_body">
+          <div class="event_details row mx-0">
+            <div class="col-auto created d-flex align-items-center me-3">
+              <div class="icon">
+                <img [src]="eventDetail.user.image" alt="">
+              </div>
+              <div class="created_content">
+                <p class="mb-0">{{ eventDetail?.user?.full_name }}</p>
+                <span>Created by</span>
+              </div>
+            </div>
+            <div class="col-auto created d-flex align-items-center">
+              <div class="icon">
+                <svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M19.4145 22.25H4.5855C3.56863 22.2488 2.59375 21.8443 1.87471 21.1253C1.15567 20.4063 0.751191 19.4314 0.75 18.4145V6.5855C0.751191 5.56863 1.15567 4.59375 1.87471 3.87471C2.59375 3.15567 3.56863 2.75119 4.5855 2.75H19.4145C20.4314 2.75119 21.4063 3.15567 22.1253 3.87471C22.8443 4.59375 23.2488 5.56863 23.25 6.5855V18.4137C23.2488 19.4306 22.8443 20.4055 22.1253 21.1245C21.4063 21.8436 20.4314 22.2488 19.4145 22.25ZM4.5855 4.25C3.96633 4.25079 3.37275 4.49711 2.93493 4.93493C2.49711 5.37275 2.25079 5.96633 2.25 6.5855V18.4137C2.25079 19.0329 2.49711 19.6265 2.93493 20.0643C3.37275 20.5021 3.96633 20.7485 4.5855 20.7493H19.4145C20.0337 20.7485 20.6273 20.5021 21.0651 20.0643C21.5029 19.6265 21.7492 19.0329 21.75 18.4137V6.5855C21.7492 5.96633 21.5029 5.37275 21.0651 4.93493C20.6273 4.49711 20.0337 4.25079 19.4145 4.25H4.5855Z" />
+                  <path
+                    d="M8.25 1.25C8.25 0.835786 7.91421 0.5 7.5 0.5C7.08579 0.5 6.75 0.835786 6.75 1.25V5.75C6.75 6.16421 7.08579 6.5 7.5 6.5C7.91421 6.5 8.25 6.16421 8.25 5.75V1.25Z" />
+                  <path
+                    d="M17.25 1.25C17.25 0.835786 16.9142 0.5 16.5 0.5C16.0858 0.5 15.75 0.835786 15.75 1.25V5.75C15.75 6.16421 16.0858 6.5 16.5 6.5C16.9142 6.5 17.25 6.16421 17.25 5.75V1.25Z" />
+                  <path
+                    d="M6.62109 10.7461C7.03531 10.7461 7.37109 10.4103 7.37109 9.99609C7.37109 9.58188 7.03531 9.24609 6.62109 9.24609C6.20688 9.24609 5.87109 9.58188 5.87109 9.99609C5.87109 10.4103 6.20688 10.7461 6.62109 10.7461Z" />
+                  <path
+                    d="M12.0352 10.7461C12.4494 10.7461 12.7852 10.4103 12.7852 9.99609C12.7852 9.58188 12.4494 9.24609 12.0352 9.24609C11.6209 9.24609 11.2852 9.58188 11.2852 9.99609C11.2852 10.4103 11.6209 10.7461 12.0352 10.7461Z" />
+                  <path
+                    d="M17.25 10.7461C17.6642 10.7461 18 10.4103 18 9.99609C18 9.58188 17.6642 9.24609 17.25 9.24609C16.8358 9.24609 16.5 9.58188 16.5 9.99609C16.5 10.4103 16.8358 10.7461 17.25 10.7461Z" />
+                  <path
+                    d="M6.62109 16.5039C7.03531 16.5039 7.37109 16.1681 7.37109 15.7539C7.37109 15.3397 7.03531 15.0039 6.62109 15.0039C6.20688 15.0039 5.87109 15.3397 5.87109 15.7539C5.87109 16.1681 6.20688 16.5039 6.62109 16.5039Z" />
+                </svg>
+              </div>
+              <div class="created_content">
+                <p class="mb-0">{{ eventDetail?.event_date | date : dateFormateService.getDateFormat() }}</p>
+                <span>Created Date</span>
+              </div>
+            </div>
+          </div>
+          <div class="img-content">
+            <div class="row">
+              <div class="col-md-2 form_group event_img" *ngFor="let item of eventDetail?.event_files; let i = index">
+                <img [src]="item?.attachment_url" (click)="viewImage(i,eventMdl)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #eventMdl let-modal>
+  <div class="event_modal">
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">{{ eventDetail?.eventname }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-inner" *ngFor="let item of eventDetail?.event_files; let i = index">
+          <div class="carousel-item" data-bs-interval="10000" [ngClass]="{ 'active': i === selectedIndex }">
+            <img [src]="item?.attachment_url" class="d-block w-100" alt="potu">
+          </div>
+        </div>
+        <div class="position-relative">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1" *ngFor="let item of eventDetail?.event_files; let i = index"
+              [class.active]="i === selectedIndex" (click)="selectImageFromThumbnail(i)">
+              <img [src]="item?.attachment_url">
+            </button>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev"
+            (click)="prevImage()">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next"
+            (click)="nextImage()">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

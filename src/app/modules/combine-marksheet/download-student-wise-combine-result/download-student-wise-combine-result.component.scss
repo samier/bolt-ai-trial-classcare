@@ -1,0 +1,20 @@
+@import '../../../../assets/css/variable.scss';
+::ng-deep{
+    .inquiry-list{
+        .std-wise-result{
+            display: flex;
+            align-items: center;
+            .std-wise-dropdown{
+                max-width: 400px;
+                margin-left: 20px;
+            }
+        }
+        .std_wise_com_result{
+            font-weight: 600;
+            background-color: #E7E7E7;
+            padding: 5px 10px;
+            color: #000;
+            border-radius: 5px;
+        }
+    }
+}

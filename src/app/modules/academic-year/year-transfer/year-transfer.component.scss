@@ -1,0 +1,99 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    app-year-transfer{
+        .student-list{
+            max-height: 400px;
+            overflow: auto;
+            .student_roll_no{
+                min-width: 20px;
+                display: inline-block;
+            }
+        }
+        .label {
+            font-weight: 600;
+        }
+        .form_group {
+            margin-bottom: 15px!important;
+        }
+        .show_clear_btn{
+            border-top: 2px solid #80808045;
+        }
+        .card-label{
+            background-color: $primary;
+            border-radius: 7px 0 0 0;
+            ~ .card{
+                border-radius: 0;
+                border: 0;
+            }
+            h3{
+                text-transform: capitalize;
+                color: $white;
+                font-size: 20px;
+                font-weight: 500;
+                padding: 6px;
+            }
+        }
+        .from_card{
+            border-right: 2px solid #80808045;
+        }
+        .to_card{
+            .card-label{
+                border-radius: 0 7px 0 0;
+                ~ .card{
+                 border-radius: 0;   
+                }
+            }
+        }
+        .search_box{
+            position: relative;
+            input{
+                padding-right: 30px;
+            }
+            i{
+                &.fa-search{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translate(0, -50%);
+                    opacity: 0.6;
+                }
+            }
+        }
+        .student-card{
+            .sub_title{
+                background-color: $primary;
+                padding: 8px 14px;
+                border-radius: 6px 6px 0 0;
+                color: $white;
+                span{
+                    font-weight: 700;
+                    color: $white;
+                }
+            }
+            .student-list{
+                td{
+                    height: 42px;
+                    .new_gr{
+                        min-width: 100px;
+                        max-width: 130px;
+                        padding: 4px;
+                    }
+                }
+                &.curent_student_list{
+                    table{
+                        tr{
+                            td{
+                                &:last-child{
+                                    padding: 9px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .overflow-unset{
+            overflow: unset;
+        }
+    }
+}

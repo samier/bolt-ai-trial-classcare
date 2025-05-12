@@ -1,0 +1,218 @@
+<section class="poll_management">
+    <div class="page_inner">
+        <div class="m-container">
+          <div class="d-flex justify-content-between align-items-center my-3">
+              <h3 class="sub_title mb-0">Poll List</h3>
+              <div class="btn_right" *ngIf="CommonService.hasPermission('administrator_poll_management', 'has_create')">
+                  <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.POLL_CREATE)" > Add Poll</a>
+              </div>
+          </div>
+
+            <div class="card">
+                <div class="card_body">
+					<div class="form_section  global_form table_top">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Section</label>
+                                    <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section" (change)="sectionChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Select Section">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label class="form_label">Batch</label>                                    
+										<ng-multiselect-dropdown
+										[placeholder]="'select batch'"
+										[settings]="classDropdownSettings"
+										[data]="batches?.data"
+										[(ngModel)]="selectedBatches"
+										(onSelect)="onBatchSelect()"
+										(onSelectAll)="onBatchSelect()"
+										(onDeSelect)="onBatchSelect()"
+										(onDeSelectAll)="onBatchSelect()"
+										>
+										</ng-multiselect-dropdown>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+                            	<table datatable [dtOptions]="dtOptions" class="row-border table-bordered table table-hover table-nowrap display dataTable no-footer">
+                                    <thead>
+                                        <tr>
+                                            <th class="min_width">Title</th>
+				                                   <th class="w-space">Description</th>
+                                            <!-- <th>Type</th> -->
+                                            <th>Date</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+				                            <th>Total Vote</th>
+				                            <th>Poll For</th>
+                                            <th>Status</th>
+                                            <th>Poll Status</th>
+				                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="poll_list?.length != 0">
+                                        <tr *ngFor="let poll of poll_list">
+				                            <td class="min_width">{{getStringShorter(poll?.title)}}</td>
+				                            <td class="w-space">{{getStringShorter(poll?.description)}}</td>
+				                            <!-- <td>{{poll.type}}</td> -->
+				                            <td>{{setDateFormat(poll?.date)}}</td>
+				                            <td>{{poll?.start_date}}</td>
+				                            <td>{{poll?.end_date}}</td>
+				                            <td>{{poll?.total_votes}}</td>
+				                            <td>
+				                            	<ng-container *ngIf="poll?.poll_for == 0">
+												    Student
+												</ng-container>
+												<ng-container *ngIf="poll?.poll_for == 1">
+												    Faculty
+												</ng-container>
+												<ng-container *ngIf="poll?.poll_for == 2">
+												    Both
+												</ng-container>
+				                            </td>
+				                            <td>
+				                            	<span class="text-capitalize {{poll?.status == '1' ? 'text-success' : 'text-warning'}}">{{poll?.status == 1 ? 'Active' : 'InActive'}}</span>
+				                            </td>
+				                            <td>
+				                            	<ng-container *ngIf="poll?.status == '0'">
+				                            		<span class="text-capitalize text-warning">Not Started</span>
+				                            	</ng-container>
+				                            	<ng-container *ngIf="poll?.status == '1'">
+					                            	<ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 0">
+													    <span class="text-capitalize text-warning">Not Started</span>
+													</ng-container>
+													<ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1">
+													    <span class="text-capitalize text-success">Started</span>
+													</ng-container>
+													<ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2">
+													    <span class="text-capitalize text-danger">Expired</span>
+													</ng-container>
+												</ng-container>
+				                            </td>
+				                            <td>
+				                            	<div class="btn-group" role="group">
+				                            		<!-- perform actions by Admin role -->
+				                            		<ng-container *ngIf="userRole.includes('ROLE_ADMIN'); else elseFaculyOrOtherRoleUserBlock">
+				                            			<!-- Poll Not Started 'Give Vote' and 'Show Result' -->
+				                            			<ng-container *ngIf="poll?.status == '1'; else elsePollInActiveBlock">
+					                            			<ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 0; else elsePollStartedOrExpiredBlock">
+					                            				<button class="btn btn-sm 1" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+
+					                            				<button class="btn btn-sm 1" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+															</ng-container>
+
+															<ng-template #elsePollStartedOrExpiredBlock>
+																<a class="btn btn-sm 2" title="Give Vote" href="#" [routerLink]="[setUrlForAddVote(poll?.id)]"> <i class="fa fa-thumbs-up"></i> </a>
+
+																<a class="btn btn-sm 2" title="Show Result" href="#" [routerLink]="[setUrlForShowVoteResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>
+															</ng-template>
+														</ng-container>
+														<ng-template #elsePollInActiveBlock>
+															<button class="btn btn-sm 3" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+
+					                            			<button class="btn btn-sm 3" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+														</ng-template>
+
+														<!-- Poll Started and Poll Expired  Give vote and Show result -->
+														<!-- <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1 || getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2 && poll?.status == '1'">
+															<a class="btn btn-sm" title="Give Vote" href="#" [routerLink]="[setUrlForAddVote(poll?.id)]"> <i class="fa fa-thumbs-up"></i> </a>
+
+															<a class="btn btn-sm" title="Show Result" href="#" [routerLink]="[setUrlForShowVoteResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>
+														</ng-container> -->
+
+														<!-- Poll Started and Poll Expired  Show result details -->
+														<ng-container *ngIf="poll?.status == '1' && poll?.total_votes != '0'; else elseShowResultDisableBlock">
+															<a class="btn btn-sm if" title="Show Result Detail" href="#" [routerLink]="[setUrlForPollResultDetail(poll?.id)]"> <i class="fa fa-info"></i> </a>
+														</ng-container>
+														<ng-template #elseShowResultDisableBlock>
+															<button class="btn btn-sm else" title="Show Result Detail" disabled> <i class="fa fa-info"></i> </button>
+														</ng-template>
+
+														<!-- For Edit -->
+														<ng-container *ngIf="poll?.total_votes == '0'; else elseEditBlock">
+															<a class="btn btn-sm" title="Edit" href="#" [routerLink]="[setUrl(URLConstants.POLL_EDIT),poll?.id]" *ngIf="CommonService.hasPermission('administrator_poll_management', 'has_edit')"> <i class="fa fa-pencil-alt"></i> </a>
+														</ng-container>
+														<ng-template #elseEditBlock>
+															<button *ngIf="CommonService.hasPermission('administrator_poll_management', 'has_edit')" type="button" title="" class="btn btn-sm disabled">
+																<i class="fa fa-pencil-alt"></i></button>
+														</ng-template>
+
+														<!-- For Delete -->
+														<button *ngIf="CommonService.hasPermission('administrator_poll_management', 'has_delete')" type="button" title="Delete" class="btn btn-sm btn-danger" (click)="remove(poll?.id)"> <i class="fa fa-trash-alt"></i> </button>
+
+														<!-- Update only status -->
+														<ng-container *ngIf="poll?.total_votes == '0'; else onlyStatusUpdateBtnDisabled">
+															<div class="form-check toggle">
+						                            			<input class="form-check-input shadow-none" type="checkbox" role="switch" title="Update Status" id="{{poll?.id}}" (change)="onCheckboxChange($event)" [checked]="(poll?.status == 1) ? true : false">
+						                            		</div>
+						                            	</ng-container>
+						                            	<ng-template #onlyStatusUpdateBtnDisabled>
+							                            	<div class="form-check toggle">
+						                            			<input class="form-check-input shadow-none" type="checkbox" role="switch" id="" [checked]="(poll?.status == 1) ? true : false" [attr.disabled]="true">
+						                            		</div>
+							                            </ng-template>
+						                            </ng-container>
+
+						                            <!-- Perform Actions by Other Role -->
+						                            <ng-template #elseFaculyOrOtherRoleUserBlock>
+						                            	<!-- Poll Not Started 'Give Vote' and 'Show Result' -->
+		                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 0 && poll?.status == '1'">
+		                                                    <button class="btn btn-sm date0" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+		                                                    <button class="btn btn-sm date0" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+		                                                </ng-container>
+
+		                                                <!-- Poll Started 'Give Vote' -->
+		                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1 && poll?.status == '1'">
+		                                                    <a class="btn btn-sm date1" title="Give Vote" href="#" [routerLink]="[setUrlForAddVote(poll?.id)]"> <i class="fa fa-thumbs-up"></i> </a>
+		                                                </ng-container>
+
+		                                                <!-- Poll Expired 'Give Vote' -->
+		                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2 && poll?.status == '1'">
+		                                                    <button class="btn btn-sm date2 else" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+		                                                </ng-container>
+
+		                                                <!-- Poll Started 'Show Result' -->
+		                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1 && poll?.status == '1'">
+		                                                    <ng-container *ngIf="poll?.user_answers.length != '0' && poll?.show_result == '1'; else pollStartedResultNotShow">
+		                                                        <a class="btn btn-sm date2 if" title="Show Result" href="#" [routerLink]="[setUrlForShowVoteResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>
+		                                                    </ng-container>
+		                                                    <ng-template #pollStartedResultNotShow>
+		                                                        <button class="btn btn-sm date1" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+		                                                    </ng-template>
+		                                                </ng-container>
+
+		                                                <!-- Poll Expired 'Show Result' -->
+		                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2 && poll?.status == '1'">
+		                                                    <ng-container *ngIf="poll?.user_answers.length != '0' && poll?.show_result == '1'; else elseVoteNoteSubmittedResultShowBlock">
+	                                                            <a class="btn btn-sm date2 if" title="Show Result" href="#" [routerLink]="[setUrlForShowVoteResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>
+	                                                        </ng-container>
+
+		                                                    <ng-template #elseVoteNoteSubmittedResultShowBlock>
+		                                                        <button class="btn btn-sm date2 else else" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+		                                                    </ng-template>
+		                                                </ng-container>
+													</ng-template>
+                                                </div>
+				                            </td>
+				                        </tr>
+				                    </tbody>
+                                    <tbody *ngIf="poll_list.length == 0">
+                                        <tr>
+                                          <td colspan="10" class="text-center no-data-available">Data Not Found!</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

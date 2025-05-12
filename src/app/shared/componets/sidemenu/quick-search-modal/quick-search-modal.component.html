@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <i class="fa fa-search"></i>
+    <input class="w-100 quick-search-input" type="text" placeholder="Quick Menu Search" [(ngModel)]="searchTerm" />
+    <i class="fa fa-times modal-close" (click)="closeModal()"></i>
+</div>
+
+<div *ngIf="searchTerm" class="modal-body">
+    <div class="modal-body-inner">
+        <ng-container *ngFor="let item of menuItems | filterMenu : searchTerm">
+            <ng-container *ngIf="!item.children && item.path">
+                <div class="d-flex align-items-center justify-content-left menu-icon">
+                    <span class="ti-{{item.icon}}"></span>
+                    <h5 [innerHTML]="highlight(item.title)"></h5>   
+                </div>
+                <ul>
+                    <li>
+                        <a *ngIf="item.type === 'link'" 
+                            class="search-link" tabindex="0" 
+                            [routerLink]="item.path" 
+                            (click)="closeModal()" 
+                            [innerHTML]="highlight(item.title)">
+                        </a>
+                        <a *ngIf="item.type === 'slink'" 
+                            class="search-link" 
+                            tabindex="0" 
+                            [href]="item.path" 
+                            target="_self" 
+                            (click)="closeModal()" 
+                            [innerHTML]="highlight(item.title)">
+                        </a>
+                    </li>
+                </ul>
+            </ng-container>
+            <ng-container *ngIf="item.children">
+                <div class="d-flex align-items-center justify-content-left menu-icon">
+                    <span class="ti-{{item.icon}}"></span>
+                    <h5 [innerHTML]="highlight(item.title)"></h5>
+                </div>
+                <ul>
+                    <li *ngFor="let child of item.children">
+                        <ul *ngIf="child.children">
+                            <li *ngFor="let sub of child.children">
+                                <a *ngIf="sub.type === 'link'" 
+                                    class="search-link" tabindex="0" 
+                                    [routerLink]="sub.path" 
+                                    (click)="closeModal()" 
+                                    [innerHTML]="highlight(sub.title)">
+                                </a>
+                                <a *ngIf="sub.type === 'slink'" 
+                                    class="search-link" 
+                                    tabindex="0" 
+                                    [href]="sub.path" 
+                                    target="_self" 
+                                    (click)="closeModal()" 
+                                    [innerHTML]="highlight(sub.title)">
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngIf="searchTerm && !(menuItems | filterMenu: searchTerm)?.length">
+            <div class="no-result text-center text-muted">No results found.</div>
+        </ng-container>
+    </div>    
+</div>

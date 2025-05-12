@@ -1,0 +1,157 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Transport Transfer List</h3>
+				<div class="btn_right">
+					<a class="global_btn btn transfer-btn"  href="#." [routerLink]="setUrl(URLConstants.TRANSPORT_TRANSFER)"> Student Transfer</a>
+				</div>
+			</div>
+            <div class="card">             
+                <div class="card_body">
+					<form action="" [formGroup]="params">
+						<div class="row">
+							<div class="col-md-3 form_group">
+								<label for="" class="form_label">Date Range</label>
+								<input type="text"
+								  class="form-control" 
+								  [placeholder]="'Please Select Dates'"
+								  ngxDaterangepickerMd
+								  [linkedCalendars]="true"
+								  formControlName="selectedDates"
+								  [locale]="dateConfig"
+								  (datesUpdated)="datesUpdated($event)"
+								  [showCustomRangeLabel]="true"
+								  [ranges]="ranges"
+								  [showClearButton]="true"
+								  [showCancel]="true"
+								  [alwaysShowCalendars]="true"
+								  [showDropdowns]="true"
+								> 
+							  </div>
+							<div class="col-md-3 form_group">
+								<label for="" class="form_label">From Route</label>
+								<div>
+									<app-single-select controlName="from_route"
+										[dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'from', 0)"></app-single-select>
+								</div>
+							</div>
+							<div class="col-md-3 form_group">
+								<label for="" class="form_label">From Stop</label>
+								<div>
+									<app-single-select controlName="from_stop"
+										[dropDownArray]="from_stops" placeholder="Please select" (change)="reloadData()"></app-single-select>
+								</div>
+							</div>
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">To Pickup Route</label>
+									<div>
+										<app-single-select controlName="pickup_route"
+											[dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'to', 1)"></app-single-select>
+									</div>
+								</div>
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">To Pickup Stop</label>
+									<div>
+										<app-single-select controlName="pickup_stop"
+											[dropDownArray]="pickup_stops" placeholder="Please select" (change)="handleStopChange($event, 'pickup_stop')"></app-single-select>
+									</div>
+								</div>
+
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">To Drop Route</label>
+									<div>
+										<app-single-select controlName="drop_route"
+											[dropDownArray]="routes" placeholder="Please select" (change)="handleStop($event, 'to', 2)"></app-single-select>
+									</div>
+								</div>
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">To Drop Stop</label>
+									<div>
+										<app-single-select controlName="drop_stop"
+											[dropDownArray]="drop_stops" placeholder="Please select" (change)="handleStopChange($event, 'drop_stop')"></app-single-select>
+									</div>
+								</div>
+							  <div class="col-md-3 form_group">
+								<label for="" class="form_label">Status</label>
+								<app-single-select controlName="status" (change)="reloadData()" [dropDownArray]="statusArray"></app-single-select>
+							  </div>
+						</div>
+						<div class="row">
+							<div class="col-lg-auto">
+								<button class="btn clear-btn w-100" (click)="clear()">Clear</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="card">             
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12">
+							<div class="assign-transport-table">
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Transfer Date</th>
+												<th>From Route</th>
+												<th>From Stop</th>
+												<th>To Pickup Route</th>
+												<th>To Pickup Stop</th>
+												<th>To Drop Route</th>
+												<th>To Drop Stop</th>
+												<th>Total Students</th>
+												<th>Transferred Students</th>
+												<th>Status</th>
+												<th class="action-btn-sticky">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let item of tbody">
+												<td> {{item.id}} </td>
+												<td> {{item.transfer_date}} </td>
+												<td> {{item.from_route?.name ?? '-' }} </td>
+												<td> {{item.from_stop?.name ?? '-' }} </td>
+												<td> {{item.pickup_route?.name ?? '-' }} </td>
+												<td> {{item.pickup_stop?.name ?? '' }} </td>
+												<td> {{item.drop_route?.name ?? '-' }} </td>
+												<td> {{item.drop_stop?.name ?? '' }} </td>
+												<td> {{item.total_students }} </td>
+												<td> {{item.transferred_students ?? '0' }} </td>
+												<td> <span class="text-capitalize {{item.status == 'Completed' || item.status == 'Partially Complete'  ? 'text-success' : ( item.status == 'In Progress' || item.status == 'Queue'  ? 'text-warning' : 'text-danger' )}}">{{item.status}}</span> </td>
+												<td class="action-btn-sticky"> 
+													<div class="btn-group" role="group">
+														<a class="btn action-view" ngbTooltip="View" href="#" [routerLink]="[setUrl(URLConstants.TRANSPORT_TRANSFER_LIST),item.id]" > <i class="fa fa-eye"></i> </a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="tbody.length == 0">
+											<tr>
+											  <td colspan="10" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                    <!-- <div class="row pagination">
+			            <div class="col-xl-6"> 
+			            	<span class="text-muted text-sm">
+			            		Showing {{vehicles.data?.to+1 - vehicles.data?.from }} items out of {{vehicles.data?.total}} results found
+			            	</span>
+			            </div>
+			            <div class="col-xl-6 col-xl-6 d-flex justify-content-end">
+			            	 <button type="button" *ngFor="let link of vehicles.data?.links ;let i = index;" class="btn btn-sm m-1 {{link.active == true ? 'btn-primary' : ''}}"  (click)="paginate(link.url)" [disabled]="link.url == null"> 
+		                		{{link.label == "pagination.previous" ? '<' : link.label == "pagination.next" ? '>' : link.label}}
+		                	</button>
+			            </div>
+			        </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

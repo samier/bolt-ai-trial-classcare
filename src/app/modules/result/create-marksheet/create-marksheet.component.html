@@ -1,0 +1,90 @@
+<section class="create-mark-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">{{markSheetTempId ? 'EDIT MARKSHEET' : 'CREATE MARKSHEET'}}</h3>
+        <div>
+          <a [routerLink]="resultService.setUrl(URLConstants.MARKSHEET_TEMP_LIST)" class="btn list-btn me-2">Marksheet Template List</a>
+          <a [routerLink]="resultService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN)" class="btn me-2"> <i class="bi bi-vector-pen pe-2"></i> Marksheet Template Design</a>
+          <a [routerLink]="resultService.setUrl(URLConstants.MARKSHEET_LIST)" class="btn list-btn">Marksheet List</a>
+        </div>
+      </div>
+      <!-- 1.ACADEMIC DETAILS -->
+      <div class="card">
+        <form [formGroup]="createMarksheetForm">
+          <div class="row">
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Marksheet Name</label>
+              <app-input controlName="template_name" placeholder="Enter marksheet name"></app-input>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Marksheet Template Design</label>
+              <app-single-select controlName="template_id" placeholder="Select marksheet template design"
+                [dropDownArray]="templatesList"></app-single-select>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Select Section</label>
+              <app-single-select controlName="section_id" placeholder="Select Section"
+                [dropDownArray]="sectionList" (change)="getClasses()"></app-single-select>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Select Class</label>
+              <app-multi-select controlName="class_id" placeholder="Select Class"
+                [dropDownArray]="classList"></app-multi-select>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group from-checkbox">
+              <input type="checkbox" id="html" formControlName="show_attendance">
+              <label for="html">Display Attendance in Result Card ?</label>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group from-checkbox">
+              <input type="checkbox" id="sidhhigun" formControlName="krupa_siddhi_gun">
+              <label for="sidhhigun">Do you want to add shiddhi gun ?</label>
+            </div>
+            <div class="col-lg-6  col-md-6 form-group">
+              <label class="form_label">Mark Type<span class="text-danger">*</span></label>
+
+              <div  class="m-radio-section">
+                <div  class="radio">
+                    <label  class="m-radio" for="round-off">
+                        <input type="radio" formControlName="marks_type" [value]="1" id="round-off" class="mr-1">
+                        Round off
+                        <span></span>
+                    </label>
+                </div>
+                <div  class="radio">
+                    <label  class="m-radio" for="ceil">
+                        <input type="radio" formControlName="marks_type" [value]="2" id="ceil" class="mr-1">
+                        Ceil
+                        <span></span>
+                    </label>
+                </div>
+                <div  class="radio">
+                    <label  class="m-radio" for="floor">
+                        <input type="radio" formControlName="marks_type" [value]="3" id="floor" class="mr-1">
+                        Floor
+                        <span></span>
+                    </label>
+                </div>
+                <div  class="radio">
+                    <label  class="m-radio" for="none">
+                        <input type="radio" formControlName="marks_type" [value]="0" id="none" class="mr-1">
+                        None
+                        <span></span>
+                    </label>
+                </div>
+             </div>
+            </div>
+            <div class="col-lg-12  col-md-12 create-marksheet-btn">
+              <button class="btn save-btn" (click)="createMarkSheet()" [disabled]="false"> {{markSheetTempId ? 'Update' : 'Save'}} 
+                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+              <button class="btn cancel-btn ms-2" (click)="clearForm()">Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,70 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Room Type List</h3>
+        <div class="btn_right">
+          <button *ngIf="CommonService.hasPermission('hostel_management_room_type', 'has_create')" class="btn add-btn" (click)="openCreateMdl(createMdl, null, 'create')">Add
+            Room Type</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card_body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="datatable-action-design">
+                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                  </svg>
+                </div>
+                <div class="table-responsive">
+                  <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Room Type Name</th>
+                        <th>New Fees</th>
+                        <th>Old Fees</th>
+                        <th class="action-btn-sticky">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="wings?.length != 0">
+                      <tr *ngFor="let wing of wings">
+                        <td class="orange-text-color"> {{wing.id }}</td>
+                        <td> {{wing.type}} </td>
+                        <td class="teal-text-color"> {{wing.total_new_fees}} </td>
+                        <td class="green-text-color"> {{wing.total_old_fees}} </td>
+                        <td class="action-btn-sticky text-center">
+                          <div class="btn-group" role="group">
+                            <button class="lt-btn-icon btn-sm action-edit" ngbTooltip="Edit" (click)="openCreateMdl(createMdl, wing,'edit')" *ngIf="CommonService.hasPermission('hostel_management_room_type', 'has_edit') && !wing.room_type_used"></button>
+                                <button class="lt-btn-icon btn-sm action-view" ngbTooltip="View" (click)="openCreateMdl(createMdl, wing, 'view')" *ngIf="wing.room_type_used"></button>
+                            <button type="button" ngbTooltip="Delete" class="lt-btn-icon btn-sm action-delete"
+                              (click)="deleteRoomType(wing.id)" *ngIf="CommonService.hasPermission('hostel_management_room_type', 'has_delete') && !wing.room_type_used">
+                              
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="wings?.length == 0">
+                      <tr>
+                        <td colspan="4" class="text-center no-data-available">No data</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <ng-template #createMdl let-modal>
+                <app-create-room-type (reloadRoomTypes)="reloadData()" [roomType]="roomType" [type]="type" [months]="FeesMonths"></app-create-room-type>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

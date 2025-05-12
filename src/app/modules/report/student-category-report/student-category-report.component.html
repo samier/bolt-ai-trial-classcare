@@ -1,0 +1,44 @@
+<section class="student-category-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Category Report</h3>
+                <div class="btn_right d-flex gap-3">
+                    <button *ngIf="commonService.hasPermission('student_report_student_category_report', 'has_download')" class="button" type="submit"
+                        class="btn w-100 d-flex align-items-center pdf-btn" ngbTooltip="PDF" (click)="downloadPdfAndExcel('pdf')"
+                        [disabled]="studentCategoryData.length > 0 && isPdfLoading">
+                        <img src="assets/images/pdf-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                    <button *ngIf="commonService.hasPermission('student_report_student_category_report', 'has_download')" class="button" type="submit"
+                        class="btn w-100 d-flex align-items-center excel-btn" ngbTooltip="EXCEL" (click)="downloadPdfAndExcel('excel')"
+                        [disabled]="studentCategoryData.length > 0 && isExcelLoading">
+                        <img src="assets/images/excel-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="card pb-2" [formGroup]="categoryReportFilterForm">
+                <div class="d-flex">
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Section</label>
+                        <app-single-select [dropDownArray]="sectionList" controlName="section" placeholder="All Section"></app-single-select>
+                    </div>
+                    <div class="col-md-3 get-report-button">
+                        <button type="button" class="btn show-btn" (click)="getStudentReportByCategory()" [disabled]="isStudentCategoryLoading">
+                            Get Report
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isStudentCategoryLoading">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div [innerHTML]="htmlContent"></div>
+        </div>
+    </div>
+</section>

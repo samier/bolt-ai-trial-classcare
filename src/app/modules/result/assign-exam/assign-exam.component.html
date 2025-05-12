@@ -1,0 +1,186 @@
+<section class="assign-list-section">
+    <div class="page-inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+                <h3 class="sub_title mb-0">{{assignExamName}} ASSIGN EXAM</h3>
+                <div class="create-heading-btn">
+                  <button class="btn me-2" [routerLink]="resultService.setUrl(URLConstants.TEACHER_REMARK_LIST)">Class Teacher Remarks</button>
+                  <button class="btn me-2" [routerLink]="resultService.setUrl(URLConstants.STUDENT_ATTENDANCE_LIST)">Student Attendance</button>
+                    <button class="btn me-2" (click)="getAssignExamData()">Refresh Page</button>
+                    <button class="btn list-btn" [routerLink]="resultService.setUrl(URLConstants.MARKSHEET_LIST)">Marksheet List</button>
+                  </div>
+            </div>
+
+            <!-- 1.ACADEMIC DETAILS -->
+            <form action="" [formGroup]="assignExamForm">
+                <ng-container *ngIf="assignExamFormArry?.controls">
+                    <ng-container formArrayName="assignExamArray">
+                        <ng-container *ngFor="let item of assignExamFormArry?.controls; let i = index">
+                            <div class="card" [formGroupName]="i">
+                                <div class="marksheet-header">
+                                    <ul class="marksheet-list">
+                                        <li><span>Class : </span>
+                                            <p> {{item.value.class_name}} </p>
+                                        </li>
+                                    </ul>
+                                    <div class="marksheet-rt-content">
+                                        <button class="btn me-2" (click)="saveAssign(item.value)">Save & Action</button>
+
+                                        <!-- <button class="btn me-2"  *ngIf="item.value.is_completed && !item.value.result_job_process && item?.value.krupa_siddhi_gun" [routerLink]="[resultService.setUrl(URLConstants.ADD_SIDHI_GUN),item.value.mark_sheet_classes_id]">Add Sidhi Gun</button> -->
+                                        <button class="btn me-2"  
+                                          *ngIf="item.value.system_settings_krupa_gun && item.value.is_completed && item?.value.krupa_siddhi_gun &&
+                                            (item.value.result_job_process ? item.value.system_settings_krupa_gun_flow : true )"
+                                          (click)="showClassName(item)">Add Krupa & Sidhi Gun
+                                        </button>
+                                        
+                                        <!-- <button class="btn me-2" *ngIf="item.value.is_completed && !item.value.result_job_process" (click)="generateMarksheet(item.value.mark_sheet_classes_id,i)" [disabled]="item.value.isGenerate ?? false">Generate  &nbsp; -->
+                                        <button class="btn me-2" *ngIf="(item.value.is_completed && !item.value.result_job_process) || ( item.value.result_job_process && item.value.system_settings_krupa_gun_flow)" (click)="generateMarksheet(item.value.mark_sheet_classes_id,i)" [disabled]="item.value.isGenerate ?? false"><i class="fa fa-refresh" aria-hidden="true"></i>Generate  &nbsp;
+                                          <div class="spinner-border spinner-border-sm" role="status" *ngIf="item.value.isGenerate ?? false">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                        </button>
+                                        <button class="btn generate-btn me-2" *ngIf="item.value.result_job_process" (click)="openDownloadModal(studentWiseDownload,'', item?.value,true)">Download Student Wise Marksheet</button>
+                                        <button class="btn generate-btn" *ngIf="item.value.result_job_process" (click)="openDownloadModal(Download,item.value.batch_wise_download_link, '')" >Download Batch Wise Marksheet</button>
+                                    </div>
+                                </div>
+                                <div class="marksheet-body">
+                                    <div class="row">
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                            <label class="form_label">Batch</label>
+                                            <ng-multiselect-dropdown placeholder="Select Batch" [settings]="multiSelectDropdownSettings" [data]="item.value.batch_list"
+                                                formControlName="batch_ids" (ngModelChange)="handleBatchChange(item)">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                            <label class="form_label">Exam Type</label>
+                                            <ng-multiselect-dropdown placeholder="Select Exam Type" (ngModelChange)="examTypeChange($event,item.value.exam_list,i)" [settings]="multiSelectDropdownSettings" [data]="item.value.filter_exam_type_list"
+                                                formControlName="exam_type_ids">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                            <label class="form_label">Exam Name</label>
+                                            <ng-multiselect-dropdown placeholder="Select Exam Name" [settings]="multiSelectDropdownSettings" [data]="item.value.filter_exam_list"
+                                                formControlName="exam_name_ids">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                            <label class="form_label">Extra Activity</label>
+                                            <ng-multiselect-dropdown placeholder="Select Extra Activity" [settings]="multiSelectDropdownSettings" [data]="item.value.extra_activity_list"
+                                                formControlName="extra_activity_ids">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                          <label class="form_label">Skill Subject</label>
+                                          <ng-multiselect-dropdown placeholder="Select Skill Subject" [settings]="multiSelectDropdownSettings" [data]="item.value.skill_subject_list"
+                                              formControlName="skill_subject_ids">
+                                          </ng-multiselect-dropdown>
+                                      </div>
+                                        <div class="col-lg-3  col-md-6 form-group">
+                                            <label class="form_label">Attendance List</label>
+                                            <ng-select [items]="item.value.student_attendance_detail_list" appendTo="body" [searchable]="true"
+                                              formControlName="student_attendance_detail_id" bindLabel="attendance_title" bindValue="id" placeholder="Please Select attendence">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </form>
+
+            <ng-container *ngIf="assignExamData.length == 0 && !isAssignMarkSheet">
+                <div class="card p-3">
+                    <div class="d-flex justify-content-center">
+                      No Data Found.
+                    </div>
+                </div>
+              </ng-container>
+            
+              <ng-container *ngIf="isAssignMarkSheet">
+                <div class="card p-3">
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border spinner-border-sm ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                </div>
+              </ng-container>
+        </div>
+    </div>
+</section>
+
+<ng-template #Download class="modal-dialog-centered">
+    <div class="modal-header" style="z-index: 0; border: none">
+      <h4 class="modal-title" id="modal-basic-title">Download Batch wise Marksheet</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div class="col-lg-12  col-md-12 form-group">
+            <label class="form_label">Batch</label>
+            <ng-multiselect-dropdown placeholder="Select Batch" [(ngModel)]="downloadSelectedBatch" [settings]="multiSelectDropdownSettingsForBatch"
+                [data]="selectedBatch" >
+            </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+      <div class="col-md-3 col-3 p-0 m-0">
+        <button type="submit" class="btn d-flex" style="text-align: left;" (click)="downloadMarksheet()" [disabled]="isDownloadMarkSheet">
+          Download
+          <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDownloadMarkSheet" style="margin-left: 6px;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+      <div class="col-md-2 col-3 p-0">
+        <button type="submit" class="btn" (click)="closeModel()">
+          Cancel </button>
+      </div>
+    </div>
+</ng-template>
+<ng-template #studentWiseDownload class="modal-dialog-centered">
+    <div class="modal-header" style="z-index: 0; border: none">
+      <h4 class="modal-title" id="modal-basic-title">Download/Publish Student Wise Result</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="radio-section mt-2">
+        <div class="radio ">
+            <label class=" required fw-semibold">
+                <input type="radio" [(ngModel)]="publish_type" id="none" value="1" class="mr-1">None<span></span>
+            </label>
+        </div>
+        <div class="radio ">
+            <label class="required fw-semibold" aria-required="true">
+                <input type="radio" [(ngModel)]="publish_type" id="all" value="2" class="mr-1">Publish to All<span></span>
+            </label>
+        </div>
+        <div class="radio ">
+            <label class="required fw-semibold" aria-required="true">
+                <input type="radio" [(ngModel)]="publish_type" id="paid" value="3" class="mr-1">Publish to Paid Fees Student<span></span>
+            </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+      <div class="col-auto">
+        <button type="submit" class="btn generate-btn" (click)="studentWiseResultDownload(publish_type)" style="text-align: left;">
+          {{ publish_type == '1' ? 'Download' : 'Publish'}}
+          <div class="spinner-border spinner-border-sm" role="status" *ngIf="false" style="margin-left: 6px;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+</ng-template>

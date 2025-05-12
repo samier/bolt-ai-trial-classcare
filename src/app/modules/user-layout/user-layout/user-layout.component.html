@@ -1,0 +1,37 @@
+
+<!-- <div class="main-body app sidebar-mini" [ngClass]="mainSidebarOpen"> -->
+    <div class="horizontalMenucontainer">
+        <app-switcher></app-switcher>
+        <!-- Page -->
+        <div class="page">
+            <!-- // header -->
+            <app-user-header></app-user-header>
+
+    
+            <!-- main-content -->
+            <div class="main-content app-content p-61" [ngClass]="{ 'p-60': scrolled }">
+    
+                <!-- main-header -->
+                <!-- <div class="jumps-prevent" style="padding-top: 63px;"></div> -->
+                <!-- /main-header -->
+    
+                <!-- container -->
+                <div class="main-container container-fluid" (click)="clickOnBody()">
+                    <router-outlet>
+                        <!-- <app-loader></app-loader> -->
+                    </router-outlet>
+                </div>
+                <!-- /Container -->
+            </div>
+            <!-- /main-content -->
+    
+            <!-- Footer opened -->
+            <app-footer></app-footer>
+            <!-- Footer closed -->
+    
+            <app-tap-to-top></app-tap-to-top>
+        </div>
+        <!-- End Page -->
+    </div>
+    <!-- </div> -->
+    

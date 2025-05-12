@@ -1,0 +1,129 @@
+<section class="leave_form new-student-list-section">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Photo Gallery</h3>
+        <div class="d-flex">
+          <button type="button" *ngIf="CommonService.hasPermission('administrator_event_gallary','has_create')"
+            class="btn add-btn me-2" (click)="openModal()">
+            Add New Photo Gallery
+          </button>
+        </div>
+      </div>
+
+      <div class="card student-list-card p-0">
+        <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn btn-primary me-2" (click)="clearAll($event)">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="filterForm" class="content_scroll">
+            <div class="row">
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Date</label>
+                <app-date-range-picker controlName="date" placeholder="Select Payment Date"></app-date-range-picker>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Event For</label>
+                <app-single-select [dropDownArray]="eventFor" controlName="eventFor" (change)="changeEventFor($event)"
+                  placeholder="Please Select"></app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group" *ngIf="isEvent == 2">
+                <label class=" form_label">Batches</label>
+                <app-multi-select [dropDownArray]="batches" controlName="batches"
+                  placeholder="Please Select Batch"></app-multi-select>
+              </div>
+
+              <div class="col-md-3 form_group" *ngIf="isEvent == 3">
+                <label class=" form_label">Employee</label>
+                <app-multi-select [dropDownArray]="employee" controlName="employee" placeholder="Please Select Employee"
+                  [isDisabled]="isDisabled"></app-multi-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-auto form_group mb-0">
+                <button type="button" class="btn show-btn" (click)="show()">Show</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card student-list-main-card">
+        <div class="card_body">
+          <div class="row pb-3 mx-0">
+            <div class="col-md-3 form-group" *ngFor="let item of event" (click)="HandleViewEvent(item)">
+              <div class="event_card" *ngIf="item?.event_files">
+                <div class="img">
+                  <img [src]="item?.event_files[0]?.attachment_url ?? 'assets/images/upload.png'" />
+                  <div class="action-btn-card">
+                    <!-- <div class="add_btn"> -->
+                    <svg ngbTooltip="Add Photo"
+                      *ngIf="CommonService.hasPermission('administrator_event_gallary','has_create')" class="add_btn"
+                      (click)="onAdd(item.id,true,$event)" width="19" height="19" viewBox="0 0 19 19" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M9.5 18C14.1944 18 18 14.1944 18 9.5C18 4.80558 14.1944 1 9.5 1C4.80558 1 1 4.80558 1 9.5C1 14.1944 4.80558 18 9.5 18Z"
+                        stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M9.5 5.85742V13.1431" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M5.85938 9.5H13.1451" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <!-- </div>  
+                            <div class="delete_btn"> -->
+                    <svg ngbTooltip="Delete"
+                      *ngIf="item?.eventName != 'Mobile Slider' && CommonService.hasPermission('administrator_event_gallary','has_delete')"
+                      class="delete_btn" (click)="onDelete(item.id,$event)" width="18" height="20" viewBox="0 0 18 20"
+                      fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 4.63672H2.81818H17.3636" stroke="white" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        d="M15.5476 4.63636V17.3636C15.5476 17.8458 15.356 18.3083 15.0151 18.6493C14.6741 18.9903 14.2116 19.1818 13.7294 19.1818H4.63849C4.15628 19.1818 3.69382 18.9903 3.35285 18.6493C3.01187 18.3083 2.82031 17.8458 2.82031 17.3636V4.63636M5.54759 4.63636V2.81818C5.54759 2.33597 5.73914 1.87351 6.08012 1.53253C6.42109 1.19156 6.88356 1 7.36577 1H11.0021C11.4843 1 11.9468 1.19156 12.2878 1.53253C12.6288 1.87351 12.8203 2.33597 12.8203 2.81818V4.63636"
+                        stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M7.35938 9.18188V14.6364" stroke="white" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path d="M11 9.18188V14.6364" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <!-- </div>   -->
+                  </div>
+
+                </div>
+                <div class="event_card_details d-flex justify-content-between align-content-center">
+                  <h3 class="mb-0">{{ item?.eventName }}</h3>
+                  <div class="d-flex justify-content-center align-items-center">
+                    <div class="date">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M8.11111 1.80005H1.88889C1.39797 1.80005 1 2.15822 1 2.60005V8.20009C1 8.64192 1.39797 9.0001 1.88889 9.0001H8.11111C8.60203 9.0001 9 8.64192 9 8.20009V2.60005C9 2.15822 8.60203 1.80005 8.11111 1.80005Z"
+                          stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M6.78125 1V2.60001" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.21875 1V2.60001" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1 4.2002H9" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                    <span>{{ item?.event_date | date : dateFormateService.getDateFormat() }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 form-group" *ngIf="!event">
+              <span class="text-center no-data-available">No Active Events</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

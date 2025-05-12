@@ -1,0 +1,57 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    app-student-assign-batch{
+        .student-list{
+            max-height: 400px;
+            overflow: auto;
+            .student_roll_no{
+                min-width: 50px;
+                display: inline-block;
+            }
+        }
+        .show_clear_btn{
+            border-top: 2px solid #80808045;
+        }
+        .card-label{
+            background-color: $primary;
+            border-radius: 7px 0 0 0;
+            ~ .card{
+                border-radius: 0;
+                border: 0;
+            }
+            h3{
+                text-transform: capitalize;
+                color: $white;
+                font-size: 20px;
+                font-weight: 500;
+                padding: 6px;
+            }
+        }
+        .from_card{
+            border-right: 2px solid #80808045;
+        }
+        .to_card{
+            .card-label{
+                border-radius: 0 7px 0 0;
+                ~ .card{
+                 border-radius: 0;   
+                }
+            }
+        }
+        .search_box{
+            position: relative;
+            input{
+                padding-right: 30px;
+            }
+            i{
+                &.fa-search{
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translate(0, -50%);
+                    opacity: 0.6;
+                }
+            }
+        }
+    }
+}

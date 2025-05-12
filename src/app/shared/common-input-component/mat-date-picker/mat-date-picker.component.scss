@@ -1,0 +1,61 @@
+::ng-deep{
+    .custom-date-picker{
+        .mat-datepicker-input{
+            border: none;
+            margin: 0 !important;
+            position: relative;
+            bottom: 6px;
+        }
+
+        .mat-form-field-wrapper {
+            padding: 0;
+        }
+
+        .mat-form-field-appearance-outline .mat-form-field-infix{
+            padding: 0;
+        }
+        .mat-form-field{
+            width: 100%;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-outline-start,
+        
+        .mat-form-field-appearance-outline .mat-form-field-outline-end
+        {
+            border-radius: 2px;
+            border-color: #D0C9C0;
+            min-width: 0;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-outline-gap{
+            border-color: #D0C9C0;
+            border-radius: 0;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-outline{
+            top: 0;
+        }
+        .mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix{
+            top: 0;
+        }
+        .mat-input-element{
+            color: #4d5875;
+        }
+    }
+
+    .mat-datepicker-input {
+        width: 90%;
+      }
+      
+      mat-icon {
+        position: relative;
+        float: left;
+        cursor: pointer;
+        background: #757575;
+        color: #fff;
+        border-radius: 4px;
+        font-size: 13px !important;
+        width: 17px !important;
+        height: 17px !important;
+        top: 8.5px !important;
+        line-height: 17px !important;
+        padding-left: 2px !important;
+      }
+}

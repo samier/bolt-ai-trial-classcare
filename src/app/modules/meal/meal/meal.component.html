@@ -1,0 +1,72 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{page}} Meal</h3>
+				<div class="btn_right">
+					<a class="btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.MEALS_LIST)">Meal List</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+					<div class="">
+						<div class="card">
+							<form [formGroup]="form" class="form_section">
+								<div class="row">
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Meal Type<span class="text-danger">*</span></label>
+											<div class="">
+												<input  type="text" id="meal_type" name="meal_type" formControlName="meal_type" placeholder="Meal Type" class="form-control">
+											</div>
+											<div *ngIf="form.controls['meal_type'].invalid && (form.controls['meal_type'].dirty || form.controls['meal_type'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['meal_type'].errors?.['required']">please enter meal type</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Status</label>
+											<div class="">
+												<div class="">
+													<select  id="status" name="status" formControlName="status" class="form-control" >
+														<option value="active">Active</option>
+														<option value="inactive">InActive</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="form_group">
+											<label class="form_label">Meal Description </label>
+											<div class="">
+												<div class="">
+													<textarea  id="meal_description" name="meal_description" formControlName="meal_description" class="form-control">
+													</textarea>
+												</div>
+												<div *ngIf="form.controls['meal_description'].invalid && (form.controls['meal_description'].dirty || form.controls['meal_description'].touched)" class=" error text-danger mb-2">
+													<div *ngIf="form.controls['meal_description'].errors?.['required']">please enter meal description</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row w-100">
+									<div class="col-md-auto">
+										<a class="btn clear-btn" href="#" [routerLink]="setUrl(URLConstants.MEALS_LIST)">Cancel</a>
+									</div>
+									<div class="col-md-auto">
+										<button *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('administrator_meal', 'has_update') : CommonService.hasPermission('administrator_meal', 'has_create')" type="submit" (click)="submit()" [disabled]="form.invalid" class="btn save-btn">
+																					{{saveBtn}}
+																				</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

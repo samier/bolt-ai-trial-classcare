@@ -1,0 +1,178 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{page}} Route</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.ROUTE_LIST)">Route List</a>
+					</div>
+				</div>
+            <div>
+                <div class="card_body">
+					<div>
+						<div class="card">
+							<form [formGroup]="form" class="form_section">
+								<div class="row">
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Route Name<span class="text-danger">*</span></label>
+											<div class="">
+												<input  type="text" formControlName="name" placeholder="Route Name" class="form-control">
+											</div>
+											<div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['name'].errors?.['required']">please enter route name</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Vehicle<span class="text-danger">*</span></label>
+											<div class="">
+												<ng-select  [items]="vehicles.data" bindValue="id" bindLabel="vehicle_no" placeholder="Select Vehicle" [searchable]="false"
+													formControlName="vehicle_id" #selectVehicle>
+													<ng-template ng-header-tmp>
+														<input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+															placeholder="Search" (input)="selectVehicle.filter($any($event.target).value)" />
+													</ng-template>
+													<ng-template ng-option-tmp let-item="item" let-index="index">
+														<b>{{item.vehicle_no}}</b>
+													</ng-template>
+												</ng-select>
+											</div>
+											<div *ngIf="form.controls['vehicle_id'].invalid && (form.controls['vehicle_id'].dirty || form.controls['vehicle_id'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['vehicle_id'].errors?.['required']">please select vehicle.</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Driver</label>
+											<div class="">
+												<ng-select  [items]="drivers.data" bindValue="id" bindLabel="first_name" placeholder="Select Driver" [searchable]="false"
+													formControlName="driver_id" #selectDriver>
+													<ng-template ng-header-tmp>
+														<input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+															placeholder="Search" (input)="selectDriver.filter($any($event.target).value)">
+													</ng-template>
+													<ng-template ng-option-tmp let-item="item" let-index="index">
+														<b>{{ item.id }} - {{ item.first_name+' '+item.last_name }}</b>
+													</ng-template>
+												</ng-select>
+											</div>
+						                    <div *ngIf="form.controls['driver_id'].invalid && (form.controls['driver_id'].dirty || form.controls['driver_id'].touched)" class=" error text-danger mb-2">
+						                        <div *ngIf="form.controls['driver_id'].errors?.['required']">please select driver</div>
+                							</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Attendant</label>
+											<div class="">
+												<select  class="form-control" formControlName="attendant_id">
+							                        <option value="">Select Attendant</option>
+							                        <option *ngFor="let option of attendants.data" [value]="option.id">{{ option.id }} - {{ option.first_name+' '+option.last_name }}</option>
+							                    </select>
+											</div>
+						                    <div *ngIf="form.controls['attendant_id'].invalid && (form.controls['attendant_id'].dirty || form.controls['attendant_id'].touched)" class="error text-danger">
+						                        <div *ngIf="form.controls['attendant_id'].errors?.['required']">please select attendant</div>
+						                    </div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Status</label>
+											<div class="">
+												<select  id="status" name="status" formControlName="status" class="form-control" >
+													<option value="active">Active</option>
+													<option value="inactive">InActive</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Select Stops</label>
+											<div class=""> 
+												<ng-multiselect-dropdown 
+													[(ngModel)] = "selectedStopsDD" [ngModelOptions]="{standalone: true}"
+													[placeholder]="'Please select stops'"
+													[settings]="stopDropdownSettings"
+													[data]="stopsDDdata"
+													(onSelect)="onStopSelect($event)"
+													(onDeSelect)="onStopDeSelect($event)"
+												>
+												</ng-multiselect-dropdown>
+											</div>
+										</div>
+									</div>
+
+									<div class=" row"
+									cdkDropList
+									[cdkDropListData]="stopsFieldAsFormArray.controls"
+									(cdkDropListDropped)="drop($event)"
+									>
+					                    <div *ngFor="let control of  stopsFieldAsFormArray.controls ;let i = index;" formArrayName='stops' class="col-lg-12  mb-0 pr-0" cdkDrag>
+					                        <div [formGroupName]="i" class="document_type_add mr-0">
+					                            <div class="row align-items-end" >
+					                                <div class="input-field col-lg-4">
+					                                	<label class=" form_label">Stop<span class="text-danger">*</span></label>
+														<ng-select [items]="stopsdata" bindValue="id" bindLabel="name" placeholder="Select Stop" [searchable]="false"
+															formControlName="stop_id" #select (change)="onStopFieldSelect()">
+															<ng-template ng-header-tmp>
+																<input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+																	placeholder="Search" (input)="select.filter($any($event.target).value)" />
+															</ng-template>
+															<ng-template ng-option-tmp let-item="item" let-index="index">
+																<div (click)="onDisaledStopClick(item)">
+																	<b>{{item.name}}</b>
+																</div>
+															</ng-template>
+														</ng-select>
+
+					                                    <div *ngIf="get_stop_id(i)?.invalid && (get_stop_id(i)?.dirty || get_stop_id(i)?.touched)" class="error text-danger">
+					                                        <div *ngIf="get_stop_id(i)?.errors?.['required']">please select stop</div>
+					                                    </div>
+					                                </div>
+					                                <div class="input-field col-lg-3">
+					                                	<label class=" form_label">Pickup Time<span class="text-danger">*</span></label>
+					                                    <input  type="time" placeholder="Pickup Time" formControlName="pickup_time" class="form-control">
+					                                    <div *ngIf="get_pickup_time(i)?.invalid && (get_pickup_time(i)?.dirty || get_pickup_time(i)?.touched)" class="error text-danger">
+															<div *ngIf="get_pickup_time(i)?.errors?.['required']">please select pickup time</div>
+					                                    </div>
+					                                </div>
+					                                <div class="input-field col-lg-3">
+					                                	<label class=" form_label">Drop Time<span class="text-danger">*</span></label>
+					                                    <input  type="time" placeholder="Drop Time" formControlName="drop_time" class="form-control">
+					                                    <div *ngIf="get_drop_time(i)?.invalid && (get_drop_time(i)?.dirty || get_drop_time(i)?.touched)" class="error text-danger">
+															<div *ngIf="get_drop_time(i)?.errors?.['required']">please select drop time</div>
+					                                    </div>
+					                                </div>
+					                                <div class="input-field col-lg-2">
+					                                    <input  type="hidden" formControlName="id" >
+														<button type="button" (click)="remove(i)" class="button btn btn-danger btn-mr-8" *ngIf="stopsFieldAsFormArray.controls.at(i).value.is_default != 1">--</button>
+														<button type="button" (click)="addSingleStop(i)" class="button btn btn-danger" *ngIf="i === stopsFieldAsFormArray.controls.length-1 && stopsFieldAsFormArray.controls.at(i).value.is_default != 1">+</button>
+					                                </div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+								</div>
+
+								<div class="row w-100 ">
+									<div class="col-md-auto">
+										<a class="btn clear-btn" href="#" [routerLink]="setUrl(URLConstants.ROUTE_LIST)">Cancel</a>
+									</div>
+									<div class="col-md-auto">
+										<button type="submit" *ngIf="saveBtn == 'Update' ? CommonService.hasPermission('transport_route', 'has_update') : CommonService.hasPermission('transport_route', 'has_create') " (click)="submit()" [disabled]="form.invalid || isSubmitting" class="btn save-btn">
+											{{saveBtn}}
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

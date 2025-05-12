@@ -1,0 +1,107 @@
+<section class="student-rank-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Rank List</h3>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <form [formGroup]="studentRankForm">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Section</label>
+                                        <div>
+                                            <app-single-select controlName="section_id" placeholder="Select section"
+                                                (change)="getClasses()"
+                                                [dropDownArray]="sectionList" [readonly]="examID ? true : false"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Class <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="class_id" placeholder="Select class"
+                                                (change)="getBatches()" [dropDownArray]="classList" [readonly]="examID ? true : false"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Batch<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-multi-select controlName="batch_id" placeholder="Select batch"
+                                                [dropDownArray]="batchList" [isDisabled]="examID ? true : false" (change)="getFilterData()"></app-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Exam Type <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="exam_type_id" placeholder="Select exam type"
+                                                [dropDownArray]="examTypeList" [readonly]="examID ? true : false"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label for="" class="form_label">Exam Name <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="exam_name_id" placeholder="Select exam name"
+                                                [dropDownArray]="examNameList" [readonly]="examID ? true : false"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="show-clear-btn d-flex">
+                                            <button type="button"
+                                                class="btn px-4 d-flex align-items-center me-3 show-btn"
+                                                [disabled]="isShowData" (click)="showData()">
+                                                show
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="isShowData">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="d-flex justify-content-end align-items-center me-4">
+                    <div class="btn_right d-flex gap-3">
+                        <button class="button" type="submit"
+                            class="btn w-100 d-flex align-items-center pdf-btn" ngbTooltip="PDF" (click)="downloadPdfAndExcel('pdf')"
+                            [disabled]="studentRankData.length > 0 && isPdfLoading">
+                            <img src="assets/images/pdf-icon.svg" alt="">
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="button" type="submit"
+                            class="btn w-100 d-flex align-items-center excel-btn" ngbTooltip="EXCEL" (click)="downloadPdfAndExcel('excel')"
+                            [disabled]="studentRankData.length > 0 && isExcelLoading">
+                            <img src="assets/images/excel-icon.svg" alt="">
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body"  >
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table #table1 datatable *ngIf="dtRendered"  [dtOptions]="dtOptions"  class="table table-hover table-nowrap table-bordered ">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

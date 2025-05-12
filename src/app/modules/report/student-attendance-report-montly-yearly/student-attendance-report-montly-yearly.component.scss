@@ -1,0 +1,109 @@
+@import "../../../../assets/scss/variables";
+::ng-deep body{
+    table.table-bordered.dataTable td.dataTables_empty {
+        display: table-cell !important
+    }
+    table .student-img-container{
+        img{
+            border-radius: 100px;
+        }
+    }
+    .nav-link{
+        &.active, &:hover {
+            background-color: #fff !important;
+        }
+    }
+    .card{
+        border-radius: 3;
+        &.filter {
+            padding: 0 !important;
+            .card-header{
+                padding: 10px 16px !important;
+                border-bottom: unset !important;
+                .drop-btn{
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--primary-bg-color) !important;
+                    box-shadow: none !important;
+                    .fa{
+                        font-size: 18px;
+                    }
+                }
+                .btn-primary{
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: $primary !important;
+                    box-shadow: none !important;
+                }
+            }
+            .card-body{
+                .form_group{
+                    .form_label{
+                        font-size: 15px;
+                        line-height: 22px;
+                        font-weight: 500;
+                        color: #393939;
+                        margin-bottom: 7px;
+                    }
+                    .ng-select-container{
+                        box-shadow: none;
+                    }
+                    .radio-section{
+                        margin-top: 7px;
+                    }
+                }
+                .switch{
+                    margin-top: 5px;
+                    width: 52px;
+                    height: 24px;
+                    .slider{
+                        background-color: #8098cd;
+                        &::before{
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                    input:checked + .slider{
+                        background-color: #01329C;
+                    }
+                }
+            }
+            .border-circle {
+                border-radius: 100%;
+            }
+        }
+        
+        .table{
+            thead{
+                th{
+                    &.text-present{
+                        background-color: #88BC88 !important;
+                    }
+                    &.text-absent{
+                        background-color: #FF7474 !important;
+                    }
+                    &.text-leave{
+                        background-color: #D8A220 !important;
+                    }
+                }
+            }
+        }
+    }
+    .student-image {
+        width:35px;
+        height:35px;
+        object-fit:cover;
+    }
+    .date-lt-range {
+        .md-drppicker {
+            left: unset !important;
+            right: 14px !important;   
+        }
+    }
+}

@@ -1,0 +1,244 @@
+<section class="leave_form batch-wise-attendance-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Take Attendance</h3>
+                <div class="">
+                    <div> 
+                        <!-- <a [href]="setsymfonyUrl('report/viewattendance')"
+                        class="btn list-btn me-2">View Attendance Report</a> -->
+                        <a [routerLink]="setUrl(URLConstants.VIEW_ATTENDANCE_LIST)" class="btn report-btn me-2">View Attendance Report</a>
+                        <a [routerLink]="setUrl(URLConstants.BATCHWISE_ATTENDANCE_LIST)" class="btn list-btn me-2">Batch Wise Attendance List</a>
+                        <!-- <a [href]="setsymfonyUrl('attendance/todayLeaveAbsentAttendance')" class="btn list-btn">Leave /
+                            Absent</a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <form [formGroup]="attendanceForm">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Select Section
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="section" placeholder="Select section"
+                                                [dropDownArray]="sectionList"
+                                                (change)="sectionChange()"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Select Class
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="class" placeholder="Select Class"
+                                                [dropDownArray]="classList"
+                                                (change)="classChange()"></app-single-select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Select Batch <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="batch" placeholder="Select Batch"
+                                                [dropDownArray]="batchList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Select Date <span class="text-danger">*</span>
+                                        </label>
+                                        <div>
+                                            <app-mat-date-picker controlName="date" [maxDate]="maxDate"></app-mat-date-picker>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3 col-md-4 form_group" *ngIf="attendanceSession == 1">
+                                        <label for="" class="form_label">Select Session
+                                        </label>
+                                        <div>
+                                            <app-single-select controlName="session" [dropDownArray]="sessionList"
+                                                placeholder="select Session"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label for="" class="form_label">Select Fields
+                                        </label>
+                                        <div>
+                                            <app-multi-select controlName="col" [dropDownArray]="columnList"
+                                                placeholder="Select Fields" (change)="colChange()"></app-multi-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <div class="show-clear-btn d-flex">
+                                            <button type="button" class="btn show-btn d-flex align-items-center me-3"
+                                                [disabled]="is_showAttendance" (click)="showAttendance()">
+                                                show
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                                    *ngIf="is_showAttendance">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button class="btn clear-btn" (click)="resetForm()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <!-- <div *ngIf="!is_show && data?.length == 0"> -->
+                <div *ngIf="is_selected" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <div>Please select Branch and Date for Attendance.</div>
+                </div>
+
+                <!-- <div class="table-responsive form_group" *ngIf="!is_show && data?.length > 0 "> -->
+                <!-- <div class="table-responsive form_group" *ngIf="data?.length > 0 "> -->
+                <div class="table-responsive form_group" *ngIf="!is_selected && !is_show">
+                    <div class="total_student_number">
+                        <div class="btn">
+                            Total Student : {{ data?.length }}
+                        </div>
+                        <input type="text" value="" [(ngModel)]="search" (input)="searchData()"
+                            placeholder="Search Student..." style="padding: 4px 10px;">
+                    </div>
+                    <table class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Student Roll No</th>
+                                <th>Student Name</th>
+                                <th>Batch Name</th>
+                                <th *ngIf="colArray.includes(1)">Father Contact No</th>
+                                <th *ngIf="colArray.includes(2)">Mother Contact No</th>
+                                <th *ngIf="colArray.includes(3)">Student Contact No</th>
+                                <th>Absent</th>
+                                <th>Present</th>
+                                <th>Leave</th>
+                                <th>In Time</th>
+                                <th>Out Time</th>
+                                <th>Notes</th>
+
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="filteredPost?.length > 0 && !is_show">
+                            <tr *ngFor="let item of filteredPost ;let i = index;">
+
+                                <td class="orange-text-color">{{ item?.student_rollno || '-' }}</td>
+                                <td class="name_hover"><a [routerLink]="[setUrl(URLConstants.STUDENT_NEW_PROFILE),item?.unique_id]">{{ item?.full_name || '-' }}</a></td>
+                                <td class="teal-text-color">{{ item?.batch_name || '-' }}</td>
+                                <td *ngIf="colArray.includes(1)" class="green-text-color"> {{ item?.father_number || '-' }}</td>
+                                <td *ngIf="colArray.includes(2)" class="green-text-color"> {{ item?.mother_number || '-' }}</td>
+                                <td *ngIf="colArray.includes(3)" class="green-text-color">{{ item?.studentWhatsappNo || '-' }}</td>
+                                <td>
+                                    <input type="radio" name="status{{i}}" value="a"
+                                        [(ngModel)]="item.attendance_status" [checked]="item.attendance_status === 'a'">
+                                </td>
+                                <td>
+                                    <input type="radio" name="status{{i}}" value="p"
+                                        [(ngModel)]="item.attendance_status" [checked]="item.attendance_status === 'p'">
+                                </td>
+                                <td>
+                                    <input type="radio" name="status{{i}}" value="l"
+                                        [(ngModel)]="item.attendance_status" [checked]="item.attendance_status === 'l'">
+                                </td>
+                                <td><input type="time" class="form-control w-auto"></td>
+                                <td><input type="time" class="form-control w-auto"></td>
+                                <td>
+                                    <input type="text" [(ngModel)]="item.notes">
+                                </td>
+
+                            </tr>
+                        </tbody>
+
+                        <tbody *ngIf="filteredPost?.length == 0">
+                            <tr>
+                                <td colspan="9">
+                                    <div class="d-flex justify-content-center">
+                                        No Data Found.
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="save_atten mt-2 mb-2"
+                        *ngIf="is_update ? CommonService.hasPermission('student_attendance', 'has_update') : CommonService.hasPermission('student_attendance', 'has_create') ">
+                        <button type="submit" class="btn" [disabled]="is_updateL || filteredPost?.length == 0"
+                            (click)="attendanceSaOrUp(publishModel)"> {{ is_update ? 'Update Attendance' : 'Save Attendance' }}
+                            <div style="margin-left: 6px;" class="spinner-border spinner-border-sm" role="status" *ngIf="is_updateL">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                    <!-- <div class="row save_atten">
+                    </div> -->
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<ng-template #publishModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">Broadcast SMS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body">
+
+        <div class="col-md-12 form_group">
+
+            <div class="d-flex">
+                <div class="m-checkbox-list d-flex align-items-center me-3"
+                    [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox" [(ngModel)]="message.send_father" [value]="true"
+                            [disabled]="!is_send_sms"><span></span>
+                    </label>
+                    <label for="checkbox" class="ms-2 mb-0">Father</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2"
+                    [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox1" [(ngModel)]="message.send_mother" [value]="true"
+                            [disabled]="!is_send_sms"><span></span>
+                    </label>
+                    <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2"
+                    [ngClass]="{ 'opacity-box' : is_send_sms == false}">
+                    <label class="m-checkbox mb-0">
+                        <input type="checkbox" id="checkbox2" [(ngModel)]="message.send_student" [value]="true"
+                            [disabled]="!is_send_sms"><span></span>
+                    </label>
+                    <label for="checkbox2" class="ms-2 mb-0">Student</label>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+        <div class="col-auto">
+            <button class="msg-btn btn" type="submit" (click)="saveBroadcast()" [disabled]="is_modalL"> Save Broadcast
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_modalL">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,198 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-complain-list{
+        h3{
+            &.sub_title{
+                font-size: 26px;
+                font-weight: 600;
+                text-transform: capitalize;
+            }
+        }
+        .card{
+            box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+            border: none;
+            border-radius: 6px;
+            border: 1px solid #dcdbdb;
+            margin-bottom: 0;
+            height: 100%;
+            .card-head{
+                border-bottom:1px solid rgba(0,0,0,.0901960784);
+                padding-top: 16px !important;
+                padding-bottom: 16px;
+                .heading-full-name{
+                    font-size: 16px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    margin-bottom: 0;
+                    color: #000;
+
+                    p{
+                        font-size: 12px;
+                        line-height: 16px;
+                        font-weight: 500;
+                        margin-bottom: 0;
+                        margin: 4px 0;
+
+                    }
+                }
+                .action-view, .action-edit{
+                    padding: 4px 8px !important;
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            .middle-body{
+                .description{
+                    min-height: 84px;
+                    display: -webkit-box;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    -webkit-line-clamp: 4;
+                    -webkit-box-orient: vertical;
+                }
+            }
+            .assigned_by{
+                color: #e4e4e4;
+                font-weight: 500;
+            }
+            a{
+                color: #fff;
+            }
+            .blue-foot{
+                background-color: rgba(0, 132, 254, 1);
+                .assigned_by{
+                    color: #d6d5d5;
+                    font-weight: 500;
+                }
+                a{
+                    color: #fff;
+                }
+            }
+            .grey-foot{
+                background-color: rgba(167, 167, 167, 1);
+            }
+            .red-foot{
+                background-color: rgba(253, 63, 63, 1);
+            }
+            .priority-type{
+                .high-priority{
+                    color: rgb(253, 63, 63);
+                }
+                .normal-priority{
+                    color: rgb(0, 132, 254);
+                }
+                .low-priority{
+                    color: rgb(167, 167, 167);
+                }
+                select{
+                    &.form-control{
+                        padding-right: 25px !important;
+                    }
+                }
+            }
+        }
+        .filter-card{
+            .card-header{
+                 padding: 10px 16px !important;
+                 border-bottom: unset !important;
+            }
+            .card-student-heading{
+                .btn-primary{
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            .student-accordion-btn{
+                .drop-btn{
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--primary-bg-color) !important;
+                    box-shadow: none !important;
+                    .fa{
+                        font-size: 18px;
+                    }
+                }
+            }
+            .card-body{
+                .form_group{
+                    .form_label{
+                        font-size: 15px;
+                        line-height: 22px;
+                        font-weight: 500;
+                        color: #393939;
+                        margin-bottom: 7px;
+                    }
+                    .ng-select-container{
+                        box-shadow: none;
+                    }
+                    .radio-section{
+                        margin-top: 7px;
+                    }
+                }
+                .switch{
+                    margin-top: 5px;
+                    width: 52px;
+                    height: 24px;
+                    .slider{
+                        background-color: #8098cd;
+                        &::before{
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                    input:checked + .slider{
+                        background-color: #01329C;
+                    }
+                }
+            }
+        }
+        .border-circle {
+            border-radius: 100%;
+        }
+        .table-responsive{
+            .dataTables_wrapper{
+                .dataTables_length{
+                    select{
+                        background-size: 20px;
+                        background-position: right;
+                        background-color: #EDEDED;
+                        color: #000;
+                        border: none;
+                        box-shadow: none;
+                        outline: none;
+                    }
+                }
+                table{
+                    tbody{
+                        tr{
+                            td{
+                                &.low-priority {
+                                    color: #6F6D6C;
+                                }
+                                
+                                &.normal-priority {
+                                    color: #0084FE;
+                                }
+                                
+                                &.high-priority {
+                                    color: #C60F0F;
+                                }
+                            }
+                        }
+                    }
+                }
+            }    
+        }  
+        
+        
+    }
+}

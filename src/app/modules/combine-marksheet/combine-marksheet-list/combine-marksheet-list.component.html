@@ -1,0 +1,238 @@
+<section class="marksheet-list-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">COMBINE MARKSHEET LIST</h3>
+
+        <div class="create-heading-btn">
+          <button class="btn me-2" [routerLink]="CommonService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN)"><i
+              class="bi bi-vector-pen pe-2"></i>Marksheet Template Design</button>
+          <button class="btn delete-btn me-2"
+            *ngIf="!isDeleteAll && CommonService.hasPermission('student_marksheet_create', 'has_delete')"
+            (click)="isDeleteAll = true">Delete All</button>
+          <button class="btn cancel-btn me-2" *ngIf="isDeleteAll" (click)="selectionCancel()">Cancel</button>
+          <button  *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.CREATE_COMBINE_MARKSHEET)" class="btn add-btn">Create
+            Combine Marksheet</button>
+        </div>
+
+      </div>
+      <!-- 1.ACADEMIC DETAILS -->
+      <div class="select-all-checkbox d-flex align-items-center" *ngIf="isDeleteAll">
+        <input class="form-check-input" [(ngModel)]="allChecked" (change)="handleSelectAll($event)" type="checkbox"
+          value="" id="flexCheckDefault">
+        <label class="form-check-label me-2 mt-1" for="flexCheckDefault">
+          Select All
+        </label>
+        <div class="ms-auto" [ngbTooltip]="selectedMarksheetIds.size === 0 ? 'Please Select Marksheet' : ''"
+          placement="left" container="body">
+          <button class="btn delete-btn ms-auto" (click)="openPublishModal(deleteModel);deleteId = null"
+            [disabled]="selectedMarksheetIds.size === 0">Delete {{ selectedMarksheetIds.size === 0 ? '' : '(' +
+            selectedMarksheetIds.size + ')' }}</button>
+        </div>
+      </div>
+
+      <!-- <ng-container *ngIf="!is_list_loading "> -->
+        <ng-container *ngFor="let markSheet of markSheetList">
+
+          <div class="marksheet-main-card">
+            <input class="form-check-input" *ngIf="isDeleteAll" [(ngModel)]="markSheet.isSelected"
+              (change)="handleSelect($event, markSheet?.id)" type="checkbox" value="" id="flexCheckDefault">
+
+            <div class="card">
+
+              <!-- TOP PART -->
+              <div class="marksheet-header">
+                <!-- NAME -->
+                <div class="marsheet-lt-content">
+                  <h4> Combine Marksheet Name : {{markSheet?.mark_sheet_name ?? ''}} </h4>
+                </div>
+                <!-- EDIT DELETE BUTTON -->
+                <div class="marksheet-rt-content">
+                  <button class="btn blue-btn" *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_edit')" [routerLink]="[CommonService.setUrl(URLConstants.EDIT_COMBINE_MARKSHEET),markSheet?.id]">
+                    <i class="far fa-edit"></i>
+                  </button>
+                  <button class="btn red-btn mx-2" *ngIf="CommonService.hasPermission('student_marksheet_create', 'has_delete')" (click)="openPublishModal(deleteModel); deleteId = markSheet?.id;">
+                    <i class="fa fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- BOTTOM PART -->
+              <div class="marksheet-body">
+                <ul class="marksheet-list">
+
+                  <!-- <li>
+                    <span> MarkSheet Name : </span>
+                    <ng-container *ngFor="let markSheetName of markSheet?.assigned_mark_sheet">
+                      <p> {{ markSheetName ?? ''}} , </p>
+                    </ng-container>
+                  </li> -->
+
+                  <li>
+                    <span> Marksheet Name : </span>
+                    <ng-container *ngFor="let markSheetName of markSheet?.assigned_mark_sheet">
+                      <p> {{ markSheetName ?? '' }}{{ markSheet.assigned_mark_sheet.indexOf(markSheetName) !==
+                        markSheet.assigned_mark_sheet?.length - 1 ? ', ' : '' }} </p>
+                    </ng-container>
+                  </li>
+
+                  <li>
+                    <span>Marksheet Template Design : </span>
+                    <p>{{markSheet?.template_name ?? '-'}}</p>
+                  </li>
+
+                  <li>
+                    <span>School Result Design template : </span>
+                    <p>{{markSheet?.school_template_name ?? '-'}}</p>
+                  </li>
+
+                  <li>
+                    <span>Display Attendance : </span>
+                    <p> {{ markSheet?.show_attendance ? 'Yes' : 'No' }} </p>
+                  </li>
+
+                </ul>
+
+                <!-- BOTTOM BUTTON LIST -->
+                <div class="selester-wrapper">
+                  <div class="selester-btn">
+
+                    <button class="btn me-3" [routerLink]="[CommonService.setUrl(URLConstants.COMBINE_RESULT_SETUP), markSheet?.id]"> 
+                      Result Setup 
+                    </button>
+                    <button class="btn priview-btn me-3" [routerLink]="[CommonService.setUrl(URLConstants.MARKSHEET_TEMP_DESIGN),markSheet?.result_templates_id,'view']">
+                      Design
+                    </button>
+
+                    <!-- <button *ngIf="markSheet.faculty_is_completed && !markSheet.faculty_result_job_process " class="btn me-3" (click)="handleGenerate(markSheet,'faculty')" [disabled]="loadingStates['faculty'][markSheet.id]"> 
+                      Generate Faculty Combine Marksheet
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="loadingStates['faculty'][markSheet.id]">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button> -->
+                    
+                    <button class="btn me-3" [routerLink]="[CommonService.setUrl(URLConstants.GENERATE_MARKSHHET_SETUP),markSheet?.id]"> 
+                      Generate ClassWise Combine Marksheet
+                    </button>
+
+                    <button  *ngIf="markSheet.faculty_is_completed && markSheet.faculty_result_job_process " class="btn priview-btn me-3" (click)="handleCombineDownload(markSheet,0, false)">
+                      Download Faculty Combined Result
+                    </button>
+                    <!-- <button *ngIf="markSheet.student_is_completed && !markSheet.student_result_job_process " class="btn me-3" (click)="handleGenerate(markSheet,'student')" [disabled]="loadingStates['student'][markSheet.id]"> 
+                      Generate Student Combine Marksheet
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="loadingStates['student'][markSheet.id]">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button> -->
+
+                    <button *ngIf="markSheet.student_is_completed && markSheet.student_result_job_process" class="btn priview-btn me-3" (click)="markSheet.add_publish_type == '0' ? openPublishModal(studentWiseDownload, markSheet) : handleCombineDownload(markSheet,1, true)">
+                      Download Student Wise Result
+                    </button>
+                    <button *ngIf="markSheet.student_is_completed && markSheet.student_result_job_process" class="btn priview-btn me-3" (click)="handleCombineDownload(markSheet,1, false)">
+                      Download {{ markSheet.is_batch_wise ? 'Batch ' : 'Class ' }} Wise Result
+                    </button>
+
+                    <button *ngIf="markSheet.student_is_completed && markSheet.student_result_job_process && markSheet.school_template_name" class="btn priview-btn me-3" (click)="handleCombineDownload(markSheet , 2 , false , true )">
+                     Download School Result
+                    </button>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      <!-- </ng-container> -->
+
+      <ng-container *ngIf="markSheetList?.length == 0 && !is_list_loading">
+        <div class="card p-3">
+          <div class="d-flex justify-content-center">
+            No Data Found.
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="is_list_loading">
+        <div class="card p-3" >
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border spinner-border-sm ms-2" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</section>
+<ng-template #deleteModel class="modal-dialog-centered">
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Delete Combine Marksheet </h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row justify-content-center">
+      <div class="col-lg-12  col-md-12 form-group">
+        <p class="delete-text">Are You Sure You Want To Delete {{ deleteId ? getMarkSheetName(deleteId) : 'Selected'}} Combine Marksheet ?
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-flex align-items-center"
+    style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <button type="submit" class="btn delete-btn" (click)="deleteTemplate()" [disabled]="isDelete">
+      Delete {{ deleteId ? '' : selectedMarksheetIds.size === 0 ? '' : '(' + selectedMarksheetIds.size + ')'}}
+      <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDelete">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </button>
+    <button type="submit" class="btn cancel-btn" (click)="closeModel()">
+      Cancel
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #studentWiseDownload class="modal-dialog-centered">
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Download/Publish Student Wise Result</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="radio-section mt-2">
+      <div class="radio ">
+          <label class=" required fw-semibold">
+              <input type="radio" [(ngModel)]="publish_type" id="none" value="1" class="mr-1">None<span></span>
+          </label>
+      </div>
+      <div class="radio ">
+          <label class="required fw-semibold" aria-required="true">
+              <input type="radio" [(ngModel)]="publish_type" id="all" value="2" class="mr-1">Publish to All<span></span>
+          </label>
+      </div>
+      <div class="radio ">
+          <label class="required fw-semibold" aria-required="true">
+              <input type="radio" [(ngModel)]="publish_type" id="paid" value="3" class="mr-1">Publish to Paid Fees Student<span></span>
+          </label>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-auto">
+      <button type="submit" class="btn generate-btn" style="text-align: left;" (click)="downloadStudentWiseResult()" [disabled]="isDownloadLoading">
+        {{ publish_type == '1' ? 'Download' : 'Publish'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isDownloadLoading" style="margin-left: 6px;">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>

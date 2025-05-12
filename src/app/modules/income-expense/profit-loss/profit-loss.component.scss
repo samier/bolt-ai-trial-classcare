@@ -1,0 +1,150 @@
+::ng-deep{
+    .profit-loss-section{
+        .profit-loss-content{
+            span{
+                font-family: Arial, sans-serif;
+            }
+            .profit-loss-heading{
+                background-color: var(--primary-bg-color);
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                padding: 6px 14px;
+                border-radius: 0;
+                h3{
+                    font-size: 18px;
+                    line-height: 28px;
+                    font-weight: 500;
+                    color: #fff;
+                    margin: 0;
+                    &:first-child{
+                        width: 70%;
+                    }
+                }
+            }
+            .profit-loss-body{
+                padding-top: 14px;
+                h4{
+                    font-size: 16px;
+                    line-height: 20px;
+                    font-weight: 600;
+                    color: #000;
+                    margin-bottom: 10px;
+                    padding-left: 14px;
+                }
+                ul{
+                    margin: 0;
+                    padding: 0;
+                    li{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        margin-bottom: 4px;
+                        .list-value{
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            width: 62%;
+                            padding-left: 30px;
+                            h6{
+                                font-size: 16px;
+                                line-height: 20px;
+                                margin: 0;
+                                color: #000;
+                                font-weight: 400;
+                            }
+                            p{
+                                font-size: 14px;
+                                line-height: 20px;
+                                margin: 0;
+                                color: #000;
+                                font-weight: 500;
+                                span{
+                                    display: inline-block;
+                                    margin-right: 30px;
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+                    }
+                    .bg-value{
+                        background-color: rgba(218, 230, 255, 1);
+                        padding: 4px 10px;
+                        .list-value{
+                            justify-content: center;
+                            padding: 0;
+                            h5{
+                                text-align: center;
+                                margin: 0;
+                                font-size: 16px;
+                                line-height: 20px;
+                                font-weight: 600;
+                                color: #000;
+                                margin: 0;
+                            }
+                        }
+                        .rt-value{
+                            width: 50%;
+                            h5{
+                                text-align: center;
+                                margin: 0;
+                                font-size: 16px;
+                                line-height: 20px;
+                                font-weight: 600;
+                                color: #000;
+                                margin: 0;
+                                text-align: right;
+                                span{
+                                    display: inline-block;
+                                    margin-right: 30px;
+                                    font-weight: 600;
+                                }
+                            }
+                        }
+                    }
+                    .total-value{
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        border-top: 1px solid #e6e5e5;
+                        border-bottom: 1px solid #e6e5e5;
+                        padding: 8px 10px;
+                        .list-value{
+                            padding: 0;
+                            
+                        }
+                        h5{
+                            font-size: 16px;
+                            line-height: 20px;
+                            font-weight: 600;
+                            color: #000;
+                            margin: 0;
+                            span{
+                                display: inline-block;
+                                margin-right: 30px;
+                            }
+                        }
+                    }
+                    .profit-value{
+                        background-color: rgba(170, 227, 170, 1);
+                        border: none;
+                        h5{
+                            color: rgba(15, 154, 15, 1);
+                        }
+                    }
+                    .loss-value{
+                        background-color: rgb(227, 170, 170);
+                        border: none;
+                        h5{
+                            color: rgb(154, 15, 15);
+                        }
+                    }
+                }
+            }
+            
+        }
+        .border-right-1{
+            border-right:1px solid #e6e5e5;
+        }
+    }
+}

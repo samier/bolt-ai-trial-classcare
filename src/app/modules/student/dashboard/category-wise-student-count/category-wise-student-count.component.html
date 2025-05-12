@@ -1,0 +1,35 @@
+<div class="student-category-content">
+
+    <ng-container *ngIf="isLoading else dataContent">
+        <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Data Content -->
+    <ng-template #dataContent>
+        <ng-container *ngIf="studentCategoryData.length == 0  else data">
+            <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+                <div class="pinner-border-sm">
+                    <span>No Student Category Found.</span>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #data>
+            <div class="student-card-heading">
+            <h4>Student Category</h4>
+        </div>
+            <div class="count-content">
+                <ng-container *ngFor="let item of studentCategoryData">
+                    <div class="count-value">
+                        <h3>{{item.total_students}}</h3>
+                        <p>{{item.category_name}}</p>
+                    </div>
+                    
+                </ng-container>
+            </div>
+        </ng-template>
+    </ng-template>
+</div>

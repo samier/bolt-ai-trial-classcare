@@ -1,0 +1,171 @@
+<!-- <div class="app-sidebar__overlay" data-toggle="sidebar"></div> -->
+<div class="sticky" [ngClass]="{ 'sticky-pin': scrolled }">
+	<aside class="app-sidebar sidebar-scroll">
+		<div class="ht-submenu-scroll">
+			<div class="main-sidebar-header active">
+				<a href="{{setsymfonyUrl('BranchList')}}" class="desktop-logo logo-light active" *ngIf="branchList.length == 1">
+					<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}" class="main-logo" alt="logo">
+					<h6>{{branch_detail?.branchName}}</h6>
+				</a>
+				<div ngbDropdown class="dropdown main-profile-menu nav nav-item nav-link p-0 branch_dropdown" *ngIf="branchList.length > 1">
+					<a href="javascript:void(0)" class="desktop-logo logo-light active">
+						<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}" class="main-logo" alt="logo">
+						<h6 ngbDropdownToggle>{{branch_detail?.branchName}}</h6>
+					</a>
+					<!-- <a class="profile-user d-flex" href="javascript:;">
+						<h6 ngbDropdownToggle>{{branch_detail?.branchName}}</h6>
+					</a> -->
+					<div ngbDropdownMenu class="branch-list-menu">
+                        <a *ngFor="let item of branchList" class="dropdown-item" (click)="handleBranchChange(item.id)" >{{item.branchName}}</a>
+					</div>
+				</div>
+				<a href="{{setsymfonyUrl('BranchList')}}" class="desktop-logo logo-dark active" *ngIf="branchList.length == 1">
+					<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}"  class="main-logo" alt="logo">
+					<h6>{{branch_detail?.branchName}}</h6>
+
+				</a>
+				<div ngbDropdown class="dropdown main-profile-menu nav nav-item nav-link p-0 branch_dropdown" *ngIf="branchList.length > 1">
+					<a href="javascript:void(0)" class="desktop-logo logo-dark active">
+						<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}"  class="main-logo" alt="logo">
+						<h6 ngbDropdownToggle>{{branch_detail?.branchName}}</h6>
+	
+					</a>
+					<div ngbDropdownMenu >
+                        <a *ngFor="let item of branchList" class="dropdown-item" (click)="handleBranchChange(item.id)" >{{item.branchName}}</a>
+					</div>
+				</div>
+				<a href="{{setsymfonyUrl('BranchList')}}" class="logo-icon mobile-logo icon-light active">
+					<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}"  alt="logo">
+
+				</a>
+				<a href="{{setsymfonyUrl('BranchList')}}" class="logo-icon mobile-logo icon-dark active">
+					<img src="{{branch_detail?.path ? branch_detail.image : '/public/upload/branchImage/Class_care.png'}}"  alt="logo">
+
+				</a>
+			</div>
+			<div class="main-sidemenu">
+				<div class="app-sidebar__user clearfix">
+					<!--<div class="dropdown user-pro-body">
+						<div class="">
+							<img alt="user-img" class="avatar avatar-xl brround"
+								src="./assets/img/faces/6.jpg"><span
+								class="avatar-status profile-status bg-green"></span>
+						</div>
+						<div class="user-info">
+							<h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
+							<span class="mb-0 text-muted">Premium Member</span>
+						</div>
+					</div>-->
+				</div>
+				<ul class="side-menu">
+					<!-- left-arrow -->
+					<div class="slide-left" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191"
+						width="24" height="24" viewBox="0 0 24 24">
+						<path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" /></svg></div>
+					<!-- 1st level Menu  -->
+					<li class="slide" *ngFor="let menuItem of menuItems"
+						[ngClass]="{ active: menuItem.active ,'is-expanded': menuItem.active}">
+
+						<!-- link -->
+						<a class="side-menu__item " [routerLink]="[menuItem.path] " [ngClass]="{ active: menuItem.active ,'is-expanded': menuItem.active}" ng-reflect-router-link-active-options
+							*ngIf="menuItem.type === 'link' && menuItem.show" (click)="toggleNavActive(menuItem)">
+							<div class="d-flex menu-icon">
+								<span class="ti-{{menuItem.icon}}"></span>
+							</div>
+							<span class="side-menu__label">{{menuItem.title}} </span>
+							<span class="badge bg-{{menuItem.badgeClass}} text-light" >{{menuItem.badgeValue}}</span>
+						</a>
+						<a class="side-menu__item " [href]="[menuItem.path] " [ngClass]="{ active: menuItem.active ,'is-expanded': menuItem.active}" ng-reflect-router-link-active-options
+							*ngIf="menuItem.type === 'slink' && menuItem.show" (click)="toggleNavActive(menuItem)">
+							<div class="d-flex menu-icon">
+								<span class="ti-{{menuItem.icon}}"></span>
+							</div>
+							<span class="side-menu__label">{{menuItem.title}} </span>
+							<span class="badge bg-{{menuItem.badgeClass}} text-light" >{{menuItem.badgeValue}}</span>
+						</a>
+
+						<!-- sub -->
+						<a class="side-menu__item " [routerLink]="null" *ngIf="menuItem.type === 'sub'  && menuItem.show"
+							(click)="toggleNavActive(menuItem)" [ngClass]="{ active: menuItem.active ,'is-expanded': menuItem.active}">
+							<div class="d-flex menu-icon">
+								<span class="ti-{{menuItem.icon}}"></span>
+							</div>
+							<span class="side-menu__label">{{menuItem.title}}</span>
+							<i class="angle fe fe-chevron-down"></i>
+						</a>
+
+
+						<!-- 2nd level menu -->
+						<ul class="slide-menu" [ngClass]="{active: menuItem.active, mega_menu : getChildrens(menuItem?.children)?.length >= 3 , single_menu : getChildrens(menuItem?.children)?.length == 1 }"  *ngIf="menuItem.children && menuItem.show" [hidden]="!menuItem.show" >
+							<li class="sub-slide" *ngFor="let childrenItem of getChildrens(menuItem?.children)"
+								[ngClass]="{active: childrenItem.active, 'is-expanded': childrenItem.active}">
+								<!-- Sub -->
+								<a href="javascript:void(0)" class="slide-item has-sub is-expanded" [ngClass]="{active: childrenItem.active}" *ngIf="childrenItem.type === 'sub'  && childrenItem.show"
+									(click)="toggleNavActive(childrenItem)">
+									<span class="sub-side-menu__label">{{childrenItem.title}}</span>
+									<i class="sub-angle fe fe-chevron-{{childrenItem.active ? 'down' : 'right'}}"
+										*ngIf="menuItem.children"></i>
+								</a>
+								<!-- Link but not slug-->
+								<a [routerLink]="!childrenItem.type ? null : [childrenItem.path]" [queryParams]="{isDefaultTemplate:childrenItem.slug}" class="slide-item"
+									*ngIf="childrenItem.type === 'link'  && childrenItem.show" routerLinkActive="active"
+									[routerLinkActiveOptions]="{exact: true}" (click)="toggleNavActive(menuItem)">
+									<span>{{childrenItem.title}}</span>
+								</a>
+								<!-- Link && Slug -->
+								<!-- <a (click)="navigateWithParams(childrenItem.path,childrenItem.slug)" class="slide-item"
+									*ngIf="childrenItem.type === 'link' && childrenItem.slug && childrenItem.show" routerLinkActive="active"
+									[routerLinkActiveOptions]="{exact: true}" (click)="toggleNavActive(menuItem)">
+									<span>{{childrenItem.title}}</span>
+								</a> -->
+								<a [href]="!childrenItem.type ? null : [childrenItem.path]" class="slide-item"
+									*ngIf="childrenItem.type === 'slink'  && childrenItem.show" routerLinkActive="active"
+									[routerLinkActiveOptions]="{exact: true}" (click)="toggleNavActive(menuItem)">
+									<span>{{childrenItem.title}}</span>
+								</a>
+								<ul class="sub-slide-menu" *ngIf="childrenItem.children && childrenItem.show"
+									[ngClass]="{active: childrenItem.active}" [hidden]="!childrenItem.show">
+									<li *ngFor="let childrenSubItem of childrenItem.children"
+										[ngClass]="{active: childrenSubItem.active}">
+										<!-- link -->
+										<a class="slide-item ms-3"
+											[routerLink]="!childrenSubItem.type ? null : [childrenSubItem.path]" [queryParams]="{isDefaultTemplate:childrenSubItem.slug}"
+											*ngIf="childrenSubItem.type === 'link'  && childrenSubItem.show" routerLinkActive="active"
+											[routerLinkActiveOptions]="{exact : true}" (click)="toggleNavActive(childrenSubItem)">
+											<span>{{childrenSubItem.title}}</span>
+										</a>
+										<a class="slide-item ms-3"
+											[href]="!childrenSubItem.type ? null : [childrenSubItem.path]"
+											*ngIf="childrenSubItem.type === 'slink'  && childrenSubItem.show" routerLinkActive="active"
+											[routerLinkActiveOptions]="{exact : true}">
+											<span>{{childrenSubItem.title}}</span>
+										</a>
+										<!-- On Logout Clear Local & Session Storage -->
+										<a class="slide-item ms-3" (click)="clear()"
+											[href]="!childrenSubItem.type ? null : [childrenSubItem.path]"
+											*ngIf="childrenSubItem.type === 'logout'  && childrenSubItem.show" routerLinkActive="active"
+											[routerLinkActiveOptions]="{exact : true}">
+											<span>{{childrenSubItem.title}}</span>
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<!-- right-arrow  -->
+				<div class="quick-search-icon" ngbTooltip="Quick Menu Search (Alt + Q)" placement="bottom" (click)="openQuickSearchModal()">
+					<i class="fa fa-search"></i>
+					<p>Quick Menu Search</p>
+				</div>
+				<div class="slide-right" id="slide-right">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24">
+						<path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
+					</svg>
+				</div>
+			</div>
+		</div>
+	</aside>
+</div>
+	
+	

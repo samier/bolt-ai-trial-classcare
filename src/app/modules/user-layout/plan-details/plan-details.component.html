@@ -1,0 +1,238 @@
+<section class="plan-detail-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Plan Details</h3>
+            </div>
+
+            <!-- <div class="plan-detail-card card">
+                <div class="plan-detail-name">
+                    <div class="row">
+                        <div class="col-lg-6 form_group">
+                            <label class="form_label">Plan Name: </label>
+                            <p> {{ planDetails?.usersmsplan[0]?.plan_name || '-' }}</p>
+                        </div>
+                        <div class="col-lg-3 form_group justify-content-end">
+                            <label class="form_label"> Start Date: </label>
+                            <p> {{ (planDetails?.usersmsplan[0]?.active_date  | date: dateFormateService.getDateFormat() ) || "-" }}</p>
+                        </div>
+                        <div class="col-lg-3 form_group justify-content-end">
+                            <label class="form_label"> End Date: </label>
+                            <p> {{ ( planDetails?.usersmsplan[0]?.expire_date  | date: dateFormateService.getDateFormat() )  || "-" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-center">
+                        <div class="alert alert-info">
+                            <strong>Total:
+                                <span>
+                                    <i class="fa fa-rupee-sign"></i>
+                                </span>
+                                {{ planDetails?.usersmsplan[0]?.total_amount || "-" }}
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="alert alert-success">
+                            <strong>Paid:
+                                <span>
+                                    <i class="fa fa-rupee-sign"></i>
+                                </span>
+                                {{ planDetails?.usersmsplan[0]?.paid_amount || "-" }}
+                            </strong>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 text-center">
+                        <div class="alert alert-danger">
+                            <strong>Remaining: 
+                                <span>
+                                    <i class="fa fa-rupee-sign"></i>
+                                </span>
+                                key not found ?
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="plan-customer-detail">
+                <!-- Customer Details -->
+                <mat-accordion class="student-accordion">
+                    <mat-expansion-panel class="student-accordion-panel" [expanded]="true">
+                        <mat-expansion-panel-header class="student-accordion-panel-header">
+                            <mat-panel-title class="accordion-heading"> Customer Details </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="plan-detail-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Classes Name: </label>
+                                        <p> {{  planDetails?.usersmsplan[0]?.class_name || '-'}} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Classes Owner Name: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.owner_name || '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Email id: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.email || '-'}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Contact Number: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.contact_no || '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">What's app Number: </label>
+                                        <p> - </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Address: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.address || '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <!-- System Package -->
+                <mat-accordion class="student-accordion">
+                    <mat-expansion-panel class="student-accordion-panel" [expanded]="true">
+                        <mat-expansion-panel-header class="student-accordion-panel-header">
+                            <mat-panel-title class="accordion-heading"> System Package </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="plan-detail-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Website Link: </label>
+                                        <p> {{ planDetails?.institute?.domain_url || '-' }} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">SMS: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.has_sms ? 'Yes' : 'No'}} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Web Builder: </label>
+                                        <p> {{  planDetails?.usersmsplan[0]?.has_website == 1 ? 'Yes' : 'No'  }} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">What's app: </label>
+                                        <p> {{  planDetails?.institute?.whatsapp_embedded_token ? "Yes" : "No" }} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">No of Branch's: </label>
+                                        <p> {{ planDetails?.institute?.no_of_branch || '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Max No. of Students strength: </label>
+                                        <p> {{ planDetails?.usersmsplan[0]?.max_student || '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Android Application: </label>
+                                        <p> {{ planDetails?.institute.one_signal_api_token_android ? "Yes" : "No" }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">IOS Application: </label>
+                                        <p> {{ planDetails?.institute.one_signal_api_token_ios ? "Yes" : "No" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="student-accordion">
+                    <mat-expansion-panel class="student-accordion-panel" [expanded]="true">
+                        <mat-expansion-panel-header class="student-accordion-panel-header">
+                            <mat-panel-title class="accordion-heading"> SMS Package </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="plan-detail-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Total SMS: </label>
+                                        <p> {{ planDetails?.instituteSmsProvider[0]?.total_sms || '-' }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Sent SMS: </label>
+                                        <p> {{ planDetails?.instituteSmsProvider[0]?.sent_sms || '-' }} </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Remaining SMS: </label>
+                                        <p> {{ planDetails?.instituteSmsProvider[0]?.total_sms-planDetails?.instituteSmsProvider[0]?.sent_sms}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Sender Mask: </label>
+                                        <p> {{ planDetails?.instituteSmsProvider[0]?.sender_mask }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <!-- Support Details -->
+                <mat-accordion class="student-accordion">
+                    <mat-expansion-panel class="student-accordion-panel" [expanded]="true">
+                        <mat-expansion-panel-header class="student-accordion-panel-header">
+                            <mat-panel-title class="accordion-heading"> Support Details </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="plan-detail-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form_group plan-form-group">
+                                        <label for="" class="form_label">Support Number: </label>
+                                        <p> +91 9328689510 </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</section>

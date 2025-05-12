@@ -1,0 +1,57 @@
+::ng-deep body {
+  .save-cancel-field {
+    position: sticky;
+    bottom: 44px;
+    background-color: #fff;
+    padding: 8px 20px;
+    width: 100%;
+    text-align: right;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    left: 0;
+    max-width: 100%;
+    right: 24px;
+    margin-left: auto;
+    border-radius: 4px 4px 0 0;
+  }
+  .card {
+    scroll-margin-bottom: 120px;
+  }
+
+  .new-event-form-section{
+    .card{
+      app-input{
+        input[type="color"]{
+          height: 37px;
+        }
+      }
+
+      .add_event_btn_group{
+        .btn{
+          width: 30px;
+          height: 30px;
+          padding: 5px !important;
+
+          &.add-btn{
+            border: 1px solid #02a3c3;
+            color: #fff;
+            background-color: #02a3c3;  
+
+            &::before{
+              display: none;
+            }
+          }
+
+          &.cancel-btn{
+            border: 1px solid #ff7474;
+            color: #fff;
+            background-color: #ff7474;
+
+            &::before{
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

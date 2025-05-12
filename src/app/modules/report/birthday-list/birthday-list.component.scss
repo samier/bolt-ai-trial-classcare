@@ -1,0 +1,139 @@
+::ng-deep body{
+    app-birthday-list{
+        .birthday{
+            .button_square{
+                display: flex;
+                gap: 1rem;
+                .pdf{
+                    background-color: var(--primary-bg-color);
+                    color: #fff;
+                    padding: .375rem .75rem;
+                    font-size: 13px;
+                    text-transform: capitalize;
+                    border-radius: 3px;
+                }
+
+                .excel{
+                    background-color: var(--primary-bg-color);
+                    color: #fff;
+                    padding: .375rem .75rem;
+                    font-size: 13px;
+                    text-transform: capitalize;
+                    border-radius: 3px;
+                }
+
+            }
+
+            .optimized_btn{
+                display: flex;
+                gap: 1rem;
+                padding-left: 12px;
+                .pdf{
+                    background-color: var(--primary-bg-color);
+                    color: #fff;
+                    padding: .375rem .75rem;
+                    font-size: 13px;
+                    text-transform: capitalize;
+                    border-radius: 3px;
+                }
+
+                .excel{
+                    background-color: var(--primary-bg-color);
+                    color: #fff;
+                    padding: .375rem .75rem;
+                    font-size: 13px;
+                    text-transform: capitalize;
+                    border-radius: 3px;
+                }
+
+            }
+        }
+
+        .student-profile-tan{
+            padding-bottom: 5px;
+        }
+
+        label.m-radio.required.nav-link.active{
+            background: #fff;
+        }
+
+        .nav-tabs .nav-link:first-child{
+            margin-left: 0;
+            background: #F8F8F8;
+            color: #01329C;
+        }
+
+        .md-drppicker.ltr{
+            right: 0 !important;
+            left: auto !important;
+        }
+
+      .table-responsive{
+        position: relative;
+        .table-btn-right{
+          position: absolute;
+          right: 0;
+          z-index: 1;
+        }
+        .dataTables_filter{
+          padding-right: 80px;
+        }
+      }  
+    }
+    table.table-bordered.dataTable td.dataTables_empty {
+        display: table-cell !important
+    }
+
+    ngx-daterangepicker-material {
+        & {
+            .md-drppicker {
+              min-width: 630px !important;
+            }
+            .md-drppicker .btn {
+              background-color: var(--primary-bg-color);
+              vertical-align: baseline;
+              text-align: center;
+              margin: 0;
+              min-width: 64px;
+              line-height: 36px;
+              padding: 0 16px;
+              border-radius: 4px;
+              overflow: visible;
+              margin-left: 10px;
+              box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+            }
+            .md-drppicker .btn.btn-default {
+              color: #000;
+              background-color: #fff;
+            }
+            .md-drppicker .clear {
+              box-shadow: none !important;
+              svg {
+                display: none;
+              }
+            }
+            .md-drppicker .ranges ul li {
+              border-radius: 4px;
+            }
+            .md-drppicker .ranges ul li button {
+              padding: 0 16px;
+              border-radius: 4px;
+              text-align: left;
+              font-size: .8rem;
+              line-height: 32px;
+              font-weight: 400 !important;
+            }
+            .md-drppicker .ranges ul li button.active{
+              background-color: var(--primary-bg-color);
+            }
+            .md-drppicker td.active {
+              background-color: var(--primary-bg-color);
+            }
+            .md-drppicker td.active, .md-drppicker td.active:hover {
+              background-color: var(--primary-bg-color);
+            }
+          }
+    }
+}
+
+

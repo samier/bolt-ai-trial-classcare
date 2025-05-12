@@ -1,0 +1,222 @@
+<section class="leave_form">
+	<div class="page_inner user-info-tabs-view">
+		<div class="m-container">
+			<div class="d-flex justify-content-between align-items-center">
+				<h3 class="sub_title">FACULTY PROFILE</h3>
+			</div>
+			<div class="card studentview_lay">
+				<div class="card_body"  *ngIf="userDetail">
+					<div class="faculty-name-details">
+						<div class="d-flex align-items-start flex-wrap">
+							<div class="student-img student-header-content">
+								<img class="img-thumbnail" src="{{userDetail.profile}}">
+							</div>
+							<div class="student-details">
+								<h3 class="mt-0">{{userDetail.full_name}}</h3>
+								<h6 class="batch">{{userDetail.email}}</h6>
+								<a class="btn mt-2" [routerLink]="[setUrl(URLConstants.EDIT_USER), user_id]">
+									<i class="fa fa-edit"></i>
+									<span>Edit</span>
+								</a>
+							</div>
+							<div class="student-list" style="margin-left:auto">
+								<a [routerLink]="[setUrl(URLConstants.USER_LIST)]" class="btn list-btn ml-0">
+									<span>User List</span>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel with-nav-tabs panel-default section_dashboard">
+								<div class="panel-heading">
+									<ul class="nav nav-tabs nav_border-section mt-3">
+										<li class="nav-item" (click)="handleTab('profile')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab"
+												[class.active]="tab == 'profile' ? true : false">Profile</a>
+										</li>
+										<li class="nav-item" (click)="handleTab('leave')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab"
+												[class.active]="tab == 'leave' ? true : false">Leaves</a>
+										</li>
+										<li class="nav-item" (click)="handleTab('timetable')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab"
+												[class.active]="tab == 'timetable' ? true : false">Timetable</a>
+										</li>
+										<li class="nav-item" (click)="handleTab('docs')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab" [class.active]="tab == 'docs' ? true : false">Document
+												Upload</a>
+										</li>
+										<li class="nav-item" (click)="handleTab('user_permission')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab" [class.active]="tab == 'user_permission' ? true : false">User Permission</a>
+										</li>
+										<li class="nav-item" (click)="handleTab('notice_history')" *ngIf="CommonService.hasPermission('administrator_notice_history', 'has_access')">
+											<a href="javascript:void(0)" class="nav-link" routerLinkActive="active"
+												data-toggle="tab" [class.active]="tab == 'notice_history' ? true : false">Notice History</a>
+										</li>
+									</ul>
+									<!-- <div class="radio-inline nav-item">
+										<label class="m-radio required nav-link" [class.active]="tab == 'exam' ? true : false" for="exam" aria-required="true">
+											<input type="radio" name="for" id="exam" (click)="handleTab('exam')" value="exam" aria-required="true" class="mr-1" checked hidden>Exams<span></span>
+										</label>
+									</div>
+									<div class="radio-inline ml-1 nav-item">
+										<label class="m-radio required nav-link" [class.active]="tab != 'exam' ? true : false" for="result" aria-required="true">
+											<input type="radio" name="for" id="result" (click)="handleTab('result')" value="result" aria-required="true" class="mr-1" hidden>Results <span></span>
+										</label>
+									</div> -->
+								</div>
+
+
+								<div class="card">
+									<div class="card_body">
+										<div class="row">
+											<div class="col-lg-12">
+												<div *ngIf="tab == 'profile'">
+													<div class="row">
+														<div class="col-4">
+															<div class="rounded-lg border detail-card w-100 overflow-hidden">
+																<h3 class="w-100 primary-bg text-white p-3 mb-0">Personal Details</h3>
+																<table class="table m-table m-table--head-no-border mb-0">
+																	<tbody>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Name</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.full_name}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Email</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.email}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Phone No</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.phone_number ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Alternate Mobile No</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.alternate_number ?? '-'}}</td>
+																		</tr>
+																		<tr *ngIf="userDetail.whatsapp_no_same_as_phone_no != 1">
+																			<td class="text-15 py-3 text-weight-500 td_title">Whatsapp No</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.whatsup_number ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Gender</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.gender == 'F' ? 'Female' : 'Male'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">DOB</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.birth_date ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Address</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.current_address ?? '-'}}</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<div class="col-4">
+															<div class="rounded-lg border detail-card w-100 overflow-hidden">
+																<h3 class="w-100 primary-bg text-white p-3 mb-0">Guardian Details</h3>
+																<table class="table m-table m-table--head-no-border mb-0">
+																	<tbody>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Father's Name</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.father_name ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Mother's Name</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.mother_name ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Martial Status</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.marital_status ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Spouse Name</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.spouse_name ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">No Of Children</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.no_children ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Blood Group</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.blood_group}}</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+														<div class="col-4">
+															<div class="rounded-lg border detail-card w-100 overflow-hidden">
+																<h3 class="w-100 primary-bg text-white p-3 mb-0">User Details</h3>
+																<table class="table m-table m-table--head-no-border mb-0">
+																	<tbody>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Role</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{getRoles(userDetail.roles)}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Qualification</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.qualification ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Employee Number</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.employee_number ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Designation</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.designation ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Joining Date</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.joining_date ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Leaving Date</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{userDetail.expire_date ?? '-'}}</td>
+																		</tr>
+																		<tr>
+																			<td class="text-15 py-3 text-weight-500 td_title">Faculty Type</td>
+																			<td class="text-15 py-3 text-weight-500 info_td">{{getFacultyType(userDetail.faculty_type) ?? '-'}}</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div *ngIf="tab == 'leave'">
+													<app-leave-list></app-leave-list>
+												</div>
+												<div *ngIf="tab == 'timetable'">
+													<app-timetable></app-timetable>
+												</div>
+												<div *ngIf="tab == 'docs'">
+													<app-document></app-document>
+												</div>
+												<div *ngIf="tab == 'user_permission'">
+													<app-user-wise-permission [userDetail]="userDetail"></app-user-wise-permission>
+												</div>
+												<div *ngIf="tab == 'notice_history' && CommonService.hasPermission('administrator_notice_history', 'has_access')">
+													<app-user-notice-history></app-user-notice-history>
+													<!-- <app-user-wise-permission [userDetail]="userDetail"></app-user-wise-permission> -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

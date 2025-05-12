@@ -1,0 +1,40 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{pageType}} List</h3>
+                <div class="d-flex">
+                    <div class="btn_right me-2" *ngIf="pageType == 'holiday'">
+                        <a class="global_btn btn add-btn"  *ngIf="_CommonService.hasPermission('administrator_holiday', 'has_create')" (click)="addEditHolidayModal(null,false)">Add Holiday</a>
+                    </div>
+                    <div class="btn_right  me-2" *ngIf="pageType == 'holiday'">
+                        <a class="global_btn btn add-btn"  *ngIf="_CommonService.hasPermission('administrator_holiday', 'has_create')" (click)="addMultiple('holiday')">Add Multiple Holidays</a>
+                    </div>
+                    <div class="btn_right me-2" *ngIf="pageType == 'event'">
+                        <a class="global_btn btn list-btn" [routerLink]="_CommonService.setUrl(URLConstants.EVENT_TYPE_LIST)" *ngIf="_CommonService.hasPermission('administrator_event_type', 'has_access')" >Event Types</a>
+                    </div>
+                    <div class="btn_right me-2" *ngIf="pageType == 'event'">
+                        <a class="global_btn btn add-btn"  *ngIf="_CommonService.hasPermission('administrator_event', 'has_create')" (click)="addEditHolidayModal(null,false)">Add Event</a>
+                    </div>
+                    <div class="btn_right  me-2 " *ngIf="pageType == 'event'">
+                        <a class="global_btn btn add-btn"  *ngIf="_CommonService.hasPermission('administrator_event', 'has_create')" (click)="addMultiple('event')">Add Multiple event</a>
+                    </div>
+                    <div class="btn_right" >
+                        <a class="global_btn btn list-btn" [routerLink]="_CommonService.setUrl(URLConstants.CALENDAR)" *ngIf="_CommonService.hasPermission('administrator_calender', 'has_access')" >Calendar</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table id="eventTable" *ngIf="isTableVisible" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"
+                                class="table table-hover table-nowrap table-bordered eventTable">
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

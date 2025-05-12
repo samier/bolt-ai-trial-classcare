@@ -1,0 +1,241 @@
+<section class="homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{attachmentType}} List</h3>
+                <div class="btn_right">
+                    <a *ngIf="CommonService.hasPermission('administrator_' + attachmentType, 'has_create')" class="global_btn btn add-btn " href="#." [routerLink]="homeworkService.setUrl(1,attachmentType)" > Add
+                        {{attachmentType}}</a>
+                </div>
+            </div>
+            <div>
+                <form [formGroup]="homeworkForm">
+                    <div class="card">
+                        <div class="row">
+
+                            <!-- Section -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Section</label>
+                                <app-single-select controlName="section_id" (change)="onSectionChange()"
+                                    [dropDownArray]="sections" placeholder="Select Section"></app-single-select>
+                            </div>
+
+                            <!-- Classes -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Class</label>
+                                <app-single-select controlName="class_id" (change)="onClassChange()"
+                                    [dropDownArray]="classes" placeholder="Select Class"></app-single-select>
+                            </div>
+
+                            <!-- Batch -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Batch</label>
+                                <app-multi-select controlName="batch_id" [dropDownArray]="batches"
+                                    placeholder="Select Batch" (change)="onBatchChange()"></app-multi-select>
+                            </div>
+
+
+                            <!-- Subject -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Subject</label>
+                                <app-single-select controlName="subject_id" (change)="onSubjectChange()"
+                                    [dropDownArray]="subjects" placeholder="Select Subject"></app-single-select>
+                            </div>
+
+                            <!-- Date Picker  -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Date</label>
+                                <app-date-range-picker controlName="date"
+                                    placeholder="Select Date"></app-date-range-picker>
+                            </div>
+
+                            <!-- Faculty -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Faculty</label>
+                                <app-single-select controlName="faculty_id" (change)="onFacultyChange()"
+                                    [dropDownArray]="faculty" placeholder="Select Subject"></app-single-select>
+                            </div>
+
+
+                            <!-- Draft Toggle -->
+                            <div class="col-md-3 form_group" *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                                <label class="form_label">Draft</label>
+                                <div class="form-check form-switch mb-2">
+                                    <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                        class="form-check-input" formControlName="draft" (change)="draftToggle()">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <!-- Show BTN -->
+                            <div>
+                                <button class="btn w-100 show-btn" (click)="submit()" [disabled]="showL">
+                                    Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="showL">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <!-- Clear BTN -->
+                            <div class="clearBtnDiv ms-2">
+                                <button class="btn w-100 clear-btn" (click)="handleClear()" [disabled]="clearL">
+                                    Clear
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="clearL">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="card">
+                    <!-- <ng-container *ngIf="!isHomeWork && else loaderContent"> -->
+                        <ng-container *ngIf="homework.length > 0 else noDataFound">
+                            <!-- <div class="d-flex justify-content-between">
+                                <h4 class="total_card">Showing {{(paginationConfig.currentPage *10) - 9}} to {{ (paginationConfig.totalItems < (paginationConfig.currentPage *10)) ? (paginationConfig.totalItems) : (paginationConfig.currentPage *10)}} of {{paginationConfig.totalItems}} Results for <span>"{{attachmentType}}"</span></h4>
+                                <div class="d-flex align-items-start">
+                                    <div class="d-flex align-items-center draft" *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                                        <label class="form_label mb-0 me-2">Draft</label>
+                                        <div class="form-check form-switch mb-2">
+                                            <input type="checkbox" role="switch" id="switch-primary" checked=""
+                                                class="form-check-input" formControlName="draft" (change)="draftToggle()">
+                                        </div>
+                                    </div>
+                                    <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
+                                </div>
+                            </div> -->
+                            <div infiniteScroll (scrolled)="onScrollChange()">
+                                <div class="row">
+                                    <ng-container *ngFor="let card of homework"> <!-- | paginate: paginationConfig -->
+                                        <div class="col-md-4 form_group main-card mb-0 position-relative">
+                                            <div class="watermark" *ngIf="card?.is_draft">DRAFT</div>
+                                            <div class="card p-0">
+                                                <div class="card-head d-flex justify-content-between align-items-center px-3 pt-2 mb-2">
+                                                    <div class="mb-2">
+                                                        <p class="subject mb-0">{{ card?.subject?.name }}</p>
+                                                        <ng-container>
+                                                            <b>Batch: </b><span *ngFor="let batch of card?.batch ; let i=index"> {{
+                                                                batch?.name }}<span *ngIf="i<card?.batch.length-1">,</span> </span>
+                                                        </ng-container>
+                                                    </div>
+                                                    <p class="d-flex mb-2">
+                                                        <a [routerLink]="[homeworkService.setUrl(2,attachmentType) ,card?.id]" href='#'
+                                                        class="btn action-view" ngbTooltip="View"><i class="fa fa-eye"></i></a>
+                                                        <a [routerLink]="[homeworkService.setUrl(3,attachmentType),card?.id]"
+                                                            *ngIf="CommonService.hasPermission('administrator_' + attachmentType, 'has_edit')"
+                                                            class="px-2 btn ms-2 action-edit" ngbTooltip="Edit"><i class="fa fa-pencil-alt"></i></a>
+                                                        <button (click)="delete(card?.id , card?.title )"
+                                                            *ngIf="CommonService.hasPermission('administrator_' + attachmentType, 'has_delete')"
+                                                            class="px-2 btn ms-2 action-delete" ngbTooltip="Delete"><i class="fa fa-trash-alt"></i></button>
+                                                    </p>
+                                                </div>
+                                                <div class="px-3">
+                                                    <div class="d-flex justify-content-left mb-2">
+                                                        <label class="w-auto mb-0"><b>Title:</b></label>
+                                                        <p class="ps-2 mb-0">{{ card?.title }}</p>
+                                                    </div>
+                                                    <div>
+                                                        <label class="form_label w-auto mb-1"><b>Description:</b></label>
+                                                        <p class="mb-0 description">{{ card?.description }}</p>
+                                                    </div>
+                                                </div>
+                                                <ng-container
+                                                    *ngIf="card?.notes_attachments?.length > 0 || card?.link else defaultContent">
+                                                    <div class="px-3 py-2 pb-3 attach_file d-flex">
+                                                        <ng-container *ngIf="card?.notes_attachments?.length > 0">
+                                                            <ng-container *ngFor="let att of card?.notes_attachments let i = index">
+                                                                <div class="position-relative" style="cursor: pointer;" *ngIf="i <= 2"
+                                                                    (click)="openLinkInNewTab(att?.attachment_url)">
+                                                                    <i class="fa fa-file-pdf"
+                                                                        *ngIf="att?.filename.includes('.pdf')"></i>
+                                                                    <i class="fa fa-file-image"
+                                                                        *ngIf="!att?.filename.includes('.pdf')"></i>
+                                                                    <input type="text" class="form-control" [value]="att?.filename"
+                                                                        readonly>
+                                                                    <!-- <i class="fa fa-download position-absolute" (click)="download(att?.attachment_url)"></i> -->
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                        <span class="count_attach"
+                                                            *ngIf="card?.notes_attachments.length > 3">+{{card?.notes_attachments.length
+                                                            -
+                                                            3}}</span>
+                                                        <span class="copy_link" *ngIf="card.link"><i class="fa fa-link"
+                                                                style="cursor: pointer;" [matTooltip]="card?.link"
+                                                                (click)="openLinkInNewTab(card.link)"></i></span>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #defaultContent>
+                                                    <div class="px-3 py-2 pb-3 attach_file position-relative opacity-0 defaultContent">
+                                                        <input type="text" class="form-control" readonly><i
+                                                            class="fa fa-download position-absolute"></i>
+                                                    </div>
+                                                </ng-template>
+                                                <div class="px-3 mb-3">
+                                                    <label class="w-auto mb-0"><b>Status:</b></label>
+                                                    <div class="d-flex">
+                                                        <span class="text-center btn-submit">Submitted: {{ card?.completed}}</span>
+                                                        <span class="text-center ms-2 btn-pending">Pending: {{ card?.pending }}</span>
+                                                        <span class="text-center ms-2 btn-totle">Total: {{ card?.completed +
+                                                            card?.pending
+                                                            }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="px-3 mb-3"  *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                                                    <label class="w-auto mb-0"><b>Remarks:</b></label>
+                                                    <div class="d-flex">
+                                                        <span class="text-center btn-submit">Completed: {{ card?.remark_complete}}</span>
+                                                        <span class="text-center ms-2 btn-pending">Incompleted: {{ card?.remark_incomplte }}</span>
+                                                        <span class="text-center ms-2 btn-totle">Partially Completed: {{ card?.remark_incomplte }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="px-3 mb-3"  *ngIf="attachmentType === 'homework' || attachmentType === 'classwork' || attachmentType === 'assignment'">
+                                                    <span class="me-2">
+                                                        <i class="fa fa-user-circle" aria-hidden="true"></i>
+                                                        {{ card?.completed + card?.pending}}
+                                                    </span>
+                                                    <span class="me-2">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        {{ card?.student_status_count}}
+                                                    </span>
+                                                    <span class="me-2">
+                                                        <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                                        {{ (card?.completed + card?.pending) - card?.student_status_count}}
+                                                    </span>
+                                                </div>
+                                                <div class="card-foot px-3 py-2">
+                                                    <div>
+                                                        <p class="assigned_by mb-1"><b>Assigned By:</b> {{ card?.created_by?.full_name
+                                                            }}</p>
+                                                    </div>
+                                                    <p class="mb-0"><i class="fa fa-calendar pe-2"></i><span>Added Date:
+                                                            {{ card?.work_date }}, {{card?.time}} </span> <i
+                                                            class="fa fa-calendar pe-2 ps-3"></i><span>Submission
+                                                            Date: {{ ( card?.submission_date | date: dateFormateService.getDateFormat() ) ?? "-" }} </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+                
+                        <ng-template #noDataFound>
+                            <span *ngIf="!isHomeWork" class="text-center no_data_found">No Data Found</span>
+                        </ng-template>
+                
+                    <!-- </ng-container> -->
+                    <ng-container *ngIf="isHomeWork">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</section>

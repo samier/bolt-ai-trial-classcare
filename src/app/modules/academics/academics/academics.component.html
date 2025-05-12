@@ -1,0 +1,358 @@
+<section class="leave_form">
+    <div class="page_inner students-info-tabs-view adminside-stu">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- <h3 class="sub_title">Student Academics</h3> -->
+            </div>
+            <div class="card studentview_lay">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel with-nav-tabs panel-default section_dashboard">
+                                <div class="card_body">
+                                    <form action="" class="academic_year">
+                                        <div>
+                                            <div class="card-inner">
+                                                <h3>BASIC INFORMATION</h3>
+                                                <div class="card_body">
+                                                    <div class="row">
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">
+                                                                Admission Date
+                                                            </label>
+                                                            <div>
+                                                                <input type="text" readonly value="{{admission_date}}"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">
+                                                                Admission Year
+                                                            </label>
+                                                            <!-- <div>
+                                                                <select name="" id="" class="form-control">
+                                                                    <option value="">2022 - 2023</option>
+                                                                    <option value="">2023 - 2024</option>
+                                                                </select>
+                                                            </div> -->
+                                                            <div>
+                                                                <input type="text" readonly value="{{academic_year}}"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-inner border-0 mb-0">
+                                                <h3>COURSE INFORMATION</h3>
+                                                <div class="card_body" *ngIf="courseFees">
+                                                    <div class="course-fees-section">
+                                                        <div class="row" id="courseTitleInfo">
+                                                            <div class="form-group col-lg-3 mb-0">
+                                                                <label class="form_label">Course</label>
+                                                            </div>
+                                                            <div class="form-group col-lg-3 mb-0">
+                                                                <label class="form_label">Fees</label>
+                                                            </div>
+                                                            <div class="form-group col-sm-1">
+                                                            </div>
+                                                        </div>
+                                                        <div id="moreCourseInfo">
+                                                            <div class="row course-info">
+                                                                <div class="form-group col-lg-3">
+                                                                    <input type="text" class="form-control rounded-0"
+                                                                        disabled="" value="{{courseFees.course.name}}">
+                                                                </div>
+                                                                <div class="form-group col-lg-3">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span
+                                                                                class="input-group-text border-0 bg-grey">
+                                                                                <i
+                                                                                    class="fa fa-rupee-sign text-white"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text"
+                                                                            class="form-control courseFees rounded-0"
+                                                                            name="courseFees[2930]" disabled=""
+                                                                            value="{{courseFees.student_fees ?? courseFees.course_fee}}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-lg-auto" *ngIf="hasAccess('Generate')">
+                                                                    <button class="btn" (click)="generateDiscountReceipt()">Generate Discount Receipt</button>
+                                                                </div>
+                                                                <!-- <div class="col-md-4">
+                                                                 <div class="form-group delete-print-btns">
+                                                                    <a href="javascript:void(0);" class="deleteStudentCourse btn btn-danger me-2" data-index="2930">
+                                                                    <i class="fa fa-trash-alt margin-top-10 me-0"></i>
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" class="editStudentCourse btn btn-success me-2" id="editBtn" data-index="2930">
+                                                                    <i class="fa fa-edit margin-top-10"></i>
+                                                                    </a>
+                                                                 </div>
+                                                              </div> -->
+                                                            </div>
+                                                            <h4>STUDENT FEES</h4>
+                                                            <!-- <div class="row" id="courseTitleInfo">
+                                                                <div class="form-group col-lg-2 mb-0">
+                                                                    <label class="form_label">Category Name</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-1 mb-0">
+                                                                    <label class="form_label">month</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-2 mb-0">
+                                                                    <label class="form_label">Fees</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-1 mb-0">
+                                                                    <label class="form_label">Discount Type</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-1 mb-0">
+                                                                    <label class="form_label">Discount</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-1 mb-0">
+                                                                    <label class="form_label">Discount Reason</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-2 mb-0">
+                                                                    <label class="form_label">Attachment</label>
+                                                                </div>
+                                                                <div class="form-group col-lg-3 mb-0">
+                                                                    <label class="form_label">Remarks</label>
+                                                                </div>
+                                                            </div> -->
+                                                            <div class="row course-info"
+                                                                *ngFor="let item of studentFees; let i = index;">
+                                                                <div class="form-group col-lg-2">
+                                                                    <label class="form_label">Category Name</label>
+                                                                    <input type="text" class="form-control rounded-0"
+                                                                        [name]="'category'+[i]" disabled=""
+                                                                        value="{{item.category ? item.category.type_name : 'School Fees'}}">
+                                                                </div>
+                                                                <div class="form-group col-lg-1">
+                                                                    <label class="form_label">month</label>
+                                                                    <input type="text" class="form-control rounded-0"
+                                                                        [name]="'month'+[i]" disabled
+                                                                        value="{{item.month}}">
+                                                                </div>
+                                                                <div class="form-group col-lg-2">
+                                                                    <label class="form_label">Fees
+                                                                    <div class="tooltip fees-tooltip" [ngbTooltip]="tipContentMode" container="body" placement="right" tooltipClass="my-custom-class">
+                                                                        <i class="fas fa-info-circle"></i>
+                                                                        <ng-template #tipContentMode class="shadow">
+                                                                            <span>
+                                                                                <p><b>Paid Fees : </b>{{item.paid_amount || 0}} </p>
+                                                                            </span>
+                                                                        </ng-template>
+                                                                    </div>
+                                                                </label>
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-prepend">
+                                                                            <span
+                                                                                class="input-group-text border-0 bg-grey">
+                                                                                <i
+                                                                                    class="fa fa-rupee-sign text-white"></i>
+                                                                            </span>
+                                                                        </div>
+                                                                        <input type="text"
+                                                                            class="form-control courseFees rounded-0"
+                                                                            disabled="{{item.remaining_amount == 0}}"
+                                                                            [name]="'fees'+[i]"
+                                                                            [(ngModel)]="item.amount">
+                                                                    </div>
+                                                                    <div class="error text-danger">
+                                                                        {{errors['student_fees.'+i+'.amount']}}</div>
+                                                                </div>
+                                                                <div class="form-group col-lg-4">
+                                                                    <label class="form_label">Discount Type
+                                                                        <div class="tooltip fees-tooltip" [ngbTooltip]="tipContentMode" container="body" placement="right" tooltipClass="my-custom-class" *ngIf="item?.discount_logs?.length > 0">
+                                                                            <i class="fas fa-info-circle"></i>
+                                                                            <ng-template #tipContentMode class="shadow">
+                                                                                <table>
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Discount Type</th>
+                                                                                            <th>Inc / Dec Type</th>
+                                                                                            <th>Discount</th>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+                                                                                        <tr *ngFor="let log of item.discount_logs">
+                                                                                            <td>{{log.discount_type_amount}} {{log.discount_type == 1 ? '₹' : "%"}} </td>
+                                                                                            <td>{{log.inc_dec_type == 1 ? 'Increment' : 'Decrement'}}</td>
+                                                                                            <td>{{log.total_discount}}</td>
+                                                                                        </tr>
+                                                                                </table>
+                                                                            </ng-template>
+                                                                        </div>
+                                                                    </label>
+                                                                    <div class="d-flex">
+                                                                        <input type="text"
+                                                                            class="form-control rounded-0"
+                                                                            [name]="'discount_type_amount'+[i]"
+                                                                            disabled="{{item.remaining_amount == 0}}"
+                                                                            [(ngModel)]="item.discount_type_amount"
+                                                                            (keyup)="handleDiscount(item)"
+                                                                            (blur)="handleValidation(item)">
+                                                                        <ng-select [name]="'discount_type'+[i]"
+                                                                            [(ngModel)]="item.discount_type"
+                                                                            [disabled]="item.remaining_amount == 0"
+                                                                            (change)="handleDiscount(item)">
+                                                                            <ng-option value="amount">₹</ng-option>
+                                                                            <ng-option value="percentage">%</ng-option>
+                                                                        </ng-select>
+                                                                        <ng-select [name]="'inc_dec_type'+[i]"
+                                                                            [(ngModel)]="item.inc_dec_type"
+                                                                            [disabled]="item.remaining_amount == 0"
+                                                                            (change)="handleDiscount(item)"
+                                                                            class="w-100">
+                                                                            <ng-option value="increment">Increment</ng-option>
+                                                                            <ng-option value="decrement">Decrement</ng-option>
+                                                                        </ng-select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-lg-2">
+                                                                    <label class="form_label">Discount</label>
+                                                                    <input type="text" class="form-control rounded-0"
+                                                                        disabled [name]="'discount'+[i]"
+                                                                        [(ngModel)]="item.discount">
+                                                                </div>
+                                                                <div class="form-group col-lg-3" *ngIf="item.discount > 0">
+                                                                    <label class="form_label">Discount Reason</label>
+                                                                    <div class="custom-dropdown" #dropdowns>
+                                                                      <div class="dropdown-header" (click)="item.remaining_amount > 0 ? toggleDropdown(i) : ''" [class.disabled-color]="item.remaining_amount == 0">
+                                                                        <input 
+                                                                          type="text" 
+                                                                          class="form-control" 
+                                                                          [(ngModel)]="selectedReasonText[i]" 
+                                                                          placeholder="Please select Reason" 
+                                                                          readonly 
+                                                                          disabled="{{item.remaining_amount == 0}}"
+                                                                          [ngModelOptions]="{standalone: true}"
+                                                                        />
+                                                                        <input type="hidden" [name]="'reason'+[i]" [(ngModel)]="selectedReasonId[i]" [ngModelOptions]="{standalone: true}">
+                                                                        <i class="fas me-2" [class.fa-chevron-up]="isDropdownOpen[i]" [class.fa-chevron-down]="!isDropdownOpen[i]"></i>
+                                                                      </div>
+
+                                                                      <div class="dropdown-body" *ngIf="isDropdownOpen[i]">
+                                                                        <input 
+                                                                          type="text" 
+                                                                          class="form-control mb-1" 
+                                                                          [(ngModel)]="searchTerm[i]" 
+                                                                          placeholder="Search Reason" 
+                                                                          (input)="filterOptions(i)"
+                                                                          [ngModelOptions]="{standalone: true}"
+                                                                          #dropdownInput
+                                                                        />
+
+                                                                        <div *ngFor="let row of filteredReasons[i]" class="dropdown-item" (click)="selectReason(row,i)">
+                                                                          {{ row.discount_reason }}
+                                                                          <span class="reason-toggle" 
+                                                                                (click)="$event.stopPropagation()" 
+                                                                                *ngIf="CommonService.hasPermission('finance_discount_reason','has_update') || CommonService.hasPermission('finance_discount_reason','has_delete')"
+                                                                            >
+                                                                            <i class="fas fa-ellipsis-h" (click)="toggleReasonAction(row, $event, i)"></i>
+                                                                            <div class="reason-action shadow" *ngIf="row.reason_toggle" (click)="$event.stopPropagation()">
+                                                                              <span class="d-block" 
+                                                                                    (click)="editReason(row, $event,i)" 
+                                                                                    *ngIf="CommonService.hasPermission('finance_discount_reason','has_update')">
+                                                                                    <i class="fa fa-edit me-2"></i>Edit</span>
+                                                                              <span class="d-block" 
+                                                                                    (click)="deleteReason(row.id, $event,i)"
+                                                                                    *ngIf="CommonService.hasPermission('finance_discount_reason','has_delete')">
+                                                                                    <i class="fa fa-trash me-2"></i>Delete</span>
+                                                                            </div>
+                                                                          </span>
+                                                                        </div>
+
+                                                                        <div class="col-lg-12 d-flex justify-content-between p-0 pt-1 create-delete-btn">
+                                                                          <button class="form-control btn create-new w-auto" 
+                                                                                (click)="createNew($event,i)" 
+                                                                                *ngIf="(CommonService.hasPermission('finance_discount_reason','has_update') && searchTerm[i] && editReasonId[i]) || CommonService.hasPermission('finance_discount_reason','has_create')"
+                                                                          >
+                                                                          {{searchTerm[i] && editReasonId[i] ? 'Update' : 'Create New'}}
+                                                                        </button>
+                                                                          <!-- <button class="form-control btn clear-btn w-auto" 
+                                                                                [class.col-lg-12]="(CommonService.hasPermission('finance_discount_reason','has_update') && searchTerm[i] && editReasonId[i]) || CommonService.hasPermission('finance_discount_reason','has_create')"
+                                                                                [class.col-lg-12]="!(CommonService.hasPermission('finance_discount_reason','has_update') && searchTerm[i] && editReasonId[i]) && !CommonService.hasPermission('finance_discount_reason','has_create')" 
+                                                                                (click)="clearSelection($event,i)">Clear</button> -->
+                                                                          <button class="form-control btn clear-btn w-auto" 
+                                                                                (click)="clearSelection($event,i)">Clear</button>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group col-lg-4"
+                                                                    *ngIf="item.discount > 0 ||  item.file_attachment">
+                                                                    <label class="form_label">Remarks</label>
+                                                                    <input type="text" class="form-control rounded-0"
+                                                                        disabled="{{item.remaining_amount == 0}}"
+                                                                        [name]="'remark'+[i]" [(ngModel)]="item.remark">
+                                                                </div>
+                                                                <div class="form-group col-lg-auto" *ngIf="(item.discount > 0 && item.remaining_amount > 0) || item.fees_attachments?.length > 0">
+                                                                    <label class="form_label">Attachment</label>    
+                                                                    <a class="btn me-2" (click)="addAttachment(item)" *ngIf="item.discount > 0 && item.remaining_amount > 0 && item.fees_attachments?.length < 10 "> 
+                                                                        Add Attachment
+                                                                    </a>
+                                                                    <a class="btn" (click)="viewAttachment(item)" *ngIf="item.fees_attachments?.length > 0"> 
+                                                                        View Attachment
+                                                                    </a>
+                                                                </div>
+                                                                <!-- <app-attachments [scf]="item"></app-attachments> -->
+                                                                <hr class="p-0">
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="text-center d-sm-flex align-items-center justify-content-center">
+                                                <button type="submit" id="submitButton" class="btn mx-2" [disabled]="saving" (click)="save()"
+                                                    *ngIf="CommonService.hasPermission('finance_fees', 'has_edit')">
+                                                    {{saving ? 'Saving' : 'Save Changes'}}
+                                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div> 
+                                                </button>
+                                                <!-- <a href="#." class="btn mx-2">
+                                            Cancel
+                                            </a> -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- <div class="panel-heading">
+                                    <ul class="nav nav-tabs nav_border-section mt-3">
+                                        <li class="nav-item" *ngIf="getInstituteModule('Transport') && CommonService.hasPermission('transport_assign_transport', 'has_access')">
+                                            <a class="nav-link" [class.active]="tab == 1" (click)="tab = 1" data-toggle="tab">Transport</a>
+                                        </li>
+                                        <li class="nav-item" >
+                                            <a class="nav-link" [class.active]="tab == 2" (click)="tab = 2" data-toggle="tab">Hostel</a>
+                                        </li>
+                                        <li class="nav-item" >
+                                            <a class="nav-link" [class.active]="tab == 3" (click)="tab = 3" data-toggle="tab">Optional Fees</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card">
+                                    <div *ngIf="tab == 1 && getInstituteModule('Transport') && CommonService.hasPermission('transport_assign_transport', 'has_access')">
+                                        <app-student-transport [academicYear]="academicYear" [student]="student" (refreshAcademic)="getStudentFeesDetail()"></app-student-transport>
+                                    </div>
+                                    <div *ngIf="tab == 2">
+                                        <app-student-hostel-room [academicYear]="academicYear" [student]="student" (refreshAcademic)="getStudentFeesDetail()"></app-student-hostel-room>
+                                    </div>
+                                    <div *ngIf="tab == 3">
+                                        Optional
+                                    </div>
+                                </div> -->
+                                <router-outlet>
+                                </router-outlet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

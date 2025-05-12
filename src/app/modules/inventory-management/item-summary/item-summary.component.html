@@ -1,0 +1,108 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Inventory Item List</h3>
+				<div class="btn_right">
+            		<a class="active btn add-btn me-2" href="#." [routerLink]="CommonService.setUrl(URLConstants.ADD_STORE_TYPE)" > Add Warehouse</a>					
+            		<a class="active btn add-btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.INVENTORY_ADD_FORM)" > Add Inventory Item</a>					
+				</div>
+			</div>
+				<div class="card student-list-card p-0 mx-0 mb-4">
+					<div class="card-header justify-content-between d-flex">
+					  <div class="card-student-heading d-flex align-items-center">
+						<h5 class="mb-0">Filters</h5>
+						<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+					  </div>
+					  <div class="d-flex student-accordion-btn">
+						<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+						<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+						  <i class="fa fa-angle-down" *ngIf="!filter"></i>
+						  <i class="fa fa-angle-up" *ngIf="filter"></i>
+						</button>
+					  </div>
+					</div>
+			
+					<div class="card-body" *ngIf="filter">
+					  <div [formGroup]="filterForm" class="content_scroll">
+						<div class="row">
+							<div class="col-md-3 form_group">
+								<label class="form_label">Item Type<span class="text-danger">*</span></label>
+								<div>
+									<app-single-select placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList" (change)="countFilters()"></app-single-select>
+								</div>                                     
+							</div>
+							<div class="col-md-3 form_group">
+								<label class="form_label">Select Warehouse<span class="text-danger">*</span></label>
+								<div>
+									<app-single-select placeholder="Please Select Warehouse" controlName="inventory_store_id" [dropDownArray]="storeTypeList"></app-single-select>
+								</div>                                      
+							</div> 
+							<div class="col-md-3 form_group">
+								<label class="form_label">Measurement Type<span class="text-danger">*</span></label>
+								<div>
+									<app-single-select placeholder="Please Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurementTypeList"></app-single-select>
+								</div>                                      
+							</div> 
+							
+						  <div class="col-md-12 form_group">
+							<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+						  </div>
+			
+			
+						</div>
+					  </div>
+					</div>
+				  </div>
+            <div class="card">              
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table datatable table-bordered w-100">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Sr. No.</th>
+											<th>Item Name</th>
+											<th>Item Type</th>
+											<th>Warehouse</th>
+											<th>Opening Stock</th>
+											<th>Purchased</th>
+											<th>Return</th>
+											<th>Item Issued</th>
+											<th>Item Issue Return</th>
+											<th>Dead Stock</th>
+											<th>Total Item</th>
+											<th>Minimum Item</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;" >				
+											<td>{{item.DT_RowIndex}}</td>
+											<td>{{item.item_name}}</td>
+											<td>{{item.inventory_item_type?.name}}</td>
+											<td>{{item.inventory_store?.name}}</td>
+											<td>{{item.item_stock ?? '-'}}</td>       
+											<td>{{item.purchase_quantity ?? '-'}}</td>       
+											<td>{{item.return_quantity ?? '-'}}</td>       
+											<td>{{item.issue_quantity ?? '-'}}</td>       
+											<td>{{item.return_issue_quantity ?? '-'}}</td>       
+											<td>{{item.discard_quantity ?? '-'}}</td>       
+											<td>{{item.total_quantity ?? '-'}}</td>       
+											<td>{{item.minimum_stock ?? '-'}}</td>       
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="9" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>										
+				                </table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</section>

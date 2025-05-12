@@ -1,0 +1,171 @@
+<div class="row global_form no-gutters table_top">
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Class<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Select Class" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Batch<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Select Batch" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Select Student<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Select Student" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Type<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Refund Type" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Month</label>
+            <div class="col-md-12">
+                <ng-multiselect-dropdown
+                [placeholder]="'Refund Month'"
+                [settings]="dropdownSettings"
+                [data]="dropdownList"
+                [(ngModel)]="selectedItems"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)"
+                >
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Type<span class="text-danger">*</span></label>
+            <div class="col-md-12">
+                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Select Authority" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Value<span class="text-danger">*</span></label>
+            <div class="col-md-12 height_div">
+                <span class="form_text">500/-</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_section">
+        <div class="form_group">
+            <label class="col-md-12 form_label">Refund Value in<span class="text-danger">*</span></label>
+            <div class="col-md-12 d-flex">
+                <div class="radio-inline ml-1">
+                    <label class="m-radio required" for="amount" aria-required="true">
+                        <input type="radio" id="amount" name="questionType" formControlName="questionType" value="amount" aria-required="true">Amount<span></span>
+                    </label>
+                </div>
+                <div class="radio-inline ml-1">
+                    <label class="m-radio required" for="percentage" aria-required="true">
+                        <input type="radio" id="percentage" name="questionType" formControlName="questionType" value="percentage" aria-required="true" >Percentage<span></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <hr class="horizontal_line">
+        <div class="row justify-content-center">
+            <div class="col-md-2">
+                <button type="submit" class="w-100 btn btn-success btn-minwidth"> Save </button>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="w-100 btn btn-success btn-minwidth"> Cancel </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="row">
+        <div class="col-lg-12 datatable_cls form_section">
+            <div class="table-responsive form_group">
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap display dataTable" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Date</th>
+                            <th>Refund Type</th>
+                            <th>Class</th>
+                            <th>Batch</th>
+                            <th>Student Name</th>
+                            <th>Refund Type</th>
+                            <th>Refund Value</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;">				
+                            <td>1</td>            
+                            <td>02/04/23</td>   
+                            <td>Refund type</td>            
+                            <td>12th</td>
+                            <td>12th A</td> 
+                            <td>John</td> 
+                            <td>Refund Type</td> 
+                            <td>20%</td> 
+                            <td> 
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                    <button class="btn btn-primary" type="button"><i class="fa fa-thumbs-down"></i></button>
+                                    <button class="btn btn-primary"> <i class="fa fa-trash-alt"></i> </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!-- <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="3" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>-->							
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

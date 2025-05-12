@@ -1,0 +1,57 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Imported Marks List</h3>
+				<div class="btn_right">
+					<a class="global_btn btn"  [routerLink]="[CommonService.setUrl(URLConstants.EXAM_VIEW),examID]" *ngIf="CommonService.hasPermission('student_exam', 'has_access')"> View Exam</a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body">
+                    <!-- <div class="row"> -->
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Created At</th>
+                                            <th>Exam Name</th>
+                                            <th>File Name</th>
+                                            <th>Total Records</th>
+                                            <th>Saved Records</th>
+                                            <th>Status</th>
+                                            <th>Error Message</th>
+                                            <th>Action</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;">
+											<td>{{datePipe.transform(item?.created_at,'dd-MM-yyyy')}}</td>
+											<td>{{item?.exam_name.exam_name ?? '-'}}</td>
+											<td>{{item?.file_name}}</td>
+											<td>{{item?.total_records ?? '0'}}</td>
+											<td>{{item?.saved_records ?? '0'}}</td>
+											<td>{{item?.status}}</td>
+											<td>{{item?.error_message ?? '-'}}</td>
+                                            <td>
+												<div class="btn-group" role="group">
+                                                    <a class="btn action-view" ngbTooltip="View" href='#' [routerLink]="[CommonService.setUrl(URLConstants.EXAM_IMPORTED_MARKS_LOG),item.id]"><i class="fa fa-eye"></i></a>
+                                                </div>
+                                            </td>
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="8" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>
+				                </table>
+				            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

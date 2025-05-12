@@ -1,0 +1,16 @@
+::ng-deep{
+    app-monthwise-list{
+        form{
+            div{
+                a{
+                    min-width: 145px;
+                    @media screen and (max-width :767px) {
+                        max-width: 145px;
+                        min-width: 145px;
+                        margin: 0 5px ;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,177 @@
+<section class="leave_form">
+	<div class="page_inner">
+		<div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Expense List</h3>
+				<div class="btn_right">
+					<a *ngIf="CommonService.hasPermission('finance_expenses', 'has_create')" class="btn add-btn" href="#." [routerLink]="[CommonService.setUrl(URLConstants.EXPENSE)]">Add Expense</a>
+				</div>
+			</div>
+			<div class="card student-list-card p-0 mx-0 mb-4">
+				<div class="card-header justify-content-between d-flex">
+					<div class="card-student-heading d-flex align-items-center">
+						<h5 class="mb-0">Filters</h5>
+						<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+					</div>
+					<div class="d-flex student-accordion-btn">
+						<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+						<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+							<i class="fa fa-angle-down" *ngIf="!filter"></i>
+							<i class="fa fa-angle-up" *ngIf="filter"></i>
+						</button>
+					</div>
+				</div>
+				<div class="card-body" *ngIf="filter">
+					<div [formGroup]="filterForm" class="content_scroll">
+						<div class="row">
+							<div class="col-md-3 form_group">
+								<label class="form_label">Expense Date</label>
+								<div>
+									<app-date-range-picker controlName="expense_date" placeholder="Select Expense Date" (change)="countFilters()"></app-date-range-picker>
+								</div>
+							</div>
+							<div class="col-3 form_group">
+								<label class="form_label">Head Name</label>
+								<div>
+									<app-single-select placeholder="Select Head" controlName="head_id" [dropDownArray]="headList" (change)="countFilters()"></app-single-select>
+								</div>
+							</div>
+							<div class="col-3 form_group">
+								<label class="form_label">Vendor Name</label>
+								<div>
+									<app-single-select placeholder="Select Vendor Name" controlName="vendor_id" [dropDownArray]="vendorList"></app-single-select>
+								</div>
+							</div>
+							<div class="col-3 form_group">
+								<label class="form_label">Amount</label>
+								<div class="d-flex">
+									<app-input class="flex-1" controlName="amount" placeholder="Enter Amount" (input)="countFilters()" (change)="countFilters()" required></app-input>
+									<app-single-select placeholder="" controlName="amount_type" [dropDownArray]="amountType" (change)="countFilters()"></app-single-select>
+								</div>
+							</div>
+							<div class="col-3 form_group">
+								<label class="form_label">Payment Mode</label>
+								<div>
+									<app-single-select placeholder="Select Payment Mode" controlName="payment_mode_id" [dropDownArray]="paymentModes" (change)="countFilters()"></app-single-select>
+								</div>
+							</div>
+							<div class="col-1 form_group">
+								<label class="form_label">Draft</label>
+								<div class="form-check toggle d-flex align-items-center px-0">
+									<input class="form-check-input shadow-none mx-2" formControlName="draft"  type="checkbox" role="switch" title="Draft">
+								</div>
+							</div>
+							<div class="col-1 form_group">
+								<label class="form_label">Copied</label>
+								<div class="form-check toggle d-flex align-items-center px-0">
+									<input class="form-check-input shadow-none mx-2" formControlName="copied"  type="checkbox" role="switch" title="Copied">
+								</div>
+							</div>
+							<div class="col-md-12 form_group">
+								<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+							  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card_body">
+					<div class="row">
+						<div class="col-lg-12 datatable_cls">
+							<div class="table-responsive">
+								<table datatable [dtOptions]="dtOptions" class="table table-hover table-bordered table-nowrap table datatable w-100">
+									<thead class="thead-light">
+										<tr>
+											<th style="display: none;">date</th>
+											<th>Sr No.</th>
+											<th>Expense Date</th>
+											<th>Ledger Account</th>
+											<th>Vendor</th>
+											<th>Bill/Receipt No.</th>
+											<th>Amount</th>
+											<th>Payment Mode</th>
+											<th>Tax</th>
+											<th>Total Amount</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="tbody?.length != 0">
+										<tr *ngFor="let item of tbody ;let i = index;">
+											<td style="display: none;">{{item.created_at}}</td>
+											<td>{{item.DT_RowIndex}}</td>
+											<td>{{item.expense_date | date : dateFormateService.getDateFormat()}}</td>
+											<td>{{item.head?.name ?? '-'}}</td>
+											<td>{{item.vendor?.vendor_name ?? '-'}}</td>
+											<td>{{item.receipt_no}}</td>
+											<td>{{item.amount | number:'1.2-2'}}</td>
+											<td>{{item.payment_mode?.name ?? '-' }}</td>
+											<td>{{item.tax?.percentage ?? '-' }} {{item.tax ? '%' : ''}}</td>
+											<td>{{item.total_amount | number:'1.2-2'}}</td>
+											<td>
+												<div class="btn-group align-items-center" role="group">
+													<a *ngIf="CommonService.hasPermission('finance_expenses', 'has_edit')" class="btn action-edit" href='#' ngbTooltip="Edit" [routerLink]="[CommonService.setUrl(URLConstants.EXPENSE),item.id]"><i class="fa fa-pencil-alt"></i></a>
+													<button *ngIf="CommonService.hasPermission('finance_expenses', 'has_delete')" class="btn action-delete" ngbTooltip="Delete" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+													<button type="button" ngbTooltip="Attachments" class="btn action-attech ms-1" (click)="openAttachment(myModel, item)">
+														<i class="fe fe-file"></i>
+													</button>
+													<button *ngIf="CommonService.hasPermission('finance_expenses', 'has_create')" type="button" ngbTooltip="Copy" class="btn action-info me-3" (click)="copyRecord(item)">
+														<i class="fa fa-clone" aria-hidden="true"></i>
+													</button>
+													<div class="" *ngIf="item.status != 'publish'">{{item.status}}</div>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="tbody?.length == 0">
+										<tr>
+											<td colspan="11" class="text-center no-data-available">No data</td>
+										</tr>
+									</tbody>
+								</table>
+								<ng-template #myModel let-modal>
+									<div class="modal-header">
+										<div class="modal-title">Attachment</div>
+										<div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+									</div>
+									<div class="modal-body">
+										<div class="row">
+											<div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex uploded_doc" *ngIf="attachment.attachment_name">
+												<div class="uploded_doc_content card">
+													<ng-container [ngSwitch]="getFileType(attachment?.attachment_name)">
+														<div class="text-center atteched_file">
+															<a *ngSwitchCase="'image'" target="_blank" download="" [href]="attachment?.attachment_url">
+																<img class="img-circle" style="width: 100px; height: 100px" [src]="attachment?.attachment_url" />
+															</a>
+															<a *ngSwitchCase="'excel'" target="_blank" download="" [href]="attachment?.attachment_url">
+																<i class="fa fa-file-excel"></i>
+															</a>
+															<a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="attachment?.attachment_url">
+																<i class="fa fa-file-pdf"></i>
+															</a>
+															<a *ngSwitchDefault target="_blank" download="" [href]="attachment?.attachment_url">
+																<i class="fa fa-file-excel"></i>
+															</a>
+														</div>
+													</ng-container>
+													<div class="action text-center">
+														<a class="action-delete btn" (click)="deleteAttachment(attachment.id)" ngbTooltip="Delete">
+															<i class="fa fa-trash-alt"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="text-center text-muted" *ngIf="attachment.attachment_name == null"> No Attachments Available </div>
+									</div>
+									<div class="d-flex justify-content-end modal-footer">
+										<button type="button" class="btn clear-btn mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+									</div>
+								</ng-template>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

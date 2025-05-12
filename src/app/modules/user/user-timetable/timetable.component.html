@@ -1,0 +1,96 @@
+
+<div>
+<div class="row global_form no-gutters" *ngIf="teacher">
+    <div class="col-12 table-responsive mb-3">
+        <h3>Timetable</h3>
+        <span
+            class="class_title primary-bg p-2 text-white d-flex w-100 justify-content-center">{{teacher.full_name}}</span>
+        <table class="table table-bordered dataTable mb-0">
+            <thead>
+                <tr>
+                    <th>Timings</th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lecture of teacher.lectures ;let j = index;">
+                    <td>
+                        {{lecture.lecture_name}}<span>({{getTime(lecture.start_time)}} to
+                            {{getTime(lecture.end_time)}})</span>
+                    </td>
+                    <td *ngFor="let timetable of lecture.timetable ;let k = index;">
+                        <div *ngIf="lecture.is_break == false">
+                            <div class="form_group">
+                                <input *ngIf="timetable != null" type="text" name="class_name[i][j][k]"
+                                    class="form-control" [value]="timetable.batch.name" disabled>
+                                <input *ngIf="timetable == null" type="text" name="class_name[i][j][k]"
+                                    class="form-control" value="-" disabled>
+                            </div>
+                            <div class="form_group">
+                                <input *ngIf="timetable != null" type="text" name="subject_name[i][j][k]"
+                                    class="form-control" [value]="timetable.subject.name" disabled>
+                                <input *ngIf="timetable == null" type="text" name="class_name[i][j][k]"
+                                    class="form-control" value="-" disabled>
+                            </div>
+                            <div class="form_group">
+                                <input *ngIf="timetable != null" type="text" name="subject_name[i][j][k]"
+                                    class="form-control" [value]="timetable.room.room.name" disabled>
+                                <input *ngIf="timetable == null" type="text" name="class_name[i][j][k]"
+                                    class="form-control" value="-" disabled>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="py-4">
+    <div class="datatable_cls">
+        <div class="table-responsive">
+            <div>
+                <h3>Proxy Timetable</h3>
+            </div>
+            <table datatable [dtOptions]="dtOptions"
+                class="table table-hover table-nowrap display dataTable table-bordered" style="width:100%">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th>Teachers name</th>
+                        <th>Lecture Name</th>
+                        <th>Batch</th>
+                        <th>Subject</th>
+                        <th>Room Name</th>
+                        <th>Proxy Teacher Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of proxyLectures ;let i = index;">
+                        <td>{{item.id}}</td>
+                        <td>{{item.user.full_name}}</td>
+                        <td>
+                            <p class="m-0">{{item.lecture_timing.lecture_name}}</p>
+                            <p class="m-0">{{getTime(item.lecture_timing.start_time)}} to {{getTime(item.lecture_timing.end_time)}}</p>
+                        </td>
+                        <td>{{item.batch.name}}</td>
+                        <td>{{item.subject.name}}</td>
+                        <td>{{item.room.name}}</td>
+                        <td>{{item.proxy.full_name}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="proxyLectures?.length == 0">
+                    <tr>
+                      <td colspan="7" class="text-center no-data-available">No data</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

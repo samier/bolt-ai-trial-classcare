@@ -1,0 +1,126 @@
+<section class="calendar-section custom-calendar-design">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Calendar</h3>
+          <div class="text-center btn_right title_btn">
+            <div class="" >
+              <div ngbDropdown class="d-inline-block operations" *ngIf="CommonService.hasPermission('administrator_event', 'has_access') || CommonService.hasPermission('administrator_event', 'has_create')">
+                <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                  <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 0.5C3 0.223858 3.22386 0 3.5 0V0C3.77614 0 4 0.223858 4 0.5V3H3V0.5Z"/>
+                    <path d="M7 0.5C7 0.223858 7.22386 0 7.5 0V0C7.77614 0 8 0.223858 8 0.5V3H7V0.5Z"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 4C0 2.89543 0.895431 2 2 2H9C10.1046 2 11 2.89543 11 4V5H0V4ZM0 6H11V10C11 11.1046 10.1046 12 9 12H2C0.895431 12 0 11.1046 0 10V6ZM5.69021 7.58541C5.63034 7.40115 5.36966 7.40115 5.30979 7.58541L5.09587 8.24377C5.0691 8.32617 4.99231 8.38197 4.90566 8.38197H4.21342C4.01968 8.38197 3.93912 8.62989 4.09587 8.74377L4.6559 9.15066C4.726 9.20159 4.75533 9.29186 4.72855 9.37426L4.51464 10.0326C4.45477 10.2169 4.66567 10.3701 4.82241 10.2562L5.38244 9.84934C5.45254 9.79841 5.54746 9.79841 5.61756 9.84934L6.17759 10.2562C6.33433 10.3701 6.54523 10.2169 6.48536 10.0326L6.27145 9.37426C6.24467 9.29186 6.274 9.20159 6.3441 9.15066L6.90413 8.74377C7.06088 8.62989 6.98032 8.38197 6.78658 8.38197H6.09434C6.00769 8.38197 5.9309 8.32617 5.90413 8.24377L5.69021 7.58541Z"/>
+                  </svg>
+                    Event
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem *ngIf="CommonService.hasPermission('administrator_event', 'has_create')" (click)="openModal(null,'event', 'add')">Add Event</button>
+                  <button ngbDropdownItem  *ngIf="CommonService.hasPermission('administrator_event', 'has_create')" (click)="addMultiple('event')">Add Multiple Events</button>
+                  <button ngbDropdownItem  *ngIf="CommonService.hasPermission('administrator_event', 'has_access')" (click)="eventHolidayList('event')">Event List</button>
+                  <button ngbDropdownItem  *ngIf="CommonService.hasPermission('administrator_event_type', 'has_access')" [routerLink]="CommonService.setUrl(URLConstants.EVENT_TYPE_LIST)">Event Types</button>
+                </div>
+              </div>
+              <div ngbDropdown class="d-inline-block operations" *ngIf="CommonService.hasPermission('administrator_holiday', 'has_access') || CommonService.hasPermission('administrator_holiday', 'has_create')">
+                <button type="button" class="btn" id="dropdownBasic2" ngbDropdownToggle>
+                  <svg width="11" height="12" viewBox="0 0 11 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 0.5C3 0.223858 3.22386 0 3.5 0V0C3.77614 0 4 0.223858 4 0.5V3H3V0.5Z"/>
+                    <path d="M7 0.5C7 0.223858 7.22386 0 7.5 0V0C7.77614 0 8 0.223858 8 0.5V3H7V0.5Z"/>
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 2C0.895431 2 0 2.89543 0 4V5H11V4C11 2.89543 10.1046 2 9 2H2ZM11 6H0V10C0 11.1046 0.895431 12 2 12H9C10.1046 12 11 11.1046 11 10V6Z"/>
+                  </svg>
+                  Holiday
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                  <button ngbDropdownItem *ngIf="CommonService.hasPermission('administrator_holiday', 'has_create')" (click)="openModal(null, 'holiday', 'add')">Add Holiday</button>
+                  <button ngbDropdownItem *ngIf="CommonService.hasPermission('administrator_holiday', 'has_create')" (click)="addMultiple('holiday')">Add Multiple Holidays</button>
+                  <button ngbDropdownItem *ngIf="CommonService.hasPermission('administrator_holiday', 'has_access')" (click)="eventHolidayList('holiday')">Holiday List</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card p-0">
+          <div class="card-header justify-content-between d-flex" (click)="filter = !filter">
+            <div class="card-student-heading d-flex align-items-center">
+              <h5 class="mb-0">Filters</h5>
+              <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+            </div>
+            <div class="d-flex student-accordion-btn">
+              <button class="btn me-2" (click)="reset($event)" [disabled]="isResetLoading">Reset
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                  <span class="visually-hidden">Loading..."</span>
+                </div>
+              </button>
+              <button class="btn btn-primary drop-btn border-circle">
+                <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                <i class="fa fa-angle-up" *ngIf="filter"></i>
+              </button>
+            </div>
+          </div>
+          <div class="card-body" *ngIf="filter">
+            <form [formGroup]="calendarForm">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <div class="form_label">Batch</div>
+                  <app-multi-select [dropDownArray]="batchList" controlName="batch_id" placeholder="Select Batch"></app-multi-select>
+                </div>                    
+                <div class="col-md-3 form_group" *ngIf="hasAccess">
+                  <div class="form_label">Event Type</div>
+                  <app-multi-select [dropDownArray]="eventTypeList" controlName="event_type_id" placeholder="Select Event Type"></app-multi-select>
+                </div>
+                <div class="col-md-3 form_group">
+                  <div class="form_label">Event For</div>
+                  <div class="radio-section mt-2">
+                    <div class="radio ">
+                      <label class=" required">
+                        <input type="radio" formControlName="assignTo" id="none" value="1" class="mr-1">Student<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required" aria-required="true">
+                        <input type="radio" formControlName="assignTo" id="all" value="2" class="mr-1">Employee<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required" aria-required="true">
+                        <input type="radio" formControlName="assignTo" id="paid" value="3" class="mr-1">Both<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="show-clear-btn d-flex">
+                      <button type="button" class="btn px-4 d-flex align-items-center me-3 show-btn" [disabled]="isShowLoading"
+                        (click)="showData()">
+                        Show
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isShowLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card_body" >
+            <div class="full-calender-content calender-events-holiday position-relative">
+              <div *ngIf="isShowLoading || isResetLoading || isCalendarLoading" class="calendar-loader d-flex justify-content-center align-items-center">
+                <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              <full-calendar
+                #fullcalendar
+                *ngIf="calendarOptions"
+                [options]="calendarOptions">
+              </full-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

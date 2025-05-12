@@ -1,0 +1,18 @@
+::ng-deep body{
+    app-batch-monthly-report-list{
+        .new-student-list-section{
+            .table-responsive{
+                .generate-btn{
+                    position: absolute;
+                    right: 0;
+                    z-index: 1;
+                    ~ .dataTables_wrapper{
+                        .dataTables_filter{
+                            padding-right: 120px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

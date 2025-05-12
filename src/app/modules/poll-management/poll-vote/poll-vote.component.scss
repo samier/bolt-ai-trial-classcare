@@ -1,0 +1,18 @@
+@import '../../../../assets/scss/variables';
+.cursor-pointer-custom {
+	cursor: pointer;
+}
+::ng-deep body{
+  app-poll-vote{
+      .border-btm{
+        border-bottom: 3px solid $background;
+      }
+    }
+    &.dark-theme{
+      app-poll-vote{
+        .border-btm{
+          border-bottom: 3px solid $dark-body;
+        }
+      }
+    }
+  }

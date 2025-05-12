@@ -1,0 +1,213 @@
+<section class="student-gender-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{id ? 'Update' : 'Add'}} Course</h3>
+                <div class="btn_right d-flex gap-1">
+                    <a class="btn" *ngIf="commonService.hasPermission('settings_course', 'has_access')" [routerLink]="courseService.setUrl(URLConstants.COURSE_LIST)">Course List</a>
+                </div>
+            </div>
+
+            <form [formGroup]="courseForm" (ngSubmit)="submit()">
+	            <div class="row">
+	            	<div class="col-lg-6 col-12">
+	            		<div class="card">
+	            			<div class="form-group">
+	            				<label class="form_label">Course Name<span class="text-danger">*</span></label>
+	            				<app-input type="text" controlName="name" placeholder="Enter Course Name"></app-input>
+	            				<p class="mt-1 mb-0">(Example: XiSci. +Xii Sci. +MH-CET)</p>
+	            			</div>
+	            			<div class="form-group">
+	            				<label class="form_label">Section</label>
+	            				<app-single-select controlName="section_id" [dropDownArray]="sectionList" placeholder="Select Section"></app-single-select>
+	            			</div>
+	            			<div class="form-group">
+	            				<label class="form_label">Subjects</label>
+	            				<app-multi-select controlName="subjects" [dropDownArray]="subjectList" [itemsShowLimit]="6" (change)="handleSubjectChange()" placeholder="Select Subject"></app-multi-select>
+	            			</div>
+	            			<div class="form-group" *ngIf="courseForm?.get('subjects')?.value?.length > 1">
+                                <table class="table table-hover table-bordered" >
+                                    <thead>
+                                        <tr>
+                                            <th class="w-100">Optional subjects</th>
+                                            <th>
+                                            	<a class="btn add-btn nowrap" (click)="addGroup()"> Add Group</a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+									<tbody>
+                                    	<tr *ngFor="let item of subjectGroup?.controls; let i = index">
+                                			<td>
+												<app-multi-select [GroupName]="i" formArrayName="subject_groups" controlName="group" [dropDownArray]="item?.value?.selected_subject" [itemsShowLimit]="6" (change)="handleSubjectGroupChange()" placeholder="Select Subject"></app-multi-select>
+                                			</td>
+                                			<td>
+                                        		<a class="btn nowrap" (click)="removeSubjectGroup(i)"> remove</a>
+                                			</td>
+                                    	</tr>
+                                    </tbody>
+                                </table>
+                            </div>
+	            			<div class="form-group">
+	            				<label class="form_label">Course Fees<span class="text-danger">*</span></label>
+	            				<app-input type="number" min="0" controlName="fees" placeholder="Enter Course Fees"></app-input>
+	            			</div>
+	            			<div class="card border pb-2 mt-2">
+                                <label class="card-label">Institute Fees</label>
+		            			<div class="form-group">
+		            				<label class="form_label">Months</label>
+		            				<app-multi-select 
+		            					controlName="instituteFees" 
+		            					[dropDownArray]="months" 
+		            					[itemsShowLimit]="6" 
+		            					placeholder="Select Months"
+		            					(change)="selectMonth()"
+		            				>
+		            				</app-multi-select>
+		            			</div>
+	                            <div class="row">
+			            			<div class="form-group col-lg-4" *ngFor="let month of courseForm?.get('instituteFees')?.value">
+			            				<label class="form_label">{{month?.name}}</label>
+			            				<div class="input-group">
+			            					<input type="number" min="0" name="monthlyFees[{{month?.name}}]" [(ngModel)]="fees.monthlyFees[month.name]" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Enter {{month?.name}} Fees" >
+			            					<span class="input-group-text pointer" (click)="removeInstituteFeesMonth(month?.name)"><i class="fa fa-minus"></i></span>
+			            				</div>
+			            				<span *ngIf="(fees.monthlyFees[month.name]??0) < 0" class="text-danger">Please enter valid amount</span>
+			            			</div>
+		            			</div>
+		            		</div>
+	            			<div>
+	            				<div class="card border pb-2 mt-2">
+                                    <label class="card-label">OneTime Fees</label>
+			            			<div class="form-group">
+		                                <label class="form_label"> Fees Category :</label>
+		                                <ng-multiselect-dropdown 
+		            						placeholder="Select Onetime Fees Category" 
+		            						[settings]="onetimeMultiSelectDropdownSettings" 
+		            						[data]="categoryList?.onetime"
+										    [(ngModel)]="categoryList.selected_onetime" 
+										    [ngModelOptions]="{standalone: true}"
+										    (onDeSelect)="removeOnetime($event)"
+											(onDeSelectAll)="removeOnetime($event)"
+										>
+										</ng-multiselect-dropdown>
+		                                <p class="mt-1 mb-0">Note: This is one time fees it dosen't count in course fees</p>
+		                            </div>
+		                            <div class="row">
+			                            <div class="form-group col-lg-6" *ngFor="let onetime of categoryList?.selected_onetime">
+				            				<label class="form_label">{{onetime.type_name}}</label>
+			            					<div class="input-group">
+				            					<input type="number" min="0" name="onetime[{{onetime?.id}}]" [(ngModel)]="fees.onetime[onetime.id]" [ngModelOptions]="{standalone: true}" class="form-control" placeholder="Enter {{onetime.type_name}}">
+					            				<span class="input-group-text pointer" (click)="removeOnetime(onetime)"><i class="fa fa-minus"></i></span>
+				            				</div>
+			            					<span *ngIf="(fees.onetime[onetime.id]??0) < 0" class="text-danger">Please enter valid amount</span>
+				            			</div>
+				            		</div>
+				            	</div>
+	            			</div>
+	            			<div class="form-group">
+	            				<button type="submit" *ngIf="id ? commonService.hasPermission('settings_course', 'has_update') : commonService.hasPermission('settings_course', 'has_create')" class="btn" [disabled]="saving">
+	            					{{saving ? 'Saving' : 'Save'}}
+							        <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving">
+							            <span class="visually-hidden">Loading...</span>
+							        </div>
+	            				</button>
+	            				<button type="buttom" class="btn ms-2" (click)="cancel()">Cancel</button>
+	            			</div>
+	            		</div>
+	            	</div>
+	            	<div class="col-lg-6 col-12">
+	            		<div class="card">
+	            			<div class="form-group">
+	            				<label class="form_label">Types Of Fees</label>
+	            				<app-multi-select 
+	            					controlName="types_of_fees" 
+	            					[dropDownArray]="categoryList?.categories" 
+	            					(change)="handleCategorySelect()" 
+	            					[itemsShowLimit]="4" 
+	            					placeholder="Select Type Of Fees"
+	            				>
+	            				</app-multi-select>
+	            			</div>
+
+	            			<div *ngFor="let category of selectedCategories">
+	            				<div class="card border pb-2 mt-2">
+                                    <label class="card-label">{{category?.name}}</label>
+                                    <div>  	
+			            				<div class="form-group">
+				            				<label class="form_label">Months</label>
+				            				<div class="input-group">
+				            					<ng-multiselect-dropdown 
+				            						class="w-100"
+				            						placeholder="Select {{category?.name}} Months" 
+				            						[settings]="monthMultiSelectDropdownSettings" 
+				            						[data]="category.months"
+												    [(ngModel)]="category.selected_months" 
+												    (ngModelChange)="onChangeValue(category)"
+												    [ngModelOptions]="{standalone: true}"
+												    (onDeSelect)="removeCategoryMonth(category,$event)"
+												    (onDeSelectAll)="removeCategoryMonth(category)"
+												>
+												</ng-multiselect-dropdown>
+				            					<span class="input-group-text pointer" (click)="removeCategory(category)"><i class="fa fa-minus"></i></span>
+				            				</div>
+			            				</div>
+			            				<div class="row">
+				            				<div class="form-group col-lg-4" *ngFor="let month of category.selected_months">
+					            				<label class="form_label">{{month?.month}}</label>
+					            				<div class="input-group">
+					            					<input type="number" min="0" name="categoryMonthlyFees[{{category.id}}][{{month?.month}}]"  
+					            					[ngModel]="fees?.categoryMonthlyFees?.[category.id]?.[month.month]" 
+					            					(input)="handleCategoryMonthlyFeesChange(category.id,month.month, $event)"
+					            					[ngModelOptions]="{standalone: true}" 
+					            					class="form-control" placeholder="Enter {{month?.month}} {{category?.name}}">
+					            					<span class="input-group-text pointer" (click)="removeCategoryMonth(category,month?.month)"><i class="fa fa-minus"></i></span>
+					            				</div>
+			            						<span *ngIf="(fees?.categoryMonthlyFees?.[category.id]?.[month.month]??0) < 0" class="text-danger">Please enter valid amount</span>
+					            			</div>
+			            				</div>
+			            			</div>
+                                </div>
+                            </div>
+
+                            <div class="card border pb-2 mt-2">
+                                <label class="card-label">Late Fees Settings</label>
+                                <div class="form-group">
+	                                <label class="form_label">Has Late Fees :</label>
+		            				<div class="">
+					                  <label class="switch">
+					                    <input type="checkbox" title="Late Fees" [(ngModel)]="has_late_fees" (change)="handleLateFeesToggle()" [ngModelOptions]="{standalone: true}" value="1">
+					                    <span class="slider round"></span>
+					                  </label>
+					                </div>            
+	                            </div>
+                                <ng-container *ngIf="has_late_fees">
+			            			<div class="form-group">
+		                                <label class="form_label">Last Day for fees payment :</label>
+			            				<app-single-select controlName="last_day_for_fees_pay" [dropDownArray]="days" placeholder="Select Day"></app-single-select>
+		                                <p class="mt-1 mb-0">Note: This day will be apply on all selected month</p>            
+		                            </div>
+		                            <div class="form-group">
+			                            <label class="form_label">Late fees apply day :</label>
+		            					<input type="number" min="0" formControlName="last_fees_apply_day" class="form-control" placeholder="Enter Day">
+			                            <p class="mt-1 mb-0">Note: This day will be count after Last day for fees pay</p>
+			                        </div>
+			                        <div class="row">
+				                        <div class="form-group col-lg-6">
+				                            <label class="form_label">Late Fees Type :</label>
+				            				<app-single-select controlName="late_fees_type" [dropDownArray]="late_fees_types" placeholder="Select Late Fees Type"></app-single-select>
+				                        </div>
+				                        <div class="form-group col-lg-6">
+				                            <label class="form_label">Late Fees Amount :</label>
+			            					<input type="number" min="0" formControlName="late_fees_amount" class="form-control" placeholder="Enter Late Fees Amount">
+				                        	<span *ngIf="courseForm?.value?.fees < courseForm?.value?.late_fees_amount" class="text-danger">Late fee should be less then fee amount</span>
+				                        </div>
+			                        </div>
+			                    </ng-container>
+		                    </div>
+	            		</div>
+	            	</div>
+	            </div>
+	        </form>
+	    </div>
+	</div>
+</section>

@@ -1,0 +1,1562 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto">Elements</h4><span class="text-muted mt-1 tx-13 ms-2 mb-0">/
+				Dropdowns</span>
+		</div>
+	</div>
+	<div class="d-flex my-xl-auto right-content mr-2">
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-info btn-icon me-2"><i class="mdi mdi-filter-variant"></i></button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-danger btn-icon me-2"><i class="mdi mdi-star"></i></button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-warning  btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
+		</div>
+		<div class="mb-3 mb-xl-0">
+			<div ngbDropdown class="btn-group">
+				<button type="button" class="btn btn-primary">14 Aug 2019</button>
+				<button type="button" ngbDropdownToggle class="btn btn-primary dropdown-toggle-split"
+					id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+					data-x-placement="bottom-end">
+					<a ngbDropdownItem href="javascript:;">2015</a>
+					<a ngbDropdownItem href="javascript:;">2016</a>
+					<a ngbDropdownItem href="javascript:;">2017</a>
+					<a ngbDropdownItem href="javascript:;">2018</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- breadcrumb -->
+
+<!-- row -->
+<div class="row">
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic2">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Basic Example</h6>
+						<p class="text-muted card-sub-title">Basic dropdown.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0" >
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-primary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-secondary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-teal" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-light" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav1="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic2">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Rounded button dropdowns</h6>
+						<p class="text-muted card-sub-title">Basic dropdown Rounded Outline button</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed2"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-rounded btn-primary"
+											id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-rounded btn-secondary"
+											id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple  btn-rounded btn-teal"
+											id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple  btn-rounded btn-light"
+											id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav2="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav2" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic4">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Outline button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdown square Outline button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed3"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-outline-primary" id="dropdownBasic1"
+										ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-outline-secondary" id="dropdownBasic1"
+										ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-outline-success" id="dropdownBasic1"
+										ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-outline-light" id="dropdownBasic1"
+										ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav3="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav3" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic4">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Rounded Outline button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdowns with Rounded Outline button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed4"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-rounded btn-outline-primary"
+										id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple btn-rounded btn-outline-secondary"
+										id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple  btn-rounded btn-outline-success"
+										id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="d-inline-block wd-xl-80p">
+									<button type="button" class="btn ripple  btn-rounded btn-outline-light"
+										id="dropdownBasic1" ngbDropdownToggle>Dropdown Menu</button>
+									<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+										<button ngbDropdownItem>Action</button>
+										<button ngbDropdownItem>Another action</button>
+										<button ngbDropdownItem>Something else here</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav4="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav4" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic5">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Rounded split button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdowns with Rounded button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed5"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="btn-group">
+									<button type="button" class="btn btn-primary btn-rounded">Action</button>
+									<button type="button" ngbDropdownToggle
+										class="btn btn-primary  btn-rounded dropdown-toggle split-dropdown"
+										id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+										data-x-placement="bottom-end">
+										<a ngbDropdownItem href="javascript:;">2015</a>
+										<a ngbDropdownItem href="javascript:;">2016</a>
+										<a ngbDropdownItem href="javascript:;">2017</a>
+										<a ngbDropdownItem href="javascript:;">2018</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="btn-group">
+									<button type="button" class="btn btn-danger  btn-rounded">Action</button>
+									<button type="button" ngbDropdownToggle
+										class="btn btn-danger  btn-rounded dropdown-toggle split-dropdown"
+										id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+										data-x-placement="bottom-end">
+										<a ngbDropdownItem href="javascript:;">2015</a>
+										<a ngbDropdownItem href="javascript:;">2016</a>
+										<a ngbDropdownItem href="javascript:;">2017</a>
+										<a ngbDropdownItem href="javascript:;">2018</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="btn-group">
+									<button type="button" class="btn btn-info  btn-rounded">Action</button>
+									<button type="button" ngbDropdownToggle
+										class="btn btn-info  btn-rounded dropdown-toggle split-dropdown"
+										id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+										data-x-placement="bottom-end">
+										<a ngbDropdownItem href="javascript:;">2015</a>
+										<a ngbDropdownItem href="javascript:;">2016</a>
+										<a ngbDropdownItem href="javascript:;">2017</a>
+										<a ngbDropdownItem href="javascript:;">2018</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="btn-group">
+									<button type="button" class="btn btn-warning  btn-rounded">Action</button>
+									<button type="button" ngbDropdownToggle
+										class="btn btn-warning  btn-rounded dropdown-toggle split-dropdown"
+										id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+										data-x-placement="bottom-end">
+										<a ngbDropdownItem href="javascript:;">2015</a>
+										<a ngbDropdownItem href="javascript:;">2016</a>
+										<a ngbDropdownItem href="javascript:;">2017</a>
+										<a ngbDropdownItem href="javascript:;">2018</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div ngbDropdown class="btn-group">
+									<button type="button" class="btn btn-light  btn-rounded">Action</button>
+									<button type="button" ngbDropdownToggle
+										class="btn btn-light  btn-rounded dropdown-toggle split-dropdown"
+										id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										<span class="sr-only">Toggle Dropdown</span>
+									</button>
+									<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+										data-x-placement="bottom-end">
+										<a ngbDropdownItem href="javascript:;">2015</a>
+										<a ngbDropdownItem href="javascript:;">2016</a>
+										<a ngbDropdownItem href="javascript:;">2017</a>
+										<a ngbDropdownItem href="javascript:;">2018</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed5">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav5="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav5" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic6">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1"> Outline split button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdowns with Rounded Outline button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse6.toggle()" [attr.aria-expanded]="!isCollapsed6"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-primary">Action</button>
+								<button type="button" class="btn btn-primary dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-danger">Action</button>
+								<button type="button" class="btn btn-danger dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-info">Action</button>
+								<button type="button" class="dropdown-toggle btn btn-info split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-warning">Action</button>
+								<button type="button" class="btn btn-warning dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-light">Action</button>
+								<button type="button" class="btn btn-light dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse6="ngbCollapse" [(ngbCollapse)]="isCollapsed6">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav6="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html6}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav6" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic7">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Rounded Outline split button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdowns with Rounded Outline button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse7.toggle()" [attr.aria-expanded]="!isCollapsed7"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-primary btn-rounded">Action</button>
+								<button type="button"
+									class="btn btn-outline-primary  btn-rounded dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-danger btn-rounded">Action</button>
+								<button type="button"
+									class="btn btn-outline-danger  btn-rounded dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-info btn-rounded">Action</button>
+								<button type="button"
+									class="btn btn-outline-info  btn-rounded dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-warning btn-rounded">Action</button>
+								<button type="button"
+									class="btn btn-outline-warning  btn-rounded dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-light btn-rounded">Action</button>
+								<button type="button"
+									class="btn btn-outline-light  btn-rounded dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed7">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav7="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav7" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic8">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1"> Outline split button dropdowns</h6>
+						<p class="text-muted card-sub-title"> Dropdowns with Rounded Outline button </p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse8.toggle()" [attr.aria-expanded]="!isCollapsed8"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-primary">Action</button>
+								<button type="button" class="btn btn-outline-primary dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-danger">Action</button>
+								<button type="button" class="btn btn-outline-danger dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-info">Action</button>
+								<button type="button" class="btn btn-outline-info dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-warning">Action</button>
+								<button type="button" class="btn btn-outline-warning dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mb-2" ngbDropdown>
+								<button type="button" class="btn btn-outline-light">Action</button>
+								<button type="button" class="btn btn-outline-light dropdown-toggle split-dropdown"
+									ngbDropdownToggle>
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+									<button ngbDropdownItem>Action</button>
+									<button ngbDropdownItem>Another action</button>
+									<button ngbDropdownItem>Something else here</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse8="ngbCollapse" [(ngbCollapse)]="isCollapsed8">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav8="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html8}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav8" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="active">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Active Menu Item</h6>
+						<p class="text-muted card-sub-title">Add active class to items in the dropdown to style them as
+							active.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse9.toggle()" [attr.aria-expanded]="!isCollapsed9"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-warning" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem class="active">Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-teal" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="active">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-secondary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem class="active">Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-danger" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem class="active">Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse9="ngbCollapse" [(ngbCollapse)]="isCollapsed9">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav9="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html9}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav9" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="disabled">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Disabled Menu Item</h6>
+						<p class="text-muted card-sub-title">Add disabled class to items in the dropdown to style them as
+							disabled.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse10.toggle()" [attr.aria-expanded]="!isCollapsed10"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-primary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem class="disabled">Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-teal" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem class="disabled">Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-danger" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem class="disabled">Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-info" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="disabled">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse10="ngbCollapse" [(ngbCollapse)]="isCollapsed10">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav10="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html10}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav10" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="header">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Dropdown Header</h6>
+						<p class="text-muted card-sub-title">Add a header to label sections of actions in any dropdown menu.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse11.toggle()" [attr.aria-expanded]="!isCollapsed11"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-secondary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="disabled">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-primary" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="disabled">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-info" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="disabled">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2 mt-2 mb-2">
+								<div class="btn-group ms-2 mt-2 mb-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn ripple btn-warning" id="dropdownBasic1"
+											ngbDropdownToggle>Dropdown Menu</button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem class="disabled">Something else here</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse11="ngbCollapse" [(ngbCollapse)]="isCollapsed11">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav11="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html11}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav11" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="right">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Dropright & Dropleft</h6>
+						<p class="text-muted card-sub-title">Trigger dropdown menus above elements by adding dropright &
+							dropleft class to the parent element.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse12.toggle()" [attr.aria-expanded]="!isCollapsed12"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="row row-xs">
+								<div class="col-sm-6 my-2">
+									<div ngbDropdown [placement]="'right-top'" class="dropend">
+										<button class="btn ripple btn-info" ngbDropdownToggle id="droprightMenuButton"
+											type="button">Dropright
+											Menu</button>
+										<div aria-labelledby="droprightMenuButton" ngbDropdownMenu class="tx-13">
+											<a ngbDropdownItem href="javascript:void(0);">Action</a>
+											<a ngbDropdownItem href="javascript:void(0);">Another action</a>
+											<a ngbDropdownItem href="javascript:void(0);">Something else here</a>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-6 my-2">
+									<div ngbDropdown [placement]="'left-top'" class="dropstart">
+										<button class="btn ripple btn-danger" ngbDropdownToggle id="dropleftMenuButton"
+											type="button">Dropleft Menu</button>
+										<div aria-labelledby="dropleftMenuButton" ngbDropdownMenu class="tx-13">
+											<a ngbDropdownItem href="javascript:void(0);">Action</a>
+											<a ngbDropdownItem href="javascript:void(0);">Another action</a>
+											<a ngbDropdownItem href="javascript:void(0);">Something else here</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse12="ngbCollapse" [(ngbCollapse)]="isCollapsed12">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav12="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html12}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav12" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="basic9">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Dropdown with icons</h6>
+						<p class="text-muted card-sub-title">Basic dropdown with icons.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse13.toggle()" [attr.aria-expanded]="!isCollapsed13"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="row row-xs wd-xl-80p">
+								<div class="btn-group mb-2 mt-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn btn-danger dropdown-toggle" id="dropdownBasic1"
+											ngbDropdownToggle><i class="fe fe-mail  "></i></button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+											<a ngbDropdownItem class="dropdown-item"
+												href="javascript:void(0);">Separated link</a>
+										</div>
+									</div>
+								</div>
+								<div class="btn-group mb-2 mt-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn btn-info dropdown-toggle" id="dropdownBasic1"
+											ngbDropdownToggle><i class="fe fe-more-horizontal "></i></button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+											<a ngbDropdownItem class="dropdown-item"
+												href="javascript:void(0);">Separated link</a>
+										</div>
+									</div>
+								</div>
+								<div class="btn-group mb-2 mt-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn btn-secondary dropdown-toggle"
+											id="dropdownBasic1" ngbDropdownToggle><i
+												class="fe fe-more-vertical "></i></button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+											<a ngbDropdownItem class="dropdown-item"
+												href="javascript:void(0);">Separated link</a>
+										</div>
+									</div>
+								</div>
+								<div class="btn-group mb-2 mt-2">
+									<div ngbDropdown class="d-inline-block wd-xl-80p">
+										<button type="button" class="btn btn-outline-primary dropdown-toggle"
+											id="dropdownBasic1" ngbDropdownToggle><i
+												class="fe fe-settings "></i></button>
+										<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+											<h6
+												class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+												Dropdown header</h6>
+											<button ngbDropdownItem>Action</button>
+											<button ngbDropdownItem>Another action</button>
+											<button ngbDropdownItem>Something else here</button>
+											<a ngbDropdownItem class="dropdown-item"
+												href="javascript:void(0);">Separated link</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse13="ngbCollapse" [(ngbCollapse)]="isCollapsed13">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav13="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html13}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav13" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-12 col-md-12 col-xl-6">
+		<div class="card custom-card" id="divider">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Dropdown Divider</h6>
+						<p class="text-muted card-sub-title">Separate groups of related menu items with a divider.</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse14.toggle()" [attr.aria-expanded]="!isCollapsed14"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="btn-group ms-2  mt-2 mb-2">
+								<div ngbDropdown>
+									<button class="btn ripple btn-info " ngbDropdownToggle type="button">Dropdown Menu
+
+									</button>
+									<div class="tx-13" ngbDropdownMenu>
+										<h6 class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+											Dropdown
+											header</h6>
+										<a class="dropdown-item" href="javascript:;">Action</a>
+										<a class="dropdown-item" href="javascript:;">Another action</a>
+										<a class="dropdown-item" href="javascript:;">Something else here</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="javascript:;">Separated link</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2  mt-2 mb-2">
+								<div ngbDropdown>
+									<button class="btn ripple btn-primary " ngbDropdownToggle type="button">Dropdown
+										Menu
+
+									</button>
+									<div class="tx-13" ngbDropdownMenu>
+										<h6 class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+											Dropdown
+											header</h6>
+										<a class="dropdown-item" href="javascript:;">Action</a>
+										<a class="dropdown-item" href="javascript:;">Another action</a>
+										<a class="dropdown-item" href="javascript:;">Something else here</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="javascript:;">Separated link</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2  mt-2 mb-2">
+								<div ngbDropdown>
+									<button class="btn ripple btn-danger " ngbDropdownToggle type="button">Dropdown Menu
+
+									</button>
+									<div class="tx-13" ngbDropdownMenu>
+										<h6 class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+											Dropdown
+											header</h6>
+										<a class="dropdown-item" href="javascript:;">Action</a>
+										<a class="dropdown-item" href="javascript:;">Another action</a>
+										<a class="dropdown-item" href="javascript:;">Something else here</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="javascript:;">Separated link</a>
+									</div>
+								</div>
+							</div>
+							<div class="btn-group ms-2  mt-2 mb-2">
+								<div ngbDropdown>
+									<button class="btn ripple btn-warning " ngbDropdownToggle type="button">Dropdown
+										Menu
+
+									</button>
+									<div class="tx-13" ngbDropdownMenu>
+										<h6 class="dropdown-header tx-uppercase tx-11 tx-bold tx-inverse tx-spacing-1">
+											Dropdown
+											header</h6>
+										<a class="dropdown-item" href="javascript:;">Action</a>
+										<a class="dropdown-item" href="javascript:;">Another action</a>
+										<a class="dropdown-item" href="javascript:;">Something else here</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="javascript:;">Separated link</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse14="ngbCollapse" [(ngbCollapse)]="isCollapsed14">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav14="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html14}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav14" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- /row -->

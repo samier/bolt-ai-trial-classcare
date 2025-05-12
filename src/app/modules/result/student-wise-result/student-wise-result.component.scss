@@ -1,0 +1,12 @@
+::ng-deep{
+    .inquiry-list{
+        .std-wise-result{
+            display: flex;
+            align-items: center;
+            .std-wise-dropdown{
+                max-width: 400px;
+                margin-left: 20px;
+            }
+        }
+    }
+}

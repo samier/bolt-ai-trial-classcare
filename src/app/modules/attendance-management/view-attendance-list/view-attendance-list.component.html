@@ -1,0 +1,113 @@
+<section class="leave_form batch-wise-attendance-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">View Attendance Report</h3>
+                <!-- <div class="d-flex justify-content-between">
+                </div> -->
+                <div class="btn_right d-flex justify-content-end gap-3">
+                    <a [routerLink]="this.CommonService.setUrl(URLConstants.STUDENT_TAKE_ATTENDANCE)" class="btn me-2 add-btn">Take Attendance</a>
+                    <button *ngIf="CommonService.hasPermission('student_attendance', 'has_download')" class="btn pdf-btn" ngbTooltip="PDF"  (click)="downloadReport('pdf')" [disabled]="pdfLoading"><img src="assets/images/pdf-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="pdfLoading">
+                        </div>
+                    </button>
+                    <button *ngIf="CommonService.hasPermission('student_attendance', 'has_download')" class="btn excel-btn" ngbTooltip="EXCEL"  (click)="downloadReport('excel')" [disabled]="excelLoading"><img src="assets/images/excel-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="excelLoading">
+                        </div>
+                    </button>
+                  </div>
+            </div>
+            <div class="card student-list-card p-0">
+                <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                        <!-- {{filterCount}} -->
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn btn-primary me-2" (click)="reset($event)">Reset</button>
+                        <!-- (click)="clearAll()" -->
+                        <button class="btn btn-primary drop-btn border-circle">
+                            <!--  -->
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <!-- *ngIf="!filter" -->
+                            <i class="fa fa-angle-up" *ngIf="filter" ></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-body" *ngIf="filter">
+                    <!-- *ngIf="filter" -->
+                    <div [formGroup]="viewAttendanceForm" class="content_scroll">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Session </label>
+                                <div class="student-dropdown w-100">
+                                    <app-single-select [dropDownArray]="sectionsList" controlName="sectionId" placeholder="All Section" (change)="onSectionChange()"></app-single-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Class</label>
+                                <div class="student-dropdown w-100">
+                                    <app-single-select [dropDownArray]="classesList" controlName="classId" placeholder="All Class" (change)="onClassChange()"></app-single-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Batch<span class="text-danger">*</span></label>
+                                <div class="student-dropdown w-100">
+                                    <app-single-select [dropDownArray]="batchesList" controlName="batchId" placeholder="Select Batch"></app-single-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Attendance Type<span class="text-danger">*</span></label>
+                                <div class="student-dropdown w-100">
+                                    <app-multi-select controlName="attendanceTypeId" placeholder="Select Type" [dropDownArray]="attendanceType"></app-multi-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group month">
+                                <label class=" form_label">Month<span class="text-danger">*</span></label>
+                                <mat-form-field appearance="outline">
+                                  <input 
+                                    [value]="displayedMonth" 
+                                    class="readonly-month"
+                                    readonly
+                                    placeholder="YYYY-MM"
+                                  />
+                                  <input 
+                                    matInput 
+                                    [matDatepicker]="picker" 
+                                    formControlName="month"
+                                    [min]="minDate"
+                                    [max]="maxDate"
+                                    hidden />
+                                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                  <mat-datepicker 
+                                    #picker 
+                                    startView="year" 
+                                    (monthSelected)="chosenMonthHandler($event)" 
+                                    panelClass="month-picker">
+                                  </mat-datepicker>
+                                </mat-form-field>                          
+                                <span class="text-danger d-block" *ngIf="(viewAttendanceForm.get('month')?.touched || viewAttendanceForm.get('month')?.dirty) && viewAttendanceForm.get('month')?.invalid">The input is required.</span>
+                              </div>
+                            <div class="col-12 form_group">
+                                <button type="button" class="btn show-btn"  (click)="onShow()" [disabled]="showLoading">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="showLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                                <!-- (click)="reloadData()" -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div [innerHTML]="html"></div>
+                <div *ngIf="!html" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <div>Please Apply Filters To View Attendance Report</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,57 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{ 
+    app-academic-year-form {
+	    .text-danger {
+	    	position : unset;
+	    }
+        .current-year {
+
+            .mat-datepicker-input{
+                border: none;
+                margin: 0 !important;
+                position: relative;
+                bottom: 6px;
+            }
+
+            .mat-form-field-wrapper {
+                padding: 0;
+            }
+
+            .mat-form-field-appearance-outline .mat-form-field-infix{
+                padding: 0;
+            }
+            .mat-form-field{
+                width: 100%;
+            }
+            .mat-form-field-appearance-outline .mat-form-field-outline-start,
+            
+            .mat-form-field-appearance-outline .mat-form-field-outline-end
+            {
+                border-radius: 2px;
+                border-color: #D0C9C0;
+                min-width: 0;
+            }
+            .mat-form-field-appearance-outline .mat-form-field-outline-gap{
+                border-color: #D0C9C0;
+                border-radius: 0;
+            }
+            .mat-form-field-appearance-outline .mat-form-field-outline{
+                top: 0;
+            }
+            .mat-form-field-appearance-outline .mat-form-field-prefix, .mat-form-field-appearance-outline .mat-form-field-suffix{
+                top: 0;
+            }
+            .readonly-year{
+                position: relative;
+                bottom: 5px;
+            }
+            .mat-input-element{
+                color: #4d5875;
+            }
+            .readonly-year {
+                border:none;
+                outline: none;
+            }
+        }
+	}
+}

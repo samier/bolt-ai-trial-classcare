@@ -1,0 +1,272 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-sm-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0 text-center text-sm-left">Create payroll category</h3>
+                <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                  <a class="global_btn btn" href="#." [routerLink]="setUrl(URLConstants.PAYROLL)" > Back to Payroll Home</a>
+                </div>
+            </div>
+            <div>                
+                <div>
+                    <div class="">
+                        <form [formGroup]="payrollform" class="form_section global_form" id="payrollForm">
+                                <div class="card">
+                                    <div class="row">
+                                        <div class="col-md-4 col-xl-3 mb-3 mb-md-0 form_group">
+                                            <label class="form_label">Payroll category name<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter Name" required>
+                                            </div>
+                                            <div *ngIf="submitted && payrollform.controls['name'].invalid" class="error text-danger"> Please enter Name. </div>
+                                            <div *ngIf="payrollform.controls['name'].dirty && payrollform.controls['name'].invalid" class="error text-danger"> Please enter valid Name. </div>                                      
+                                        </div>
+                                        <div class="col-md-4 col-xl-3 mb-3 mb-md-0 form_group">
+                                            <label class="form_label">Category code<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" name="code" id="code" formControlName="code" placeholder="Enter your code" required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && payrollform.controls['code'].invalid" class="error text-danger"> Please enter Code. </div> -->
+                                            <div *ngIf="payrollform.controls['code'].dirty && payrollform.controls['code'].invalid" class="error text-danger">Please enter valid Code.</div>                                       
+                                        </div>
+                                        <div class="col-md-4 col-xl-3 mb-3 mb-md-0 form_group">
+                                            <label class="form_label">Category type<span class="text-danger">*</span></label>
+                                            <div class="d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required">
+                                                        <input type="radio" name="payroll_type" id="male" formControlName="payroll_type" value="1" aria-required="true" class="mr-1" (change)="payrollType(1)" checked >Earnings<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required">
+                                                        <input type="radio" name="payroll_type" id="female" formControlName="payroll_type" value="2" aria-required="true" (change)="payrollType(2)" class="mr-1">Deductions <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-4 col-xl-3 mb-0 form_group">
+                                            <label class="form_label">Calculation type<span class="text-danger">*</span></label>
+                                            <div class="d-flex px-0">
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required">
+                                                        <input type="radio" name="automatic_or_manual" id="male" formControlName="automatic_or_manual" value="1" aria-required="true" class="mr-1" checked (change)="automaticOrManual($event)">Automatic<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ml-1">
+                                                    <label class="m-radio required" aria-required="true">
+                                                        <input type="radio" name="automatic_or_manual" id="female" formControlName="automatic_or_manual" value="2" aria-required="true" class="mr-1" (change)="automaticOrManual($event)">Manual<span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>    
+                                </div>    
+                                <div class="card">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card_title">
+                                                <h3 class="tx-16 mb-2">Category Value</h3>                                     
+                                            </div> 
+                                            <div class="mb-3">
+                                                Specify how the payroll amount for this category is to be calculated. It can be fixed amount or can be calculated using formulas based on other payroll categories.
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-md-4 col-xl-3 form_group">
+                                            <label class="form_label">Value Type<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select class="form-control" name="role" id="role" formControlName="calculation_type" (change)="valueChange($event)" >
+                                                    <option value="">Select value type</option>
+                                                    <option value="1">Numeric</option>
+                                                    <option value="2">Formula</option>
+                                                    <option value="3">Conditions with formula</option>                           
+                                                </select>
+                                                <!-- <div *ngIf="submitted && payrollform.controls['role'].invalid" class="error error text-danger"> Please select role. </div>  -->
+                                            </div>                                       
+                                        </div>
+
+
+                                        <div class="col-md-4 col-xl-3 mb-3 mb-md-0 form_group" *ngIf="category_code == 1">
+                                            <label class="form_label">Amount<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" name="amount" id="amount" formControlName="amount" placeholder="eg. 20000">
+                                            </div>
+                                            <div *ngIf="submitted && payrollform.controls['amount'].invalid" class="error text-danger"> Please enter amount. </div>
+                                            <div *ngIf="payrollform.controls['amount'].dirty && payrollform.controls['amount'].invalid" class="error text-danger">Please enter valid amount.</div>                                       
+                                        </div>
+
+                                    <div class="row" *ngIf="category_code == 2">                                        
+                                        <div class="col-md-4 mb-3 mb-0 form_group" >
+                                            <label class="form_label">Formula<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <textarea name="formula" id="formula" formControlName="formula" [(ngModel)]="formula" class="form-control w-100"></textarea><a (click)="validateFormula()" class="validate btn py-1 px-2 mt-2">validate</a>
+                                            </div>
+                                            <div *ngIf="submitted && payrollform.controls['formula'].invalid" class="error text-danger"> Please enter formula.</div>
+                                            <div *ngIf="payrollform.controls['formula'].dirty && payrollform.controls['formula'].invalid" class="error text-danger">Please enter valid formula.</div>                                       
+                                            <div *ngIf="display_formula_error==1" class="error text-danger">Please enter valid formula.</div>                                                                              
+                                            <div *ngIf="display_formula_error==2" class="success text-success">It is valid formula.</div>                                                                              
+                                        </div>
+
+                                        <div class="col-md-4 mb-3 mb-md-0 form_group">
+                                            <div class="fw-bold"><a>Standard Codes</a></div>   
+                                            <div class="mb-2">                                       
+                                                <p class="mb-0" *ngFor="let item of code_list | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                            </div> 
+                                            <div class="fw-bold" *ngIf="code_list_earnings.length != 0 && payroll_type == 1"><a>Earnings Codes</a></div>
+                                            <div class="mb-2" *ngIf="payroll_type == 1">                                       
+                                                <p class="mb-0" *ngFor="let item of code_list_earnings | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                            </div> 
+                                            <div class="fw-bold" *ngIf="code_list_deductions.length != 0 && payroll_type == 2"><a>Deductions Codes</a></div>
+                                            <div class="mb-2" *ngIf="payroll_type == 2">                                       
+                                                <p class="mb-0" *ngFor="let item of code_list_deductions | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                            </div>                                              
+                                        </div>
+                                        <div class="col-md-4 mb-0 form_group">
+                                            <h6 class="fw-bold pt-1">Formula Example</h6>
+                                            <p>If the employee's Basic component is 40% of their gross salary, then the formula is 40%GROSS
+                                                Calculate the income tax payable by the employees whose salary is greater than 2,50,000 - Use the 'Conditions with formulas' value type. This is how you would set it up: If 'GROSS' is greater than '250000' then 10%(GROSS-250000)
+                                                If the employee's HRA is 50% of their Basic component then the formula is 50%'Basic category code'</p>                                                
+                                        </div>
+                                    </div>
+
+                                    <div *ngIf="category_code==3"> 
+                                        <span id="addElement" class="btn mb-4" (click)="addQuantity()">Add More Conditions</span>    
+
+                                        <div>                                            
+                                            <div class="document_type_add p-3" *ngFor="let quantity of quantities().controls; let i=index"  formArrayName='conditions'>                                        
+                                                <div [formGroupName]="i" class="row form_group d-flex mb-0" >
+                                                    <div class="col-md-3 mb-3 mb-md-0 form_group d-flex flex-column flex-md-row">
+                                                        <span class="fs-16 pe-2">If</span> 
+                                                        <div class="w-100">
+                                                            <textarea formControlName="primary_condition" class="condition_box form-control" name="conditions[{{i}}][primary_condition]">
+                                                            </textarea>
+                                                            <a class="validate btn py-1 px-2 mt-2 cursor-pointer" (click)="validateFormulaForConditions(i)">validate</a>
+                                                            <div *ngIf="display_formula_error_for_condition[i]==1" class="error text-danger">Please enter valid formula.</div>                                                                              
+                                                            <div *ngIf="display_formula_error_for_condition[i]==2" class="success text-success">It is valid formula.</div>  
+                                                        </div>                                                 
+                                                    </div>                                      
+                                                    <div class="col-md-3 mb-3 mb-md-0 form_group">
+                                                        <select id="" formControlName="operators" class="form-control" name="conditions[{{i}}][operators]" >
+                                                            <option value="">Select operator</option>
+                                                            <option value="5">is greater than or equal to</option>
+                                                            <option value="6">is less than or equal to</option>
+                                                            <option value="1">is greater than</option>
+                                                            <option value="2">is lesser than</option>
+                                                            <option value="3">is equal to</option>
+                                                            <option value="4">is not equal to</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mb-3 mb-md-0 form_group">
+                                                        <textarea class="condition_box form-control" formControlName="secondary_condition" name="conditions[{{i}}][secondary_condition]" id=""></textarea>
+                                                        <a class="validate btn py-1 px-2 mt-2" (click)="validateFormulaForSecondaryConditions(i)">validate</a>
+                                                        <div *ngIf="display_formula_error_for_secondary_condition[i]==1" class="text-danger">Please enter valid formula.</div>                                                                              
+                                                        <div *ngIf="display_formula_error_for_secondary_condition[i]==2" class="success text-success">It is valid formula.</div>                                                      
+                                                    </div>                                          
+                                                    <div class="col-md-3 mb-3 mb-md-0 form_group d-flex flex-column flex-md-row">
+                                                        <span class="fs-16 pe-2"> then </span> 
+                                                        <div class="w-100">
+                                                            <textarea formControlName="final_condition" name="conditions[{{i}}][final_condition]" class="condition_box form-control" id=""></textarea> 
+                                                            <a class="validate btn py-1 px-2 mt-2" (click)="validateFormulaForFinalConditions(i)">validate</a>
+                                                            <div *ngIf="display_formula_error_for_final_condition[i]==1" class="text-danger">Please enter valid formula.</div>                                                                              
+                                                            <div *ngIf="display_formula_error_for_final_condition[i]==2" class="success text-success">It is valid formula.</div>  
+                                                        </div>
+                                                    </div>                                            
+                                                    <div class="col-md-1 mb-0 text-center form_group">
+                                                        <button *ngIf="i>0" (click)="removeQuantity(i)" class="btn btn-danger"><span class="typcn icon typcn-minus"></span></button>
+                                                    </div> 
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                        <h3 class="tx-16 mb-2 pt-3">Default Condition</h3>  
+                                    
+
+                                        <div class="row">
+                                            <div class="col-md-4 col-xl-3 form_group">
+                                                <label class="form_label">Default condition If above conditions cannot be performed, this condition will be considered.<span class="text-danger">*</span></label>
+                                                <div class="w-100">
+                                                    <textarea class="form-control" name="default_condition" formControlName="default_condition" id=""></textarea>
+                                                    <a class="validate btn py-1 px-2 mt-2" (click)="validateFormulaForDefaultConditions()">validate</a>
+                                                    <div *ngIf="display_formula_error_for_default_condition==1" class="error text-danger">Please enter valid formula.</div>                                                                              
+                                                    <div *ngIf="display_formula_error_for_default_condition==2" class="success text-success">It is valid formula.</div>  
+                                                </div>       
+                                                <!-- dropDownField.setErrors({ required: true });                                             -->
+                                                <!-- <div *ngIf="display_formula_error_for_condition[i]==1" class="error text-danger">Please enter valid formula.</div>                                                                              
+                                                <div *ngIf="display_formula_error_for_condition[i]==2" class="success text-success">It is valid formula.</div>                                       -->
+                                                <!-- <div *ngIf="payrollform.controls['last_name'].dirty && payrollform.controls['last_name'].invalid" class="error text-danger">Please enter valid Last Name.</div>                                        -->
+                                            </div>
+                                            <div class="col-md-4" [style.display]="category_code == 3 ? 'grid' : 'none'">
+                                        
+                                                <div class="description w-100">
+                                                    
+                                                    <div class="mb-2">                                       
+                                                        <div style="font-weight: bold;"><a>Standard Codes</a></div>                             
+                                                        <p class="mb-0" *ngFor="let item of code_list | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                                    </div> 
+                                                    <div class="mb-2" *ngIf="payroll_type == 1">                                       
+                                                        <div style="font-weight: bold;" *ngIf="code_list_earnings.length != 0 && payroll_type == 1"><a>Earnings Codes</a></div>
+                                                        <p class="mb-0" *ngFor="let item of code_list_earnings | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                                    </div> 
+                                                    <div class="mb-2" *ngIf="payroll_type == 2">                                       
+                                                        <div style="font-weight: bold;" *ngIf="code_list_deductions.length != 0 && payroll_type == 2"><a>Deductions Codes</a></div>
+                                                        <p class="mb-0" *ngFor="let item of code_list_deductions | keyvalue">{{item.key}} : {{item.value}}</p>                                    
+                                                    </div> 
+        
+                                                    <div>                                                                                                   
+                                                        <div style="font-weight: bold;"><a>Formula Example</a></div>   
+                                                        <p>If the employee's Basic component is 40% of their gross salary, then the formula is 40%GROSS
+                                                            Calculate the income tax payable by the employees whose salary is greater than 2,50,000 - Use the 'Conditions with formulas' value type. This is how you would set it up: If 'GROSS' is greater than '250000' then 10%(GROSS-250000)
+                                                            If the employee's HRA is 50% of their Basic component then the formula is 50%'Basic category code'  </p>                                                                                              
+                                                    </div>
+        
+                                                </div> 
+                                            </div>
+                                        </div>                                       
+                                    </div>                                  
+                                    <!-- <div class="col-md-12" style="display: flex;">
+                                        <div class="col-md-3">Calculate based on actual working days</div>
+                                        <div class="col-md-2"><input type="checkbox" formControlName="calculation_based_on_working_day" value="1"></div>
+                                        </div>   -->
+                                     
+                                    <div class="row">
+                                        <div class="col-md-4 col-xl-3 mb-3 mb-md-0 mt-3 mt-md-0 form_group">
+                                            <label class="form_label d-none d-md-block opacity-0">Round Off category Pay</label>
+                                            <div>
+                                                <div class="m-checkbox-list d-flex align-items-center">
+                                                    <label  class="m-checkbox m-0">
+                                                        <input type="checkbox" class="form-control" [checked]="display_round_off==1"  (change)="doSomething($event);" value="1" name="" id=""><span></span>
+                                                    </label>
+                                                    <label class="ps-2 m-0">Round Off Category Pay</label>
+                                                </div>
+                                            </div> 
+                                        </div> 
+                                        
+                                        <div class="col-md-4 col-xl-3 mb-0 form-group" *ngIf="display_round_off==1">
+                                            <label class="form-label">Rounding Type</label>
+                                            <div class="">
+                                                <select id="" class="form-control" name="round_off_by" formControlName="round_off_by"><option value="">Select rounding type</option>
+                                                    <option value="1">Round Up</option>
+                                                    <option value="2">Nearest 1</option>
+                                                    <option value="3">Nearest 5</option>
+                                                    <option value="4">Nearest 10</option>
+                                                </select>
+                                            </div>
+                                        </div>  
+                                    </div>    
+                                    </div>
+                                </div>    
+                                <div class="row w-100 mt-3">
+                                    <!-- <small *ngIf="!payrollform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                    <div class="col-auto">
+                                        <a class="btn w-100 px-3" href="#" [routerLink]="setUrl(URLConstants.PAYROLL_CATEGORY_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" (click)="onSubmit()" [disabled]="!payrollform.valid" class="btn w-100 px-3" id="submitButton">Save</button>
+                                    </div>
+                                </div>                                                                                                     
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

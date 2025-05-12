@@ -1,0 +1,42 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+  .myCustomModalClass{
+    .modal-table{
+      span{
+        &.c-primary{
+          color: var(--primary-bg-color);
+        }
+      }
+    }
+    .basic_table{
+      .table-responsive{
+        .table{
+          display: table;
+          th{
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    .modal-dialog {
+      max-width: 45vw;
+  
+    }
+  }
+  &.dark-theme{
+    .basic_table{
+      .table-responsive{
+        .table{
+          border: 1px solid #eaedf133;
+        }
+      }
+    }
+  }
+} 
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+.dataTables_empty{
+    display: none !important;
+}

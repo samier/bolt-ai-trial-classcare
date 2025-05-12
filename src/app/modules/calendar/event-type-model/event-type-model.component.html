@@ -1,0 +1,38 @@
+
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ selectedObj ? 'Edit ' : 'Add ' }} Event Type</h4>
+    <button [ngbTooltip]="'Close'" triggers="hover" type="button" class="close" aria-label="Close" (click)="handleSave(false)">
+      <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="eventTypeCreateForm">
+        <div class="row">
+            <div class="col-md-12 form_group">
+                <div class="form-group">
+                    <label for="name" class="form_label">Event Type Name<span class="text-danger">*</span></label>
+                    <app-input  placeholder="Enter Event Type Name" controlName="name"></app-input>
+                </div> 
+            </div>
+            <div class="col-md-3 form_group">
+                <label class="form_label">Select Color</label>
+                <div class="">
+                    <input type="color" name="color" formControlName="color" placeholder="please choose color" class="color" id="color"> 
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+  <button *ngIf="CommonService.hasPermission('administrator_event_type', selectedObj ? 'has_update' : 'has_create')" type="submit" class="btn save-btn" style="text-align: left;" (click)="handleSave(true)" [disabled]="isSaveLoading" >
+    {{selectedObj ? 'Update' : 'Save'}}
+    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading" >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </button>
+  <button type="submit" class="cancel-btn btn"  (click)="handleSave(false)">
+    Cancel
+  </button>
+</div>

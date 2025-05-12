@@ -1,0 +1,18 @@
+::ng-deep{
+    .dropdown-menu{
+        width: 100%;
+    }
+    
+    .dark-theme{
+         .btn-light-gradient{
+            color: black;
+        }
+    }
+    
+    .rtl{
+      .dropdown-menu{
+        left: initial !important;
+        right: 0;
+      }
+    }
+}

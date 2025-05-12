@@ -1,0 +1,168 @@
+<section class="notice-history-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{ isView ? 'Cheque Details' : hasChequeDetails ? 'Edit Cheque Details' : 'Collect Cheques'}}</h3>
+                <div class="btn_right" *ngIf="CommonService.hasPermission('finance_collect_cheque', 'has_access' )">
+                    <button class="list-btn btn" [routerLink]="CommonService.setUrl(URLConstants.CHEQUE_LIST)">Cheque List</button>
+                </div>
+            </div>
+            <div class="card  position-relative" [ngClass]="{'disabled': isView}">
+                <form [formGroup]="collectChequeForm" [ngClass]="{'pe-none': isView}" [attr.tabindex]="isView ? '-1' : null" [attr.aria-hidden]="isView">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Section</label>
+                            <app-single-select controlName="section_id" [dropDownArray]="sectionList" placeholder="Select Section" [readonly]="hasChequeDetails ? true : false" (change)="this.studentSearch.clear()"></app-single-select>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Student<span class="text-danger">*</span></label>
+                            <app-student-search formControlName="student_id" #studentSearch [selectedSectionId]="collectChequeForm.value?.section_id" [inActive]="false" (student)="setStudentId($event)" [isDisabled]="hasChequeDetails"></app-student-search>
+                            <div *ngIf="collectChequeForm.get('student_id')?.touched && collectChequeForm.get('student_id')?.errors">
+                                <small class="text-danger" *ngIf="collectChequeForm.get('student_id')?.errors?.['required']">
+                                  The input is required.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Fees Details</label>
+                            <div class="fees-details-container">
+                                <div class="fees-detail-item">
+                                    <span class="fees-label">Total Fees:</span>
+                                    <span class="fees-value">Rs. {{totalFees}}</span>
+                                </div>
+                                <div class="fees-detail-item">
+                                    <span class="fees-label">Remaining Fees:</span>
+                                    <span class="fees-value">Rs. {{remainingFees}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="position-relative border mb-2 chequeRow" *ngFor="let cheque of chequeRow.controls; let i = index" [id]="'chequeRow' + i">
+                        <h3>Cheque {{i + 1}}</h3>
+                        <div class="row p-3 pb-0">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Bank Name <span class="text-danger">*</span></label>
+                                <app-reactive-dropdown-crud
+                                    #reactiveCrudArray
+                                    formArrayName="cheque_details"
+                                    [groupName]="i"
+                                    controlName="bank_name_id"
+                                    placeholder="Select Bank" 
+                                    searchPlaceholder="Search Bank name"
+                                    [dropDownArray]="bankList"
+                                    (createUpdate)="createUpdateBank($event, i)"
+                                    (deleteData)="deleteBank($event)"
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-reactive-dropdown-crud>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Cheque No. <span class="text-danger">*</span></label>
+                                <app-input
+                                    type="number"
+                                    controlName="cheque_no"
+                                    [GroupName]="i" 
+                                    formArrayName="cheque_details" 
+                                    placeholder="Enter Cheque No."
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-input>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Cheque Date <span class="text-danger">*</span></label>
+                                <app-mat-date-picker
+                                    [class.readonly]="cheque['isReadonly']"
+                                    controlName="cheque_date"
+                                    [GroupName]="i" 
+                                    formArrayName="cheque_details"
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-mat-date-picker>
+                            </div>
+                            <div class="col-md-3 form_group form_group">
+                                <label class="form_label">Amount <span class="text-danger">*</span></label>
+                                <app-input
+                                    type="number"
+                                    controlName="cheque_amount"
+                                    [GroupName]="i" 
+                                    formArrayName="cheque_details" 
+                                    placeholder="Enter Amount"
+                                    [readonly]="(cheque?.get('isExisting')?.value && cheque?.value?.cheque_amount) || cheque['isReadonly']"
+                                ></app-input>
+                            </div>
+                            <div *ngIf="hasChequeDetails && cheque?.get('isExisting')?.value" class="col-md-3 form_group form_group">
+                                <label class="form_label">Cheque Status</label>
+                                <app-single-select
+                                    type="number"
+                                    controlName="cheque_status"
+                                    [GroupName]="i" 
+                                    [dropDownArray]="cheque['filteredStatusList']"
+                                    formArrayName="cheque_details" 
+                                    placeholder="Select Status"
+                                    [readonly]="(cheque?.get('cheque_status')?.value == 'clear' && cheque?.get('isExisting')?.value) || cheque?.['isReadonly'] ? true : false" 
+                                ></app-single-select>
+                            </div>
+                            <div *ngIf="cheque?.get('cheque_status')?.value === 'bounced' || cheque?.get('cheque_status')?.value === 'cancelled'" class="col-md-3 form_group">
+                                <label class="form_label">
+                                  {{ cheque?.get('cheque_status')?.value === 'bounced' ? 'Bounce Reason' : 'Cancel Reason' }}
+                                </label>
+                                <app-input
+                                    controlName="cheque_reason"
+                                    [GroupName]="i"
+                                    formArrayName="cheque_details"
+                                    [placeholder]="cheque?.get('cheque_status')?.value === 'bounced' ? 'Enter bounce reason' : 'Enter cancel reason'"
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-input>
+                            </div>
+                            <div *ngIf="cheque?.get('cheque_status')?.value === 'bounced' && bounceCharges >= 0" class="col-md-3 form_group">
+                                <label class="form_label">Bounce Charges</label>
+                                <app-input
+                                    type="number"
+                                    controlName="bounce_charges"
+                                    [GroupName]="i"
+                                    formArrayName="cheque_details"
+                                    placeholder="Enter Bounce Charges"
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-input>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Remarks</label>
+                                <app-input
+                                    controlName="cheque_remark"
+                                    [GroupName]="i" 
+                                    formArrayName="cheque_details" 
+                                    placeholder="Enter Remarks"
+                                    [readonly]="cheque['isReadonly']"
+                                ></app-input>
+                            </div>
+                        </div>
+                        <div *ngIf="!isView" style="right: 16px;" class=" position-absolute d-flex top-0 justify-content-end align-items-center mt-2 add_event_btn_group">
+                            <button *ngIf="i > 0 && cheque?.get('cheque_status')?.value != 'clear'" class="btn cancel-btn me-2" (click)="removeChequeRow(i)" ngbTooltip="Remove">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                            <button class="btn add-btn" (click)="addChequeRow()" ngbTooltip="Add More">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row justify-content-end" *ngIf="!isView">
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" [routerLink]="CommonService.setUrl(URLConstants.CHEQUE_LIST)">
+                                Cancel
+                            </button>
+                            <button *ngIf="CommonService.hasPermission('finance_collect_cheque', hasChequeDetails ? 'has_update' : 'has_create' )" class="btn save-btn ms-2" (click)="saveCheques()" [disabled]="isSaveLoading">
+                                {{ hasChequeDetails ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                            
+                        </div>
+                    </div>
+                </form>
+                <div *ngIf="isPageLoading" class="calendar-loader d-flex justify-content-center align-items-center">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

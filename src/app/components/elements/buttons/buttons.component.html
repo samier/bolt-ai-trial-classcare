@@ -1,0 +1,1568 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+  <div class="my-auto">
+    <div class="d-flex">
+      <h4 class="content-title mb-0 my-auto">Elements</h4>
+      <span class="text-muted mt-1 tx-13 ms-2 mb-0">/ Buttons</span>
+    </div>
+  </div>
+  <div class="d-flex my-xl-auto right-content mr-2">
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-info btn-icon me-2">
+        <i class="mdi mdi-filter-variant"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-danger btn-icon me-2">
+        <i class="mdi mdi-star"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-warning btn-icon me-2">
+        <i class="mdi mdi-refresh"></i>
+      </button>
+    </div>
+    <div class="mb-3 mb-xl-0">
+      <div ngbDropdown class="btn-group">
+        <button type="button" class="btn btn-primary">14 Aug 2019</button>
+        <button
+          type="button"
+          ngbDropdownToggle
+          class="btn btn-primary dropdown-toggle-split"
+          id="dropdownMenuDate"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div
+          ngbDropdownMenu
+          class="dropdown-menu-right"
+          aria-labelledby="dropdownMenuDate"
+          data-x-placement="bottom-end"
+        >
+          <a ngbDropdownItem href="javascript:;">2015</a>
+          <a ngbDropdownItem href="javascript:;">2016</a>
+          <a ngbDropdownItem href="javascript:;">2017</a>
+          <a ngbDropdownItem href="javascript:;">2018</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb -->
+
+<!-- row -->
+<div class="row">
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button1">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Default Buttons</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-block">Primary</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-secondary btn-block">Secondary</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-success btn-block">Success</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-warning btn-block">Warning</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-danger btn-block">Danger</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-info btn-block">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-light btn-block">Light</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-dark btn-block">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav1="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button1">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Disabled Buttons</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed2"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-block disabled">
+                      Primary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-secondary btn-block disabled">
+                      Secondary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-success btn-block disabled">
+                      Success
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-warning btn-block disabled">
+                      Warning
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-danger btn-block disabled">
+                      Danger
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-info btn-block disabled">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-light btn-block disabled">Light</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-dark btn-block disabled">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav2="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{dis}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav2" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button33">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Gradient Buttons</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed3"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary-gradient btn-block">
+                      Primary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-secondary-gradient btn-block">
+                      Secondary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-success-gradient btn-block">
+                      Success
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-warning-gradient btn-block">
+                      Warning
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-danger-gradient btn-block">
+                      Danger
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-info-gradient btn-block">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-light-gradient btn-block">Light</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-dark-gradient btn-block">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav3="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav3" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button2">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Outline Buttons</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed4"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-outline-primary btn-block">
+                      Primary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-outline-secondary btn-block">
+                      Secondary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-outline-success btn-block">
+                      Success
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-outline-warning btn-block">
+                      Warning
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-danger btn-block">
+                      Danger
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-info btn-block">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-light btn-block">Light</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-dark btn-block">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav4="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav4" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button3">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">ROUNDED BUTTONS</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed5"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-primary btn-rounded btn-block">
+                      Primary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-secondary btn-rounded btn-block">
+                      Secondary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-success btn-rounded btn-block">
+                      Success
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-warning btn-rounded btn-block">
+                      Warning
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-danger btn-rounded btn-block">
+                      Danger
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-info btn-rounded btn-block">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-light btn-rounded btn-block">
+                      Light
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-dark btn-rounded btn-block">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed5">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav5="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav5" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card" id="button2">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Rounded Outline Buttons</div>
+            <p class="mg-b-20">
+              Predefined button styles, each serving its own semantic purpose..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse6.toggle()" [attr.aria-expanded]="!isCollapsed6"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-outline-primary btn-rounded btn-block">
+                      Primary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <button class="btn btn-outline-secondary btn-rounded btn-block">
+                      Secondary
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-outline-success btn-rounded btn-block">
+                      Success
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-md-t-0">
+                    <button class="btn btn-outline-warning btn-rounded btn-block">
+                      Warning
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-danger btn-rounded btn-block">
+                      Danger
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-info btn-rounded btn-block">Info</button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-light btn-rounded btn-block">
+                      Light
+                    </button>
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10">
+                    <button class="btn btn-outline-dark btn-rounded btn-block">Dark</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse6="ngbCollapse" [(ngbCollapse)]="isCollapsed6">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav6="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts6}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav6" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button with loading animation</h3>
+            <p class="mg-b-20">A basic button with added loaders...</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse7.toggle()" [attr.aria-expanded]="!isCollapsed7"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p btn-list btn-animation">
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-spiner ms-2 ms-1 my-1"
+                  >
+                    <span class="loading">loading...</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-success btn-spiner ms-2 ms-1 my-1"
+                  >
+                    <span class="loading">loading...</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning btn-spiner ms-2 ms-1 my-1"
+                  >
+                    <span class="loading">loading...</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary btn-loaders ms-2 ms-1 my-1"
+                  >
+                    <span class="loading">loading...</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-loaders ms-2 ms-1 my-1"
+                  >
+                    <span class="loading">loading...</span>
+                  </button>
+                  <button type="button" class="btn btn-info btn-loaders ms-2 ms-1 my-1">
+                    <span class="loading">loading...</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed7">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav7="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav7" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">BUTTON WITH ICONS</h3>
+            <p class="mg-b-20">A basic button with added icons...</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse8.toggle()" [attr.aria-expanded]="!isCollapsed8"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p btn-list">
+                  <button type="button" class="btn btn-dark button-icon ms-1 my-1 my-1 my-1">
+                    <i class="fe fe-upload"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-warning mx-2 button-icon ms-1 my-1 my-1 my-1"
+                  >
+                    <i class="fe fe-heart me-2"></i>I like
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-success button-icon ms-1 my-1 my-1 my-1"
+                  >
+                    <i class="fe fe-check"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary mx-2 button-icon ms-1 my-1 my-1 my-1"
+                  >
+                    <i class="fe fe-plus me-2"></i>More
+                  </button>
+                  <button type="button" class="btn btn-secondary button-icon ms-1 my-1 my-1 my-1">
+                    <i class="fe fe-link"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-info mx-2 my-1 button-icon ms-1 my-1 my-1 my-1"
+                  >
+                    <i class="fe fe-message-circle me-2"></i>Comment
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #collapse8="ngbCollapse" [(ngbCollapse)]="isCollapsed8">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav8="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html8}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts8}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav8" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card" id="button5">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">ICON BUTTONS</h3>
+            <p class="mg-b-20">
+              It is Very Easy to Customize and it uses in your website
+              apllication....
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse9.toggle()" [attr.aria-expanded]="!isCollapsed9"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="btn-icon-list btn-list">
+                  <button type="button" class="btn btn-icon btn-primary">
+                    <i class="fe fe-activity"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-dark">
+                    <i class="fe fe-github"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-success">
+                    <i class="fe fe-bell"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-warning">
+                    <i class="fe fe-star"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-danger">
+                    <i class="fe fe-trash"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-purple">
+                    <i class="fe fe-bar-chart"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #collapse9="ngbCollapse" [(ngbCollapse)]="isCollapsed9">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav9="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html9}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav9" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button size</h3>
+            <p class="mg-b-20">A basic button with sizes</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse10.toggle()" [attr.aria-expanded]="!isCollapsed10"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="btn-list">
+                  <div class="row">
+                    <div class="col-md-4 mb-2">
+                      <button type="button" class="btn btn-warning btn-sm ms-1">
+                        Small button
+                      </button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                      <button type="button" class="btn btn-info ms-1">
+                        Medium button
+                      </button>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                      <button type="button" class="btn btn-success btn-lg ms-1">
+                        Large button
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse10="ngbCollapse" [(ngbCollapse)]="isCollapsed10">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav10="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html10}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav10" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card" id="button6">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button Widths</h3>
+            <p class="mg-b-20">A basic button with Width sizes</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse11.toggle()" [attr.aria-expanded]="!isCollapsed11"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="btn-list">
+                  <button type="button" class="btn btn-primary btn-w-xs ms-1 ms-1 my-1 my-1">
+                    XS
+                  </button>
+                  <button type="button" class="btn btn-teal btn-w-sm ms-1 ms-1 my-1 my-1">
+                    SM
+                  </button>
+                  <button type="button" class="btn btn-danger btn-w-sm ms-1 ms-1 my-1 my-1">
+                    MD
+                  </button>
+                  <button type="button" class="btn btn-success btn-w-lg ms-1 ms-1 my-1 my-1">
+                    LG
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #collapse11="ngbCollapse" [(ngbCollapse)]="isCollapsed11">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav11="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html11}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav11" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-xl-12">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button size</h3>
+            <p class="mg-b-20">A basic button block sizes</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse12.toggle()" [attr.aria-expanded]="!isCollapsed12"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="btn-list">
+                  <button type="button" class="btn btn-primary btn-lg btn-block">
+                    Block level button
+                  </button>
+                  <button type="button" class="btn btn-secondary btn-md btn-block">
+                    Block level button
+                  </button>
+                  <button type="button" class="btn btn-info btn-sm btn-block">
+                    Block level button
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div #collapse12="ngbCollapse" [(ngbCollapse)]="isCollapsed12">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav12="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html12}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav12" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Checkbox button groups</h3>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse13.toggle()" [attr.aria-expanded]="!isCollapsed13"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="group-btn checkboxbtns">
+                  <div class="row overflow-scroll">
+                    <div class="btn-group" role="group" aria-label="Basic ">
+                      <input type="checkbox" class="btn-check" id="btncheck1" />
+                      <label class="btn btn-outline-primary" for="btncheck1"
+                        >Checkbox 1</label
+                      >
+    
+                      <input type="checkbox" class="btn-check" id="btncheck2" />
+                      <label
+                        class="btn btn-outline-primary rounded-0"
+                        for="btncheck2"
+                        >Checkbox 2</label
+                      >
+    
+                      <input type="checkbox" class="btn-check" id="btncheck3" />
+                      <label class="btn btn-outline-primary" for="btncheck3"
+                        >Checkbox 3</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse13="ngbCollapse" [(ngbCollapse)]="isCollapsed13">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav13="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html13}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav13" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-6 col-md-12 col-xl-6">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Radio button groups</h3>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse14.toggle()" [attr.aria-expanded]="!isCollapsed14"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="group-btn radiobtns">
+                  <div class="row">
+                    <div
+                      class="btn-group"
+                      role="group"
+                      aria-label="Basic radio toggle button group"
+                    >
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btnradio21"
+                        checked
+                      />
+                      <label class="btn btn-outline-primary" for="btnradio21"
+                        >Radio 1</label
+                      >
+    
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btnradio22"
+                      />
+                      <label
+                        class="btn btn-outline-primary rounded-0"
+                        for="btnradio22"
+                        >Radio 2</label
+                      >
+    
+                      <input
+                        type="radio"
+                        class="btn-check"
+                        name="btnradio"
+                        id="btnradio33"
+                      />
+                      <label class="btn btn-outline-primary" for="btnradio33"
+                        >Radio 3</label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse14="ngbCollapse" [(ngbCollapse)]="isCollapsed14">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav14="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html14}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav14" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-12 col-md-12 col-xl-12">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button Toolbar</h3>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse15.toggle()" [attr.aria-expanded]="!isCollapsed15"></span>
+              </label>
+            </div>
+        </div>
+        </div>
+        <div class="card-body">
+
+          <div class="text-wrap p-3">
+            <div class="example">
+              <div class="btn-list">
+                <div
+                  class="btn-toolbar"
+                  role="toolbar"
+                  aria-label="Toolbar with button groups"
+                >
+                  <div
+                    class="btn-group mx-2 mt-2 mb-2"
+                    role="group"
+                    aria-label="First group"
+                  >
+                    <button type="button" class="btn btn-primary">1</button>
+                    <button type="button" class="btn btn-primary">2</button>
+                    <button type="button" class="btn btn-primary">3</button>
+                    <button type="button" class="btn btn-primary">4</button>
+                  </div>
+                  <div
+                    class="btn-group mx-2 mt-2 mb-2"
+                    role="group"
+                    aria-label="Second group"
+                  >
+                    <button type="button" class="btn btn-primary">5</button>
+                    <button type="button" class="btn btn-primary">6</button>
+                    <button type="button" class="btn btn-primary">7</button>
+                  </div>
+                  <div
+                    class="btn-group mx-2 mt-2 mb-2"
+                    role="group"
+                    aria-label="Third group"
+                  >
+                    <button type="button" class="btn btn-primary">8</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div #collapse15="ngbCollapse" [(ngbCollapse)]="isCollapsed15">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav15="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html15}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav15" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-12 col-md-12 col-xl-12">
+    <div class="card">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Toggle buttons</h3>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse16.toggle()" [attr.aria-expanded]="!isCollapsed16"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="">
+                  <div class="row">
+                    <div class="btn-list">
+                      <button
+                        type="button"
+                        class="btn btn-primary ms-1 my-1"
+                        data-bs-toggle="button"
+                      >
+                        Toggle button
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary active ms-1 my-1"
+                        data-bs-toggle="button"
+                        aria-pressed="true"
+                      >
+                        Active toggle button
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary ms-1 my-1"
+                        disabled
+                        data-bs-toggle="button"
+                      >
+                        Disabled toggle button
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse16="ngbCollapse" [(ngbCollapse)]="isCollapsed16">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav16="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html16}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav16" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+  <div class="col-lg-12 col-md-12 col-xl-12">
+    <div class="card" id="button61">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">DROPDOWN BUTTONS</h3>
+            <p class="mg-b-20">A button variant for using only icons.</p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse17.toggle()" [attr.aria-expanded]="!isCollapsed17"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-xs wd-xl-80p">
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <div ngbDropdown class="d-inline-block wd-xl-80p">
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-block"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                      >
+                        Dropdown
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem>Profile</button>
+                        <button ngbDropdownItem>Activity Logs</button>
+                        <button ngbDropdownItem>Account Settings</button>
+                        <button ngbDropdownItem>Logout</button>
+                      </div>
+                    </div>
+                    <!-- dropdown-menu -->
+                  </div>
+                  <div class="col-sm-6 col-md-3 mg-t-10 mg-sm-t-0">
+                    <div ngbDropdown class="d-inline-block wd-xl-80p">
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-block"
+                        id="dropdownBasic1"
+                        ngbDropdownToggle
+                      >
+                        Dropdown
+                      </button>
+                      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem>Profile</button>
+                        <button ngbDropdownItem>Activity Logs</button>
+                        <button ngbDropdownItem>Account Settings</button>
+                        <button ngbDropdownItem>Logout</button>
+                      </div>
+                    </div>
+                    <!-- dropdown-menu -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div #collapse17="ngbCollapse" [(ngbCollapse)]="isCollapsed17">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav17="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html17}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav17" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-12 col-md-12 col-xl-12">
+    <div class="card" id="button7">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="card-title mg-b-10">Button Groups</h3>
+            <p class="mg-b-20">
+              It is Very Easy to Customize and it uses in your website apllication..
+            </p>
+          </div>
+          <div>
+              <label class="form-switch float-end mb-0">
+                <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+                <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                <span class="form-switch-indicator custom-radius" (click)="collapse18.toggle()" [attr.aria-expanded]="!isCollapsed18"></span>
+              </label>
+            </div>
+        </div>
+          <div class="card-body">
+
+            <div class="text-wrap p-3">
+              <div class="example">
+                <div class="row row-sm">
+                  <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+                    <div aria-label="Basic example" class="btn-group" role="group">
+                      <button
+                        class="btn btn-secondary pd-sm-x-25 pd-x-15 active"
+                        type="button"
+                      >
+                        Left
+                      </button>
+                      <button
+                        class="btn btn-secondary pd-sm-x-25 pd-x-15"
+                        type="button"
+                      >
+                        Center
+                      </button>
+                      <button
+                        class="btn btn-secondary pd-sm-x-25 pd-x-15"
+                        type="button"
+                      >
+                        Right
+                      </button>
+                    </div>
+                  </div>
+                  <!-- col-4 -->
+                  <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <div aria-label="Basic example" class="btn-group" role="group">
+                      <button class="btn btn-primary btn-icon active" type="button">
+                        <i class="typcn typcn-media-play-outline"></i>
+                      </button>
+                      <button class="btn btn-primary btn-icon" type="button">
+                        <i class="typcn typcn-media-pause-outline"></i>
+                      </button>
+                      <button class="btn btn-primary btn-icon" type="button">
+                        <i class="typcn typcn-media-stop-outline"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- col-2 -->
+                  <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <div aria-label="Basic example" class="btn-group" role="group">
+                      <button
+                        class="btn btn-secondary btn-icon active"
+                        type="button"
+                      >
+                        <i class="typcn typcn-media-play-outline"></i>
+                      </button>
+                      <button class="btn btn-secondary btn-icon" type="button">
+                        <i class="typcn typcn-media-pause-outline"></i>
+                      </button>
+                      <button class="btn btn-secondary btn-icon" type="button">
+                        <i class="typcn typcn-media-stop-outline"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <!-- col-4 -->
+                </div>
+              </div>
+            </div>
+            <div #collapse18="ngbCollapse" [(ngbCollapse)]="isCollapsed18">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav18="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html18}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav18" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /row -->

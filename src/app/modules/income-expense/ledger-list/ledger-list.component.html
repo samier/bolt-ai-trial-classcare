@@ -1,0 +1,93 @@
+<section class="ledger-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">A/C Group</h3>
+                <div>
+                    <a class="btn add-btn" *ngIf="CommonService.hasPermission('finance_ac_group', 'has_create')" (click)="openModal(addLedgerModal)">Add Account</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="w-auto" style="display: none;">Created At</th>
+                                <th class="w-auto">Account Name</th>
+                                <th class="w-auto">Account type</th>
+                                <th class="w-auto">Total Amount</th>
+                                <th class="w-auto">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="tbody.length > 0 && !tableLoading">
+                            <tr *ngFor="let item of tbody; let i = index">
+                                <td style="display: none;">{{ item?.created_at ?? 'N/A' }}</td>
+                                <td>{{ item?.name ?? 'N/A' }}</td>
+                                <td>{{ item?.ledger_type | titlecase }}</td>
+                                <td>₹{{ (item?.total_amount | number:'1.2-2') ?? '-' }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button *ngIf="CommonService.hasPermission('finance_ac_group', 'has_edit')" ngbTooltip="Edit"  class="btn action-edit" (click)="openModal(addLedgerModal, item)"><i class="fa fa-pen"></i></button>
+                                        <button *ngIf="CommonService.hasPermission('finance_ac_group', 'has_delete')" ngbTooltip="Delete"  class="btn action-delete" (click)="deleteLedger(item?.id)"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length === 0 && !tableLoading">
+                            <tr>
+                                <td colspan="4" class="text-center no-data-available">No Data Available</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tableLoading">
+                            <tr>
+                                <td colspan="4" class="text-center no-data-available">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #addLedgerModal class="modal-dialog-centered">
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title">{{ addLedgerForm.value?.id ? 'Edit' : 'Add'}} Account</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addLedgerForm">
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Account Name<span class="text-danger">*</span></label>
+                <app-input class="w-100" controlName="name" placeholder="Enter Ledger Name"></app-input>
+            </div>
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Account Type<span class="text-danger">*</span></label>
+                <app-single-select [readonly]="ledgerData" class="w-100" controlName="ledger_type" [dropDownArray]="ledgerTypeList" placeholder="Select Ledger Type"></app-single-select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-auto">
+          <button *ngIf="CommonService.hasPermission('finance_ac_group', addLedgerForm.value?.id ? 'has_update' : 'has_create')" type="submit" class="btn save-btn" style="text-align: left;" (click)="saveLedger()" [disabled]="isSaveLoading || addLedgerForm.invalid">
+            {{ addLedgerForm.value?.id ? 'Update' : 'Save'}}
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading" style="margin-left: 6px;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="cancel-btn btn" (click)="closeModal()">
+            Cancel
+          </button>
+        </div>
+    </div>
+</ng-template>

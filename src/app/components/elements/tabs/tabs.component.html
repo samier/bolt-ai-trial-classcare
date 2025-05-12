@@ -1,0 +1,847 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto">Elements</h4>
+			<span class="text-muted mt-1 tx-13 ms-2 mb-0">/ Tabs</span>
+		</div>
+	</div>
+	<div class="d-flex my-xl-auto right-content mr-2">
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-info btn-icon me-2">
+				<i class="mdi mdi-filter-variant"></i>
+			</button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-danger btn-icon me-2">
+				<i class="mdi mdi-star"></i>
+			</button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-warning btn-icon me-2">
+				<i class="mdi mdi-refresh"></i>
+			</button>
+		</div>
+		<div class="mb-3 mb-xl-0">
+			<div ngbDropdown class="btn-group">
+				<button type="button" class="btn btn-primary">14 Aug 2019</button>
+				<button type="button" ngbDropdownToggle class="btn btn-primary dropdown-toggle-split"
+					id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+					data-x-placement="bottom-end">
+					<a ngbDropdownItem href="javascript:;">2015</a>
+					<a ngbDropdownItem href="javascript:;">2016</a>
+					<a ngbDropdownItem href="javascript:;">2017</a>
+					<a ngbDropdownItem href="javascript:;">2018</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- breadcrumb -->
+<!-- row opened -->
+<div class="row row-sm">
+	<div class="col-lg-12 col-md-12">
+		<div class="card" id="basic-alert">
+			<div class="card-header d-flex justify-content-between align-items-center">
+				<div>
+					<h6 class="card-title mb-1">Basic Style Tabs</h6>
+					<p class="text-muted card-sub-title">
+						It is Very Easy to Customize and it uses in your website
+						apllication.
+					</p>
+				</div>
+				<div>
+					<label class="form-switch float-end mb-0">
+						<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+						<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input" />
+						<span class="form-switch-indicator custom-radius" (click)="collapse.toggle()"
+							[attr.aria-expanded]="!isCollapsed"></span>
+					</label>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="text-wrap">
+					<div class="example">
+						<div class="panel panel-primary tabs-style-1">
+							<div class="tab-menu-heading">
+								<div class="tabs-menu1">
+									<ul ngbNav #nav="ngbNav" class="panel-tabs main-nav-line">
+										<li [ngbNavItem]="1">
+											<a ngbNavLink>Tab 01</a>
+											<ng-template ngbNavContent>
+												At vero eos et accusamus et iusto odio dignissimos
+												ducimus qui blanditiis praesentium voluptatum deleniti
+												atque corrupti quos dolores et quas molestias
+												excepturi sint occaecati cupiditate non provident,
+												similique sunt in culpa qui officia deserunt mollitia
+												animi, id est laborum et dolorum fuga. Et harum quidem
+												rerum facilis est et expedita distinctio. Nam libero
+												tempore, cum soluta nobis est eligendi optio cumque
+												nihil impedit quo minus id quod maxime placeat facere
+												possimus, omnis voluptas assumenda est, omnis dolor
+												repellendus.
+											</ng-template>
+										</li>
+										<li [ngbNavItem]="2">
+											<a ngbNavLink>Tab 02</a>
+											<ng-template ngbNavContent>
+												<p>
+													dignissimos ducimus qui blanditiis praesentium
+													voluptatum deleniti atque corrupti quos dolores et
+													quas molestias excepturi sint occaecati cupiditate
+													non provident, similique sunt in culpa qui officia
+													deserunt mollitia animi, id est laborum et dolorum
+													fuga.
+												</p>
+												<p>
+													Et harum quidem rerum facilis est et expedita
+													distinctio. Nam libero tempore, cum soluta nobis est
+													eligendi optio cumque nihil impedit quo minus id
+													quod maxime
+												</p>
+												<p class="mb-0">
+													placeat facere possimus, omnis voluptas assumenda
+													est, omnis dolor repellendus.
+												</p>
+											</ng-template>
+										</li>
+										<li [ngbNavItem]="3">
+											<a ngbNavLink>Tab 03</a>
+											<ng-template ngbNavContent>
+												<p>
+													praesentium voluptatum deleniti atque corrupti quos
+													dolores et quas molestias excepturi sint occaecati
+													cupiditate non provident,
+												</p>
+												<p class="mb-0">
+													similique sunt in culpa qui officia deserunt
+													mollitia animi, id est laborum et dolorum fuga. Et
+													harum quidem rerum facilis est et expedita
+													distinctio. Nam libero tempore, cum soluta nobis est
+													eligendi optio cumque nihil impedit quo minus id
+													quod maxime placeat facere possimus, omnis voluptas
+													assumenda est, omnis dolor repellendus.
+												</p>
+											</ng-template>
+										</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+								<div [ngbNavOutlet]="nav" class="tab-pane"></div>
+								<div class="tab-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+					<div class="panel panel-primary tabs-style-1 my-3">
+						<ul ngbNav #nav76="ngbNav" class="nav-tabs">
+							<li [ngbNavItem]="1">
+								<a ngbNavLink>HTML</a>
+								<ng-template ngbNavContent>
+									<pre><code >{{html1}}</code></pre>
+
+								</ng-template>
+							</li>
+							<li [ngbNavItem]="2">
+								<a ngbNavLink>TS</a>
+								<ng-template ngbNavContent>
+									<pre><code >{{ts1}}</code></pre>
+
+								</ng-template>
+							</li>
+						</ul>
+
+						<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+							<div [ngbNavOutlet]="nav76" class="tab-pane"></div>
+							<div class="tab-content"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-xl-12">
+		<!-- div -->
+		<div class="card mg-b-20" id="tabs-style2">
+			<div class="card-body">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<div class="main-content-label mg-b-5">Basic Style2 Tabs</div>
+						<p class="mg-b-20">
+							It is Very Easy to Customize and it uses in your website apllication.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input" />
+							<span class="form-switch-indicator custom-radius" (click)="collapse2.toggle()"
+								[attr.aria-expanded]="!isCollapsed2"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap">
+						<div class="example">
+							<div class="panel panel-primary tabs-style-2">
+								<div class="tab-menu-heading">
+									<ul ngbNav #nav1="ngbNav" class="panel-tabs main-nav-line">
+										<li [ngbNavItem]="1">
+											<a ngbNavLink>Tab 01</a>
+											<ng-template ngbNavContent>
+												At vero eos et accusamus et iusto odio dignissimos
+												ducimus qui blanditiis praesentium voluptatum deleniti
+												atque corrupti quos dolores et quas molestias excepturi
+												sint occaecati cupiditate non provident, similique sunt
+												in culpa qui officia deserunt mollitia animi, id est
+												laborum et dolorum fuga. Et harum quidem rerum facilis
+												est et expedita distinctio. Nam libero tempore, cum
+												soluta nobis est eligendi optio cumque nihil impedit quo
+												minus id quod maxime placeat facere possimus, omnis
+												voluptas assumenda est, omnis dolor repellendus.
+											</ng-template>
+										</li>
+										<li [ngbNavItem]="2">
+											<a ngbNavLink>Tab 02</a>
+											<ng-template ngbNavContent>
+												<p>
+													dignissimos ducimus qui blanditiis praesentium
+													voluptatum deleniti atque corrupti quos dolores et
+													quas molestias excepturi sint occaecati cupiditate non
+													provident, similique sunt in culpa qui officia
+													deserunt mollitia animi, id est laborum et dolorum
+													fuga.
+												</p>
+												<p>
+													Et harum quidem rerum facilis est et expedita
+													distinctio. Nam libero tempore, cum soluta nobis est
+													eligendi optio cumque nihil impedit quo minus id quod
+													maxime
+												</p>
+												<p class="mb-0">
+													placeat facere possimus, omnis voluptas assumenda est,
+													omnis dolor repellendus.
+												</p>
+											</ng-template>
+										</li>
+										<li [ngbNavItem]="3">
+											<a ngbNavLink>Tab 03</a>
+											<ng-template ngbNavContent>
+												<p>
+													praesentium voluptatum deleniti atque corrupti quos
+													dolores et quas molestias excepturi sint occaecati
+													cupiditate non provident,
+												</p>
+												<p class="mb-0">
+													similique sunt in culpa qui officia deserunt mollitia
+													animi, id est laborum et dolorum fuga. Et harum quidem
+													rerum facilis est et expedita distinctio. Nam libero
+													tempore, cum soluta nobis est eligendi optio cumque
+													nihil impedit quo minus id quod maxime placeat facere
+													possimus, omnis voluptas assumenda est, omnis dolor
+													repellendus.
+												</p>
+											</ng-template>
+										</li>
+									</ul>
+								</div>
+								<div class="panel-body tabs-menu-body main-content-body-right border">
+									<div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+									<div class="tab-content"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+						<div class="panel panel-primary tabs-style-1 my-3">
+							<ul ul ngbNav #nav77="ngbNav" class="nav-tabs">
+								<li [ngbNavItem]="1">
+									<a ngbNavLink>HTML</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{html2}}</code></pre>
+
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="2">
+									<a ngbNavLink>TS</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{ts1}}</code></pre>
+
+									</ng-template>
+								</li>
+							</ul>
+
+							<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+								<div [ngbNavOutlet]="nav77" class="tab-pane"></div>
+								<div class="tab-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /div -->
+
+	<div class="col-xl-12">
+		<!-- div -->
+		<div class="card mg-b-20" id="tabs-style3">
+			<div class="card-body">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<div class="main-content-label mg-b-5">Basic Style3 Tabs</div>
+						<p class="mg-b-20">
+							It is Very Easy to Customize and it uses in your website apllication.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input" />
+							<span class="form-switch-indicator custom-radius" (click)="collapse3.toggle()"
+								[attr.aria-expanded]="!isCollapsed3"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="panel panel-primary tabs-style-3">
+								<div class="tab-menu-heading">
+									<div class="tabs-menu">
+										<!-- Tabs -->
+										<ul ngbNav #nav3="ngbNav" class="nav panel-tabs" orientation="horizantal">
+											<li ngbNavItem="1">
+												<a ngbNavLink class=""><i class="fa fa-laptop"></i> Tab Style 01</a>
+												<ng-template ngbNavContent>
+													<p>
+														At vero eos et accusamus et iusto odio dignissimos
+														ducimus qui blanditiis praesentium voluptatum
+														deleniti atque corrupti quos dolores et quas
+														molestias excepturi sint occaecati cupiditate non
+														provident, similique sunt in culpa qui officia
+														deserunt mollitia animi, id est laborum et dolorum
+														fuga.
+													</p>
+													<p class="mb-0">
+														Et harum quidem rerum facilis est et expedita
+														distinctio. Nam libero tempore, cum soluta nobis est
+														eligendi optio cumque nihil impedit quo minus id
+														quod maxime placeat facere possimus, omnis voluptas
+														assumenda est, omnis dolor repellendus.
+													</p>
+												</ng-template>
+											</li>
+											<li ngbNavItem="2">
+												<a ngbNavLink class=""><i class="fa fa-cube"></i> Tab Style 02</a>
+												<ng-template ngbNavContent>
+													<p>
+														Et harum quidem rerum facilis est et expedita
+														distinctio. Nam libero tempore, cum soluta nobis est
+														eligendi optio cumque nihil impedit quo minus id
+														quod maxime placeat facere possimus, omnis voluptas
+														assumenda est, omnis dolor repellendus.
+													</p>
+													<p class="mb-0">
+														At vero eos et accusamus et iusto odio dignissimos
+														ducimus qui blanditiis praesentium voluptatum
+														deleniti atque corrupti quos dolores et quas
+														molestias excepturi sint occaecati cupiditate non
+														provident, similique sunt in culpa qui officia
+														deserunt mollitia animi, id est laborum et dolorum
+														fuga.
+													</p>
+												</ng-template>
+											</li>
+											<li ngbNavItem="3">
+												<a ngbNavLink class=""><i class="fa fa-cogs mx-1"></i>Tab Style 03</a>
+												<ng-template ngbNavContent>
+													<p>
+														Temporibus autem quibusdam et aut officiis debitis
+														aut rerum necessitatibus saepe eveniet ut et
+														voluptates repudiandae sint et molestiae non
+														recusandae
+													</p>
+													<p class="mb-0">
+														Et harum quidem rerum facilis est et expedita
+														distinctio. Nam libero tempore, cum soluta nobis est
+														eligendi optio cumque nihil impedit quo minus id
+														quod maxime placeat facere possimus, omnis voluptas
+														assumenda est, omnis dolor repellendus.
+													</p>
+												</ng-template>
+											</li>
+											<li ngbNavItem="4">
+												<a ngbNavLink class=""><i class="fa fa-tasks mx-1"></i>Tab Style 04</a>
+												<ng-template ngbNavContent>
+													<p>
+														On the other hand, we denounce with righteous
+														indignation and dislike men who are so beguiled and
+														demoralized by the charms of pleasure of the moment,
+														so blinded by desire
+													</p>
+													<p class="mb-0">
+														Nam libero tempore, cum soluta nobis est eligendi
+														optio cumque nihil impedit quo minus id quod maxime
+														placeat facere possimus, omnis voluptas assumenda
+														est, omnis dolor repellendus. Temporibus autem
+														quibusdam et aut officiis debitis aut rerum
+														necessitatibus
+													</p>
+												</ng-template>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="panel-body tabs-menu-body">
+									<div [ngbNavOutlet]="nav3" class="tab-pane"></div>
+									<div class="tab-content"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+						<div class="panel panel-primary tabs-style-1 my-3">
+							<ul ngbNav #nav78="ngbNav" class="nav-tabs">
+								<li [ngbNavItem]="1">
+									<a ngbNavLink>HTML</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{html3}}</code></pre>
+
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="2">
+									<a ngbNavLink>TS</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{ts1}}</code></pre>
+
+									</ng-template>
+								</li>
+							</ul>
+
+							<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+								<div [ngbNavOutlet]="nav78" class="tab-pane"></div>
+								<div class="tab-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /div -->
+
+	<div class="col-xl-12">
+		<!-- div -->
+		<div class="card" id="tabs-style4">
+			<div class="card-body">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<div class="main-content-label mg-b-5">Vertical Tabs</div>
+						<p class="mg-b-20">
+							It is Very Easy to Customize and it uses in your website apllication.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input" />
+							<span class="form-switch-indicator custom-radius" (click)="collapse4.toggle()"
+								[attr.aria-expanded]="!isCollapsed4"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="d-md-flex">
+								<div class="">
+									<div class="panel panel-primary tabs-style-4">
+										<div class="tab-menu-heading">
+											<div class="tabs-menu">
+												<div>
+													<ul ngbNav #nav4="ngbNav" class="nav panel-tabs mr-3"
+														orientation="vertical">
+														<li ngbNavItem="1">
+															<a ngbNavLink class=""><i class="fa fa-laptop mx-1"></i>Tab
+																Style
+																01</a>
+															<ng-template ngbNavContent>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="2">
+															<a ngbNavLink class=""><i class="fa fa-cube mx-1"></i>Tab
+																Style 02</a>
+															<ng-template ngbNavContent>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="3">
+															<a ngbNavLink class=""><i class="fa fa-cogs mx-1"></i>Tab
+																Style 03</a>
+															<ng-template ngbNavContent>
+																<p>
+																	Temporibus autem quibusdam et aut officiis
+																	debitis aut rerum necessitatibus saepe eveniet
+																	ut et voluptates repudiandae sint et molestiae
+																	non recusandae quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+																<p>
+																	Temporibus autem quibusdam et aut officiis
+																	debitis aut rerum necessitatibus saepe eveniet
+																	ut et voluptates repudiandae sint et molestiae
+																	non recusandae quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="4">
+															<a ngbNavLink class=""><i class="fa fa-tasks mx-1"></i>Tab
+																Style 04</a>
+															<ng-template ngbNavContent>
+																<p>
+																	On the other hand, we denounce with righteous
+																	indignation and dislike men who are so
+																	beguiled and demoralized by the charms of
+																	pleasure of the moment, so blinded by desire
+																	quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus.
+																</p>
+																<p>
+																	On the other hand, we denounce with righteous
+																	indignation and dislike men who are so
+																	beguiled and demoralized by the charms of
+																	pleasure of the moment, so blinded by desire
+																	quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus.
+																</p>
+																<p class="mb-0">
+																	Nam libero tempore, cum soluta nobis est
+																	eligendi optio cumque nihil impedit quo minus
+																	id quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus. Temporibus autem quibusdam et aut
+																	officiis debitis aut rerum necessitatibus
+																</p>
+															</ng-template>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tabs-style-4">
+									<div class="panel-body tabs-menu-body">
+										<div [ngbNavOutlet]="nav4" class="tab-pane"></div>
+										<div class="tab-content"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+						<div class="panel panel-primary tabs-style-1 my-3">
+							<ul ngbNav #nav79="ngbNav" class="nav-tabs">
+								<li [ngbNavItem]="1">
+									<a ngbNavLink>HTML</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{html4}}</code></pre>
+
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="2">
+									<a ngbNavLink>TS</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{ts1}}</code></pre>
+
+									</ng-template>
+								</li>
+							</ul>
+
+							<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+								<div [ngbNavOutlet]="nav79" class="tab-pane"></div>
+								<div class="tab-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /div -->
+		</div>
+	</div>
+	<div class="col-xl-12">
+		<!-- div -->
+		<div class="card" id="tabs-style4">
+			<div class="card-body">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<div class="main-content-label mg-b-5">Horizontal Tabs-right-side</div>
+						<p class="mg-b-20">
+							It is Very Easy to Customize and it uses in your website apllication.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input" />
+							<span class="form-switch-indicator custom-radius" (click)="collapse5.toggle()"
+								[attr.aria-expanded]="!isCollapsed5"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="d-md-flex">
+								<div class="tabs-style-4">
+									<div class="panel-body tabs-menu-body">
+										<div [ngbNavOutlet]="nav5" class="tab-pane"></div>
+										<div class="tab-content"></div>
+									</div>
+								</div>
+								<div class="">
+									<div class="panel panel-primary tabs-style-4">
+										<div class="tab-menu-heading">
+											<div class="tabs-menu">
+												<div class="d-flex">
+													<ul ngbNav #nav5="ngbNav" class="nav padding-content panel-tabs ml-3 mt-2"
+														orientation="vertical">
+														<li ngbNavItem="1">
+															<a ngbNavLink class=""><i class="fa fa-laptop mx-1"></i>Tab
+																Style
+																01</a>
+															<ng-template ngbNavContent>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="2">
+															<a ngbNavLink class=""><i class="fa fa-cube mx-1"></i>Tab
+																Style 02</a>
+															<ng-template ngbNavContent>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p>
+																	At vero eos et accusamus et iusto odio
+																	dignissimos ducimus qui blanditiis praesentium
+																	voluptatum deleniti atque corrupti quos
+																	dolores et quas molestias excepturi sint
+																	occaecati cupiditate non provident, similique
+																	sunt in culpa qui officia deserunt mollitia
+																	animi, id est laborum et dolorum fuga.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="3">
+															<a ngbNavLink class=""><i class="fa fa-cogs mx-1"></i>Tab
+																Style 03</a>
+															<ng-template ngbNavContent>
+																<p>
+																	Temporibus autem quibusdam et aut officiis
+																	debitis aut rerum necessitatibus saepe eveniet
+																	ut et voluptates repudiandae sint et molestiae
+																	non recusandae quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+																<p>
+																	Temporibus autem quibusdam et aut officiis
+																	debitis aut rerum necessitatibus saepe eveniet
+																	ut et voluptates repudiandae sint et molestiae
+																	non recusandae quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+																<p class="mb-0">
+																	Et harum quidem rerum facilis est et expedita
+																	distinctio. Nam libero tempore, cum soluta
+																	nobis est eligendi optio cumque nihil impedit
+																	quo minus id quod maxime placeat facere
+																	possimus, omnis voluptas assumenda est, omnis
+																	dolor repellendus.
+																</p>
+															</ng-template>
+														</li>
+														<li ngbNavItem="4">
+															<a ngbNavLink class=""><i class="fa fa-tasks mx-1"></i>Tab
+																Style 04</a>
+															<ng-template ngbNavContent>
+																<p>
+																	On the other hand, we denounce with righteous
+																	indignation and dislike men who are so
+																	beguiled and demoralized by the charms of
+																	pleasure of the moment, so blinded by desire
+																	quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus.
+																</p>
+																<p>
+																	On the other hand, we denounce with righteous
+																	indignation and dislike men who are so
+																	beguiled and demoralized by the charms of
+																	pleasure of the moment, so blinded by desire
+																	quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus.
+																</p>
+																<p class="mb-0">
+																	Nam libero tempore, cum soluta nobis est
+																	eligendi optio cumque nihil impedit quo minus
+																	id quod maxime placeat facere possimus, omnis
+																	voluptas assumenda est, omnis dolor
+																	repellendus. Temporibus autem quibusdam et aut
+																	officiis debitis aut rerum necessitatibus
+																</p>
+															</ng-template>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed5">
+						<div class="panel panel-primary tabs-style-1 my-3">
+							<ul ngbNav #nav80="ngbNav" class="nav-tabs">
+								<li [ngbNavItem]="1">
+									<a ngbNavLink>HTML</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{html5}}</code></pre>
+
+									</ng-template>
+								</li>
+								<li [ngbNavItem]="2">
+									<a ngbNavLink>TS</a>
+									<ng-template ngbNavContent>
+										<pre><code >{{ts1}}</code></pre>
+
+									</ng-template>
+								</li>
+							</ul>
+
+							<div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+								<div [ngbNavOutlet]="nav80" class="tab-pane"></div>
+								<div class="tab-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /div -->
+			</div>
+		</div>
+	</div>
+</div>

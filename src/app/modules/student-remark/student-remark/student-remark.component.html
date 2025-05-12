@@ -1,0 +1,81 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Assign Remark</h3>
+				<div class="btn_right">
+					<a class="btn" [routerLink]="CommonService.setUrl(URLConstants.STUDENT_REMARKS_LIST)">Student Assign Remark List</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="remarkForm" class="form_section">
+                                <div class="row"> 
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="date" (change)="dateChange($event)" placeholder="Select Date"></app-mat-date-picker>
+                                        </div>                                
+                                     </div>
+                                  
+                                    <div class="col-md-3 form_group" *ngIf="!remarkId">
+                                        <div>
+                                            <label class="form_label">Select Student<span class="text-danger">*</span></label>
+                                            <div>
+                                                <ng-multiselect-dropdown #select [data]="students" (change)="changeFn(selectedStudent)" [(ngModel)]="selectedStudent" name="student" bindLabel="name" bindValue="id"
+                                                 (scroll)="onScroll($event)" formControlName="student" placeholder="Select student" [settings]="dropdownSettings">
+                                                  <!-- <ng-template ng-header-tmp>
+                                                    <input (onclick)="changeFn(selectedStudent)" class="form-control" type="text" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="searchFilter()" />
+                                                  </ng-template> -->
+                                                </ng-multiselect-dropdown>
+                                                <div  *ngIf="remarkForm.controls['student'].invalid && (remarkForm.controls['student'].dirty || remarkForm.controls['student'].touched)">
+                                                    <div class="text-danger" *ngIf="remarkForm.controls['student'].errors?.['required']">
+                                                        The input is required.
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                    </div>                                      
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Remark Type<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <app-single-select controlName="remarkType" placeholder="Select remark type" (change)='changeRemarkType($event,null)'
+                                                [dropDownArray]="remarkType">
+                                            </app-single-select>                                            
+                                        </div>
+                                    </div>	
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Remark Title<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <app-single-select controlName="remarkTitle" placeholder="Select remark title"
+                                                [dropDownArray]="remarkTitle">
+                                            </app-single-select>
+                                        </div>
+                                    </div>	
+                                    
+                                    <div class="row w-100 form_group mb-0">
+                                        <div class="col-md-1">
+                                            <a class="btn px-2 w-100" href="#" [routerLink]="CommonService.setUrl(URLConstants.STUDENT_REMARKS_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button *ngIf="remarkId ? 
+                                            CommonService.hasPermission('student_student_remark', 'has_update') : CommonService.hasPermission('student_student_remark', 'has_create') " 
+                                            type="submit" (click)="onSubmit()" class="btn w-100" id="submitButton" [disabled]="isSave">
+                                                {{remarkId ? 'Update' : 'Save'}}
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSave">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>                                                                    
+                                </div>
+                            </form>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

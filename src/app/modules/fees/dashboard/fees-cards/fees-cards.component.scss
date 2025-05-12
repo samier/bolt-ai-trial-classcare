@@ -1,0 +1,126 @@
+::ng-deep{
+    .collection-chip-wrapper{
+        padding-top: 30px;
+        .collection-chip-card{
+            background-color: rgba(201, 218, 248, 1);
+            padding: 12px;
+            border-radius: 8px;
+            .branch-name {
+                    width: 160px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    padding-right: 10px;
+                }
+            .collection-inner-box{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                margin-bottom: 20px;
+            }
+            .collection-chip-header{
+                width: 38px;
+                height: 38px;
+                min-width: 38px;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #fff;
+                margin-right: 10px;
+                
+            }
+            .collection-chip-body{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                h3{
+                    font-size: 15px;
+                    line-height: 21px;
+                    font-weight: 600;
+                    color: #000;
+                    margin: 0;
+                    text-transform: capitalize;
+                }
+                p{
+                    font-size: 14px;
+                    line-height: 20px;
+                    font-weight: 500;
+                    margin: 0;
+                    color: #000;
+                }
+            }
+            .collection-chip-footer{
+                .dropdown-toggle{
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    background-color: #fff !important;
+                    color: #000 !important;
+                    font-size: 14px;
+                    line-height: 20px;
+                    padding: 6px 14px;
+                    border-radius: 4px;
+                    box-shadow: none !important;
+                    outline: none !important;
+                }
+                .dropdown-menu{
+                    width: 100%;
+                    border-radius: 6px;
+                    overflow: hidden;
+                    max-height: 230px;
+                    overflow-y: auto;
+                    li{
+                        &:first-child{
+                            position: sticky;
+                            top: 0;
+                            background: #f3f3f3;                        
+                        }
+                        // &:focus{
+                        //     background-color: transparent;
+                        // }
+                        a{
+                            &:active{
+                                background-color: transparent;
+                            }
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            h6{
+                                font-size: 15px;
+                                line-height: 20px;
+                                font-weight: 500;
+                                color: #000;
+                                margin: 0;
+                                &:last-child{
+                                    min-width: 80px;
+                                }
+                            }
+                            p{
+                                font-size: 14px;
+                                line-height: 20px;
+                                font-weight: 400;
+                                color: #000;
+                                margin: 0;
+                                &:last-child{
+                                    min-width: 80px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .green-chip-card{
+            background-color: rgba(217, 234, 211, 1);
+        }
+        .pink-chip-card{
+            background-color: rgba(252, 229, 205, 1);
+        }
+        .blue-chip-card{
+            background-color: rgba(203, 234, 242, 1);
+        }
+    }
+}

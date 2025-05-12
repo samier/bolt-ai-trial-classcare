@@ -1,0 +1,145 @@
+<section class="leave_form student_poll_give_vote_form tab_in_sections">
+    <div class="page_inner">
+        <div class="card">
+            <div class="card_title">
+                <h3 class="sub_title">Vote For Poll</h3>
+                <!-- <div class="btn_right">
+                    <button type="button" class="btn btn-danger btn-minwidth">Back</button>
+                </div> -->
+            </div>               
+            <div class="card_body">
+				<div class="row">
+					<div class="col-lg-9">
+						<form [formGroup]="form" class="poll_vote_form" id="poll-vote-form">
+							<div class="row">
+								<div class="col-md-12 row">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <label class="col-md-12 form_label"><b>Title</b></label>
+                                            <div class="col-md-12">
+                                                <label class="col-md-12 form_label"> {{title}} </label>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 row">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <label class="col-md-12 form_label"><b>Description</b></label>
+                                            <div class="col-md-12">
+                                                <label class="col-md-12 form_label"> {{description}} </label>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3" *ngIf="!alreadyAnswered">
+								<div class="col-md-12 row" *ngIf="isCustomType == false || isOptionType == true">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <h6 class="col-md-12">List of Answers<span class="text-danger" *ngIf="!notAnsweredAndPollExpired">*</span></h6>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="optionsData?.length !=0">
+                                            <label class="col-md-12 form_label " [class.cursor-pointer-custom]="!notAnsweredAndPollExpired" *ngFor="let singleOption of optionsData">
+                                            	<input type="radio" [value]="singleOption?.id" name="" formControlName="optionQue" (click)="radioButtonOnClickTextboxHideShow('option')" class="cursor-pointer-custom"> {{singleOption?.ans}}
+                                            </label>
+                                            <label class="col-md-12 form_label cursor-pointer-custom" *ngIf="isCustomType">
+                                            	<input type="radio" value="custom_ans" formControlName="optionQue" (click)="radioButtonOnClickTextboxHideShow('custom')" class="cursor-pointer-custom"> Custom Answer
+                                            </label>
+                                            <div *ngIf="form.controls['optionQue'].invalid && (form.controls['optionQue'].dirty || form.controls['optionQue'].touched)" class="col-md-12 error text-danger mb-2">
+                                                <div *ngIf="form.controls['optionQue'].errors?.['required']">select atleast one radio button.</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form_group" *ngIf="isCustomTextbox">
+											<label class="col-md-12 form_label"><b>Write your own answers<span class="text-danger">*</span></b></label>
+											<div class="col-md-12">
+											    <input type="text" id="customAnsTextbox" formControlName="customAnsTextbox" placeholder="Write your own answer" class="form-control" maxlength="300" [disabled]="!notAnsweredAndPollExpired">
+											</div>
+											<div *ngIf="form.controls['customAnsTextbox'].invalid && (form.controls['customAnsTextbox'].dirty || form.controls['customAnsTextbox'].touched)" class="col-md-12 error text-danger mb-2">
+                                                <div *ngIf="form.controls['customAnsTextbox'].errors?.['required']">answer is required field.</div>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row" *ngIf="!alreadyAnswered">
+								<div class="col-md-12 row" *ngIf="isCustomType == true && isOptionType == false">
+									<div class="col-md-12">
+										<div class="form_group">
+											<label class="col-md-12 form_label"><b>Write your own answers<span class="text-danger">*</span></b></label>
+											<div class="col-md-12">
+											    <input type="text" id="customAnsTextbox" formControlName="customAnsTextbox" placeholder="Write your own answer" class="form-control" maxlength="300" [disabled]="!notAnsweredAndPollExpired">
+											</div>
+											<div *ngIf="form.controls['customAnsTextbox'].invalid && (form.controls['customAnsTextbox'].dirty || form.controls['customAnsTextbox'].touched)" class="col-md-12 error text-danger mb-2">
+                                                <div *ngIf="form.controls['customAnsTextbox'].errors?.['required']">answer is required field.</div>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3" *ngIf="alreadyAnswered">
+								<div class="col-md-12 row" *ngIf="isCustomType == false || isOptionType == true">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <h6 class="col-md-12">List of Answers</h6>
+                                        </div>
+                                        <div class="col-md-12" *ngIf="optionsData?.length !=0">
+                                            <label class="col-md-12 form_label" *ngFor="let singleOption of optionsData">
+                                            	<input type="radio" [value]="singleOption?.id" name="" class="" [disabled]="true" [checked]="singleOption?.id == answerData.id"> {{singleOption?.ans}}
+                                            </label>
+                                            <label class="col-md-12 form_label " *ngIf="isCustomType">
+                                            	<input type="radio" value="custom_ans" name="" (click)="radioButtonOnClickTextboxHideShow('custom')" class="" [disabled]="true" [checked]="alreadyAnsweredIsCustomAnswer"> Custom Answer
+                                            </label>
+                                        </div>
+
+                                        <div class="form_group" *ngIf="isCustomTextbox">
+											<label class="col-md-12 form_label"><b>Write your own answers</b></label>
+											<div class="col-md-12">
+											    <input type="text" id="" name="" [value]="alreadyAnsweredCustomAnsText" class="form-control" [disabled]='true'>
+											</div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row" *ngIf="alreadyAnswered">
+								<div class="col-md-12 row" *ngIf="isCustomType == true && isOptionType == false">
+									<div class="col-md-12">
+										<div class="form_group">
+											<label class="col-md-12 form_label"><b>Write your own answers</b></label>
+											<div class="col-md-12">
+											    <input type="text" id="" name="" class="form-control" [value]="answerData?.Answer" [disabled]="true">
+											</div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row">								
+								<div class="col-md-12 p-0">
+									<div class="form-group mt-4 ml-4 text-left w-100" *ngIf="!alreadyAnswered && !notAnsweredAndPollExpired"> 
+										<div class="">
+											<a class="btn btn-danger btn-minwidth" href="#" [routerLink]="URLConstants.STUDENT_POLL_LIST">Cancel</a>
+											<button class="button" type="submit" class="btn btn-success btn-minwidth" [disabled]="form.invalid" (click)="onSubmit()">Submit Vote</button>
+										</div>
+									</div>
+									<div class="form-group mt-4 ml-4 text-left w-100" *ngIf="alreadyAnswered"> 
+										<div class="">
+											<h5 class="text-danger">Your vote already submitted!!!</h5>
+										</div>
+									</div>
+									<div class="form-group mt-4 ml-4 text-left w-100" *ngIf="notAnsweredAndPollExpired"> 
+										<div class="">
+											<h5 class="text-danger">Sorry you haven't voted and now the voting date has been expired!!!</h5>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</section>

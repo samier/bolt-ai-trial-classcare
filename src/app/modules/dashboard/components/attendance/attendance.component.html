@@ -1,0 +1,120 @@
+<div class="attendance-section">
+    <div class="attendance-header">
+        <a class="view-all-link" [routerLink]="dashboardService.setUrl(URLConstants.STUDENT_TAKE_ATTENDANCE)">
+            <h3> 
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7" fill="white"/>
+                    <rect width="36" height="36" rx="7" stroke="#E7E7E7"/>
+                    <path d="M15 18C17.2094 18 19 16.2094 19 14C19 11.7906 17.2094 10 15 10C12.7906 10 11 11.7906 11 14C11 16.2094 12.7906 18 15 18ZM17.8 19H17.2781C16.5844 19.3188 15.8125 19.5 15 19.5C14.1875 19.5 13.4187 19.3188 12.7219 19H12.2C9.88125 19 8 20.8813 8 23.2V24.5C8 25.3281 8.67187 26 9.5 26H20.5C21.3281 26 22 25.3281 22 24.5V23.2C22 20.8813 20.1187 19 17.8 19ZM27.8937 14.9875L27.025 14.1094C26.8812 13.9625 26.6469 13.9625 26.5 14.1062L23.225 17.3562L21.8031 15.925C21.6594 15.7781 21.425 15.7781 21.2781 15.9219L20.4 16.7937C20.2531 16.9375 20.2531 17.1719 20.3969 17.3187L22.95 19.8906C23.0937 20.0375 23.3281 20.0375 23.475 19.8938L27.8906 15.5125C28.0344 15.3656 28.0375 15.1313 27.8937 14.9875Z" fill="black"/>
+                </svg> 
+                Attendance
+            </h3>
+        </a>
+        <!--<a [href]="dashboardService.setsymfonyUrl('attendance/takeSingleAttendance')">
+            <h3>View All</h3>
+        </a>-->
+
+         <div [formGroup]="attendance" class="exam-mark-form">
+
+            <div class="row justify-content-end pe-2">
+                <div class="col-md-3 form_group m-0">
+                    <app-single-select controlName="batch_id"  placeholder="Select Batch" [dropDownArray]="batchList" (change)="batchChange()"></app-single-select>
+                </div>
+                <!-- <div class="col-md-4 form_group m-0">
+                    <app-multi-select [itemsShowLimit]="1" controlName="batch_id"  placeholder="Select Batch" [dropDownArray]="batchList" (change)="batchChange()"></app-multi-select>
+                </div> -->
+                <div class="col-md-3 form_group m-0">
+                    <app-single-select controlName="session"  placeholder="Select Session" [dropDownArray]="sessionList" (change)="batchChange()"></app-single-select>
+                </div>
+                <div class="col-md-3 form_group m-0">
+                    <app-mat-date-picker class="dashboard-custom-date" controlName="date" [maxDate]="maxDate" (change)="selectBatch()"></app-mat-date-picker>
+                    <!-- <app-input type="date" controlName="date" [maxDate]="maxDate" placeholder="Select Date" (change)="selectBatch()" ></app-input> -->
+                </div>
+             </div>
+        </div> 
+    </div>
+    <ul class="attendance-list">
+        <li>Taken</li>
+        <li>Not Taken</li>
+    </ul>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Batch </th>
+                        <th style="text-align: right; padding-right: 18px !important;" class="pink-dot dot"> Student </th>
+                        <th style="text-align: right; padding-right: 18px !important;" class="green-dot dot"> Present </th>
+                        <th style="text-align: right; padding-right: 18px !important;" class="red-dot dot"> Absent  </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <div infiniteScrollContainer infiniteScroll (scrolled)="onScroll()"> -->
+                    <ng-container *ngFor="let item of attendanceList">
+                        <tr>
+                            <!-- <td class="green-clr"
+                                [ngClass]="{ 'green-clr' : item?.taken == true, 'red-clr' : item?.taken == false }">
+                                {{ item?.class?.name ?? '-' }} -> {{item?.batch?.name ?? '-'}} -->
+                            <td>
+                                <a (click)="quiryParams(item?.batch?.id , attendance.value.date)" style="cursor: pointer;" >
+                                    <button [ngClass]="{ 'green-clr' : item?.taken == true, 'red-clr' : item?.taken == false }">
+                                        {{ item?.class?.name + " -> " + item?.batch?.name }}
+                                    </button>
+                                </a>
+                            </td>
+                            <!-- <td style="text-align: right; padding-right: 18px;" class="pink-dot dot"> &nbsp;{{ attendance?.total_students ?? null }} </td>
+                            <td style="text-align: right; padding-right: 18px;" class="green-dot dot "> &nbsp;{{ attendance?.total_present ?? null }} </td>
+                            <td style="text-align: right; padding-right: 18px;" class="red-dot dot"> &nbsp;{{ ( +attendance?.total_absent + +attendance?.total_leave )  }} </td>
+                                {{ attendance?.class?.name ?? '-' }} -> {{attendance?.batch?.name ?? '-'}} </td> -->
+
+                                <!-- <td>
+                                    <form 
+                                      #redirectForm="ngForm" 
+                                      (ngSubmit)="getFormValues(redirectForm)" 
+                                      [action]="setsymfonyUrl('attendance/takeSingleAttendance')" 
+                                      method="POST" 
+                                      target="_blank" 
+                                      [id]="'form' + item?.batch?.id"
+                                    >
+                                      <input type="hidden" name="batch" [ngModel]="item?.batch?.id" style="display: none;" />
+                                      <input type="hidden" name="getStudent" [ngModel]="1" style="display: none;" />
+                                      <input type="hidden" name="startDate" [ngModel]="attendance.value?.date" style="display: none;" />
+                                      <input type="hidden" name="classSession" [ngModel]="attendance.value?.session" style="display: none;" />
+                                      
+                                      <button [ngClass]="{ 'green-clr' : item?.taken == true, 'red-clr' : item?.taken == false }" type="submit">{{ item?.class?.name + " -> " + item?.batch?.name }}</button>
+                                    </form>
+                                </td> -->
+
+                            <td style="text-align: right; padding-right: 18px;" class="pink-dot dot"> &nbsp;{{ item?.total_students ?? null }} </td>
+                            <td style="text-align: right; padding-right: 18px;" class="green-dot dot "> &nbsp;{{ item?.total_present ?? null }} </td>
+                            <td style="text-align: right; padding-right: 18px;" class="red-dot dot"> &nbsp;{{ ( +item?.total_absent + +item?.total_leave )  }} </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  attendanceList?.length == 0">
+                    <tr>
+                        <td colspan="3">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>

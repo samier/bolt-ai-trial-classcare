@@ -1,0 +1,204 @@
+
+
+<form [formGroup]="studentDiscountForm" class="form_section"> 
+    <input type="hidden" formControlName="record_id" name="record_id">
+<div class="row global_form table_top">
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Class<span class="text-danger">*</span></label>
+            <div class="">
+                <ng-select #select [items]="class_list" [searchable]="true" [(ngModel)]="selectedClass" (change)="classChange($event)" name="class_id" bindLabel="name" bindValue="id"  
+                    formControlName="class_id"
+                    placeholder="Select Class" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Batch<span class="text-danger">*</span></label>
+            <div class="">
+                <ng-select #select2 [items]="batch_list" [searchable]="true" (change)="batchChange($event)" name="batch_id" bindLabel="name" bindValue="id"  
+                    formControlName="batch_id"
+                    placeholder="Select Batch" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select2.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Select Student<span class="text-danger">*</span></label>
+            <div class="">
+                <ng-multiselect-dropdown
+                [placeholder]="'Select Student'"
+                [settings]="classDropdownSettings"
+                [data]="student_list"
+                [(ngModel)]="selectedStudents"
+                formControlName="student_id"
+                (onSelect)="studentChange($event)"
+                (onSelectAll)="onStudentEmployeeSelect()"
+                (onDeSelect)="onStudentEmployeeSelect()"
+                (onDeSelectAll)="onStudentEmployeeSelect()"
+                [disabled]="false"
+                >
+                </ng-multiselect-dropdown>
+                <!-- <ng-select #select3 [items]="student_list" [searchable]="true" (change)="studentChange($event)" name="student_id" bindLabel="name" bindValue="id"  
+                    formControlName="student_id"
+                    placeholder="Select Student" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select3.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select> -->
+            </div>
+        </div> 
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Fees Type<span class="text-danger">*</span></label>
+            <div class="">
+                <ng-multiselect-dropdown formControlName="fees_type_id"
+                [placeholder]="'Fees Type'"
+                [settings]="feesDropdownSettings"
+                [data]="fees_type_list"
+                name="fees_type_id"
+                [(ngModel)]="selectedFeesType"
+                (onSelect)="feesTypeChange($event)"
+                (onDeSelect)="handleFeesType()"
+                >
+                </ng-multiselect-dropdown>
+                <!-- <ng-select #select4 [items]="fees_type_list" [searchable]="true"  name="fees_type_id" (change)="feesTypeChange($event)" bindLabel="type_name" bindValue="id"  
+                    formControlName="fees_type_id"
+                    placeholder="Fees Type" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select4.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Fees Month</label>
+            <div class="">
+                <ng-multiselect-dropdown
+                [placeholder]="'Fees Month'"
+                [settings]="dropdownSettings"
+                [data]="dropdownList"
+                [(ngModel)]="selectedItems"                
+                formControlName="month_list"
+                (onFilterChange)="feeMonthChange()"                
+                (onDeSelect)="feeMonthChange()"
+                (onDeSelectAll)="feeMonthChange()"
+                (onSelect)="onItemSelect($event)"
+                (onSelectAll)="onSelectAll($event)" required
+                >
+                </ng-multiselect-dropdown>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class=" form_label">Discount Type<span class="text-danger">*</span></label>
+            <div class="">
+                <ng-select #select7 [items]="discount_type_list" [searchable]="true"  (change)="discountTypeChange($event)" name="discount_type_id" bindLabel="name" bindValue="id"  
+                    formControlName="discount_type_id"
+                    placeholder="Select Discount Type" required>
+                    <ng-template ng-header-tmp>
+                        <input type="text" (input)="select7.filter($any($event.target).value)" />
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <div class="">
+            <label class="form_label">Discount Amount<span class="text-danger">*</span></label>
+            <div class="height_div2" *ngIf="monthwise_discount.length != 0">
+            <span  *ngFor="let item of monthwise_discount" class="col-md-12 height_div" id="monthwise_discount">
+                <span class="">{{item}}</span><br>
+            </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 form_group form_section">
+        <label class="form_label">Right To Education</label>
+        <ng-container>
+            <div class="form-check toggle">
+                <input class="form-check-input shadow-none" type="checkbox" role="switch" title="Right To Education"
+                (change)="onCheckboxChange($event)">
+            </div>
+        </ng-container>                                    
+    </div>
+    <div class="row w-100 d-flex justify-content-between mb-4 pe-0">
+        <div class="col-md-2">
+            <div class="row">
+                <div class="col">
+                    <button type="submit" (click)="onSubmit()" [disabled]="!studentDiscountForm.valid" class="w-100 btn"> Save </button>
+                </div>
+                <div class="col">
+                    <button type="button" (click)="cancel()" class="w-100 btn btn-success btn-minwidth"> Cancel </button>
+                </div>
+            </div>    
+        </div>
+        <div class="col-md-2 pe-0">
+            <div>
+                <button type="button" (click)="changePage()" class="w-100 btn btn-success btn-minwidth">Discount Type</button>
+            </div>
+        </div>        
+    </div>
+</div>
+</form>
+<div class="">
+    <div class="row">
+        <div class="col-lg-12 datatable_cls form_section">
+            <div class="table-responsive form_group">
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered dataTable no-footer">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Discount Type</th>
+                            <th>Class</th>
+                            <th>Batch</th>
+                            <th>Student Name</th>
+                            <th>Fees Type</th>
+                            <th>Discount Value</th>
+                            <th>Month Wise</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;">				
+                            <td>{{item.id}}</td>            
+                            <td>{{item.discount_type_name}}</td>            
+                            <td>{{item.class_name}}</td>
+                            <td>{{item.batch_name}}</td> 
+                            <td>{{item.student_name}}</td> 
+                            <td>{{item.fees_type_name}}</td> 
+                            <td>{{item.discount_amount}}</td> 
+                            <td [innerHTML]="textWithNewline(item.monthwise)"></td> 
+                            <td> 
+                                <div class="btn-group" role="group">
+                                    <!-- <button class="btn" type="button"><i class="fa fa-thumbs-up"></i></button>
+                                    <button class="btn" type="button"><i class="fa fa-thumbs-down"></i></button> -->
+                                    <a class="btn" (click)="show(item.id)"><i class="fa fa-pencil-alt"></i></a>     
+                                    <button class="btn" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="9" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>							
+                </table>
+            </div>          
+        </div>
+    </div>
+</div>

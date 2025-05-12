@@ -1,0 +1,77 @@
+<div class="homework-exam-section">
+    <div class="upcoming-header">
+        <!-- <a> <h3>  Homework  </h3> </a> -->
+        <a class="view-all-link" [routerLink]="dashboardService.setUrl(URLConstants.HOMEWORK_LIST)"><h3> <img src="./assets/images/homework-icon.svg" />  Homework  </h3> </a>
+
+       <div [formGroup]="homeworkForm" class="exam-mark-form">
+            <div class="row justify-content-end pe-2">
+                <div class="col-md-3 form_group m-0">
+                  <app-single-select controlName="class_id"  placeholder="Select Class" [dropDownArray]="classlist" (change)="classChange()"></app-single-select>
+                </div>
+                <div class="col-md-3 form_group m-0">
+                    <app-multi-select [itemsShowLimit]="1" controlName="batch_id"  placeholder="Select Batch" [dropDownArray]="batchList" (change)="batchChange()"></app-multi-select>
+                  </div>
+                  <div class="col-md-3 form_group m-0">
+                    <app-date-range-picker class="date-icons" type="date" controlName="date"  placeholder="Select Date"></app-date-range-picker>
+                  </div>
+            </div>
+        </div>
+       <!-- <a href="#" class="view-all-link" [routerLink]="setUrl(URLConstants.HOMEWORK_LIST)">View All</a> -->
+    </div>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Home Work Name</th>
+                        <!--<th>Class</th>
+                        <th>Batch</th>-->
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <div infiniteScrollContainer > -->
+                        <ng-container *ngFor="let item of homework">
+                            <tr>
+                                
+                                <td> 
+                                    <a href="#" [routerLink]="[ setUrl(URLConstants.VIEW_HOMEWORK),item?.id ]"> {{item.title ?? '-'}} 
+                                        <span class="batch-title-text"> (Class :-  <span> {{item.batch[0]?.class_section?.name ?? '-'}} </span> , Batch :-  <span *ngFor="let batch of item.batch; let i = index "> {{ batch?.name + " "}} <span *ngIf="i < item?.batch?.length - 1 "> , </span> </span> ) </span>
+                                    </a>
+                                </td>
+                                <!--<td>{{item.batch[0]?.class_section?.name ?? '-'}}</td>
+                                <td > 
+                                    <span *ngFor="let batch of item.batch; let i = index "> {{ batch?.name + " "}} 
+                                        <span *ngIf="i < item?.batch?.length - 1 ">,</span> 
+                                    </span> 
+                                </td>-->
+                                <td  *ngIf="item.is_draft == 0"><div class="open-chip"><span>Given</span></div></td>
+                                <td  *ngIf="item.is_draft == 1"><div class="open-chip close-chip"><span>Not Given</span></div></td>
+                            </tr>
+                        </ng-container>
+                    <!-- </div> -->
+                </tbody>
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                         </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  homework?.length == 0">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

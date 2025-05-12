@@ -1,0 +1,287 @@
+<section class="create_timetable">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Timetable</h3>
+				<div class="btn_right">
+					<a *ngIf="CommonService.hasPermission('administrator_timetable', 'has_create')" (click)="openModal(auto)" class="mx-2 btn generate-btn text-white">Auto Generate</a>
+                    <a [routerLink]="setUrl(URLConstants.PROXY_TEACHERS_TIMETABLE)" class="mx-2 btn timetable-btn">Proxy Teacher's Time Table</a>
+                    <a [routerLink]="setUrl(URLConstants.TEACHERS_TIMETABLE)" class="ml-2 btn timetable-btn">Teacher's Time Table</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card global_form table_top mx-0">
+                        <div class="row align-items-start">
+                            <div class="col-md-3">
+                                <div class="form_section">
+                                    <div class="form_group">
+                                        <label class="form_label">Class<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select [items]="ClassNames" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id" [(ngModel)]="class_id" (change)="handleClassChange()"  
+                                            placeholder="Select Class" required>
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="generate && class_id == null || class_id == '' "
+                                         class="text-danger px-20"> Please select Class. </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_section">
+                                    <div class="form_group">
+                                        <label class="form_label">Batch<span class="text-danger">*</span></label>
+                                        <ng-select #select [items]="batches" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  [(ngModel)]="batch_id"
+                                            
+                                            placeholder="Select Batch" required (change)="handleBatchChange()"  >
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                        <div *ngIf="subjectSelect && batch_id == null || batch_id == '' "
+                                        class="text-danger px-20"> Please select batch. </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="d-flex flex-wrap">
+                                <button type="submit" class="btn clear-btn" (click)="clear()"> Clear </button>
+                                    <a [routerLink]="setUrl(URLConstants.ASSIGN_SUBJECT)" class="btn assign-btn"> Assign Subject </a>
+                                    <a [routerLink]="setUrl(URLConstants.ADD_LECTURE_TIMINGS)" class="btn add-btn"> Add Lecture Timing </a>
+                                    <a [routerLink]="setUrl(URLConstants.ASSIGN_ROOM)" class="btn assign-btn"> Assign Room </a>
+                                    <a [routerLink]="setUrl(URLConstants.ASSIGN_LECTURE)" class="btn assign-btn"> Assign Subject Lectures </a>
+                                    <button type="submit" class="btn pdf-btn" ngbTooltip="PDF" (click)="download('pdf')" *ngIf="CommonService.hasPermission('administrator_timetable', 'has_download')"> <img src="assets/images/pdf-icon.svg" alt=""></button>
+                                    <button type="submit" class="btn excel-btn" ngbTooltip="EXCEL" (click)="download('excel')" *ngIf="CommonService.hasPermission('administrator_timetable', 'has_download')"> <img src="assets/images/excel-icon.svg" alt=""></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <form action="" class="create_table datatable_cls">
+                            <div class="row global_form no-gutters">
+                                <div class="col-12 table-responsive">
+                                    <span *ngIf="lecture_timing.length > 0" class="class_title">{{class_name}}</span>
+                                    <table class="table table-bordered dataTable mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Timings</th>
+                                                <th>Monday</th>
+                                                <th>Tuesday</th>
+                                                <th>Wednesday</th>
+                                                <th>Thursday</th>
+                                                <th>Friday</th>
+                                                <th>Saturday</th>
+                                                <th style="min-width: 135px;">Sunday</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="lecture_timing.length > 0 && batch_id != null">
+                                            <tr *ngFor="let item of lecture_timing ;let i = index;">
+                                                <td class="lect_timings">
+                                                    {{item.lecture_name}}<span>({{getTime(item.start_time)}} to {{getTime(item.end_time)}})</span>
+                                                </td>
+                                                <td *ngFor="let subject of item.subjects ;let j = index;" [style]="item.subjects[j].available ? 'background-color: #e2ffe2;' : null">
+                                                    <div *ngIf="item.is_break == false">
+                                                        <div class="form_group" [ngClass]="subject.status == true ? 'd-block' : 'd-none'">
+                                                            <ng-select [items]="subjects" [searchable]="true"  [name]="'subject_id'+i+j" bindLabel="name" bindValue="id" [(ngModel)]="item.subjects[j].subject_id"  (change)="handleSubjectChange(item.subjects[j].subject_id, i , j)"
+
+                                                                placeholder="select subject" required>
+                                                                <ng-template ng-header-tmp>
+                                                                    <input style="width: 100%; line-height: 24px" type="text"   (input)="select.filter($any($event.target).value)" />
+                                                                </ng-template>
+                                                            </ng-select>
+                                                            <div *ngIf="item.subjects[j].save && item.subjects[j].subject_id == null || item.subjects[j].subject_id == '' " class="text-danger px-20"> Please select subject. </div>
+                                                        </div>
+                                                        <div class="form_group" [ngClass]="subject.status == true ? 'd-block' : 'd-none'">
+                                                            <ng-select [items]="item.subjects[j].lecturers" [searchable]="true"  [name]="'lecturer_id'+i+j" bindLabel="name" bindValue="id"  [(ngModel)]="item.subjects[j].user_id" (change)="handleLecturerChange(i, j)"
+                                                                
+                                                                placeholder="Select Lecturer" required>
+                                                                <ng-template ng-header-tmp>
+                                                                    <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                                                </ng-template>
+                                                            </ng-select>
+                                                            <div *ngIf="item.subjects[j].save && item.subjects[j].user_id == null || item.subjects[j].user_id == '' " class="text-danger px-20"> Please select lecturer. </div>
+                                                        </div>
+                                                        <div class="form_group" [ngClass]="subject.status == true ? 'd-block' : 'd-none'">
+                                                            <ng-select [items]="rooms" [searchable]="true"  [name]="'room_id'+i+j" bindLabel="name" bindValue="id"  [(ngModel)]="item.subjects[j].room_id" (change)="handleRoomChange(i, j)"
+                                                                
+                                                                placeholder="Room No." required>
+                                                                <ng-template ng-header-tmp>
+                                                                    <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                                                </ng-template>
+                                                            </ng-select>
+                                                            <div *ngIf="item.subjects[j].save && item.subjects[j].room_id == null || item.subjects[j].room_id == '' " class="text-danger px-20"> Please select room. </div>
+                                                        </div>
+                                                        <div class="d-flex gap-5">
+                                                            <button  *ngIf="CommonService.hasPermission('administrator_timetable', 'has_create')" class="w-100 btn  btn-minwidth m-0"  [ngClass]="subject.status == true ? 'd-block' : 'd-none'" (click)="save(i , j)">save</button>
+                                                            <button  *ngIf="CommonService.hasPermission('administrator_timetable', 'has_delete')" class="w-100 btn btn-secondary btn-minwidth m-0"  [ngClass]="subject.status == true ? 'd-block' : 'd-none'" (click)="clearLecture(i , j)">Clear</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="lecture_timing.length == 0 && batch_id == null">
+                                            <td colspan="8" class="text-center border-0">Please Select Class & Batch</td>
+                                        </tbody>
+                                    </table>
+                                    <ng-template #mymodal let-modal>
+                                        <div class="modal-header" >
+                                            <h4 class="modal-title" id="modal-basic-title">Create Lecture</h4>
+                                            <button type="button" class="close" aria-label="Close"
+                                                (click)="modal.dismiss('Cross click')">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" >
+
+                                            <div class="page_inner">
+
+                                                <div class="card_body">
+                                                    <div class="global_form table_top">
+                                                        <div class="">
+                                                            <div class="d-flex">
+                                                                <div class="form_section flex-1" >
+                                                                    <div class="form_group p-0 m-0">
+                                                                        <app-mat-date-picker [(selectedDate)]="lecture.start_date" [isRequired]="false" [maxDate]="lecture.end_date" [templateDriven]="true"></app-mat-date-picker>
+
+                                                                        <!-- <input type="date" name="start_date"
+                                                                            placeholder="Start date"
+                                                                            class="form-control"
+                                                                            [max]="lecture.end_date"
+                                                                            [(ngModel)]="lecture.start_date"> -->
+                                                                    </div>
+                                                                </div>
+                                                                <div class="btn mx-1 align-items-center d-flex">TO</div>
+                                                                <div class="form_section flex-1">
+                                                                    <div class="form_group p-0 m-0">
+                                                                        <app-mat-date-picker [(selectedDate)]="lecture.end_date" [isRequired]="false" [minDate]="lecture.start_date" [templateDriven]="true"></app-mat-date-picker>
+
+                                                                        <!-- <input type="date" name="end_date"
+                                                                            placeholder="End Date"
+                                                                            class="form-control"
+                                                                            [min]="lecture.start_date"
+                                                                            [(ngModel)]="lecture.end_date"> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer" >
+                                            <div class="col-auto">
+                                                <button type="submit" class="w-100 btn  btn-minwidth"
+                                                    (click)="modal.close('save')"> Save </button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="w-100 btn  btn-minwidth"
+                                                    (click)="modal.close('cancel')">
+                                                    Cancel </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </form>
+                    </div>                    
+                    <div class="card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="d-flex gap-3 flex-wrap mb-0" *ngIf="subjectCount">
+                                <div class="">Summary : </div>
+                                <div *ngFor="let subject of subjects ;let i = index;" >
+                                    {{subject.name}} - <span id="{{subject.id}}">{{subjectCount[subject.id] ? subjectCount[subject.id]: 0 }}</span> / {{subject.no_of_lecture}}
+                                </div>
+                            </h6>
+                            <button *ngIf="generate && CommonService.hasPermission('administrator_timetable', 'has_create')" type="submit" class=" btn" (click)="saveAllLectures()"> Save All Lectures </button>
+                            <button *ngIf="clearAllLecture && CommonService.hasPermission('administrator_timetable', 'has_delete')" type="submit" class=" btn btn-secondary btn-minwidth custom-width" (click)="clearAllLectures()"> CLEAR ALL LECTURES </button>
+                        </div>
+                    </div>
+                </div>
+                <ng-template #auto let-modal>
+                    <div class="modal-header" >
+                        <h4 class="modal-title" id="modal-basic-title">Subject Priority</h4>
+                        <button type="button" class="close" aria-label="Close"
+                            (click)="modal.close()">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body timetable-modal">
+
+                        <div class="page_inner p-2">
+                            <div class="">
+                            <div class="card_body p-0">
+                               <div class="row form_section align-items-end" *ngFor="let item of subjects ;let i = index;">
+                                <div class="col-md-3">
+                                    <div class="form_group">
+                                        <label for=""></label>
+                                        <h6 class="m-0">{{item.name}}</h6>
+                                    </div>
+                                </div>
+                                    <div class="col-md-3">
+                                        <div class="form_group">
+                                            <label for="" class="form_label">Priority 1</label>
+                                            <ng-select [items]="priorityLectures" [searchable]="true"  name="subject" bindLabel="lecture_name" bindValue="id" [(ngModel)]="priority[item.id].p1"
+                                                placeholder="select Lecture" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text"   (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form_group">
+                                            <label for="" class="form_label">Priority 2</label>
+                                            <ng-select [items]="priorityLectures" [searchable]="true"  name="subject" bindLabel="lecture_name" bindValue="id" [(ngModel)]="priority[item.id].p2"
+                                                placeholder="select Lecture" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text"   (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form_group">
+                                            <label for="" class="form_label">Priority 3</label>
+                                            <ng-select [items]="priorityLectures" [searchable]="true"  name="subject" bindLabel="lecture_name" bindValue="id" [(ngModel)]="priority[item.id].p3"
+                                                placeholder="select Lecture" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text"   (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                               </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <div class="col-auto">                            
+                            <button type="submit" class="btn clear-btn btn-minwidth"
+                                (click)="setPriority()"> Clear Priority </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn generate-btn btn-minwidth"
+                                (click)="autoGenerate(); modal.close()"> Generate </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn clear-btn btn-minwidth"
+                                (click)="modal.close('cancel')">
+                                Cancel </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

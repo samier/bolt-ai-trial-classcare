@@ -1,0 +1,110 @@
+<div class="row mt-3 text-16 hed_alert">
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-brand alert-dismissible fade show purple-bg white-color px-2" role="alert">
+            <div class="m-alert__icon">
+                <i class="la la-calculator"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Total Sent<br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_total"> {{total_sent}} </span>
+                </strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-success alert-dismissible fade show success-bg white-color px-2" role="alert">
+            <div class="m-alert__icon">
+                <i class="fa fa-check-double"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Success<br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_success"> {{success_sent}} </span>
+                </strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-danger alert-dismissible fade show danger-bg white-color px-2" role="alert">
+            <div class="m-alert__icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Failed<br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_fail"> {{failed_sent}} </span>
+                </strong>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card border-0">
+        <div class="row mb-4">
+            <div class="col-md-3 form_group">
+                <label for="" class="form_label">Date Range<span class="text-danger">*</span></label>
+                <input type="text"
+                    class="form-control"
+                    [placeholder]="'Please Select Dates'"
+                    ngxDaterangepickerMd
+                    [linkedCalendars]="true"
+                    [(ngModel)]="selectedRange"
+                    (datesUpdated)="datesUpdated($event)"
+                    [locale]="dateConfig"
+                    [showCustomRangeLabel]="true"
+                    [ranges]="ranges"
+                    [showClearButton]="true"
+                    [showCancel]="true"
+                    [alwaysShowCalendars]="true"
+                    [showDropdowns]="true"
+                >
+            </div>
+            <div class="col-md-3 form_group">
+                <label for="" class="form_label">Status</label>
+                <ng-select [(ngModel)]="params.status" (change)="handleChange()">
+                    <ng-option value="all">Both</ng-option>
+                    <ng-option value="1">Success</ng-option>
+                    <ng-option value="0">Error</ng-option>
+                </ng-select>
+            </div>
+            <div class="col-md-12 ">
+                <button class="global_btn btn clear-btn" (click)="clear()"> Clear</button>
+            </div>
+        </div>
+        <div class="datatable_cls">
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions"
+                    class="table table-hover table-nowrap table-bordered dataTable no-footer" style="width:100%">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Sr.No.</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Number </th>
+                            <th>Message</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;">
+                            <td>{{item.DT_RowIndex}}</td>
+                            <td>{{item.date ? (item.date | date: dateFormateService.getDateTimeFormat()) : ''}}</td>
+                            <td>{{item.name ?? '-'}}</td>
+                            <td>{{item.number}}</td>
+                            <td>{{item.massage != "" ? item.massage : '-'}}</td>
+                            <td>{{item.status == 0 ? 'Error' : 'Success'}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="3" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,171 @@
+<section class="add-extra-lecture-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">ADD EXTRA LECTURE</h3>
+                <div class="">
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn timetable-btn">Timetable</a>
+                    <a [routerLink]="setUrl(URLConstants.EXTRA_LECTURE_LIST)" class="btn mx-2 list-btn">Extra Lecture List</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <form [formGroup]="AddExtraLecture">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 form_group">
+                                    <label class=" form_label"> Section</label>
+                                    <app-single-select controlName="section_id" placeholder="Select Section"
+                                        [dropDownArray]="sections" (change)="handleSectionChange()"></app-single-select>
+                                </div>
+                                <div class="col-lg-3 col-md-3 form_group">
+                                    <label class=" form_label"> Class</label>
+                                    <app-single-select controlName="class_id" placeholder="Select Class"
+                                        [dropDownArray]="classes" (change)="handleClassChange()"></app-single-select>
+                                </div>
+                                <div class="col-lg-3 col-md-3 form_group">
+                                    <label class=" form_label"> Batch</label>
+                                    <app-single-select controlName="batch_id" placeholder="Select batch"
+                                        [dropDownArray]="batches" (change)="handleBatchChange()"></app-single-select>
+                                </div>
+                                <div class="col-lg-3 col-md-3 form_group" *ngIf="AddExtraLecture.controls['extra_lecture'].value == '0'">
+                                    <label class=" form_label"> Date</label>
+                                    <app-mat-date-picker  controlName="date" ></app-mat-date-picker>
+                                    <!-- <app-input type="date" controlName="date"
+                                        placeholder="Select exam type"></app-input> -->
+                                </div>
+                                <div class="col-lg-12 col-md-12 form_group d-flex">
+                                    <label class=" form_label w-auto me-3"> Add Extra Lecture in All Week </label>
+                                    <div class="radio-section d-flex">
+                                        <div class="radio">
+                                            <label class=" required ">
+                                                <input type="radio" formControlName="extra_lecture" name="extra_lecture" value="1" (change)="handleLectureChange()"
+                                                    class="mr-1">Yes<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="required " aria-required="true">
+                                                <input type="radio" formControlName="extra_lecture" name="extra_lecture" value="0"  (change)="handleLectureChange()"
+                                                    class="mr-1">No<span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <button class="btn show-btn me-3" (click)="show()" [disabled]="showLoading || AddExtraLecture.invalid">
+                                        Show
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                    </button>
+                                    <button class="btn clear-btn" (click)="clear()">Clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div *ngIf="timetable.length > 0">
+                    <div class="d-flex justify-content-between mb-3">
+                        <button class="btn add-btn" (click)="addExtraLecture()">Add Lecture</button>
+                        <!-- <div class="d-flex">
+                            <button class="btn pdf-btn me-2" ngbTooltip="PDF">
+                                <img src="assets/images/pdf-icon.svg" alt="">
+                            </button>
+                            <button class="btn excel-btn" ngbTooltip="EXCEL">
+                                <img src="assets/images/excel-icon.svg" alt="">
+                            </button>
+                        </div> -->
+                    </div>
+
+                    <div class="basic_table">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                                <tbody class="global_form">
+                                    <tr *ngFor="let day of timetable; let i = index;">
+                                        <th>{{day.day | titlecase}}</th>
+                                        <td *ngFor="let item of day.timings; let j = index;">
+                                            <div *ngIf="item.is_break == 0">
+                                                <div class="pt-2" >
+                                                    <span *ngIf="!item?.manual"  class="text-sm"> {{timeFormat(item.from_time)}} - {{timeFormat(item.to_time)}} </span>
+                                                    <span *ngIf="item?.manual && item?.manual == true"  class="text-sm"> <div class="d-flex justify-content-between"><input type="time" [(ngModel)]="item.from_time"> &nbsp;-&nbsp; <input type="time" [(ngModel)]="item.to_time"> </div></span>
+                                                    <div *ngIf="item.save && ((!item.from_time || item.from_time == null) || (!item.to_time || item.to_time == null))" class="text-danger px-20"> Please enter lecture time. </div>
+                                                    <div class="form_group">
+                                                        <div class="d-flex">
+                                                            <div class="d-flex w-100">
+                                                                <ng-select style="width: 100%; margin-right: 5px" appendTo="body" [items]="subjects" [searchable]="true"  [name]="'subject_id'+i+j" bindLabel="name" bindValue="id" [(ngModel)]="item.subject_id"  (change)="handleSubjectChange(item.subject_id, i , j, true)"
+                                                                    placeholder="select subject" required>
+                                                                </ng-select>
+                                                            </div>
+                                                            <div *ngIf="item.optional && item.optional.length > 0" class="d-flex w-100">
+                                                                <div *ngFor="let optional of item.optional; let o = index;" class="flex-1">
+                                                                    <ng-select [items]="optional.subjects" [searchable]="true"  [name]="'optional_subject_id'+i+j+o" bindLabel="name" bindValue="id" [(ngModel)]="optional.subject_id" (change)="handleOptionalSubjectChange(i , j, optional)"
+                                                                        placeholder="select subject" required>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="item.save && (!item.subject_id || item.subject_id == null)" class="text-danger px-20"> Please select subject. </div>
+                                                    </div>
+                                                    <div class="form_group">
+                                                        <div class="d-flex">
+                                                            <div class="d-flex w-100">
+                                                                <ng-select style="width: 100%; margin-right: 5px" appendTo="body" [items]="item.lecturers" [searchable]="true"  [name]="'lecturer_id'+i+j" bindLabel="name" bindValue="id"  [(ngModel)]="item.user_id" (change)="handleLecturerChange(i, j)"
+                                                                    placeholder="Select Faculty" required>
+                                                                </ng-select>
+                                                            </div>
+                                                            <div *ngIf="item.optional && item.optional.length > 0"  class="d-flex w-100">
+                                                                <div *ngFor="let optional of item.optional; let o = index;" class="flex-1">
+                                                                    <ng-select [items]="optional.lecturers" [searchable]="true"  [name]="'optional_lecturer_id'+i+j+o" bindLabel="name" bindValue="id" [(ngModel)]="optional.user_id" (change)="handleOptionalLecturerChange(i, j, optional)"
+                                                                        placeholder="select subject" required>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="item.save && (!item.user_id || item.user_id == null)" class="text-danger px-20"> Please select faculty. </div>
+                                                    </div>
+                                                    <div class="form_group">
+                                                        <div class="d-flex">
+                                                            <div class="d-flex w-100">
+                                                                <ng-select style="width: 100%; margin-right: 5px" appendTo="body"  [items]="rooms" [searchable]="true"  [name]="'room_id'+i+j" bindLabel="name" bindValue="id"  [(ngModel)]="item.room_id" (change)="handleRoomChange(i, j)"
+                                                                    placeholder="Room No." required>
+                                                                </ng-select>
+                                                            </div>
+                                                            <div *ngIf="item.optional && item.optional.length > 0" class="d-flex w-100">
+                                                                <div *ngFor="let optional of item.optional; let o = index;"  class="flex-1">
+                                                                    <ng-select [items]="rooms" [searchable]="true"  [name]="'optional_room_id'+i+j+o" bindLabel="name" bindValue="id" [(ngModel)]="optional.room_id" (change)="handleOptionalRoomChange(i, j, optional)"
+                                                                        placeholder="Room No." required>
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="item.save && (!item.room_id || item.room_id == null)" class="text-danger px-20"> Please select room. </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <button *ngIf="CommonService.hasPermission('administrator_extra_lecture', 'has_create') || CommonService.hasPermission('administrator_extra_lecture', 'has_update')" class=" btn  btn-minwidth m-0 save-btn"  (click)="save(i , j)" [disabled]="item.disable">save</button>
+                                                        <button  class=" btn btn-minwidth m-0 clear-btn" (click)="clearLecture(i , j)" [disabled]="item.disable">Clear</button>
+                                                    </div>
+                                                </div>
+                                                <!-- <div *ngIf="item.is_break == 1" class="text-center p-4">
+                                                    <strong >BREAK</strong>
+                                                </div> -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <!-- <button class="btn save-btn me-2">Save</button> -->
+                        <!-- <button class="btn publish-btn me-2">Publish</button> -->
+                        <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

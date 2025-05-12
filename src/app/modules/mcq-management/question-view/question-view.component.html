@@ -1,0 +1,120 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <!-- <h2 class="page_title">Question Detail</h2> -->
+            <div>
+                <div class="d-flex justify-content-between align-items-center my-3">
+                    <h3 class="sub_title mb-0">View Question</h3>
+                    <div class="btn_right">
+                        <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.QUESTION_LIST)">Question List</a>
+                    </div>
+                </div>
+                <div class="card_body">
+                    <div>
+                       <div class="card">
+                            <div class="row">
+                                <div class="px-0 col-md-12 row">
+		                            <div [class.col-md-5]="question.image" [class.col-md-6]="!question.image">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Question:</label>
+		                                    <div class="col-md-12">
+		                                    	<textarea name="questions[question]" [value]="question.question" class="form-control" placeholder="please enter question.." cols="4" readonly></textarea>
+		                                    </div>
+		                                </div>
+		                            </div>
+		                            <div class="col-md-2" *ngIf="question.image">
+		                            	<div class="form_group">
+		                                    <label class="col-md-12 form_label">Question Photo:</label>
+		                                    <div class="col-md-12">
+	                                    		<a [href]="getImage()" class="btn btn-primary">view</a>
+	                                    	</div>
+	                                    </div>
+                                    </div>
+		                            <div [class.col-md-5]="question.image" [class.col-md-6]="!question.image">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Solution:</label>
+		                                    <div class="col-md-12">
+		                                    	<textarea name="questions[solution]"  [value]="question.solution" class="form-control" placeholder="please enter solution.." cols="4" readonly></textarea>
+		                                    </div>
+		                                </div>
+		                            </div>
+                                </div>
+                                <div class="px-0 col-md-12 row">
+                                	<div class="col-md-3" *ngIf="question.option_one">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Options 1:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="question.option_one"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+		                            <div class="col-md-3" *ngIf="question.option_one">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Options 2:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="question.option_two"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+		                            <div class="col-md-3" *ngIf="question.option_three">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Options 3:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="question.option_three"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+		                            <div class="col-md-3" *ngIf="question.option_four">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Options 4:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="question.option_four"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+		                            <div class="col-md-3" *ngIf="question.option_five">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Options 5:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="question.option_five"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+                                </div>
+                                <div class="col-md-6 px-0 row">
+                                	<div class="col-md-12">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Answer:</label>
+		                                    <div class="col-md-12">
+        										<input  type="text" [value]="getAnswer()"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+                                </div>
+                                <div class="px-0 col-md-12 row">
+                                	<div class="col-md-3">
+		                                <div class="form_group">
+		                                    <label class="col-md-12 form_label">Marks:</label>
+		                                    <div class="col-md-12">
+        										<input name="questions[marks]" type="number" [value]="question.marks"  class="form-control" readonly>
+                                            </div>
+		                                </div>
+		                            </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 p-0">
+                                    <div class="col-md-1 form-group mt-5 ml-4 text-left w-100">
+                                        <div class="">
+                                            <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.QUESTION_LIST)">Back</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

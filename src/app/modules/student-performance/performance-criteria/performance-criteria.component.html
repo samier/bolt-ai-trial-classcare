@@ -1,0 +1,310 @@
+<section class="performace_category">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Performance Criteria</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.PERFORMANCE_CATEGORY)"
+                    class="mx-2 active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air performance-btn">Performance
+                    Category</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card" *ngIf="CommonService.hasPermission('student_student_performance','has_create')">
+                    <div class="global_form table_top align-items-center">
+                        <div class="row">
+                            <div class="col-12 col-md-6 col-lg-3 form_group form_section">
+                                <div class="">
+                                    <label class="form_label">Performance Category<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select [placeholder]="'List Of performance category'" [items]="categories"
+                                            bindLabel="name" bindValue="id"
+                                            [(ngModel)]="formData.performance_category_id">
+                                        </ng-select>
+                                    </div>
+                                    <div *ngIf="submitted && formData.performance_category_id == null || formData.performance_category_id == ''"
+                                        class="text-danger px-20"> Please select category. </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 form_group form_section">
+                                <div class="">
+                                    <label class="form_label">Criteria Name<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <input type="text" name="room_name" formcontrolname="room_name"
+                                            placeholder="Criteria Name" [(ngModel)]="formData.name"
+                                            class="form-control">
+                                    </div>
+                                    <div *ngIf="submitted && formData.name == null || formData.name == ''"
+                                        class="text-danger px-20"> Please enter performance Criteria Name. </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 form_group form_section">
+                                <div class="">
+                                    <label class="form_label">Grade<span
+                                            class="text-danger"></span></label>
+                                    <div class="py-2 d-flex gap-35">
+                                        <div class="radio d-flex align-items-center">
+                                            <label class="m-radio required" for="grade_yes" aria-required="true">
+                                                <input type="radio" id="grade_yes" name="grade" [value]="true" aria-required="true" [(ngModel)]="formData.is_grade">Yes<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio ml-1">
+                                            <label class="m-radio required" for="grade_no" aria-required="true">
+                                                <input type="radio" id="grade_no" name="grade"  [value]="false" aria-required="true" [(ngModel)]="formData.is_grade">No<span></span>
+                                            </label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 form_group form_section">
+                                <div class="">
+                                    <label class="form_label">Remark<span
+                                            class="text-danger"></span></label>
+                                    <div class="py-2 d-flex gap-35">
+                                        <div class="radio d-flex align-items-center">
+                                            <label class="m-radio required" for="remark_yes" aria-required="true">
+                                                <input type="radio" id="remark_yes" name="remark" [value]="true" aria-required="true" [(ngModel)]="formData.is_remark">Yes<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio ml-1">
+                                            <label class="m-radio required" for="remark_no" aria-required="true">
+                                                <input type="radio" id="remark_no" name="remark"  [value]="false" aria-required="true" [(ngModel)]="formData.is_remark">No<span></span>
+                                            </label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-2 form_group form_section">
+                                <div class="">
+                                    <label class="form_label">Semester<span
+                                            class="text-danger"></span></label>
+                                    <div class="py-2 d-flex gap-35">
+                                        <div class="radio d-flex align-items-center">
+                                            <label class="m-radio required" for="semester_yes" aria-required="true">
+                                                <input type="radio" id="semester_yes" name="semester" [value]="true" aria-required="true" [(ngModel)]="semester"  (change)="handleIsSemester()">Yes<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio ml-1">
+                                            <label class="m-radio required" for="semester_no" aria-required="true">
+                                                <input type="radio" id="semester_no" name="semester"  [value]="false" aria-required="true" [(ngModel)]="semester"  (change)="handleIsSemester()">No<span></span>
+                                            </label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-3 form_group form_section" *ngIf="semester">
+                                <div class="">
+                                    <label class="form_label">Select Semester<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select [placeholder]="'Select Semester'" [items]="semesters"
+                                            bindLabel="name" bindValue="id" [(ngModel)]="formData.semester">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="">
+                                <button type="submit" class="btn save-btn" (click)="submit()">Save</button>
+                        </div>
+                    </div>
+                </div>    
+                    <div class="card">
+                        <div class="row global_form">
+                            <div class="col-lg-12 datatable_cls form_section">
+                                <div class="datatable-action-design">
+                                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                          <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                          <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                        </svg>
+                                      </div>
+                                    <div class="table-responsive form_group">
+                                        <table datatable [dtOptions]="dtOptions"
+                                            class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Sr. No</th>
+                                                    <th>Category Name</th>
+                                                    <th>Criteria Name</th>
+                                                    <th>Grade</th>
+                                                    <th>Remark</th>
+                                                    <th>Semester</th>
+                                                    <th class="action-btn-sticky">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of tbody ;let i = index;">
+                                                    <td>{{item.no}}</td>
+                                                    <td>{{item.performance_category}}</td>
+                                                    <td>{{item.name}}</td>
+                                                    <td>{{item.is_grade == 1 ? 'Yes' : 'No'}}</td>
+                                                    <td>{{item.is_remark == 1 ? 'yes' : 'No'}}</td>
+                                                    <td>{{getSemester(item.semester)}}</td>
+                                                    <td class="action-btn-sticky text-center">
+                                                        <div class="btn-group"  role="group">
+                                                            <button ngbTooltip="Edit"  *ngIf="CommonService.hasPermission('student_student_performance','has_edit')" [ngClass]="item.is_default == 1 && item.attendance == 0 ? 'd-none' : ''" class="lt-btn-icon action-edit"
+                                                                (click)="open(mymodal,item.id)">
+                                                                <!-- <i class="fa fa-pencil-alt"></i> -->
+                                                            </button>
+                                                            <button ngbTooltip="Delete"  *ngIf="CommonService.hasPermission('student_student_performance','has_delete')" [ngClass]="item.is_default == 1 ? 'd-none' : ''" type="button"
+                                                                class="lt-btn-icon action-download"
+                                                                (click)="delete(item.id)">
+                                                                <!-- <i class="fa fa-trash-alt"></i> -->
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="tbody?.length == 0">
+                                                <tr>
+                                                    <td colspan="6" class="text-center no-data-available">No data</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <ng-template #mymodal let-modal>
+                                            <div class="modal-header" style="z-index: 0;">
+                                                <h4 class="modal-title" id="modal-basic-title">Update Performance Category
+                                                </h4>
+                                                <button type="button" class="close" aria-label="Close"
+                                                    (click)="modal.dismiss('Cross click')">
+                                                    <span aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body" style="z-index: 0;">
+    
+                                                <div class="page_inner">
+                                                    <div class="">
+                                                        <div class="">
+                                                            <div class="row">
+                                                                <div class="col-6 col-lg-3 form_group form_section" *ngIf="!updateFormData.attendance">
+                                                                    <div class="">
+                                                                        <label class="form_label">Performance Category<span
+                                                                                class="text-danger">*</span></label>
+                                                                        <div class="">
+                                                                            <ng-select [placeholder]="'List Of performance category'" [items]="categories"
+                                                                                bindLabel="name" bindValue="id"
+                                                                                [(ngModel)]="updateFormData.performance_category_id">
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div *ngIf="submitted && updateFormData.performance_category_id == null || updateFormData.performance_category_id == ''"
+                                                                            class="text-danger px-20"> Please select category. </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-lg-3 form_group form_section" *ngIf="!updateFormData.attendance">
+                                                                    <div class="">
+                                                                        <label class="form_label">Criteria Name<span
+                                                                                class="text-danger">*</span></label>
+                                                                        <div class="">
+                                                                            <input type="text" name="room_name" formcontrolname="room_name"
+                                                                                placeholder="Criteria Name" [(ngModel)]="updateFormData.name"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                        <div *ngIf="submitted && updateFormData.name == null || updateFormData.name == ''"
+                                                                            class="text-danger px-20"> Please enter performance Criteria Name. </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-lg-2 form_group form_section"  *ngIf="!updateFormData.attendance">
+                                                                    <div class="">
+                                                                        <label class="form_label">Grade<span
+                                                                                class="text-danger"></span></label>
+                                                                        <div class="py-2 d-flex gap-35">
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="grade_yes_update" aria-required="true">
+                                                                                    <input type="radio" id="grade_yes_update" name="grade_update" [value]="true" aria-required="true" [(ngModel)]="updateFormData.is_grade">Yes<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="grade_no_update" aria-required="true">
+                                                                                    <input type="radio" id="grade_no_update" name="grade_update"  [value]="false" aria-required="true" [(ngModel)]="updateFormData.is_grade">No<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-lg-2 form_group form_section" *ngIf="!updateFormData.attendance">
+                                                                    <div class="">
+                                                                        <label class="form_label">Remark<span
+                                                                                class="text-danger"></span></label>
+                                                                        <div class="py-2 d-flex gap-35">
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="remark_yes_update" aria-required="true">
+                                                                                    <input type="radio" id="remark_yes_update" name="remark_update" [value]="true" aria-required="true" [(ngModel)]="updateFormData.is_remark">Yes<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="remark_no_update" aria-required="true">
+                                                                                    <input type="radio" id="remark_no_update" name="remark_update"  [value]="false" aria-required="true" [(ngModel)]="updateFormData.is_remark">No<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-lg-2 form_group form_group form_section" *ngIf="!updateFormData.attendance">
+                                                                    <div class="">
+                                                                        <label class="form_label">Semester<span
+                                                                                class="text-danger"></span></label>
+                                                                        <div class="py-2 d-flex gap-35">
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="semester_yes_update" aria-required="true">
+                                                                                    <input type="radio" id="semester_yes_update" name="semester_update" [value]="true" aria-required="true" [(ngModel)]="semester_update"  (change)="handleIsSemester()">Yes<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="radio ms-1">
+                                                                                <label class="m-radio required" for="semester_no_update" aria-required="true">
+                                                                                    <input type="radio" id="semester_no_update" name="semester_update"  [value]="false" aria-required="true" [(ngModel)]="semester_update"  (change)="handleIsSemester()">No<span></span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div> 
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6 col-md-3 form_group form_section" *ngIf="semester_update">
+                                                                    <div class="">
+                                                                        <label class="form_label">Select Semester<span
+                                                                                class="text-danger">*</span></label>
+                                                                        <div class="">
+                                                                            <ng-select [placeholder]="'Select Semester'" [items]="semesters"
+                                                                                bindLabel="name" bindValue="id" [(ngModel)]="updateFormData.semester">
+                                                                            </ng-select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 form_section" *ngIf="updateFormData.attendance">
+                                                                    <div> <b>Note : </b> You can only update semester for attendance.</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                            </div>
+                                            <div class="modal-footer" style="z-index: 0;">
+                                                <div class="col-md-2">
+                                                    <button *ngIf="CommonService.hasPermission('student_student_performance','has_update')" type="submit" class="w-100 btn save-btn"
+                                                        (click)="modal.close('update')"> Save </button>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button type="submit" class="w-100 btn clear-btn"
+                                                        (click)="modal.close('cancel')">
+                                                        Cancel </button>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

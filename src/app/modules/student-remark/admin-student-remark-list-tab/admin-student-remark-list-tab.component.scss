@@ -1,0 +1,120 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-admin-student-remark-list-tab{
+    .page_inner{
+        .page_title{
+            display: none;
+        }
+        .img-thumbnail{
+            position: relative;
+            bottom: 0;
+            inset-inline-end: 0;
+            margin-right: 24px;
+            width: 160px;
+            height: auto;
+        }
+        .card_body{
+            h3{
+                font-weight: 700;
+                font-size: 18px;
+                text-transform: uppercase;
+                margin: 0 0 20px;
+            }
+            h5{
+                font-size: 1.25em;
+                margin-top: 13px;
+                i{
+                    font-size: 14.3px;
+                }
+            }
+            .student_details{
+                a{
+                    &.btn{
+                        color: $white;
+                        margin-top: 5px;
+                        padding: .774em 1.074em;
+                        &:hover{
+                            background: $btn-gradient-hover;
+                        }
+                        i{
+                            font-size: 1.1em;
+                        }
+
+                    }
+                }                
+            }
+        }
+    }
+    .students-info-tabs-view{
+        h3{
+            &.sub_title{
+                margin: 25px 0;
+            }
+        }
+		.img-thumbnail {
+			position: relative;
+			bottom: 0;
+			inset-inline-end: 0;
+			margin-right: 15px;
+			width: 110px;
+			height: 110px;
+		}
+		.student-details{
+			h3{
+				font-size: 18px;
+				margin-bottom: 5px;
+				text-transform: uppercase;
+			}
+			h6{
+				opacity: 0.5;
+			}
+			.btn{
+				i{
+					margin-right: 5px;
+                    font-size: 13px;
+				}
+			}
+		}
+        .studentview_lay{
+            .datatable_cls{
+                .table-responsive{
+                    position: relative;
+                    .btn_right{
+                        .pdfbtn{
+                            position: absolute;
+                            right: 0;
+                            z-index: 1;
+                        }
+                    }
+                    .dataTables_filter{
+                        padding-right: 40px;
+                    }
+                    tbody{
+                        .comment{
+                            white-space: normal;
+                            width: 80%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .table-responsive {
+        .table-bordered {
+            tbody {
+                tr {
+                    td {
+                        .positive-remark {
+                            color: #5DA55D;
+                        }
+                        .negative-remark {
+                            color: #F14545;
+                        }
+                        .custom-remark {
+                            color: #ff8412;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

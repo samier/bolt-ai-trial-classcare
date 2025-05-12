@@ -1,0 +1,36 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">In-out Logs of {{tbody?.user?.full_name}} on {{tbody?.staff_attendance_detail?.attendanceDate | date: dateFormateService.getDateFormat()}}</h3>
+			</div>
+            <div class="card">
+                <div class="basic_table">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-nowrap table w-100 d-table ">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 75px;">Sr. No.</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="tbody?.staff_attendance_log?.length > 0">
+                                <tr *ngFor="let item of tbody.staff_attendance_log; let i = index">
+                                    <td> {{ (i + 1) }} </td>
+                                    <td> {{ item?.status.toUpperCase() ?? 'N/A' }} </td>
+                                    <td> {{ item?.logDate ?? 'N/A' }} </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="tbody?.staff_attendance_log?.length == 0">
+                                <tr>
+                                    <td colspan="3" class="text-center no-data-available">No data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

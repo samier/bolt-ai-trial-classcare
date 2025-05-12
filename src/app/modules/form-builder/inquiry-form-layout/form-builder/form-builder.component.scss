@@ -1,0 +1,192 @@
+@import'../../../../../assets/css/variable.scss';
+::ng-deep {
+    .form-builder-setup{
+        .form-builder-card{
+            padding: 15px !important;
+            border-radius: 7px;
+            border: 1px solid #deebfd;
+            .form-builder-listing {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-direction: row-reverse;
+                padding: 12px 16px;
+                border-bottom: 1px solid rgba(239, 237, 237, 1);
+                
+                .form-label {
+                    margin: 0;
+                    color: #000;
+                }
+    
+                input[type="checkbox"] {
+                    width: 16px;
+                    height: 16px;
+                }
+                
+                input[type=checkbox]:checked {
+                    -webkit-appearance: checkbox !important;
+                }
+                
+                input[type=checkbox]:checked{
+                accent-color: var(--primary-bg-color) !important;
+                background-color: var(--primary-bg-color) !important;
+                }
+                
+                input[type="checkbox"]:checked ~ label {
+                    color: var(--primary-bg-color); /* Label color changes */
+                }
+            }
+            .education-building-list{
+                flex-direction: unset;
+                width: auto;
+                margin-bottom: 12px;
+                display: inline-flex;
+            }
+            &.form-builder-inr{
+                margin-bottom: 15px;
+                .form-builder-left{
+                    max-height: 450px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    margin: 0;
+                    .form-builder-listing{
+    
+                        .label-check{
+                            cursor: pointer;
+    
+                            &:disabled{
+                                cursor: default;
+                            }
+                        }
+                        .form_label{
+                            cursor: pointer;
+                            &:hover{
+                                color: $primary;
+                            }
+                        }
+                    }
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+                .form-builder-right{
+                    max-height: 450px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    margin: 0;
+                    .education-card{
+                        .education-header{
+                            .form-check-input{
+                                width: 16px;
+                                height: 16px;
+                                margin-top: 2px;
+                                cursor: pointer;
+    
+                                &:checked{
+                                    accent-color: $primary !important;
+                                    background-color: $primary !important;
+                                    border-color: $primary !important;
+                                }
+                                &:disabled{
+                                    accent-color: rgba(118, 118, 118, 0.3) !important;
+                                    background-color: rgba(118, 118, 118, 0.3) !important;
+                                    border-color: rgba(118, 118, 118, 0.3) !important;
+                                    cursor: default;
+    
+                                    ~ .form-check-label{
+                                        opacity: 0.6;
+                                        color: #000;
+                                        cursor: default;
+                                    }
+                                }
+                                &:focus{
+                                    box-shadow: none;
+                                }
+                            }
+                            .form-check-label{
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                    &::-webkit-scrollbar {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .btn-sticky{
+            bottom: 45px;
+        }
+    }
+
+    .builder-group{
+        padding: 0 12px;
+    }
+    .builder-label-reverse{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .action-edit{
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+    }
+    .education-card{
+        background-color: rgba(242, 242, 242, 1);
+        border: 1px solid rgba(120, 120, 120, 0.45);
+        padding: 15px 15px 7px 15px;
+        border-radius: 10px;
+        .builder-group{
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            margin-bottom: 8px;
+            .form-control{
+                background-color: transparent;
+                border: 1px solid rgba(120, 120, 120, 0.45);
+                color: #363636;
+            }
+        }
+        .education-group{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .form_label{
+                min-width: 100px;
+            }
+            
+        }
+
+    }
+    .education-header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+    }
+    .education-cancel-btn{
+        width: 24px;
+        height: 24px;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid $primary;
+        color: $primary;
+        transition: all ease-in-out;
+        
+        .fa-times{
+            line-height: 10px;
+        }
+
+        &:hover{
+            background-color: $primary;
+            color: #fff;
+        }
+    }
+}

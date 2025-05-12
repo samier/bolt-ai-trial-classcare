@@ -1,0 +1,5 @@
+::ng-deep body{
+    table.table-bordered.dataTable td.dataTables_empty {
+        display: table-cell !important
+    }
+}

@@ -1,0 +1,127 @@
+<section class="add_homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">View Concern</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn" [routerLink]="CommonService.setUrl(URLConstants.COMPLAIN_LIST)"> Concern List </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 main-card">
+                    <div class="card p-0">
+                        <h4 class="mb-0" [ngClass]="{
+                            'complain-detail-grey' : complainDetails.priority == 1,
+                            'complain-detail-red'  : complainDetails.priority == 3
+                          }" >Concern Detail</h4>
+                        <div class="card-content p-0">
+                            <div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Concern ID : </b></label>
+                                    <p class="ps-2 mb-0"> {{ complainDetails?.id || "-" }} </p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Concern By : </b></label>
+                                    <p class="ps-2 mb-0"> <a [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_PROFILE),complainDetails?.created_by_student?.unique_id]"> {{ complainDetails?.created_by_student?.full_name  || "-" }}  </a> </p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Section : </b></label>
+                                    <p class="ps-2 mb-0">{{ complainDetails?.created_by_student?.class_room_with_section?.class_section?.section?.name || "-" }}</p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Class : </b></label>
+                                    <p class="ps-2 mb-0">{{ complainDetails?.created_by_student?.class_room_with_section?.class_section?.name || "-"}}</p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Batch : </b></label>
+                                    <p class="ps-2 mb-0">{{ complainDetails?.created_by_student?.class_room_with_section?.name || "-"}}</p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Tittle : </b></label>
+                                    <p class="ps-2 mb-0"> {{ complainDetails?.title || "-" }} </p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Description : </b></label>
+                                    <p class="ps-2 mb-0"> {{ complainDetails?.description || "-"}} </p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b> Date : </b></label>
+                                    <p class="ps-2 mb-0"> {{ complainDetails?.created_at | date : DateFormatService.getDateFormat() }} </p>
+
+                                    <label class="ms-4 label mb-0"><b> Time : </b></label>
+                                    <p class="ps-2 mb-0"> {{ ( complainDetails?.created_at | date : DateFormatService.getDateTimeFormat()) | slice:12 }} </p>
+                                </div>
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Priority : </b></label>
+                                    <p class="ps-2 mb-0" [style]="{ 'color': complainDetails?.priority == 1 ? 'grey' : complainDetails?.priority == 2 ? 'skyblue' : 'red' }"> {{ complainDetails?.priority == 1 ? 'Low' : complainDetails?.priority == 2 ? 'Normal' : 'High' }} </p>
+                                </div>
+
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="w-auto mb-0 d-flex align-items-center me-1" style="white-space: nowrap;"><b>Status:</b></label>
+                                    <select class="form-control w-auto" [(ngModel)]="complainDetails.status" (change)="onStatusChange(complainDetails?.id, $event)" [disabled]="!CommonService.hasPermission('concern_concern_status', 'has_access')">
+                                    <!-- <select class="form-control" [(ngModel)]="status"  [disabled]="!CommonService.hasPermission('complain_complain_status', 'has_access')"> -->
+                                      <option *ngFor="let status of statuses" [value]="status.id">
+                                        {{ status?.name || '-' }}
+                                      </option>
+                                    </select>
+                                </div>
+
+                                <div class="d-flex justify-content-left border-y-1 p-20">
+                                    <label class="label mb-0"><b>Concern for : </b></label>
+                                    <a [routerLink]="[CommonService.setUrl(URLConstants.USER_PROFILE),complainDetails?.complain_for_user?.id]">
+                                        <p class="ps-2 mb-0"> {{ complainDetails?.complain_for_user?.full_name || "-"  }} </p>
+                                    </a>
+                                </div>
+                               
+                                <div class="p-20">
+                                    <!-- <div class="mb-2 p-20 attach_file position-relative" *ngFor="let file of showData?.notes_attachments"> -->
+                                    <label class="label my-1" ><b>Attachments {{complainDetails?.attachments?.length}} </b></label>
+                                    <div class="row">
+                                        <div *ngIf="complainDetails?.attachments?.length > 0 ; else noAttachment">
+                                            <div class="row">
+                                                <div class="col-md-4 form_group" *ngFor="let attachment of complainDetails?.attachments">
+                                                    <div class="attach_file" style="cursor: pointer;" (click)="download(attachment?.attachment_url)">
+                                                        <!-- <div class="pdf-img text-center">
+                                                            <i class="fa fa-file-pdf" *ngIf="attachment?.filename?.includes('.pdf')"></i>
+                                                            <i class="fa fa-file-image" *ngIf="!attachment?.filename?.includes('.pdf')"></i>
+                                                        </div> -->
+                                                        <div class="card-body px-2  text-center">
+                                                            <div *ngIf="attachment.file_type == 'jpg' "  class="file-manger-icon">
+                                                              <img [src]="attachment.attachment_url" alt="img" class="rounded-7">
+                                                            </div>
+                                                            <div *ngIf="attachment.file_type != 'jpg' " class="file-manger-icon" >
+                                                              <img [src]="fileIcons[attachment.file_type]" alt="img" class="rounded-7">
+                                                            </div>
+                                                            <h6 class="mb-1 font-weight-semibold text-capitalize">{{attachment.file_name}}</h6>
+                                                          </div>
+                                                        <p class="mb-0 text-center">{{ attachment?.filename }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <ng-template #noAttachment>
+                                            <div class="no_attachment">
+                                                <p class="mb-0 text-center">No Attachment</p>
+                                            </div>
+                                        </ng-template>
+
+                                    </div>
+                                    <!-- <input type="text" class="form-control" [value]="file?.filename" (click)="download(file?.attachment_url)" />
+                                    <i class="fa fa-file position-absolute"></i>
+                                    <i class="fa fa-download position-absolute" (click)="download(file?.attachment_url)"></i> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7" >
+                    <div class="card student-list p-0">
+                        <app-complain-thread [complainID]='id'></app-complain-thread>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

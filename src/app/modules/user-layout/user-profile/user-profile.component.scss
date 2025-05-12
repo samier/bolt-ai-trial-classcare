@@ -1,0 +1,147 @@
+::ng-deep{
+    .user-profile-section{
+        .user-profile-wrapper{
+            .user-profile-left{
+                
+                .profile-img{
+                    box-shadow: 0px 14px 36.7px 0px #00000054;
+                    width: 124px;
+                    height: 124px;
+                    border-radius: 100%;
+                    margin: auto;
+                    margin-bottom:14px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .user-profile-text{
+                    margin-bottom: 40px;
+                    h2{
+                        font-size: 18px;
+                        line-height: 24px;
+                        font-weight: 600;
+                        color: #000;
+                        margin-bottom: 2px;
+                    }
+                    p{
+                        font-size: 14px;
+                        line-height: 20px;
+                        font-weight: 500;
+                        color: #787878;
+                        margin: 0;
+                    }
+                }
+            }
+            .user-mail-wrapper{
+                background-color: #fff;
+                text-align: center;
+                padding: 30px 0;
+                border-radius: 7px;
+                min-height: 400px;
+            }
+            .user-profile-panel{
+                
+                .label-text-danger{
+                    position: unset;
+                }
+                .nav-tabs {
+                    margin-left: 4px;
+                    display: block;
+                    .nav-link{
+                        padding: 8px 14px;
+                        background: transparent;
+                        border: 0;
+                        margin: 0;
+                        border: 1px solid #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        font-weight: 600;
+                        width: 100%;
+                        box-shadow: none;
+                        margin-bottom: 6px;
+                        .icon{
+                            opacity: 0;
+                            padding-right: 0;
+                            position: relative;
+                            left: -20px;
+                            transition: all .6s;
+                            color: var(--primary-bg-color);
+                        }
+                        svg{
+                            margin-right: 5px;
+                            height: 22px;
+                            width: 22px;
+                            fill: transparent;
+                            path{
+                                stroke: #000;
+                            }
+                        }
+                        &:hover{
+                            box-shadow: none;
+                            color: var(--primary-bg-color);
+                            border: 1px solid #fff;
+                            .icon{
+                                opacity: 1;
+                                left: 0;
+                            }
+                            svg{
+                                path{
+                                    stroke:var(--primary-bg-color);
+                                }
+                            }
+                        }
+                        &.active{
+                            background: var(--primary-bg-color);
+                            color: #fff;
+                            .icon{
+                                opacity: 1;
+                                left: 0;
+                                color: #fff;
+                            }
+                            svg{
+                                path{
+                                    stroke:#fff;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+
+                .password-eye-icon{
+                    position: relative;
+                    input{
+                        padding-right: 50px;
+                        &:focus{
+                            ~.eye-icon{
+                                color: #000;
+                            }
+                        }
+                    }
+                    .eye-icon{
+                        position: absolute;
+                        right: 12px;
+                        top: 0;
+                        bottom: 0;
+                        margin: auto;
+                        display: flex;
+                        align-items: center;
+                        color: #a5a4ad;
+                        background-color: transparent;
+                        border: 0;
+                    }
+                }
+            }
+            .tab-head{
+                h3{
+                    font-size: 20px;
+                    font-weight: 600;
+                    margin-bottom: 26px;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-vehicle{    
+    .document_type_add{
+        background: $border-ce;
+        padding: 17px 15px 24px 29px;
+        border-radius: 3px;
+    }
+}

@@ -1,0 +1,101 @@
+@import '../../../../../assets/css/variable.scss';
+::ng-deep{
+    app-quick-search-modal{
+        mark {
+            background: #d1d1d1;
+            padding: 0 2px;
+            // border-radius: 3px;
+        }
+          
+        .modal-header {
+            padding: 10px 20px;
+            align-items: center;
+            border-bottom: 0;
+            .fa-search {
+                color: #82828266;
+                font-size: 18px;
+                padding-left: 4px;
+            }
+            input {
+                padding: 8px;
+                border: none;
+                border-radius: 4px;
+                font-size: 20px;
+                outline: none;
+            }
+            .fa-times {
+                border: 2px solid black;
+                border-radius: 50%;
+                color: black;
+                width: 20px;
+                height: 18px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-right: 4px;
+                padding: 10px;
+            }
+
+        }
+        .modal-body {
+            padding: 0 0 10px 26px;
+            border-top: 1px solid #BFBFBF;
+            .modal-body-inner {
+                max-height: 400px;
+                overflow-y: auto;
+                padding-top: 10px;
+                &::-webkit-scrollbar {
+                    width: 8px;
+                }
+                .menu-icon {
+                    margin-bottom: 14px;
+                    span {
+                        color: $primary;
+                        border: 1px solid #E1E1E1;
+                        border-radius: 50%;
+                        padding: 7px;
+                        margin-right: 10px;
+                    }
+                    h5 {
+                        font-size: 20px;
+                        font-weight: 500;
+                        color: $primary;
+                        margin-bottom: 0;
+                    }
+                }
+                ul {
+                    padding: 0;
+                    list-style: none;
+                    li {
+                        list-style: none;
+                        a {
+                            font-size: 16px;
+                            color: #000;
+                            padding-bottom: 2px;
+                            width: 100%;
+                            display: inline-block;
+                            padding: 4.5px 0 4.5px 42px;
+                            outline: none;
+                            &:focus, &:hover{
+                                background-color: #B7CAF2;
+                            }
+                        }
+                    }
+                }
+                > ul {
+                    margin-bottom: 14px;
+                } 
+                .no-result {
+                    padding: 10px 42px 10px 16px;
+                    font-size: 16px;
+                }
+            }    
+        }
+    }
+      
+    ngb-modal-window {
+        .modal-content {
+            border-radius: 19px;
+        }
+    }    
+}

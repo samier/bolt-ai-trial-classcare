@@ -1,0 +1,410 @@
+@import "../../../../../assets/scss/variables";
+@import"../../../../../assets/css/variable.scss";
+@import'../../../../../assets/css/variable.scss';
+
+::ng-deep{
+    .dashboard-timetable{
+        .upcoming-header{
+            padding: 8px;
+            // background-color: #DFEEFF;
+            display: grid;
+            grid-template-columns: 1fr 350px 1fr;
+            gap: 10px;
+            align-items: center;
+            position: relative;
+            &::before{
+                content: "";
+                background-color: $primary;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 6px 6px 0 0;
+                opacity: 0.17;
+                z-index: -1;
+            }
+            .view-all-link{
+                font-size: 12px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-decoration: none;
+                transition: 0.3s;
+                position: relative;
+                z-index: 9;
+                h3{
+                    font-size: 17px;
+                    line-height: 20px;
+                    font-weight: 600;
+                    margin: 0;
+                    svg{
+                        margin-right: 6px;
+                        transition: .3s;
+                        rect{
+                            fill: #fff;
+                        }
+                        path{
+                            fill: #000;
+                        }
+                    }
+                }
+                &:hover{
+                    color: $primary !important;
+    
+                    svg{
+                        rect{
+                            fill: $primary;
+                        }
+                        path{
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+            .timetable_date{
+                h4{
+                    font-size: 15px;
+                    line-height: 20px;
+                    margin: 0;
+                    color: #000;
+                    text-decoration: none;
+                    transition: 0.3s;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    span{
+                        color: #000;
+                        font-size: 10px;
+                        background-color: #fff;
+                        padding: 3px 10px;
+                        line-height: 15px;
+                        border-radius: 6px;
+                        border: 1px solid #D0C9C0;
+                        margin-left: 10px;
+                    }
+                }
+            }
+            .dashboard-timetable-form{
+                .row{
+                    .form_group{
+                        padding: 0 4px;
+                        input{
+                            font-size: 10px;
+                            line-height: 16px;
+                            padding: 3px;
+                            color: #000;
+                            font-weight: 600;
+                        }
+                    }
+                }
+                .ng-select.ng-select-single{
+                    .ng-select-container{
+                        height: 30px;
+                        .ng-value-container{
+                            padding: 0;
+                            padding-left: 6px;
+                            .ng-input{
+                                padding: 0 10px;
+                                position: unset;
+                                font-size: 12px;
+                            }
+                            .ng-value, .ng-placeholder{
+                                font-size: 10px;
+                                font-weight: 600;
+                            }
+                            .ng-input{
+                                display: none;
+                            }
+                        }
+                    }
+                    .ng-dropdown-panel{
+                        width: 300px;
+                        .ng-dropdown-panel-items{
+                            &::-webkit-scrollbar{
+                                width: 4px;
+                            }
+                        }
+                    }
+                    
+                }
+                .multiselect-dropdown{
+                    .dropdown-btn{
+                        min-height: 30px !important;
+                        line-height: 22px !important;
+                        padding-left: 6px !important;
+                        background-color: #fff !important;
+                        display: flex;
+                        align-items: center;
+                        span{
+                            font-size: 10px;
+                        }
+                        .selected-item-container{
+                            .selected-item{
+                                margin-inline-end: 4px !important;
+                                margin-block-start: 4px !important;
+                                span{
+                                    font-size: 10px;
+                                    line-height: 14px;
+                                    display: block;
+                                    width: auto;
+                                    max-width: 60px;
+                                }
+                                a{
+                                    font-size: 11px !important;
+                                }
+                            }
+                        }
+                    }
+                    .dropdown-list{
+                        width: 250px;
+                        ul{
+                            &::-webkit-scrollbar{
+                                width: 4px;
+                            }
+                        }
+                    }
+                   
+                }
+                .dashboard-custom-date{
+                    .custom-date-picker{
+                        height: 30px;
+
+                        .mat-form-field{
+                            .mat-form-field-wrapper{
+                                .mat-form-field-flex{
+                                    height: 30px;
+                                    padding-left: 5px;
+                                    .mat-form-field-suffix{
+                                        top: -3px;
+                                        .mat-icon{
+                                            top: -5px !important;
+                                            width: 15px !important;
+                                            height: 15px !important;
+                                            font-size: 13px !important;
+                                            margin-right: 6px;
+                                            padding-right: 14px;
+                                        }
+                                    }
+                                    .mat-icon-button{
+                                        width: 6px;
+                                        height: 6px;
+                                        svg{
+                                            width: 16px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .dashboard-basic_timetable{
+            .table-responsive{
+                max-height: 541px;
+                overflow-y: auto;
+                border-radius: 8px !important;
+                .table{
+                    thead{
+                        z-index: 1;
+                    }
+                    tbody{
+                        td{
+                            .timetable_box{
+                                padding: 10px;
+                                border: 1px solid #D8D8D8;
+                                border-radius: 8px;
+                                box-shadow: 0 0 1.3px rgb(0 0 0 / 25%);
+                                min-width: 180px;
+                                background-color: #fff;
+                                position: relative;
+
+                                .subject{
+                                    margin-bottom: 10px;
+                                    h4{
+                                        display: inline-block;
+                                        padding: 8px 10px;
+                                        font-size: 12px;
+                                        font-weight: 500;
+                                        color:#fff;
+                                        border-radius: 8px;
+                                        margin: 0;
+
+                                    }
+
+                                    &.subject_maths{
+                                        h4{
+                                            background-color: #844204;
+                                        }
+                                    }
+                                    &.subject_state{
+                                        h4{
+                                            background-color: #4682B4;
+                                        }
+                                    }
+                                    &.subject_echo{
+                                        h4{
+                                            background-color: #00225B;
+                                        }
+                                    }
+                                    &.subject_computer{
+                                        h4{
+                                            background-color: #909090;
+                                        }
+                                    }
+                                    &.subject_social_science{
+                                        h4{
+                                            background-color: #1357D0;
+                                        }
+                                    }
+                                    &.subject_drawing{
+                                        h4{
+                                            background-color: #EA2C29;
+                                        }
+                                    }
+                                    &.subject_sanskrit{
+                                        h4{
+                                            background-color: #483D8B;
+                                        }
+                                    }
+
+                                    &.subject_ba{
+                                        h4{
+                                            background-color: #8E4585;
+                                        }
+                                    }
+                                    &.subject_account{
+                                        h4{
+                                            background-color: #C44CA6;
+                                        }
+                                    }
+                                    &.subject_science{
+                                        h4{
+                                            background-color: #977254;
+                                        }
+                                    }
+                                    &.subject_english{
+                                        h4{
+                                            background-color: #DAB600;
+                                        }
+                                    }
+                                    &.subject_hindi{
+                                        h4{
+                                            background-color: #AB8000;
+                                        }
+                                    }
+                                }
+                                .subject_teacher{
+                                    margin-bottom: 10px;
+                                    a{
+                                        display: flex;
+                                        align-items: center;
+                                        font-size: 12px;
+                                        color: #000;
+                                        font-weight: 600;
+                                        margin-bottom: 10px;
+                                        img{
+                                            width: 25px;
+                                            border-radius: 50%;
+                                            margin-right: 10px;
+                                        }
+                                        &:hover{
+                                            color: $primary;
+                                        }
+                                    }
+                                    span{
+                                        padding:2px 5px;
+                                        border: 1px solid #D8D8D8;
+                                        font-size: 12px;
+                                        color: #000;
+                                        border-radius: 8px;
+                                        display: inline-block;
+                                    }
+                                }
+                                .subject_time{
+                                    display: flex;
+                                    align-items: center;
+                                    i{
+                                        font-size: 14px;
+                                        color: #828282;
+                                        margin-right: 10px;
+                                    }
+                                    label{
+                                        font-size: 12px;
+                                        line-height: 16px;
+                                        margin: 0;
+                                        color: #000;
+                                    }
+                                }
+                                .extra_lecture{
+                                    position: absolute;
+                                    right: 2px;
+                                    top: 0px;
+                                    font-size: 10px;
+                                }
+                                &.breaktime_box{
+                                    background-color: #F9F1BB;
+                                    .break_img{
+                                        width: 100px;
+                                        margin: 0 auto;
+                                    }
+                                }
+
+                                &:hover{
+                                    box-shadow: 1px 0 px 10px rgba(0, 0, 0, 0.3);
+                                }
+                                &.empty_lecture{
+                                    min-height: 140px;
+                                    display: flex;
+                                    flex-direction: column;
+                                    justify-content: end;
+                                    position: relative;
+
+                                    .subject{
+                                        color: $primary;
+                                        position: absolute;
+                                        top: 50%;
+                                        left: 50%;
+                                        transform: translate(-50%,-50%);
+                                        text-align: center;
+                                    }
+                                }
+                            }
+                            .breaktime_box{
+                                padding: 10px;
+                                border: 1px solid #D8D8D8;
+                                border-radius: 8px;
+                                box-shadow: 0 0 1.3px rgb(0 0 0 / 25%);
+                                min-width: 180px;
+                                background-color: #F9F1BB;
+
+                                .break_img{
+                                    width: 100px;
+                                    margin: 0 auto;
+                                }
+                                
+                                .subject_time{
+                                    display: flex;
+                                    align-items: center;
+                                    i{
+                                        font-size: 14px;
+                                        color: #828282;
+                                        margin-right: 10px;
+                                    }
+                                    label{
+                                        font-size: 12px;
+                                        line-height: 16px;
+                                        margin: 0;
+                                        color: #000;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

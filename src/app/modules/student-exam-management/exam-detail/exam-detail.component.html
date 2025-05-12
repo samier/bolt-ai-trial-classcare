@@ -1,0 +1,101 @@
+<div class="exam_details_changes white_card w-100" *ngIf="!student_result">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title">
+                <b>Exam Details</b>
+            </div>
+            <div class="table-responsive margin-top-30">
+                <table class="table">
+
+                    <tbody>
+                        <tr>
+                            <td>Exam Name</td>
+                            <td>{{exam_detail.exam_name}}</td>
+                        </tr>
+                        <tr>
+                            <td>Subject Name</td>
+                            <td>{{exam_detail?.subject?.name}}</td>
+                        </tr>
+                        <tr>
+				    		<td>Total Questions</td>
+                            <td> {{exam_detail.total_question}}</td>
+                        </tr>
+                        <tr>
+                            <td>Negative Marks :</td>
+                            <td *ngIf="exam_detail.negative_mark > 0">Yes</td>
+			    			<td *ngIf="exam_detail.negative_mark == 0 || exam_detail.negative_mark == undefined">No</td>
+                        </tr>
+                        <tr>
+			    			<td>Exam Duration</td>
+                            <td>{{exam_detail.exam_duration}} Min</td>
+                        </tr>
+                        <tr>
+                            <td>Exam Description</td>
+                            <td>{{exam_detail.description}}</td>
+                        </tr>
+		    </tbody>
+                </table>
+            </div>
+
+            <!-- End table -->
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 text-center mb-4" *ngIf="start_button">
+            <button type="button" class="btn btn-blue box-border" [routerLink]="[URLConstants.STUDENT_EXAM_FORM,exam_detail.id]" > Start Exam</button>
+        </div>
+    </div>
+</div>
+
+<div class="" *ngIf="student_result">
+    <div class="row">
+        <div class="col-md-8 col-sm-8 col-xs-12" *ngIf="!resultDate">
+            <!-- Start table -->
+            <div class="table-responsive margin-top-30">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Student Name : </th>
+                            <td>{{student_result?.student?.full_name}}</td>
+                           
+                        </tr>
+                         <tr>
+                            <th>Class Name : </th>
+                            <td>{{student_result.exam?.subject?.class?.name}}</td>
+                           
+                        </tr>
+                        <tr>
+                            <th>Subject Name :</th>
+                            <td>{{student_result.exam?.subject?.name}}</td>
+                           
+                        </tr>
+                        <tr>
+                            <th>Total Questions : </th>
+                            <td class="fg-orange"><b>{{student_result.exam?.total_question}}</b></td>
+                           
+                        </tr>
+                        <tr>
+                            <th>Correct Answer :</th>
+                            <td class="fg-green"><b>{{student_result.correct_answer}}</b></td>
+                           
+                        </tr>
+                        <tr>
+                             <th>Wrong Answer :</th>
+                            <td class="fg-red"><b>{{student_result.wrong_answer}}</b></td>
+                           
+                        </tr>
+                        <tr>
+                            <th>Total Marks :</th>
+                            <td class="fg-blue"><b>{{student_result.exam?.total_mark}}</b></td>
+                        </tr>
+                        <tr>
+                            <th>Your Score :</th>
+                            <td class="fg-purple"><b>{{student_result.final_marks}}</b></td>
+                        </tr>
+                   </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8 col-xs-12" *ngIf="resultDate">
+            You will get result on {{resultDate}}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Staff ATTENDANCE</h3>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form_label">Select Role <span class="text-danger">*</span>  </label>
+                                    <ng-select [items]="roles" 
+                                        bindLabel="name" 
+                                        bindValue="id" 
+                                        [(ngModel)]="params.role_id"
+                                        placeholder="Select Role" >
+                                    </ng-select>                       
+                                    <div *ngIf="formSubmit && params.role_id == null"
+                                        class="text-danger error"> Please select role.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div>
+                                    <label class="form_label">Select Date <span class="text-danger">*</span> </label>
+                                    <app-mat-date-picker [(selectedDate)]="params.start_date" [isRequired]="true" [maxDate]="maxDate"
+                                     [templateDriven]="true"></app-mat-date-picker>
+                                    <!-- <input class="form-control" 
+                                        type="date"
+                                        max="{{maxDate | date:'yyyy-MM-dd'}}" 
+                                        [(ngModel)]="params.start_date"
+                                        placeholder="Select Date"
+                                    > -->
+                                    <div *ngIf="formSubmit && params.start_date == '' "
+                                        class="text-danger error"> Please Select Date.
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="col-lg-3 add_doc">
+                                <label class="form_label">Button</label>
+                                <div class="show-clear-btn d-flex">
+                                    <button type="submit" (click)="onSubmit()" class="btn show-btn d-flex align-items-center me-3" [disabled]="submitted">Show
+                                        <div style="margin-left: 6px;" class="spinner-border spinner-border-sm" role="status" *ngIf="submitted">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                    <button class="btn clear-btn" (click)="clearAll()" >Clear</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="card" >
+
+                        <div *ngIf="is_selected" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                            <div>Please select Role and Date for Attendance.</div>
+                        </div>
+                        <div class="basic_table">
+                            <!-- <div class="table-responsive form_group" *ngIf="!submitted &&  tableData?.length > 0"> -->
+                            <div class="table-responsive form_group" *ngIf="!is_selected && !is_show">
+
+                                <div class="d-flex justify-content-between mb-3">
+                                    <button class="btn"> Total {{roleName}} :  {{ tableData?.length || 0 }}</button>
+                                    <input class="form-control w-auto" type="text" value="" [(ngModel)]="search" (input)="searchData()" [placeholder]="'Search '+roleName+' name'">
+                                </div>
+                                <table 
+                                    
+                                    class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Unique ID</th>
+                                            <th>Staff Name</th>
+                                            <th>Absent</th>
+                                            <th>Present</th>
+                                            <th>Leave</th>
+                                            <th>Remark</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="filteredPost?.length > 0 && !is_show">
+                                        <tr *ngFor="let item of filteredPost ;let i = index;">
+                                            <td class="orange-text-color">{{ item.emp_no }}</td>
+                                            <td class="name_hover">{{item.name}}</td>
+                                            <td>
+                                                <input type="radio" name="status{{i}}" value="a" [(ngModel)]="item.status" [checked]="item.status === 'a'">
+                                            </td>
+                                            <td>
+                                                <input type="radio" name="status{{i}}" value="p" [(ngModel)]="item.status" [checked]="item.status === 'p'">
+                                            </td>
+                                            <td>
+                                                <input type="radio" name="status{{i}}" value="l" [(ngModel)]="item.status" [checked]="item.status === 'l'">
+                                            </td>
+                                            <td>
+                                                <textarea type="text" [(ngModel)]="item.notes"></textarea>
+                                            </td>
+                                            
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="filteredPost?.length == 0">
+                                        <tr>
+                                            <td colspan="5">
+                                                <div class="d-flex justify-content-center">
+                                                    No Data Found.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="col-md-2 form_group px-0">
+                                    <button 
+                                        *ngIf="is_update ? 
+                                        CommonService.hasPermission('faculty_staff_attendance', 'has_update') : 
+                                        CommonService.hasPermission('faculty_staff_attendance' , 'has_create') "
+                                        type="submit" (click)="tableSubmit()" class="btn w-100" [disabled]="is_saveAttendance || tableData?.length == 0">
+                                        {{ is_update ? "Update Attendance" : "Save Attendance" }}
+                                        <div style="margin-left: 6px;" class="spinner-border spinner-border-sm" role="status" *ngIf="is_saveAttendance">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

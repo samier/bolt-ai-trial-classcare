@@ -1,0 +1,22 @@
+::ng-deep{
+    .select-cross-relative{
+        position: relative;
+        .cross-inner-point{
+            position: absolute;
+            cursor: pointer;
+            background: #757575;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 13px !important;
+            width: 17px !important;
+            height: 17px !important;
+            line-height: 17px !important;
+            top: 8px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9;
+        }
+    }
+}

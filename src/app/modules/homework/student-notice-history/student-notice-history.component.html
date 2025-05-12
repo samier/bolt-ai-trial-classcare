@@ -1,0 +1,74 @@
+<section class="notice-history-section">
+    <div class="page_inner card">
+        <div class="m-container">
+            <div class="student-profile-tan">
+                <div class="col-lg-12 d-flex nav nav-tabs">
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type == 1 ? true : false" for="student"
+                            aria-required="true">
+                            <input type="radio" (click)="switch_to(1)" name="for" id="student" value="1"
+                                aria-required="true" class="mr-1" checked hidden>School Notice<span></span>
+                        </label>
+                    </div>
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type == 3 ? true : false" for="User"
+                            aria-required="true">
+                            <input type="radio" (click)="switch_to(3)" name="for" id="User" value="2"
+                                aria-required="true" class="mr-1" hidden>Class notice<span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table datatable [dtOptions]="dtOptions"
+                                        class="table table-hover table-nowrap table-bordered ">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Sr. No</th>
+                                                <th>Date</th>
+                                                <th style="max-width: 450px;">Notice Title</th>
+                                                <th style="max-width: 450px;">Description</th>
+                                                <th>Created By</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let row of tbody; let i = index">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{row.create_at ? (row.create_at | date : dateFormateService.getDateFormat()) : '-'}}</td>
+                                                <td style="white-space: normal;">{{ row.title ?? '-' }}</td>
+                                                <td style="white-space: normal;">{{ row?.description ?? '-' }}</td>
+                                                <td>{{ row?.created_by ?? '-' }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                    <a [routerLink]="[homeworkService.setUrl(2,'notice'), row?.id]"
+                                                        href='#' class="btn action-view" ngbTooltip="View">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="8" class="text-center no-data-available">{{type == 1 ?
+                                                    'School notice not found' : 'Class notice not found'}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

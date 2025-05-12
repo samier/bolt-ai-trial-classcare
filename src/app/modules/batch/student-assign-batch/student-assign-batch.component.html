@@ -1,0 +1,176 @@
+<section class="student-assign-batch">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Assign Student to {{studentList?.batch_name}}</h3>
+                <div class="d-flex">
+                    <button [routerLink]="CommonService.setUrl(URLConstants.BATCH)" type="button"
+                        class="btn list-btn px-2 d-flex align-items-center me-2">
+                        Batch List
+                    </button>
+                </div>
+            </div>
+            <div class="">
+                <div class="">
+                    <div class="card_body">
+                        <div class="row">
+                            <div class="col-md-6 d-flex form_group">
+                                <div class="card radius-left-bottom-0 d-flex flex-column w-100">
+                                    <div class="form_section  global_form table_top">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="sub_title mb-0">Filter students</h5>
+                                            <button class="button" type="button" class="btn add-btn px-4 d-flex align-items-center" [disabled]="false"
+                                                (click)="addRemoveMultiStudentInBatch('add')">
+                                                Selected Student Add
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-8 p-0 search_box">
+                                            <input type="text" placeholder="Search Student" class="form-control"
+                                                [(ngModel)]="filterStudentText"><i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="mt-3">
+                                            <ng-container *ngIf="studentList?.not_in_batch.length > 0 && filterStudentText == ''">
+                                                <div class="m-checkbox-list d-flex justify-content-end mb-2">
+                                                    <div class="d-flex align-content-center ps-2">
+                                                        <label class="m-checkbox mb-0">
+                                                            <input type="checkbox" id="checkboxNotInBatch"
+                                                                [(ngModel)]="selectAllNotInBatchStudent"
+                                                                (ngModelChange)="selectAllNotInBatch()"><span></span>
+                                                        </label>
+                                                        <label for="checkboxNotInBatch" class="mb-0">
+                                                            <b class="ps-2">Select All</b>
+                                                        </label>
+                                                    </div>
+                                                    <div class="ms-auto"><span>Total Student :
+                                                            <b>{{studentList?.not_in_batch?.length ?? 0}}</b></span>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <div class="card student-list mb-0 px-2">
+                                                <ng-container
+                                                    *ngFor="let item of studentList?.not_in_batch | batchStudent:filterStudentText">
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <p class="mb-2 d-flex align-content-center">
+                                                            <label class="m-checkbox mb-0">
+                                                                <input type="checkbox" id="checkbox{{item.id}}"
+                                                                    [(ngModel)]="item.isSelect"
+                                                                    (ngModelChange)="singleSelectNotInBatch()"><span></span>
+                                                            </label>
+                                                            <label for="checkbox{{item.id}}" class="mb-0">
+                                                                <span class="ps-2"> <span
+                                                                        class="student_roll_no">{{item?.student_roll_number?.rollno ?? '-'}}</span>
+                                                                    <a [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_PROFILE),item.unique_id]" target="_blank">{{item?.full_name}}</a></span>
+                                                            </label>
+                                                        </p>
+                                                        <button class="button" type="button" class="btn add-btn px-4 d-flex align-items-center"
+                                                            (click)="addRemoveSingleStudentInBatch(item.id,'add')"> add
+                                                        </button>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="isGetData">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="studentList?.not_in_batch?.length == 0">
+                                                    <p style="text-align: center;">No Record Found</p>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 d-flex form_group">
+                                <div class="card d-flex flex-column w-100 radius-right-bottom-0">
+                                    <div class="form_section  global_form table_top">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="sub_title mb-0">Student in Batch</h5>
+                                            <button class="button" type="button" class="btn cancel-btn px-4 d-flex align-items-center" [disabled]="false"
+                                                (click)="addRemoveMultiStudentInBatch('remove')">
+                                                Selected Student remove
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <div class="col-md-8 p-0 search_box">
+                                            <input type="text" placeholder="Search Student" class="form-control"
+                                                [(ngModel)]="studentInBatchText"><i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="mt-3">
+                                            <ng-container *ngIf="studentList?.in_batch.length > 0 && studentInBatchText == ''">
+                                                <div class="m-checkbox-list d-flex justify-content-end mb-2">
+                                                    <div class="d-flex align-content-center ps-2">
+                                                        <label class="m-checkbox mb-0">
+                                                            <input type="checkbox" id="checkboxAllInBatch"
+                                                                [(ngModel)]="selectAllInBatchStudent"
+                                                                (ngModelChange)="selectAllInBatch()"><span></span>
+                                                        </label>
+                                                        <label for="checkboxAllInBatch" class="mb-0">
+                                                            <b class="ps-2">Select All</b>
+                                                        </label>
+                                                    </div>
+                                                    <div class="ms-auto"><span>Total Student :
+                                                            <b>{{studentList?.in_batch?.length ?? 0}}</b></span>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <div class="card student-list mb-0 px-2">
+                                                <ng-container
+                                                    *ngFor="let item of studentList?.in_batch | batchStudent:studentInBatchText">
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <p class="mb-2 d-flex align-content-center">
+                                                            <label class="m-checkbox mb-0">
+                                                                <input type="checkbox" id="checkbox{{item.id}}" [(ngModel)]="item.isSelect"
+                                                                    (ngModelChange)="singleSelectInBatch()"><span></span>
+                                                            </label>
+                                                            <label for="checkbox{{item.id}}" class="mb-0">
+                                                                <span class="ps-2"> <span class="student_roll_no">{{item?.student_roll_number?.rollno ?? '-'}}</span>
+                                                                <a [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_PROFILE),item.unique_id]" target="_blank">{{item?.full_name}}</a></span>
+                                                            </label>
+                                                        </p>
+                                                        <button class="button" type="button" class="btn cancel-btn px-4 d-flex align-items-center"
+                                                            (click)="addRemoveSingleStudentInBatch(item.id,'remove')"> remove
+                                                        </button>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="isGetData">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="studentList?.in_batch?.length == 0">
+                                                    <p style="text-align: center;">No Record Found</p>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="">
+                        <button class="button" type="button" class="btn save-btn px-4 d-flex align-items-center" [disabled]="isSave || isGetData" (click)="saveAssignBatchStudent()">
+                            Save
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isSave">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

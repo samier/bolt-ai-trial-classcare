@@ -1,0 +1,48 @@
+::ng-deep body{
+    app-user-branch-list{
+        .branch-list{
+          .page_inner{
+            h2{
+                margin: 18px 0 20px;
+                font-size: 21px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+            .school_profile{
+                text-align: center;
+                .branch_img{
+                    img{
+                        height: 233px;
+                        width: 247px;
+                        object-fit: contain;
+                    }
+                }
+                h3{
+                    font-size: 15px;
+                    margin: 10px 0 5px;
+                    padding-bottom: 8px;
+                }
+
+                .btn-group{
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;
+                   gap: 18px;
+                   a{
+                    border-radius: 0.3rem;
+                    max-width: 56px;
+                   }
+                }
+
+            }
+
+          }
+
+          .card{
+            min-height: 405px;
+          }
+
+        }
+    }
+}

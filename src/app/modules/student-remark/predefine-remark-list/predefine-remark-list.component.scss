@@ -1,0 +1,27 @@
+::ng-deep body{
+    app-predefine-remark-list{
+        .table-responsive {
+            .table-bordered {
+                tbody {
+                    tr {
+                        td {
+                            .positive-remark {
+                                color: #5DA55D;
+                            }
+                            .negative-remark {
+                                color: #F14545;
+                            }
+                            .custom-remark {
+                                color: #ff8412;
+                            }
+                        }
+                    }
+                    .comment{
+                        white-space: normal;
+                        width: 80%;
+                    }
+                }
+            }
+        }
+    }
+}

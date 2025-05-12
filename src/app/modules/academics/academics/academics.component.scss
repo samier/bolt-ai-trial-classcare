@@ -1,0 +1,283 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-academics{
+    .page_inner{
+        .page_title{
+            display: none;
+        }
+        .img-thumbnail{
+            position: relative;
+            bottom: 0;
+            inset-inline-end: 0;
+            margin-right: 24px;
+            width: 160px;
+            height: auto;
+        }
+        .card_body{
+            h3{
+                font-weight: 700;
+                font-size: 18px;
+                text-transform: uppercase;
+                margin: 0 0 20px;
+            }
+            h5{
+                font-size: 1.25em;
+                margin-top: 13px;
+                i{
+                    font-size: 14.3px;
+                }
+            }
+            .student_details{
+                a{
+                    &.btn{
+                        color: $white;
+                        margin-top: 5px;
+                        padding: .774em 1.074em;
+                        &:hover{
+                            background: $btn-gradient-hover;
+                        }
+                        i{
+                            font-size: 1.1em;
+                        }
+
+                    }
+                }                
+            }
+        }
+    }
+    .students-info-tabs-view{
+        h3{
+            &.sub_title{
+                margin: 25px 0;
+            }
+        }
+		.img-thumbnail {
+			position: relative;
+			bottom: 0;
+			inset-inline-end: 0;
+			margin-right: 15px;
+			width: 110px;
+			height: 110px;
+		}
+		.student-details{
+			h3{
+				font-size: 18px;
+				margin-bottom: 5px;
+				text-transform: uppercase;
+			}
+			h6{
+				opacity: 0.5;
+			}
+			.btn{
+				i{
+					margin-right: 5px;
+                    font-size: 13px;
+				}
+			}
+		}
+    }
+    .academic_year{
+        // .card{
+            .card_body{
+                box-shadow: 0 0 1px 1px rgb(0 0 0 / 12%);
+                border-radius: 3px;
+                background: #dadada59;
+                padding:1rem;                
+            }
+            input{
+                border-radius: 3px !important;
+            }
+            .card-inner{
+                padding: 10px 0 30px;
+                border-bottom: 1px solid #00000030;
+                margin-bottom: 15px;
+                &:last-child{
+                    border-bottom:none;
+                }
+                .input-group{
+                    border-radius: 3px;
+                    overflow: hidden;
+                    .input-group-text{
+                        height: 100%;
+                        padding: 0 15px;
+                    }                    
+                }
+                .form-control[readonly],.form-control:disabled {
+                    background-color: #e9e9e9;
+                    border-color: #D0C9C0;
+                }
+            }
+            hr{
+                background: #00000029;
+                opacity: 1;
+            }
+        // }
+    }
+    .fees-tooltip{
+        z-index: 1;
+    }
+    
+    .bg-grey{
+        background: #aaa !important;
+    }
+
+    .create-new{
+        white-space: nowrap;
+    }
+
+    .reason-toggle {
+        position: absolute;
+        right: 10px;
+    }
+
+    .reason-toggle:hover{
+        color:#ccc;
+    }
+
+    .reason-action span{
+        padding: 5px;
+        border-bottom: 1px solid #ccc;
+        background : white;
+        color: black;
+        white-space: nowrap;
+    }
+
+    .reason-action span:hover{
+      background-color: #f0f0f0;
+    }
+
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+      .create-delete-btn{
+        position: sticky;
+        bottom: -7px;
+        .clear-btn{
+            background-color: #919191;
+            white-space: nowrap;
+        }
+      }
+    }
+
+    .dropdown-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0px;
+      background-color: white;
+      input {
+        border:none;
+      }
+      input[readonly]{
+        background:#fff!important;
+      }
+      input[disabled]{
+        background:#e9e9e9!important;
+      }
+    }
+
+    .disabled-color{
+        background:#e9e9e9!important;
+    }
+
+    .dropdown-header i {
+      margin-left: auto;
+    }
+
+    .dropdown-body {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      border: 1px solid #ccc;
+      border-top: none;
+      background-color: white;
+      max-height: 250px;
+      overflow-y: auto;
+      padding:5px;
+    }
+
+    .dropdown-body::-webkit-scrollbar {
+        width: 5px!important;
+    }
+
+    .dropdown-item {
+      padding: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      white-space: break-spaces;
+    }
+
+    .dropdown-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .reason-toggle {
+      display: flex;
+      align-items: center;
+    }
+
+    .reason-action {
+      position: absolute;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 0px;
+      margin-right: 18px;
+      border-radius:5px;
+      right:0px;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .error {
+        position: unset!important;
+    }
+
+}
+::ng-deep body{ 
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip-arrow{
+        &::before{
+            border-bottom-color:white;
+        }
+    }
+
+    .my-custom-class .tooltip-inner {
+        background-color: white!important;
+        color: #000!important;
+        border-radius: 2px;
+        padding: 5px;
+        text-align: left;
+    }
+    .my-custom-class .tooltip-inner p{
+        margin-bottom:0px!important;
+    }
+    .my-custom-class.bs-tooltip-end .tooltip-arrow::before {
+        border-right-color: #ddd;
+    }
+    .my-custom-class.bs-tooltip-start .tooltip-arrow::before {
+        border-left-color: #ddd;
+    }
+    .my-custom-class.bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: #ddd;
+    }
+    .my-custom-class.bs-tooltip-bottom .tooltip-arrow::before {
+        border-bottom-color: #ddd;
+    }
+}
+
+::ng-deep {
+    .duplicate-modal-section{
+      z-index: 10 !important;
+    }
+    .duplicate-modal-backdrop{
+      z-index: 10 !important;
+    }
+}

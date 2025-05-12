@@ -1,0 +1,380 @@
+<div class="card">
+	<form [formGroup]="form">
+		<div class="row">
+			<div class="col-md-3 form_group">
+				<div>
+					<label class="form_label">Transport Area</label>
+					<div>
+	
+				  <ng-select #select [items]="areas" [searchable]="true" formControlName="area_id" (change)="handleAreaChange()"
+						bindLabel="name"  bindValue="id"
+						placeholder="please select">
+					</ng-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 form_group">
+				<div>
+					<label class="form_label">Transport Mode<span class="text-danger">*</span></label>
+					<ng-select [items]="transport_modes" [searchable]="true" formControlName="transport_mode"
+						[(ngModel)]="transport_mode" (change)="get_transport_mode($event.value)" bindLabel="name"
+						bindValue="value" placeholder="please select mode">
+					</ng-select>
+				</div>
+			</div>
+			<div class="col-md-3 form_group" *ngIf="status != null">
+				<label class="form_label">Transport Status</label>
+				<input type="text" class="form-control" [value]="status" [class.text-success]="status == 'Active'"
+					[class.text-danger]="status == 'Inactive'" readonly>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way drop'">
+				<div>
+					<label class="form_label">Pickup Stand<span class="text-danger">*</span></label>
+					<div>
+						<ng-select [items]="stops" bindLabel="name" bindValue="id" formControlName="pickup_stand"
+							placeholder="please select pickup stand" [searchable]="true"
+							(change)="getRouteByStop($event, 'form'); get_fare()" [(ngModel)]="pickupStand">
+						</ng-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way drop'">
+				<div>
+					<label class="form_label">Pickup Route<span class="text-danger">*</span></label>
+					<div>
+						<ng-select [items]="pickup_routes" bindLabel="name" bindValue="id"
+							formControlName="pickup_route" placeholder="please select pickup route" [searchable]="true"
+							(change)="changePickupRoute($event, 'pickup')">
+						</ng-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way pickup'">
+				<div>
+					<label class="form_label">Drop Stand<span class="text-danger">*</span></label>
+					<div>
+						<ng-select [items]="stops" bindLabel="name" bindValue="id" formControlName="drop_stand"
+							placeholder="please select drop stand" [searchable]="true"
+							(change)="getRouteByStop($event,'form',true); get_fare()" [(ngModel)]="dropStand">
+						</ng-select>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way pickup'">
+				<div>
+					<label class="form_label">Drop Route<span class="text-danger">*</span></label>
+					<div>
+						<ng-select [items]="drop_routes" bindLabel="name" bindValue="id" formControlName="drop_route"
+							placeholder="please select drop route" [searchable]="true"
+							(change)="changePickupRoute($event, 'drop')">
+						</ng-select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 form_group">
+				<div>
+					<label class="form_label">Fare<span class="text-danger">*</span></label>
+					<div>
+						<input type="number" formControlName="fare" class="form-control" [value]="fare">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3 form_group">
+				<div>
+					<label class="form_label">Start Date<span class="text-danger">*</span></label>
+					<app-mat-date-picker  controlName="start_date" (change)="handleDate()"></app-mat-date-picker>
+
+					<!-- <div>
+						<input type="date"  formControlName="start_date" (change)="handleDate()"
+							class="form-control">
+					</div>
+					<div *ngIf="form.controls['start_date'].invalid && (form.controls['start_date'].dirty || form.controls['start_date'].touched)"
+						class="Femerror text-danger mb-2">
+						<div *ngIf="form.controls['start_date'].errors?.['required']">please select start date.</div>
+					</div> -->
+				</div>
+			</div>
+			<div class="col-md-3 form_group">
+				<div>
+					<label class="form_label">End Date<span class="text-danger">*</span></label>
+					<app-mat-date-picker  controlName="end_date" [minDate]="form.controls['start_date'].value" (change)="handleDate()"></app-mat-date-picker>
+
+					<!-- <div>
+						<input type="date"  formControlName="end_date" (change)="handleDate()"
+							[min]="form.controls['start_date'].value" class="form-control">
+					</div>
+					<div *ngIf="form.controls['end_date'].value && form.controls['start_date'].value && form.controls['end_date'].value < form.controls['start_date'].value"
+						class="Femerror text-danger mb-2">
+						<div>end date can not be before start date.</div>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="row"
+			*ngIf="(form.controls['end_date'].value != '' || form.controls['end_date'].value != null) && form.controls['start_date'].value != ''">
+			<div class="col-md-6 form_group mb-2">
+				<label class="form_label"><b>Reason For Leaving</b></label>
+				<div class="form-group">
+					<div>
+						<textarea class="form-control ng-untouched ng-pristine ng-invalid" name="reason" id="reason"
+							formControlName="reason" placeholder="Enter reason for leaving"></textarea>
+					</div>
+				</div>
+			</div>
+			<ng-container formArrayName="attachment" *ngFor="let item of attachmentArray.controls; let i = index;">
+				<div class="col-md-6 form_group mb-2">
+					<div class="row">
+						<div class="col-md-12 form_group mb-2">
+							<ng-container [formGroupName]="i">
+								<div class="row">
+									<label class="form_label"><b>Attachment Name</b></label>
+									<div class="col-md-6 form_group mb-2">
+										<input type="text" formControlName="attachment_name" name="working_days_school"
+											placeholder="Attachment Name" class="form-control">
+									</div>
+									<div class="col-md-6 form_group mb-2">
+										<div class="form-group">
+											<div class="d-flex justify-content-between">
+												<input type="file" class="form-control"
+													(change)="selectAttachment($event,item)">
+												<div *ngIf="i == 0">
+													<button class="btn ms-2" type="button" (click)="addAttachment()"><i
+															class="fa fa-plus"></i></button>
+												</div>
+												<div *ngIf="i !== 0">
+													<button class="btn ms-2" type="button"
+														(click)="removeAttachment(i)"><i
+															class="fa fa-minus"></i></button>
+												</div>
+											</div>
+											<!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+											<div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+										</div> -->
+										</div>
+									</div>
+								</div>
+							</ng-container>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</div>
+		<div class="row" *ngIf="transport && form.controls['start_date'].value <= transport.end_date">
+			<div class="col-md-6 form_group mb-2" *ngIf="attachmentList && attachmentList.length > 0">
+				<div class="row">
+					<label class="form_label"><b>Uploaded Attachment</b></label>
+					<div class="col-md-12" *ngFor="let attach of attachmentList;">
+						<div class="row">
+							<div class="col-md-6 form_group mb-2">
+								<input type="text" [value]="attach.file_name" readonly name="working_days_school"
+									placeholder="Attachment Name" class="form-control">
+							</div>
+							<div class="col-md-6 form_group mb-2 flex">
+								<a class="btn ms-2" href="{{attach.attachment_url}}" target="_blank"><i
+										class="fa fa-eye"></i></a>
+								<button class="btn ms-2" type="button"
+									(click)="deleteAttachment(attach.id, 'transport')"><i
+										class="fa fa-trash"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-end">
+			<div class="col-md-auto">
+				<!-- commonService.hasPermission('transport_assign_transport', 'has_update') -->
+				<!-- <button class="btn w-100" *ngIf="commonService.hasPermission('transport_assign_transport', 'has_create')"  type="submit" (click)="!this.transport?.id ? sendMessage(message) : submit()" [disabled]="form.invalid">
+				Save
+		  </button> -->
+				<button class="btn w-100" [disabled]="is_loading"
+					*ngIf="commonService.hasPermission('transport_assign_transport', 'has_create')" type="submit"
+					(click)="submit()" [disabled]="form.invalid">
+					Save
+					<div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+						<span class="visually-hidden">Loading...</span>
+					  </div>
+				</button>
+			</div>
+		</div>
+
+		<div class="row my-5" *ngIf="assign_transport_history?.length != 0">
+			<div class="col-lg-12 datatable_cls basic_table">
+				<div class="table-responsive">
+					<table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+						<thead class="thead-light">
+							<tr>
+								<th>ID</th>
+								<th [style.display]="for == 'student' ? '' : 'none'">Student</th>
+								<th [style.display]="for != 'student' ? '' : 'none'">Employee</th>
+								<th>Transport Mode</th>
+								<th>Pickup Route</th>
+								<th>Pickup Stand</th>
+								<th>Drop Route</th>
+								<th>Drop Stand</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Fare</th>
+								<th>Transport Status</th>
+								<th>Reason</th>
+								<th>Detail</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody *ngIf="assign_transport_history?.length != 0">
+							<tr *ngFor="let at of assign_transport_history">
+								<td> {{at.id }}</td>
+								<td [style.display]="for == 'student' ? '' : 'none'"> {{at.student?.full_name ?? '-'}}
+								</td>
+								<td [style.display]="for != 'student' ? '' : 'none'"> {{at.employee?.full_name ?? '-'}}
+								</td>
+								<td> {{at.transport_mode}} </td>
+								<td> {{at?.pickup_route?.name ?? '-'}} </td>
+								<td> {{at?.pickup_stand?.name ?? '-'}} </td>
+								<td> {{at?.drop_route?.name ?? '-'}} </td>
+								<td> {{at?.drop_stand?.name ?? '-'}} </td>
+								<td> {{at.start_date}} </td>
+								<td> {{at.end_date}} </td>
+								<td> {{at.fare}} </td>
+								<td> {{at?.transport_status ? at.transport_status : 'Left'}} </td>
+								<td class="white-space-normal"> {{at.reason}} </td>
+								<td>
+									<div class="tooltip" [ngbTooltip]="tipContentDetails" container="body"
+										placement="left" tooltipClass="my-custom-class">
+										<i class="fas fa-info-circle"></i>
+										<ng-template #tipContentDetails>
+											<span>
+												<p>
+													<b>Assign Time : </b>{{at.updated_at | date:'dd-MM-yyyy, h:mm a'}}
+												</p>
+												<p>
+													<b>Assign by : </b>{{at.assign_by_user.full_name}}
+												</p>
+											</span>
+										</ng-template>
+									</div>
+								</td>
+								<td>
+									<div class="btn-group">
+										<button type="button" ngbTooltip="Attachments" class="btn action-attech"
+											(click)="openAttachment(myModel, at)">
+											<i class="fe fe-file"></i>
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<tbody *ngIf="assign_transport_history?.length == 0">
+							<tr>
+								<td colspan="12" class="text-center no-data-available">No data</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<ng-template #myModel let-modal>
+		<div class="modal-header">
+			<div class="modal-title">Attachments</div>
+			<div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+		</div>
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex" *ngFor="let file of modelAttachments">
+					<div class="card p-0 w-100 ">
+						<span class="delete-button" (click)="deleteAttachment(file.id, 'history')">
+							<i class="fa fa-trash text-danger cursor-pointer"></i>
+						</span>
+						<a class="mb-1" href="{{file.attachment_url}}" target="_blank">
+							<div class="card-body px-2  text-center">
+								<div class="file-manger-icon">
+									<img [src]="fileIcons[file.file_type]" alt="img" class="rounded-7">
+								</div>
+								<h6 class="mb-1 font-weight-semibold text-capitalize">{{file.file_name}}</h6>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="text-center text-muted" *ngIf="modelAttachments?.length == 0">
+				No Attachments Available
+			</div>
+		</div>
+	</ng-template>
+
+	<ng-template #message class="publish-update-modal">
+		<div class="modal-header publish-modal-header" style="z-index: 0;">
+			<h4 class="modal-title" id="modal-basic-title">SMS Options for the Transport</h4>
+			<button type="button" class="close" aria-label="Close" (click)="closeModal()">
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+		<div class="modal-body publish-modal-body">
+
+			<div class="col-md-12 form_group">
+				<label class="form_label">Send to ?</label>
+				<div class="d-flex">
+					<div class="m-checkbox-list d-flex align-items-center me-3">
+						<label class="m-checkbox mb-0">
+							<input type="checkbox" id="checkbox" [(ngModel)]="send_father"><span></span>
+						</label>
+						<label for="checkbox" class="ms-2 mb-0">Father</label>
+					</div>
+					<div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+						<label class="m-checkbox mb-0">
+							<input type="checkbox" id="checkbox1" [(ngModel)]="send_mother"><span></span>
+						</label>
+						<label for="checkbox1" class="ms-2 mb-0">Mother</label>
+					</div>
+					<div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+						<label class="m-checkbox mb-0">
+							<input type="checkbox" id="checkbox2" [(ngModel)]="send_student"><span></span>
+						</label>
+						<label for="checkbox2" class="ms-2 mb-0">Student</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="bg-info mb-3">
+	                <div class="card-body">
+	                    <h5 class="card-title">Parents Template :- </h5>
+	                    <p class="card-text">{{template[0].template}}</p>
+	                </div>
+	            </div>
+	            <div class="bg-info mb-3">
+	                <div class="card-body">
+	                    <h5 class="card-title">Students Template :- </h5>
+	                    <p class="card-text">{{template[1].template}}</p>
+	    
+	                </div>
+	            </div> -->
+		</div>
+		<div class="modal-footer" style="z-index: 0;">
+			<div class="col-auto">
+				<button type="submit" class="cancel-btn btn" (click)="closeModal()">
+					Cancel </button>
+			</div>
+			<div class="col-auto">
+
+				<button class="btn save-btn" type="submit" (click)="submit()" [disabled]="is_loading">
+					Save
+					<div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+						<span class="visually-hidden">Loading...</span>
+					</div>
+				</button>
+
+				<!-- <button class="button px-1" type="submit" class="w-100 btn" [disabled]="false"  (click)="sendNotice()">
+	                    send
+	                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+	                        <span class="visually-hidden">Loading...</span>
+	                    </div>
+	                </button> -->
+			</div>
+		</div>
+	</ng-template>
+</div>

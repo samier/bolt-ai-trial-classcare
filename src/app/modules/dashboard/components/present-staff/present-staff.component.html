@@ -1,0 +1,45 @@
+<div class="present-staff-section">
+    <div class="today-leave-header">
+        <h3> <img src="./assets/images/absent-icon.svg" /> Today’s Present Staff</h3> 
+        <!-- <div [formGroup]="presentStaffF" class="exam-mark-form">
+            <div class="row">
+                <div class="col-md-4 form_group m-0">
+                    <app-date-range-picker type="date" controlName="date"  placeholder="Select Date"></app-date-range-picker>
+                </div>
+             </div>
+        </div> -->
+    </div>
+    <div class="birthday-wrapper" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+        <ul>
+            <ng-container *ngIf="presentStaffList?.length != 0">
+                <ng-container *ngFor="let staff of presentStaffList">
+                    <li>
+                        <div class="birthday-lt-content">
+                            <img [src]="profilePhoto(staff)" />
+                            <h4>{{ staff?.faculty_name ?? "-" }}
+                                <span *ngIf="staff?.faculty_subjects">( Subjects :- {{ staff?.faculty_subjects ?? "-"}}  )</span>
+                            </h4>
+                        </div>
+
+                    </li>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_loading">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner-border-sm ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!is_loading &&  presentStaffList?.length == 0">
+                <div class="d-flex justify-content-center">
+                    No Data Found.
+                </div>
+            </ng-container>
+
+        </ul>
+    </div>
+
+</div>

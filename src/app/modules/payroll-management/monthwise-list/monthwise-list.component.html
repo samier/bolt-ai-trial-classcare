@@ -1,0 +1,41 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-sm-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0 text-center text-sm-left"> Monthwise Attendance & Generate Payroll</h3>
+                <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                    <a class="btn" href="#." [routerLink]="setUrl(URLConstants.PAYROLL)">Back to Payroll Home</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div>
+                        <div>
+                            <form [formGroup]="payrollform" class="form_section">
+                                    <div class="mt-2" *ngFor="let item of monthwise_list;">                                                    
+                                        <div class="row">                                               
+                                            <label class="col-md-12 form_label">{{item.month}}</label>                                                                                                     
+                                            <a class="col-sm-auto col-md-3 col-xl-auto form_group mb-2 btn mx-1" href="#." *ngIf="!item.is_future_date" [routerLink]="[setUrl(URLConstants.ATTENDANCE_LIST),item.date]">Attendance</a>
+                                            <a class="col-sm-auto col-md-3 col-xl-auto form_group mb-2 btn mx-1" href="#." *ngIf="!item.is_future_date"  [routerLink]="[setUrl(URLConstants.PAYROLL_CALCULATION),item.date]">Generate Payroll</a>
+                                            <a class="col-sm-auto col-md-3 col-xl-auto form_group mb-2 btn mx-1" *ngIf="item.is_payslip_available && !item.is_future_date" (click)="printPayslips(item.date)">Print Payslips</a>
+                                            <a class="col-sm-auto col-md-3 col-xl-auto form_group mb-2 btn mx-1" *ngIf="!item.is_payslip_available && !item.is_future_date">No Payslip Generated</a>
+                                            <a class="col-sm-auto col-md-3 col-xl-auto form_group mb-2 btn mx-1" *ngIf="item.is_future_date">No Available</a>
+                                        </div>       
+                                    </div>
+
+                                    <!-- <div class="row w-100">
+                                        <div class="form-group mt-5 ml-4 text-left w-100">                                           
+                                            <div class="col-lg-12">
+												<a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.PAYROLL)">Cancel</a>
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!payrollform.valid" class="btn btn-success btn-minwidth" id="submitButton">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>                                                                                                      -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

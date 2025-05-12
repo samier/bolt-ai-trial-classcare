@@ -1,0 +1,280 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Fees Setting</h3>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div>
+                        <h6 class="mb-4">Fees Receipt Number</h6>
+                    </div>
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <form [formGroup]="form" class="form_section" method="post">
+                                    <div class=" row">
+                                        <div class="form_group col-md-3" *ngIf="id == null">
+                                            <label for="" class="form_label">Select Fees Receipt Type</label>
+                                            <ng-select
+                                                [items]="FeesReceiptTypes" 
+                                                [searchable]="true" 
+                                                formControlName="fees_receipt_type" 
+                                                [(ngModel)]="selectedFeesReceiptType" 
+                                                (change)="handleFeesReceiptChange()"
+                                                bindLabel="name" 
+                                                bindValue="id"
+                                            >
+                                            </ng-select>
+                                        </div>
+                                        <div class="form_group col-md-3"  *ngIf="id != null">
+                                            <label class="form_label">Select Fees Receipt Type</label>
+                                            <div>
+                                                <input type="text" value="{{FeesReceiptType()}}" disabled class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form_group col-md-3" *ngIf="id == null">
+                                            <label for="" class="form_label">Select Fees Setting Type</label>
+                                            <ng-select #select [items]="FeesSettingTypes" [searchable]="true" [disabled]="true"
+                                                formControlName="fees_setting_type" [(ngModel)]="selectedFeesSettingType" (change)="handleFeesSettingChange()"
+                                                bindLabel="name" bindValue="id" placeholder="Please select section">
+                                            </ng-select>
+                                        </div>
+                                        <div class="form_group col-md-3"  *ngIf="id != null">
+                                            <label class="form_label">Select Fees Setting Type</label>
+                                            <div>
+                                                <input type="text" value="{{FeesSettingType()}}" disabled class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" row" *ngIf="selectedFeesSettingType == 2">
+                                        <div class="form_group col-md-3">
+                                            <label for="" class="form_label">Select Branch</label>
+                                            <ng-multiselect-dropdown formControlName="branches"
+                                                [placeholder]="'Please select branch'"
+                                                [settings]="branchDropdownSettings"
+                                                [data]="branches"
+                                                >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="form_group col-md-3" *ngIf="selectedFeesReceiptType != 3">
+                                            <label for="" class="form_label">Select Fees Category</label>
+                                            <ng-multiselect-dropdown formControlName="fees_category_id"
+                                                [placeholder]="'Please select fees category'"
+                                                [settings]="feesCategoryDropdownSettings"
+                                                [data]="feesCategories"
+                                                >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class=" row" *ngIf="selectedFeesSettingType == 3">
+                                        <div class="form_group col-md-3" *ngIf="selectedFeesSettingType == 2 || selectedFeesSettingType == 3">
+                                            <label for="" class="form_label">Select Branch</label>
+                                            <ng-multiselect-dropdown formControlName="branches"
+                                                [placeholder]="'Please select branch'"
+                                                [settings]="branchDropdownSettings"
+                                                [data]="branches"
+                                                (onSelect)="onBatchSelect()"
+                                                (onDeSelect)="onBatchSelect()"
+                                                >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="form_group col-md-3" *ngIf="selectedFeesReceiptType != 3">
+                                            <label for="" class="form_label">Select sections</label>
+                                            <ng-multiselect-dropdown formControlName="section_id"
+                                                [placeholder]="'Please select section'"
+                                                [settings]="sectionDropdownSettings"
+                                                [data]="sections"
+                                                >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                        <div class="form_group col-md-3" *ngIf="selectedFeesReceiptType != 3">
+                                            <label for="" class="form_label">Select Fees Category</label>
+                                            <ng-multiselect-dropdown formControlName="fees_category_id"
+                                                [placeholder]="'Please select fees category'"
+                                                [settings]="feesCategoryDropdownSettings"
+                                                [data]="feesCategories"
+                                                >
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="selectedFeesSettingType == 4">
+                                        <div class="form_group col-md-3">
+                                            <label for="" class="form_label">Select Trust</label>
+                                            <ng-select #select [items]="trusts" [searchable]="true"
+                                                formControlName="trust_id" (change)="handleTrustChange()"
+                                                bindLabel="name" bindValue="id" placeholder="Please select section">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div class=" row">
+                                        <div class="form_group col-md-3">
+                                            <label class="form_label">Fees Receipt Number Prefix:</label>
+                                            <div>
+                                                <input type="text" formControlName="prefix" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['prefix'].invalid && (form.controls['prefix'].dirty || form.controls['prefix'].touched)"
+                                                class="col-md-12 error text-danger mb-2 text-left">
+                                                <div *ngIf="form.controls['prefix'].errors?.['pattern']">symbols not
+                                                    allowed
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form_group col-md-3">
+                                            <label class="form_label">Fees Receipt Number Start From:</label>
+                                            <div>
+                                                <input type="text" formControlName="no" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['no'].invalid && (form.controls['no'].dirty || form.controls['no'].touched)"
+                                                class="col-md-12 error text-danger mb-2 text-left">
+                                                <div *ngIf="form.controls['no'].errors?.['pattern']">only numbers
+                                                    allowed
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form_group col-md-12">
+                                            <label class=" form_label">Fee Receipt Number Reset</label>
+                                            <div class=" d-flex">
+                                                <div class="radio">
+                                                    <label class="m-radio required" for="none" aria-required="true">
+                                                        <input type="radio" id="none" name="fees_receipt_reset"
+                                                            formControlName="fees_receipt_reset" value="1"
+                                                            aria-required="true">None<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label class="m-radio required" for="academic_year"
+                                                        aria-required="true">
+                                                        <input type="radio" id="academic_year" name="fees_receipt_reset"
+                                                            formControlName="fees_receipt_reset" value="2"
+                                                            aria-required="true">Academic Year Change<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label class="m-radio required" for="financial_year"
+                                                        aria-required="true">
+                                                        <input type="radio" id="financial_year"
+                                                            name="fees_receipt_reset"
+                                                            formControlName="fees_receipt_reset" value="3"
+                                                            aria-required="true">Financial Year Change<span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row w-100 ">
+                                        <div class="col-md-auto">
+                                            <button class="button" type="submit"(click)="submit()" class="btn save-btn"
+                                                [disabled]="!form.valid">
+                                                Save Fees Setting
+                                            </button>
+                                            &nbsp;&nbsp;
+                                        </div>
+                                        <div class="col-md-auto">
+                                            <a  href="#." [routerLink]="setUrl(URLConstants.FEES_RECEIPT_NO)" >
+                                                <button class="btn clear-btn" >
+                                                Cancel
+                                            </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div *ngIf="is_trust == 1 && trusts.length > 0" class="my-5">
+                    <div>
+                        <h6>Trust Wise Fees Receipt Number</h6>
+                    </div>
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <form [formGroup]="trustForm" class="form_section" method="post">
+                                    <div class=" row">
+                                        <div class="form_group col-md-3">
+                                            <label for="" class="form_label">Select Trust</label>
+                                            <ng-select #select [items]="trusts" [searchable]="true"
+                                                formControlName="trust_id" (change)="handleTrustChange()"
+                                                bindLabel="name" bindValue="id" placeholder="Please select section">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="trustSelected">
+                                        <div class=" row">
+                                            <div class="form_group col-md-3">
+                                                <label class="form_label">Fees Receipt Number Prefix:</label>
+                                                <div>
+                                                    <input type="text" formControlName="prefix" class="form-control">
+                                                </div>
+                                                <div *ngIf="form.controls['prefix'].invalid && (form.controls['prefix'].dirty || form.controls['prefix'].touched)"
+                                                    class="col-md-12 error text-danger mb-2 text-left">
+                                                    <div *ngIf="form.controls['prefix'].errors?.['pattern']">symbols not
+                                                        allowed
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form_group col-md-3">
+                                                <label class="form_label">Fees Receipt Number Start From:</label>
+                                                <div>
+                                                    <input type="text" formControlName="no" class="form-control">
+                                                </div>
+                                                <div *ngIf="form.controls['no'].invalid && (form.controls['no'].dirty || form.controls['no'].touched)"
+                                                    class="col-md-12 error text-danger mb-2 text-left">
+                                                    <div *ngIf="form.controls['no'].errors?.['pattern']">only numbers
+                                                        allowed
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form_group col-md-12">
+                                                <label class=" form_label">Fee Receipt Number Reset</label>
+                                                <div class=" d-flex">
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="none_tust" aria-required="true">
+                                                            <input type="radio" id="none_tust" name="fees_receipt_reset"
+                                                                formControlName="fees_receipt_reset" value="1"
+                                                                aria-required="true">None<span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="academic_year_trust"
+                                                            aria-required="true">
+                                                            <input type="radio" id="academic_year_trust"
+                                                                name="fees_receipt_reset"
+                                                                formControlName="fees_receipt_reset" value="2"
+                                                                aria-required="true">Academic Year Change<span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="financial_year_trust"
+                                                            aria-required="true">
+                                                            <input type="radio" id="financial_year_trust"
+                                                                name="fees_receipt_reset"
+                                                                formControlName="fees_receipt_reset" value="3"
+                                                                aria-required="true">Financial Year Change<span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row w-100 ">
+                                            <div class="col-md-2">
+                                                <button class="button" type="submit" (click)="submitTrust()" class="btn"
+                                                    [disabled]="!trustForm.valid">
+                                                    Save Trust Fees Setting
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>

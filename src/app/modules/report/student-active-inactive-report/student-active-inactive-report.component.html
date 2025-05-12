@@ -1,0 +1,71 @@
+<section class="student-gender-report">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Active InActive Report</h3>
+            </div>
+            
+            <div class="report_filter card">
+                <div class="row">
+                    <div class="col-lg-12 datatable_cls">
+                        <div class="table-responsive" >
+                            <div class="table-btn-right d-flex gap-2">
+                                <button *ngIf="commonService.hasPermission('student_report_student_active_inactive_report', 'has_download')" class="button" type="submit"
+                                    class="btn w-100 d-flex align-items-center pdf-btn" ngbTooltip="PDF" (click)="downloadPdfAndExcel('pdf')"
+                                    [disabled]="studentActiveInactiveData.length > 0 && isPdfLoading">
+                                    <img src="assets/images/pdf-icon.svg" alt="">
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                                <button *ngIf="commonService.hasPermission('student_report_student_active_inactive_report', 'has_download')" class="button" type="submit"
+                                    class="btn w-100 d-flex align-items-center excel-btn" ngbTooltip="EXCEL" (click)="downloadPdfAndExcel('excel')"
+                                    [disabled]="studentActiveInactiveData.length > 0 && isExcelLoading">
+                                    <img src="assets/images/excel-icon.svg" alt="">
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <table datatable [dtOptions]="dtOptionsForActiveStatus" id="myTable" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Class Name</th>
+                                        <th>Gender</th>
+                                        <th>Active</th>
+                                        <th>Inacive</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of studentActiveInactiveData ;let i = index;" >
+                                        <td *ngIf="item.gender == 'boys'" rowspan="2" class="teal-text-color">{{item.class_name}}</td>
+                                        <td *ngIf="item.gender == 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                        <td *ngIf="item.gender != 'boys'">{{item.gender.charAt(0).toUpperCase() + item.gender.slice(1)}}</td>
+                                        <td class="orange-text-color">{{item.active}}</td>
+                                        <td class="green-text-color">{{item.in_active}}</td>
+                                        <td class="teal-text-color">{{item.total ?? "-"}}</td>
+                                    </tr>
+                                    <!-- <tr *ngFor="let items of tbody ;let i = index;">
+                                        <td *ngFor="let item of items; let j = index;"> {{item}} </td>
+                                    </tr> -->
+                                </tbody>
+                                <tbody *ngIf="isStudentActiveInactiveLoading">
+                                    <tr>
+                                        <td colspan="4">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

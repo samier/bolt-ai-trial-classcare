@@ -1,0 +1,37 @@
+<section class="branch-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">List of Branch</h3>
+				<div class="btn_right">
+					<!-- <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#."  [routerLink]="setUrl(URLConstants.BRANCH_ADD)">Add New Branch</a> -->
+					<a *ngIf="is_admin" class="active btn btn-focus add-btn" href="#."  [routerLink]="setUrl(URLConstants.BRANCH_ADD)">Add New Branch</a>
+				</div>
+			</div>           
+            <div class="row" >
+                <ng-container *ngFor="let branch of branchList">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="card">
+                            <div class="card_body">
+                                <div class="school_profile">
+                                    <div class="branch_img">
+                                        <img src={{branch?.image}} id="img_3" width="100%">
+                                    </div>
+                                    <div class="school-heading">
+                                        <h3>{{branch?.branchName}} <div>( {{branch?.location}} ) </div> </h3>
+                                        <p><strong>Contact :- </strong> {{branch?.branchContactno }} <span *ngIf="branch?.Contactno"> , </span> {{ branch?.Contactno}} </p>
+                                    </div>
+                                    <div>
+                                        <a href="#." [routerLink]="setUrl(URLConstants.DASHBOARD,branch?.id)" class="btn show-btn me-2">view</a>
+                                        <a *ngIf="is_admin" href="#." [routerLink]="[setUrl(URLConstants.BRANCH_EDIT),branch.id]" class="btn edit-btn">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>    
+</section>

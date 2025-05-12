@@ -1,0 +1,147 @@
+<section class="document_type">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">QUICK ATTENDANCE</h3>
+      </div>
+
+      <div>
+        <div class="card_body">
+          <div class="card">
+            <div [formGroup]="form" class="row">
+
+              <!-- Section -->
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Select Section</label>
+                <app-single-select controlName="section_id" (change)="onSectionChange()" [dropDownArray]="sections"
+                  placeholder="Please select"></app-single-select>
+                <!-- <ng-select #select [items]="sections" [searchable]="true" (change)="onSectionChange()" bindLabel="name"
+                  bindValue="id" formControlName="section_id" placeholder="Please select">
+                </ng-select> -->
+              </div>
+
+              <!-- classes -->
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Select Class
+                  <span class="text-danger">*</span>
+                </label>
+                <app-multi-select controlName="class_id" [dropDownArray]="classes" placeholder="Select class"
+                  (change)="onClassChange()"></app-multi-select>
+              </div>
+
+              <!-- Batch -->
+
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Select Batch
+                  <span class="text-danger">*</span>
+                </label>
+                <app-multi-select controlName="batch_id" [dropDownArray]="batches"
+                  placeholder="Select batch"></app-multi-select>
+              </div>
+
+              <!-- date -->
+              <div class="col-md-3 form_group">
+                <label class="form_label">Select Date
+                  <span class="text-danger">*</span>
+                </label>
+                <app-mat-date-picker controlName="date" [maxDate]="maxDate"></app-mat-date-picker>
+                <!-- <app-input type="date" placeholder="Select Date" controlName="date" [maxDate]="maxDate"></app-input> -->
+              </div>
+            </div>
+
+              <!-- Button -->
+            <div class="row">
+              <!-- Show BTN -->
+              <div class="col-md-auto">
+                  <button class="btn w-100 show-btn" (click)="submit()" [disabled]="showL">
+                    Show
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="showL">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+              </div>
+
+              <!-- Clear BTN -->
+              <div class="col-md-auto">
+                  <button class="btn w-100 clear-btn" (click)="handleClear()" [disabled]="clearL">
+                    Clear
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="clearL">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+              </div>
+            </div>  
+          </div>  
+          
+          <!-- ----- -->
+          <div class="card" *ngIf="tbody.length > 0">
+            <div class="basic_table mt-2">
+              <div class="table-responsive">
+                <form [formGroup]="attendanceForm" (ngSubmit)="onSubmit()">
+                  <table class="row-border hover table table-bordered dataTable no-footer mb-0">
+                    <thead>
+                      <tr>
+                        <th class="text-center pe-2 w-40">
+                          <div class="m-checkbox-list">
+                            <label class="m-checkbox mb-0">
+                              <input type="checkbox" formControlName="isSelectAll" (change)="selectAllCheckbox($event)"
+                                name="checkbox" id="checkbox"><span></span>
+                            </label>
+                          </div>
+                        </th>
+                        <th class="text-center pe-2 w-100"> Batch </th>
+                        <th class="text-center w-300"> Absent </th>
+                        <th class="text-center w-300"> Leave </th>
+                        <th class="text-center w-300"> Taken By </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container formArrayName="attendance">
+                        <ng-container *ngFor="let item of attendanceArray().controls ; let i=index">
+                          <tr [formGroupName]="i">
+                            <td class="text-center align-middle">
+                              <div class="m-checkbox-list">
+                                <label class="m-checkbox mb-0">
+                                  <input type="checkbox" (change)="selectCheckbox($event,i)"
+                                    formControlName="is_checked"><span></span>
+                                </label>
+                              </div>
+                            </td>
+                            <td class="text-center align-middle">{{item.value.name}}</td>
+                            <td>
+                              <input class="form-control" placeholder="Absent Roll No." type="text" name="student"
+                                formControlName="absent_students">
+                            </td>
+                            <td>
+                              <input class="form-control" placeholder="Leave Roll No." type="text" name="students"
+                                formControlName="leave_students">
+                            </td>
+                            <td>
+                              <ng-select #select [items]="item.value.teachers_array" appendTo="body" [searchable]="true"
+                                formControlName="class_teacher_id" bindLabel="full_name" bindValue="id"
+                                placeholder="Please Select Faculty">
+                              </ng-select>
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </ng-container>
+                    </tbody>
+
+                  </table>
+                  <div class="w-100">
+                    <button *ngIf="CommonService.hasPermission('student_quick_attendance', 'has_create')" type="submit" class="btn mt-3 px-4 text-center save-btn">Submit
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="submitL">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

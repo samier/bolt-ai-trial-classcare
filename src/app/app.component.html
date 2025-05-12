@@ -1,0 +1,15 @@
+<!---Global-loader-->
+<!-- <div *ngIf="isSpinner" style="height:100vh;" id="glb-loader" class="loaderShow">
+  <img src="./assets/img/loader.svg" class="loader-img" alt="loader">
+</div> -->
+<!--- End Global-loader-->
+<div [ngClass]="isLoading ? 'd-none' : 'd-block'">
+  <router-outlet></router-outlet>
+</div>
+<!-- <div *ngIf="isLoading">loading...</div> -->
+
+
+<app-tap-to-top></app-tap-to-top>
+<div class="loader-container" *ngIf="isLoading">
+  <div class="loader"></div>
+</div>

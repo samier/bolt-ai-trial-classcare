@@ -1,0 +1,30 @@
+<div class="modal-header d-flex justify-content-between">
+	<h5 class="modal-title" id="uploadProfileModalLabel">Update {{image_for}} Profile Picture</h5>
+	<span (click)="closeModal()"><i class="fa fa-times"></i></span>
+</div>
+<div class="modal-body">
+	<form id="profileForm">
+		<div class="col-md-12">
+		    <div class="choose_profile">
+		        <input type="file" name="image" (change)="onFileSelected($event)"  class="form-control">
+		    </div>
+		    <span class="d-flex justify-content-center align-items-center m-2">OR</span>
+			<button type="button" class="btn  w-100" (click)="openWebcamModal()">Capture Via Webcam</button>
+		</div>
+		<div class="row">
+		    <div class="d-flex justify-content-center align-items-center mt-3">
+				<img class="img-preview" [src]="this.image64Data" *ngIf="this.image64Data"/>
+		    </div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+    <button type="submit" class="btn btn-primary" (click)="uploadProfilePicture()" [disabled]="loader"> 
+        {{loader ? 'Saving' : 'Save'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="loader">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </button>
+</div>

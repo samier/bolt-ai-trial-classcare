@@ -1,0 +1,82 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+          <h3 class="sub_title mb-0">Batchwise Exam Monthly Report</h3>
+        </div>
+        <div class="card student-list-card p-0">
+          
+          <div class="card-header justify-content-between d-flex">
+            <div class="card-student-heading d-flex align-items-center">
+              <h5 class="mb-0">Filters</h5>
+            </div>
+            <div class="d-flex student-accordion-btn">
+              <button class="btn me-2" (click)="reset()">Reset</button>
+              <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                <i class="fa fa-angle-up" *ngIf="filter"></i>
+              </button>
+            </div>
+          </div>
+  
+          <div class="card-body" *ngIf="filter">
+            <div [formGroup]="batchReportFilterForm" class="content_scroll">
+                <div class="row">
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Section</label>
+                        <app-single-select [dropDownArray]="sectionsList" controlName="sectionId" placeholder="Select Section" (change)="onSectionChange()"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Class</label>
+                        <app-single-select [dropDownArray]="classesList" controlName="classId" placeholder="Select Class" (change)="onClassChange()"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Batch <span class="text-danger">*</span></label>
+                        <app-single-select [dropDownArray]="batchesList" controlName="batchId" placeholder="Select Batch" (change)="onBatchChange()"></app-single-select>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                      <label class="form_label">Student</label>
+                      <div class="">
+                        <app-multi-select controlName="student" [dropDownArray]="students" placeholder="Select Student"></app-multi-select>
+                      </div>                      
+                  </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class=" form_label">Date <span class="text-danger">*</span> </label>
+                        <app-date-range-picker type="date" controlName="date" placeholder="Select Date"></app-date-range-picker>
+                        <div *ngIf="batchReportFilterForm.get('date')?.touched && batchReportFilterForm.get('date')?.errors">
+                          <small class="text-danger" *ngIf="batchReportFilterForm.get('date')?.errors?.['required']">
+                            The input is required.
+                          </small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form_group">
+                      <label class="form_label">Absent Student Marks & Percentage</label>
+                      <div>
+                          <label class="switch">
+                              <input type="checkbox" formControlName="show_student_absent_marks">
+                              <span class="slider round"></span>
+                          </label>
+                      </div>
+                  </div>                    
+                </div>
+                <div class="row">
+                  <div class="col-md-3 form_group">
+                    <div>
+                      <button type="button" class="btn report-btn" (click)="getReport()" [disabled]="is_loading">Get Report
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                          <span class="visually-hidden">Loading..."</span>
+                        </div>
+                      </button>
+                    </div>  
+                  </div>
+                </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

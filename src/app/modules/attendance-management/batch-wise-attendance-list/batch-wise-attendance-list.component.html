@@ -1,0 +1,82 @@
+<section class="leave_form batch-wise-attendance-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Batch Wise Attendance Status</h3>
+                <div class="d-flex">
+                    <a [routerLink]="this.CommonService.setUrl(URLConstants.STUDENT_TAKE_ATTENDANCE)" class="btn me-2 add-btn">Take Attendance</a>
+                </div>
+            </div>
+            <div class="card p-0 batch-list">
+                <div class="card-header justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn me-2" (click)="reset()">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                        <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                        <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="filter">
+                    <form [formGroup]="batchAttendanceForm">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Section</label>
+                                <div class="student-dropdown w-100">
+                                    <app-single-select [dropDownArray]="sectionsList" controlName="sectionId" placeholder="All Section" (change)="onSectionChange()"></app-single-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Class</label>
+                                <div class="student-dropdown w-100">
+                                    <app-single-select [dropDownArray]="classesList" controlName="classId" placeholder="All Class"></app-single-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Date</label>
+                                <div class="student-dropdown w-100">
+                                    <app-mat-date-picker controlName="date" [selectedDate]="todaysDate" [maxDate]="todaysDate"></app-mat-date-picker>
+                                </div>
+                            </div>
+                            <div class="col-md-12 form_group">
+                                <button class="btn show-btn" (click)="onShowClick()" [disabled]="isShowLoading">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOption" class="table table-hover table-nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Batch</th>
+                                <th>Attendance Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of tbody">
+                                <td class="orange-text-color">{{ item.class_name ?? '-' }}</td>
+                                <td class="teal-text-color">{{ item.batch_name ?? '-' }}</td>
+                                <td [class]="item.attendance == 'Taken' ? 'text-success ' : 'static-text-danger text-danger' ">{{ item.attendance ?? '-' }}</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length === 0">
+                            <tr>
+                                <td colspan="3" class="text-center no-data-available">No data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

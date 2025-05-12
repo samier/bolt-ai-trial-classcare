@@ -1,0 +1,60 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Inventory Setting</h3>
+				<div class="btn_right">
+					<a class="btn add-btn" href="#." [routerLink]="[setUrl(URLConstants.REQUISITION_FORM),0]" > Add Requisition</a>
+				</div>
+			</div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="inventoryForm " class="form_section">
+                                <!-- <div class="row">                                                                        
+                                    <div class="col-md-6 form_group">
+                                        <label class="form_label col-md-12">Select Role<span class="text-danger">*</span></label>
+                                        <div class="col-md-10">
+                                            <ng-select #select [items]="RoleNames" (change)="changeFn(selectedRole)" [searchable]="true" [(ngModel)]="selectedRole" name="roles" bindLabel="name" bindValue="id"  
+                                            formControlName="roles"
+                                             placeholder="please select" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" (onclick)="changeFn(selectedRole)" type="text" (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="inventoryForm.controls['roles'].invalid && inventoryForm.controls['roles'].dirty && inventoryForm.controls['roles'].untouched" class="col-lg-12 error text-danger mb-2">
+                                            <div *ngIf="inventoryForm.controls['roles'].errors?.['required']">Please select an option</div>
+                                        </div>                                         
+                                    </div>        
+                                </div>         -->
+                                    <div class="row">
+                                               
+                                    <div class="col-md-4 form_group">
+                                        <label class="form_label">Select Requisition Approver<span class="text-danger">*</span></label>
+                                        <div>
+                                            <ng-select #select3 [items]="userList" [searchable]="false" [(ngModel)]="selectedUser" bindLabel="full_name" 
+                                            formControlName="users" bindValue="id" placeholder="Please select Requisition Approver" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text" (input)="select3.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" [disabled]="!inventoryForm.valid" class="btn save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                      
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

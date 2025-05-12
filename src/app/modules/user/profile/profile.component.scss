@@ -1,0 +1,93 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-profile{
+	a, a:hover{
+		text-decoration:none;
+		color:black;
+	}
+	tr td{
+		text-transform: capitalize;
+		text-align:left;
+	}
+	.card {
+		.card_body {
+			.alert {
+				padding: 0 10px 10px;
+				border-bottom: 1px dashed rgb(69 74 116 / 41%);
+				&:last-child{
+					border-bottom:none;
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+	.page_inner {
+		.card {
+			.section_dashboard{
+				.card_body{
+					@media screen and (max-width:575px) {
+						padding: 0;
+					}
+					.white_card{
+						@media screen and (max-width:575px) {
+							padding: 15px 15px 10px;
+						}
+					}
+				}
+			}
+		}
+	}
+	.user-info-tabs-view{
+        h3{
+            &.sub_title{
+                margin: 25px 0;
+            }
+        }
+		.img-thumbnail {
+			position: relative;
+			bottom: 0;
+			inset-inline-end: 0;
+			margin-right: 15px;
+			width: 110px;
+			height: 110px;
+		}
+		.student-details{
+			h3{
+				font-size: 18px;
+				margin-bottom: 5px;
+				text-transform: uppercase;
+			}
+			h6{
+				opacity: 0.5;
+			}
+			.btn{
+				i{
+					margin-right: 5px;
+					font-size: 13px;
+				}
+			}
+		}
+        .detail-card{
+            box-shadow: -8px 12px 18px 0 #dadee8;
+            min-height: 500px;
+        }
+    }
+	.primary-bg{
+		background:$primary;
+	}
+	.span_outer{
+		width: 100%;
+    	display: block;
+		span{
+			&.title {
+				border: none;
+				vertical-align: middle;
+				display: inline-flex;
+				padding: 6px 0;
+				min-width: 104px;
+				opacity: .8;
+				font-size: 14px;
+				font-weight: 400;
+			}
+		}
+	}
+}

@@ -1,0 +1,191 @@
+<section class="inquiry-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Activity Log List</h3>
+                <div class="d-flex">
+
+                </div>
+            </div>
+            <div class="card filter p-0">
+                <div class="card-header justify-content-between d-flex" (click)="filter = !filter">
+                    <div class="card-student-heading d-flex align-items-center">
+                      <h5 class="mb-0">Filters</h5>
+                      <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                      <button class="btn btn-primary me-2" (click)="onReset($event)" [disabled]="isResetLoading">Reset
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                            <span class="visually-hidden">Loading..."</span>
+                        </div>
+                      </button>
+                      <button class="btn btn-primary drop-btn border-circle">
+                        <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                        <i class="fa fa-angle-up" *ngIf="filter"></i>
+                      </button>
+                    </div>
+                </div>
+                <div *ngIf="filter" class="card-body">
+                    <form [formGroup]="activityLofFilterF">
+                        <div class="row">
+
+                            <div class="col-lg-3 col-md-3 form_group">
+                                <label class="form_label">Select Module </label>
+                                <div>
+                                  <app-multi-select controlName="moduleFC" [dropDownArray]="moduleDPList"
+                                    placeholder="Select Module" ></app-multi-select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 form_group">
+                                <label class="form_label">Select Action </label>
+                                <div>
+                                  <app-multi-select controlName="actionFC" [dropDownArray]="actionDPList"
+                                    placeholder="Select Action"></app-multi-select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 form_group">
+                                <label class="form_label">Select Employee </label>
+                                <div>
+                                  <app-multi-select controlName="employeeFC" [dropDownArray]="employeeDPList"
+                                    placeholder="Select Employee"></app-multi-select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 form_group">
+                                <label class="form_label">Select Date Range</label>
+                                <div>
+                                  <app-date-range-picker controlName="dateFC" placeholder="select date range"></app-date-range-picker>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-auto form_group">
+                                <button class="btn show-btn" (click)="onShow()" [disabled]="isShowLoading">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+             <div class="card">
+                <div class="card_body">
+
+                    <div class="table-responsive">
+                        <div class="dataTables_wrapper">
+
+                            <table datatable [dtOptions]="dtOptions"
+                                class="row-border datatable hover table-bordered table-striped">
+
+                                <thead>
+                                    <tr>
+
+                                        <!-- <th>SR. No.</th> -->
+                                        <th>Device Ip</th>
+                                        <th>Date and Time</th>
+                                        <!-- <th>Module Key</th> -->
+                                        <th>Module Name</th>
+                                        <th>Action Performed</th>
+                                        <th>User</th>
+                                        <th>View Changes</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let row of tbody ;let i = index;">
+
+                                        <!-- <td>{{ row?.id || '-'}}</td> -->
+                                        <td>{{ row?.device_ip || '-'}}</td>
+                                        <td>{{ row?.created_at | date: dateFormateService.getDateTimeFormat()}}</td>
+                                        <!-- <td>{{ row?.module_key || '-'}}</td> -->
+                                        <td>{{ row?.module_name || '-' }}</td>
+                                        <td>{{ row?.action || '-' }}</td>
+                                        <td>{{ row?.user?.full_name || '-'}}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" ngbTooltip="View Changes" class="btn action-view"
+                                                    (click)="openViewChangesModal(viewChangesModel,row.changesValue)"> 
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>    
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+
+                                <tbody *ngIf="is_loading">
+                                    <tr>
+                                        <td colspan="13">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="!is_loading &&  tbody?.length == 0">
+                                    <tr>
+                                        <td colspan="13">
+                                            <div class="d-flex justify-content-center">
+                                                No Data Found.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</section>
+
+<!-- POP UP SECTION -->
+<ng-template #viewChangesModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">View Changes Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeViewChangesModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body rejeced_modal">
+        <div class="col-md-12 form_group">
+            <div class="basic_table">
+                <div class="table-responsive">
+                    <table class="row-border hover table table-bordered dataTable no-footer mb-0 d-table">
+                        <thead>
+                            <tr>
+                                <th>Sr No</th>
+                                <th>Key Name</th>
+                                <th>Old Value</th>
+                                <th>New Value</th>
+                            </tr>
+                        </thead>
+                    
+                        <tbody>
+                            <tr *ngFor="let changes of viewChangesData ;let i = index;">
+                    
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ changes.keyName || '-' }}</td>
+                                <td>{{ changes.old || '-' }}</td>
+                                <td>{{ changes.new || '-' }}</td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

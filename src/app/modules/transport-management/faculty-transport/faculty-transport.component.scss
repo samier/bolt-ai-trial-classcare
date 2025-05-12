@@ -1,0 +1,11 @@
+::ng-deep body {
+    app-faculty-transport{
+        .basic_table {
+            .table-responsive {
+                .table{
+                    display: table;
+                }
+            }
+        }
+    }
+}

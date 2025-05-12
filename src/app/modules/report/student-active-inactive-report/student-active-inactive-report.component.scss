@@ -1,0 +1,12 @@
+::ng-deep body{
+    app-student-active-inactive-report{
+        .table-responsive{
+            position: relative;
+            .table-btn-right{
+                position: absolute;
+                right: 0;
+                z-index: 1;
+            }
+        }
+    }
+}

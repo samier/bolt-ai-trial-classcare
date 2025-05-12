@@ -1,0 +1,48 @@
+<section class="">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 message-heading-list">
+                <h3 class="sub_title mb-0">{{ type === 1 ? 'SMS History' : type === 2 ? 'Whatsapp History' : type === 4 ? 'Notification History' : ''}}</h3>
+            </div>
+            <div class="card message-list-card p-0">
+                <div class="col-lg-12 border-bottom mt-2 ms-2 d-flex nav nav-tabs">
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 1 ? true : false" for="sms-history" aria-required="true">
+                            <input type="radio" (click)="type = 1" name="for" id="sms-history" value="2" aria-required="true" class="mr-1" checked hidden>SMS History<span></span>
+                        </label>
+                    </div>
+                    <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 2 ? true : false" for="whatsapp-history" aria-required="true">
+                            <input type="radio" (click)="type = 2" name="for" id="whatsapp-history" value="1" aria-required="true" class="mr-1" hidden>Whatsapp History <span></span>
+                        </label>
+                    </div>
+                    <div class="radio-inline ml-1 nav-item">
+                        <a class="nav-link"  routerLinkActive="active" href="{{CommonService.setsymfonyUrl('sms/homeworksms')}}" data-toggle="tab">Homework Message</a>
+                    </div>
+                    <!-- <div class="radio-inline ml-1 nav-item">
+                        <label class="m-radio required nav-link" [class.active]="type === 3 ? true : false" for="remainingfeessms" aria-required="true">
+                            <input type="radio" (click)="switch_to(3)" name="for" id="remainingfeessms" value="3" aria-required="true" class="mr-1" hidden>Remaining Fees SMS <span></span>
+                        </label>
+                    </div> -->
+                    <div  class="radio-inline ml-1 nav-item" *ngIf="CommonService.hasPermission('message_notification_history', 'has_access')">
+                        <label class="m-radio required nav-link" [class.active]="type === 4 ? true : false" for="notificationHistory" aria-required="true">
+                            <input type="radio" (click)="type = 4" name="for" id="notificationHistory" value="4" aria-required="true" class="mr-1" hidden>Notification History <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 1">
+                    <app-sms-history></app-sms-history>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 2">
+                    <app-whatsapp-history></app-whatsapp-history>
+                </div>
+                <div class="card-body border-0 py-0" *ngIf="type === 4">
+                    <app-notification-history></app-notification-history>
+                </div>
+                <!-- <div class="card-body border-0 py-0" *ngIf="type === 3">
+                    <app-remaining-fees-sms></app-remaining-fees-sms>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</section>

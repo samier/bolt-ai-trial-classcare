@@ -1,0 +1,300 @@
+<section class="marks-edit create-exam-section multiple-exam-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{examID ? 'EDIT EXAM' : 'CREATE EXAM'}}</h3>
+                <div>
+                    <button class="btn grade-btn me-2"
+                        *ngIf="CommonService.hasPermission('settings_exam_grade', 'has_create')"
+                        (click)="goToExamList('grade')"> Exam Grade
+                    </button>
+                    <button class="btn type-btn me-2"
+                        *ngIf="CommonService.hasPermission('settings_exam_type', 'has_create')"
+                        (click)="goToExamList('type')"> Exam Type
+                    </button>
+                    <button class="btn list-btn" (click)="goToExamList('list')">Exam List
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top">
+                        <div class="">
+                            <form [formGroup]="createExamForm">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Exam Name<span
+                                                class="label-text-danger">*</span></label>
+                                        <div>
+                                            <app-input controlName="exam_name"
+                                                placeholder="Enter exam name"></app-input>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Select Exam Type<span
+                                                class="label-text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select controlName="exam_type_id" placeholder="Select exam type"
+                                                (change)="examTypeChange($event)"
+                                                [dropDownArray]="examTypeList"></app-single-select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Description</label>
+                                        <div>
+                                            <app-textarea controlName="description"
+                                                placeholder="Enter description"></app-textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Select Section</label>
+                                        <div>
+                                            <app-single-select controlName="section_id" placeholder="Select section"
+                                                (change)="getClasses()"
+                                                [dropDownArray]="sectionList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Select Class<span
+                                                class="label-text-danger">*</span></label>
+                                        <div>
+                                            <app-multi-select controlName="class_id" placeholder="Select class"
+                                                (change)="getBatchesAndSubjectList()"
+                                                [dropDownArray]="classList"></app-multi-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form_group">
+                                        <label for="" class="form_label">Select Batch<span
+                                                class="label-text-danger">*</span></label>
+                                        <div>
+                                            <app-multi-select controlName="batch_id" placeholder="Select batch"
+                                                [dropDownArray]="batchList"></app-multi-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="edit-exam-card-note" *ngIf="classesArray.controls.length > 0">
+                        <p> <span> Note : </span> When you input the total marks and passing marks for the first subject
+                            in the first class, it automatically updates the values for all classes and subjects.
+                            To avoid this issue, we need to select each line by class and then by batch. After
+                            completing these steps, we can proceed to enter the exam details.
+                        </p>
+                    </div>
+
+                    <div class="create-exam-table">
+                        <div class="basic_table">
+
+                            <form [formGroup]="examForm">
+                                <ng-container *ngFor="let classItem of classesArray.controls; let classIndex = index">
+                                    <mat-accordion class="student-accordion">
+                                        <mat-expansion-panel class="student-accordion-panel" (opened)="true"
+                                            (closed)="false" [expanded]="true">
+                                            <mat-expansion-panel-header class="student-accordion-panel-header">
+                                                <mat-panel-title class="accordion-heading">
+                                                    {{classItem.value.class_name}} </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                            <div class="table-responsive mt-3">
+                                                <table
+                                                    class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <div class="m-checkbox-list">
+                                                                    <label class="m-checkbox mb-0"
+                                                                        *ngIf="classesArray.controls.length > 0">
+                                                                        <input type="checkbox"
+                                                                            [checked]="isClassSelected(classIndex)"
+                                                                            (change)="selectClassCheckbox($event, classIndex)">
+                                                                        <span></span>
+                                                                    </label>
+                                                                </div>
+                                                            </th>
+                                                            <th>Subject Name</th>
+                                                            <th>Mark Type</th>
+                                                            <th>Total Marks</th>
+                                                            <th>Passing Marks</th>
+                                                            <th>Exam Date</th>
+                                                            <th>Exam Start Time</th>
+                                                            <th>Exam End Time</th>
+                                                            <th>Syllabus</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <ng-container [formGroup]="getClassFormGroup(classIndex)">
+                                                            <ng-container formArrayName="subjects">
+                                                                <tr *ngFor="let subject of classItem.get('subjects')?.['controls']; let subjectIndex = index"
+                                                                    [formGroup]="subject">
+                                                                    <td class="text-center align-middle">
+                                                                        <div class="m-checkbox-list">
+                                                                            <label class="m-checkbox mb-0">
+                                                                                <input type="checkbox"
+                                                                                    formControlName="is_checked"
+                                                                                    (change)="selectCheckbox($event, classIndex, subjectIndex)">
+                                                                                <span></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>{{ subject.value.subject_name }}</td>
+                                                                    <td>
+                                                                        <ng-select formControlName="exam_marking_type"
+                                                                            [searchable]="false"
+                                                                            appendTo="body"
+                                                                            (change)="markTypeChange($event,classIndex,subjectIndex)">
+                                                                            <ng-option [value]="1">Marks</ng-option>
+                                                                            <ng-option [value]="2">Grade</ng-option>
+                                                                            <ng-option [value]="3">Marks &
+                                                                                Grade</ng-option>
+                                                                        </ng-select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input formControlName="total_mark"
+                                                                            maxlength="3"
+                                                                            (input)="changeTotalMarks($event,subject['controls']['passing_mark'],classIndex,subjectIndex)"
+                                                                            type="text" class="form-control total-mark"
+                                                                            placeholder="Enter Total Marks">
+                                                                        <div
+                                                                            *ngIf="subject['controls']['total_mark'].invalid && (subject['controls']['total_mark'].dirty || subject['controls']['total_mark'].touched)">
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['total_mark'].errors?.['required']">
+                                                                                enter marks.
+                                                                            </div>
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['total_mark'].errors?.['min'] || subject['controls']['total_mark'].errors?.['pattern']">
+                                                                                enter valid marks.
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input formControlName="passing_mark"
+                                                                            maxlength="3" type="text"
+                                                                            class="form-control total-mark"
+                                                                            (input)="changePassingMarks($event,classIndex,subjectIndex)"
+                                                                            placeholder="Enter Passing Marks">
+                                                                        <div
+                                                                            *ngIf="subject.errors?.['passingMarkInvalid']">
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                ngbTooltip="Passing marks must be less than or equal to total marks.">
+                                                                                Passing marks must be less than or equal
+                                                                                to total marks.
+                                                                            </div>
+                                                                        </div>
+                                                                        <div
+                                                                            *ngIf="subject['controls']['passing_mark'].invalid && (subject['controls']['passing_mark'].dirty || subject['controls']['passing_mark'].touched)">
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['passing_mark'].errors?.['required']">
+                                                                                enter marks.
+                                                                            </div>
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['passing_mark'].errors?.['min'] || subject['controls']['passing_mark'].errors?.['max'] || subject['controls']['passing_mark'].errors?.['pattern']">
+                                                                                enter valid marks.
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <!-- <input formControlName="start_date" type="date" class="form-control"> -->
+                                                                        <mat-form-field appearance="outline" class="market-value-select">
+                                                                            <input matInput [matDatepicker]="picker"
+                                                                                [placeholder]="_dateFormateService.getFormat()"
+                                                                                formControlName="start_date" />
+                                                                            <mat-icon matSuffix
+                                                                                *ngIf="subject.value?.start_date"
+                                                                                (click)="clearReactiveDate(subject['controls']['start_date'])">close</mat-icon>
+                                                                            <mat-datepicker-toggle matSuffix
+                                                                                [for]="picker"></mat-datepicker-toggle>
+                                                                            <mat-datepicker #picker></mat-datepicker>
+                                                                        </mat-form-field>
+                                                                        <div
+                                                                            *ngIf="subject['controls']['start_date'].invalid && (subject['controls']['start_date'].dirty || subject['controls']['start_date'].touched)">
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['start_date'].errors?.['required']">
+                                                                                select date.
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><input formControlName="start_time" type="time"
+                                                                            class="form-control" (change)="timeChange($event,'start_time',classIndex,subjectIndex)"></td>
+                                                                    <td><input formControlName="end_time" type="time"
+                                                                            class="form-control" (change)="timeChange($event,'end_time',classIndex,subjectIndex)"></td>
+                                                                    <td>
+                                                                        <textarea formControlName="exam_topic"
+                                                                            class="form-control textarea-control"></textarea>
+                                                                        <div
+                                                                            *ngIf="subject['controls']['exam_topic'].invalid && (subject['controls']['exam_topic'].dirty || subject['controls']['exam_topic'].touched)">
+                                                                            <div class="text-danger text-deafult-value"
+                                                                                *ngIf="subject['controls']['exam_topic'].errors?.['maxlength']">
+                                                                                maximum of (250) characters.
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-container>
+                                                        </ng-container>
+
+                                                        <tr *ngIf="classesArray.controls.length === 0">
+                                                            <td colspan="10" class="text-center">No Data Found</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="my-3">
+                                                <div class="col-md-4">
+                                                    <label for="" class="form_label">Select Grade Type <span
+                                                            *ngIf="classItem?.value.isGradeRequired"
+                                                            class="label-text-danger">*</span> </label>
+                                                    <div>
+                                                        <app-single-select formArrayName="classes"
+                                                            [GroupName]="classIndex" controlName="grade_id"
+                                                            placeholder="Select grade type"
+                                                            [dropDownArray]="classItem?.value?.grade ?? []"></app-single-select>
+                                                        <!-- (change)="gradeChange($event)" -->
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </ng-container>
+                            </form>
+
+
+
+                        </div>
+                    </div>
+                    <div class="create-footer-section">
+                        <div class="create-exam-btn d-flex">
+                            <button class="button" type="button" class="btn d-flex align-items-center add-btn me-2"
+                                [disabled]="isCreateExam" (click)="createExam()">
+                                {{examID ? 'Edit Exam' : 'Create Exam'}}
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isCreateExam">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                            <button class="button" type="button" class="btn add-btn d-flex align-items-center"
+                                [disabled]="isCreateExamAndNew" (click)="createExam(true)" *ngIf="!examID">
+                                Create Exam and New
+                                <div class="spinner-border spinner-border-sm ms-2" role="status"
+                                    *ngIf="isCreateExamAndNew">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

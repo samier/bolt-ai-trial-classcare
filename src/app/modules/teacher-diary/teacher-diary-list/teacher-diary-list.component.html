@@ -1,0 +1,111 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Lesson List</h3>
+				<div class="btn_right">
+					<a *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_create')" class="global_btn btn"  href="#."  [routerLink]="setUrl(URLConstants.ADD_RECORD)" > Add New Record</a>
+				</div>
+			</div>
+            <div class="card">             
+                <div class="card_body">
+                    <!-- <div class="row"> -->
+						<div class="form_section  global_form table_top">
+							<div class="">
+								<div class="row">
+									<div class="col-md-3 form_group">                                        
+										<label class="col-md-12 form_label">Select Section</label>												
+										<div class="col-md-12">											
+											<ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section" (change)="sectionChange()" 
+												bindLabel="name"  bindValue="id"
+												placeholder="please select">
+											</ng-select>
+										</div>                                        
+                                    </div>
+
+                                    <div class="col-md-3 form_group ">
+                                        <label class="form_label">Class Name</label>
+                                        <div class="">
+                                            <ng-select #select [items]="ClassNames" (change)="changeFn($event)" [searchable]="true" [(ngModel)]="selectedClass" name="class_id" bindLabel="name" bindValue="id"  
+                                            formControlName="class_id"
+                                             placeholder="please select">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" (onclick)="changeFn($event)" type="text" (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>                                                                          
+                                    </div>        
+
+                                    <div class="col-md-3 form_group ">
+                                        <label class="form_label">Batch</label>
+                                        <div class="">
+                                            <ng-select #select2 [items]="Batches" [searchable]="true" (change)="onBatchSelect($event)" [(ngModel)]="selectedBatch" name="batch_id" bindLabel="name" 
+                                            formControlName="batch_id" bindValue="id" placeholder="please select">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text" (change)="onBatchSelect($event)" (input)="select2.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-3 form_group ">
+                                        <label class="form_label">Subject</label>
+                                        <div class="">
+                                            <ng-select #select3 [items]="Subjects" [searchable]="false" (change)="onSubjectSelect($event)" [(ngModel)]="selectedSubject" bindLabel="name" 
+                                            formControlName="subject_id" bindValue="id" placeholder="Please select Subject">
+                                                <ng-template ng-header-tmp>
+                                                    <input style="width: 100%; line-height: 24px" type="text" (change)="onSubjectSelect($event)" (input)="select3.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>				
+								</div>
+							</div>
+							
+						</div>
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Date</th>
+											<th>Section Name</th>
+											<th>Class Name</th>
+											<th>Batch Name</th>
+											<th>Subject</th>
+											<th>Created By</th>
+											<th>Topic</th>
+											<th>Action</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;" >				
+											<td>{{item.date}}</td>   
+											<td>{{item.section_name}}</td>           
+											<td>{{item.class_name}}</td>            
+											<td>{{item.batch_name}}</td>            
+											<td>{{item.subject}}</td> 
+											<td>{{item.created_by}}</td>                
+											<td>{{item.topic}}</td>            
+                                            <td>   
+												<div class="btn-group" role="group">
+													<a *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_edit')" class="btn btn-primary" [routerLink]="[setUrl(URLConstants.TEACHER_DIARY_EDIT_FORM),item.id]" href='#'><i class="fa fa-pencil-alt"></i></a>
+													<button *ngIf="CommonService.hasPermission('faculty_teachers_diary', 'has_delete')" class="btn btn btn-danger" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+												</div>
+                                            </td>                                             
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="8" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>										
+				                </table>
+				            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

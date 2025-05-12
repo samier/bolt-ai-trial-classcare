@@ -1,0 +1,190 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Fees Receipt Day Wise Report</h3>
+        <div class="btn_right">
+					<div class="btn_right">
+            <a *ngIf="commonService.hasPermission('fees_report_fees_report_date_wise', 'has_download')" class="btn pdf-btn ms-2" ngbTooltip="PDF" href="javascript:void(0)" (click)="downloadPdf('pdf')"><img src="assets/images/pdf-icon.svg" alt=""></a>
+          </div>
+				</div>
+      </div>
+      <div class="">
+        <div class="card_body">
+          <div class="mt-0">
+            <div class="card">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <label for="" class="form_label">Select Section<span class="text-danger">*</span></label>
+                  <ng-multiselect-dropdown
+                    appMultiSelectfocusOnClick
+                    [placeholder]="'Please Select Section'"
+                    [settings]="sectionDropdownSettings"
+                    [data]="sectionList"
+                    [(ngModel)]="selectedSection"
+                    (onSelectAll)="onSelectAll($event)"
+                    (onSelect)="onItemSelect($event)"
+                  >
+                  </ng-multiselect-dropdown>
+                  <div class="text-danger" *ngIf="formSubmitted && !selectedSection.length"  >
+                      Please select section
+                  </div>
+                </div>
+             
+                <div class="col-md-3 form_group">
+                  <label for="" class="form_label">Date Range<span class="text-danger">*</span></label>
+                  <input type="text"
+                    class="form-control" 
+                    [placeholder]="'Please Select Dates'"
+                    ngxDaterangepickerMd
+                    [linkedCalendars]="true"
+                    [(ngModel)]="selectedRange"
+                    (datesUpdated)="datesUpdated($event)"
+                    [locale]="dateConfig"
+                    [showCustomRangeLabel]="true"
+                    [ranges]="ranges"
+                    [showClearButton]="true"
+                    [showCancel]="true"
+                    [alwaysShowCalendars]="true"
+                    [showDropdowns]="true"
+                  > 
+                  <div class="text-danger" *ngIf="formSubmitted &&( !startDate || !endDate)" >
+                      Please select date
+                  </div>
+                </div>
+                <div class="col-md-3 form_group">
+                  <label for="" class="form_label">Select Category</label>
+                  <!-- <ng-select #select [items]="categories" [searchable]="true"
+                      [(ngModel)]="selectedCategory"  bindLabel="type_name"
+                      bindValue="id" name="payment_mode" placeholder="please select">
+                  </ng-select> -->
+                  <ng-multiselect-dropdown
+                    appMultiSelectfocusOnClick
+                    [placeholder]="'Please Select Category'"
+                    [settings]="categoryDropdownSettings"
+                    [data]="categories"
+                    [(ngModel)]="selectedCategory"
+                  >
+                  </ng-multiselect-dropdown>
+              </div>
+                <div class="col-md-3 form_group" *ngIf="trusts.length > 0">
+                  <label for="" class="form_label">Select Trust</label>
+                  <ng-select #select [items]="trusts" [searchable]="true" [(ngModel)]="selectedTrust"
+                       bindLabel="name" bindValue="id" name="trust"
+                      placeholder="please select">
+                  </ng-select>
+              </div>
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">payment Mode</label>
+                <ng-select #select [items]="modes" [searchable]="true"
+                    [(ngModel)]="selectedMode"  bindLabel="name"
+                    bindValue="id" name="payment_mode" placeholder="please select">
+                </ng-select>
+            </div>
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Collector Name</label>
+                <ng-multiselect-dropdown
+                  appMultiSelectfocusOnClick
+                  [placeholder]="'Select Collector'"
+                  [settings]="collectorDropdownSettings"
+                  [data]="users"
+                  [(ngModel)]="selectedUser"
+                >
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Receipt Order</label>
+                <ng-select #select [searchable]="true" [(ngModel)]="selectedReceiptOrder" name="receipt_order"
+                    placeholder="please select">
+                    <ng-option value="asc">Ascending</ng-option>
+                    <ng-option value="desc">Descending</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Student Status</label>
+                <ng-select #select [searchable]="true" [(ngModel)]="selectedStudentStatus" name="student_status"
+                    placeholder="please select">
+                    <ng-option value="all">All</ng-option>
+                    <ng-option value="active">Active</ng-option>
+                    <ng-option value="inactive">In Active</ng-option>
+                </ng-select>
+              </div>
+              <div class="col-md-3 form_group">
+                <label for="" class="form_label">Select Column</label>
+                <ng-multiselect-dropdown
+                  [placeholder]="'please select'"
+                  [settings]="columnDropdownSettings"
+                  [data]="columns"
+                  name="columns"
+                  [(ngModel)]="column"
+                  >
+                </ng-multiselect-dropdown>
+              </div>
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Student Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" [(ngModel)]="selectedRTE" name="right_to_education" id="all" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" [(ngModel)]="selectedRTE" name="right_to_education" id="rte" value="1" class="mr-1">RTE<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" [(ngModel)]="selectedRTE" name="right_to_education" id="general" value="0" class="mr-1">General<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Admission Type</label>
+                <div class="">
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" [(ngModel)]="selectedOldNew" name="old_new" id="male" value="" class="mr-1">All<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" [(ngModel)]="selectedOldNew" name="old_new" id="female" value="1" class="mr-1">New<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" [(ngModel)]="selectedOldNew" name="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3 form_group">
+                <label class="form_label">Category Wise Fees Total</label>
+                <div>
+                  <label class="switch">
+                    <input type="checkbox" [(ngModel)]="categoryWiseFeesCalculation">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+              </div>
+              <div class="d-flex">
+                  <button  *ngIf="commonService.hasPermission('fees_report_fees_report_date_wise', 'has_access')" (click)="fetchReceiptDayWiseReport()" class="btn report-btn">Get Report</button>
+                  <button (click)="cancel()" class="btn clear-btn ms-2">Cancel</button>
+              </div>
+            </div>
+            
+            <div [innerHTML]="htmlContent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

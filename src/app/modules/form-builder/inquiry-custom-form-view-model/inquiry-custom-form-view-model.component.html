@@ -1,0 +1,14 @@
+<div class="modal-header exam-report-download-content custom_code_download">
+    <div class="modal-title">Inquiry Custom Form Code</div>
+    <div class="modal-close close" (click)="closeModal()" ngbTooltip="Close"><i class="fa fa-times"></i></div>
+</div>
+
+<div class="modal-body">
+    <div>
+        <app-integration-code [inquiryFormId]="inquiryFormId"></app-integration-code>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary clear-btn m-0" (click)="closeModal()">Close</button>
+</div>
+

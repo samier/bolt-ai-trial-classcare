@@ -1,0 +1,100 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0">STUDENT STRENGTH REPORT </h3>
+            
+                <div class="btn_right d-flex justify-content-end gap-3">
+                    <button *ngIf="commonService.hasPermission('student_student_strength_report', 'has_download')" class="btn pdf-btn" ngbTooltip="PDF"  (click)="downloadReport('pdf')" [disabled]="pdfLoading"><img src="assets/images/pdf-icon.svg" alt="">
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="pdfLoading">
+                          
+                          </div>
+                  </button>
+                  <button *ngIf="commonService.hasPermission('student_student_strength_report', 'has_download')" class="btn excel-btn" ngbTooltip="EXCEL"  (click)="downloadReport('excel')" [disabled]="excelLoading"><img src="assets/images/excel-icon.svg" alt="">
+                      <div class="spinner-border spinner-border-sm" role="status" *ngIf="excelLoading">
+                          
+                          </div>
+                  </button>
+                  </div>
+                </div>
+
+            <div class="card p-0">
+                <div class="card-header justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn me-2" (click)="reset()" [disabled]="isResetLoading">Reset
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                                <span class="visually-hidden">Loading..."</span>
+                            </div>
+                        </button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" *ngIf="filter">
+                    <div [formGroup]="strenthReportFilter" class="content_scroll">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label"> Select Section<span class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select 
+                                        [dropDownArray]="sectionsList" 
+                                        controlName="section_id" 
+                                        (change)="onSectionChange()"
+                                        placeholder="Select Section" 
+                                    ></app-multi-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Class<span class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select 
+                                        [dropDownArray]="classList" 
+                                        controlName="class_id" 
+                                        (change)="onClassChange()"
+                                        placeholder="Select Class"
+                                    ></app-multi-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select Batch</label>
+                                <div>
+                                    <app-multi-select 
+                                        [dropDownArray]="batchList" 
+                                        controlName="batch_id" 
+                                        placeholder="Select Batch"
+                                        (change)="onBatchChange()"
+                                    ></app-multi-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto form_group">
+                                <button class="btn report-btn"  (click)="onShow()" [disabled]="isShowLoading">Get Report
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="card ">
+                
+                <div [innerHTML]="html"></div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+
+

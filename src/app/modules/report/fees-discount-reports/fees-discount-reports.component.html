@@ -1,0 +1,295 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Fees Discount Report</h3>
+        <div class="btn_right d-flex gap-3">
+          <button *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" class="btn pdf-btn" ngbTooltip="PDF" href="javascript:void(0)" (click)="downloadReport('pdf')" [disabled]="pdf_loading || feesDiscount.invalid"><img src="assets/images/pdf-icon.svg" alt="">
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="pdf_loading">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+            <button *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" class="btn excel-btn" ngbTooltip="EXCEL" href="javascript:void(0)" (click)="downloadReport('excel')" [disabled]="excel_loading || feesDiscount.invalid"><img src="assets/images/excel-icon.svg" alt="">
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="excel_loading">
+                    <span class="visually-hidden">Loading...</span>
+                    </div>
+            </button>
+        </div>
+			</div>
+            <div class="card student-list-card p-0">
+
+                <!-- FILTER DROPDOWN -->
+
+                <div class="card-header border-bottom justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{ filterCount }}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DROPDOWN THINGS -->
+
+                <div class="card-body" *ngIf="filter">
+                    <div [formGroup]="feesDiscount" class="content_scroll">
+                        <div class="row">
+
+                            <!-- Branch -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Branch <span class="text-danger">*</span></label>
+                                <app-single-select [dropDownArray]="branchList" controlName="branch"
+                                    (change)="handleBranch()" placeholder="Select Branch"></app-single-select>
+                            </div>
+
+                            <!-- Academic Year -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Academic Year <span class="text-danger">*</span></label>
+                                <app-multi-select [dropDownArray]="academicList" controlName="academic_year"
+                                    (change)="handleAcademicYear()" placeholder="Select Academic Year"></app-multi-select>
+                            </div>
+
+                            <div class="col-md-3 form_group m-0">
+                                <label class=" form_label">Select Date</label>
+                                <app-date-range-picker class="date-icons" type="date" controlName="date"  placeholder="Select Date"></app-date-range-picker>
+                              </div>
+                            
+                            <!-- Section -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Section</label>
+                                <app-multi-select [dropDownArray]="feesDiscount.value.academic_year.length > 0 ? sectionList : []" controlName="section"
+                                    (change)="handleSection()" placeholder="Select Section"></app-multi-select>
+                            </div>
+
+                            <!-- Class -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Class</label>
+                                <app-multi-select [dropDownArray]="classList" controlName="classes"
+                                (change)="handleClass()" placeholder="Select Class"></app-multi-select>
+                            </div>
+
+                            <!-- Batch -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Batch</label>
+                                <app-multi-select [dropDownArray]="batchList" controlName="batches"
+                                (change)="countFilters()" placeholder="Select Batch"></app-multi-select>
+                            </div>
+
+                            <!-- fees type -->
+                            <!-- <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Fees Type</label>
+                                <app-multi-select [dropDownArray]="FeesTypeList" controlName="fees_type"
+                                (change)="countFilters()" placeholder="Select Fees Type"></app-multi-select>
+                            </div> -->
+
+                            <!-- Status -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Status</label>
+                                <app-single-select [dropDownArray]="status_list" controlName="status"
+                                (change)="countFilters()" placeholder="Select Status"></app-single-select>
+                            </div>
+
+                            
+                            <div class="col-md-12 form_group">
+                                <button type="button" class="btn show-btn" (click)="show()" [disabled]="feesDiscount.invalid || is_loading">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card_body" *ngIf="categoryFess.length > 0">
+                <div class="card py-0">
+                  <div class="row">
+                    <div class="col-md-3 counter_card" *ngFor="let item of categoryFess">
+                      <div class="bg_counter success-bg super_admin">
+                        <div class="product-icon">
+                          <img src="./assets/img/svgicons/money.svg" alt="">
+                        </div>
+                        <div class="content">
+                          <strong>{{item.amount}}</strong><br>
+                          <span class="counter_title">{{item.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="card student-list-main-card" *ngIf="true">
+                <div class="card_body">
+            
+            
+                    <div class="row pb-3 mx-0 no-gutters">
+                        <div class="col-lg-12">
+                            <div class="student-list-table">
+                                <div class="assign-transport-table">
+                                    <div class="datatable-action-design">
+                                        <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                            <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                          </svg>
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                          </svg>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <div class="tgenerate-btn" style="text-align: right;">
+                                                <button *ngIf="commonService.hasPermission('report_fees_reminder', 'has_download')" class="button px-1" type="submit" class="btn" (click)="bulkReceipt($event)"  [disabled]="printing">Print
+                                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="printing">
+                                                        <span class="visually-hidden">Loading... </span>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                            <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered " [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                                <thead class="thead-light">
+                                                    <tr>
+                                                        <th>
+                                                            <input class="" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)" [disabled]="tbody?.length==0">
+                                                        </th>
+                                                        <th>Class</th>
+                                                        <th>Batch</th>
+                                                        <th>Student Name</th>
+                                                        <th>GR Number</th>
+                                                        <th>Fees Category</th>
+                                                        <th>Discount</th>
+                                                        <th>Discount Reason</th>
+                                                        <th>Discount Remark</th>
+                                                        <th>Discount Apply Date</th>
+                                                        <th>Discount Apply By</th>
+                                                        <th>Status</th>
+                                                        <th class="action-btn-sticky">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                
+                                                <tbody>
+                                                    <tr *ngFor="let item of tbody ;let i = index;">
+                                                        <td>
+                                                            <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                                                        </td>
+                                                        <td class="teal-text-color">{{item?.course?.class?.name ?? '-'}}</td>
+                                                        <td class="green-text-color">{{item?.batch?.name ?? '-'}}</td>
+                                                        <td class="name_hover">{{item?.full_name ?? '-'}}</td>
+                                                        <td class="teal-color-text">{{item?.student?.gr_number ?? '-'}}</td>
+                                                        <td>{{item?.category_names ?? '-'}}</td>
+                                                        <td class="orange-text-color">{{item?.discount ?? '-'}}</td>
+                                                        <td>{{item?.discount_reason ?? '-'}}</td>
+                                                        <td>{{item?.discount_remark ?? '-'}}</td>
+                                                        <td>{{item?.discount_apply_date ?? '-'}}</td>
+                                                        <td>{{item?.discount_apply_by ?? '-'}}</td>
+                                                        <td>{{item?.student?.status == 1 ? 'Active' : 'In Active'}}</td>
+                                                        <td class="action-btn-sticky text-center">
+                                                            <div class="btn-group" role="group">
+                                                                <a class="lt-btn-icon action-attech" *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" (click)="viewAttachment(item)"ngbTooltip="Attachment"></a>
+                                                                <a class="lt-btn-icon action-print"  *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" (click)="feesReceipt(item)"  title="Print"></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="is_loading">
+                                                    <tr>
+                                                        <td colspan="13">
+                                                            <div class="d-flex justify-content-center">
+                                                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                                    <span class="visually-hidden">Loading...</span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="!is_loading && tbody?.length == 0">
+                                                    <tr>
+                                                        <td colspan="13" class="text-center no-data-available">No data</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <input class="" type="checkbox" id="flexCheckDefault" [(ngModel)]="allChecked" (change)="handleSelectAll($event)" [disabled]="tbody?.length==0">
+                                                </th>
+                                                <th>Class</th>
+                                                <th>Batch</th>
+                                                <th>Student Name</th>
+                                                <th>GR Number</th>
+                                                <th>Fees Category</th>
+                                                <th>Discount</th>
+                                                <th>Discount Reason</th>
+                                                <th>Discount Remark</th>
+                                                <th>Discount Apply Date</th>
+                                                <th>Discount Apply By</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>
+                                                    <input class="" type="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event,item?.id)">
+                                                </td>
+                                                <td>{{item?.course?.class?.name ?? '-'}}</td>
+                                                <!-- <td>{{item?.batch?.name ?? '-'}}</td> -->
+                                                <td>{{item?.student?.batches_name ?? '-'}}</td>
+                                                <td>{{item?.full_name ?? '-'}}</td>
+                                                <td>{{item?.student?.gr_number ?? '-'}}</td>
+                                                <td>{{item?.category_names ?? '-'}}</td>
+                                                <td>{{item?.discount ?? '-'}}</td>
+                                                <td>{{item?.discount_reason ?? '-'}}</td>
+                                                <td>{{item?.discount_remark ?? '-'}}</td>
+                                                <td>{{item?.discount_apply_date ?? '-'}}</td>
+                                                <td>{{item?.discount_apply_by ?? '-'}}</td>
+                                                <td>{{item?.student?.status == 1 ? 'Active' : 'In Active'}}</td>
+                                                <td>
+                                                    <div class="btn-group" role="group">
+                                                        <a class="btn action-attech" *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" (click)="viewAttachment(item)"ngbTooltip="Attachment">
+                                                            <i class="fe fe-file"></i>
+                                                        </a>
+                                                        <a class="btn action-print"  *ngIf="commonService.hasPermission('fees_report_fees_discount_module', 'has_download')" (click)="feesReceipt(item)"  title="Print">
+                                                        <i class="fe fe-printer"></i>
+                                                      </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="is_loading">
+                                            <tr>
+                                                <td colspan="13">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="!is_loading && tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="13" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

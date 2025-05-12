@@ -1,0 +1,76 @@
+<!-- <div>
+  <ng-select [items]="dropDownArray" bindValue="id" bindLabel="name" [placeholder]="placeholder" [searchable]="false"
+    [formControlName]="controlName" (change)="onChangeValue($event)" #select appendTo="body" [readonly]="readonly" (click)="focusOnSearch()">
+    <ng-template ng-header-tmp *ngIf="search">
+
+      <input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+        placeholder="Search" (input)="onInputChange($event)" />
+
+      (keyup.backspace)="backspace($event)"
+
+    </ng-template>
+  </ng-select>
+
+  <div *ngIf="FormControl?.invalid && (FormControl?.dirty || FormControl?.touched)">
+    <ng-container *ngFor="let error of formValidationService?.getErrors(FormControl)">
+      <div class="text-danger">
+        {{ error }}
+      </div>
+    </ng-container>
+  </div>
+
+</div> -->
+
+<ng-container *ngIf="formArray else simpleInput">
+  <ng-container [formArrayName]="formArrayName">
+    <div [formGroupName]="GroupName">
+     
+      <ng-select [items]="dropDownArray" bindValue="id" bindLabel="name" [placeholder]="placeholder" [searchable]="false"
+      [formControlName]="controlName" (change)="onChangeValue($event)" #select appendTo="body" [readonly]="readonly" (click)="focusOnSearch()">
+      <ng-template ng-header-tmp *ngIf="search">
+  
+        <input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+          placeholder="Search" (input)="onInputChange($event)" />
+  
+        <!-- (keyup.backspace)="backspace($event)" -->
+  
+      </ng-template>
+    </ng-select>
+
+      <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+        <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+          <div class="text-danger">
+            {{ error }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #simpleInput>
+  <div class="select-cross-relative">
+    
+    <ng-select [items]="dropDownArray" bindValue="id" bindLabel="name" [placeholder]="placeholder" [searchable]="false"
+    [formControlName]="controlName" (change)="onChangeValue($event)" #select appendTo="body" [readonly]="readonly" (click)="focusOnSearch()">
+    <ng-template ng-header-tmp *ngIf="search">
+
+      <input style="width: 100%;line-height: 24px" type="text" class="form-control" id="inputValidation"
+        placeholder="Search" (input)="onInputChange($event)" />
+
+      <!-- (keyup.backspace)="backspace($event)" -->
+
+    </ng-template>
+  </ng-select>
+
+  <mat-icon *ngIf="isClear" matSuffix class="cross-inner-point" (click)="selectionClear()">close</mat-icon>
+
+    <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+      <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+        <div class="text-danger">
+          {{ error }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>

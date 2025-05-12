@@ -1,0 +1,29 @@
+<div class="new-admission-count">
+    <!-- Loading Indicator -->
+    <ng-container *ngIf="isLoading else chartTemp">
+        <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+            <div class="spinner-border spinner-border-sm" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </ng-container>
+
+    <!-- Chart Content -->
+    <ng-template #chartTemp>
+        <ng-container *ngIf="noDataFound else chart">
+            <div class="loader-content" [ngStyle]="{'height': height + 'px'}">
+                <div class="pinner-border-sm">
+                    <span>No Gender Wise Student Data Found.</span>
+                </div>
+            </div>
+        </ng-container>
+        <ng-template #chart>
+            <app-chart 
+                [chartOptions]="chartOptions" 
+                [updateFlag]="updateFlag" 
+                [height]="height"
+                (chartInstance)="callBack($event)">
+            </app-chart>
+        </ng-template>
+    </ng-template>
+</div>

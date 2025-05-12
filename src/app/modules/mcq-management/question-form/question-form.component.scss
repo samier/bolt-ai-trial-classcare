@@ -1,0 +1,28 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-question-form{    
+    .document_type_add{
+        padding: 17px 15px 24px 29px;
+        border-radius: 3px;
+    }   
+    .form_section {
+        .form_group {
+            .address_section{
+                background: $light-grey-opac-colour;
+                padding: 6px 17px 0px;
+                border-radius: 3px;
+                margin: 0 15px;
+                text-align: left;
+                .radio-inline{
+                    margin-right:10px;
+                    .m-radio{
+                        padding-left: 23px;
+                    }
+                }
+                .form_label{
+                    line-height: 1;
+                }
+            }
+                
+        }
+    }
+}

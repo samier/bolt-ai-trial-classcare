@@ -1,0 +1,188 @@
+::ng-deep {
+    .marksheet-list-section {
+      .select-all-checkbox{
+        margin-bottom: 16px;
+        input{
+          position: unset;
+          margin: 0;
+          box-shadow: none;
+          margin-right: 10px;
+          margin-top: 3px;
+        }
+        .form-check-label{
+          color: #000;
+          font-weight: 500;
+        }
+      }
+      .marksheet-main-card{
+        display: flex;
+        align-items: flex-start;
+        input{
+          position: unset;
+          margin: 0;
+          box-shadow: none;
+          margin-right: 10px;
+          margin-top: 14px;
+        }
+      }
+      .card {
+        margin-bottom: 15px;
+        // padding: 0;
+        width: 100%;
+        .marksheet-header {
+          padding: 6px 15px;
+          border-bottom: 1px solid #d9d9d9;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .marsheet-lt-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            h4 {
+              font-size: 16px;
+              line-height: 24px;
+              font-weight: 600;
+              color: #000;
+              margin-right: 15px;
+              margin-bottom: 0;
+            }
+            app-single-select {
+              min-width: 200px;
+              display: block;
+              .ng-select-container {
+                height: 30px;
+              }
+            }
+          }
+          .marksheet-rt-content {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            .btn {
+              width: 30px;
+              height: 30px;
+              border-radius: 7px;
+              border: 1px solid #02a3c3;
+              background-color: #fff;
+              box-shadow: none;
+              outline: none;
+              color: #02a3c3;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: 0.3s;
+              &:hover {
+                background-color: #02a3c3;
+                color: #fff;
+              }
+            }
+            .red-btn {
+              border: 1px solid #ff7474;
+              color: #ff7474;
+              &:hover {
+                background-color: #ff7474;
+                color: #fff;
+              }
+            }
+            .black-btn {
+              border: 1px solid #000;
+              color: #000;
+              &:hover {
+                background-color: #000000;
+                color: #fff;
+              }
+            }
+          }
+        }
+        .marksheet-body {
+          padding: 15px;
+          .marksheet-list {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 15px;
+            li {
+              list-style: none;
+              padding-right: 15px;
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              span {
+                font-size: 15px;
+                line-height: 22px;
+                font-weight: 500;
+                color: #000;
+              }
+              p {
+                font-size: 14px;
+                line-height: 22px;
+                font-weight: 400;
+                color: #000;
+                margin: 0;
+                padding-left: 6px;
+              }
+            }
+          }
+          .selester-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            .selester-btn {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              .btn {
+                transition: 0.3s;
+                border: 1px solid var(--primary-bg-color);
+              }
+              .copy-btn {
+                background-color: #1a97d1;
+                border: 1px solid #1a97d1;
+              }
+              .priview-btn {
+                background-color: #4875b9;
+                border: 1px solid #4875b9;
+              }
+            }
+            .btn {
+              transition: 0.3s;
+              border: 1px solid var(--primary-bg-color);
+              // &:hover {
+              //   background-color: #fff;
+              //   color: var(--primary-bg-color);
+              // }
+            }
+            .semister-save {
+              span {
+                font-size: 12px;
+                line-height: 18px;
+                font-weight: 400;
+                color: #6c6c6c;
+              }
+            }
+          }
+        }
+      }
+    }
+    @media (max-width: 992px) {
+      .marksheet-list-section .create-heading-btn .btn {
+        margin-top: 10px;
+      }
+    }
+    @media (max-width: 576px) {
+      .marksheet-list-section .create-heading-btn .btn {
+        margin-left: 0 !important;
+      }
+      .marksheet-list-section .card .marksheet-body .marksheet-list li span {
+        font-size: 13px;
+      }
+      .marksheet-list-section .card .marksheet-body .marksheet-list li p {
+        font-size: 12px;
+      }
+    }
+}

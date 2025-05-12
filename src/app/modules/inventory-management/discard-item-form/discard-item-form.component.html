@@ -1,0 +1,118 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Discard Item Form</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.DISCARD_ITEM_LIST)">Discard item List</a>
+                </div>
+            </div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="discardItemForm" class="form_section global_form">
+
+                                    <div class="row">
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="hidden" name="record_id" value="0" controlName="record_id"></app-input>
+                                                <app-mat-date-picker  minDate="{{todayDate}}"  type="date" name="date" id="date" controlName="date" placeholder="" required></app-mat-date-picker>
+                                            </div>
+                                            <div *ngIf="submitted && discardItemForm.controls['date'].invalid" class="error text-danger"> Please enter Discard Date.</div>                                      
+                                        </div>                                                                            
+                                     
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Store<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select placeholder="Please Select Store" controlName="store_id" [dropDownArray]="storeTypeList"></app-single-select>
+                                            </div>
+                                            <div *ngIf="submitted && discardItemForm.controls['store_id'].invalid" class="error error text-danger"> Please select store. </div>                                      
+                                        </div>                                                    
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Reason</label>
+                                            <div>
+                                                <app-input name="reason" id="reason" controlName="reason" placeholder="Enter Reason for discard"></app-input>
+                                            </div>
+                                            <!-- <div *ngIf="discardItemForm.controls['remark'].dirty && discardItemForm.controls['remark'].invalid" class="error text-danger">Please enter valid Opening Balance.</div>                                        -->
+                                        </div>
+                                        
+                                        <div class="form_outer col-md-2">
+                                            <div class="form_group add_doc">          
+                                                <label>button</label>
+                                                <button type="button" (click)="addQuantity()" class="btn add-btn">Add Items</button>
+                                            </div>
+                                    </div>
+                                    <table class="table table-nowrap table datatable w-100" >
+                                        <thead>
+                                            <tr>
+                                                <th>Item Type</th>
+                                                <th>Item name</th>
+                                                <th>Quantity</th>
+                                                <th>Measurement</th>  
+                                                <th colspan="2">Discard Type</th>  
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let quantity of quantities.controls; let i=index" >
+                                            <tr>
+                                                <td class="col-md-2 form_group">
+                                                    <div>
+                                                        <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList"  (change)="itemTypeChange($event,i)"></app-single-select>
+
+                                                    </div>                             
+                                                </td>
+                                                <td class="col-md-2 form_group">
+                                                    <div>
+                                                        <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Name" controlName="inventory_item_id" [dropDownArray]="itemList[i]" (change)="itemChange($event,i)"></app-single-select>
+                                                        
+                                                    </div>                                     
+                                                </td>
+                                                <td class="col-md-2 form_group">
+                                                    <div>
+                                                        <app-input min="0"  max="{{available_item[i]}}" type="number" [GroupName]="i"  formArrayName="quantities" placeholder="Enter Quantity"  controlName="quantity"></app-input>  
+                                                    </div>                                    
+                                                </td>
+                                                <td class="col-md-2 form_group">
+                                                    <div>
+                                                        <app-single-select style="pointer-events: none;" [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurementTypeList" [readonly]="true"></app-single-select>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-2 form_group">
+                                                    <div>
+                                                        <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Discard Type" controlName="discard_items_type_id" [dropDownArray]="discardItemTypeList"></app-single-select>
+                                                    </div>
+                                                </td>
+                                                <td class="col-md-1 form_group">
+                                                    <div>
+                                                        <button *ngIf="i != 0" (click)="removeQuantity(i)" class="btn"><i class="fa fa-minus"></i></button>
+                                                    </div>
+                                                </td>                                            
+                                            </tr>  
+                                        </tbody>
+                                    </table> 
+                                </div>
+
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.DISCARD_ITEM_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit"  (click)="onSubmit()" [disabled]="!discardItemForm.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || discardItemForm.invalid">Save
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>                                                                                                    
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

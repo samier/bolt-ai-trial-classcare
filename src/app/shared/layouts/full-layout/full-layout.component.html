@@ -1,0 +1,80 @@
+<!-- <div class="main-body app sidebar-mini" [ngClass]="mainSidebarOpen"> -->
+    <div class="horizontalMenucontainer">
+    <app-switcher></app-switcher>
+    <!-- Page -->
+    <div class="page">
+        <!-- // header -->
+        <app-header></app-header>
+        <!-- main-sidemenu -->
+        <app-sidemenu appHoverEffectSidebar></app-sidemenu>
+        <!-- main-sidemenu -->
+
+        <!-- new side bar -->
+        <app-new-side-bar id="newSidebar"></app-new-side-bar>
+        <!-- new side bar -->
+        
+        <!-- main-content -->
+        <div class="main-content app-content p-61" [ngClass]="{ 'p-60': scrolled }">
+
+            <!-- main-header -->
+            <!-- <div class="jumps-prevent" style="padding-top: 63px;"></div> -->
+            <!-- /main-header -->
+            <!-- container -->
+            <div class="main-container container-fluid" [ngClass]="{'dashboard-container' : isDashboard}" (click)="clickOnBody()">
+                <router-outlet>
+                    <app-loader></app-loader>
+                </router-outlet>
+            </div>
+            <!-- /Container -->
+        </div>
+        <!-- /main-content -->
+
+        <!-- Sidebar-right-->
+        <app-notification-sidebar></app-notification-sidebar>
+        <!--/Sidebar-right-->
+
+        <!-- Footer opened -->
+        <app-footer></app-footer>
+        <!-- Footer closed -->
+
+        <app-tap-to-top></app-tap-to-top>
+    </div>
+    <!-- End Page -->
+</div>
+
+<button class="visibility" #subscriptionModelBtn  (click)="openModal(subscriptionModel)">Download</button>
+
+<ng-template #subscriptionModel>
+  <div class="subscription-center-modal">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Subscription Alert</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12 form_group">
+        <label class="form_label">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> &nbsp;
+          {{subscriptionData?.title}}</label>
+        <div class="d-flex">
+
+        </div>
+      </div>
+
+      <div class="message-content">
+        <div class="card-body">
+          <!-- <h5 class="card-title">Note :-</h5> -->
+          <p class="card-text">{{subscriptionData?.message}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="col-md-3">
+        <button type="submit" class="w-100 btn" (click)="closeModel()"> Ok </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!-- </div> -->

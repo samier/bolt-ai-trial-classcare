@@ -1,0 +1,84 @@
+<section class="leave_form tab_in_sections">
+    <div class="page_inner pt-0">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="sub_title mb-0">LEAVE ADD FORM</h3>
+            <div class="btn_right">
+                <a class="btn"  href="#." [routerLink]="URLConstants.STUDENT_LEAVE_LIST">Leave List</a>
+            </div>
+        </div>
+        <div class="">
+            <div class="card_body">
+                <div class="">
+                    <div class="card">
+                        <form [formGroup]="leavecreateform" (ngSubmit)="onSubmit()" class="form_section">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Leave Type<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select #select [items]="student" [searchable]="false" [(ngModel)]="selectedStudent" bindLabel="name"
+                                        formControlName="leave_type" bindValue="name" placeholder="please select">
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px" type="text" (input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class=" form_label">Start Date<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="date" id="start_date" formControlName="start_date" name="start_date" class="form-control" placeholder="start date" [ngClass]="{ 'is-invalid': submitted && leavecreateform.controls['start_date'].errors}">
+
+                                        </div>
+                                        <div *ngIf="submitted && leavecreateform.controls['start_date'].invalid" class="text-danger"> Please enter valid date. </div>
+                                        <div *ngIf="submitted && sd_sunday_alert" class="text-danger"> You can't select sunday. Please select other date. </div>
+                                        <div *ngIf="leavecreateform.controls['start_date'].touched">
+                                            <small *ngIf="leavecreateform.controls['start_date'].errors?.['required']"
+                                            class="text-danger">Required</small>
+                                            <small *ngIf="invaineFrom" class="text-danger">
+                                            Select a date Over today</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class=" form_label">End Date<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="date" id="end_date" formControlName="end_date" name="end_date" [ngClass]="{'is-invalid': submitted && leavecreateform.controls['end_date'].errors}" class="form-control">
+
+                                        </div>
+                                        <div *ngIf="submitted && leavecreateform.controls['end_date'].invalid" class="text-danger"> Please enter valid date. </div>
+                                        <div *ngIf="submitted && ed_sunday_alert" class="text-danger"> You can't select sunday. Please select other date. </div>
+                                        <small *ngIf="dates" class="text-danger">
+                                            End Date should be grater than start Date</small>
+                                    </div>
+                                </div>
+                                <div class="form_group col-md-3">
+
+                                    <div class="">
+                                        <label class=" form_label">Reason for leave<span class="text-danger">*</span></label>
+                                        <div class="form-group">
+                                            <div class="">
+                                                <textarea class="form-control" name="detail" id="detail" formControlName="detail" placeholder="Enter your address" required></textarea>
+                                            </div>
+                                            <div *ngIf="submitted && leavecreateform.controls['detail'].invalid" class="text-danger"> Please enter reason for leave. </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row w-100 ">
+                                    <div class="col-md-1">
+                                         <a class="btn w-100" [routerLink]="URLConstants.STUDENT_LEAVE_LIST">Cancel</a>
+                                    </div>
+                                    <div class="col-md-1">
+                                            <button type="submit" class="btn w-100" [disabled]="!leavecreateform.valid" id="submitButton">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

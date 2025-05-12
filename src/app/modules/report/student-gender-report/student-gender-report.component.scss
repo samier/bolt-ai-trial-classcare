@@ -1,0 +1,19 @@
+::ng-deep body{
+    app-student-gender-report{
+        .table-responsive{
+            position: relative;
+            table{
+                thead{
+                    th{
+                        max-width: 200px;
+                    }
+                }
+            }
+            .table-btn-right{
+                position: absolute;
+                right: 0;
+                z-index: 1;
+            }
+        }
+    }
+}

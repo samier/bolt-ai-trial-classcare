@@ -1,0 +1,66 @@
+@import'../../../../assets/scss/variables';
+::ng-deep {
+	body{
+		app-student-daily-attendance-report{
+
+			.dataTables_filter {
+				display: none;
+			}	
+			.table-responsive{
+				position: relative;
+				.table-btn-right{
+					position: absolute;
+					right: 21px;
+					z-index: 1;
+				}
+				.datatable{
+					thead{
+						tr{
+							th{
+								cursor: default;
+								text-align: center;
+								border-bottom: 1px solid #d9d9d9;
+								border-right: 1px solid #d9d9d9;
+								padding: 8px 8px 8px 8px;
+
+								&::after, &::before{
+									display: none;
+								}
+								&.arrow-down::after{
+									top: 22%;
+								}
+							}
+
+							td{
+								text-align: center;
+							}
+
+							&.daily-atten-report{
+								th{
+									&:last-child{
+										min-width: 80px;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}		
+		&.dark-theme{
+			app-student-daily-attendance-report{
+				.table-responsive{
+					.datatable{
+						thead{
+							tr{
+								th{
+									border-color: #344053;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

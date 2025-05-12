@@ -1,0 +1,260 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Transport List</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn add-btn" href="#." [routerLink]="setUrl(URLConstants.ASSIGN_TRANSPORT_CREATE)" *ngIf="CommonService.hasPermission('transport_assign_transport', 'has_create')"> Add Transport</a>
+                </div>
+            </div>
+            <div class="card assign-transport-card">
+                <div class="">
+                    <div class="col-lg-12 d-flex nav nav-tabs">
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="for == 'student' ? true : false" for="student" aria-required="true">
+                                <input type="radio" (click)="get_for('student')" name="for" id="student" value="student" aria-required="true" class="mr-1" checked hidden>Student<span></span>
+                            </label>
+                        </div>
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="for != 'student' ? true : false" for="employee" aria-required="true">
+                                <input type="radio" (click)="get_for('employee')" name="for" id="employee" value="employee" aria-required="true" class="mr-1" hidden>Employee <span></span>
+                            </label>
+                        </div>
+                    </div>
+
+                <div class="card_body" *ngIf="for == 'student'">
+                    <div class="card student-list-card p-0 m-0">
+        
+                        <div class="card-header justify-content-between d-flex">
+                          <div class="card-student-heading d-flex align-items-center">
+                            <h5 class="mb-0">Filters</h5>
+                            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                          </div>
+                          <div class="d-flex student-accordion-btn">
+                            <button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+                            <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                              <i class="fa fa-angle-up" *ngIf="filter"></i>
+                            </button>
+                          </div>
+                        </div>
+                
+                        <div class="card-body" *ngIf="filter">
+                          <div [formGroup]="studentFilterForm" class="content_scroll">
+                            <div class="row">
+                              
+                              <div class="col-md-3 form_group">
+                                <label class=" form_label">All Section</label>
+                                <app-single-select [dropDownArray]="sections" controlName="section" (change)="sectionChange()" placeholder="All Section"></app-single-select>
+                              </div>
+                
+                              <div class="col-md-3 form_group">
+                                <label class=" form_label">All Class</label>
+                                <app-single-select [dropDownArray]="classes?.data" controlName="class" (change)="onClassSelect()" placeholder="All Class"></app-single-select>
+                              </div>
+                              
+                              <div class="col-md-3 form_group">
+                                <label class=" form_label">All Batch</label>
+                                <app-single-select [dropDownArray]="batches?.data" controlName="batch" placeholder="All Batch" (change)="countFilters()"></app-single-select>
+                              </div>
+                
+                              <div class="col-md-3 form_group">
+                                <label class=" form_label">Student Status</label>
+                                <div class="">
+                                  <div class="radio-section ">
+                                    <div class="radio ">
+                                      <label class=" required ">
+                                        <input type="radio" formControlName="status" id="male" value="1" class="mr-1">Active<span></span>
+                                      </label>
+                                    </div>
+                                    <div class="radio ">
+                                      <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="status" id="female" value="0" class="mr-1">Inactive<span></span>
+                                      </label>
+                                    </div>
+                                    <div class="radio ">
+                                      <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="status" id="female" value="" class="mr-1">Both<span></span>
+                                      </label>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                
+                              <div class="col-md-3 form_group">
+                                <button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+                              </div>
+                
+                
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card assign-transport-table">
+                <div class="row">
+                    <div class="col-lg-12">
+                      <div class="datatable-action-design">
+                        <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                            <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                          </svg>
+                        </div>
+                        <div class="table-responsive">
+                          <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                            <thead>
+                                  <tr>        
+                                      <th [style.display]="'none'">Created At</th>
+                                      <th [style.display]="for != 'student' ? '' : 'none'">ID</th>
+                                      <th [style.display]="for == 'student' ? '' : 'none'">Gr. No.</th>
+                                      <th [style.display]="for == 'student' ? '' : 'none'">Roll No</th>
+                                      <th [style.display]="for == 'student' ? '' : 'none'">Student Name</th>
+                                      <th [style.display]="for != 'student' ? '' : 'none'">Employee Name</th>
+                                      <th>Assign</th>
+                                      <th>Area</th>
+                                      <th>Transport Mode</th>
+                                      <th>Pickup Stand</th>
+                                      <th>Pickup Route</th>
+                                      <th>Drop Stand</th>
+                                      <th>Drop Route</th>
+                                      <th>Start Date</th>
+                                      <th>End Date</th>
+                                      <th style="min-width: 100px;">Fare</th>
+                                      <th [style.display]="for == 'student' ? '' : 'none'">Detail</th>
+                                      <th class="action-btn-sticky">Action</th>
+                                  </tr>
+                                </thead>
+                                <tbody *ngIf="assign_transports?.length != 0">
+                                  <tr *ngFor="let item of assign_transports">
+                                    <td [style.display]="'none'">{{item?.assign_transport?.created_at ?? '-'}}</td>
+                                    <td [style.display]="for != 'student' ? '' : 'none'">{{item.id}}</td>
+                                    <td [style.display]="for == 'student' ? '' : 'none'" class="teal-text-color">{{item.gr_number}}</td>
+                                    <td [style.display]="for == 'student' ? '' : 'none'" class="orange-text-color">{{item.roll_no}}</td>
+                                    <td [style.display]="for == 'student' ? '' : 'none'" class="name_hover"><a [routerLink]="[setUrl(URLConstants.STUDENT_PROFILE),item?.unique_id]">{{item.full_name}}</a></td>
+                                    <td [style.display]="for != 'student' ? '' : 'none'" class="name_hover"><a [routerLink]="[setUrl(URLConstants.USER_PROFILE), item.id]">{{item.employee_name}}</a></td>
+                                    <td>
+                                        <ng-container>
+                                          <div class="form-check toggle d-flex align-items-center px-0">
+                                            <input class="form-check-input shadow-none mx-2"  [(ngModel)]="item.transport_facility" type="checkbox" role="switch" ngbTooltip="Transport Facility">
+                                          </div>
+                                        </ng-container>
+                                    </td>
+                                    <td>
+                                      <ng-select [items]="areas" [(ngModel)]="item.area_id" bindLabel="name" bindValue="id" placeholder="Select Area" (change)="handleAreaChange(item)">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <ng-select #select [items]="transport_mode" [searchable]="true" [(ngModel)]="item.transport_mode" (change)="get_fare(item)"
+                                                  bindLabel="name"  bindValue="value" placeholder="Select Transport Mode">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <ng-select [items]="item.pickup_stand_list" [(ngModel)]="item.pickup_stand" bindLabel="name" bindValue="id" placeholder="Select Pickup Stand" (change)="handleStopChange(item, 'pickup')" *ngIf="item.transport_mode == 'one way pickup' || item.transport_mode == 'two way transport'">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <ng-select [items]="item.pickup_route_list" [(ngModel)]="item.pickup_route" bindLabel="name" bindValue="id" placeholder="Select Pickup Route"  *ngIf="item.transport_mode == 'one way pickup' || item.transport_mode == 'two way transport'">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <ng-select [items]="item.drop_stand_list" [(ngModel)]="item.drop_stand" bindLabel="name" bindValue="id" placeholder="Select Drop Stand"  (change)="handleStopChange(item, 'drop')"  *ngIf="item.transport_mode == 'one way drop' || item.transport_mode == 'two way transport'">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <ng-select [items]="item.drop_route_list" [(ngModel)]="item.drop_route" bindLabel="name" bindValue="id" placeholder="Select Drop Route" *ngIf="item.transport_mode == 'one way drop' || item.transport_mode == 'two way transport'">
+                                      </ng-select>
+                                    </td>
+                                    <td>
+                                      <input type="date"  class="form-control" [(ngModel)]="item.start_date" (change)="get_fare(item)">
+                                    </td>
+                                    <td>
+                                      <input type="date"  class="form-control" [(ngModel)]="item.end_date" (change)="get_fare(item)">
+                                    </td>
+                                    <td>
+                                      <input type="text"  class="form-control" [(ngModel)]="item.fare" readonly>
+                                    </td>
+                                    <td [style.display]="for == 'student' ? '' : 'none'" class="transport-detail-tooltip">
+                                      <div class="tooltip" [ngbTooltip]="tipContentDetails" container="body" placement="left" tooltipClass="my-custom-class">
+                                          <i class="fas fa-info-circle"></i>
+                                          <ng-template #tipContentDetails >
+                                          <span>
+                                              <p>
+                                                  <b>Assign Time : </b>{{item.updated_at | date:'dd-MM-yyyy, h:mm a'}}
+                                              </p>
+                                              <p>
+                                                  <b>Assign by : </b>{{item?.assign_by_user?.full_name ?? '-'}}
+                                              </p>
+                                          </span>
+                                          </ng-template>
+                                      </div>
+                                  </td>
+                                    <td class="action-btn-sticky text-center">
+                                      <div class="btn-group" role="group">
+                                        <button type="button" container="body" ngbTooltip="Attachments" class="lt-btn-icon action-attech ms-1" (click)="attachment(myModel, item)"> 
+                                           
+                                      </button>
+                                        <button  type="button" ngbTooltip="Save" class="lt-btn-icon btn-sm action-approve" (click)="save(item)" [disabled]="!item.transport_facility"> 
+                                          <!-- <i class="fa fa-check"></i>  -->
+                                        </button> 
+                                        <a *ngIf="item.transport_id" href="javascrip:void(0)" class="lt-btn-icon action-edit" ngbTooltip="Edit" [routerLink]="[setUrl(URLConstants.ASSIGN_TRANSPORT_EDIT),item.transport_id]" > </a>
+                                        <button *ngIf="item.transport_id" type="button" ngbTooltip="Delete" class="lt-btn-icon btn-sm action-delete" (click)="remove(item.transport_id)"> 
+                                            
+                                        </button> 
+                                    </div>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                              <tbody *ngIf="assign_transports?.length == 0">
+                                <tr>
+                                  <td colspan="13" class="text-center no-data-available">No data</td>
+                                </tr>
+                            </tbody>
+                          </table>
+				                </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template #myModel let-modal >
+      <div class="modal-header">
+          <div class="modal-title" >Attachments</div>
+          <div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex" *ngFor="let file of modelAttachments">
+                  <div class="card p-0 w-100 ">
+                      <span class="delete-button" 
+                          (click)="deleteAttachment(file.id)">
+                          <i class="fa fa-trash text-danger cursor-pointer"></i>
+                      </span>
+                      <a class="mb-1" href="{{file.attachment_url}}" target="_blank">
+                          <div class="card-body px-2  text-center">
+                              <div class="file-manger-icon">
+                                  <img [src]="fileIcons[file.file_type]" alt="img" class="rounded-7">
+                              </div>
+                              <h6 class="mb-1 font-weight-semibold text-capitalize">{{file.file_name}}</h6>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+          <div class="text-center text-muted" *ngIf="modelAttachments?.length == 0">
+              No Attachments Available
+          </div>
+      </div>
+      
+      
+      <div class="d-flex justify-content-end modal-footer">
+          <button type="button" class="btn clear-btn mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+      </div>
+  </ng-template>
+</section>

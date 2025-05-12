@@ -1,0 +1,198 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Student Bulk Discount List</h3>
+        <div class="d-flex">
+          <a [routerLink]="setUrl(URLConstants.STUDENT_BULK_DISCOUNT_ADD)" class="btn add-btn">Add Student Bulk Discount</a>
+        </div>
+      </div>
+      
+      <div class="card p-0">
+        
+        <div class="card-header border-bottom justify-content-between d-flex" >
+          <div class="d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex">
+            <button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+            <button class="btn btn-primary border-circle" (click)="filter = !filter">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="form" class="content_scroll">
+            <div class="row">
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Section</label>
+                <app-multi-select [dropDownArray]="sectionList" controlName="section" (change)="getClassesList()" placeholder="Select Section"></app-multi-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Class</label>
+                <app-multi-select [dropDownArray]="classes" controlName="class" (change)="getBatchList()" [itemsShowLimit]="1" placeholder="Select Class"></app-multi-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Batch</label>
+                <app-multi-select [dropDownArray]="batches" controlName="batch" [itemsShowLimit]="1" placeholder="Select Batch"></app-multi-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class="form_label">Discount To</label>
+                <div class="radio-section ">
+                  <div class="radio ">
+                    <label class=" required ">
+                      <input type="radio" name="gender" id="male" formControlName="gender" value="both" aria-required="true" class="mr-1" checked>Both<span></span>
+                    </label>
+                  </div>
+                  <div class="radio ">
+                    <label class="required " aria-required="true">
+                      <input type="radio" name="gender" id="female" formControlName="gender" value="m" aria-required="true" class="mr-1" >Boys <span></span>
+                    </label>
+                  </div>
+                  <div class="radio ">
+                    <label class="required " aria-required="true">
+                      <input type="radio" name="gender" id="other" formControlName="gender" value="f" aria-required="true" class="mr-1" >Girls <span></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Fees Category</label>
+                <app-multi-select [dropDownArray]="fees_types" controlName="fees_type" placeholder="Select Fees Category" [itemsShowLimit]="1" (change)="getCategoryFeesMonths()"></app-multi-select>
+              </div>
+
+              <div class="col-md-3 form_group" *ngIf="months.length > 0">
+                <label class=" form_label">Months</label>
+                <app-multi-select [dropDownArray]="months" controlName="month" placeholder="Select Fees Category" [itemsShowLimit]="2" ></app-multi-select>
+              </div>
+
+              <div class="form-group col-lg-3">
+                <label class="form_label">Date</label>
+                <app-date-range-picker controlName="date" class="w-100" placeholder="Select Date"></app-date-range-picker>
+              </div>
+
+              <div class="form-group col-lg-3">
+                <label class="form_label">Amount</label>
+                <div class="d-flex">
+                    <app-input type="number" min="0" controlName="amount" class="w-100" placeholder="Please enter discount"></app-input>
+                    <app-single-select [dropDownArray]="amount_filters" controlName="amount_filter" [search]="false" ></app-single-select>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+
+              <div class="col-md-3 form_group">
+                <div class="d-flex">
+                  <button type="button" class="btn form-row-button" (click)="reloadData()"  [disabled]="loading"><i class="fa fa-eye"></i> Show
+						        <div class="spinner-border spinner-border-sm" role="status" *ngIf="loading">
+						            <span class="visually-hidden">Loading...</span>
+						        </div>
+	                </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card assign-transport-table">
+        <div class="card_body">
+          <div class="row mx-0 no-gutters">
+            <div class="col-lg-12">
+              <div class="datatable-action-design">
+                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                  </svg>
+                </div>
+                <div class="table-responsive">
+                  <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered " [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                      <thead class="thead-light">
+                        <tr>
+                          <th>Date</th>
+                          <th>Gr Number</th>
+                          <th>Student Name</th>
+                          <th>Section</th>
+                          <th>Class</th>
+                          <th>Batch</th>
+                          <th>Fees Category</th>
+                          <th>Month</th>
+                          <th>Total Fees</th>
+                          <th>Paid Fees</th>
+                          <th>Discount Amount</th>
+                          <th>Remaining Fees</th>
+                          <th>Remark</th>
+                          <th>Created By</th>
+                          <th class="action-btn-sticky">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of tbody ;let i = index;">
+                        <td>{{item.created_at | date: dateFormateService.getDateFormat()}}</td>
+                        <td class="teal-text-color">{{item.student_category_fees?.student?.studentId ?? '-'}}</td>
+                        <td class="name_hover">
+                          <a [routerLink]="[setUrl(URLConstants.STUDENT_PROFILE),item.student_category_fees?.student?.unique_id]" > 
+                            {{item.student_category_fees?.student?.full_name ?? '-'}}
+                          </a>
+                        </td>
+                        <td>{{item.section_name ?? '-'}}</td>
+                        <td>{{item.student_category_fees?.student?.class?.name ?? '-'}}</td>
+                        <td>{{item.student_category_fees?.student?.batches_name ?? '-'}}</td>
+                        <td>{{item.student_category_fees?.category?.type_name || 'School Fees'}}</td>
+                        <td>{{item.student_category_fees?.month ?? '-'}}</td>
+                        <td class="teal-text-color">{{item.student_category_fees?.amount || 0}}</td>
+                        <td class="green-text-xolor">{{item.student_category_fees?.paid_amount || 0}}</td>
+                        <td><span [class.text-success]="item.inc_dec_type == 1"  [class.text-danger]="item.inc_dec_type == 0" [class.sub-text-danger]="item.inc_dec_type == 0">{{item.inc_dec_type == 1 ? '+' : '-'}} {{item?.discount_amount || 0 }} ₹</span></td>
+                        <td class="orange-text-color">{{(item.student_category_fees?.amount|| 0) - ((item?.student_category_fees?.paid_amount || 0) + (item?.student_category_fees?.discount || 0))}}</td>
+                        <td [class.remark]="item?.remark?.length > 30">
+                          <span *ngIf="!item.read_more && item?.remark?.length > 50">
+                            {{item?.remark?.substring(0,50)}}....
+                          </span>
+                          <span *ngIf="item.read_more || item?.remark?.length <= 50">
+                              {{item?.remark || '-'}}
+                          </span>
+                          <input type="checkbox" hidden id="checkbox{{item?.id}}" [(ngModel)]="item.read_more">
+                          <label class="text-primary tx-12 cursor-pointer" for="checkbox{{item?.id}}" *ngIf="item?.remark?.length > 50">{{item?.read_more ? 'Undo' : 'Read More'}}</label>
+                        </td>
+                        <td>
+                          <p class="mb-0">{{item.created_by?.full_name ?? '-'}}</p>
+                          {{item.created_at | date: dateFormateService.getDateTimeFormat()}}
+                        </td>
+                        <td class="action-btn-sticky text-center">                     
+                          <div class="btn-group" role="group" >
+                            <button class="lt-btn-icon action-edit" ngbTooltip="Edit" (click)="open(item)"></button>
+                            <button class="lt-btn-icon action-attech" ngbTooltip="View Attachment" *ngIf="item.student_category_fees?.fees_attachments?.length > 0" (click)="viewAttachment(item.student_category_fees)" ></button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                            <td colspan="15" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

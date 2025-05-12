@@ -1,0 +1,352 @@
+<section class="leave_form">
+	<div class="page_inner">
+		<div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Issue Item List</h3>
+				<div class="btn_right">
+					<a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="[CommonService.setUrl(URLConstants.INTERNAL_ISSUE_FORM)]">Add Issue Item</a>
+				</div>
+			</div>
+			<div>
+				<div class="card student-list-card p-0 mx-0 mb-4">
+					<div class="card-header justify-content-between d-flex">
+						<div class="card-student-heading d-flex align-items-center">
+							<h5 class="mb-0">Filters</h5>
+							<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+						</div>
+						<div class="d-flex student-accordion-btn">
+							<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+							<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+								<i class="fa fa-angle-down" *ngIf="!filter"></i>
+								<i class="fa fa-angle-up" *ngIf="filter"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body" *ngIf="filter">
+						<form [formGroup]="filterForm">
+							<div class="row">
+								<div class="col-md-3 form_section">
+									<div class="form_group">
+										<label class="form_label">Item Issue For ?</label>
+										<div>
+											<div id="student_rightEducation" class="d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="issue_for_both" aria-required="true">
+														<input type="radio" id="issue_for_both" name="item_issue_for" formControlName="item_issue_for" value="" (change)="countFilters()"> Both <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="type_student" aria-required="true">
+														<input type="radio" id="type_student" name="item_issue_for" formControlName="item_issue_for" value="1" (change)="countFilters()"> Student <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="type_faculty" aria-required="true">
+														<input type="radio" id="type_faculty" name="item_issue_for" formControlName="item_issue_for" value="2" (change)="countFilters()">Employee<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3 form_group">
+									<label class="form_label">Issued By<span class="text-danger">*</span></label>
+									<div>
+										<app-single-select placeholder="Please Select User" controlName="issued_by" [dropDownArray]="issuedByUserList" (change)="countFilters()"></app-single-select>
+									</div>
+								</div>
+								<div class="col-md-3 form_section">
+									<div class="form_group">
+										<label class="form_label">Choose</label>
+										<div>
+											<div id="student_rightEducation" class="d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="issue_type_both" aria-required="true">
+														<input type="radio" id="issue_type_both" name="issue_type" formControlName="issue_type" value="" (change)="countFilters()"> Both <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="type_item" aria-required="true">
+														<input type="radio" id="type_item" name="issue_type" formControlName="issue_type" value="1" (change)="countFilters()"> Issue Item <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="type_kit" aria-required="true">
+														<input type="radio" id="type_kit" name="issue_type" formControlName="issue_type" value="2" (change)="countFilters()">Issue Kit<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3 form_group date-lt-range">
+									<label class="form_label">Item Issue Date<span class="text-danger">*</span></label>
+									<div>
+										<app-date-range-picker placeholder="Enter Issue Date" controlName="item_issue_date" name="item_issue_date" (change)="countFilters()"></app-date-range-picker>
+									</div>
+								</div>
+								<div class="col-md-3 form_section">
+									<div class="form_group">
+										<label class="form_label">Payment Required</label>
+										<div>
+											<div id="student_rightEducation" class="d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="payment_both" aria-required="true">
+														<input type="radio" id="payment_both" name="payment_required" formControlName="payment_required" value="" (change)="countFilters()"> Both<span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="payment_yes" aria-required="true">
+														<input type="radio" id="payment_yes" name="payment_required" formControlName="payment_required" value="1" (change)="countFilters()"> Yes<span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="payment_no" aria-required="true">
+														<input type="radio" id="payment_no" name="payment_required" formControlName="payment_required" value="0" (change)="countFilters()">No<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3 form_section">
+									<div class="form_group">
+										<label class="form_label">Payment Status</label>
+										<div>
+											<div id="student_rightEducation" class="d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="status_both" aria-required="true">
+														<input type="radio" id="status_both" name="payment_status" formControlName="payment_status" value="" (change)="countFilters()"> Both <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="pending" aria-required="true">
+														<input type="radio" id="pending" name="payment_status" formControlName="payment_status" value="1" (change)="countFilters()"> Pending <span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="collected" aria-required="true">
+														<input type="radio" id="collected" name="payment_status" formControlName="payment_status" value="2" (change)="countFilters()">Collected<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-3 form_group">
+									<label class="form_label">Payment Mode<span class="text-danger">*</span></label>
+									<div>
+										<app-single-select placeholder="Please Select Payment Mode" controlName="payment_mode_id" [dropDownArray]="paymentTypeList" (change)="countFilters()"></app-single-select>
+									</div>
+								</div>
+								<div class="col-md-12 form_group">
+									<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="card_body">
+					<div>
+						<div class="col-lg-12 datatable_cls card">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="table table-hover table-bordered table-nowrap table datatable w-100" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead class="thead-light">
+											<tr>
+												<th>Sr No.</th>
+												<th>Issue For</th>
+												<th>Name</th>
+												<th>Issue No</th>
+												<th>Choose</th>
+												<th>Issue Date</th>
+												<th>Amount</th>
+												<th>Discount</th>
+												<th>Total Amount</th>
+												<th>Payment Required</th>
+												<th>Payment Status</th>
+												<th>Payment Mode</th>
+												<!-- <th>Payment Date</th> -->
+												<th>Issued By</th>
+												<th class="action-btn-sticky">Action</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="tbody?.length != 0">
+											<tr *ngFor="let item of tbody ;let i = index;">
+												<td>{{item.DT_RowIndex}}</td>
+												<td>{{item.item_issue_for}}</td>
+												<td>{{item.name}}</td>
+												<td>{{item.issue_no}}</td>
+												<td>{{item.issue_type}}</td>
+												<td>{{item.item_issue_date | date : dateFormateService.getDateFormat()}}</td>
+												<td>{{item.sub_total | number:'1.2-2' }}</td>
+												<td>{{item.discount_amount | number:'1.2-2'}}</td>
+												<td>{{item.total | number:'1.2-2'}}</td>
+												<td>{{item?.payment_required ?? "-"}}</td>
+												<td>{{item?.payment_status ?? "-" | titlecase}}</td>
+												<td>{{item?.payment_mode ?? "-"}}</td>
+												<td>{{item?.issued_by_user ?? "-"}}</td>
+												<td class="action-btn-sticky text-center">
+													<div class="btn-group" role="group">
+														<a class="lt-btn-icon action-edit" ngbTooltip="Edit" href='#' *ngIf="item.payment_status == 'pending'" [routerLink]="[CommonService.setUrl(URLConstants.INTERNAL_ISSUE_FORM),item.id]"></a>
+														<button class="lt-btn-icon action-delete" ngbTooltip="Delete" (click)="delete(item.id)"></button>
+														<a class="lt-btn-icon action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)"></a>
+														<!-- <button class="btn action-download" ngbTooltip="Download" type="button" (click)="downloadPurchaseOrder(item.id)"><i class="fa fa-download"></i></button> -->
+														<button type="button" ngbTooltip="Attachments" class="lt-btn-icon action-attech ms-1" (click)="openAttachment(myModel, item)">
+															
+														</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="tbody?.length == 0">
+											<tr>
+												<td colspan="14" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>
+									</table>
+									<ng-template #myModel let-modal>
+										<div class="modal-header">
+											<div class="modal-title">Attachment</div>
+											<div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+										</div>
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex uploded_doc" *ngIf="attachment.attachment_name">
+													<div class="uploded_doc_content card">
+														<ng-container [ngSwitch]="getFileType(attachment?.attachment_name)">
+															<div class="text-center atteched_file">
+																<a *ngSwitchCase="'image'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<img class="img-circle" style="width: 100px; height: 100px" [src]="attachment?.attachment_url" />
+																</a>
+																<a *ngSwitchCase="'excel'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-excel"></i>
+																</a>
+																<a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-pdf"></i>
+																</a>
+																<a *ngSwitchDefault target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-excel"></i>
+																</a>
+															</div>
+														</ng-container>
+														<div class="action text-center">
+															<a class="action-delete btn" (click)="deleteAttachment(attachment.id)" ngbTooltip="Delete">
+																<i class="fa fa-trash-alt"></i>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="text-center text-muted" *ngIf="attachment.attachment_name == null"> No Attachments Available </div>
+										</div>
+										<div class="d-flex justify-content-end modal-footer">
+											<button type="button" class="btn clear-btn mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+										</div>
+									</ng-template>
+									<ng-template #myviewmodal let-modal>
+										<div class="modal-header" style="z-index: 0;">
+											<h4 class="modal-title" id="modal-basic-title">Internal Issue Details</h4>
+											<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+												<span aria-hidden="true">×</span>
+											</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+											<div class="form_group modal-table">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="card">
+															<div class="row">
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Item Issue For : </b> <span class="c-primary">{{issue_item.item_issue_for == 1 ? 'Student' : 'Employee'}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Name : </b> <span class="c-primary">{{issue_item.item_issue_for == 1 ? (issue_item.issued_for_student?.full_name ?? '-') : (issue_item.issued_for_user?.full_name ?? '-')}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Issue No : </b> <span class="c-primary">{{issue_item.issue_no }}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Issue date : </b> <span class="c-primary">{{issue_item.item_issue_date | date : dateFormateService.getDateFormat()}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Item Issue Type : </b> <span class="c-primary">{{issue_item.issue_type == 1  ? 'Issue Items' : 'Issue Kit'}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2" *ngIf="issue_item.issue_type == 2"><b>Kit Name : </b> <span class="c-primary">{{issue_item.kit?.name ?? '-'}}</span></label>	
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="card">
+															<div class="row">
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Payment Required : </b> <span class="c-primary">{{issue_item?.payment_required == 1 ? 'Yes' : 'No'}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Payment Status : </b> <span class="c-primary">{{issue_item.payment_status != null ? (issue_item.payment_status == 1 ? 'Pending' : 'Collected') : '-'}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Payment Mode : </b> <span class="c-primary">{{issue_item?.payment_mode?.mode ?? '-'}}</span></label>	
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Issued By : </b> <span class="c-primary">{{issue_item?.issued_by_user?.full_name ?? '-'}}</span></label>	
+																</div>
+															</div>
+														</div>
+													</div>
+		
+												</div>
+												<div class="basic_table">
+													<div class="table-responsive">
+														<table class="table table-hover table-bordered table-nowrap table datatable w-100">
+															<thead>
+																<tr>
+																	<th>Item Type</th>
+																	<th>Item Name</th>
+																	<th>Unit Sale Price</th>
+																	<th>Available Quantity</th>
+																	<th>Quantity</th>
+																	<th>Amount</th>
+																	<th>Discount</th>
+																	<th>Remark</th>
+																	<th>Total Amount</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr *ngFor="let item of issue_item.internal_issue_items">
+																	<td>{{item?.item_name?.inventory_item_type?.name}}</td>
+																	<td>{{item.item_name?.item_name}}</td>
+																	<td>{{item.unit_price}}</td>
+																	<td>{{item.item_name.available_quantity}}</td>
+																	<td>{{item.quantity}}</td>
+																	<td>{{item.amount | number:'1.2-2'}}</td>
+																	<td>{{item.discount}} {{item.discount ? (item.discount_type == 'amount' ? '₹' : '%') : '-'}}</td>
+																	<td>{{item.remark ?? '-'}}</td>
+																	<td>{{item.total_amount | number:'1.2-2'}}</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>  
+										</div>
+									</ng-template>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,33 @@
+::ng-deep {
+    .tooltipPrimary .tooltip-inner,
+    .tooltipPrimary1 .tooltip-inner,
+    .tooltipPrimary2 .tooltip-inner,
+    .tooltipPrimary3 .tooltip-inner {
+        background-color: #0162e8;
+        font-size: 125%;
+    }
+    .tooltipPrimary .arrow::before {
+        border-top-color: #0162e8;
+    }
+    .tooltipPrimary1 .arrow::before {
+        border-bottom-color: #0162e8;
+    }
+    .tooltipPrimary2 .arrow::before {
+        border-left-color: #0162e8;
+    }
+    .tooltipPrimary3 .arrow::before {
+        border-right-color: #0162e8;
+    }
+    @media (max-width:340px) {
+        .tooltip.fade.bs-tooltip-left{
+            transform:translate(50px,40px) !important;
+        }
+        .tooltip.fade.bs-tooltip-right{
+            transform: translate(100px,40px) !important;
+        }
+    }
+
+    ngb-tooltip-window div ::before{
+        border-top-color:red
+    }
+}

@@ -1,0 +1,49 @@
+<section class="vertical-menu" *ngIf="moduleName?.length > 0"  [ngClass]="{'isclose' : isCollapes }" >
+    <div class="menu-collapse">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isCollapes" (click)="handleOpenClose($event)">
+            <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isCollapes" (click)="handleOpenClose($event)">
+            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+        </svg>
+    </div>
+    <div class="main-sidebar-menu" (mouseenter)="handleHover(true)" (mouseleave)="handleHover(false)" >
+        <h3 class="module_name">
+            <i *ngIf="sideMenu?.icon" class="ti-{{sideMenu?.icon}} me-2"></i>
+            <div *ngIf="sideMenu?.svgPath" class="slide_menu_icon me-2" [innerHTML]="sanitizeSvg(sideMenu?.svgPath)">
+            </div>
+            <span>{{sideMenu?.title}}</span>
+        </h3>
+        <div class="sidebar_menu_list">
+            <ul class="slide-menu">
+                <ng-container *ngFor="let menuItem of sideMenu?.children">
+                    <!-- if no sub menus or childs present-->
+                    <li *ngIf="!menuItem?.children">
+                        <a *ngIf="menuItem?.show" [routerLink]="[menuItem.path]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}" class="nav-link" [queryParams]="{isDefaultTemplate:menuItem?.slug}" [ngbTooltip]=" isCollapes ? menuItem.title : '' " placement="right">
+                        <div class="slide_menu_icon" [innerHTML]="sanitizeSvg(menuItem?.svgPath)">
+                        </div>
+                        <span>{{menuItem?.title}}</span></a>
+                    </li>
+                    <!-- if sub menus or childs present-->
+                    <li *ngIf="menuItem?.children?.length > 0 && menuItem?.show" class="sub_menu">
+                        <a (click)="toggleSubmenu(menuItem)" [ngClass]="{'expanded active': menuItem?.active}">
+                            <label class="m-0">
+                                <div class="slide_menu_icon" [innerHTML]="sanitizeSvg(menuItem?.svgPath)">
+                                </div>
+                                <span>{{menuItem?.title}}</span>
+                            </label>
+                                <i class="fe sub-angle fe-chevron-right dropdown-arrow"></i></a>
+                        <ul class="sub-slide-menu arrow" [class.open]="menuItem?.active">
+                            <li *ngFor="let child of menuItem?.children">
+                                <a *ngIf="child?.show" class="slide-item" [routerLink]="[child?.path]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true}" [queryParams]="{isDefaultTemplate:child?.slug}">
+                                    <i class="fas fa-caret-right"></i>
+                                    <span>{{child?.title}}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
+    </div>
+</section>

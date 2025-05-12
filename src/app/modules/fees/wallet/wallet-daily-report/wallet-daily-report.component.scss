@@ -1,0 +1,7 @@
+::ng-deep body{
+    app-wallet-daily-report{
+        .multiselect-dropdown {
+            z-index: unset;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+<section class="student_add app-student-refund">
+	<div *ngIf="student">
+		<app-add-fees-refund [studentDetail]="student"  [refundReload]="refundReload" [refundData]="refund_id" (refundRefresh)="refundRefresh()"></app-add-fees-refund>
+		<app-fees-refund-list [studentDetail]="student" [refundListReload]="refundListReload" (refundListRefresh)="refundListRefresh()" (editModal)="editModal($event)"></app-fees-refund-list>
+	</div>
+</section>

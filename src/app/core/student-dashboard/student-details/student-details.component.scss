@@ -1,0 +1,155 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-student-details{
+    header{
+        &.header {
+            &_new{
+                display: block;
+                color:$white;
+                background: $header-shadow;
+                box-shadow: $student-header-shadow;
+                position: fixed;
+                left: 0;
+                right: 0;
+                z-index: 1;
+                top: 0;
+                .row_div{
+                    height: 60px;
+                    @media screen and (max-width:1199px) {
+                        height: 45px;
+                    }
+                    @media screen and (max-width:479px) {
+                        flex-wrap: wrap;
+                        height: auto;
+                        padding: 4px 0 6px;
+                    }
+                }
+                .lbl_id{
+                    margin: 0;
+                    font-size: 1em;
+                    font-weight: 500;
+                    @media screen and (max-width:1199px) {
+                        font-weight: 600;
+                    }
+                    @media screen and (max-width:479px) {
+                        padding-bottom:1px;
+                    }
+                }
+                .col{
+                    @media screen and (max-width:479px) {
+                        min-width: 100%;
+                        text-align: center;
+                    }
+                }
+                .student_settings{
+                    display: flex;
+                    align-items:center;
+                    justify-content: end;
+                    list-style: none;
+                    margin: 0;
+                    @media screen and (max-width:479px) {
+                        justify-content: center;
+                        padding: 0;
+                    }
+                    li{
+                        margin: 0 10px;
+                        &:first-child{
+                            margin-left: 0;
+                        }
+                        &:last-child{
+                            margin-right: 0;
+                        }
+                        a{
+                            color:$white;
+                            font-weight: 400;
+                            font-size: 1.07em;
+                            text-transform: initial;
+                            text-decoration: unset;
+                            @media screen and (max-width:1199px) {
+                                color:$white-77;
+                                font-size: 12px;
+                            }
+                            &:hover{
+                                color:$lightgray-ced;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .page_inner{
+        padding-top: 0;
+        .page_title{
+            font-size: 21px;
+            margin: 25px 0;
+        }
+        .img-thumbnail{
+            padding: 0.25em;
+            border-radius: 0.25em;
+            width: 110px;
+            height: 110px;
+            margin: 0 15px 0 0;
+        }
+        .student-details{
+            h4{
+                margin-bottom: 10px;
+                font-weight: 700;
+                font-size: 18px;
+                text-transform: uppercase;
+                margin: 0 0 5px;
+            }
+        }
+        .card_body{
+            h3{
+                font-size: 18px;
+            }
+            h5{
+                font-size: 1.25em;
+                margin-top: 13px;
+                i{
+                    font-size: 14.3px;
+                }
+            }
+            h6.batch {
+                font-size: 14px;
+                color: $black;
+                opacity: 0.5;
+            }
+            .student_details{
+                a{
+                    &.btn{
+                        color: $white;
+                        margin-top: 5px;
+                        padding: .774em 1.074em;
+                        &:hover{
+                            background: $btn-gradient-hover;
+                        }
+                        i{
+                            font-size: 1.1em;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+::ng-deep{
+    .app-sidebar{
+        display: none;
+    }
+    .main-content{
+        margin-left: 0;
+    }
+    .side-header{
+        padding-left: 0;
+    }
+    .rtl{
+        .main-content{
+            margin-right: 0;
+        }
+        .main-header{
+            padding-right: 0;
+        }
+    }
+}

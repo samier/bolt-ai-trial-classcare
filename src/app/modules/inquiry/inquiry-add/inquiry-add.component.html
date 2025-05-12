@@ -1,0 +1,606 @@
+<section class="inquiry_add inquiry-add-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0"> {{ id ? "Update " : "Add " }}Inquiry Detail</h3>
+        <div *ngIf="systemSettingFees && isInquirySetting && feesDetails?.length > 0">
+          <!-- <a href="#" [routerLink]="CommonService.setUrl(URLConstants.INQUIRY_LIST)" class="btn list-btn">Inquiry List</a> -->
+          <div class="inquiry-fees-detail">
+            <ng-container *ngFor="let item of feesDetails">
+              <p><img src="assets/images/rupee.svg" /></p> {{item.name}} : <span>{{item.amount}}</span>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="inquiryForm" id="studentAdd">
+
+        <!-- Academic Details ok -->
+        <mat-accordion class="inquiry-accordion">
+          <mat-expansion-panel class="inquiry-accordion-panel" (opened)="academicOpenState = true"
+            (closed)="academicOpenState = false" [expanded]="academicOpenState">
+            <mat-expansion-panel-header class="inquiry-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> Academic Details </mat-panel-title>
+            </mat-expansion-panel-header>
+        
+            <div class="inquiry-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.academic_year_id?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Academic year<span class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+        
+                      <app-single-select controlName="academic_year_id" placeholder="Select Academic type"
+                        (change)="getClassList()" [dropDownArray]="yearList"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.class_id?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Class<span class="text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="class_id" placeholder="Select Class"
+                        [dropDownArray]="classList" (change)="classChange($event)"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.previous_class?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Previous Class <span *ngIf="inquiryFieldData?.format_data_details?.previous_class?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="previous_class" placeholder="Previous class"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.present_school?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Previous School  <span *ngIf="inquiryFieldData?.format_data_details?.present_school?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <!-- <app-single-select controlName="present_school" [dropDownArray]="oldSchoolList"
+                        placeholder="Enter Present school"></app-single-select> -->
+                        <app-dropdown-crud 
+                                         placeholder="Select or Enter Previous school" searchPlaceholder="Search Previous School" 
+                                         [selectedId]="preSchoolId" (selectedValue)="selectionChange($event)" [dropDownArray]="oldSchoolList" 
+                                         (createUpdate)="createAndUpdateData($event)" 
+                                         (deleteData)="deleteData($event)">
+                      </app-dropdown-crud>
+                      <div class="inquiry-fees-status" *ngIf="inquiryForm.get('present_school')?.invalid && (inquiryForm.get('present_school')?.dirty || inquiryForm.get('present_school')?.touched)">
+                        <ng-container *ngIf="inquiryForm.get('present_school')?.['errors']?.['required']">
+                          <div class="text-danger" style="position: absolute; top: 3px;">
+                            The input is required.
+                          </div>
+                        </ng-container>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        
+        <!-- Personal Details ok-->
+        <mat-accordion class="inquiry-accordion">
+          <mat-expansion-panel class="inquiry-accordion-panel" (opened)="personalOpenState = true"
+            (closed)="personalOpenState = false" [expanded]="personalOpenState">
+            <mat-expansion-panel-header class="inquiry-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> Personal Details </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="inquiry-acordion-body">
+              <div class="row">
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.first_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">First Name <span *ngIf="inquiryFieldData?.format_data_details?.first_name?.required" class="label-text-danger">*</span> :
+                       <em>(Student's name)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="first_name" placeholder="Enter First Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.secondary_first_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">First Name <span *ngIf="inquiryFieldData?.format_data_details?.secondary_first_name?.required" class="label-text-danger">*</span> :
+                      <em>(Secondary Language)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_first_name" placeholder="Enter First Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.middle_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Middle Name <span *ngIf="inquiryFieldData?.format_data_details?.middle_name?.required" class="label-text-danger">*</span> : <em>(Father's Name)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="middle_name" placeholder="Enter Middle Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.secondary_middle_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Middle Name <span *ngIf="inquiryFieldData?.format_data_details?.secondary_middle_name?.required" class="label-text-danger">*</span> :
+                      <em>(Secondary Language)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_middle_name" placeholder="Enter Middle Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.last_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Last Name <span *ngIf="inquiryFieldData?.format_data_details?.last_name?.required" class="label-text-danger">*</span> :
+                      <em>(Surname)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="last_name" placeholder="Enter Last Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.secondary_last_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Last Name <span *ngIf="inquiryFieldData?.format_data_details?.secondary_last_name?.required" class="label-text-danger">*</span> :
+                      <em>(Secondary Language)</em>
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_last_name" placeholder="Enter Last Name"></app-input>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.date_of_birth?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Birth date <span *ngIf="inquiryFieldData?.format_data_details?.date_of_birth?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker  (change)="calculateAge()" controlName="date_of_birth" [maxDate]="maxDate"></app-mat-date-picker>
+
+                      <!-- <app-input type="date" (change)="calculateAge()" controlName="date_of_birth"
+                        placeholder="Date of Birthday" [maxDate]="maxDate"></app-input> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.age?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Age <span *ngIf="inquiryFieldData?.format_data_details?.age?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="age" placeholder="Age" [readonly]="true"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.gender?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label"> Gender <span *ngIf="inquiryFieldData?.format_data_details?.gender?.required" class="label-text-danger">*</span> : </label>
+                    <div class="student-dropdown inquiry-radio-content w-100">
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="male" formControlName="gender" value="m">
+                        <label for="male">Male</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="female" formControlName="gender" value="f">
+                        <label for="female">Female</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="other" formControlName="gender" value="o">
+                        <label for="other">Other</label>
+                      </div>
+                      <div class="inquiry-fees-status" *ngIf="inquiryForm.get('gender')?.invalid && (inquiryForm.get('gender')?.dirty || inquiryForm.get('gender')?.touched)">
+                        <ng-container *ngIf="inquiryForm.get('gender')?.['errors']?.['required']">
+                          <div class="text-danger" style="position: absolute; top: 3px;">
+                            The input is required.
+                          </div>
+                        </ng-container>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.student_mobile?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Student Number <span *ngIf="inquiryFieldData?.format_data_details?.student_mobile?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="student_mobile"
+                        placeholder="Enter Student’s Number" (input)="onNumberInput($event,'student')" ></app-input>
+                        <span class="text-info" *ngIf="sameNumber.student">The number you entered already has an existing inquiry</span>
+
+                      </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.student_email?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Student Email  <span *ngIf="inquiryFieldData?.format_data_details?.student_email?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="student_email" placeholder="Enter Student's Email"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.parent_email?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Parent Email <span *ngIf="inquiryFieldData?.format_data_details?.parent_email?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="parent_email" placeholder="Enter Parent's Email"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.parent_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Father's Name  <span *ngIf="inquiryFieldData?.format_data_details?.parent_name?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="parent_name" placeholder="Enter Father Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.mother_name?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Mother's Name <span *ngIf="inquiryFieldData?.format_data_details?.mother_name?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_name" placeholder="Enter Mother name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.parent_mobile?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Father's Number <span *ngIf="inquiryFieldData?.format_data_details?.parent_mobile?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="parent_mobile"
+                        placeholder="Enter Father’s Number" (input)="onNumberInput($event,'father')"></app-input>
+                      <span class="text-info" *ngIf="sameNumber.father">The number you entered already has an existing inquiry</span>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.mother_number?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Mother Number <span *ngIf="inquiryFieldData?.format_data_details?.mother_number?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="mother_number"
+                        placeholder="Enter Mother’s Number" (input)="onNumberInput($event,'mother')"></app-input>
+                      <span class="text-info" *ngIf="sameNumber.mother" >The number you entered already has an existing inquiry</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="isNumberSame">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Relation
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select [dropDownArray]="relationList" controlName="relation" placeholder="Please Select Relation"></app-single-select>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.watsapp_number?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Whatsapp Number <span *ngIf="inquiryFieldData?.format_data_details?.watsapp_number?.required" class="label-text-danger">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <!-- <app-input type="number" controlName="watsapp_number" placeholder="Enter Whatsapp Number"></app-input> -->
+                      <select formControlName="watsapp_number" class="form-control">
+                        <option value="" selected disabled>Select for Whatsapp number</option>
+                        <option value="1">Father's Number</option>
+                        <option value="2">Mother's Number</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.adhaar_number?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label"> Whoes Aadhaar No  <span *ngIf="inquiryFieldData?.format_data_details?.adhaar_number?.required" class="label-text-danger">*</span> : </label>
+                    <div class="student-dropdown inquiry-radio-content w-100">
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="student1" formControlName="who_adhar" [value]="1">
+                        <label for="student1">Student</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="father1" formControlName="who_adhar" [value]="2">
+                        <label for="father1">Father</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="mother1" formControlName="who_adhar" [value]="3">
+                        <label for="mother1">Mother</label>
+                      </div>
+                      <div class="inquiry-fees-status" *ngIf="inquiryForm.get('adhaar_number')?.invalid && (inquiryForm.get('adhaar_number')?.dirty || inquiryForm.get('adhaar_number')?.touched)">
+                        <ng-container *ngIf="inquiryForm.get('adhaar_number')?.['errors']?.['required']">
+                          <div class="text-danger" style="position: absolute; top: 3px;">
+                            The input is required.
+                          </div>
+                        </ng-container>
+                      </div>  
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryForm?.value?.who_adhar">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">{{ inquiryForm.value.who_adhar == 1 ? 'Student' : inquiryForm.value.who_adhar == 2 ? 'Father' : 'Mother'}} Aadhaar Number<span *ngIf="inquiryFieldData?.format_data_details?.adhaar_number?.required" class="text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="text" controlName="adhaar_number"
+                        placeholder="Enter Aadhaar Card Number "></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- *ngIf="inquiryFieldData?.format_data_details?.inquiry_fees?.is_visible && isInquirySetting" -->
+                <div class="col-lg-6 col-md-6" *ngIf="systemSettingFees && isInquirySetting && !id">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label"> Inquiry Fees <span class="label-text-danger">*</span> : </label>
+                    <div class="student-dropdown inquiry-radio-content">
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="collected" formControlName="payment_status" [value]="1" [readonly]="true">
+                        <label for="collected">Collected</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="pending" formControlName="payment_status" [value]="2" [readonly]="true">
+                        <label for="pending">Pending</label>
+                      </div>
+                    </div>
+                    <div class="inquiry-fees-status" *ngIf="inquiryForm.get('payment_status')?.invalid && (inquiryForm.get('payment_status')?.dirty || inquiryForm.get('payment_status')?.touched)">
+                      <ng-container *ngIf="inquiryForm.get('payment_status')?.['errors']?.['required']">
+                        <div class="text-danger" style="position: absolute; top: 3px;">
+                          The input is required.
+                        </div>
+                      </ng-container>
+                    </div>  
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion> 
+
+        <!-- Address Details  -->
+        <mat-accordion class="inquiry-accordion" *ngIf="inquiryFieldData?.format_data_details?.address?.is_visible
+        || inquiryFieldData?.format_data_details?.address_type?.is_visible || inquiryForm.controls['address_type'].value==0 && inquiryFieldData?.format_data_details?.permanent_address?.is_visible 
+        || inquiryFieldData?.format_data_details?.current_city?.is_visible || inquiryForm.controls['address_type'].value==0 && inquiryFieldData?.format_data_details?.permanent_city?.is_visible">
+          <mat-expansion-panel class="inquiry-accordion-panel" (opened)="addressOpenState = true"
+            (closed)="addressOpenState = false" [expanded]="addressOpenState">
+            <mat-expansion-panel-header class="inquiry-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> Address Details </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="inquiry-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.address?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Current Address <span *ngIf="inquiryFieldData?.format_data_details?.address?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-textarea controlName="address" placeholder="Enter your Current address"></app-textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.address_type?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label"> Same As Current Address <span *ngIf="inquiryFieldData?.format_data_details?.address_type?.required" class="label-text-danger">*</span> : </label>
+                    <div class="student-dropdown inquiry-radio-content w-100">
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="yes" formControlName="address_type" value="1"  (change)="handleAddress($event)">
+                        <label for="male"> Yes</label>
+                      </div>
+                      <div class="inquiry-radio-btn">
+                        <input type="radio" id="no" formControlName="address_type" value="0" (change)="handleAddress($event)">
+                        <label for="female"> No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryForm.controls['address_type'].value==0 && inquiryFieldData?.format_data_details?.permanent_address?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Permanent Address <span *ngIf="inquiryFieldData?.format_data_details?.permanent_address?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-textarea controlName="permanent_address"
+                        placeholder="Enter your permanent address"></app-textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.current_city?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Current City <span *ngIf="inquiryFieldData?.format_data_details?.current_city?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="current_city" placeholder="Current City"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryForm.controls['address_type'].value==0 && inquiryFieldData?.format_data_details?.permanent_city?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Permanent City <span *ngIf="inquiryFieldData?.format_data_details?.permanent_city?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="permanent_city" placeholder="Permanent City"></app-input>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- Inquiry Details ok-->
+        <mat-accordion class="inquiry-accordion">
+          <mat-expansion-panel class="inquiry-accordion-panel" (opened)="inquiryOpenState = true"
+            (closed)="inquiryOpenState = false" [expanded]="inquiryOpenState">
+            <mat-expansion-panel-header class="inquiry-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> Inquiry Details </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="inquiry-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.transportation_requirment?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <div class="m-checkbox-list">
+                      <label class="m-checkbox mb-0 me-3"><input id="transportation_required" type="checkbox"
+                          formControlName="transportation_requirment"><span></span></label>
+                    </div>
+                    <label for="transportation_required" class="form_label">Transportation required? <span *ngIf="inquiryFieldData?.format_data_details?.transportation_requirment?.required" class="label-text-danger">*</span> : </label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.hostel_requirement?.is_visible ?? true">
+                  <div class="form_group inquiry-form-group">
+                    <div class="m-checkbox-list">
+                      <label class="m-checkbox mb-0 me-3"><input id="hostel_required" type="checkbox"
+                          formControlName="hostel_requirement"><span></span></label>
+                    </div>
+                    <label for="hostel_required" class="form_label">Hostel required? <span *ngIf="inquiryFieldData?.format_data_details?.hostel_requirement?.required" class="label-text-danger">*</span> : </label>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.discussion_with?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Discussed With <span *ngIf="inquiryFieldData?.format_data_details?.discussion_with?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select [dropDownArray]="employeeList" controlName="discussion_with" placeholder="Discussed With"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.inquiry_discription?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Inquiry Detail <span *ngIf="inquiryFieldData?.format_data_details?.inquiry_discription?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-textarea controlName="inquiry_discription" placeholder="Enter inquiry detail"></app-textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- <div class="col-lg-6 col-md-6">
+                    <div class="form_group inquiry-form-group">
+                      <label for="" class="form_label">Inquiry message :
+                      </label>
+                      <div class="student-dropdown w-100">
+                        <app-textarea controlName="inquiry_discription" placeholder="Enter inquiry message"></app-textarea>
+                      </div>
+                    </div>
+                  </div> -->
+
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.remark?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Remark <span *ngIf="inquiryFieldData?.format_data_details?.remark?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="remark" placeholder="Enter remark"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.follow_up?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Follow Up :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker controlName="follow_up" [minDate]="minDate"></app-mat-date-picker>
+
+                     <app-input type="date" controlName="follow_up" placeholder="Enter follow up date"
+                        [minDate]="minDate"></app-input>
+
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.status?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Status <span *ngIf="inquiryFieldData?.format_data_details?.status?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="status" placeholder="Enter Status"
+                        [dropDownArray]="statusList"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.inquiry_for?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Inquiry For <span *ngIf="inquiryFieldData?.format_data_details?.inquiry_for?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="inquiry_for" [dropDownArray]="inquiryFor" placeholder="Enquiry For"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" *ngIf="inquiryFieldData?.format_data_details?.assign_user_id?.is_visible">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">Responsible User <span *ngIf="inquiryFieldData?.format_data_details?.assign_user_id?.required" class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="assign_user_id" [dropDownArray]="responsibleUserData" placeholder="Please Select Responsible User"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- Custom Details -->
+        <mat-accordion class="inquiry-accordion" *ngIf="customInquiry?.length > 0">
+          <mat-expansion-panel class="inquiry-accordion-panel" (opened)="customOpenState = true"
+            (closed)="customOpenState = false" [expanded]="customOpenState">
+            <mat-expansion-panel-header class="inquiry-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> Custom Details </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="inquiry-acordion-body">
+              <div class="row">
+
+                <div class="col-lg-6 col-md-6" *ngFor="let item of customInquiry ">
+                  <div class="form_group inquiry-form-group">
+                    <label for="" class="form_label">{{ item?.field_title }}<span class="label-text-danger"
+                        *ngIf="item.required ==1">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+
+                      <ng-container *ngIf="item?.field_type == 'dropdown'">
+                        <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false" [formControlName]="item?.field_name"
+                          [items]="item?.values" bindLabel="option" bindValue="option" appendTo="body">
+                        </ng-select>
+                      </ng-container>
+
+                      <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                        <app-input [type]="item?.field_type" [controlName]="item?.field_name" [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                      </ng-container>
+
+                      <ng-container *ngIf="item?.field_type == 'textArea'">
+                        <app-textarea [controlName]="item?.field_name" [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                      </ng-container>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <!-- Save Button -->
+        <div class="save-cancel-field">
+          <button class="btn save-btn me-2" (click)="handleSave()" [disabled]="is_addNotice" *ngIf="id ? CommonService.hasPermission('inquiry_inquiry', 'has_update') : CommonService.hasPermission('inquiry_inquiry', 'has_create')">{{ id ? 'Update' :'Save' }} Inquiry
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_addNotice">
+              <span class="visually-hidden">Loading..."</span>
+            </div>
+          </button>
+          <button class="btn cancel-btn" [routerLink]="CommonService.setUrl(URLConstants.INQUIRY_LIST)">cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

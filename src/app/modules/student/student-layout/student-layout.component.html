@@ -1,0 +1,265 @@
+<section class="leave_form student-collapse-layout">
+    <div class="page_inner students-info-tabs-view adminside-stu">
+        <div class="m-container">
+            <div class="sticky-content">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="stu_profile_name  align-items-center d-flex">
+                        <div class="student-img student-header-content">
+                            <img class="img-thumbnail" src="{{studentDetails?.profile}}">
+                            <a class="btn action-edit" ngbTooltip="Edit" [routerLink]="[setUrl(URLConstants.STUDENT_EDIT),studentDetails?.id]" *ngIf="CommonService.hasPermission('student_student', 'has_edit')">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1 0 32c0 8.8 7.2 16 16 16l32 0zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"/></svg>
+                            </a>
+                        </div>
+                        <div class="student-details">
+                            <!-- <h3 class="sub_title m-0 mb-1">Student {{tittle}}</h3> -->
+                            <h4 class="m-0 mb-0">{{studentDetails?.full_name}} <span class="text-danger static-text-danger" *ngIf="studentDetails?.status == 0">(Inactive)</span></h4>
+                            <h6 class="batch" >{{studentDetails?.batch || ''}}</h6>
+                        </div>
+                        <!-- <div class="student-list" style="margin-left:auto">
+                            <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_VIEW_DETAIL),student?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_access') && student?.leaving_date && student?.status == 0">
+                                <span>View Student's LC Details</span>
+                            </a>
+                            <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_VIEW),student?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_download') && student?.lc_type == '1' && student?.leaving_date && student?.status == 0">
+                                <span>Student Leaving Certificate</span>
+                            </a>
+                            <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_ADD),student?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_create') && !student?.leaving_date">
+                                <span>Generate LC</span>
+                            </a>
+                            <a [routerLink]="[setUrl(URLConstants.STUDENT_LIST)]" class="btn ml-0">
+                                <span>Student List</span>
+                            </a>
+                        </div> -->
+                        </div>
+                       
+                </div>
+               
+                <div class="btn_right">
+                    <div ngbDropdown class="d-inline-block operations me-2">
+                        <button type="button" class="btn" id="dropdownopration" ngbDropdownToggle>
+                            <i class="far fa-plus-square me-2"></i>Operations
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="dropdownopration">
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="studentIdGeneration('pdf')" class="dropdown-item"><i class="far fa-id-badge"></i>Student IDcard Download</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_delete')" (click)="deleteStudent()" class="dropdown-item"><i class="far fa-trash-alt"></i>Delete</button>                            
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="bonafiedCertificate('pdf')" class="dropdown-item"><i class="far fa-id-badge"></i>Bonafide Certificate</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="printData('pdf')" class="dropdown-item"><i class="fa fa-info-circle"></i>Student Information</button>
+                            <button (click)="sendAdmissionPopUp(publishModel)" class="dropdown-item"><i class="fas fa-graduation-cap"></i>Send admission</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="downloadStudentFullReport(student_id)" class="dropdown-item"><i class="fa  fa-file-contract"></i>Full Report</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="downloadStudentBasicReport(student_id)" class="dropdown-item"><i class="fa fa-file "></i>Basic Report</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="downloadPdfAndExcel('pdf')" class="dropdown-item"><i class="fa fa-file-pdf "></i>Pdf</button>
+                            <button *ngIf="CommonService.hasPermission('student_student', 'has_download')" (click)="downloadPdfAndExcel('excel')" class="dropdown-item"><i class="fa fa-file-excel "></i>Excel</button>
+                        </div>
+                    </div>
+                    <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_VIEW_DETAIL),studentDetails?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_access') && studentDetails?.leaving_date && studentDetails?.status == 0">
+                        <span>View Student's LC Details</span>
+                    </a>
+                    <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_VIEW),studentDetails?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_download') && studentDetails?.lc_type == '1' && studentDetails?.leaving_date && studentDetails?.status == 0">
+                        <span>Student Leaving Certificate</span>
+                    </a>
+                    
+                    <a [routerLink]="[setUrl(URLConstants.LEAVING_CERTIFICATE_ADD),studentDetails?.id]" class="btn me-2" *ngIf="CommonService.hasPermission('student_leaving_certificate', 'has_create') && !studentDetails?.leaving_date">
+                        <span>Generate LC</span>
+                    </a>
+                    <a [routerLink]="[setUrl(URLConstants.STUDENT_LIST)]" class="btn ml-0 list-btn">
+                        <span>Student List</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+            <div class="studentview_lay">
+                <div class="card_body">
+                    
+                    <div class="content d-md-flex">
+                        <div class="left-content" [ngClass]="{'iscollape_left' : isCollape }">
+                            <div class="left-content-inner card">
+                                <div class="collapse_icon">
+                                    <i class="fa fa-angle-right csm_coll_icon" placement="top" *ngIf="isCollape" (click)="isCollape = !isCollape"></i>
+                                    <i class="fa fa-angle-left csm_coll_icon" placement="top" *ngIf="!isCollape" (click)="isCollape = !isCollape"></i>
+                                </div>
+                                <div class="left_inr_menu">
+                                    <!-- <div class="faculty-name-details p-16"> 
+                                        
+                                    </div>
+                                    <hr> -->
+    
+                                    <div class="panel with-nav-tabs panel-default section_dashboard">
+                                        <div class="collapse_search" *ngIf="isCollape" >
+                                            <i class="fas fa-search" (click)="onSearchIconClick()"></i>
+                                        </div>
+                                        <div class="search_box std_csm_search" *ngIf="!isCollape">
+                                            <input #searchInput type="text" placeholder="Search" class="form-control" [(ngModel)]="searchText">
+                                            <i class="fas fa-search"></i>
+                                            <i class="fa fa-times clear" *ngIf="searchText" (click)=" searchText = '' "></i>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs nav_border-section mt-3 flex-column">
+                                                <li class="nav-item" *ngFor="let tab of filteredTabs()">
+                                                    <a href="#." [routerLink]="[setUrl(tab.url), uniqueId]" class="nav-link" routerLinkActive="active" data-toggle="tab" [ngbTooltip]="isCollape ? tab.label : ''" placement="right">
+                                                        <!-- new tooltip [matTooltip]="isCollape ? tab.label : ''" matTooltipPosition="right" -->
+                                                        <div>
+                                                            <svg width="20" height="20" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path *ngIf="tab.d1" [attr.d]="tab.d1" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <path *ngIf="tab.d2" [attr.d]="tab.d2" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <path *ngIf="tab.d3" [attr.d]="tab.d3" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <path *ngIf="tab.d4" [attr.d]="tab.d4" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                <path *ngIf="tab.d5" [attr.d]="tab.d5" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </svg>
+                                                            <span class="tab_label_name">{{ tab.label }}</span>
+                                                        </div>    
+                                                        <div class="icon">
+                                                            <!-- <i class="fa fa-chevron-right"></i> -->
+                                                            <i class="fa fa-chevron-right"></i>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+    
+                                    <!-- <div class="panel with-nav-tabs panel-default section_dashboard">
+                                        <div class="search_box">
+                                            <input type="text" placeholder="Search" class="form-control">
+                                            <i class="fas fa-search"></i>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs nav_border-section mt-3 flex-column">
+                                                <li class="nav-item">
+                                                    <a [routerLink]="[setUrl(URLConstants.STUDENT_PROFILE),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Student Profile</a>
+                                                </li>
+    
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('student_student', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.ACADEMICS),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Academics</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('finance_fees', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.STUDENT_COLLECT_FEES),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Fees</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('finance_fees_refund', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.STUDENT_FEES_REFUND),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Refund</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('finance_wallets', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.STUDENT_WALLET_HISTORY),uniqueId]" class="nav-link" routerLinkActive="active" data-toggle="tab">Wallet</a>
+                                                </li>
+                                                
+                                                <li class="nav-item" >
+                                                    <a [routerLink]="[setUrl(URLConstants.BANK_DETAILS),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Bank Details</a>
+                                                </li>                                       
+                                                
+                                                <li class="nav-item">
+                                                    <a [routerLink]="[setUrl(URLConstants.STUDENT_DOCUMENT),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Documents</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="getInstituteModule('Transport') && CommonService.hasPermission('transport_assign_transport', 'has_access')">
+                                                    <a [href]="setsymfonyUrl('students/transport')" 
+                                                    class="nav-link"  routerLinkActive="active" data-toggle="tab">Transport</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="getInstituteModule('Meal') && CommonService.hasPermission('administrator_meal', 'has_access')">
+                                                    <a [href]="setsymfonyUrl('students/meals')"
+                                                    class="nav-link"  routerLinkActive="active" data-toggle="tab">Meal Menu</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="getInstituteModule('Leave') && CommonService.hasPermission('administrator_leave', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.ADMIN_STUDENT_TAB),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Leaves</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="getInstituteModule('Remark') && CommonService.hasPermission('administrator_remark', 'has_access')">
+                                                    <a [routerLink]="[setUrl(URLConstants.REMARK_LIST),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Remarks</a>
+                                                </li>
+    
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('administrator_assignment', 'has_access')">
+                                                    <a [href]="setsymfonyUrl('attachment/assignment')"
+                                                    class="nav-link"  routerLinkActive="active" data-toggle="tab">Assignment</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('student_exam', 'has_access')">                                            
+                                                    <a [href]="setsymfonyUrl('students/report')"
+                                                    class="nav-link"  routerLinkActive="active" data-toggle="tab">Exams & Reports</a>
+                                                </li>
+                                                <li class="nav-item" *ngIf="getInstituteModule('MCQ') && CommonService.hasPermission('online_exam_exam', 'has_access')" >
+                                                    <a [routerLink]="[setUrl(URLConstants.ADMIN_STUDENT_EXAM),uniqueId]" class="nav-link"  routerLinkActive="active" data-toggle="tab">Online Exam</a>
+                                                </li>
+                                                 <li class="nav-item" *ngIf="CommonService.hasPermission('student_student', 'has_access')">                                            
+                                                    <a [href]="setsymfonyUrl('students/uploadDocuments')"
+                                                    class="nav-link"  routerLinkActive="active" data-toggle="tab">Documents</a>
+                                                </li> 
+                                                <li class="nav-item" *ngIf="CommonService.hasPermission('administrator_event_gallary', 'has_access')">
+                                                    <a [href]="setsymfonyUrl('students/events')" 
+                                                    class="nav-link" routerLinkActive="active" data-toggle="tab">Events</a>
+                                                </li>
+    
+                                            </ul>
+                                        </div>
+                                        
+                                    </div> -->
+                                </div>
+
+                            </div>    
+                        </div>    
+                        <div class="right-content" [ngClass]="{'iscollape_right' : isCollape }">
+                            <div class="student-details">
+                                <h3 class="sub_title m-0 mb-1">Student {{tittle}}</h3>
+                                <!-- <h4 class="m-0 mb-0">{{studentDetails?.full_name}} <span class="text-danger static-text-danger" *ngIf="studentDetails?.status == 0">(Inactive)</span></h4>
+                                <h6 class="batch" >{{studentDetails?.batch || ''}}</h6> -->
+                            </div>
+                            <router-outlet>
+                            </router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<ng-template #publishModel class="publish-update-modal">
+
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">SMS Options for the Admission</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  
+    <div class="modal-body publish-modal-body">
+      <div class="col-md-12 form_group">
+        <label class="form_label">Send to ?</label>
+        <div class="d-flex">
+          <!-- FATHER -->
+          <div class="m-checkbox-list d-flex align-items-center me-3">
+            <label class="m-checkbox mb-0">
+              <input type="checkbox" id="checkbox" [(ngModel)]="message.is_father_message " [value]="true"><span></span>
+            </label>
+            <label for="checkbox" class="ms-2 mb-0">Father</label>
+          </div>
+          <!-- MOTHER -->
+          <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+            <label class="m-checkbox mb-0">
+              <input type="checkbox" id="checkbox1" [(ngModel)]="message.is_mother_message " [value]="true"><span></span>
+            </label>
+            <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+          </div>
+          <!-- STUDENT -->
+          <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+            <label class="m-checkbox mb-0">
+              <input type="checkbox" id="checkbox2" [(ngModel)]="message.is_student_message " [value]="true"><span></span>
+            </label>
+            <label for="checkbox2" class="ms-2 mb-0">Student</label>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+    <div class="modal-footer" style="z-index: 0;">
+      <!-- SEND BTN -->
+      <div class="col-auto">
+        <button class="msg-btn btn" type="submit" (click)="sendAdmissionSms()" [disabled]="is_admissionLoading"> Send
+          <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_admissionLoading">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+      <!-- CANCEL BTN -->
+      <div class="col-auto">
+        <button type="submit" class="cancel-btn btn" (click)="closeModel()"> Cancel </button>
+      </div>
+  
+    </div>
+  </ng-template>

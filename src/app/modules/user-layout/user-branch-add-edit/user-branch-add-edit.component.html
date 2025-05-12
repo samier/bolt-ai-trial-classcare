@@ -1,0 +1,121 @@
+<section class="homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0"> {{ branchID ? 'Edit ' : 'Add '}} Branch </h3>
+                <div class="btn_right">
+                    <!-- <a class="global_btn btn add-btn" href="#." [routerLink]="setUrl()" > Add
+                        Branch List</a> -->
+                    <button class="btn w-100 list-btn" (click)="handleRedirect()"> Branch List </button>
+
+                </div>
+            </div>
+            <div>
+                <form [formGroup]="branchAdd">
+                    <div class="card">
+                        <div class="row">
+
+                            <!-- Picture ADD -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Add Picture</label>
+                                <!-- <input type="file" accept="image" formControlName="picture" (change)="onFileSelected($event)"/> -->
+                                <input type="file" accept="image/jpeg, image/png" (change)="onFileSelected($event)"
+                                    id="file-upload" class="file-upload-input" />
+                            </div>
+
+                            <!-- Branch Name -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Branch Name <span class="text-danger">*</span> </label>
+                                <app-input type="text" controlName="branchName"
+                                    placeholder="Please Enter Branch Name"></app-input>
+                            </div>
+
+                            <!-- Location  -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Location <span class="text-danger">*</span> </label>
+                                <app-input type="text" controlName="location" placeholder="Enter Location"></app-input>
+                            </div>
+
+                            <!-- Contact Name -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label"> Contact No <span class="text-danger">*</span> </label>
+                                <app-input type="text" controlName="branchContactno"
+                                    placeholder="Enter Phone No"></app-input>
+                            </div>
+
+                            <!-- Contact Name -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label"> Second Contact No : </label>
+                                <app-input type="number" controlName="Contactno"
+                                    placeholder="Enter Second Phone No"></app-input>
+                            </div>
+
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label"> Address <span class="text-danger">*</span> </label>
+                                <app-textarea controlName="address"
+                                    placeholder="Enter your permanent address"></app-textarea>
+                            </div>
+
+                            <!-- City  -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">City <span class="text-danger">*</span> </label>
+                                <app-input controlName="city" placeholder="Enter City"></app-input>
+                            </div>
+
+                            <!-- Attendance Type -->
+                            <div class="col-lg-3 form_group">
+                                <label for="name" class="form_label"> Attendance Type : </label>
+                                <div class="mt-1">
+                                    <div class="radio-section ">
+                                        <div class="radio me-3">
+                                            <label class="required">
+                                                <input type="radio" name="attendance_type" id="multiple" [value]="1"
+                                                    formControlName="attendance_type" class="mr-1">Multiple<span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio ">
+                                            <label class="required" aria-required="true">
+                                                <input type="radio" name="attendance_type" id="single" [value]="2"
+                                                    formControlName="attendance_type" class="mr-1"> Single <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Prefix  -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Prefix</label>
+                                <app-input controlName="branch_prefix" placeholder="Enter Prefix"
+                                    [readonly]="branchID"></app-input>
+                            </div>
+
+                            <div class="col-md-3 form_group">
+                                <input type="checkbox" formControlName="is_live" value="1" />
+                                <p> Do you want to show this branch on frontend ?</p>
+                            </div>
+
+                        </div>
+                        <div class="d-flex">
+                            <!-- Show BTN -->
+                            <div>
+                                <button class="save-btn btn btn-primary" (click)="handleSaveBranch()"
+                                    [disabled]="isSaveLoading"> Save Branch
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <!-- Clear BTN -->
+                            <div class="clearBtnDiv ms-2">
+                                <button class="btn w-100 clear-btn" (click)="handleRedirect()"> Clear </button>
+                                <!-- <a class="btn clear-btn" [routerLink]="setUrl(URLConstants.USER_BRANCH_LIST)">Cancel</a> -->
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>

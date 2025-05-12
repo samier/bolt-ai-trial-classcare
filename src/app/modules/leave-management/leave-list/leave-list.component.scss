@@ -1,0 +1,85 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-leave-list{
+    section{
+        &.leave-list{
+            form{
+                &.form_list {
+                    width: 100%;
+                    .input-group{
+                        position: relative;
+                        display: flex;
+                        flex-wrap: wrap;
+                        -webkit-box-align: stretch;
+                        align-items: stretch;
+                        width: 100%;
+                        .input-group-prepend{
+                            margin-right: -1px;
+                            .input-group-text {
+                                display: flex;
+                                align-items: center;
+                                padding: 0.85em 1.15em;
+                                margin-bottom: 0;
+                                font-size: 1em;
+                                font-weight: 400;
+                                line-height: 1.25;
+                                text-align: center;
+                                white-space: nowrap;
+                                border: 1px solid $lightgray-ced;
+                                border-color:$border-ce;
+                                background-color: $lightgray-f4;
+                                color: $gray-57;
+                            }
+                        }
+                    }
+                    .btn{
+                        &.m-btn{
+                            border:none;
+                            &--gradient-from-primary {
+                                color: $white;
+                                &.m-btn--gradient-to-info {
+                                    background: $purple-gradient;
+                                }
+                            }
+                            &--gradient-from-success{
+                                color: $white;
+                                &.m-btn--gradient-to-info {
+                                    background: $green-blue-gradient;
+                                }
+                            }
+                            &--gradient-from-warning{
+                                color: $black-11;
+                                &.m-btn--gradient-to-info {
+                                    background: $orange-blue-gradient;
+                                }
+                            }
+                            &--gradient-from-danger{
+                                color: $white;
+                                &.m-btn--gradient-to-info {
+                                    background: $pink-blue-gradient;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .leave-list-manage{
+            tr{
+                td{
+                    .leave-status{
+                        position: unset;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
+ 
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+.dataTables_empty{
+    display: none !important;
+}

@@ -1,0 +1,104 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Attendance Machine Report</h3>
+				<div class="btn_right d-flex">
+                    <button *ngIf="CommonService.hasPermission('faculty_attendance_machine_report', 'has_download')" type="submit" (click)="downloadMachineAttendanceReport('pdf')" class="btn pdf-btn me-2" ngbTooltip="PDF"><img src="assets/images/pdf-icon.svg" alt=""></button>
+                    <button *ngIf="CommonService.hasPermission('faculty_attendance_machine_report', 'has_download')" type="submit" (click)="downloadMachineAttendanceReport('excel')" class="btn excel-btn" ngbTooltip="EXCEL"><img src="assets/images/excel-icon.svg" alt=""></button>
+				</div>
+			</div>
+            <div class="card">
+                <form [formGroup]="attendanceMachineReportF" class="row align-items-end">
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Select Role<span class="text-danger">*</span></label>
+                        <app-multi-select controlName="role_id" [dropDownArray]="rolesList" placeholder="Select Role" (change)="getUserList()"></app-multi-select>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Select User</label>
+                        <app-multi-select controlName="user_id" [dropDownArray]="userList" placeholder="Select user"></app-multi-select>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Date Range<span class="text-danger">*</span></label>
+                        <app-date-range-picker controlName="date" placeholder="Select Date Range"></app-date-range-picker>
+                        <div *ngIf="attendanceMachineReportF.get('date')?.touched && attendanceMachineReportF.get('date')?.errors">
+                            <small class="text-danger" *ngIf="attendanceMachineReportF.get('date')?.errors?.['required']">
+                              The input is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Late Punch</label>
+                        <div>
+                            <label class="switch">
+                                <input type="checkbox" formControlName="is_late">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <button type="button" class="btn show-btn me-2" (click)="onSubmit()" [disabled]="isShowLoading">Show
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                <span class="visually-hidden">Loading..."</span>
+                            </div>
+                        </button>
+                        <button type="button" class="btn cancel-btn" (click)="clearData()" >Reset</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card" *ngIf="isTableInitialized">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered attendance-machine-report-table">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 75px;">Sr. No.</th>
+                                <th>User Name</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Time Log</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="tbody?.length > 0">
+                            <tr *ngFor="let item of tbody; let i = index">
+                                <td> {{ (i + 1) + indexStart }} </td>
+                                <td> {{ item?.user?.full_name }}</td>
+                                <td> {{ item.attendanceDate ? (item.attendanceDate | date : dateFormateService.getDateFormat() ) : '' }} </td>
+                                <td>
+                                    <span class="machine-report-status"
+                                        [ngStyle]="{'background': item.status?.toLowerCase() == 'p' ? '#00800096' : item.status?.toLowerCase() == 'a' ? '#ff0000a6' : item.status?.toLowerCase() == 'l' ? '#ffa50094' : ''}">
+                                        {{ item.status?.toLowerCase() == 'p' ? 'Present' :
+                                        item.status?.toLowerCase() == 'a' ? 'Absent' :
+                                        item.status?.toLowerCase() == 'l' ? 'Leave' : 'Unknown'
+                                        }}
+                                    </span>
+                                </td>
+                                <!-- <td>
+
+                                    <button [routerLink]="[CommonService.setUrl(URLConstants.STAFF_IN_OUT_LOGS), item?.id]" class="btn action-view" ngbTooltip="View In-out Logs"><i class="fa fa-eye"></i></button>
+                                </td> -->
+                                <td class="time_status" style="font-size: 12px; padding: 8px" [ngClass]="{'bg-danger' : item?.is_late && item?.staff_attendance_details?.length > 0}">
+                                    <ng-container *ngIf="item?.staff_attendance_details?.length > 0; else noData" >
+                                        <div class="time_box" *ngFor="let log of item?.staff_attendance_details">
+                                          <div class="me-2">
+                                            <span>{{log?.status}}</span>
+                                            <p>{{log?.logDate ? (log?.logDate | date:'hh:mm:ss a') : ''}}</p>
+                                          </div>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #noData>
+                                        <div class="text-center">No time log found ! </div>
+                                    </ng-template>
+                                  </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length == 0">
+                            <tr>
+                                <td colspan="5" class="text-center no-data-available">No data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

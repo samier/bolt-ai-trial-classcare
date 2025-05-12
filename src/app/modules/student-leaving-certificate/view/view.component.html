@@ -1,0 +1,25 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Leaving Certificate</h3>
+                <div class="btn_right">
+                    <button class="btn me-2" (click)="generateLcPdf()" [disabled]="generate">
+                        {{generate ? 'Generating PDF' : 'Generate PDF'}}
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="generate">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>    
+                    <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" [routerLink]="setUrl(URLConstants.LEAVING_CERTIFICATE_LIST)">Student LC List</a>
+                </div>
+            </div>
+            <div class="card_body">
+                <div class="card">
+                    <div>
+                       <div *ngIf="lc" [innerHTML]="lc" ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

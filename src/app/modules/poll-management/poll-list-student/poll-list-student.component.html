@@ -1,0 +1,110 @@
+<section class="leave_form tab_in_sections">
+    <div class="page_inner">
+        <div class="">
+            <div class="card_title">
+                <h3 class="sub_title">Poll List</h3>
+                <!-- <div class="btn_right">
+                    <button type="button" class="btn btn-danger btn-minwidth">Back</button>
+                </div> -->
+            </div> 
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-12 datatable_cls mt-5">
+                        <div class="table-responsive">
+			                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap row-border hover table table-hover table-nowrap table-bordered row-border hover dataTable no-footer" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Total Vote</th>
+                                        <th>Poll For</th>
+                                        <th>Poll Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="poll_list?.length != 0">
+                                    <tr *ngFor="let poll of poll_list">
+                                        <td>{{getStringShorter(poll?.title)}}</td>
+                                        <td>{{getStringShorter(poll?.description)}}</td>
+                                        <td>{{poll?.start_date}}</td>
+                                        <td>{{poll?.end_date}}</td>
+                                        <td>{{poll?.total_votes}}</td>
+                                        <td>
+                                            <ng-container *ngIf="poll?.poll_for == 0">
+                                                Student
+                                            </ng-container>
+                                            <ng-container *ngIf="poll?.poll_for == 1">
+                                                Faculty
+                                            </ng-container>
+                                            <ng-container *ngIf="poll?.poll_for == 2">
+                                                Both
+                                            </ng-container>
+                                        </td>
+                                        <td>                                            
+                                            <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 0">
+                                                <span class="text-capitalize text-warning">Not Started</span>
+                                            </ng-container>
+                                            <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1">
+                                                <span class="text-capitalize text-success">Started</span>
+                                            </ng-container>
+                                            <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2">
+                                                <span class="text-capitalize text-danger">Expired</span>
+                                            </ng-container>
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <!-- Poll Not Started 'Give Vote' and 'Show Result' -->
+                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 0 && poll?.status == '1'">
+                                                    <button class="btn btn-sm btn-primary date0" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+                                                    <button class="btn btn-sm btn-primary date0" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+                                                </ng-container>
+
+                                                <!-- Poll Started 'Give Vote' -->
+                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1 && poll?.status == '1'">
+                                                    <a class="btn btn-sm btn-primary date1" title="Give Vote" href="#" [routerLink]="[setUrlForGiveVote(poll?.id)]"> <i class="fa fa-thumbs-up"></i> </a> 
+                                                </ng-container>
+
+                                                <!-- Poll Expired 'Give Vote' -->
+                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2 && poll?.status == '1'">       
+                                                    <button class="btn btn-sm btn-primary date2 else" title="Give Vote" disabled> <i class="fa fa-thumbs-up"></i> </button>
+                                                </ng-container>
+
+                                                <!-- Poll Started 'Show Result' -->
+                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 1 && poll?.status == '1'">
+                                                    <ng-container *ngIf="poll?.student_answers.length != '0' && poll?.show_result == '1'; else pollStartedResultNotShow">
+                                                        <a class="btn btn-sm btn-primary date2 if" title="Show Result" href="#" [routerLink]="[setUrlForShowResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>
+                                                    </ng-container>          
+                                                    <ng-template #pollStartedResultNotShow>
+                                                        <button class="btn btn-sm btn-primary date2 if" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+                                                    </ng-template> 
+                                                </ng-container>
+
+                                                <!-- Poll Expired 'Show Result' -->
+                                                <ng-container *ngIf="getPollStatusStartedOrNotOrExpired(poll?.start_date, poll?.end_date) == 2 && poll?.status == '1'">
+                                                    <ng-container *ngIf="poll?.student_answers.length != '0' && poll?.show_result == '1'; else elseVoteNoteSubmittedResultShowBlock">
+                                                        <a class="btn btn-sm btn-primary date2 if" title="Show Result" href="#" [routerLink]="[setUrlForShowResult(poll?.id)]"> <i class="fa fa-list-alt"></i> </a>         
+                                                    </ng-container>
+
+                                                    <ng-template #elseVoteNoteSubmittedResultShowBlock>   
+                                                        <button class="btn btn-sm btn-primary date2 else else" title="Show Result" disabled> <i class="fa fa-list-alt"></i> </button>
+                                                    </ng-template>
+                                                </ng-container>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="poll_list?.length == 0">
+                                    <tr>
+                                      <td colspan="10" class="text-center no-data-available">Data Not Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+			            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

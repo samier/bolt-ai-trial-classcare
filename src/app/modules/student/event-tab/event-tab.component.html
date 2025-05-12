@@ -1,0 +1,38 @@
+<section class="event_tab">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="card">
+        <!-- <div class="card_head">
+          <h3 class="mb-0">Event Detail</h3>
+        </div> -->
+        <div class="card_body">
+          <div class="row m-0">
+            <div class="col-md-3 form-group" *ngFor="let item of event" (click)="HandleViewEvent(item)">
+              <div class="event_card" *ngIf="item?.event_files">
+                <div class="img">
+                  <img [src]="item?.event_files[0]?.attachment_url ?? 'assets/images/upload.png'" />
+                </div>
+                <div class="event_card_details d-flex justify-content-between align-content-center">
+                  <h3 class="mb-0">{{ item?.eventName }}</h3>
+                  <div class="d-flex justify-content-center align-items-center">
+                    <div class="date">
+                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M8.11111 1.80005H1.88889C1.39797 1.80005 1 2.15822 1 2.60005V8.20009C1 8.64192 1.39797 9.0001 1.88889 9.0001H8.11111C8.60203 9.0001 9 8.64192 9 8.20009V2.60005C9 2.15822 8.60203 1.80005 8.11111 1.80005Z"
+                          stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M6.78125 1V2.60001" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M3.21875 1V2.60001" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M1 4.2002H9" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                    <span>{{ item?.event_date | date : 'dd-MM-yyyy' }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

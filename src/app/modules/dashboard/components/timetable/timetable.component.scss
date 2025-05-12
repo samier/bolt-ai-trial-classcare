@@ -1,0 +1,124 @@
+::ng-deep{
+    .timetable-section{
+        height: 100%;
+        .timetable-header{
+            padding: 8px 20px;
+            background-color: #DBF3FA;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            h3{
+                font-size: 14px;
+                line-height: 21px;
+                font-weight: 600;
+                color: #000;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+            
+            }
+        }
+        .week-data-table{
+            .week-data-wrapper{
+                .mat-tab-label{
+                    min-width: unset;
+                    color: #B6B6B6;
+                    opacity: 1;
+                    &.mat-tab-label-active{
+                        color: #01329c;
+                    }
+                }
+                .time-table{
+                    .table-responsive{
+                        padding: 0 30px;
+                        max-height: 600px;
+                        &::-webkit-scrollbar {
+                            width: 4px;
+                        }
+                        .table{
+                            thead{
+                                tr{
+                                    th{
+                                        padding: 12px;
+                                        text-align: center;
+                                        font-size: 12px;
+                                        line-height: 18px;
+                                        font-weight: 600;
+                                        color: #000;
+                                        position: sticky;
+                                        top: 0;
+                                        background-color: #fff;
+                                    }
+                                }
+                            }
+                            tbody{
+                                tr{
+                                    td{
+                                        border: none;
+                                        font-size: 12px;
+                                        line-height: 18px;
+                                        font-weight: 500;
+                                        color: #747474;
+                                        vertical-align: middle;
+                                        text-align: center;
+                                        padding: 4px;
+                                        p{
+                                            padding: 17px 16px;
+                                            display: inline-block;
+                                            font-size: 12px;
+                                            line-height: 20px;
+                                            font-weight: 600;
+                                            color: #000;
+                                            margin: 0;
+                                            text-align: center;
+                                            background-color: #E9E9FF;
+                                            span{
+                                                font-weight: 500;
+                                                display: block;
+                                            }
+                                        }
+                                        .green-box{
+                                            background-color: #E1F2E1;
+                                        }
+                                        .red-box{
+                                            background-color: #FFE7EF;
+                                        }
+                                        .blue-box{
+                                            background-color: #C9DAF8;
+                                        }
+                                        .pink-box{
+                                            background-color: #FCE5CD;
+                                        }
+                                        .yellow-box{
+                                            background-color: #FFEFB0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 992px){
+    .timetable-section .timetable-header h3{
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .timetable-section .week-data-table .week-data-wrapper .time-table .table-responsive .table tbody tr td p span{
+        white-space: nowrap;
+    }
+    .timetable-section .week-data-table .week-data-wrapper .time-table .table-responsive .table tbody tr td{
+        white-space: nowrap;
+    }
+    .timetable-section .week-data-table .week-data-wrapper .time-table .table-responsive{
+        padding: 0 10px;
+    }
+    .timetable-section .timetable-header{
+        padding: 8px 10px;
+    }
+}

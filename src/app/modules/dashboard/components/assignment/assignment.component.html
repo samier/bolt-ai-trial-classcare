@@ -1,0 +1,83 @@
+<div class="assignment-section">
+    <div class="upcoming-header">
+        <!-- <h3> Assignments </h3> -->
+        <span><a class="view-all-link" [routerLink]="dashboardService.setUrl(URLConstants.ASSIGNMENT_LIST)"><h3> <img src="./assets/images/assignment-icon.svg" /> Assignments </h3> </a></span>
+        <div [formGroup]="assignmentF" class="exam-mark-form">
+            <div class="row justify-content-end pe-2">
+
+                <div class="col-md-3 form_group m-0">
+                    <app-single-select type="date" controlName="class_id" placeholder="Select Class"
+                        [dropDownArray]="classes" (change)="onClassChange()"></app-single-select>
+                </div>
+                <div class="col-md-3 form_group m-0">
+
+                    <app-multi-select type="date" controlName="batch_id" placeholder="Select Batch" [itemsShowLimit]="1"
+                        [dropDownArray]="batches" (change)="handleChange()"></app-multi-select>
+                </div>
+                <div class="col-md-3 form_group m-0">
+                    <app-date-range-picker class="date-icons" type="date" controlName="date" placeholder="Select Date"></app-date-range-picker>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <!-- <th>Class</th> -->
+                        <!-- <th>Batch</th> -->
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <ng-container *ngIf="assignmentList?.length > 0">
+                        <ng-container *ngFor="let assignment of assignmentList">
+
+                            <tr>
+
+                                <td>
+                                    <a href="#" [routerLink]="[ setUrl(URLConstants.VIEW_ASSIGNMENT),assignment?.id ]">
+                                        {{ assignment?.title ?? "-" }} 
+                                        <span class="batch-title-text">  ( Class :-  <span> {{ assignment?.batch[0]?.class_section?.name ?? "-"}} ) </span> , Batch :-
+                                            <span *ngFor="let batch of assignment?.batch; let i = index "> {{ batch?.name + " "}} <span *ngIf="i < assignment?.batch?.length - 1 "> , </span> </span>
+                                        </span>
+                                    </a>
+                                </td>
+                                
+                                <td> {{ assignment?.work_date ?? "-" }} </td>
+
+                                <!-- <td> {{ assignment?.batch[0]?.class_section?.name ?? "-"}} </td> -->
+                                <!-- <td> <span *ngFor="let batch of assignment?.batch ;  let i=index">{{ batch?.name }}
+                                        <span *ngIf="i < assignment?.batch?.length-1 "> , </span> </span></td> -->
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+
+                <tbody *ngIf="is_loading">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!is_loading &&  assignmentList?.length == 0">
+                    <tr>
+                        <td colspan="4">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

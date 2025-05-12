@@ -1,0 +1,74 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-sm-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0 text-center text-sm-left">Payroll Management</h3>
+			</div>
+            <div class="card pb-2">
+                <div class="card_title">
+                    <!-- <h3 class="sub_title">Payroll Home</h3> -->
+					<div  class=""><h3 class="tx-16">Payroll Elements</h3></div>
+					<div class="btn_right row">
+                		<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="[setUrl(URLConstants.MONTHLY_WORKING_DAYS)]">Set Monthly Working Days</a>
+						</div>
+                		<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="[setUrl(URLConstants.PAYROLL_CATEGORY_LIST)]">Payroll Categories</a>
+						</div>
+                		<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="setUrl(URLConstants.PAYROLL_GROUP)">Payroll Group</a>
+						</div>
+						<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="[setUrl(URLConstants.ASSIGNED_PAYROLL_GROUP_LIST)]">Assigned Payroll Group List</a>
+						</div>
+						<!-- <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#."  [routerLink]="[setUrl(URLConstants.ATTENDANCE_LIST),0]">Bulk Payslip Generate</a> -->
+                		<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="[setUrl(URLConstants.MONTHWISE_LIST)]">Monthwise List</a>
+						</div>
+						<div class="col-auto form_group">
+							<a class="btn w-100" href="#."  [routerLink]="[setUrl(URLConstants.PAYSLIP_LIST)]">Payslip List</a>
+						</div>
+					</div>
+                </div>  
+				</div>
+				<div class="card">
+                <div class="card_body">
+					<div  class=""><h3 class="tx-16">Payroll Lists</h3></div>
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered table-bordered dataTable no-footer border" style="width:100%">
+				                    <thead class="thead-light">
+				                        <tr>
+                                            <th>Full Name</th>
+											<th>Email</th>
+											<th>Roles</th>
+											<th>Salary</th>
+											<th>Update Salary</th>
+											<th>Action</th>
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;" >				
+                                            <td>{{item.full_name}}</td>            
+                                            <td>{{item.email}}</td>            
+                                            <td>{{item.roles}}</td>
+                                            <td>{{item.salary}}</td>
+											<td><a class="btn grey_btn" *ngIf="!item.roles.includes('Super Admin')" [routerLink]="[setUrl(URLConstants.ADD_SALARY),item.id]" href='#'>Add Salary</a></td>                                                          											
+											<td><a class="btn grey_btn" *ngIf="!item.roles.includes('Super Admin')" [routerLink]="[setUrl(URLConstants.GENERATE_PAYSLIP),item.id]" href='#'>Generate Payslip</a></td>                                                          											
+				                        </tr>
+				                    </tbody>
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="5" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>									
+				                </table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

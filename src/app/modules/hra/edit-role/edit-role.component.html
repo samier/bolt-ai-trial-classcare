@@ -1,0 +1,46 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Edit Role</h3>
+                <div class="btn_right">
+                    <a class="btn"  href="#." [routerLink]="setUrl(URLConstants.ROLE_LIST)">Role List</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-12">
+                            <form [formGroup]="rolecreateform" class="form_section">                                   
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class="form_label">Role Name<span class="text-danger">*</span>:</label>
+                                                <div class="">
+                                                    <div class="">
+                                                        <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter your role name" required>
+                                                    </div>
+                                                    <div *ngIf="submitted && rolecreateform.controls['name'].invalid" class="text-danger"> Please enter role name. </div>
+                                                    <div *ngIf="rolecreateform.controls['name'].dirty && rolecreateform.controls['name'].invalid" class="text-danger"> Please enter valid name. </div>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                             <a class="btn  w-100" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!rolecreateform.valid" class="btn w-100" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                                                                                    
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,222 @@
+<section class="inquiry-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="row my-3">
+                <div class="col-md-9">
+                    <div class="std-wise-result">
+                        <h3 class="sub_title mb-0"> {{ schoolTemplateQ == true ? 'Download School ' : resultForQ == 0 ? 'Download Faculty ':'Download Student ' }} Combine Result for</h3>
+                        <ng-select 
+                        [items]="combineMarksheetList"
+                        bindLabel="mark_sheet_name"
+                        bindValue="id"
+                        class="form-control std-wise-dropdown" 
+                        placeholder="Select Marksheet"
+                        name="marksheet"
+                        id="marksheet"
+                        appendTo="body"
+                        [(ngModel)]="selectedCombineMarksheet"
+                        (change)="onMarksheetChange($event)"
+                        >
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-md-3 text-end">
+                    <a [routerLink]="CommonService.setUrl(URLConstants.COMBINE_MARKSHEET_LIST)" class="btn list-btn me-2">Combine MarkSheet List</a>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+
+            <div class="card student-list-card p-0">
+
+                <div class="card-header border-bottom justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn me-2" (click)="handleClear()">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" *ngIf="filter">
+                    <div class="card_body">
+                        <div class="form_section global_form">
+                            <form [formGroup]="filterForm">
+                                <div class="row align-items-center">
+    
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label class="form_label">Select Class</label>
+                                        <div>
+                                            <app-single-select controlName="classF" [dropDownArray]="classListDP"
+                                                (change)="fetchBatchList()" placeholder="Select Type"></app-single-select>
+                                        </div>
+                                    </div>
+    
+                                    <div class="col-lg-3 col-md-4 form_group">
+                                        <label class="form_label">Select Batch</label>
+                                        <div>
+                                            <app-multi-select controlName="batchF" [dropDownArray]="batchListDP"
+                                                placeholder="Select Batch"></app-multi-select>
+                                        </div>
+                                    </div>
+    
+                                </div>
+                                <div class="row">
+    
+                                    <div class="col-auto">
+                                        <button class="btn show-btn" (click)="handleShow(true)" [disabled]="is_show">Show
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_show">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="card exam-list-card">
+                <div class="card_body">
+            
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="std_wise_com_result">Total Record :- <span>{{ filterData?.length || 0 }}</span></div>
+
+                        <div>
+                            <input class="me-3" type="text" [(ngModel)]="searchQuery" placeholder="Search..."
+                                (input)="searchData()" />
+                            <button class="btn show-btn me-2" (click)="downloadResult()"
+                                [disabled]="is_multiDownload">Download
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_multiDownload">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                            <button *ngIf="publish_typeQ == '3'" class="btn" (click)="publishMarksheet()"
+                                [disabled]="isPublishing"><i class="fa fa-paper-plane me-1"></i> Publish
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isPublishing">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper">
+
+
+                                    <table class="table table-hover table-bordered table-nowrap display dataTable"
+                                        style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <label class="m-checkbox mb-0">
+                                                        <input type="checkbox" id="checkbox" [(ngModel)]="allChecked"
+                                                            (change)="handleSelectAll($event)">
+                                                        <span></span>
+                                                    </label>
+                                                </th>
+
+                                                <!-- STUDENT FOR  -->
+                                                <ng-container *ngIf="resultForQ == 1 && typeQ == 2">
+                                                    <th>ROLL NO.</th>
+                                                    <th>STUDENT NAME</th>
+                                                </ng-container>
+                                                
+                                                <th>Batch Name</th>
+                                                <th>MarkSheet Name </th>
+                                                <ng-container *ngIf="resultForQ == 1 && typeQ == 2 && publish_typeQ == 3">
+                                                    <th>Publish Status</th>
+                                                    <th>Student Status</th>
+                                                </ng-container>
+                                                <th>DOWNLOAD{{ resultForQ == 1 && typeQ == 2 && publish_typeQ == 3 ? '/PUBLISH' : ''}} RESULTS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of filterData; trackBy: trackById">
+                                                <td>
+                                                    <label class="m-checkbox mb-0">
+                                                        <input type="checkbox" id="checkbox" [(ngModel)]="item.selected"
+                                                            (change)="handleSelect($event, item?.id)">
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                
+                                                <!-- STUDENT FOR -->
+                                                <ng-container *ngIf="resultForQ == 1 && typeQ==2">
+                                                    <td>{{ item?.student_roll_no || "-" }}</td>
+                                                    <td>{{ item?.student_full_name || "-" }}</td>
+                                                </ng-container>
+                                                
+                                                <td>{{ item?.batch_name || "-" }}</td>
+                                                <td>{{ item?.mark_sheet_name || "-" }}</td>
+                                                
+                                                <!-- STUDENT FOR -->
+                                                <ng-container *ngIf="resultForQ == 1 && typeQ==2 && publish_typeQ == 3">
+                                                        <td [ngClass]="item?.status == '1' ? 'text-success' : 'static-text-danger text-danger'">{{item?.status == '1' ? 'Published' : 'Not Published'}}</td>
+                                                        <td [ngClass]="item?.student_status == 'Active' ? 'text-success' : 'static-text-danger text-danger'">{{ item?.student_status || "-" }}</td>
+                                                </ng-container>
+                                                <td> 
+                                                    <span>
+                                                        <div class="btn-group">
+                                                            <button class="btn action-download" ngbTooltip="Download" [disabled]="item.loading"
+                                                                (click)="singleDownload(item)"><i class="fa fa-download"></i>
+                                                                <div class="spinner-border spinner-border-sm" role="status"
+                                                                    *ngIf="item.loading">
+                                                                    <span class="visually-hidden">Loading..."</span>
+                                                                </div>
+                                                            </button>
+                                                            <button *ngIf="publish_typeQ == '3' && item?.status == '0'" class="btn action-msg" ngbTooltip="Publish" [disabled]="item.publish_loading" (click)="publishMarksheet(item)">
+                                                                <i class="fa fa-paper-plane"></i>
+                                                                <div class="spinner-border spinner-border-sm" role="status"
+                                                                    *ngIf="item.publish_loading">
+                                                                    <span class="visually-hidden">Loading..."</span>
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+
+                                        <tbody *ngIf="!tableLoading && filterData?.length == 0">
+                                            <tr>
+                                                <td [attr.colspan]="typeQ == 2 ? 6 : 4">
+                                                    <div class="d-flex justify-content-center">
+                                                        No Data Found.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <tbody *ngIf="tableLoading">
+                                            <tr>
+                                                <td [attr.colspan]="typeQ == 2 ? 6 : 4">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm" role="status">
+                                                            <span class="visually-hidden">Loading..."</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

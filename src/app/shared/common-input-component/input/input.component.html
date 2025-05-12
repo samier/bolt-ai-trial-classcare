@@ -1,0 +1,64 @@
+<!-- <div>
+  <input class="form-control" [placeholder]="placeholder" [type]="type" [formControlName]="controlName"
+    (input)="onInputChange($event,'input')" (change)="onInputChange($event,'file')" max="{{ maxDate | date : 'yyyy-MM-dd' }}" min="{{min || (minDate | date : 'yyyy-MM-dd')}}" [readonly]="readonly" [accept]="type ? accept : ''" [disabled]="disabled">
+
+  <div *ngIf="FormControl?.invalid && (FormControl?.dirty || FormControl?.touched)">
+    <ng-container *ngFor="let error of formValidationService?.getErrors(FormControl)">
+      <div class="text-danger">
+        {{ error }}
+      </div>
+    </ng-container>
+  </div>
+</div> -->
+<ng-container *ngIf="formArray else simpleInput">
+  <ng-container [formArrayName]="formArrayName">
+    <div [formGroupName]="GroupName">
+      <input class="form-control" [placeholder]="placeholder" [type]="type" [formControlName]="controlName"
+      (input)="onInputChange($event,'input')" (change)="onInputChange($event,'file')" max="{{max || (maxDate | date : 'yyyy-MM-dd') }}" min="{{min || (minDate | date : 'yyyy-MM-dd')}}" [readonly]="readonly" [accept]="type ? accept : ''" [disabled]="disabled">
+
+      <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+        <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+          <div class="text-danger">
+            {{ error }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #simpleInput>
+  <div>
+  <ng-container *ngIf="!multiple else multipleInput">
+      <input class="form-control" [placeholder]="placeholder" [type]="type" [formControlName]="controlName"
+      (input)="onInputChange($event,'input')" (change)="onInputChange($event,'file')" max="{{ maxDate | date : 'yyyy-MM-dd' }}" min="{{min || (minDate | date : 'yyyy-MM-dd')}}" [readonly]="readonly" [accept]="type ? accept : ''" [disabled]="disabled">
+      <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+        <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+          <div class="text-danger">
+            {{ error }}
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-template #multipleInput>
+      <input 
+      #fileInput 
+      class="form-control"
+      [type]="type"
+      [placeholder]="placeholder"
+      (change)="onMultipleFilesSelected($event)"
+      [accept]="accept"
+      [multiple]="true"
+      [disabled]="disabled"
+      />
+      <div *ngIf="FormControl?.invalid && (FormControl?.dirty || FormControl?.touched)">
+        <ng-container *ngFor="let error of formValidationService?.getErrors(FormControl)">
+          <div class="text-danger">
+            {{ error }}
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </div>
+
+</ng-template>

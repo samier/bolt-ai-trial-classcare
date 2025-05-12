@@ -1,0 +1,185 @@
+<section class="inquiry-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Inquiry Details</h3>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card inquiry-view-card">
+
+                        <div>
+                            <h4>Inquiry Status</h4>
+                            <ul class="inquiry-view-list">
+                                <li>
+                                    <h6><p>Status :  </p> 
+                                        <em [ngClass]="{
+                                            'text-warning': inquiryDetail?.status === 0,
+                                            'text-info': inquiryDetail?.status === 1,
+                                            'text-primary': inquiryDetail?.status === 2,
+                                            'text-success': inquiryDetail?.status === 3,
+                                            'text-danger static-text-danger': inquiryDetail?.status === 4
+                                        }"> 
+                                            {{
+                                                inquiryDetail?.status_name
+                                            }}
+                                        </em> 
+                                    </h6>
+                                </li>
+                                <ng-container *ngIf="inquiryDetail?.status == 4">
+                                    <li *ngIf="inquiryDetail?.date_for_rejection">
+                                        <h6><p>Reject Date : </p> {{inquiryDetail?.date_for_rejection | date : 'dd-MM-yyyy' }} </h6>
+                                    </li>
+                                    <li *ngIf="inquiryDetail?.inquiry_user?.full_name">
+                                        <h6><p>Reject By User : </p> {{inquiryDetail?.inquiry_user?.full_name }} </h6>
+                                    </li>
+                                    <li *ngIf="inquiryDetail?.reject_remark?.reason">
+                                        <h6><p>Reject By : </p> {{inquiryDetail?.reject_remark?.reason || '-' }} </h6>
+                                    </li>
+                                    <li *ngIf="inquiryDetail?.rejected_by">
+                                        <h6><p>Reject By : </p> {{inquiryDetail?.rejected_by }} </h6>
+                                    </li>
+                                    <li *ngIf="inquiryDetail?.rejected_by">
+                                        <h6><p>Reject Reason : </p> {{inquiryDetail?.reason_for_rejection }} </h6>
+                                    </li>
+                                    
+                                </ng-container>
+
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>PERSONAL DETAILS</h4>
+                            <ul class="inquiry-view-list">
+                                <li *ngIf="inquiryDetail?.first_name">
+                                    <h6><p>First Name : </p> {{inquiryDetail?.first_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.middle_name">
+                                    <h6><p>Middle Name : </p> {{inquiryDetail?.middle_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.last_name">
+                                    <h6><p>Last Name : </p> {{inquiryDetail?.last_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.secondary_first_name">
+                                    <h6><p>First Name : </p> {{inquiryDetail?.secondary_first_name }} </h6>
+                                    <span>(Secondary Language) </span>
+                                </li>
+                                <li *ngIf="inquiryDetail?.secondary_middle_name">
+                                    <h6><p>Middle Name : </p> {{inquiryDetail?.secondary_middle_name }} </h6>
+                                    <span>(Secondary Language) </span>
+                                </li>
+                                <li *ngIf="inquiryDetail?.secondary_last_name">
+                                    <h6><p>Last Name : </p> {{inquiryDetail?.secondary_last_name }} </h6>
+                                    <span>(Secondary Language) </span>
+                                </li>
+                                <li *ngIf="inquiryDetail?.date_of_birth">
+                                    <h6><p>Birth Date : </p> {{ inquiryDetail?.date_of_birth ? (inquiryDetail?.date_of_birth | date : this.dateFormateService.getDateFormat()) : 'N/A'}} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.age">
+                                    <h6><p>Age : </p> {{inquiryDetail?.age != '' ? inquiryDetail?.age : 'N/A' }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.student_mobile">
+                                    <h6><p>Student's Number : </p> {{inquiryDetail?.student_mobile }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.adhaar_number">
+                                    <h6><p>Aadhar Number : </p> {{inquiryDetail?.adhaar_number }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.student_email">
+                                    <h6><p>Student's Email : </p> {{inquiryDetail?.student_email }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.parent_name">
+                                    <h6><p>Father's Name : </p> {{inquiryDetail?.parent_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.parent_mobile">
+                                    <h6><p>Father's Number : </p> {{inquiryDetail?.parent_mobile }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.mother_name">
+                                    <h6><p>Mother's Name : </p> {{inquiryDetail?.mother_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.mother_number">
+                                    <h6><p>Mother's Number : </p> {{inquiryDetail?.mother_number }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.parent_email">
+                                    <h6><p>Parent's Email : </p> {{inquiryDetail?.parent_email }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.watsapp_number != 0">
+                                    <h6><p>Whatsapp Number : </p> {{inquiryDetail?.watsapp_number == '1' ? inquiryDetail?.parent_mobile : inquiryDetail?.watsapp_number == '2' ? inquiryDetail?.mother_number : 'N/A'}} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.gender">
+                                    <h6><p>Gender : </p>{{inquiryDetail?.gender == 'm' ? 'Male' : inquiryDetail?.gender == 'f' ? 'Female' : 'Other'}}</h6>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>ACADEMIC DETAILS</h4>
+                            <ul class="inquiry-view-list">
+                                <li *ngIf="inquiryDetail?.academic_year_name || inquiryDetail?.class?.academic_year_name">
+                                    <h6><p>Academic Year :  </p> {{ inquiryDetail?.academic_year_name || inquiryDetail?.class?.academic_year_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.class?.name">
+                                    <h6><p>Class :  </p> {{inquiryDetail?.class?.name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.previous_class">
+                                    <h6><p>Previuos Class :  </p> {{inquiryDetail?.previous_class }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.present_school_name">
+                                    <h6><p>Present School :  </p> {{inquiryDetail?.present_school_name }} </h6>
+                                </li>
+                            </ul>
+                        </div>
+                        <div *ngIf="inquiryDetail?.address || (inquiryDetail?.address_type == 1 && inquiryDetail?.permanent_address) || inquiryDetail?.current_city || (inquiryDetail?.address_type == 1 && inquiryDetail?.permanent_city)">
+                            <h4>ADDRESS DETAILS</h4>
+                            <ul class="inquiry-view-list">
+                                <li *ngIf="inquiryDetail?.address">
+                                    <h6><p>Current Address :  </p> {{inquiryDetail?.address }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.address_type == 1 && inquiryDetail?.permanent_address">
+                                    <h6><p>Permanent Address :  </p> {{inquiryDetail?.permanent_address}} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.current_city">
+                                    <h6><p>Current City :  </p> {{inquiryDetail?.current_city }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.address_type == 1 && inquiryDetail?.permanent_city">
+                                    <h6><p>Permanent City :  </p> {{inquiryDetail?.permanent_city}} </h6>
+                                </li>
+                            </ul>
+                        </div>                        
+                        <div>
+                            <h4>Inquiry DETAILS</h4>
+                            <ul class="inquiry-view-list">
+                                <li *ngIf="inquiryDetail?.transportation_requirment !== undefined">
+                                    <h6><p>Transportation required? : </p> {{inquiryDetail?.transportation_requirment === 1 ? 'Yes' : 'No'}}</h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.hostel_requirement !== undefined">
+                                    <h6><p>Hostel required? : </p> {{inquiryDetail?.hostel_requirement === 1 ? 'Yes' : 'No'}}</h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.discussion_with_name">
+                                    <h6><p>Discussed With : </p> {{inquiryDetail?.discussion_with_name }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.inquiry_discription">
+                                    <h6><p>Inquiry Detail : </p> {{inquiryDetail?.inquiry_discription }} </h6>
+                                </li>
+                                <li *ngIf="inquiryDetail?.remark">
+                                    <h6><p>Remark :  </p> {{inquiryDetail?.remark }} </h6>
+                                </li>
+                            </ul>
+                        </div>
+                        <div *ngIf="inquiryDetail?.custom_field_data != '[]'">
+                            <h4>CUSTOM DETAILS</h4>
+                            <ul class="inquiry-view-list">
+                                <li *ngFor="let customField of inquiryDetail?.customFieldsObject | keyvalue">
+                                    <h6><p>{{ customField.key }} : </p>{{ customField.value }}</h6>
+                                </li>                                                                                                                                                         
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8" *ngIf="commonService.hasPermission('inquiry_follow_up', 'has_access')">
+                    <div class="card">
+                        <app-follow-up></app-follow-up>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

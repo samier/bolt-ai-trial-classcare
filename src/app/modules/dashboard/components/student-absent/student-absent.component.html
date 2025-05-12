@@ -1,0 +1,116 @@
+<div class="student-absent-section">
+    <div class="today-leave-header">
+        <a href="#" class="view-all-link">
+            <h3> 
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7" fill="white"/>
+                    <path d="M24.6 14.75C21.615 14.75 19.2 17.2656 19.2 20.375C19.2 23.4844 21.615 26 24.6 26C27.585 26 30 23.4844 30 20.375C30 17.2656 27.585 14.75 24.6 14.75ZM27 20.6211C27 20.8281 26.835 21 26.6362 21H24.3638C24.165 21 24 20.8281 24 20.6211V17.6289C24 17.4219 24.165 17.25 24.3638 17.25H24.8363C25.035 17.25 25.2 17.4219 25.2 17.6289V19.75H26.6362C26.835 19.75 27 19.9219 27 20.1289V20.6211ZM18 20.375C18 19.2891 18.2513 18.2617 18.6825 17.3477C18.3825 17.2891 18.075 17.25 17.76 17.25H17.1337C16.3013 17.6484 15.375 17.875 14.4 17.875C13.425 17.875 12.5025 17.6484 11.6663 17.25H11.04C8.2575 17.25 6 19.6016 6 22.5V24.125C6 25.1602 6.80625 26 7.8 26H20.8163C19.1175 24.7539 18 22.6992 18 20.375ZM14.4 16C17.0513 16 19.2 13.7617 19.2 11C19.2 8.23828 17.0513 6 14.4 6C11.7488 6 9.6 8.23828 9.6 11C9.6 13.7617 11.7488 16 14.4 16Z" fill="#171717"/>
+                </svg> 
+                Today’s Absent Students
+            </h3>
+        </a>
+        <div [formGroup]="studentAbsent" class="exam-mark-form">
+            <div class="row justify-content-end pe-2" >
+                <div class="col-md-5 form_group m-0">
+                  <app-single-select controlName="class_id"  placeholder="Select Class" [dropDownArray]="classlist" (change)="classChange()"></app-single-select>
+                </div>
+                <div class="col-md-5 form_group m-0" style="padding-right: 6px;">
+                    <app-multi-select [itemsShowLimit]="1" controlName="batch_id"  placeholder="Select Batch" [dropDownArray]="batchList" (change)="batchChange()"></app-multi-select>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="birthday-wrapper" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+        <ul>
+
+            <ng-container *ngIf="absentStudentList?.length != 0">
+                <ng-container *ngFor="let student of absentStudentList">
+                    <li>
+                        <div class="birthday-lt-content">
+                            <h4> {{ student?.name ?? ""}}
+                                <span>( Class -> {{student?.class_name ?? "" }} , Batch -> {{student?.batch_name ?? ""
+                                    }} )</span>
+                            </h4>
+                        </div>
+                        <div class="birthday-lt-content">
+                            <div class="leave-rt-content whatsup-chip-box">
+                                <!-- <a [ngbTooltip]="phone" ><img src="assets/images/call-icon.svg" /></a> -->
+                                <a #popoverRef="ngbPopover" [ngbPopover]="phone" (click)="togglePopover(popoverRef)"><img src="assets/images/call-icon.svg" /></a>
+                                <a #popoverRef="ngbPopover" [ngbPopover]="whatsapp" (click)="togglePopover(popoverRef)"><img src="assets/images/whatsup-icon.svg" /></a>
+                            </div>
+
+                            <ng-template #phone>
+                                <div *ngIf="student?.phone_number ; else noStudentNo " >Student's Number - {{ student?.phone_number }} </div>
+                                <div *ngIf="student?.father_number ; else noFatherNo" >Father's Number - {{ student?.father_number }} </div>
+                                <div *ngIf="student?.mother_number ; else noMotherNo" >Mother's Number - {{ student?.mother_number }} </div>
+
+                                <ng-template #noStudentNo>
+                                    <div> Student's Number not Found </div>
+                                </ng-template>
+                                <ng-template #noFatherNo>
+                                    <div> Father's Number not Found </div>
+                                </ng-template>
+                                <ng-template #noMotherNo>
+                                    <div> Mother's Number not Found </div>
+                                </ng-template>
+                                
+                                <!-- <div *ngIf="!student?.phone_number && !student?.father_number && !student?.mother_number" >Number not Found </div> -->
+                            </ng-template>
+
+                            <ng-template #whatsapp>
+                                <ng-container *ngIf="student?.student_whatsapp_no != null && student?.parent_whatsapp_no != undefined; else noWhatsApp">
+                                    <a *ngIf="student?.student_whatsapp_no" [href]="'https://web.whatsapp.com/send?phone=' + student?.student_whatsapp_no" target="_blank">
+                                        <div>Student's Whatsapp - {{ student?.student_whatsapp_no }} </div>
+                                    </a>
+                                </ng-container>
+                                <ng-template #noWhatsApp>
+                                    <div> Student's Whatsapp Number not Found </div>
+                                </ng-template>
+
+                                <ng-container *ngIf="student?.parent_whatsapp_no != null && student?.parent_whatsapp_no != 0; else noParentWhatsApp">
+                                    <a *ngIf="student?.parent_whatsapp_no==1"
+                                        [href]="'https://web.whatsapp.com/send?phone=' + student?.father_number" target="_blank">
+                                        <div>Father's Whatsapp - {{ student?.father_number }} </div>
+                                    </a>
+                                    <a *ngIf="student?.parent_whatsapp_no==2"
+                                        [href]="'https://web.whatsapp.com/send?phone=' + student?.mother_number" target="_blank">
+                                        <div>Mother's Whatsapp - {{ student?.mother_number }} </div>
+                                    </a>
+                                    <ng-container *ngIf="student?.parent_whatsapp_no==3">
+                                        <a *ngIf="student?.father_number" [href]="'https://web.whatsapp.com/send?phone=' + student?.father_number" target="_blank">
+                                            <div>Father's Whatsapp - {{ student?.father_number }} </div>
+                                        </a>
+                                        <a *ngIf="student?.mother_number" [href]="'https://web.whatsapp.com/send?phone=' + student?.mother_number" target="_blank">
+                                            <div>Mother's Whatsapp - {{ student?.mother_number }} </div>
+                                        </a>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-template #noParentWhatsApp>
+                                    <div> Parent's Whatsapp Number not Found </div>
+                                </ng-template>
+                            
+                                <!-- <div *ngIf=" !student?.student_whatsapp_no && !student?.parent_whatsapp_no "> Whatsapp Number not Found </div> -->
+                            </ng-template>
+                            </div>
+                    </li>
+                </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="is_loading">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner-border-sm ms-2" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!is_loading &&  absentStudentList?.length == 0">
+                <div class="d-flex justify-content-center">
+                    No Data Found.
+                </div>
+            </ng-container>
+
+        </ul>
+    </div>
+
+</div>

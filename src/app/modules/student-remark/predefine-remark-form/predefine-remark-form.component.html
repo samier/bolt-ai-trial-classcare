@@ -1,0 +1,34 @@
+<section class="add-section-modal">
+  <div class="page_inner">
+      <div class="m-container">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+              <h3 class="sub_title mb-0">{{ isEdit ? 'Edit ' : 'Add ' }} Remark Title</h3>
+          </div>
+          <form [formGroup]="remarkTitleForm">
+              <div class="row">
+                  <div class="col-md-12 form_group">
+                      <label class=" form_label">Title <span class="text-danger">*</span></label>                      
+                      <app-textarea [rows]="3" controlName="remark"></app-textarea>
+                  </div>
+
+                  <div class="col-md-12 form_group">
+                      <label class=" form_label">Remark Type<span class="text-danger">*</span></label>
+                      <app-single-select controlName="remark_type" placeholder="Select Remark Type"
+                          [dropDownArray]="remarkTypesList"></app-single-select>
+                  </div>
+
+                  <div class="col-md-12 text-center">
+                      <button *ngIf="isEdit ? 
+                        CommonService.hasPermission('student_student_remark_title', 'has_update') : CommonService.hasPermission('student_student_remark_title', 'has_create') " class="btn save-btn me-2" (click)="onSubmit(true)" [disabled]="isSave">
+                        {{ isEdit ? 'Update ' : 'Save ' }}
+                        <div class="spinner-border spinner-border-sm" *ngIf="isSave">
+                          <span class="visually-hidden">Loading...</span>
+                      </div>
+                      </button>
+                      <button class="btn clear-btn" (click)="close()">cancel</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</section>

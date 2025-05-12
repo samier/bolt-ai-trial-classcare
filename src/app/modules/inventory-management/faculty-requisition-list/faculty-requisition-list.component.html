@@ -1,0 +1,129 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Requsition List</h3>
+				<div class="btn_right">
+					<a class="active btn add-btn" href="#." [routerLink]="[setUrl(URLConstants.FACULTY_REQUISITION),0]" > Add Requisition</a>
+				</div>
+			</div>
+            <div class="card">               
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="dtOptions" class="table table-bordered table-hover table-nowrap table datatable w-100">
+				                    <thead class="thead-light">
+				                        <tr>
+											<th>Id</th>
+											<th>Requisition Date</th>
+											<th>Requested By</th>
+											<th>Store Name</th>
+											<th>Required By</th>
+											<th>Priority</th>					
+											<th>Status</th>					
+											<th>Reason For Rejection</th>					
+											<th>Action</th>
+
+				                        </tr>
+				                    </thead>
+				                    <tbody *ngIf="tbody?.length != 0">
+				                        <tr *ngFor="let item of tbody ;let i = index;" >				
+											<td>{{item.id}}</td>            
+											<td>{{item.requisition_date}}</td>            
+											<td>{{item.user_name}}</td>            
+											<td>{{item.store_name}}</td>            
+											<td>{{item.required_by}}</td>            
+											<td>{{item.priority}}</td>                                               
+											<td>{{item.status}}</td>                                                                 
+											<td>{{item.reject_reason}}</td>                                                                 
+                                            <td>
+												<div class="btn-group" role="group">
+                                                    <a class="btn action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)"><i class="fa fa-eye"></i></a>
+                                                    <!-- <button class="btn btn-primary" type="button" *ngIf="item.status=='Pending' && item.button_visible==1" (click)="approve(item.id,1)"><i class="fa fa-thumbs-up"></i></button>
+                                                    <button class="btn btn-primary" type="button" *ngIf="item.status=='Pending' && item.button_visible==1" (click)="open(mymodal,item.id)"><i class="fa fa-thumbs-down"></i></button>                                                     -->
+                                                    <a class="btn action-edit" ngbTooltip="Edit" href='#' *ngIf="item.status != 'Approved'" [routerLink]="[setUrl(URLConstants.FACULTY_REQUISITION),item.id]"><i class="fa fa-pencil-alt"></i></a>
+                                                    <button class="btn action-delete" ngbTooltip="Delete" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+                                                </div>
+                                            </td>                                             
+				                        </tr>
+				                    </tbody>									
+								    <tbody *ngIf="tbody?.length == 0">
+									    <tr>
+									      <td colspan="11" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>										
+				                </table>
+
+								<ng-template #mymodal let-modal >
+									<div class="modal-header" style="z-index: 0;">
+									  <h4 class="modal-title" id="modal-basic-title">Reason for Requisition Rejection</h4>
+									  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+										<span aria-hidden="true">×</span>
+									  </button>
+									</div>
+									<div class="modal-body" style="z-index: 0;">
+																						
+										<div class="form_group">
+											<label class="col-md-12 form_label">Reason for Requisition Rejection<span class="text-danger">*</span>:</label>
+											<div class="form-group">
+												<div class="col-lg-10">
+													<textarea class="form-control" [(ngModel)]="reasonForRejection" name="detail" id="detail" placeholder="Enter reason for leave rejection." required></textarea>
+												</div>
+											</div>
+										</div>           
+			
+									</div>
+									<div class="modal-footer" style="z-index: 0;">
+									  <button type="button" [disabled]="true" class="btn save-btn" *ngIf="reasonForRejection=='' " (click)="modal.close('Save click')">Submit</button>                          
+									  <button type="button" [disabled]="false" class="btn save-btn" *ngIf="reasonForRejection && reasonForRejection!='' " (click)="modal.close('Save click')">Submit</button>                          
+									</div>
+								  </ng-template>
+
+								  <ng-template #myviewmodal let-modal >
+									<div class="modal-header" style="z-index: 0;">
+									  <h4 class="modal-title" id="modal-basic-title">Requisition Details</h4>
+									  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+										<span aria-hidden="true">×</span>
+									  </button>
+									</div>
+									<div class="modal-body" style="z-index: 0;">
+																						
+									<div class="form_group">
+										<label class="col-md-6 form_label"><b>Requisition Date : </b> {{requisition_modal_data.requisition.requisition_date}}</label>										
+										<label class="col-md-6 form_label"><b>Requisition Type : </b> {{requisition_modal_data.requisition_by}}</label>										
+										<label class="col-md-6 form_label"><b>Requisition By : </b> {{requisition_modal_data.requisition_by_name}}</label>										
+										<label class="col-md-6 form_label"><b>Store Name : </b> {{requisition_modal_data.requisition.store.name}}</label>										
+										<label class="col-md-6 form_label"><b>Required By : </b> {{requisition_modal_data.requisition.required_by}}</label>										
+										<label class="col-md-6 form_label"><b>Priority : </b> {{requisition_modal_data.requisition.priority}}</label>										
+										<label class="col-md-6 form_label"><b>Remark: </b> {{requisition_modal_data.requisition.remark}}</label>	
+										<table class="table table-hover table-nowrap table datatable w-100">
+											<thead>
+												<tr>
+													<th>Item Type</th>
+													<th>Item Name</th>
+													<th>Quantity</th>
+													<th>Measurement Type</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr *ngFor="let item of requisition_modal_data.requisition_items">
+													<td>{{item.item_type.name}}</td>
+													<td>{{item.item_name.item_name}}</td>
+													<td>{{item.quantity}}</td>
+													<td>{{item.measurement_type.name}}</td>
+												</tr>
+											</tbody>
+										</table>									
+									</div>           			
+									</div>
+								  </ng-template>								  
+
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,16 @@
+.card{
+    .card_body{
+        .form-label {
+            font-size: 15px;
+            font-weight: 400;
+        }
+    }
+}
+
+img {
+    width: 100%;
+}
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}

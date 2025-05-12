@@ -1,0 +1,182 @@
+<div class="result-section-section">
+    <div class="result-section-btn">
+        <button class="btn" (click)="openPublishModal(sectionModel);is_edit = false" [disabled]="isCreateResultSection">Create Result Section</button>
+    </div>
+    <ng-container *ngFor="let item of resultSectionList">
+        <div class="marksheet-header">
+            <div class="marsheet-lt-content">
+                <h4>{{item?.mark_sheet_section_name}} 
+                    <span *ngIf="!item.is_co_scholastic && !item.is_skill_subject">({{item?.marks}})</span>
+                    <span *ngIf="item.is_co_scholastic || item.is_skill_subject">{{item?.marks}}</span>
+                </h4>
+            </div>
+            <div class="marksheet-rt-content">
+                <button class="btn blue-btn mx-2" *ngIf="!item.is_co_scholastic  && !item.is_skill_subject" (click)="editSection(item,sectionModel)"><i class="far fa-edit"></i></button>
+                <button class="btn red-btn" *ngIf="!item.is_co_scholastic  && !item.is_skill_subject" (click)="openPublishModal(deleteModel,item.id)"><i
+                        class="fa fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="resultSectionList.length == 0 && !isResultSection">
+        <div class="card p-3">
+            <div class="d-flex justify-content-center">
+                No Data Found.
+            </div>
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="isResultSection">
+        <div class="card p-3">
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="result-section-btn">
+        <button class="btn" (click)="nextSection()">Save & Next</button>
+    </div>
+
+</div>
+
+<ng-template #sectionModel>
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title">Result Section</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <!-- <div class="modal-body" *ngIf="!is_edit">
+        <form [formGroup]="resultSectionForm">
+            <div formArrayName="resultSecArray" *ngFor="let item of resultSectionArray.controls; let i = index;">
+                <div [formGroupName]="i">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10  col-md-10 form-group result-mark-group">
+                            <div class="mark-letest-box">
+                            <input formControlName="mark_sheet_section_name" class="form-control me-2"
+                                placeholder="Result Section Name">
+                                <div
+                                    *ngIf="item['controls']['mark_sheet_section_name'].invalid && (item['controls']['mark_sheet_section_name'].dirty || item['controls']['mark_sheet_section_name'].touched)">
+                                
+                                    <div class="text-danger static-text-danger"
+                                        *ngIf="item['controls']['mark_sheet_section_name'].errors?.['required']">
+                                        enter section name.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mark-letest-box">
+                            <input formControlName="marks" class="form-control" type="text" maxlength="3" placeholder="Marks">
+                            <div
+                                *ngIf="item['controls']['marks'].invalid && (item['controls']['marks'].dirty || item['controls']['marks'].touched)">
+                                <div class="text-danger static-text-danger"
+                                    *ngIf="item['controls']['marks'].errors?.['required']">
+                                    enter marks.
+                                </div>
+                                <div class="text-danger static-text-danger"
+                                    *ngIf="item['controls']['marks'].errors?.['min'] ||  item['controls']['marks'].errors?.['pattern']">
+                                    enter valid marks.
+                                </div>
+                            </div>
+                            </div>
+                            <a (click)="addSection()" *ngIf="i == 0" class="plus-mark"><i class="fa fa-plus"
+                                    aria-hidden="true"></i></a>
+                            <a class="plus-mark" (click)="removeSection(i)" *ngIf="i !== 0"><i class="fa fa-minus"
+                                    aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div> -->
+    <div class="modal-body" >
+        <form [formGroup]="resultSectionEditForm">
+        
+            <div class="row justify-content-center">
+                <div class="col-lg-10  col-md-10 form-group result-mark-group">
+                    <div class="mark-letest-box">
+                        <input formControlName="mark_sheet_section_name" class="form-control me-2" placeholder="Result Section Name">
+                        <div
+                        *ngIf="resultSectionEditForm['controls']['mark_sheet_section_name'].invalid && (resultSectionEditForm['controls']['mark_sheet_section_name'].dirty || resultSectionEditForm['controls']['mark_sheet_section_name'].touched)">
+                    
+                        <div class="text-danger static-text-danger"
+                            *ngIf="resultSectionEditForm['controls']['mark_sheet_section_name'].errors?.['required']">
+                            enter section name.
+                        </div>
+                    </div>
+                    </div>
+                    <div class="mark-letest-box">
+                        <input formControlName="marks" class="form-control"  type="text" maxlength="3" placeholder="Marks">
+                        <div
+                                *ngIf="resultSectionEditForm['controls']['marks'].invalid && (resultSectionEditForm['controls']['marks'].dirty || resultSectionEditForm['controls']['marks'].touched)">
+                                <div class="text-danger static-text-danger"
+                                    *ngIf="resultSectionEditForm['controls']['marks'].errors?.['required']">
+                                    enter marks.
+                                </div>
+                                <div class="text-danger static-text-danger"
+                                    *ngIf="resultSectionEditForm['controls']['marks'].errors?.['min'] || resultSectionEditForm['controls']['marks'].errors?.['pattern']">
+                                    enter valid marks.
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        
+        </form>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-md-2 col-3" *ngIf="!is_edit">
+            <button type="submit" class="btn" (click)="createSection()" [disabled]="isSectionSave">
+                Create
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSectionSave">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-md-2 col-3" *ngIf="is_edit">
+            <button type="submit" class="btn" (click)="updateSection()" [disabled]="isSectionUpdate">
+                Update
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSectionUpdate">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-md-2 col-3 mx-2">
+            <button type="submit" class="btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteModel class="modal-dialog-centered">
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title">Delete Result Section</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-center">
+            <div class="col-lg-12  col-md-12 form-group">
+                <p class="delete-text">Are You Sure Delete the Section ?</p>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-md-2 col-3">
+            <button type="submit" class="btn" (click)="deleteSection(1)" [disabled]="isSectionDelete">
+                Delete
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSectionDelete">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-md-2 col-3">
+            <button type="submit" class="btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</ng-template>

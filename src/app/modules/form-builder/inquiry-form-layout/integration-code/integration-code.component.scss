@@ -1,0 +1,53 @@
+::ng-deep {
+
+  .inquiry_form_card{
+    .inquiry_form_link{
+      margin-bottom: 20px;
+      background-color: #5da55d;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      a{
+        color: #fff;
+        white-space: wrap;
+        width: calc(100% - 40px);
+      }
+      button{
+        background-color: #fff !important;
+        color: #000;
+        padding: 5px;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover{
+          color: #000 !important;
+        }
+      }
+    }
+  }
+
+  .code_not_available{
+    p{
+      margin: 0;
+      text-align: center;
+      font-size: 16px;
+    }
+  }
+  .tag {
+    background-color: transparent !important;
+  }
+  .black-copy-btn{
+    background-color: #000 !important;
+    color: #fff;
+    padding: 5px 10px !important;
+  }
+  .gray-copy-btn{
+    background-color: #00000070 !important;
+    color: #fff;
+    width: 45px;
+  }
+
+}

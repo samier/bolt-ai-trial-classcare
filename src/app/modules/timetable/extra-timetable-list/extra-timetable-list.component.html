@@ -1,0 +1,103 @@
+<section class="proxy_timetable_list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Extra Lecture List</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.ADD_EXTRA_LECTURE)" class="mx-2 global_btn btn add-btn">Add Extra Lecture</a>
+                </div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">                        
+                        <div class="card pb-2">
+                            <div class="row form_section">
+                                <div class="form_group col-md-3">
+                                    <app-mat-date-picker [(selectedDate)]="currentDate" [isRequired]="false" (change)="handleDateChange()" [templateDriven]="true"></app-mat-date-picker>
+
+                                    <!-- <input type="date" class="form-control" placeholder="enter date"
+                                        [(ngModel)]="currentDate" (change)="handleDateChange()" name="date"> -->
+                                </div>
+                                <div class="col-md-6 text-right d-flex align-items-start">
+                                    <button ngbTooltip="PDF" class="mx-2 btn pdf-btn" (click)="download('pdf')" [disabled]="pdfLoading" *ngIf="CommonService.hasPermission('administrator_extra_lecture', 'has_download')">
+                                        <img src="assets/images/pdf-icon.svg" alt="">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="pdfLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                        </button>
+                                    <button ngbTooltip="Excel" class="mx-2 btn excel-btn" (click)="download('excel')" [disabled]="excelLoading" *ngIf="CommonService.hasPermission('administrator_extra_lecture', 'has_download')">
+                                        <img src="assets/images/excel-icon.svg" alt="">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="excelLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                        </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="datatable_cls">
+                                <div class="datatable-action-design">
+                                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                        <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                      </svg>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                      </svg>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table datatable [dtOptions]="dtOptions"
+                                            class="table table-hover table-nowrap display dataTable table-bordered" style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Sr.No.</th>
+                                                    <th>Date</th>
+                                                    <th>Batch</th>
+                                                    <th>Lecture Time</th>
+                                                    <th>Week Day</th>
+                                                    <th>Faculty</th>
+                                                    <th>Subject</th>
+                                                    <th>Room</th>
+                                                    <th class="action-btn-sticky">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of tbody ;let i = index;">
+                                                    <td>{{item.DT_RowIndex}}</td>
+                                                    <td>{{item.date ?? '-'}}</td>
+                                                    <td class="orange-text-color">{{item.batch.name ?? '-'}}</td>
+                                                    <td>{{item.lecture_time ?? '-'}}</td>
+                                                    <td>{{(item.week_day | titlecase) ?? '-'}}</td>
+                                                    <td class="name_hover">{{item.teacher_name ?? '-'}}</td>
+                                                    <td>{{item.subject_name ?? '-'}}</td>
+                                                    <td>{{item.room_name ?? '-'}}</td>
+                                                    <td class="action-btn-sticky text-center">
+                                                        <div class="btn-group" role="group">
+                                                            <!-- <a [routerLink]="[setUrl(URLConstants.SUBJECT_LECTURE),item.id]"  class="btn action-edit " title="Edit">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a> -->
+                                                            <button *ngIf="CommonService.hasPermission('administrator_extra_lecture', 'has_delete')" ngbTooltip="Delete" type="button"
+                                                                class="lt-btn-icon action-delete"
+                                                                (click)="delete(item.id)">
+                                                                
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <tbody *ngIf="tbody?.length == 0">
+                                                <tr>
+                                                <td colspan="7" class="text-center no-data-available">No data</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

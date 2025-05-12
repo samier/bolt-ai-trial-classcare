@@ -1,0 +1,21 @@
+table{
+    thead{
+        tr{
+            th{
+                &:nth-child(5){
+                    max-width: 150px;
+                }
+                &:last-child{
+                    max-width: 200px;
+                }
+            }
+        }
+    }
+    tbody{
+        tr{
+            .white-space{
+                white-space: break-spaces !important;
+            }
+        }
+    }
+}

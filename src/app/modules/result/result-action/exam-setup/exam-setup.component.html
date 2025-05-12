@@ -1,0 +1,45 @@
+<div class="exam-action-setup">
+    <mat-accordion  [multi]="true">
+      <ng-container *ngFor="let item of examSetupList">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            {{item.section_name}}
+          </mat-expansion-panel-header>
+          <div class="exam-action-body">
+            <div class="result-listing-inner">
+              <ng-container *ngFor="let exam of item.exam_data">
+                <button (click)="exam.is_selected = !exam.is_selected" class="btn btn-setup" [ngClass]="{'active' : exam.is_selected}">{{exam.exam_name}}</button>
+              </ng-container>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+
+    <ng-container *ngIf="examSetupList.length == 0 && !isExamSetup">
+      <div class="card p-3">
+        <div class="d-flex justify-content-center">
+          No Data Found.
+        </div>
+      </div>
+    </ng-container>
+    
+    <ng-container *ngIf="isExamSetup">
+      <div class="card p-3">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border spinner-border-sm ms-2" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  
+    <div class="exam-action-footer">
+      <button class="btn btn-primary mx-3" (click)="saveExamSetup()" [disabled]="isSaveExamSetup">Save & Next
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveExamSetup">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+      </button>
+      <!-- <button class="btn btn-primary">Cancel</button> -->
+    </div>
+  </div>

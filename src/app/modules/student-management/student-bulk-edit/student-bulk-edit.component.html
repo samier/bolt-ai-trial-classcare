@@ -1,0 +1,357 @@
+<section class="student-edit">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Bulk Edit</h3>
+            </div>
+        </div>
+    </div>
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section  global_form table_top p-0">
+                        <div class="">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Section</label>
+                                    <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="section" (change)="getSectionsAndClasses()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select Section">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Class</label>
+                                    <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class" (change)="classChange()" 
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select Class">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Batch</label>
+                                    <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch" (change)="reloadData()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select Batch">
+                                    </ng-select>
+                                </div>
+                                <!-- Status -->
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Select Status</label>
+                                    <ng-select #select [items]="statusList" [searchable]="true" [(ngModel)]="params.status" (change)="reloadData()"
+                                        bindLabel="name"  bindValue="id"
+                                        placeholder="Please select Status">
+                                    </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label for="" class="form_label">Select Fields</label>
+                                    <ng-multiselect-dropdown
+                                    [placeholder]="'Please select Fields'"
+                                    [settings]="commonDropdownSettings"
+                                    [data]="params.class && params.batch ? dropdownList : []"
+                                    [(ngModel)]="selectedItems"
+                                    (onDeSelect)="onItemDeSelect($event)"
+                                    (onSelect)="onItemSelect($event)"
+                                    (onSelectAll)="onSelectAll($event)"
+                                    (onDeSelectAll)="onSelectAll($event)"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card report_filter">
+                <div class="row">
+                    <div class="col-lg-12 datatable_cls">
+                        <div class="assign-transport-table">
+                            <div class="table-responsive student-bulk-respose">                                  
+                                <table *ngIf="dtRendered" datatable [dtOptions]="dtOptions" id="myTable_new" class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th *ngFor="let field of field_list_for_html; let i = index;">
+                                                <ng-container *ngIf="field['data'] === 'student_fees_date'; else oldNewHeader">
+                                                    <div class="d-inline-flex align-items-center">
+                                                        <label class="bulk-radil-event">Student Fees Date</label>
+                                                        <app-mat-date-picker class="bulk-student-fees-date"  [isRequired]="false" [templateDriven]="true" 
+                                                            (selectedDateChange)="onDateChange($event)" (clearDate)="clearDate(true,$event)">
+                                                        </app-mat-date-picker>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #oldNewHeader>
+                                                    <ng-container *ngIf="field['data'] === 'old_new'; else columnHeader">
+                                                        <label class="bulk-radil-event">
+                                                            <input 
+                                                                type="radio" 
+                                                                name="dataSelection" 
+                                                                value="Old" 
+                                                                (change)="onRadioChange('Old')" 
+                                                                [checked]="selectedOption === 'Old'"
+                                                            />
+                                                            Old
+                                                        </label>
+                                                        <label class="bulk-radil-event">
+                                                            <input 
+                                                                type="radio" 
+                                                                name="dataSelection" 
+                                                                value="New" 
+                                                                (change)="onRadioChange('New')" 
+                                                                [checked]="selectedOption === 'New'"
+                                                            />
+                                                            New
+                                                        </label>
+                                                    </ng-container>
+                                                </ng-template>
+                                                <ng-template #columnHeader>
+                                                    {{ columns[field['data']] ?? replaceString(field['data']) }}
+                                                </ng-template>
+                                            </th>                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of tbody ;let i = index;" >    
+                                            <td class="orange-text-color">{{params.class && params.batch ? item['rollno'] : null}}</td>
+                                            <td class="name_hover">{{params.class && params.batch ? item['full_name'] : null}}</td>
+                                            <td *ngFor="let field of field_list">
+                                                <div *ngIf="field == 'categories'; else block1">
+                                                    <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                        <ng-option [value]="1">Open</ng-option>
+                                                        <ng-option [value]="2">OBC</ng-option>
+                                                        <ng-option [value]="3">SC</ng-option>
+                                                        <ng-option [value]="4">ST</ng-option>
+                                                        <ng-option [value]="5">S.E.B.C</ng-option>
+                                                        <ng-option [value]="6">LAGUMATI</ng-option>
+                                                        <ng-option [value]="7">Bhill</ng-option>
+                                                        <ng-option [value]="8">Other</ng-option>
+                                                        </ng-select>
+                                                </div>
+                                                <ng-template #block1>
+                                                    <div *ngIf="field == 'gender'; else block2">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="'m'">Male</ng-option>
+                                                            <ng-option [value]="'f'">Female</ng-option>
+                                                            <ng-option [value]="'o'">Other</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block2>
+                                                    <div *ngIf="field == 'bloodGroup'; else block3">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="'A+'">A+</ng-option>
+                                                            <ng-option [value]="'A-'">A-</ng-option>
+                                                            <ng-option [value]="'B+'">B+</ng-option>
+                                                            <ng-option [value]="'B-'">B-</ng-option>
+                                                            <ng-option [value]="'AB+'">AB+</ng-option>
+                                                            <ng-option [value]="'AB-'">AB-</ng-option>
+                                                            <ng-option [value]="'O+'">O+</ng-option>
+                                                            <ng-option [value]="'O-'">O-</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block3>
+                                                    <div *ngIf="field == 'send_sms_number'; else block4">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Father Number</ng-option>
+                                                            <ng-option [value]="2">Mother Number</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block4>
+                                                    <div *ngIf="field == 'parentWhatsappNo'; else block5">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Father Number</ng-option>
+                                                            <ng-option [value]="2">Mother Number</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block5>
+                                                    <div *ngIf="field == 'date_of_birth'; else block6">
+                                                        <app-mat-date-picker [(selectedDate)]="editable[i][field]" [isRequired]="false" [templateDriven]="true" (clearDate)="clearDate(false,$event,i,field)"></app-mat-date-picker>
+
+                                                        <!-- <input class="form-control" type="date" [name]="field+[i]" [(ngModel)]="editable[i][field]"> -->
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block6>
+                                                    <div *ngIf="field == 'create_at'; else block7">
+                                                        <app-mat-date-picker [(selectedDate)]="editable[i][field]" [isRequired]="false" [templateDriven]="true" (clearDate)="clearDate(false,$event,i,field)"></app-mat-date-picker>
+                                                        <!-- <input class="form-control" type="date" [name]="field+[i]" [(ngModel)]="editable[i][field]"> -->
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block7>
+                                                    <div *ngIf="field == 'old_new'; else block8">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="0">Old</ng-option>
+                                                            <ng-option [value]="1">New</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block8>
+                                                    <div *ngIf="field == 'rightToEducation'; else block9">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Yes</ng-option>
+                                                            <ng-option [value]="0">No</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block9>
+                                                    <div *ngIf="field == 'student_fees_date'; else block10">
+                                                        <app-mat-date-picker class="bulk-student-fees-date" [(selectedDate)]="editable[i][field]" (clearDate)="clearDate(false,$event,i,field)" [isRequired]="false" [templateDriven]="true"></app-mat-date-picker>
+                                                        <!-- <input class="form-control" type="date" [name]="field+[i]" [(ngModel)]="editable[i][field]"> -->
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block10>
+                                                    <div *ngIf="field == 'admission_date'; else block11">
+                                                        <app-mat-date-picker [(selectedDate)]="editable[i][field]" [isRequired]="false" [templateDriven]="true" (clearDate)="clearDate(false,$event,i,field)"></app-mat-date-picker>
+                                                        <!-- <input class="form-control" type="date" [name]="field+[i]" [(ngModel)]="editable[i][field]"> -->
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block11>
+                                                    <div *ngIf="field == 'previous_school_category'; else block12">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body" [items]="previousSchoolCategory" 
+                                                        bindLabel="name" 
+                                                        bindValue="id"></ng-select> 
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block12>
+                                                    <div *ngIf="field == 'type_of_school'; else block13">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body" [items]="type_of_school" 
+                                                        bindLabel="name" 
+                                                        bindValue="id"></ng-select> 
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block13>
+                                                    <div *ngIf="field == 'payOnDate'; else block14">
+                                                        <app-mat-date-picker [(selectedDate)]="editable[i][field]" [isRequired]="false" [templateDriven]="true" (clearDate)="clearDate(false,$event,i,field)"></app-mat-date-picker>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block14>
+                                                    <div *ngIf="field == 'sameAddress'; else block15">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Yes</ng-option>
+                                                            <ng-option [value]="0">No</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block15>
+                                                    <div *ngIf="field == 'is_delete'; else block16">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Deleted</ng-option>
+                                                            <ng-option [value]="0">Not Deleted</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block16>
+                                                    <div *ngIf="field == 'lc_status'; else block17">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">LC Generated</ng-option>
+                                                            <ng-option [value]="2">LC Issued</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block17>
+                                                    <div *ngIf="field == 'lc_type'; else block18">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">With LC</ng-option>
+                                                            <ng-option [value]="2">Without LC</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block18>
+                                                    <div *ngIf="field == 'currently_active'; else block19">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="0">No</ng-option>
+                                                            <ng-option [value]="1">Yes</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block19>
+                                                    <div *ngIf="field == 'status'; else block20">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Active</ng-option>
+                                                            <ng-option [value]="0">In Active</ng-option>
+                                                            </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block20>
+                                                    <div *ngIf="field == 'admission_year'; else block21">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body" [items]="admission_years" 
+                                                        bindLabel="years" 
+                                                        bindValue="years"></ng-select> 
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block21>
+                                                    <div *ngIf="field == 'leaving_date'; else block22">
+                                                        <app-mat-date-picker [(selectedDate)]="editable[i][field]" [isRequired]="false" [templateDriven]="true" (clearDate)="clearDate(false,$event,i,field)"></app-mat-date-picker>
+                                                        <!-- <input class="form-control" type="date" [name]="field+[i]" [(ngModel)]="editable[i][field]"> -->
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block22>
+                                                    <div *ngIf="field == 'ews'; else block23">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">Yes</ng-option>
+                                                            <ng-option [value]="0">No</ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block23>
+                                                    <div *ngIf="field == 'height_type'; else block24">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="1">CM</ng-option>
+                                                            <!-- <ng-option [value]="2">IN</ng-option> -->
+                                                            <ng-option [value]="3">FT</ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block24>
+                                                    <div *ngIf="field == 'height'; else block25">
+                                                        <input type="number" min="0" class="form-control" [name]="field+[i]" [(ngModel)]="editable[i][field]">
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block25>
+                                                    <div *ngIf="field == 'weight'; else block26">
+                                                        <div class="input-group">
+                                                            <input type="number" min="0" class="form-control" [name]="field+[i]" [(ngModel)]="editable[i][field]">
+                                                            <span class="input-group-text">KG</span>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block26>
+                                                    <div *ngIf="field == 'school'; else block27">
+                                                        <ng-select [(ngModel)]="editable[i][field]" [items]="oldSchool" 
+                                                        bindLabel="name" appendTo="body"
+                                                        bindValue="name"></ng-select> 
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block27>
+                                                    <div *ngIf="field == 'student_shift'; else block28">
+                                                        <ng-select [(ngModel)]="editable[i][field]" appendTo="body">
+                                                            <ng-option [value]="'0'">None</ng-option>
+                                                            <ng-option [value]="'1'">Morning</ng-option>
+                                                            <ng-option [value]="'2'">Noon</ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-template #block28>
+                                                    <input type="text" class="form-control" [name]="field+[i]" [(ngModel)]="editable[i][field]">
+                                                </ng-template>
+                                                <div *ngIf="errorArray.length > 0" class="error-msg">{{errorArray[i] && errorArray[i][field] ? errorArray[i][field] : '' }}</div>
+                                            </td>     
+                                        </tr>                                      
+                                    </tbody>
+                                    <tbody *ngIf="!dtRendered && tbody.length == 0">
+                                        <tr>
+                                            <td [colSpan]="selectedItems.length + 2" class="text-center">No data found!</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <button *ngIf="dtRendered && tbody.length > 0 && CommonService.hasPermission('student_student_bulk_edit', 'has_update')" (click)="editRecord()" class="btn btn-success btn-minwidth update-btn">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

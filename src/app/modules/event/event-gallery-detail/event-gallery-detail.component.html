@@ -1,0 +1,163 @@
+<section class="leave_form new-student-list-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">{{ eventDetail?.eventname }}</h3>
+        <div class="d-flex">
+          <button type="button" *ngIf="CommonService.hasPermission('administrator_event_gallary','has_create')"
+            class="btn add-btn me-2" (click)="openModal(true)">
+            Add New Photos
+          </button>
+          <a [routerLink]="[CommonService.setUrl(URLConstants.EVENT_GALLERY_LIST)]" class="btn list-btn me-2">
+            Photo Gallery
+          </a>
+          <button type="button" *ngIf="CommonService.hasPermission('administrator_event_gallary','has_create')"
+            class="btn delete-btn me-2" (click)="deleteImages()">
+            Delete All
+          </button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card_body">
+          <div class="event_details d-flex justify-content-between mb-4">
+            <div class="row m-0">
+              <div class="col-auto created d-flex align-items-center me-3">
+                <div class="icon">
+                  <img [src]="eventDetail?.user?.image" alt="">
+                </div>
+                <div class="created_content">
+                  <p class="mb-0">{{ eventDetail?.user?.full_name }}</p>
+                  <span>Created by</span>
+                </div>
+              </div>
+              <div class="col-auto created d-flex align-items-center">
+                <div class="icon">
+                  <svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.4145 22.25H4.5855C3.56863 22.2488 2.59375 21.8443 1.87471 21.1253C1.15567 20.4063 0.751191 19.4314 0.75 18.4145V6.5855C0.751191 5.56863 1.15567 4.59375 1.87471 3.87471C2.59375 3.15567 3.56863 2.75119 4.5855 2.75H19.4145C20.4314 2.75119 21.4063 3.15567 22.1253 3.87471C22.8443 4.59375 23.2488 5.56863 23.25 6.5855V18.4137C23.2488 19.4306 22.8443 20.4055 22.1253 21.1245C21.4063 21.8436 20.4314 22.2488 19.4145 22.25ZM4.5855 4.25C3.96633 4.25079 3.37275 4.49711 2.93493 4.93493C2.49711 5.37275 2.25079 5.96633 2.25 6.5855V18.4137C2.25079 19.0329 2.49711 19.6265 2.93493 20.0643C3.37275 20.5021 3.96633 20.7485 4.5855 20.7493H19.4145C20.0337 20.7485 20.6273 20.5021 21.0651 20.0643C21.5029 19.6265 21.7492 19.0329 21.75 18.4137V6.5855C21.7492 5.96633 21.5029 5.37275 21.0651 4.93493C20.6273 4.49711 20.0337 4.25079 19.4145 4.25H4.5855Z" />
+                    <path
+                      d="M8.25 1.25C8.25 0.835786 7.91421 0.5 7.5 0.5C7.08579 0.5 6.75 0.835786 6.75 1.25V5.75C6.75 6.16421 7.08579 6.5 7.5 6.5C7.91421 6.5 8.25 6.16421 8.25 5.75V1.25Z" />
+                    <path
+                      d="M17.25 1.25C17.25 0.835786 16.9142 0.5 16.5 0.5C16.0858 0.5 15.75 0.835786 15.75 1.25V5.75C15.75 6.16421 16.0858 6.5 16.5 6.5C16.9142 6.5 17.25 6.16421 17.25 5.75V1.25Z" />
+                    <path
+                      d="M6.62109 10.7461C7.03531 10.7461 7.37109 10.4103 7.37109 9.99609C7.37109 9.58188 7.03531 9.24609 6.62109 9.24609C6.20688 9.24609 5.87109 9.58188 5.87109 9.99609C5.87109 10.4103 6.20688 10.7461 6.62109 10.7461Z" />
+                    <path
+                      d="M12.0352 10.7461C12.4494 10.7461 12.7852 10.4103 12.7852 9.99609C12.7852 9.58188 12.4494 9.24609 12.0352 9.24609C11.6209 9.24609 11.2852 9.58188 11.2852 9.99609C11.2852 10.4103 11.6209 10.7461 12.0352 10.7461Z" />
+                    <path
+                      d="M17.25 10.7461C17.6642 10.7461 18 10.4103 18 9.99609C18 9.58188 17.6642 9.24609 17.25 9.24609C16.8358 9.24609 16.5 9.58188 16.5 9.99609C16.5 10.4103 16.8358 10.7461 17.25 10.7461Z" />
+                    <path
+                      d="M6.62109 16.5039C7.03531 16.5039 7.37109 16.1681 7.37109 15.7539C7.37109 15.3397 7.03531 15.0039 6.62109 15.0039C6.20688 15.0039 5.87109 15.3397 5.87109 15.7539C5.87109 16.1681 6.20688 16.5039 6.62109 16.5039Z" />
+                  </svg>
+                </div>
+                <div class="created_content">
+                  <p class="mb-0">{{ eventDetail?.event_date | date : dateFormateService.getDateFormat() }}</p>
+                  <span>Created Date</span>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex align-items-center mb-2" *ngIf="eventDetail?.event_files.length != 0">
+              <div class="m-checkbox-list pt-1 ng-star-inserted">
+                <label class="m-checkbox mb-0">
+                  <input type="checkbox" id="checkbox" [checked]="selectAllImage" (change)="selectAll($event)"
+                    class="ng-valid ng-dirty ng-touched"><span></span>
+                </label>
+              </div>
+              <label for="checkbox" class="mb-0 ps-2 ng-star-inserted">Select All</label>
+            </div>
+          </div>
+          <div class="img-content">
+            <div class="row" [sortablejs]="sortedImages" [sortablejsOptions]="sortableOptions">
+              <div class="col-md-2 form_group "
+                *ngFor="let item of sortedImages; trackBy: trackByImageId; let i = index">
+                <div>
+                  <div class="event_img" [ngClass]="{ 'isVisible': item?.is_visible }">
+                    <img [src]="item?.attachment_url" (click)="viewImage(i,eventMdl)">
+                    <div class="event-action-btn d-flex justify-content-between"
+                      [ngClass]="{ 'isVisible': !item?.is_visible }">
+                      <div>
+                        <div class="m-checkbox-list pt-1 ng-star-inserted">
+                          <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox" [checked]="selectedImages.includes(item.id)"
+                              (change)="selectImage($event,item.id)" class="ng-valid ng-dirty ng-touched"><span></span>
+                          </label>
+                        </div>
+                      </div>
+                      <div class="d-flex">
+                        <button *ngIf="eventDetail?.is_mobile_slider" class="view_btn text-center me-2"
+                          (click)="showImage(item?.id)">
+                          <svg *ngIf="!item?.is_visible" width="10" height="8" viewBox="0 0 10 8" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M4.99995 6.24998C3.8148 6.24998 2.85543 5.33264 2.76715 4.17015L1.12809 2.90345C0.91262 3.17376 0.714339 3.45954 0.55434 3.77203C0.518596 3.84274 0.499973 3.92085 0.499973 4.00008C0.499973 4.0793 0.518596 4.15742 0.55434 4.22812C1.40168 5.88139 3.07918 6.99997 4.99995 6.99997C5.42042 6.99997 5.82604 6.93747 6.21698 6.83653L5.4062 6.2092C5.2723 6.23506 5.13632 6.24871 4.99995 6.24998ZM9.90337 7.15778L8.17604 5.82279C8.70075 5.3806 9.13229 4.83847 9.44556 4.22797C9.48131 4.15726 9.49993 4.07915 9.49993 3.99992C9.49993 3.9207 9.48131 3.84258 9.44556 3.77188C8.59822 2.11861 6.92073 1.00003 4.99995 1.00003C4.1955 1.00101 3.40411 1.20352 2.69808 1.58909L0.710277 0.0526967C0.684355 0.0325262 0.654713 0.0176612 0.623045 0.00895109C0.591376 0.000240979 0.558301 -0.0021435 0.525711 0.00193392C0.49312 0.00601134 0.461652 0.0164707 0.433106 0.0327144C0.404559 0.0489581 0.379493 0.0706676 0.35934 0.0966025L0.0526223 0.491442C0.0119347 0.543783 -0.00629717 0.610141 0.00193657 0.675923C0.0101703 0.741705 0.0441954 0.801522 0.0965284 0.84222L9.28963 7.9473C9.31555 7.96747 9.34519 7.98234 9.37686 7.99105C9.40853 7.99976 9.4416 8.00214 9.47419 7.99807C9.50678 7.99399 9.53825 7.98353 9.5668 7.96729C9.59534 7.95104 9.62041 7.92933 9.64056 7.9034L9.94744 7.50856C9.98811 7.4562 10.0063 7.38983 9.99805 7.32404C9.98979 7.25826 9.95573 7.19845 9.90337 7.15778ZM7.03276 4.93905L6.4187 4.46437C6.47041 4.31491 6.49784 4.15814 6.49995 4C6.503 3.76848 6.4517 3.53947 6.35019 3.33137C6.24868 3.12327 6.09978 2.94188 5.91544 2.80176C5.73111 2.66165 5.51648 2.56672 5.28881 2.5246C5.06113 2.48248 4.82674 2.49434 4.60448 2.55923C4.6987 2.6869 4.74967 2.84134 4.74995 3.00001C4.74762 3.05281 4.73955 3.1052 4.72589 3.15626L3.57574 2.26736C3.97526 1.93349 4.47928 1.75041 4.99995 1.75002C5.29547 1.74986 5.58812 1.80794 5.86118 1.92096C6.13424 2.03397 6.38234 2.1997 6.5913 2.40866C6.80027 2.61762 6.96599 2.86572 7.07901 3.13878C7.19202 3.41183 7.25011 3.70448 7.24994 4C7.24994 4.33797 7.16729 4.65296 7.03276 4.93921V4.93905Z" />
+                          </svg>
+                          <svg *ngIf="item?.is_visible" width="10" height="6" viewBox="0 0 10 6" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M9.93959 2.77187C8.9981 1.11859 7.13421 0 5 0C2.86579 0 1.00138 1.11938 0.0604073 2.77203C0.0206923 2.84274 0 2.92085 0 3.00008C0 3.0793 0.0206923 3.15742 0.0604073 3.22813C1.0019 4.88141 2.86579 6 5 6C7.13421 6 8.99862 4.88062 9.93959 3.22797C9.97931 3.15726 10 3.07915 10 2.99992C10 2.9207 9.97931 2.84258 9.93959 2.77187ZM5 5.25C4.50555 5.25 4.0222 5.11804 3.61107 4.87081C3.19995 4.62357 2.87952 4.27217 2.6903 3.86104C2.50108 3.4499 2.45157 2.9975 2.54803 2.56105C2.6445 2.12459 2.8826 1.72368 3.23223 1.40901C3.58186 1.09434 4.02732 0.88005 4.51227 0.793233C4.99723 0.706416 5.49989 0.750974 5.95671 0.921271C6.41353 1.09157 6.80397 1.37996 7.07868 1.74997C7.35338 2.11998 7.5 2.55499 7.5 3C7.50016 3.29551 7.43561 3.58816 7.31003 3.86121C7.18445 4.13426 7.00031 4.38235 6.76813 4.59131C6.53595 4.80027 6.26029 4.966 5.9569 5.07902C5.65351 5.19204 5.32835 5.25014 5 5.25ZM5 1.5C4.85124 1.50187 4.70344 1.52179 4.56059 1.55922C4.67834 1.70323 4.73484 1.88045 4.71985 2.05874C4.70487 2.23703 4.61938 2.40459 4.4789 2.53102C4.33843 2.65745 4.15226 2.73438 3.95415 2.74787C3.75605 2.76136 3.55914 2.7105 3.39913 2.60453C3.30801 2.90665 3.32446 3.22689 3.44616 3.52016C3.56785 3.81343 3.78867 4.06496 4.07753 4.23937C4.36639 4.41377 4.70875 4.50226 5.05642 4.49237C5.40408 4.48249 5.73955 4.37473 6.01561 4.18427C6.29166 3.9938 6.4944 3.73022 6.59529 3.43062C6.69617 3.13103 6.69013 2.8105 6.57801 2.51415C6.46588 2.21781 6.25332 1.96057 5.97025 1.77864C5.68718 1.59672 5.34784 1.49926 5 1.5Z" />
+                          </svg>
+                        </button>
+                        <button *ngIf="CommonService.hasPermission('administrator_event_gallary','has_delete')"
+                          class="delete_btn">
+                          <svg (click)="deleteImages(item.id)" width="18" height="20" viewBox="0 0 18 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 4.63672H2.81818H17.3636" stroke="#C60F0F" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                            <path
+                              d="M15.5476 4.63636V17.3636C15.5476 17.8458 15.356 18.3083 15.0151 18.6493C14.6741 18.9903 14.2116 19.1818 13.7294 19.1818H4.63849C4.15628 19.1818 3.69382 18.9903 3.35285 18.6493C3.01187 18.3083 2.82031 17.8458 2.82031 17.3636V4.63636M5.54759 4.63636V2.81818C5.54759 2.33597 5.73914 1.87351 6.08012 1.53253C6.42109 1.19156 6.88356 1 7.36577 1H11.0021C11.4843 1 11.9468 1.19156 12.2878 1.53253C12.6288 1.87351 12.8203 2.33597 12.8203 2.81818V4.63636"
+                              stroke="#C60F0F" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M7.35938 9.18188V14.6364" stroke="#C60F0F" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                            <path d="M11 9.18188V14.6364" stroke="#C60F0F" stroke-linecap="round"
+                              stroke-linejoin="round" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ng-template #eventMdl let-modal>
+  <div class="event_modal">
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">{{ eventDetail?.eventname }}</h4>
+      <button ngbTooltip="Close" triggers="hover" type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+        <div class="carousel-inner" *ngFor="let item of sortedImages; let i = index">
+          <div class="carousel-item" data-bs-interval="10000" [ngClass]="{ 'active': i === selectedIndex }">
+            <img [src]="item?.attachment_url" class="d-block w-100" alt="potu">
+          </div>
+        </div>
+        <div class="position-relative">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1" *ngFor="let item of sortedImages; let i = index"
+              [class.active]="i === selectedIndex" (click)="selectImageFromThumbnail(i)">
+              <img [src]="item?.attachment_url">
+            </button>
+          </div>
+          <button ngbTooltip="Previous" class="carousel-control-prev" type="button"
+            data-bs-target="#carouselExampleDark" data-bs-slide="prev" (click)="prevImage()">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button ngbTooltip="Next" class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+            data-bs-slide="next" (click)="nextImage()">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

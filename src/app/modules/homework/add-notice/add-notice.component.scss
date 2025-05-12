@@ -1,0 +1,227 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-add-notice{
+        .form-switch{
+            .form-check-input{
+                margin-left: 0;
+                width: 50px;
+                height: 25px;
+                &:checked{
+                    background-color: $primary;
+                    border-color: $primary;
+                }
+                &:focus{
+                    box-shadow: 0 0 0 0.25rem rgb(1 50 156 / 25%);
+                }
+            }
+        } 
+        .upload_attach{           
+            .select-attechment-chip{
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-wrap: wrap;
+                label{
+                    margin-bottom: -5px;
+                }
+                p{
+                    border: 1px solid #939393;
+                    padding: 2px 4px;
+                    border-radius: 20px;
+                    margin: 0;
+                    margin-right: 5px;
+                    margin-top: 6px;
+                    font-size: 11px;
+                    line-height: 12px;
+                    display: inline-block;
+                    span{
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+        .student-list-input{
+            margin-top: 28px;
+        }
+        .add-notice-rt-content{
+            
+            .select-all-notice{
+                .check-group-item{
+                    font-size: 16px;
+                    line-height: 22px;
+                    font-weight: 500;
+                    color: #01329C;
+                    margin: 0;
+                    text-align: right;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    label{
+                        margin: 0;
+                        position: relative;
+                        width: auto;
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        flex-direction: row-reverse;
+                    }
+                    input{
+                        padding: 0;
+                        height: initial;
+                        width: initial;
+                        margin-bottom: 0;
+                        display: none;
+                        cursor: pointer;
+                    }
+                    label:before {
+                        content:'';
+                        -webkit-appearance: none;
+                        background-color: transparent;
+                        border: 2px solid #4caf50;
+                        border-radius: 100px;
+                        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+                        padding: 10px;
+                        display: inline-block;
+                        position: relative;
+                        vertical-align: middle;
+                        cursor: pointer;
+                        margin-left: 10px;
+                    }
+                      input:checked + label:after {
+                        content: "";
+                        display: block;
+                        position: absolute;
+                        top: 3px;
+                        right: 8px;
+                        width: 7px;
+                        height: 12px;
+                        border: solid #fff;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+                    input:checked + label:before{
+                        background-color: #4caf50;
+                    }
+                    &.red-notice{
+                        label:before{
+                            border-color: #e9400b;
+                        }
+                        input:checked + label:after{
+                            border-color: #e9400b;
+                        }
+                        input:checked + label:before{
+                            background-color: #e9400b;
+                        }
+                    }
+
+                }
+            }
+            .selct-notice-header{
+                margin-right: 28px;
+                margin-bottom:16px;
+                margin-top: 16px;
+            }
+            .notice-card-inner{
+                max-height: 350px;
+                overflow-y: auto;
+            }
+            .add-notice-card{
+                
+                .notice-card-wrapper{
+                    margin: 4px;
+                    margin-bottom: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    background-color: #fff;
+                    border-radius: 4px;
+                    padding: 16px 12px;
+                    box-shadow: rgb(0 0 0 / 11%) 1px 2px 3px 1px;
+                }
+                .notice-lt-card{
+                    h5{
+                        font-size: 16px;
+                        line-height: 20px;
+                        color: #000;
+                        font-weight: 500;
+                        margin-bottom: 4px;
+                    }
+                    p{
+                        font-size: 14px;
+                        line-height: 20px;
+                        margin: 0;
+                        color: #939393;
+                        font-weight: 500;
+                    }
+                }
+            }
+        }
+        .message-update{
+            margin-top: 20px;
+            text-align: center;
+            p{
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 400;
+                color: #939393;
+                margin:0;
+                .data-yes{
+                    color: #01329C;
+                    font-weight: 500;
+                    text-decoration: none; 
+                    background-color: #fff;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                }
+            }
+        }
+        
+    }
+}
+
+
+// modal design 
+
+::ng-deep{
+    .publish-modal-header{
+        .modal-title{
+            color: #000;
+        }
+        
+    }
+    .publish-modal-body{
+        .form_label{
+            color: #000;
+        }
+        .bg-info{
+            background-color: rgba(147, 147, 147, 0.2) !important;
+            border-radius: 8px;
+            .card-body{
+                padding: 12px 16px;
+                .card-title{
+                    font-size: 14px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    color: #000;
+                    margin-bottom: 2px;
+                    text-transform: capitalize;
+                }
+                .card-text{
+                    color: #000;
+                    font-size: 12px;
+                    line-height: 22px;
+                    font-weight: 500;
+                }
+            }
+        }
+        .m-checkbox-list{
+            font-weight: 500;
+            font-size: 13px;
+            color: #000;
+        }
+    }
+    .opacity-box{
+        opacity: 0.5;
+    }
+}

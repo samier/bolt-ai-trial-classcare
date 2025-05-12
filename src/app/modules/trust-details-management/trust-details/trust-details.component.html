@@ -1,0 +1,88 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Trust Details List</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.TRUST_CREATE)" class="btn add-btn" *ngIf="CommonService.hasPermission('settings_trust_details', 'has_create')">Create New Trust Details</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="">
+                        <div class="row ">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="assign-transport-table">
+                                    <div class="datatable-action-design">
+                                        <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                            <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                          </svg>
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                            <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                          </svg>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table datatable [dtOptions]="dtOptions"
+                                                class="table table-hover table-nowrap display dataTable table-bordered" style="width:100%">
+                                                <thead class="thead-light">
+                                                        <tr>
+                                                        <th>Name</th>
+                                                        <th>Contact No</th>
+                                                        <th>Email</th>
+                                                        <th>Address</th>
+                                                        <!-- <th>Bank Name</th>
+                                                        <th>Account NO</th>
+                                                        <th>Account Holder Name</th>
+                                                        <th>Type Of Account</th>
+                                                        <th>IFSC Code</th>
+                                                        <th>Branch Name</th> -->
+                                                        <th class="action-btn-sticky">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let item of tbody ;let i = index;">
+                                                        <td>{{item.name}}</td>
+                                                        <td>{{item.contact_number}}</td>
+                                                        <td>{{item.email}}</td>
+                                                        <td>{{item.address}}</td>
+                                                        <!-- <td>{{item.bank_name}}</td>
+                                                        <td>{{item.account_number}}</td>
+                                                        <td>{{item.account_holder_name}}</td>
+                                                        <td>{{item.type_of_account}}</td>
+                                                        <td>{{item.ifsc_code}}</td>
+                                                        <td>{{item.branch_name}}</td> -->
+                                                        <td class="action-btn-sticky text-center">
+                                                            <div class="btn-group" role="group">
+                                                                <a *ngIf="CommonService.hasPermission('settings_trust_details', 'has_edit')" href="#." [routerLink]="[setUrl(URLConstants.TRUST_EDIT),item.id]" class="lt-btn-icon btn-sm action-edit" ngbTooltip="Edit" container="body">
+                                                                     
+                                                                </a>
+                                                                <button *ngIf="CommonService.hasPermission('settings_trust_details', 'has_delete')" ngbTooltip="Delete" container="body" class="lt-btn-icon btn-sm action-delete" (click)="deleteTrustDetail(item.id)">
+                                                                    
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <!-- <tbody *ngIf="tbody?.length == 0">
+                                                    <tr>
+                                                    <td colspan="3" class="text-center no-data-available">No data</td>
+                                                    </tr>
+                                                </tbody> -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

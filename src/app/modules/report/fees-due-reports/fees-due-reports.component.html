@@ -1,0 +1,467 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Fees Due Report</h3>
+        <div class="btn_right d-flex gap-3">
+          <button *ngIf="commonService.hasPermission('fees_report_fees_due_report', 'has_download')" class="btn pdf-btn" ngbTooltip="PDF" href="javascript:void(0)" (click)="downloadReport('pdf')" [disabled]="pdfLoading"><img src="assets/images/pdf-icon.svg" alt="">
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="pdfLoading">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+        </button>
+        <button *ngIf="commonService.hasPermission('fees_report_fees_due_report', 'has_download')" class="btn excel-btn" ngbTooltip="EXCEL" href="javascript:void(0)" (click)="downloadReport('excel')" [disabled]="excelLoading"><img src="assets/images/excel-icon.svg" alt="">
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="excelLoading">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+        </button>
+        </div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                        <div class="mt-0">
+                            <div class="card">
+                              <div class="row">
+                                <div class="col-md-3 form_group">
+                                  <label for="" class="form_label">Select Template</label>
+                                  <ng-select #select [items]="templateList" [searchable]="true" [(ngModel)]="selectedTemplate" (change)="templateChange()"
+                                                                bindLabel="template_name"  bindValue="id"
+                                                                placeholder="Please select">
+                                                            </ng-select>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                  <label for="" class="form_label">Template Name</label>
+                                  <input type="text" name="template_name"
+                                                                    placeholder="Template Name" [(ngModel)]="templateName"
+                                                                    class="form-control">
+                                    <span class="text-danger" *ngIf="isSubmitTemplate && templateName.length == 0">
+                                      Please enter template name.
+                                  </span>
+                                </div>
+                                <div class="col-auto save-template-btn" *ngIf="commonService.hasPermission('report_fees_due_report', 'has_update')">
+                                  <button class="btn save-btn w-100" (click)="saveTemplate()"> {{selectedTemplate ? 'Update Template' : 'Save Template'}}</button>
+                              </div>
+                              <div class="col-auto save-template-btn" *ngIf="commonService.hasPermission('report_fees_due_report', 'has_delete')">
+                                  <button class="btn delete-btn w-100" (click)="deleteTemplate()" *ngIf="selectedTemplate"> Delete Template</button>
+                              </div>
+                              </div>
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Branch</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="branchDropdownSettings"
+                                            [data]="branches"
+                                            name="branches"
+                                            [(ngModel)]="params.branch"
+                                            (onSelect)="handleChangeBranch($event, 'single')"
+                                            (onDeSelect)="handleChangeBranch($event, 'single')"
+                                            (onSelectAll)="handleChangeBranch($event, 'all')"
+                                            (onDeSelectAll)="handleChangeBranch($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Academic Years</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="academicDropdownSettings"
+                                            [data]="academic_years"
+                                            name="academic_year"
+                                            [(ngModel)]="params.academic_year"
+                                            (onDeSelect)="handleYeaSection($event, 'single')"
+                                            (onSelect)="handleYeaSection($event, 'single')"
+                                            (onDeSelectAll)="handleYeaSection($event, 'all')"
+                                            (onSelectAll)="handleYeaSection($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Section</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="params.academic_year.length > 0 ? sections : []"
+                                            name="sections"
+                                            [(ngModel)]="params.section"
+                                            (onSelect)="handleChangeSection($event, 'single')"
+                                            (onDeSelect)="handleChangeSection($event, 'single')"
+                                            (onSelectAll)="handleChangeSection($event, 'all')"
+                                            (onDeSelectAll)="handleChangeSection($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Class</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="classes"
+                                            name="class"
+                                            [(ngModel)]="selectedClass"
+                                            (onSelect)="classChange($event, 'single')"
+                                            (onDeSelect)="classChange($event, 'single')"
+                                            (onSelectAll)="classChange($event, 'all')"
+                                            (onDeSelectAll)="classChange($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Batch</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="batches"
+                                            name="batch"
+                                            [(ngModel)]="selectedBatch"
+                                            (onSelect)="handleBatch($event, 'single')"
+                                            (onDeSelect)="handleBatch($event, 'single')"
+                                            (onSelectAll)="handleBatch($event, 'all')"
+                                            (onDeSelectAll)="handleBatch($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" >
+                                        <label for="" class="form_label">Select Fees type</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="typeDropdownSettings"
+                                            [data]="params.academic_year.length > 0 ? fees_types : []"
+                                            name="fees_type"
+                                            [(ngModel)]="params.fees_type"
+                                            (onSelect)="handleFeesTypeChange($event, 'single')"
+                                            (onDeSelect)="handleFeesTypeChange($event, 'single')"
+                                            (onSelectAll)="handleFeesTypeChange($event, 'all')"
+                                            (onDeSelectAll)="handleFeesTypeChange($event, 'all')"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" [class.d-none]="!is_quarter_wise_fees">
+                                        <label for="" class="form_label">Select Quarter</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="dropdownSettings"
+                                        [data]="quarters"
+                                        name="quarter"
+                                        [(ngModel)]="params.quarter"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" [class.d-none]="is_quarter_wise_fees">
+                                        <label for="" class="form_label">Select Month</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="dropdownSettings"
+                                        [data]="months"
+                                        name="months"
+                                        [(ngModel)]="params.month"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Pay Type</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="dropdownSettings"
+                                        [data]="status"
+                                        name="status"
+                                        [(ngModel)]="params.pay_type"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Fees Due Report Type</label>
+                                        <ng-select [(ngModel)]="params.report_type" (change)="handleReportTypeChange()">
+                                            <ng-option value="1">Current Report</ng-option>
+                                            <ng-option value="2">Current + Old Academic Report</ng-option>
+                                            <ng-option value="3">Past Due + Current Report</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Student Column</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="columnDropdownSettings"
+                                        [data]="columns"
+                                        name="status"
+                                        [(ngModel)]="params.columns"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="fees_type_status.length == 1 && fees_type_status[0]['type_name'] == 'Transport Fees'">
+                                        <label for="" class="form_label">Transport Mode</label>
+                                        <ng-select [(ngModel)]="params.transport_mode" placeholder="Please select">
+                                            <ng-option value="0">All</ng-option>
+                                            <ng-option value="1">Two Way Transport</ng-option>
+                                            <ng-option value="2">One Way Pickup</ng-option>
+                                            <ng-option value="3">One Way Drop</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="fees_type_status.length == 1 && fees_type_status[0]['type_name'] == 'Transport Fees'">
+                                        <label class="form_label">Select Route<span class="text-danger"></span></label>
+                                        <div>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="routeDropdownSettings"
+                                        [data]="routes"
+                                        [(ngModel)]="params.routes"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+									<label for="" class="form_label">Category wise due fees</label>
+									<ng-container>
+										<div class="form-check toggle d-flex align-items-center px-0">
+											<span class="">No</span>
+											<input class="form-check-input shadow-none mx-2"  [(ngModel)]="params.category_wise_due" type="checkbox" role="switch" title="Category Wise Due">
+											<span class="">Yes</span>
+										</div>
+									</ng-container>
+								</div>
+                                <div class="col-md-3 form_group">
+									<label for="" class="form_label">Category wise Paid Fees</label>
+									<ng-container>
+										<div class="form-check toggle d-flex align-items-center px-0">
+											<span class="">No</span>
+											<input class="form-check-input shadow-none mx-2"  [(ngModel)]="params.category_wise_paid" type="checkbox" role="switch" title="Category Wise Due">
+											<span class="">Yes</span>
+										</div>
+									</ng-container>
+								</div>
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Student Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="all" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="rte" value="1" class="mr-1">RTE<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="general" value="0" class="mr-1">General<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3 form_group">
+                                    <label class=" form_label">Admission Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="male" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="female" value="1" class="mr-1">New<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Student Status</label>
+                                        <ng-select [(ngModel)]="params.student_status">
+                                            <ng-option value="all">All</ng-option>
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="0">In Active</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    
+                                    <!-- <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Fields</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'custom placeholder'"
+                                        [settings]="commonDropdownSettings"
+                                        [data]="dropdownList"
+                                        [(ngModel)]="selectedItems"
+                                        (onDeSelect)="onItemDeSelect($event)"
+                                        (onSelect)="onItemSelect($event)"
+                                        (onSelectAll)="onSelectAll($event)"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                        <span class="warning-text">(Maximum 6 Fields can be selected)</span>
+                                    </div> -->
+
+                                </div>
+                               <div class="row">
+                                <!-- <div class="col-md-3 form_group">
+									<label for="" class="form_label">Category wise due fees</label>
+									<ng-container>
+										<div class="form-check toggle d-flex align-items-center px-0">
+											<span class="">No</span>
+											<input class="form-check-input shadow-none mx-2"  [(ngModel)]="params.category_wise_due" type="checkbox" role="switch" title="Category Wise Due">
+											<span class="">Yes</span>
+										</div>
+									</ng-container>
+								</div>
+                                <div class="col-md-3 form_group">
+									<label for="" class="form_label">Category wise Paid Fees</label>
+									<ng-container>
+										<div class="form-check toggle d-flex align-items-center px-0">
+											<span class="">No</span>
+											<input class="form-check-input shadow-none mx-2"  [(ngModel)]="params.category_wise_paid" type="checkbox" role="switch" title="Category Wise Due">
+											<span class="">Yes</span>
+										</div>
+									</ng-container>
+								</div>
+                                <div class="col-md-3 form_group">
+                                    <label class=" form_label">Student Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="all" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="rte" value="1" class="mr-1">RTE<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_rte_status" name="rte" id="general" value="0" class="mr-1">General<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-3 form_group">
+                                    <label class=" form_label">Admission Type</label>
+                                    <div class="">
+                                      <div class="radio-section ">
+                                        <div class="radio ">
+                                          <label class=" required ">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="male" value="" class="mr-1">All<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="female" value="1" class="mr-1">New<span></span>
+                                          </label>
+                                        </div>
+                                        <div class="radio ">
+                                          <label class="required " aria-required="true">
+                                            <input type="radio" [(ngModel)]="params.student_old_new" name="old_new" id="female" value="0" class="mr-1">Old<span></span>
+                                          </label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Student Status</label>
+                                        <ng-select [(ngModel)]="params.student_status">
+                                            <ng-option value="all">All</ng-option>
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="0">In Active</ng-option>
+                                        </ng-select>
+                                    </div> -->
+                                    <div class="col-md-2 form_group" *ngIf="fees_type_status.length == 1 && fees_type_status[0]['type_name'] == 'Transport Fees'">
+                                        <label for="" class="form_label">Student Transport Status</label>
+                                        <ng-select [(ngModel)]="params.student_transport_status">
+                                            <ng-option value="all">All</ng-option>
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="0">In Active</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-2 form_group" *ngIf="fees_type_status.length == 1 && fees_type_status[0]['type_name'] == 'Hostel Fees'">
+                                        <label for="" class="form_label">Student Hostel Status</label>
+                                        <ng-select [(ngModel)]="params.student_hostel_status">
+                                            <ng-option value="all">All</ng-option>
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="0">In Active</ng-option>
+                                        </ng-select>
+                                    </div>
+                                   <!--  <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Student Meal Status</label>
+                                        <ng-select [(ngModel)]="params.student_meal_status">
+                                            <ng-option value="1">Active</ng-option>
+                                            <ng-option value="0">In Active</ng-option>
+                                        </ng-select>
+                                    </div> -->
+                                </div>  
+
+                                <div class="row" >
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Filter</label>
+                                        <ng-select [(ngModel)]="params.filter" (change)="params.filter == 'all' ?  params.amount = 0 : ''">
+                                            <ng-option value="all">All</ng-option>
+                                            <ng-option value="less">Amount Less Then or Equal to</ng-option>
+                                            <ng-option value="greater">Amount Grater Then Equal to</ng-option>
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-2 form_group" *ngIf="params.filter != 'all'">
+                                        <label for="" class="form_label">Amount</label>
+                                        <input type="number" name="amount" placeholder="Amount" [(ngModel)]="params.amount" class="form-control" (keyup)="handleAmount($event)">
+                                      </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="btn_right">
+                                        <button  *ngIf="commonService.hasPermission('fees_report_fees_due_report', 'has_access')" class="btn report-btn" href="javascript:void(0)" (click)="getReport()" [disabled]="getDataLoading">
+                                            Get Report
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="getDataLoading">
+                                                <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                        </button>
+                                        <a class="btn clear-btn ms-2" href="javascript:void(0)" (click)="clear()">Clear</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    <!-- </form> -->
+                    <div class="fee_report_filter card">
+                        <div class="card_body">
+                            <div class="dataTables_wrapper no-footer" *ngIf="paginateData && paginateData.total > 0">
+                                <div class="dataTables_length" id="DataTables_Table_2_length">
+                                    <label>Show
+                                    <select name="DataTables_Table_2_length" aria-controls="DataTables_Table_2" [(ngModel)]="params.limit" (change)="handleLimitChange()">
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="200">200</option>
+                                    </select> entries
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div *ngIf="html" [innerHTML]="html"></div>
+                            </div>
+                            <div *ngIf="paginateData?.data.length == 0" class="no-data"> No Result Found </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="dataTables_info"  *ngIf="paginateData && paginateData.total > 0">
+                                    <strong>Showing {{paginateData.from}} to {{paginateData.to}} of {{paginateData.total}} entries</strong>
+                                </div>
+                                <div class="dataTables_wrapper no-footer" *ngIf="paginateData && paginateData.total > 0">
+                                    <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_2_paginate">
+                                        <button class="paginate_button previous {{params.page == 1 ? 'disabled' : ''}}" aria-controls="DataTables_Table_2" aria-role="link" data-dt-idx="previous" tabindex="0" id="DataTables_Table_2_previous" (click)="prev()" [disabled]="params.page == 1">Previous</button>
+                                        <span>
+            
+                                            <button *ngFor="let item of pages" class="paginate_button {{item == params.page ? 'current' : ''}}" aria-controls="DataTables_Table_2" aria-role="link" data-dt-idx="0" tabindex="0" (click)="jumpToPage(item)" [disabled]="item == '...'">{{item}}</button>
+                                        </span>
+                                        <button class="paginate_button next {{params.page == lastPage ? 'disabled' : ''}}" aria-controls="DataTables_Table_2" aria-role="link" data-dt-idx="next" tabindex="0" id="DataTables_Table_2_next" (click)="next()" [disabled]="params.page == lastPage">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <div class="modal-title" >Edit History Of Receipt No : {{fees?.receipt_no}}</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body pb-0">
+	<div class="card shadow" *ngFor="let history of fees?.fees_edit_history">
+		<div class="card-body p-0">
+    		<span class="d-block"><b>Date & Time</b> : {{history?.created_at | date:dateFormateService.getDateTimeFormat()}}</span>
+    		<span class="d-block"><b>Edited By</b> : {{history?.user?.full_name}}</span>
+			<span class="d-block"><b>Reason</b> : {{decodeString(history?.reason)}}</span>
+		</div>
+	</div>
+</div>
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn btn-secondary mb-0" (click)="closeModal()">Close</button>
+</div>

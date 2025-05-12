@@ -1,0 +1,230 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Income</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.INCOME_LIST)">Income List</a>
+                </div>
+            </div>
+            <form [formGroup]="incomeForm" class="form_section global_form">
+                <div class="card">
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> Income Details </span> </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Income Source</label>
+                                                    <div>
+                                                        <app-single-select [readonly]="record_id" placeholder="Select Income Source" controlName="income_source" [dropDownArray]="incomeSourceList" (change)="handleSourceChange()"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="!record_id">
+                                                    <label class="form_label">Source</label>
+                                                    <div *ngIf="incomeForm.value.income_source == 'employee' || incomeForm.value.income_source == null">
+                                                        <app-single-select placeholder="Select Source" controlName="income_source_id" [dropDownArray]="userList"></app-single-select>
+                                                    </div>
+                                                    <div *ngIf="incomeForm.value.income_source == 'student'">
+                                                        <app-student-search  (student)="getStudent($event)"></app-student-search>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="record_id">
+                                                    <label class="form_label">Source<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <input disabled class="form-control" [value]="source_name" placeholder="" required />
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 form_group">
+                                                    <label class="form_label">Ledger Account Name<span class="text-danger">*</span></label>
+                                                    <div class="d-flex">
+                                                        <app-single-select class="ledger-account me-2" placeholder="Select Ledger Account" controlName="head_id" [dropDownArray]="headList"></app-single-select>
+                                                        <button *ngIf="CommonService.hasPermission('finance_incomes', 'has_create')" type="button" ngbTooltip="Add Ledger Account" class="btn button-ledger" (click)="openModal()">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Bill/Receipt No<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input controlName="receipt_no" placeholder="Enter Bill/Receipt No." required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Narration</label>
+                                                    <div>
+                                                        <app-input controlName="narration" placeholder="Enter Narration" required></app-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> Payment Details </span> </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">amount<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input controlName="amount" placeholder="Enter Amount" (input)="calculateAmount()" (change)="calculateAmount()" required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Payment Mode<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select placeholder="Select Payment Mode" controlName="payment_mode_id" [dropDownArray]="paymentModes" (change)="getPaymentType()"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group" *ngIf="getPaymentType() == 'Cheque'">
+                                                    <label class="form_label">cheque No.</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter Cheque No." controlName="cheque_no"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group" *ngIf="getPaymentType() == 'Cheque'">
+                                                    <label class="form_label">cheque Date</label>
+                                                    <div>
+                                                        <app-mat-date-picker placeholder="Enter Cheque Date" controlName="cheque_date"></app-mat-date-picker>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="getPaymentType() == 'POS'">
+                                                    <label class="form_label">RRN No.</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter RRN No." controlName="rrn_no"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group" *ngIf="getPaymentType() == 'NEFT'">
+                                                    <label class="form_label">Account No.</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter Account No." controlName="account_no"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group" *ngIf="getPaymentType() == 'NEFT'">
+                                                    <label class="form_label">Account Holder Name</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter Account Holder Name" controlName="account_holder_name"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 form_group" *ngIf="getPaymentType() == 'NEFT'">
+                                                    <label class="form_label">IFSC Code</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter IFSC Code" controlName="ifsc_code"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 form_group" *ngIf="getPaymentType() == 'UPI'">
+                                                    <label class="form_label">UPI Id</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter UPI Id" controlName="upi_id"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group" *ngIf="getPaymentType() == 'Others'">
+                                                    <label class="form_label">Transaction No</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter Transaction No." controlName="transaction_no"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="form_group" [ngClass]="{'col-4': getPaymentType() == 'Cheque', 'col-6': getPaymentType() == 'POS' || getPaymentType() == 'Others'}" *ngIf="getPaymentType() == 'Cheque' || getPaymentType() == 'POS' || getPaymentType() == 'Others'">
+                                                    <label class="form_label">Bank Name</label>
+                                                    <div>
+                                                        <app-input placeholder="Enter Bank name" controlName="bank_name"></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Income Date<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-mat-date-picker placeholder="Enter Income Date"  [maxDate]="academicYear?.end_time" [minDate]="academicYear?.start_time" controlName="income_date"></app-mat-date-picker>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-3">
+                                    <table class="table table-bordered table-nowrap table datatable w-100">
+                                        <tr>
+                                            <td class="p-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>Tax</div>
+                                                    <div class="tax-select">
+                                                        <app-single-select placeholder="Select Tax" controlName="tax_id" [dropDownArray]="taxList" (change)="calculateAmount()"></app-single-select>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>Amount</div>
+                                                    <div>{{incomeForm.value.amount | number:'1.2-2'}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <div>Taxable Amount</div>
+                                                    <div>{{incomeForm.value.taxable_amount | number:'1.2-2'}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <div><strong>Total Amount</strong></div>
+                                                    <div><strong>{{incomeForm.value.total_amount | number:'1.2-2'}}</strong></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3 form_group">
+                                    <label class="form_label">Attachment</label>
+                                    <div>
+                                        <app-input type="file" accept="image/*,application/pdf" name="attachment" controlName="attachment" placeholder="Attachment" (change)="onFileChange($event)" required></app-input>
+                                    </div>
+                                </div>
+                                <div class="col-3 form_group">
+                                    <label class="form_label">Remark</label>
+                                    <div>
+                                        <app-textarea controlName="remark" placeholder="Enter Remark" ></app-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-100 mb-4">
+                        <div class="col-auto">
+                            <button *ngIf="CommonService.hasPermission('finance_incomes', record_id ? 'has_update' : 'has_create')" type="submit" (click)="save()" [disabled]="!incomeForm.valid || is_saving" class="btn save-btn" id="submitButton">Save
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="is_saving">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <!-- TODO :Change URL -->
+                            <a class="btn cancel-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.INCOME_LIST)">Cancel</a>
+                        </div>
+                        <div class="col-auto" *ngIf="!record_id || status == 'copied'">
+                            <button *ngIf="CommonService.hasPermission('finance_incomes', record_id ? 'has_update' : 'has_create')" type="submit" (click)="draft()" [disabled]="!incomeForm.valid || is_drafting" class="btn save-btn" id="submitButton">Save and Draft
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="is_drafting">
+                                    <span class="visually-hidden">Loading...</span>
+                                  </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

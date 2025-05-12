@@ -1,0 +1,380 @@
+<!-- breadcrumb -->
+<div class="breadcrumb-header justify-content-between">
+  <div class="my-auto">
+    <div class="d-flex">
+      <h4 class="content-title mb-0 my-auto">Elements</h4>
+      <span class="text-muted mt-1 tx-13 ms-2 mb-0">/ Tooltip</span>
+    </div>
+  </div>
+  <div class="d-flex my-xl-auto right-content mr-2">
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-info btn-icon me-2">
+        <i class="mdi mdi-filter-variant"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-danger btn-icon me-2">
+        <i class="mdi mdi-star"></i>
+      </button>
+    </div>
+    <div class="pr-1 mb-3 mb-xl-0">
+      <button type="button" class="btn btn-warning btn-icon me-2">
+        <i class="mdi mdi-refresh"></i>
+      </button>
+    </div>
+    <div class="mb-3 mb-xl-0">
+      <div ngbDropdown class="btn-group">
+        <button type="button" class="btn btn-primary">14 Aug 2019</button>
+        <button
+          type="button"
+          ngbDropdownToggle
+          class="btn btn-primary dropdown-toggle-split"
+          id="dropdownMenuDate"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div
+          ngbDropdownMenu
+          class="dropdown-menu-right"
+          aria-labelledby="dropdownMenuDate"
+          data-x-placement="bottom-end"
+        >
+          <a ngbDropdownItem href="javascript:;">2015</a>
+          <a ngbDropdownItem href="javascript:;">2016</a>
+          <a ngbDropdownItem href="javascript:;">2017</a>
+          <a ngbDropdownItem href="javascript:;">2018</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- breadcrumb -->
+
+<div class="row">
+  <div class="col-xl-12 col-lg-12">
+    <!-- div -->
+    <div class="card mg-b-20" id="Tooltip">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Default Tooltip</div>
+            <p class="mg-b-20">
+              It is Very Easy to Customize and it uses in your website apllication.
+            </p>  
+          </div>
+          <div class="py-2">
+            <label class="form-switch float-end mb-0">
+              <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+              <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+              <span class="form-switch-indicator custom-radius" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"></span>
+            </label>
+          </div>
+        </div>
+        <div class="main-content-label main-content-label-sm mg-b-10 mx-2">
+          Static Example
+        </div>
+        <div class="tooltip-static-demo mg-b-20" id="tooltip-demo">
+          <div class="row row-sm">
+            <div class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0">
+              <div
+                class="tooltip bs-tooltip-top"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div class="tooltip-arrow" id="tooltip-arrow-individual"></div>
+                <div class="tooltip-inner">Tooltip on the top</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip bs-tooltip-bottom"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div class="tooltip-arrow" id="tooltip-arrow-individual"></div>
+                <div class="tooltip-inner">Tooltip on the bottom</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip bs-tooltip-start"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div
+                  class="tooltip-arrow"
+                  id="tooltip-left-arrow-individual"
+                ></div>
+                <div class="tooltip-inner">Tooltip on the left</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip bs-tooltip-end"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div
+                  class="tooltip-arrow"
+                  id="tooltip-right-arrow-individual"
+                ></div>
+                <div class="tooltip-inner">Tooltip on the right</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- tooltip-static-demo -->
+        <div class="main-content-label main-content-label-sm mg-b-10 mx-2">
+          Example
+        </div>
+      <div class="card-body">
+        <div class="text-wrap">
+          <div class="example">
+            <div class="row row-sm tx-center">
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-2"
+                  placement="top"
+                  ngbTooltip="Tooltip on top"
+                >
+                  Hover me
+                </button>
+              </div>
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-2"
+                  placement="bottom"
+                  ngbTooltip="Tooltip on bottom"
+                >
+                  Hover me
+                </button>
+              </div>
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-2"
+                  placement="right"
+                  ngbTooltip="Tooltip on right"
+                >
+                  Hover me
+                </button>
+              </div>
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary mr-2"
+                  placement="left"
+                  ngbTooltip="Tooltip on left"
+                >
+                  Hover me
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+          <div class="panel panel-primary tabs-style-1 my-3">
+            <ul ngbNav #nav1="ngbNav" class="nav-tabs">
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>HTML</a>
+                <ng-template ngbNavContent>
+                  <pre><code >{{html1}}</code></pre>
+                  
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <a ngbNavLink>TS</a>
+                <ng-template ngbNavContent>
+                  <pre><code >{{ts1}}</code></pre>
+                  
+                </ng-template>
+              </li>
+            </ul>
+
+            <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+              <div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+              <div class="tab-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!-- /div -->
+
+    <!--div-->
+    <div class="card mg-b-20" id="Tooltip2">
+      <div class="">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <div>
+            <div class="main-content-label mg-b-5">Colored Tooltip</div>
+            <p class="mg-b-20">
+              It is Very Easy to Customize and it uses in your website apllication.
+            </p>  
+          </div>
+          <div class="py-2">
+            <label class="form-switch float-end mb-0">
+              <a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+              <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+              <span class="form-switch-indicator custom-radius" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed2"></span>
+            </label>
+          </div>
+        </div>
+        <div class="main-content-label main-content-label-sm mg-b-10 mx-2">
+          Static Example
+        </div>
+        <div class="tooltip-static-demo mg-b-20" id="tooltip-demo">
+          <div class="row row-sm me-0">
+            <div class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0">
+              <div
+                class="tooltip tooltip-primary bs-tooltip-top position-relative"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div class="tooltip-arrow" id="tooltip-arrow-individual"></div>
+                <div class="tooltip-inner">Tooltip on the top</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip tooltip-primary bs-tooltip-bottom"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div class="tooltip-arrow" id="tooltip-arrow-individual"></div>
+                <div class="tooltip-inner">Tooltip on the bottom</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip tooltip-primary bs-tooltip-start"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div
+                  class="tooltip-arrow"
+                  id="tooltip-left-arrow-individual"
+                ></div>
+                <div class="tooltip-inner">Tooltip on the left</div>
+              </div>
+            </div>
+            <div
+              class="col-sm-6 col-lg-3 mg-t-30 mg-md-t-0 mg-t-30 mg-lg-t-0 d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="tooltip tooltip-primary bs-tooltip-end"
+                role="tooltip"
+                id="tooltip-individual"
+              >
+                <div
+                  class="tooltip-arrow"
+                  id="tooltip-right-arrow-individual"
+                ></div>
+                <div class="tooltip-inner">Tooltip on the right</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- tooltip-static-demo -->
+        <div class="main-content-label main-content-label-sm mg-b-10 mx-2">
+          Example
+        </div>
+      <div class="card-body">
+        <div class="text-wrap">
+          <div class="example">
+            <div class="row row-sm tx-center">
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  ngbTooltip="Tooltip on top"
+                  placement="top"
+                  tooltipClass="tooltipPrimary"
+                >
+                  Hover me
+                </button>
+              </div>
+
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  ngbTooltip="Tooltip on bottom"
+                  placement="bottom"
+                  tooltipClass="tooltipPrimary1"
+                >
+                  Hover me
+                </button>
+              </div>
+
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  ngbTooltip="Tooltip on right"
+                  placement="right"
+                  tooltipClass="tooltipPrimary3"
+                >
+                  Hover me
+                </button>
+              </div>
+              <div class="col-sm-6 col-lg-3 mg-t-30 mg-sm-t-0 my-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  ngbTooltip="Tooltip on left"
+                  placement="left"
+                  tooltipClass="tooltipPrimary2"
+                >
+                  Hover me
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+          <div class="panel panel-primary tabs-style-1 my-3">
+            <ul ngbNav #nav2="ngbNav" class="nav-tabs">
+              <li [ngbNavItem]="1">
+                <a ngbNavLink>HTML</a>
+                <ng-template ngbNavContent>
+                  <pre><code >{{html2}}</code></pre>
+                  
+                </ng-template>
+              </li>
+              <li [ngbNavItem]="2">
+                <a ngbNavLink>TS</a>
+                <ng-template ngbNavContent>
+                  <pre><code >{{ts1}}</code></pre>
+                  
+                </ng-template>
+              </li>
+            </ul>
+
+            <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+              <div [ngbNavOutlet]="nav2" class="tab-pane"></div>
+              <div class="tab-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <!--/div-->
+</div>

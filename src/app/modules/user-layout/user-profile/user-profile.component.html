@@ -1,0 +1,373 @@
+<section class="user-profile-section">
+    <div class="user-profile-inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Profile</h3>
+            </div>
+
+            <div class="user-profile-wrapper">
+                <div class="row">
+
+                    <!-- LEFT TOGGLE BTN -->
+                    <div class="col-lg-3">
+                        <div class="user-profile-panel user-mail-wrapper">
+                            <div class="user-profile-left">
+                                <div class="profile-img">
+                                    <img [src]="userDetails.image ? userDetails.image : userDetails?.gender == 'f' ? 'assets/images/professor-female.png' : 'assets/images/professor-male.png' " alt="">
+                                    <!-- <img src="assets/images/professor-female.png" alt=""> -->
+                                </div>
+                                <div class="user-profile-text">
+                                    <h2>{{ userDetails.full_name || '' }}</h2>
+                                    <p>{{ userDetails?.email || '' }}</p>
+                                </div>
+                            </div>
+
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                                        aria-selected="true">
+                                        <div>
+                                            <svg width="20" height="20" viewBox="0 0 20 22" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke="black" stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M15 15V13.3248C15 12.4362 14.6313 11.584 13.9749 10.9557C13.3185 10.3274 12.4283 9.97437 11.5 9.97437H4.5C3.57174 9.97437 2.6815 10.3274 2.02513 10.9557C1.36875 11.584 1 12.4362 1 13.3248V15">
+                                                </path><!---->
+                                                <path stroke="black" stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M8 7.4615C9.65685 7.4615 11 6.01505 11 4.23075C11 2.44646 9.65685 1 8 1C6.34315 1 5 2.44646 5 4.23075C5 6.01505 6.34315 7.4615 8 7.4615Z">
+                                                </path>
+                                            </svg>
+                                            Profile
+                                        </div>
+                                        <div class="icon"><i class="fa fa-chevron-right"></i></div>
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                        aria-selected="false">
+                                        <div>
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" height="18px" width="20px"
+                                                version="1.1" id="Icon" viewBox="0 0 24 24"
+                                                enable-background="new 0 0 24 24" xml:space="preserve"
+                                                style="width: 20px; height: 18px;">
+                                                <path
+                                                    d="M24,19v-2h-2.14c-0.09-0.36-0.24-0.7-0.42-1.02l1.52-1.52l-1.41-1.41l-1.52,1.52c-0.32-0.19-0.66-0.33-1.02-0.42V12h-2v2.14  c-0.36,0.09-0.7,0.24-1.02,0.42l-1.52-1.52l-1.41,1.41l1.52,1.52c-0.19,0.32-0.33,0.66-0.42,1.02H12v2h2.14  c0.09,0.36,0.24,0.7,0.42,1.02l-1.52,1.52l1.41,1.41l1.52-1.52c0.32,0.19,0.66,0.33,1.02,0.42V24h2v-2.14  c0.36-0.09,0.7-0.24,1.02-0.42l1.52,1.52l1.41-1.41l-1.52-1.52c0.19-0.32,0.33-0.66,0.42-1.02H24z M18,20c-1.1,0-2-0.9-2-2  s0.9-2,2-2s2,0.9,2,2S19.1,20,18,20z M11,7.41l3.29,3.29l1.41-1.41L12.41,6L13,5.41l2.29,2.29l1.41-1.41L14.41,4L15,3.41l3.29,3.29  l1.41-1.41L16.41,2l0.29-0.29l-1.41-1.41L6.89,8.7C6.19,8.26,5.38,8,4.5,8C2.02,8,0,10.02,0,12.5S2.02,17,4.5,17S9,14.98,9,12.5  c0-0.88-0.26-1.69-0.7-2.39L11,7.41z M4.5,15C3.12,15,2,13.88,2,12.5S3.12,10,4.5,10S7,11.12,7,12.5S5.88,15,4.5,15z" />
+                                            </svg>
+                                            Change Password
+                                        </div>
+                                        <div class="icon"><i class="fa fa-chevron-right"></i></div>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="tab-content card user-profile-panel" id="myTabContent">
+
+                            <!-- PROFILE SETTING  -->
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="user-profile-tab">
+                                    <div class="tab-head">
+                                        <h3>Profile Details</h3>
+                                    </div>
+                                    <form [formGroup]="userProfile">
+                                        <div class="row">
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> First Name<span
+                                                        class="text-danger label-text-danger">*</span> :</label>
+                                                <app-input placeholder="Enter First Name"
+                                                    controlName="first_name"></app-input>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Last Name<span
+                                                        class="text-danger label-text-danger">*</span> :</label>
+                                                <app-input placeholder="Enter Last Name"
+                                                    controlName="last_name"></app-input>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Email<span
+                                                        class="text-danger label-text-danger">*</span> :</label>
+                                                <app-input placeholder="Enter Email Address " controlName="email"
+                                                    [readonly]='true'></app-input>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Phone<span
+                                                        class="text-danger label-text-danger">*</span> :</label>
+                                                <app-input placeholder="Enter Phone Number"
+                                                    controlName="phone_number"></app-input>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Birth Date : </label>
+                                                <app-mat-date-picker
+                                                    placeholder="Enter Birth Date"
+                                                    controlName="birth_date">
+                                                </app-mat-date-picker>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Upload Profile Photo : </label>
+                                                <!-- <app-input type="file" placeholder="Upload Profile Photo"
+                                                    controlName="image"></app-input> -->
+                                                <input type="file" accept="image/jpeg, image/png"
+                                                    (change)="onFileSelected($event)" id="file-upload"
+                                                    class="file-upload-input" />
+                                            </div>
+                                            <!-- <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Role : </label>
+                                                <app-single-select controlName=""
+                                                    placeholder="Enter Role"></app-single-select>
+                                            </div> -->
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Gender : </label>
+                                                <div class="mt-1">
+                                                    <div class="radio-section ">
+                                                        <div class="radio me-3">
+                                                            <label class="required">
+                                                                <input type="radio" name="gender" id="male"
+                                                                    [value]="'m'" formControlName="gender"
+                                                                    class="mr-1">Male<span></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="radio ">
+                                                            <label class="required" aria-required="true">
+                                                                <input type="radio" name="gender" id="female"
+                                                                    [value]="'f'" formControlName="gender"
+                                                                    class="mr-1">Female<span></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="show-clear-btn d-flex align-items-center">
+                                                    <button type="button" (click)="handleSave()"
+                                                        class="btn save-btn d-flex align-items-center me-3"
+                                                        [disabled]="isProfileLoading"> Save
+                                                        <div class="spinner-border spinner-border-sm" role="status"
+                                                            *ngIf="isProfileLoading">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </button>
+                                                    <a class="btn cancel-btn" href="#." [routerLink]="setUrl(URLConstants.USER_BRANCH_LIST)" >Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- PASSWORD CHANGES -->
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="user-profile-tab">
+                                    <div class="tab-head">
+                                        <h3>Change Password Details</h3>
+                                    </div>
+                                    <form [formGroup]="userPassword">
+                                        <div class="row">
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Current Password :</label>
+                                                <div class="password-eye-icon">
+                                                    <app-input type="{{isCUPVisible ? 'text': 'password'}}"
+                                                        placeholder="Enter Current Password"
+                                                        controlName="currentPassword"></app-input>
+                                                    <button (click)="isCUPVisible = !isCUPVisible" class="eye-icon">
+                                                        <i *ngIf="!isCUPVisible" class="fa fa-eye"
+                                                            aria-hidden="true"></i>
+                                                        <i *ngIf="isCUPVisible" class="fa fa-eye-slash"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> New Password :</label>
+                                                <div class="password-eye-icon">
+                                                    <app-input type="{{isNPVisible ? 'text': 'password'}}"
+                                                        placeholder="Enter New Password"
+                                                        controlName="newPassword"></app-input>
+                                                    <button (click)="isNPVisible = !isNPVisible" class="eye-icon">
+                                                        <i *ngIf="!isNPVisible" class="fa fa-eye"
+                                                            aria-hidden="true"></i>
+                                                        <i *ngIf="isNPVisible" class="fa fa-eye-slash"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 form_group">
+                                                <label for="name" class="form_label"> Confirm Password :</label>
+                                                <div class="password-eye-icon">
+                                                    <app-input type="{{isCPVisible ? 'text': 'password'}}"
+                                                        placeholder="Enter Confirm Password"
+                                                        controlName="confirmPassword"></app-input>
+                                                    <button (click)="isCPVisible = !isCPVisible" class="eye-icon">
+                                                        <i *ngIf="!isCPVisible" class="fa fa-eye"
+                                                            aria-hidden="true"></i>
+                                                        <i *ngIf="isCPVisible" class="fa fa-eye-slash"
+                                                            aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="show-clear-btn d-flex align-items-center">
+                                                    <button type="button" (click)="handlePasswordSave()"
+                                                        [disabled]="isPasswordLoading"
+                                                        class="btn save-btn d-flex align-items-center me-3"> Save
+                                                        <div class="spinner-border spinner-border-sm" role="status"
+                                                            *ngIf="isPasswordLoading">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- <button class="btn cancel-btn" (click)="handlePasswordClear()">
+                                                        Cancel</button> -->
+                                                    <a class="btn cancel-btn" href="#." [routerLink]="setUrl(URLConstants.USER_BRANCH_LIST)" >Cancel</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- <div class="col-lg-9">
+                        <div class="user-profile-panel">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home" type="button" role="tab" aria-controls="home"
+                                        aria-selected="true">Profile</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+                                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                        aria-selected="false">Change Password</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content card" id="myTabContent">
+                                <div class="tab-pane fade show active" id="home" role="tabpanel"
+                                    aria-labelledby="home-tab">
+                                    <div class="user-profile-tab">
+                                        <form [formGroup]="userProfile">
+                                            <div class="row">
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Full Name<span
+                                                            class="text-danger label-text-danger">*</span> :</label>
+                                                    <app-input placeholder="Enter Full Name"
+                                                        controlName="name"></app-input>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Email<span
+                                                            class="text-danger label-text-danger">*</span> :</label>
+                                                    <app-input placeholder="Enter Email "
+                                                        controlName="name"></app-input>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Phone<span
+                                                            class="text-danger label-text-danger">*</span> :</label>
+                                                    <app-input placeholder="Enter Phone" controlName="name"></app-input>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Birth Date : </label>
+                                                    <app-input type="date" placeholder="Enter Birth Date"
+                                                        controlName="name"></app-input>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Role : </label>
+                                                    <app-single-select controlName=""
+                                                        placeholder="Enter Role"></app-single-select>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Gender : </label>
+                                                    <div class="mt-1">
+                                                        <div class="radio-section ">
+                                                            <div class="radio me-3">
+                                                                <label class="required">
+                                                                    <input type="radio"
+                                                                        name="right_to_education" id="all"
+                                                                         class="mr-1">Male<span></span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio ">
+                                                                <label class="required" aria-required="true">
+                                                                    <input type="radio"
+                                                                        name="right_to_education" id="rte"
+                                                                         class="mr-1">Female<span></span>
+                                                                </label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="show-clear-btn d-flex align-items-center">
+                                                        <button type="button"
+                                                        class="btn save-btn d-flex align-items-center me-3"> Save
+                                                        </button>
+                                                        <button 
+                                                            class="btn cancel-btn">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="user-profile-tab">
+                                        <form [formGroup]="userProfile">
+                                            <div class="row">
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Current Password :</label>
+                                                    <div class="password-eye-icon">
+                                                    <app-input type="Password" placeholder="Enter Full Name"
+                                                        controlName="name"></app-input>
+                                                        <a href="#" class="eye-icon">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> New Password :</label>
+                                                    <div class="password-eye-icon">
+                                                    <app-input type="Password" placeholder="Enter Full Name"
+                                                        controlName="name"></app-input>
+                                                        <a href="#" class="eye-icon">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 form_group">
+                                                    <label for="name" class="form_label"> Reset Password  :</label>
+                                                    <div class="password-eye-icon">
+                                                    <app-input type="Password" placeholder="Enter Full Name"
+                                                        controlName="name"></app-input>
+                                                        <a href="#" class="eye-icon">
+                                                            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="show-clear-btn d-flex align-items-center">
+                                                        <button type="button"
+                                                        class="btn save-btn d-flex align-items-center me-3"> Save
+                                                        </button>
+                                                        <button 
+                                                            class="btn cancel-btn">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

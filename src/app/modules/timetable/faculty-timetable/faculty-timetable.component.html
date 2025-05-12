@@ -1,0 +1,58 @@
+<section class="teachers_timetable">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Teacher's Timetable</h3>
+                <div class="btn_right d-flex">
+					<a ngbTooltip="PDF" href="javascrip:void(0)" class="mx-2 btn pdf-btn" (click)="downloadTeachersTimetable('pdf')" *ngIf="CommonService.hasPermission('administrator_faculty_timetable', 'has_download')"> <img src="assets/images/pdf-icon.svg" alt=""> </a>
+                    <a ngbTooltip="EXCEL" href="javascrip:void(0)" class="ml-2 btn excel-btn" (click)="downloadTeachersTimetable('excel')" *ngIf="CommonService.hasPermission('administrator_faculty_timetable', 'has_download')"><img src="assets/images/excel-icon.svg" alt=""></a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body" *ngIf="week_days.length > 0; else block1">
+                    <div class=" basic_table">
+                        <div *ngFor="let item of timings; let i = index" class="pb-5">
+                        <h3 class="text-center py-3">{{item.time_slot?? '-'}}</h3>
+                        <div class="table-responsive">
+                            <div class="d-flex faculty-timetable">
+                                <div *ngFor="let day of week_days[i]" class="flex-1 text-center border-right border-bottom">
+                                    <div class="p-2 border-bottom">
+                                        <strong class="m-0">{{day}}</strong>
+                                    </div>
+                                        <div *ngFor="let item of timings[i]['value'][day];" class="p-2 timetable-border-bottom text-start min-height">
+                                            <div *ngIf="item.is_break == 0; else block1">
+                                                <div *ngIf="timetable[day] && timetable[day][item.time]; else block2">
+                                                    <p class="detail">{{item.time}} {{timetable[day][item.time][0].proxy ? '(Proxy Lecture)' : ''}} {{timetable[day][item.time][0].extra ? '(Extra Lecture)' : ''}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0].batch.name ?? '-'}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0].subject.name ?? '-'}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0].room.room.name ?? '-'}}</p>
+                                                </div>
+                                                <ng-template #block2>
+                                                    <p class="detail">{{item.time}}</p>
+                                                    <p class="detail">-</p>
+                                                    <p class="detail">-</p>
+                                                    <p class="detail">-</p>
+                                                </ng-template>
+                                            </div> 
+                                            <ng-template #block1>
+                                                <p class="detail">{{item.time}}</p>
+                                                <p class="text-center">Break</p>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <ng-template #block1>
+                    <div class="d-flex justify-content-center">
+                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                </ng-template>
+            </div>  
+        </div>
+    </div>
+</section>

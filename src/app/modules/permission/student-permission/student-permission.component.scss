@@ -1,0 +1,33 @@
+::ng-deep{
+    .permission-student-section{
+        .basic_table{
+            thead{
+                tr{
+                    th{
+                        vertical-align: middle;
+                    }
+                }
+            }
+            tbody{
+                tr{
+                    td{
+                        vertical-align: middle;
+                        &:nth-child(6), &:nth-child(7){
+                            text-align: center;
+                        }
+                        .paid-chip{
+                            color: #34C759;
+                        }
+                        .unpaid-chip{
+                            color: #FF0000;
+                        }
+
+                    }
+                }
+            }
+        }
+        .permission-save-btn{
+            text-align: right;
+        }
+    }
+}

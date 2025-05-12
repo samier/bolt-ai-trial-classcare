@@ -1,0 +1,14 @@
+@import'../../../../assets/css/variable.scss';
+
+::ng-deep body{
+    .multiselect-dropdown{
+        z-index: auto !important;
+    }
+
+    .text-danger{
+        position: static !important;
+    }
+}
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}

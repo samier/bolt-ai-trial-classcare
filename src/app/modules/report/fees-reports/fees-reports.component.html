@@ -1,0 +1,559 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Fees</h3>
+				<div class="btn_right">
+					<a href="javascript:void(0)" (click)="clear()" class="mx-2 global_btn btn clear-btn  text-white">Clear</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <!-- <div class="panel with-nav-tabs panel-default section_dashboard">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs mt-4 nav_border-section">
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" data-toggle="tab">
+                                        View Remaining Fees
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" data-toggle="tab">Fees Collection</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" routerLinkActive="active" data-toggle="tab">View all fees</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  routerLinkActive="active" data-toggle="tab">Fees Report</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"  routerLinkActive="active" data-toggle="tab">
+                                        Fees Receipt
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <router-outlet>
+                        </router-outlet>
+                    </div> -->
+
+                    <!-- <form class="form_section  global_form"> -->
+                        <div class="mt-0">
+                            <div class="card pb-2">
+                                <div class="row">
+                                    <!-- <div class="col-md-3 form_group" *ngIf="params.status == 'paid'">
+                                        <label for="" class="form_label">From Date</label>
+                                        <input class="form-control" type="date" name="from_date" id="from_date" #from_date
+                                            placeholder="Enter Date" (change)="fromDateChange($event)">
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="params.status == 'paid'">
+                                        <label for="" class="form_label">To Date</label>
+                                        <input class="form-control" type="date" name="to_date" id="to_date" #to_date
+                                            placeholder="Enter Date" (change)="toDateChange($event)">
+                                    </div> -->
+                                    <!-- <div class="col-md-3 form_group" *ngIf="isSchool==1">
+                                        <label for="" class="form_label">School</label>
+                                        <ng-select #select [items]="schools" [searchable]="true" [(ngModel)]="params.school" (change)="schoolChange()" 
+                                            bindLabel="name"  bindValue="id"
+                                            placeholder="Please select">
+                                        </ng-select>
+                                    </div> -->
+                                    <div class="col-md-3 form_group" *ngIf="isSchool==1">
+                                        <label for="" class="form_label">Branch</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="branchDropdownSettings"
+                                            [data]="branches"
+                                            name="branches"
+                                            [(ngModel)]="params.branch"
+                                            (onSelect)="handleChangeBranch()"
+                                            (onDeSelect)="handleChangeBranch()"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="isSchool==1">
+                                        <label for="" class="form_label">Select Section</label>
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="sections"
+                                            name="sections"
+                                            [(ngModel)]="params.section"
+                                            (onSelect)="handleChangeSection()"
+                                            (onDeSelect)="handleChangeSection()"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Class</label>
+                                        <!-- <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class"
+                                            (change)="classChange()" bindLabel="name" bindValue="id" name="class"
+                                            placeholder="please select">
+                                        </ng-select> -->
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="classes"
+                                            name="class"
+                                            [(ngModel)]="selectedClass"
+                                            (onSelect)="classChange()"
+                                            (onDeSelect)="classChange()"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Batch</label>
+                                        <!-- <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch"
+                                            (change)="reloadData()" bindLabel="name" bindValue="id" name="batch"
+                                            placeholder="please select">
+                                        </ng-select> -->
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="batches"
+                                            name="batch"
+                                            [(ngModel)]="selectedBatch"
+                                            (onSelect)="handleBatch()"
+                                            (onDeSelect)="handleBatch()"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="trusts.length > 0">
+                                        <label for="" class="form_label">Select Trust</label>
+                                        <ng-select #select [items]="trusts" [searchable]="true" [(ngModel)]="params.trust"
+                                            (change)="handleTrustChange()" bindLabel="name" bindValue="id" name="trust"
+                                            placeholder="please select">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="params.type == 1">
+                                        <label for="" class="form_label">Select Fees type</label>
+                                        <!-- <ng-select #select [items]="fees_types" [searchable]="true"
+                                            [(ngModel)]="params.fees_type" (change)="handleFeesType()" bindLabel="name"
+                                            bindValue="id" name="fees_type" placeholder="please select">
+                                        </ng-select> -->
+                                        <ng-multiselect-dropdown
+                                            [placeholder]="'please select'"
+                                            [settings]="dropdownSettings"
+                                            [data]="fees_types"
+                                            name="fees_type"
+                                            [(ngModel)]="selectedFeesType"
+                                            (onSelect)="handleFeesType()"
+                                            (onDeSelect)="handleDeselectFeesType()"
+                                            >
+                                            </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="params.type == 1 || params.type == 3">
+                                        <label for="" class="form_label">Select Month</label>
+                                        <!-- <ng-select #select [items]="months" [searchable]="true" [(ngModel)]="params.month"
+                                            (change)="reloadData()" bindLabel="name" bindValue="id" name="months"
+                                            placeholder="please select">
+                                        </ng-select> -->
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'please select'"
+                                        [settings]="dropdownSettings"
+                                        [data]="months"
+                                        name="months"
+                                        [(ngModel)]="selectedMonths"
+                                        (onSelect)="handleMonthChange()"
+                                        (onDeSelect)="handleMonthChange()"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div class="col-md-3 form_group" *ngIf="params.status == 'paid'">
+                                        <label for="" class="form_label">payment Mode</label>
+                                        <ng-select #select [items]="modes" [searchable]="true"
+                                            [(ngModel)]="params.payment_mode" (change)="reloadData()" bindLabel="name"
+                                            bindValue="id" name="payment_mode" placeholder="please select">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Status</label>
+                                        <ng-select #select [items]="status" [searchable]="true" [(ngModel)]="params.status"
+                                            (change)="changeStatus()" bindLabel="name" bindValue="id" name="status"
+                                            placeholder="please select">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Fields</label>
+                                        <ng-multiselect-dropdown
+                                        [placeholder]="'custom placeholder'"
+                                        [settings]="commonDropdownSettings"
+                                        [data]="dropdownList"
+                                        [(ngModel)]="selectedItems"
+                                        
+                                        >
+                                        </ng-multiselect-dropdown>
+                                        <span class="warning-text">(Maximum 6 Fields can be selected)</span>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Type</label>
+                                        <div>
+                                            <div class="radio">
+                                                <label class="m-radio required" for="Category_wise" aria-required="true">
+                                                    <input type="radio" id="Category_wise" name="same_address"  value="yes" aria-required="true" [checked]="tableType == 1" (click)="handleType(1)" [disabled]="!loading">Category Wise<span></span>
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="m-radio required" for="total_fees" aria-required="true">
+                                                    <input type="radio" id="total_fees" name="same_address" value="no" aria-required="true" [checked]="tableType == 2" (click)="handleType(2)"  [disabled]="!loading">Total Fees <span></span>
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="m-radio required" for="month_wise_total_fees" aria-required="true">
+                                                    <input type="radio" id="month_wise_total_fees" name="same_address" value="no" aria-required="true" [checked]="tableType == 3" (click)="handleType(3)" [disabled]="!loading">Month Wise Total Fees <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Right To Education</label>
+                                        <ng-container>
+                                            <div class="form-check toggle">
+                                                <input class="form-check-input shadow-none" type="checkbox" role="switch" title="Right To Education"
+                                                (change)="onCheckboxChange($event)">
+                                            </div>
+                                        </ng-container>                                    
+                                    </div>
+                                    <!-- <div class="col-md-3 form_group">
+                                        <label for="" class="form_label">Select Type</label>
+                                        <div class="m-checkbox-list d-flex align-items-center">
+                                            <label class="m-checkbox m-0 p-0">
+                                                <input type="radio" name="all" id="Category_wise" class="s-checkbox">
+                                                <span></span>
+                                            </label>
+                                            <label for="Category_wise" class="pl-2 m-0">Category Wise</label>
+                                        </div>
+                                    </div> -->
+                                    
+                                </div>
+                                <div class="clearBtnDiv">
+                                    <div class="col-md-2 p-0">
+                                        <button class="button" (click)="apply()" class="btn show-btn">Apply</button>
+                                    </div>
+                                   
+                                </div>
+                            </div>   
+                            <div class="card hed_alert">
+                                <div class="row" *ngIf="fees">
+                                    <div class="col-md-3">
+                                        <div class="alert w-100 alert-brand mb-0">
+                                            <div class="icon pr-4">
+                                                <i class="la la-calculator"></i>
+                                            </div>
+                                            <div class="m-alert__text text-15">
+                                                <strong>Total Fees:<br>
+                                                    <i class="fa fa-rupee-sign"></i> <span id="total"> {{fees.total_fees}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert w-100 alert-success mb-0">
+                                            <div class="icon pr-4">
+                                                <i class="la la-check"></i>
+                                            </div>
+                                            <div class="m-alert__text text-15">
+                                                <strong>Paid Fees:<br>
+                                                    <i class="fa fa-rupee-sign"></i> <span id="total"> {{fees.paid_total}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert w-100 alert-success mb-0">
+                                            <div class="icon pr-4">
+                                                %
+                                            </div>
+                                            <div class="m-alert__text text-15">
+                                                <strong>Discount Fees:<br>
+                                                    <i class="fa fa-rupee-sign"></i> <span id="total"> {{fees.discount}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert w-100 alert-danger mb-0">
+                                            <div class="icon pr-4">
+                                                <i class="fas fa-history"></i>
+                                            </div>
+                                            <div class="m-alert__text text-15">
+                                                <strong>Remaining Fees:<br>
+                                                    <i class="fa fa-rupee-sign"></i> <span id="total"> {{fees.remaining_total}}</span>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    <!-- </form> -->
+                    <div class="fee_report_filter card">
+                        <div class="col-md-12 px-0 form_group d-flex justify-content-between">
+                            <div>
+                                <table class="amount_view table table-hover table-nowrap table-bordered display" *ngIf="amount != 0">
+                                    <tr>
+                                        <td class="text-transform"><span> {{params.status}} Amount</span></td>
+                                        <td><i class="fa fa-rupee-sign"></i> {{amount}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="d-flex">
+                                <div class="btn_right d-flex">
+                                    <!-- <a class="btn btn-blue" href="#.">Show</a> -->
+                                    <!-- <a class="btn btn-blue" href="javascript:void(0)" (click)="downloadPdf('pdf','m')">Boys</a>
+                                    <a class="btn btn-blue" href="javascript:void(0)" (click)="downloadPdf('pdf', 'f')">Girls</a> -->
+                                    <a *ngIf="CommonService.hasPermission('fees_report_fees_report', 'has_download')" class="btn pdf-btn ms-2" href="javascript:void(0)" (click)="downloadPdf('pdf')"><img src="assets/images/pdf-icon.svg" alt=""></a>
+                                    <a *ngIf="CommonService.hasPermission('fees_report_fees_report', 'has_download')" class="btn excel-btn ms-2" href="javascript:void(0)" (click)="downloadPdf('excel')"><img src="assets/images/excel-icon.svg" alt=""></a>
+                                    <a *ngIf="CommonService.hasPermission('fees_report_fees_report', 'has_download')" class="btn btn-blue ms-2" href="javascript:void(0)" (click)="downloadRemainingFeesReport()">Remaining Fees</a>
+                                    <a class="btn btn-blue ms-2" href="javascript:void(0)" (click)="sendSms()" *ngIf="params.status == 'unpaid'">Send SMS</a>
+                                </div>
+                                <div class="ms-3">
+                                        <a class="btn btn-blue ms-2" href="javascript:void(0)"
+                                            (click)="params.gender = 'm'; reloadData()">Boys</a>
+                                        <a class="btn btn-blue ms-2" href="javascript:void(0)"
+                                            (click)="params.gender = 'f'; reloadData()">Girls</a>
+                                        <!-- <a class="btn btn-blue ms-2" href="javascript:void(0)"
+                                            (click)="params.gender = ''; reloadData()">Clear</a> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive" [ngClass]="loading == true ? 'd-block' : 'd-none'">
+    <table  datatable   [dtOptions]="dtOptions" 
+                                        class="table table-hover table-nowrap table-bordered display dataTable" style="width:100%"
+                                        *ngIf="dtRendered2 && params.type == 1">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox main m-0 p-0" >
+                                                            <input type="checkbox" name="all" id="check_all"
+                                                                class="s-checkbox"  [(ngModel)]="checked" (change)="handleSelectAll($event)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                                <th>Roll.No.</th>
+                                                <th>Section Name</th>
+                                                <th>Class Name</th>
+                                                <th>Student Name</th>
+                                                <th>gender</th>
+                                                <th>Fees Type</th>
+                                                <th>Month</th>
+                                                <th>{{params.status == 'paid' ? 'Received' : 'Remaining'}} <br> Amount
+                                                </th>
+                                                <th>Discount</th>
+                                                <th>Date</th>
+                                                <th>Receipt <br> No</th>
+                                                <th>Payment <br> Mode</th>
+                                                <!-- <th>Cheque no</th>
+                                                <th>Cheque Date</th>
+                                                <th>Bank Name</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="loading">
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox m-0 p-0">
+                                                            <input type="checkbox" name="all"
+                                                                class="s-checkbox" [checked]="checkedStudent(item.student_id, item.amount, item.month, item.fees_type)" (change)="handleSelect($event,item.student_id, item.amount,  item.student_name,item.month, item.fees_type)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{item.roll_no}}</td>
+                                                <td>{{item.section_name}}</td>
+                                                <td>{{item.class_name}}</td>
+                                                <td>{{item.student_name}}</td>
+                                                <td>{{item.gender}}</td>
+                                                <td style="text-transform:capitalize;">{{item.fees_type ? item.fees_type.replaceAll('_',' ') : ''}}</td>
+                                                <td>{{item.month}}</td>
+                                                <td>{{item.amount}}</td>
+                                                <td>{{item.discount}}</td>
+                                                <td>{{item.date}}</td>
+                                                <td>{{item.receipt_no}}</td>
+                                                <td>{{item.payment_mode}}</td>
+                                                <!-- <td>{{item.cheque_no}}</td>
+                                                <td>{{item.cheque_date}}</td>
+                                                <td>{{item.bank_name}}</td> -->
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="15" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table *ngIf="dtRendered && params.type == 1" datatable [dtOptions]="dtOptions" id="myTable_new" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of field_list_for_html; let i = index;">{{ field['data'] }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td *ngFor="let field of field_list">{{item[field]??"-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table datatable [dtOptions]="dtOptionsType2"
+                                        class="table table-hover table-nowrap table-bordered display dataTable" style="width:100%"
+                                        *ngIf="dtRendered2 && params.type == 2">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox main m-0 p-0" >
+                                                            <input type="checkbox" name="all" id="check_all"
+                                                                class="s-checkbox" [(ngModel)]="checked" (change)="handleSelectAll($event)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                                <th>Roll.No.</th>
+                                                <th>Section Name</th>
+                                                <th>Class Name</th>
+                                                <th>Student Name</th>
+                                                <th>gender</th>
+                                                <th>{{params.status == 'paid' ? 'Received' : 'Remaining'}} <br> Amount
+                                                </th>
+                                                <th>Discount</th>
+                                                <th>Date</th>
+                                                <th>Receipt <br> No</th>
+                                                <th>Payment <br> Mode</th>
+                                                <!-- <th>Cheque no</th>
+                                                <th>Cheque Date</th>
+                                                <th>Bank Name</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox m-0 p-0">
+                                                            <input type="checkbox" name="all"
+                                                                class="s-checkbox" [checked]="checkedStudent(item.student_id, item.amount)" (change)="handleSelect($event, item.student_id, item.amount,  item.student_name)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{item.roll_no}}</td>
+                                                <td>{{item.section_name}}</td>
+                                                <td>{{item.class_name}}</td>
+                                                <td>{{item.student_name}}</td>
+                                                <td>{{item.gender}}</td>
+                                                <td>{{item.amount}}</td>
+                                                <td>{{item.discount}}</td>
+                                                <td>{{item.date}}</td>
+                                                <td>{{item.receipt_no}}</td>
+                                                <td>{{item.payment_mode}}</td>
+                                                <!-- <td>{{item.cheque_no}}</td>
+                                                <td>{{item.cheque_date}}</td>
+                                                <td>{{item.bank_name}}</td> -->
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="12" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table *ngIf="dtRendered && params.type == 2" datatable [dtOptions]="dtOptionsType2" id="myTable_new" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of field_list_for_html; let i = index;">{{ field['data'] }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td *ngFor="let field of field_list">{{item[field]??"-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table datatable [dtOptions]="dtOptionsType2"
+                                        class="table table-hover table-nowrap table-bordered display dataTable" style="width:100%"
+                                        *ngIf="dtRendered2 && params.type == 3">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox main m-0 p-0" >
+                                                            <input type="checkbox" name="all" id="check_all"
+                                                                class="s-checkbox" [(ngModel)]="checked" (change)="handleSelectAll($event)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </th>
+                                                <th>Roll.No.</th>
+                                                <th>Section Name</th>
+                                                <th>Class Name</th>
+                                                <th>Student Name</th>
+                                                <th>gender</th>
+                                                <th>Month</th>
+                                                <th>{{params.status == 'paid' ? 'Received' : 'Remaining'}} <br> Amount
+                                                </th>
+                                                <th>Date</th>
+                                                <th>Receipt <br> No</th>
+                                                <th>Payment <br> Mode</th>
+                                                <!-- <th>Cheque no</th>
+                                                <th>Cheque Date</th>
+                                                <th>Bank Name</th> -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>
+                                                    <div class="m-checkbox-list d-flex align-items-center">
+                                                        <label class="m-checkbox m-0 p-0">
+                                                            <input type="checkbox" name="all"
+                                                                class="s-checkbox" [checked]="checkedStudent(item.student_id, item.amount)" (change)="handleSelect($event, item.student_id, item.amount,  item.student_name)">
+                                                            <span></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>{{item.roll_no}}</td>
+                                                <td>{{item.section_name}}</td>
+                                                <td>{{item.class_name}}</td>
+                                                <td>{{item.student_name}}</td>
+                                                <td>{{item.gender}}</td>
+                                                <td>{{item.month}}</td>
+                                                <td>{{item.amount}}</td>
+                                                <td>{{item.date}}</td>
+                                                <td>{{item.receipt_no}}</td>
+                                                <td>{{item.payment_mode}}</td>
+                                                <!-- <td>{{item.cheque_no}}</td>
+                                                <td>{{item.cheque_date}}</td>
+                                                <td>{{item.bank_name}}</td> -->
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="12" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table *ngIf="dtRendered && params.type == 3" datatable [dtOptions]="dtOptionsType2" id="myTable_new" class="table table-hover table-nowrap display dataTable table-bordered no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th *ngFor="let field of field_list_for_html; let i = index;">{{ field['data'] }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >
+                                                <td *ngFor="let field of field_list">{{item[field]??"-"}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

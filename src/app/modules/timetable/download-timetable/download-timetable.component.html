@@ -1,0 +1,171 @@
+<section class="teachers_timetable">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Download Timetable</h3>
+				<div class="btn_right d-flex">
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn mx-2 timetable-btn">Timetable</a>
+					<a ngbTooltip="PDF" href="javascrip:void(0)" class="mx-2 btn pdf-btn" (click)="downloadTeachersTimetable('pdf')" *ngIf="CommonService.hasPermission('administrator_timetable', 'has_download')"> <img src="assets/images/pdf-icon.svg" alt=""> </a>
+                    <a ngbTooltip="EXCEL" href="javascrip:void(0)" class="ml-2 btn excel-btn" (click)="downloadTeachersTimetable('excel')" *ngIf="CommonService.hasPermission('administrator_timetable', 'has_download')"><img src="assets/images/excel-icon.svg" alt=""></a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row" >
+                        <div class="col-12  form_group">
+                          <div class="form_group mb-0">
+                            <!-- <label for="" class="form_label">Attendance Type</label> -->
+                            <div class="col-md-12 d-flex px-0">
+                              <div class="radio ml-1">
+                                <label class="m-radio required mb-0" for="student" aria-required="true">
+                                  <input type="radio" id="student" value="student" name="type" [(ngModel)]="type" aria-required="true"
+                                    (change)="handleTypeChange('student')" checked>Student<span></span>
+                                </label>
+                              </div>
+                              <div class="radio ml-1">
+                                <label class="m-radio required mb-0" for="faculty" aria-required="true">
+                                  <input type="radio" id="faculty" value="faculty"  name="type" [(ngModel)]="type" aria-required="true"
+                                    (change)="handleTypeChange('faculty')">Faculty<span></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <hr>
+
+                        <div class="col-md-3" *ngIf="type == 'student'">
+                            <div class="form_section">
+                                <div class="form_group">
+                                    <label class="form_label">Class<span class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-select appendTo="body" #select [items]="ClassNames" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id" [(ngModel)]="class_id" (change)="handleClassChange()"  
+                                        placeholder="Select Class" required>
+                                        <ng-template ng-header-tmp>
+                                            <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                    <div *ngIf="submit && class_id == null || class_id == '' "
+                                     class="text-danger px-20"> Please select Class. </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="col-md-3" *ngIf="type == 'student'">
+                            <div class="form_section">
+                                <div class="form_group">
+                                    <label class="form_label">Batch<span class="text-danger">*</span></label>
+                                    <ng-select appendTo="body" #select [items]="batches" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  [(ngModel)]="batch_id"  
+                                        placeholder="Select Batch" required>
+                                        <ng-template ng-header-tmp>
+                                            <input style="width: 100%; line-height: 24px"  type="text" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                    <div *ngIf="submit && batch_id == null || batch_id == '' "
+                                    class="text-danger px-20"> Please select batch. </div>
+                                </div> 
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 form_group" *ngIf="type == 'faculty'">
+                            <label for="" class="form_label">Select Faculty</label>
+                            <ng-select #select [items]="faculties" [searchable]="true" [(ngModel)]="faculty"
+                                (change)="handleChange()" bindLabel="full_name" bindValue="id"
+                                placeholder="Please select section">
+                            </ng-select>
+                            <div class="text-danger error" *ngIf="submit && faculty == null"> Please select faculty </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button class=" btn  show-btn" type="button"  [disabled]="showLoading" (click)="show()">
+                                Show
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                                  <span class="visually-hidden">Loading...</span>
+                                </div>
+                              </button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class=" btn  clear-btn" (click)="clearForm()"> Cancel </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" *ngIf="week_days.length > 0 && type == 'faculty'">
+                <div class="card_body">
+                    <div class=" basic_table">
+                        <div *ngFor="let item of timings; let i = index" class="pb-5">
+                        <h3 class="text-center py-3">{{item.time_slot?? '-'}}</h3>
+                        <div class="table-responsive">
+                            <div class="d-flex faculty-timetable">
+                                <div *ngFor="let day of week_days[i]" class="flex-1 text-center border-right border-bottom">
+                                    <div class="p-2 border-bottom">
+                                        <strong class="m-0">{{day}}</strong>
+                                    </div>
+                                        <div *ngFor="let item of timings[i]['value'][day];" class="p-2 timetable-border-bottom text-start min-height">
+                                            <div *ngIf="item.is_break == 0; else block1">
+                                                <div *ngIf="timetable[day] && timetable[day][item.time]; else block2">
+                                                    <p class="detail">{{item.time}} {{timetable[day][item.time][0].proxy ? '(Proxy Lecture)' : ''}} {{timetable[day][item.time][0].extra ? '(Extra Lecture)' : ''}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0]?.batch?.name ?? '-'}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0]?.subject?.name ?? '-'}}</p>
+                                                    <p class="detail">{{timetable[day][item.time][0]?.room?.room?.name ?? '-'}}</p>
+                                                </div>
+                                                <ng-template #block2>
+                                                    <p class="detail">{{item.time}}</p>
+                                                    <p class="detail">-</p>
+                                                    <p class="detail">-</p>
+                                                    <p class="detail">-</p>
+                                                </ng-template>
+                                            </div> 
+                                            <ng-template #block1>
+                                                <p class="detail">{{item.time}}</p>
+                                                <p class="text-center">Break</p>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>  
+
+            <div class="card" *ngIf="week_days.length > 0 && type == 'student'">
+                <div class="card_body">
+                    <div class=" basic_table">
+                        <div class="table-responsive">
+                            <div class="d-flex faculty-timetable">
+                                <div *ngFor="let day of week_days" class="flex-1 text-center border-right border-bottom">
+                                    <div class="p-2 border-bottom">
+                                        <strong class="m-0">{{day}}</strong>
+                                    </div>
+                                    <div *ngFor="let item of lecture_timing[day];" class="p-2 timetable-border-bottom text-start min-height">
+                                        <div *ngIf="item.is_break == 0; else block1">
+                                            <div  *ngIf="item.timetable; else block2">
+                                                <p class="detail">{{item?.time}} {{item.proxy ? '(Proxy Lecture)' : ''}} {{item.extra ? '(Extra Lecture)' : ''}}</p>
+                                                <p class="detail">{{item?.timetable?.subject?.name ?? '-'}} {{optionalSubjects(item.timetable)}}</p>
+                                                <p class="detail">{{item?.timetable?.user?.full_name ?? '-'}} {{optionalFaculty(item.timetable)}}</p>
+                                                <p class="detail">{{item?.timetable?.room?.room?.name ?? '-'}} {{optionalRoom(item?.timetable)}}</p>
+                                            </div>
+                                            <ng-template #block2>
+                                                <p class="detail">{{item.time}}</p>
+                                                <p class="detail">-</p>
+                                                <p class="detail">-</p>
+                                                <p class="detail">-</p>
+                                            </ng-template>
+                                        </div> 
+                                        <ng-template #block1>
+                                            <p class="detail">{{item.time}}</p>
+                                            <p class="text-center">Break</p>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div> 
+        </div>
+    </div>
+</section>

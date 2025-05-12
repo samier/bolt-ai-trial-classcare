@@ -1,0 +1,232 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="form_section">
+                <div class="card mt-4">
+                    <div class="row">                        
+                        <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Select Class</label>
+                                <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class" (change)="classChange()" 
+                                    bindLabel="name"  bindValue="id"
+                                    placeholder="please select">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Select Batch</label>
+                                <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch" (change)="reloadData()"
+                                    bindLabel="name"  bindValue="id"
+                                    placeholder="please select">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Student Status</label>
+                                <ng-select #select [items]="student_status" [searchable]="true" [(ngModel)]="params.status" (change)="reloadData()"
+                                    bindLabel="name"  bindValue="id"
+                                    placeholder="please select status">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Admission From Date</label>
+                                <app-mat-date-picker [(selectedDate)]="params.admission_start_date" [isRequired]="false" (change)="fromDateChange($event)" [templateDriven]="true"
+                                            ></app-mat-date-picker>
+                                <!-- <input class="form-control" type="date" name="date_range" id="date_range"
+                                     placeholder="Enter Date" (change)="fromDateChange($event)" > -->
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Admission To Date</label>
+                                <app-mat-date-picker [(selectedDate)]="params.admission_end_date" [isRequired]="false" (change)="toDateChange($event)" [templateDriven]="true"
+                                            name="datePicker"></app-mat-date-picker>
+                                <!-- <input class="form-control" type="date" name="date_range" id="date_range"
+                                     placeholder="Enter Date" (change)="toDateChange($event)" > -->
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-2">
+                            <div class="form_group">
+                                <label for="">Student Fields</label>
+                            	<ng-multiselect-dropdown
+	                              [placeholder]="'select field'"
+	                              [settings]="commonDropdownSettings"
+	                              [data]="student_field_list"
+	                              [(ngModel)]="selectedStudentField"
+	                              (onSelect)="onStudentFieldSelect()"
+	                              (onSelectAll)="onStudentFieldSelectAll()"
+	                              (onDeSelect)="onStudentFieldSelect()"
+	                              (onDeSelectAll)="onStudentFieldDeSelectAll()"
+	                            >
+                            	</ng-multiselect-dropdown>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <h2 class="page_title"></h2>
+            <div class="card">
+                <div class="card_title">
+                    <h3 class="sub_title">Student GR Report</h3>
+                    <div class="d-flex">
+                        <div class="btn_right">
+                            <a class="btn btn-blue pdf-btn" href="javascript:void(0)" (click)="downloadPdf('pdf')"><img src="assets/images/pdf-icon.svg" alt=""></a>
+                            <a class="btn btn-blue excel-btn" href="javascript:void(0)" (click)="downloadPdf('excel')"><img src="assets/images/excel-icon.svg" alt=""></a>
+                        </div>
+                    </div>
+                </div> 
+                <div class="card_body">
+                    <div class="report_filter">
+                        <div class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive" >
+                                    <table datatable [dtOptions]="dtOptions" id="myTable" class="table table-hover table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Class Name</th>
+                                                <th>Batch Name</th>                             
+                                                <th>Address</th>
+                                                <th>School</th>
+                                                <th>Date of Birth</th>
+                                                <th>Email</th>
+                                                <th>Gender</th>
+                                                <th>First Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Last Name</th>
+                                                <th>Admission date</th>
+                                                <th>Rollno</th>
+                                                <th>Username</th>
+                                                <th>Password</th>
+                                                <th>Phone Number</th>
+                                                <th>Pay On Date</th>
+                                                <th>Categories</th>
+                                                <th>Percentage</th>
+                                                <th>Bankname</th>
+                                                <th>Branch ifsc</th>
+                                                <th>Adharcard</th>
+                                                <th>Othernumber</th>
+                                                <th>Account Number</th>
+                                                <th>Ifsc code</th>
+                                                <th>GR Number</th>
+                                                <th>Mother Name</th>
+                                                <th>Residential Area</th>
+                                                <th>Hometown</th>
+                                                <th>College Area</th>
+                                                <th>Reference</th>
+                                                <th>SSC</th>
+                                                <th>HSC</th>
+                                                <th>Right To Education</th>
+                                                <th>Old New</th>
+                                                <th>Father Name</th>
+                                                <th>Mother Occupation</th>
+                                                <th>Father Occupation</th>
+                                                <th>Father Number</th>
+                                                <th>Mother Number</th>
+                                                <th>Send SMS Number</th>
+                                                <th>Status</th>
+                                                <th>UidNo</th>
+                                                <th>Student Whatsapp No</th>
+                                                <th>Blood Group</th>
+                                                <th>Birth Place</th>
+                                                <th>Religion</th>
+                                                <th>Nationality</th>
+                                                <th>Parent Whatsapp No</th>
+                                                <th>Parent Email</th>
+                                                <th>Permanent Address</th>
+                                                <th>Same Address</th>
+                                                <th>Current City</th>
+                                                <th>Sibling Info</th>
+                                                <th>Leaving Date</th>
+                                                <th>Progress</th>
+                                                <th>Conduct</th>
+                                                <th>Working Days School</th>
+                                                <th>Reason Leaving School</th>
+                                                <th>Result Last Examination</th>
+                                                <th>Age</th>
+                                                <th>Permanent City</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >	
+                                                <td>{{item.id}}</td>       
+                                                <td>{{item.class_name}}</td>     
+                                                <td>{{item.batch_name}}</td>  
+                                               	<td>{{item.address ?? "-"}}</td>
+                                               	<td>{{item.school ?? "-"}}</td> 
+                                               	<td>{{item.date_of_birth ?? "-"}}</td>  
+                                               	<td>{{item.email ?? "-"}}</td>
+                                               	<td>{{item.gender ?? "-"}}</td> 
+                                               	<td>{{item.first_name ?? "-"}}</td> 
+                                               	<td>{{item.middle_name ?? "-"}}</td>
+                                               	<td>{{item.last_name ?? "-"}}</td> 
+                                               	<td>{{item.create_at ?? "-"}}</td> 
+                                               	<td>{{item.rollno ?? "-"}}</td>
+                                               	<td>{{item.username ?? "-"}}</td> 
+                                               	<td>{{item.password ?? "-"}}</td> 
+                                               	<td>{{item.phone_number ?? "-"}}</td>
+                                               	<td>{{item.payOnDate ?? "-"}}</td> 
+                                               	<td>{{item.categories ?? "-"}}</td> 
+                                               	<td>{{item.percentage ?? "-"}}</td>
+                                               	<td>{{item.bankname ?? "-"}}</td> 
+                                               	<td>{{item.branchifsc ?? "-"}}</td> 
+                                               	<td>{{item.adharcard ?? "-"}}</td>
+                                               	<td>{{item.othernumber ?? "-"}}</td> 
+                                               	<td>{{item.accountnumber ?? "-"}}</td> 
+                                               	<td>{{item.ifsccode ?? "-"}}</td>
+                                               	<td>{{item.gr_number ?? "-"}}</td> 
+                                               	<td>{{item.mother_name ?? "-"}}</td> 
+                                               	<td>{{item.residential_area ?? "-"}}</td>
+                                               	<td>{{item.hometown ?? "-"}}</td> 
+                                               	<td>{{item.college_area ?? "-"}}</td> 
+                                               	<td>{{item.reference ?? "-"}}</td>
+                                               	<td>{{item.ssc ?? "-"}}</td> 
+                                               	<td>{{item.hsc ?? "-"}}</td> 
+                                               	<td>{{item.rightToEducation ?? "-"}}</td>
+                                               	<td>{{item.old_new ?? "-"}}</td>
+                                               	<td>{{item.father_name ?? "-"}}</td>
+                                               	<td>{{item.mother_occupation ?? "-"}}</td> 
+                                               	<td>{{item.father_occupation ?? "-"}}</td> 
+                                               	<td>{{item.father_number ?? "-"}}</td>
+                                               	<td>{{item.mother_number ?? "-"}}</td> 
+                                               	<td>{{item.send_sms_number ?? "-"}}</td> 
+                                               	<td>{{item.status ?? "-"}}</td>
+                                               	<td>{{item.uidNo ?? "-"}}</td>
+                                               	<td>{{item.studentWhatsappNo ?? "-"}}</td> 
+                                               	<td>{{item.bloodGroup ?? "-"}}</td>
+                                               	<td>{{item.birthPlace ?? "-"}}</td> 
+                                               	<td>{{item.religion ?? "-"}}</td> 
+                                               	<td>{{item.nationality ?? "-"}}</td> 
+                                               	<td>{{item.parentWhatsappNo ?? "-"}}</td>
+                                               	<td>{{item.parentEmail ?? "-"}}</td> 
+                                               	<td>{{item.permanentAddress ?? "-"}}</td>
+                                               	<td>{{item.sameAddress ?? "-"}}</td> 
+                                               	<td>{{item.currentCity ?? "-"}}</td> 
+                                               	<td>{{item.siblingInfo ?? "-"}}</td>
+                                               	<td>{{item.leaving_date ?? "-"}}</td>
+                                               	<td>{{item.progress ?? "-"}}</td> 
+                                               	<td>{{item.conduct ?? "-"}}</td>
+                                               	<td>{{item.working_days_school ?? "-"}}</td> 
+                                               	<td>{{item.reason_leaving_school ?? "-"}}</td> 
+                                               	<td>{{item.result_last_examination ?? "-"}}</td>
+                                               	<td>{{item.age ?? "-"}}</td>
+                                               	<td>{{item.permanentCity ?? "-"}}</td>
+                                            </tr>
+                                            <!-- <tr *ngFor="let items of tbody ;let i = index;">
+                                            	<td *ngFor="let item of items; let j = index;"> {{item}} </td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

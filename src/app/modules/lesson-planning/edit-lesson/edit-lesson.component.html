@@ -1,0 +1,121 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Edit Lesson</h3>
+                <div class="btn_right">
+                    <a class="btn" href="#." [routerLink]="setUrl(URLConstants.FACULTY_LESSON_LIST)">Lesson List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="leavecreateform " class="form_section">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Lesson Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="date" [minDate]="tomorrowDate" [disabled]="read_only"></app-mat-date-picker>
+
+                                            <!-- <div class="">
+                                                <input [readonly]='read_only' type="date" id="date" formControlName="date" name="date" class="form-control" placeholder="lesson date" [ngClass]="{ 'is-invalid': submitted && leavecreateform.controls['date'].errors}">
+                                            </div>
+                                            <div *ngIf="submitted && leavecreateform.controls['date'].invalid" class="text-danger"> Please enter valid date. </div>                           
+                                            <div *ngIf="leavecreateform.controls['date'].touched">
+                                                <small *ngIf="leavecreateform.controls['date'].errors?.['required']"                    
+                                                class="text-danger">Required</small>
+                                                <small *ngIf="invaineFrom" class="text-danger">  
+                                                Select a date Over today</small>                                             
+                                          </div>                                             -->
+                                        </div>                                
+                                     </div>
+                                     
+                                     <div class="col-md-3 form_group">                                        
+                                        <label class="form_label">Section</label>												
+                                        <div class="">
+                                            <select class="form-control" formControlName="section" name="section" id="section" (change)="sectionChange()">
+                                                <!-- <option value="">Please Select</option> -->
+                                                <option *ngFor="let section of sections" [value]="section.id">{{ section.name }}</option>
+                                            </select>													
+                                        </div>                                        
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Class Name<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select [items]="ClassNames" (change)="changeFn(selectedClass)" [searchable]="true" [(ngModel)]="selectedClass" name="class_id" bindLabel="name" bindValue="id"  
+                                            formControlName="class_id"
+                                             placeholder="please select" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input [readonly]='read_only' style="width: 100%; line-height: 24px" (onclick)="changeFn(selectedClass)" type="text" (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['class_id'].invalid && (leavecreateform.controls['class_id'].dirty || leavecreateform.controls['class_id'].untouched)" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['class_id'].errors?.['required']">Please select an option</div>
+                                        </div>                                         
+                                    </div>        
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Batch<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select2 [items]="Batches" [searchable]="true" [(ngModel)]="selectedBatch" name="batch_id" bindLabel="name" 
+                                            formControlName="batch_id" bindValue="id" placeholder="please select">
+                                                <ng-template ng-header-tmp>
+                                                    <input [readonly]='read_only' style="width: 100%; line-height: 24px" type="text" (input)="select2.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-3 form_group ">
+                                        <label class="form_label">Subject<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select3 [items]="Subjects" [searchable]="false" [(ngModel)]="selectedSubject" bindLabel="name" 
+                                            formControlName="subject_id" bindValue="id" placeholder="Please select Subject">
+                                                <ng-template ng-header-tmp>
+                                                    <input [readonly]='read_only' style="width: 100%; line-height: 24px" type="text" (input)="select3.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Topic<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                
+                                                <input [readonly]='read_only' class="form-control" name="topic" id="topic" formControlName="topic" placeholder="Enter your topic" required>
+                                                <div *ngIf="submitted && leavecreateform.controls['topic'].invalid" class="text-danger"> Please enter topic name. </div>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                
+                                                <textarea [readonly]='read_only' class="form-control" name="description" id="description" formControlName="description" placeholder="Enter your address" required></textarea>
+                                                <div *ngIf="submitted && leavecreateform.controls['description'].invalid" class="text-danger"> Please enter topic description. </div>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="row w-100 form_group mb-0">
+                                        <div class="col-md-1">
+                                            <a class="btn px-2 w-100" href="#" [routerLink]="setUrl(URLConstants.FACULTY_LESSON_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-md-1">
+                                             <button *ngIf="CommonService.hasPermission('faculty_lesson_planning', 'has_update')" type="submit" (click)="onSubmit()" [disabled]="!leavecreateform.valid" class="btn w-100" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                                                   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

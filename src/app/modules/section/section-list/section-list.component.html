@@ -1,0 +1,59 @@
+<section class="section-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">SECTION LIST</h3>
+                <div class="btn_right">
+                    <a *ngIf="CommonService.hasPermission('settings_section', 'has_create')" class="btn add-btn"
+                        (click)="addEditBatch(false)"> Add New Section</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form_group search-group">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <input type="text" placeholder="Search Section" class="form-control" [(ngModel)]="inputValue"
+                                (change)="filteredFun()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- <ng-container *ngFor="let section of sections"> -->
+                    <ng-container *ngIf="filteredFun()?.length > 0; else noResults">
+                        <ng-container *ngFor="let section of filteredFun()">
+
+                            <div class="col-lg-6 col-md-6 mb-3">
+                                <div class="school-listing-card">
+                                    <h4> {{section.name || '-' }} </h4>
+                                    <div class="school-rt-icon btn-group">
+                                        <button *ngIf="CommonService.hasPermission('settings_section', 'has_edit')"
+                                            class="btn action-edit me-2" ngbTooltip="Edit"
+                                            (click)="addEditBatch(true,section)"><i
+                                                class="fa fa-pencil-alt"></i></button>
+                                        <button *ngIf="CommonService.hasPermission('settings_section', 'has_delete')"
+                                            class="btn action-delete me-2" ngbTooltip="Delete"
+                                            (click)="handleDelete(section)"><i class="fa fa-trash"></i></button>
+                                        <a *ngIf="CommonService.hasPermission('settings_template_settings', 'has_access')"
+                                            class="btn action-assign me-2"
+                                            [routerLink]="[CommonService.setUrl(URLConstants.TEMPLATE_MANAGER),section.id]"
+                                            ngbTooltip="Template Manager"><img
+                                                src="assets/images/assign-subject-icon.svg" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-template #noResults>
+                        <div class="col-12 school-listing-card justify-content-center">
+                            <p class="mb-0">No results found</p>
+                        </div>
+                    </ng-template>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

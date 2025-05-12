@@ -1,0 +1,188 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-event-detail{
+        .page-inner{
+            .card_head{
+                border-radius: 7px 7px 0 0;
+                padding-bottom: 15px;
+                border-bottom: 2px solid #f3f3f3;
+                h3{
+                    font-size: 20px;
+                    font-weight: 600;
+                    margin: 0;
+                    text-transform: uppercase;
+                }
+            }
+            .card_body{
+                padding-bottom: 15px;
+                p{
+                    margin: 6px 0;
+                    display: flex;
+                    title{
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: #000;
+                        display: block;
+                        // min-width: 100px;
+                    }
+                    b{
+                        padding: 0 5px;
+                    }
+                }
+                .img-content{
+                    margin-top: 20px;
+                    .event_img{
+                        img{
+                            width: 100%;
+                            height: 200px;
+                            cursor: pointer;
+                            object-fit: cover;
+                            border-radius: 10px;
+                        }
+                    }
+                }
+                .event_details {
+                    margin-top: 20px;
+                    .created {
+                        position: relative;
+                        padding: 10px 20px;
+                        &::after {
+                            content: '';
+                            position: absolute;
+                            width: 100%;
+                            height: 100%;
+                            top: 0;
+                            left: 0;
+                            background-color: $primary;
+                            opacity: .1;
+                            border-radius: 10px;
+                            z-index: 0;
+                        }
+                        .icon {
+                            position: relative;
+                            width: 44px;
+                            height: 44px;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 1;
+                            svg {
+                                width: 24px;
+                                height: 24px;
+                                path {
+                                    fill: $primary;
+                                }
+                            }
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                border-radius: 50%;
+                            }
+                            &::after {
+                                content: '';
+                                position: absolute;
+                                width: 100%;
+                                height: 100%;
+                                top: 0;
+                                left: 0;
+                                background-color: $primary;
+                                opacity: .2;
+                                border-radius: 50%;
+                            }
+                        }
+                        .created_content {
+                            padding-left: 15px;
+                            z-index: 1;
+                            p {
+                                color: #000;
+                                font-size: 16px;
+                                font-weight: 500;
+                                line-height: 17px;
+                            }
+                            span {
+                                color: $primary;
+                                font-size: 14px;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+        }    
+    }
+    ngb-modal-window{
+        &.event_detail_modal{
+            .modal-dialog{
+                max-width: 900px;
+            }
+        }
+        .event_modal{
+            .modal-body{
+                .carousel-inner{
+                    .carousel-item{
+                        padding: 0 6px;
+                        img{
+                            width: 100%;
+                            height: 500px;
+                            object-fit: contain;
+                            border-radius: 8px;
+                        }
+                    }
+                }
+                .carousel-indicators{
+                    overflow: auto;
+                    position: relative;
+                    margin-left: 50px;
+                    margin-right: 50px;
+                    justify-content: unset;
+                    button{
+                        width: 60px;
+                        height: 60px;
+                        min-width: 60px;
+                        background-color: unset;
+                        position: relative;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            border-radius: 6px;
+                            object-fit: cover;
+                        }
+                    }
+                    &::-webkit-scrollbar{
+                        display: none;
+                    }
+                }
+                .carousel-control-prev, .carousel-control-next{
+                    position: absolute;
+                    align-items: center;
+                    top: 50%;
+                    height: max-content;
+                    transform: translateY(-50%);
+                    .carousel-control-prev-icon, .carousel-control-next-icon{
+                        width: 20px;
+                        height: 20px;
+                        background-color: $primary;
+                        border-radius: 50%;
+                        padding: 12px;
+                        background-size: 7px;
+                    }
+                }
+                .carousel-control-prev{
+                    left: -34px;
+                    .carousel-control-prev-icon{
+                        background-image: url(../../../../assets/images/down-left.png);
+                    }
+                }
+                .carousel-control-next{
+                    right: -34px;
+                    .carousel-control-next-icon{
+                        background-image: url(../../../../assets/images/down-right.png);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Update Student Exam Report</h3>
+            </div>
+            <div>
+                <div class="card_body">
+                    <div class="card">
+                          <div class="row">
+                            <div class="col-lg-12 datatable_cls">
+                                <div class="table-responsive" >
+                                    <table *ngIf="dtRendered" datatable [dtOptions]="dtOptions" id="myTable_new" class="table table-hover table-nowrap display dataTable" style="width:100%">
+                                        <thead class="thead-light" >
+                                            <tr>
+                                                <ng-container *ngFor="let field of columns; let i = index;">
+                                                    <th style="width: 250px !important; vertical-align: middle;">{{ updateString(field['data']) }}</th>
+                                                </ng-container>
+                                            </tr>
+                                            <!-- <tr>
+                                                <ng-container *ngFor="let field of columns; let i = index;">
+                                                    <th *ngIf="field['data'] != 'rollno' && field['data'] != 'full_name'" data-orderable="false">Absent</th>
+                                                    <th *ngIf="field['data'] != 'rollno' && field['data'] != 'full_name'" data-orderable="false">Marks - {{tbody?.length > 0 ? tbody[0].subjects[field['key']].total_mark: ''}}</th>
+                                                </ng-container>
+                                            </tr> -->
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;" >    
+                                                <td style="width: 200px;">{{item.rollno}}</td>
+                                                <td style="width: 200px;">{{item.full_name}}</td>
+                                                <td style="width: 200px;">{{item.exam.exam_type_name}}</td>
+                                                <ng-container *ngFor="let field of subjects; let j = index;">
+                                                    <td style="width: 200px;">
+                                                        <div class="d-flex">
+                                                            <input  class="marks form-control" style="width: 100px !important;" type="text" [name]="joinString(field)+[i]+[j]" [id]="joinString(field)+[i]+[j]" [(ngModel)]="editable[i].exam.subjects[field].marks" (change)="checkMarks(i, j, field)" [disabled]="item.exam.subjects[field].is_absent || item.exam.subjects[field].is_optional">
+                                                        </div>
+                                                        <p class="m-0 error-text">{{errors['student.'+i+'.exam.subjects.'+field+'.marks'] }}</p>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>                                      
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <button *ngIf="dtRendered && CommonService.hasPermission('student_exam_report_card', 'has_update')" (click)="editRecord()" class="btn btn-success btn-minwidth">Update</button>
+                                        &nbsp;&nbsp;
+                                        <button *ngIf="dtRendered" (click)="cancel()" class="btn btn-success btn-minwidth">Cancel</button>
+                                        &nbsp;&nbsp;
+                                        <button *ngIf="dtRendered && CommonService.hasPermission('student_exam_report_card', 'has_download')" (click)="generateResult()" class="btn btn-success btn-minwidth" [disabled]="generating">
+                                            {{generating == false ? 'Generate' : 'Generating'}}
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="generating">
+                                                <span class="visually-hidden">Loading...</span>
+                                              </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

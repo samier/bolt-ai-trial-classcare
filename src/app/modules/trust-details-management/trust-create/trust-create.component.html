@@ -1,0 +1,146 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">            
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{trust_id ? 'Edit' : 'Create'}} Trust Details</h3>
+                <div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.TRUST_LIST)"
+                        class="btn list-btn">Trust
+                        Detail List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Trust Name<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="name" placeholder="Trust Name" class="form-control"
+                                            [(ngModel)]="formData.name">
+                                    </div>
+                                    <div *ngIf="submitted && formData.name == null || formData.name == ''"
+                                        class="text-danger px-3"> Please enter trust name. </div>
+                                    <div *ngIf="submitted && validationError['name']" class="text-danger px-3">
+                                        {{validationError['name']}} </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Contact Number<span
+                                            class="text-danger">*</span></label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="contact_number" placeholder="Contact Number"
+                                            class="form-control" [(ngModel)]="formData.contact_number">
+                                    </div>
+                                    <div *ngIf="submitted && formData.contact_number == null || formData.contact_number == ''"
+                                        class="text-danger px-3"> Please enter contact number. </div>
+                                    <div *ngIf="submitted && validationError['contact_number']"
+                                        class="text-danger px-3"> {{validationError['contact_number'][0]}} </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Email</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="email" placeholder="Email" class="form-control"
+                                            [(ngModel)]="formData.email">
+                                    </div>
+                                    <div *ngIf="submitted && validationError['email']" class="text-danger px-3">
+                                        {{validationError['email']}} </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Address</label>
+                                    <div class="col-md-12">
+                                        <textarea type="text" name="address" placeholder="Address" class="form-control"
+                                            [(ngModel)]="formData.address"></textarea> 
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Bank Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="bank_name" placeholder="Bank Name" class="form-control"
+                                            [(ngModel)]="formData.bank_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Account Number</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="account_number" placeholder="Account Number"
+                                            class="form-control" [(ngModel)]="formData.account_number">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Account Holder Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="account_holder_name" placeholder="Account Holder Name"
+                                            class="form-control" [(ngModel)]="formData.account_holder_name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Account Type</label>
+                                    <div class="col-md-12">
+                                        <ng-select #select [items]="account_types" [searchable]="true" name="class_id"
+                                            bindLabel="name" bindValue="id" placeholder="Select Account Type"
+                                            [(ngModel)]="formData.type_of_account" required>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">IFSC Code</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="ifsc_code" placeholder="IFSC Code" class="form-control"
+                                            [(ngModel)]="formData.ifsc_code">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-3 form_section">
+                                <div class="form_group row">
+                                    <label class="col-md-12 form_label">Branch Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" name="branch_name" placeholder="Branch Name"
+                                            class="form-control" [(ngModel)]="formData.branch_name">
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="row w-100 ">
+                                <div class="col-auto">
+                                    <button type="submit" class="btn clear-btn"
+                                    (click)="cancel()"> Cancel </button>
+                                </div>
+                                <div class="col-md-auto">
+                                    <button *ngIf="!this.trust_id && CommonService.hasPermission('settings_trust_details', 'has_create')" type="submit"
+                                            class="btn save-btn" (click)="submit()">
+                                            submit </button>
+                                    <button *ngIf="this.trust_id && CommonService.hasPermission('settings_trust_details', 'has_update')" type="submit"
+                                        class="btn save-btn" (click)="update()">
+                                        Update </button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

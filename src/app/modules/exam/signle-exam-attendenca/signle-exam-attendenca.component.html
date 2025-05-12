@@ -1,0 +1,239 @@
+<section class="marks-edit single-attendance-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">SINGLE EXAM ATTENDANCE</h3>
+                <button class="btn btn-primary" (click)="goToViewPage()">Exam View <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+            </div>
+            <div class="card p-0">
+
+                <div class="edit-card-header">
+                    <p>Exam Name:  <span> {{examData?.exam_name ?? '-'}} </span></p>
+                    <p>Exam Type:  <span> {{examData?.exam_type_name ?? '-'}} </span></p>
+                    <p>Exam Start Date - <span> {{examService.dateFormate(examData?.start_date,5)}} </span></p>
+                    <p>Exam End Date - <span> {{examService.dateFormate(examData?.end_date,5)}} </span></p>
+                    <!-- <p>Batch Name:  <span> {{examData?.batch_name ?? '-'}} </span></p>
+                    <p>Subject:  <span> {{examData?.subject ?? '-'}}</span></p> -->
+                </div>
+                <div class="card_body edit-card-body">
+                    <form [formGroup]="marksDataForm">
+                    
+                        <div class="form_section  global_form table_top">
+                            <div class="">
+                                <div class="row gx-5 align-items-center">
+                                    <div class="col-lg-3 col-md-6 col-sm-6 form_group">
+                                        <label for="" class="form_label">Select Batch <span class="text-danger">*</span> </label>
+                                        <div>
+                                            <app-single-select controlName="batch_id" placeholder="Select batch"
+                                                [dropDownArray]="batchList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 form_group">
+                                        <label for="" class="form_label">Select Subject <span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-single-select controlName="subject_id" placeholder="Select subject"
+                                                [dropDownArray]="subjectList"></app-single-select>
+                                        </div>
+                                        <!-- <div>
+                                            <app-multi-select controlName="subject_id" placeholder="Select subject"
+                                                [dropDownArray]="subjectList" [isDisabled]="isDisabled"></app-multi-select>
+                                        </div> -->
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6 form_group">
+                                        <label for="" class="form_label">Select Status <span class="text-danger">*</span> </label>
+                                        <div>
+                                            <app-single-select controlName="status" placeholder="Select status"
+                                                [dropDownArray]="statusList"></app-single-select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-12">
+                                        <div class="show-clear-btn">
+                                            <button  type="button" class="btn px-4 d-flex align-items-center me-3"
+                                                [disabled]="isAttendanceShow" (click)="getStudentOnBatches()">
+                                                show
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isAttendanceShow">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button *ngIf="!(allIds.batch_id && allIds.subject_id)" class="btn" (click)="clearData()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="edit-exam-table" *ngIf="isTableShow">
+                <p><b>Note :- </b> &nbsp;&nbsp; Entering the student's roll number is required for the exam. If the roll number is not entered, the student's attendence cannot be recorded.</p>
+                <div class="table-responsive ">
+                    <form [formGroup]="examAttendenceForm">
+                        <table class="w-100 row-border hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Student GR No</th>
+                                    <th>Student Roll No</th>
+                                    <th>Student Name</th>
+                                    <th>status</th>
+                                    <th>Absent</th>
+                                    <th>Present</th>
+                                    <th>Leave</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="attendanceArray?.controls">
+                                <ng-container formArrayName="attendance">
+                                    <ng-container *ngFor="let item of attendanceArray?.controls; let i = index">
+                                        <tr [formGroupName]="i">
+                                            <td>{{item.value.gr_number === 'N/A' ? '-' : item.value.gr_number || '-'}}</td>
+                                            <td>{{item.value.roll_no == "" ? '-' : item.value.roll_no}}</td>
+                                            <td>{{item.value.student_name}}</td>
+                                            <td>{{item.value.status}}</td>
+                                            <td class="m-radio-list">
+                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                    <input type="radio" formControlName="type" value="a">
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td class="m-radio-list">
+                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                    <input type="radio" formControlName="type" value="p">
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td class="m-radio-list">
+                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                    <input type="radio" formControlName="type" value="l">
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="attendanceArray?.controls?.length == 0 && !isStudent">
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="d-flex justify-content-center">
+                                            No Student Found.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="show-clear-btn d-flex mt-3">
+                    <button type="button" class="btn px-4 d-flex align-items-center me-3" [disabled]="loadingNdRedirect"
+                        (click)="saveAttendance()" *ngIf="attendanceArray?.controls?.length != 0">
+                        {{examData?.attendance[0]?.type !== '' ? 'Update' : 'Save'}} 
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="loadingNdRedirect">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                    <button type="button" class="btn px-4 d-flex align-items-center me-3" [disabled]="loadingNdReset"
+                        (click)="saveAttendance(true)" *ngIf="attendanceArray?.controls?.length != 0 && !is_queryParams ">
+                        {{examData?.attendance[0]?.type !== '' ? 'Update and New' : 'Save and New'}} 
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="loadingNdReset">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                    <button class="btn" (click)="goToViewPage()">Cancel</button>
+                </div>
+            </div>
+            
+            <!-- <ng-container >
+                <div class="card" >
+    
+                    <div class="edit-card-header">
+                        <p>Exam Name:  <span> {{examData?.exam_name ?? '-'}} </span></p>
+                        <p>Exam Type:  <span> {{examData?.exam_type ?? '-'}} </span></p>
+                        <p>Batch Name:  <span> {{examData?.batch_name ?? '-'}} </span></p>
+                        <p>Subject:  <span> {{examData?.subject ?? '-'}}</span></p>
+                       
+                    </div>
+    
+                </div>
+    
+                <div class="card">
+                    <div class="card_body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive ">
+                                    <form [formGroup]="examAttendenceForm">
+                                        <table class="w-100 row-border hover table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Student Roll No</th>
+                                                    <th>Student Name</th>
+                                                    <th>Absent</th>
+                                                    <th>Present</th>
+                                                    <th>Leave</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngIf="attendanceArray?.controls">
+                                                <ng-container formArrayName="attendance">
+                                                    <ng-container *ngFor="let item of attendanceArray?.controls; let i = index">
+                                                        <tr [formGroupName]="i">
+                                                            <td>{{item.value.roll_no}}</td>
+                                                            <td>{{item.value.student_name}}</td>
+                                                            <td class="m-radio-list">
+                                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                                    <input type="radio" formControlName="type" value="a">
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                            <td class="m-radio-list">
+                                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                                    <input type="radio" formControlName="type" value="p">
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                            <td class="m-radio-list">
+                                                                <label class="radio-inline position-relative m-radio--state-brand">
+                                                                    <input type="radio" formControlName="type" value="l">
+                                                                    <span></span>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </tbody>
+                                            <tbody *ngIf="isStudent">
+                                                <tr>
+                                                    <td colspan="5">
+                                                        <div class="d-flex justify-content-center">
+                                                            <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                                <span class="visually-hidden">Loading...</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="show-clear-btn d-flex">
+                                <button type="button" class="btn px-4 d-flex align-items-center me-3" [disabled]="false"
+                                    (click)="saveAttendance()">
+                                    {{examData?.attendance[0].type !== '' ? 'Update' : 'Save'}} 
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </button>
+                                <button class="btn" (click)="goToViewPage()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container> -->
+        </div>
+    </div>
+</section>

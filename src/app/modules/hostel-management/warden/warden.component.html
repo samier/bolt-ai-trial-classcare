@@ -1,0 +1,81 @@
+<section class="add_assign_room_no">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Warden Details</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.WARDEN_LIST)" > Warden List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="form" class="form_section" id="driver-form">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class=" form_label">Name<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input  type="text" id="name" name="name" formControlName="name" placeholder="Name" class="form-control">
+                                </div>
+                                <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+                                    <div *ngIf="form.controls['name'].errors?.['required']">please enter warden name.</div>
+                                </div>
+                                <div class=" error text-danger mb-2">{{errors['name']}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class=" form_label">Contact Number<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input  type="text" id="contact_number" name="contact_number" formControlName="contact_number" placeholder="Contact Number" class="form-control">
+                                </div>
+                                <div *ngIf="form.controls['contact_number'].invalid && (form.controls['contact_number'].dirty || form.controls['contact_number'].touched)" class=" error text-danger mb-2">
+                                    <div *ngIf="form.controls['contact_number'].errors?.['required']">please enter contact number.</div>
+                                    <div *ngIf="form.controls['contact_number'].errors?.['pattern']">only numbers allowed.</div>
+                                    <div *ngIf="form.controls['contact_number'].errors?.['min'] || form.controls['contact_number'].errors?.['max']">please enter valid contact no.</div>
+                                </div>
+                                <div class=" error text-danger mb-2">{{errors['contact_number']}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class=""> 
+                                <label class=" form_label">Status</label>
+                                <div class="">
+                                    <select  id="status" name="status" formControlName="status" class="form-control" >
+                                        <option value="1">Active</option>
+                                        <option value="0">InActive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group">
+                            <div class=""> 
+                                <label class=" form_label">Address<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <textarea  type="text" id="address" name="address" formControlName="address" placeholder="Address" class="form-control"></textarea>
+                                </div>
+                                <div *ngIf="form.controls['address'].invalid && (form.controls['address'].dirty || form.controls['address'].touched)" class=" error text-danger mb-2">
+                                    <div *ngIf="form.controls['address'].errors?.['required']">please enter address.</div>
+                                </div>
+                                <div class=" error text-danger mb-2">{{errors['address']}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-100 ">
+                        <div class="col-md-1">
+                            <a class="btn w-100 px-1" href="#" [routerLink]="setUrl(URLConstants.WARDEN_LIST)">Cancel</a>
+                        </div>
+                        <div class="col-md-1">
+                                <button *ngIf=" warden_id ? CommonService.hasPermission('hostel_management_warden', 'has_update') : CommonService.hasPermission('hostel_management_warden', 'has_create') " class="button px-1" type="submit" (click)="submit()" [disabled]="form.invalid" class="btn w-100">{{button}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

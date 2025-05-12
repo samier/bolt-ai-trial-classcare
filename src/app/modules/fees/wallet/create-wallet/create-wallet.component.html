@@ -1,0 +1,227 @@
+<div>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Debit / Credit Money</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-section" [formGroup]='walletForm' novalidate id="wallet-form">
+      <div class="page_inner">
+
+        <div class="card_body">
+          <div class="row">
+            <div class="col-md-12">
+              <label class="form_label">Select Student<span class="text-danger">*</span></label>
+              <div>
+                <app-student-search (student)="getStudent($event)" [inActive]="true" *ngIf="!in_transaction"></app-student-search>
+                <input type="text" class="form-control mb-1" [value]="wallet?.student_name" *ngIf="in_transaction" readonly>            
+                <span class="text-danger" *ngIf="(f.student_unique_id.touched || formSubmitted) && f.student_unique_id.errors?.required">
+                  Student is required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6 pt-1">
+              <label class="form_label">Select Type<span class="text-danger">*</span></label>
+              <div>
+                <ng-select formControlName='type' name='type' placeholder="'Select type'" [items]="types" bindLabel="name"
+                  bindValue="id">
+                </ng-select>
+                <span class="text-danger" *ngIf="(f.type.touched || formSubmitted) && f.type.errors?.required">
+                  Type is required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6 pt-1">
+              <label class="form_label">Amount<span class="text-danger">*</span></label>
+              <input type="text" name="amount" formControlName='amount' placeholder="Amount" class="form-control" 
+                numbersOnly>
+                <span class="text-danger" *ngIf="(f.amount.touched || formSubmitted) && f.amount.errors?.required">
+                  Amount is required
+                </span>
+                <span class="text-danger" *ngIf="(f.amount.touched || formSubmitted) && f.amount.errors?.pattern">
+                  Invalid amount value
+                </span>
+            </div>
+            <div class="col-md-6 pt-1">
+              <label class="form_label">Date<span class="text-danger">*</span></label>
+              <app-mat-date-picker controlName="date"></app-mat-date-picker>
+              <!-- <input formControlName='date' type="date" name="date" placeholder="date" class="form-control"
+                >
+                <span class="text-danger" *ngIf="(f.date.touched || formSubmitted) && f.date.errors?.required">
+                  Date is required
+                </span> -->
+            </div>
+            <div class="col-md-6 pt-1">
+              <label class="form_label">Payment Mode<span class="text-danger">*</span></label>
+              <div>
+                <ng-select 
+                    class="form-control" 
+                    placeholder="Select Pyament Type"
+                    name="payment_mode_id" 
+                    formControlName="payment_mode_id"
+                    [(ngModel)]="payment_mode_id" 
+                    [items]="payment_modes"
+                    bindLabel="name"
+                    bindValue="id"
+                    [searchable]="true"
+                    (change)="paymentModeValidate(50)"
+                  >
+                </ng-select>
+                <span class="text-danger" *ngIf="(f.payment_mode_id.touched || formSubmitted) && f.payment_mode_id.errors?.required">
+                  Payment Mode is required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-12 pt-1" *ngIf="payment_mode_id == 5">
+                <label class="form_label">UPI ID</label>
+                <input type="text" class="form-control" name="upi_id" placeholder="Enter UPI ID.">
+            </div>
+            <div class="" *ngIf="payment_mode_id == 2">
+                <div class="pt-1">
+                    <label class="form_label">Cheque No.<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="cheque[cheque_no]" (input)="paymentModeValidate()" placeholder="Enter Cheque No." >
+                    <span class="text-danger" *ngIf="errors?.cheque_no && formSubmitted">{{errors?.cheque_no}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="cheque[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" >
+                    <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Cheque Date</label>
+                    <input type="date" class="form-control" name="cheque[cheque_date]" placeholder="Select date"  >
+                </div>
+            </div>
+            <div class="" *ngIf="payment_mode_id == 4">
+                <div class="pt-1">
+                    <label class="form_label">Account Number</label>
+                    <input type="text" class="w-100 form-control" name="bank[account_no]" placeholder="Enter Account Number." >
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Account Holder Name</label>
+                    <input type="text" class="w-100 form-control" name="bank[account_holder_name]" placeholder="Enter Account Holder Name" >
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">IFSC Code</label>
+                    <input type="text" class="w-100 form-control" name="bank[ifsc_code]" placeholder="Enter IFSC Code" >
+                </div>
+            </div>
+
+            <div class="" *ngIf="payment_mode_id == 3">
+                <div class="pt-1">
+                    <label class="form_label">RRN Number<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="card[rrn_no]" (input)="paymentModeValidate()" placeholder="Enter RRN Number." >
+                    <span class="text-danger" *ngIf="errors?.rrn_no && formSubmitted">{{errors?.rrn_no}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="card[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" >
+                    <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Type<span class="text-danger">*</span></label>
+                    <div  class="m-radio-section">
+                        <div  class="radio">
+                            <label  class="m-radio">
+                                <input type="radio" name="card[card_type]" value="1" id="debit" class="mr-1" checked>
+                                Debit
+                                <span></span>
+                            </label>
+                        </div>
+                        <div  class="radio">
+                            <label  class="m-radio">
+                                <input type="radio" name="card[card_type]" value="2" id="credit" class="mr-1">
+                                Credit
+                                <span></span>
+                            </label>
+                        </div>
+                        <div  class="radio">
+                            <label  class="m-radio">
+                                <input type="radio" name="card[card_type]" value="3" id="qr" class="mr-1">
+                                QR
+                                <span></span>
+                            </label>
+                        </div>
+                     </div>
+                    <span class="text-danger" *ngIf="errors?.card_type && formSubmitted">{{errors?.card_type}}</span>
+                </div>
+            </div>
+
+            <div class="" *ngIf="payment_mode_id == 6">
+                <div class="pt-1">
+                    <label class="form_label">Transaction/Ref No.<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="other_payment[transaction_or_ref_no]" (input)="paymentModeValidate()" placeholder="Enter Transaction/Ref Number" >
+                    <span class="text-danger" *ngIf="errors?.transaction_or_ref_no && formSubmitted">{{errors?.transaction_or_ref_no}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Bank Name<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="other_payment[bank_name]" (input)="paymentModeValidate()" placeholder="Enter Bank Name" >
+                    <span class="text-danger" *ngIf="errors?.bank_name && formSubmitted">{{errors?.bank_name}}</span>
+                </div>
+                <div class="pt-1">
+                    <label class="form_label">Payment Type<span class="text-danger">*</span></label>
+                    <input type="text" class="w-100 form-control" name="other_payment[payment_type]" (input)="paymentModeValidate()" placeholder="Enter Payment Type" >
+                    <span class="text-danger" *ngIf="errors?.payment_type && formSubmitted">{{errors?.payment_type}}</span>
+                </div>
+            </div>
+            <div class="col-md-12 pt-1">
+              <label class="form_label">Note<span class="text-danger">*</span></label>
+              <textarea formControlName='note' name="note" id="note" cols="30" rows="3" class="form-control" placeholder="type note.."
+                ></textarea>
+              <span class="text-danger" *ngIf="(f.note.touched || formSubmitted) && f.note.errors?.required">
+                Note is required
+              </span>
+            </div>
+            <div class="col-md-12 pt-1">
+              <label class="form_label"> Send Message</label>
+              <div class="d-flex">
+                <div class="m-checkbox-list d-flex align-items-center me-3">
+                  <label class="m-checkbox mb-0">
+                    <input type="checkbox" id="checkbox" formControlName="is_father_message"><span></span>
+                  </label>
+                  <label for="checkbox" class="ms-2 mb-0 mt-1">Father</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                  <label class="m-checkbox mb-0">
+                    <input type="checkbox" id="checkbox1" formControlName="is_mother_message"><span></span>
+                  </label>
+                  <label for="checkbox1" class="ms-2 mb-0 mt-1">Mother</label>
+                </div>
+                <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                  <label class="m-checkbox mb-0">
+                    <input type="checkbox" id="checkbox2" formControlName="is_student_message"><span></span>
+                  </label>
+                  <label for="checkbox2" class="ms-2 mb-0 mt-1">Student</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn save-btn" (click)="submit()" [disabled]="saving"> 
+        {{saving == 1 ? 'Saving' : 'Save'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving == 1">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="">
+      <button type="button" class="w-100 btn save-btn" (click)="submit(true)" [disabled]="saving"> 
+        {{saving == 2 ? 'Saving and Priting' : 'Save and Print'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving == 2">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn clear-btn" (click)="close()">
+        Cancel </button>
+    </div>
+  </div>
+</div>

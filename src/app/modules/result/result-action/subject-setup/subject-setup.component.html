@@ -1,0 +1,301 @@
+<div class="subject-setup exam-action-setup">
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel *ngFor="let section of data?.section_details" [expanded]="true">
+        <mat-expansion-panel-header>
+          {{section.section_name}}
+        </mat-expansion-panel-header>
+        <div class="exam-action-body subject-action-body">
+          <div class="table-responsive">
+            <!-- <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th rowspan="2">Subject</th>
+                  <th colspan="2">Marks</th>
+                  <ng-container *ngFor="let exam of section?.subjects[0]?.exams; let i = index" >
+                    <th colspan="2" cdkDropList (cdkDropListDropped)="dropColumn(section,$event, i)" >
+                      <div cdkDrag>
+                        <input type="text" class="me-1" [value]="exam?.name" (input)="handleExamNameChange(section,exam?.id,$event,'name')" placeholder="Exam Name">
+                        <input type="number" class="mark-input" [value]="exam?.conversionRatio" (input)="handleConversionRate(section,exam?.id,$event)" placeholder="Ratio">
+                        <div class="red" *ngIf="!exam?.name">please enter exam name</div>
+                      </div>
+                    </th>
+                  </ng-container>
+                </tr>
+                <tr>
+                  <th>Total Marks</th>
+                  <th>Passing Marks</th>
+                  <ng-container *ngFor="let exam of section?.subjects[0]?.exams">
+                    <th>Total Marks</th>
+                    <th>Converted Marks(%)</th>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody cdkDropList (cdkDropListDropped)="dropRow(section?.subjects,$event)">
+                <tr *ngFor="let subject of section?.subjects" cdkDrag>
+                  <td>
+                    <label class="d-flex">
+                      <input type="checkbox" class="me-2" [(ngModel)]="subject.selected">
+                      {{ subject.name }}
+                    </label>
+                  </td>
+                  <td>
+                    <input type="number" class="mark-input" [(ngModel)]="subject.totalMarks" placeholder="marks" readonly>
+                  </td>
+                  <td>
+                    <input type="number" 
+                          class="mark-input" 
+                          [(ngModel)]="subject.passingMarks" 
+                          [class.danger-mark-value]="subject.totalMarks < subject.passingMarks || subject.passingMarks < 0" 
+                          min="0" 
+                          [max]="subject.totalMarks" 
+                          placeholder="marks" 
+                    >
+                  </td>
+                  <ng-container *ngFor="let exam of subject.exams">
+                    <td>
+                      <input type="number" class="mark-input" [value]="exam?.totalMarks" placeholder="marks" [hidden]="!exam?.has_exam" readonly>
+                    </td>
+                    <td>
+                      <input type="number" class="mark-input" [value]="exam?.convertedMarks" placeholder="marks" [hidden]="!exam?.has_exam" readonly>
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table> -->
+            <table class="table table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th rowspan="2">Subject &nbsp; (Code)</th>
+                  <th colspan="2">Marks</th>
+                  <ng-container *ngFor="let exam of section?.subjects[0]?.exams; let i = index">
+                    <th colspan="2" cdkDropList (cdkDropListDropped)="dropColumn(section, $event, i)">
+                      <div cdkDrag>
+                        <input type="text" class="me-1" [value]="exam?.name" (input)="handleExamNameChange(section, exam?.id, $event, 'name')" placeholder="Exam Name">
+                        <input type="number" class="mark-input" [value]="exam?.conversionRatio" (input)="handleConversionRate(section, exam?.id, $event)" placeholder="Ratio">
+                        <i class="fa fa-bars column-move-icon" aria-hidden="true" cdkDragHandle></i>
+                        <div class="red" *ngIf="!exam?.name">Please enter exam name</div>
+                      </div>
+                    </th>
+                  </ng-container>
+                </tr>
+                <tr>
+                  <th>Total Marks</th>
+                  <th>Passing Marks</th>
+                  <ng-container *ngFor="let exam of section?.subjects[0]?.exams">
+                    <th>Total Marks</th>
+                    <th>Converted Marks(%)</th>
+                  </ng-container>
+                </tr>
+              </thead>
+            
+              <tbody cdkDropList (cdkDropListDropped)="dropRow(section?.subjects, $event)">
+                <tr *ngFor="let subject of section?.subjects" cdkDrag>
+                  <td>
+                    <label class="d-flex">
+                      <i class="fa fa-bars row-move-icon" aria-hidden="true" cdkDragHandle></i>
+                      <input type="checkbox" class="me-2" [(ngModel)]="subject.selected">
+                      {{ subject.name }}
+                      &nbsp; <input type="text" style="width:50%" class="mark-input" [(ngModel)]="subject.code" placeholder="code">
+                    </label>
+                  </td>
+            
+                  <td>
+                    <input type="number" class="mark-input" [(ngModel)]="subject.totalMarks" placeholder="marks">
+                  </td>
+                  <td>
+                    <input type="number" 
+                          class="mark-input" 
+                          [(ngModel)]="subject.passingMarks" 
+                          [class.danger-mark-value]="+subject.totalMarks < +subject.passingMarks || +subject.passingMarks < 0" 
+                          min="0" 
+                          [max]="subject.totalMarks" 
+                          placeholder="marks">
+                  </td>
+            
+                  <ng-container *ngFor="let exam of subject.exams">
+                    <td>
+                      <input type="number" class="mark-input" [value]="exam?.totalMarks" placeholder="marks" [hidden]="!exam?.has_exam" readonly>
+                    </td>
+                    <td>
+                      <input type="number" class="mark-input" [value]="exam?.convertedMarks" placeholder="marks" [hidden]="!exam?.has_exam" (input)="handleRowChange(section, subject?.id , exam?.id, $event)">
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="data?.CoScholastic?.subjects?.length > 0" [expanded]="true">
+        <mat-expansion-panel-header>
+          Co-scholastic
+        </mat-expansion-panel-header>
+        <div class="exam-action-body subject-action-body">
+          <div class="table-responsive">
+            <!-- <table class="table table-hover table-bordered grade-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Subject Name</th>
+                  <th *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams; let i = index" colspan="3" class="text-center" cdkDropList (cdkDropListDropped)="dropColumn(data?.CoScholastic,$event, i)" >
+                    <div cdkDrag>
+                      <input type="text" class="me-1" [value]="exam?.name" (input)="handleExamNameChange(data?.CoScholastic,exam?.id,$event,'name')" placeholder="Exam Name" >
+                      <div class="red" *ngIf="!exam?.name">please enter exam name</div>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <ng-container *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams">
+                    <th>Marks Type</th>
+                    <th>Total/ Passing Marks</th>
+                    <th>Grade</th>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody cdkDropList (cdkDropListDropped)="dropRow(data?.CoScholastic?.subjects,$event)">
+                <tr *ngFor="let subject of data?.CoScholastic?.subjects" cdkDrag>
+                  <td>
+                    <label class="d-flex">
+                      <input type="checkbox" class="me-2" [(ngModel)]="subject.selected">
+                      {{subject.subject_name}}
+                    </label>
+                  </td>
+                  <ng-container *ngFor="let exam of subject?.exams">
+                    <td>
+                      <input type="text" class="mark-input mark-type-input" value="{{exam?.exam_type_label}}" placeholder="grade" readonly *ngIf="exam?.has_exam"/>
+                    </td>
+                    <td>
+                      <div *ngIf="exam?.exam_type != 2 && exam?.has_exam" class="d-flex">
+                        <input type="number" class="mark-input" value="{{exam?.total_marks}}" placeholder="marks" readonly /> / <input type="number" class="mark-input" value="{{exam?.passing_marks}}" placeholder="marks" readonly/>
+                      </div>
+                    </td>
+                    <td>
+                      <input *ngIf="exam?.exam_type != 1 && exam?.has_exam" type="text" class="mark-input mark-type-input" placeholder="grade" value="{{exam?.grade?.name}}" readonly />
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table> -->
+            <table class="table table-hover table-bordered grade-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Subject Name</th>
+                  <th *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams; let i = index" colspan="3" class="text-center">
+                    <div>
+                      <input type="text" class="me-1" [value]="exam?.name" (input)="handleExamNameChange(data?.CoScholastic, exam?.id, $event, 'name')" placeholder="Exam Name">
+                      <div class="red" *ngIf="!exam?.name">Please enter exam name</div>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <ng-container *ngFor="let exam of data?.CoScholastic?.subjects?.[0]?.exams">
+                    <th>Marks Type</th>
+                    <th>Total/Passing Marks</th>
+                    <th>Grade</th>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody cdkDropList (cdkDropListDropped)="dropRow(data?.CoScholastic?.subjects, $event)">
+                <tr *ngFor="let subject of data?.CoScholastic?.subjects" cdkDrag>
+                  <td>
+                    <label class="d-flex">
+                      <i class="fa fa-bars row-move-icon" aria-hidden="true" cdkDragHandle></i>
+                      <input type="checkbox" class="me-2" [(ngModel)]="subject.selected">
+                      {{subject.subject_name}}
+                    </label>
+                  </td>
+                  <!-- Keep the other columns non-draggable -->
+                  <ng-container *ngFor="let exam of subject?.exams">
+                    <td>
+                      <input type="text" class="mark-input mark-type-input" value="{{exam?.exam_type_label}}" placeholder="grade" readonly *ngIf="exam?.has_exam"/>
+                    </td>
+                    <td>
+                      <div *ngIf="exam?.exam_type != 2 && exam?.has_exam" class="d-flex">
+                        <input type="number" class="mark-input" value="{{exam?.total_marks}}" placeholder="marks" readonly /> / 
+                        <input type="number" class="mark-input" value="{{exam?.passing_marks}}" placeholder="marks" readonly/>
+                      </div>
+                    </td>
+                    <td>
+                      <input *ngIf="exam?.exam_type != 1 && exam?.has_exam" type="text" class="mark-input mark-type-input" placeholder="grade" value="{{exam?.grade?.name}}" readonly />
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="data?.skill_subjects?.subjects?.length > 0" [expanded]="true">
+        <mat-expansion-panel-header>
+          Skill Subjects
+        </mat-expansion-panel-header>
+        <div class="exam-action-body subject-action-body">
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered grade-table">
+              <thead>
+                <tr>
+                  <th rowspan="2">Subject Name</th>
+                  <th *ngFor="let exam of data?.skill_subjects?.subjects?.[0]?.exams; let i = index" colspan="3" class="text-center">
+                    <div>
+                      <input type="text" class="me-1" [value]="exam?.name" (input)="handleExamNameChange(data?.skill_subjects, exam?.id, $event, 'name')" placeholder="Exam Name">
+                      <div class="red" *ngIf="!exam?.name">Please enter exam name</div>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <ng-container *ngFor="let exam of data?.skill_subjects?.subjects?.[0]?.exams">
+                    <th>Marks Type</th>
+                    <th>Total/Passing Marks</th>
+                    <th>Grade</th>
+                  </ng-container>
+                </tr>
+              </thead>
+              <tbody cdkDropList (cdkDropListDropped)="dropRow(data?.skill_subjects?.subjects, $event)">
+                <tr *ngFor="let subject of data?.skill_subjects?.subjects" cdkDrag>
+                  <td>
+                    <label class="d-flex">
+                      <i class="fa fa-bars row-move-icon" aria-hidden="true" cdkDragHandle></i>
+                      <input type="checkbox" class="me-2" [(ngModel)]="subject.selected">
+                      {{subject.subject_name}}
+                    </label>
+                  </td>
+                  <!-- Keep the other columns non-draggable -->
+                  <ng-container *ngFor="let exam of subject?.exams">
+                    <td>
+                      <input type="text" class="mark-input mark-type-input" value="{{exam?.exam_type_label}}" placeholder="grade" readonly *ngIf="exam?.has_exam"/>
+                    </td>
+                    <td>
+                      <div *ngIf="exam?.exam_type != 2 && exam?.has_exam" class="d-flex">
+                        <input type="number" class="mark-input" value="{{exam?.total_marks}}" placeholder="marks" readonly /> / 
+                        <input type="number" class="mark-input" value="{{exam?.passing_marks}}" placeholder="marks" readonly/>
+                      </div>
+                    </td>
+                    <td>
+                      <input *ngIf="exam?.exam_type != 1 && exam?.has_exam" type="text" class="mark-input mark-type-input" placeholder="grade" value="{{exam?.grade?.name}}" readonly />
+                    </td>
+                  </ng-container>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="exam-action-footer" *ngIf="data?.CoScholastic?.subjects?.length > 0 || data?.section_details?.length > 0">
+      <button class="btn btn-primary mx-3" (click)="save()" [disabled]="saving">
+        {{saving ? 'Saving' : 'Save & Next'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+      <button class="btn btn-primary" (click)="getSubjectSetupDetail()">Reset</button>
+    </div>
+    <div class="text-center" *ngIf="data?.CoScholastic?.subjects?.length == 0 && data?.section_details?.length == 0">
+      <span>No Subject or Exams Selected </span>
+    </div>
+    <div class="text-center" *ngIf="loading">
+      <div class="spinner-border spinner-border-sm" role="status" *ngIf="loading">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    </div>
+  </div>

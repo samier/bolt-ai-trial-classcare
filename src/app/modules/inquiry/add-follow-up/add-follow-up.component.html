@@ -1,0 +1,67 @@
+<section class="add_homework">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="modal-header" style="z-index: 0;">
+                <h4 class="modal-title" id="modal-basic-title">{{ editData ? "UPDATE" : "ADD" }} Follow Up</h4>
+                <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+                  <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!-- <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{ followUpId ? "UPDATE" : "ADD" }} Follow Up</h3>
+                <button type="button" class="close" aria-label="Close" (click)="handleCloseModal()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div> -->
+            <div class="modal-body">
+                <div class="student_follow_info mb-3">
+                    <p class="m-0"> <b>Section Name :-</b> {{ inquiryData?.section_name  }}</p>
+                    <p class="m-0"> <b>Class :-</b> {{ inquiryData?.class?.name   }}</p>
+                    <p class="m-0"> <b>Name :-</b> {{inquiryData?.last_name + " " + inquiryData?.first_name + " " + (inquiryData?.middle_name || " ")}} </p>
+                </div>
+                <form [formGroup]="inquiryForm">
+                    <div class="row">
+                        <div class="col-md-12 form_group">
+                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                            <div>
+                                <app-mat-date-picker [maxDate]="todaysDate" placeholder="Select Date" controlName="date"></app-mat-date-picker>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form_group">
+                            <label class="form_label">Follow Up Type<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select controlName="type" [dropDownArray]="followUpType"
+                                    placeholder="Please select"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form_group">
+                            <label class="form_label">Message<span class="text-danger">*</span></label>
+                            <div>
+                                <app-textarea controlName="message" placeholder="Enter message"></app-textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form_group">
+                            <label class="form_label">Next Follow Up Date </label>
+                            <div>
+                                <app-mat-date-picker placeholder="Select Next Follow up Date" controlName="next_follow_up_date"></app-mat-date-picker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-100 justify-content-end ">
+                        <div class="col-md-auto">
+                            <button class="btn clear-btn" (click)="handleCloseModal()">cancel</button>
+                        </div>
+                        <div class="col-md-auto p-0">
+                            <button *ngIf="editData ? commonService.hasPermission('inquiry_follow_up', 'has_update') : commonService.hasPermission('inquiry_follow_up', 'has_create') "
+                             class="btn save-btn" type="submit" (click)="send()" [disabled]="sendL">{{editData ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="sendL">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

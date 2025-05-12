@@ -1,0 +1,279 @@
+<section class="form-setup form-builder-setup">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class=" form-builder-card form-builder-inr">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="card form-builder-card form-builder-left">
+                                <div class="card_body">
+                                    <div class="row">
+                                        <ng-container>
+                                            <div class="col-lg-12" *ngFor="let field of fields; let i = index">
+                                                <div class="form-builder-listing">
+                                                    <input type="checkbox" class="label-check" id="checkselect{{i}}" [(ngModel)]="field.selected"
+                                                        [disabled]="field.default_selected">
+                                                    <label for="checkselect{{i}}" class="form_label mb-0">{{field.default_label ?? field.key}}</label>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card form-builder-card form-builder-right">
+                                <div class="row">
+                                    <!-- <ng-container *ngIf="fields.length > 0 else noFields"> -->
+                                        <ng-container *ngFor="let field of fields; let i = index">
+                                            <div *ngIf="field.selected" class="col-md-12">
+                                                <div [ngSwitch]="field.type" class="form-group">
+                                        
+                                                    <!-- Input -->
+                                                    <div *ngSwitchCase="'input'" class="builder-group">
+                                                        <div class="builder-label-reverse">
+                                                            <label class="form_label">{{ field.label }} <span *ngIf="field.required"
+                                                                    class="text-danger">*</span></label>
+                                                            <a ngbTooltip="Edit {{ field.label }}" class="btn action-edit" (click)="startEditing(i)">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <ng-container *ngIf="editingIndex !== i; else editMode">
+                                                            <input [type]="field.sub_type" [attr.placeholder]="field.placeholder" class="form-control"
+                                                                [required]="field.required" disabled />
+                                                        </ng-container>
+                                        
+                                                        <ng-template #editMode>
+                                                            <div class="education-card">
+                                                                <div class="education-header">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" [(ngModel)]="field.required"
+                                                                            id="required{{i}}" [disabled]="field.default_selected">
+                                                                        <label for="required{{i}}" class="form-check-label form_label">Required</label>
+                                                                    </div>
+                                                                    <button class="education-cancel-btn" (click)="stopEditing()" ngbTooltip="Close"><i class="fa fa-times"
+                                                                            aria-hidden="true"></i> </button>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Label</label>
+                                                                        <input type="text" placeholder="Enter label" class="form-control"
+                                                                            [(ngModel)]="field.label" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Placeholder</label>
+                                                                        <input type="text" placeholder="Enter placenolder" class="form-control"
+                                                                            [(ngModel)]="field.placeholder" />
+                                                                    </div>
+                                                                </div>
+                                        
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                        
+                                                    <!-- Textarea -->
+                                                    <div *ngSwitchCase="'textarea'" class="builder-group">
+                                                        <div class="builder-label-reverse">
+                                                            <label class="form_label">{{ field.label }} <span *ngIf="field.required"
+                                                                    class="text-danger">*</span></label>
+                                                            <a ngbTooltip="Edit {{ field.label }}" class="btn action-edit" (click)="startEditing(i)">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <ng-container *ngIf="editingIndex !== i; else editTextarea">
+                                                            <textarea [attr.placeholder]="field.placeholder" class="form-control" [required]="field.required"
+                                                                readonly></textarea>
+                                                        </ng-container>
+                                        
+                                                        <ng-template #editTextarea>
+                                                            <div class="education-card">
+                                                                <div class="education-header">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" [(ngModel)]="field.required"
+                                                                            id="required{{i}}" [disabled]="field.default_selected">
+                                                                        <label for="required{{i}}" class="form-check-label form_label">Required</label>
+                                                                    </div>
+                                                                    <button class="education-cancel-btn" (click)="stopEditing()" ngbTooltip="Close"><i class="fa fa-times"
+                                                                            aria-hidden="true"></i> </button>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Label</label>
+                                                                        <input type="text" placeholder="Enter label" class="form-control"
+                                                                            [(ngModel)]="field.label" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Placeholder</label>
+                                                                        <input type="text" placeholder="Enter placenolder" class="form-control"
+                                                                            [(ngModel)]="field.placeholder" />
+                                                                    </div>
+                                                                </div>
+                                        
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                        
+                                                    <!-- Checkbox -->
+                                                    <div *ngSwitchCase="'checkbox'" class="form-check builder-group">
+                                                        <div class="builder-label-reverse">
+                                                            <input type="checkbox" id="checkbox{{i}}" class="form-check-input ms-0" disabled />
+                                                            <label for="checkbox{{i}}" class="form-check-label form_label ps-4">{{ field.label }} <span
+                                                                    *ngIf="field.required" class="text-danger">*</span></label>
+                                                            <a ngbTooltip="Edit {{ field.label }}" class="btn action-edit" (click)="startEditing(i)">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <ng-container *ngIf="editingIndex === i">
+                                                            <div class="education-card">
+                                                                <div class="education-header">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" [(ngModel)]="field.required"
+                                                                            id="required{{i}}" [disabled]="field.default_selected">
+                                                                        <label for="required{{i}}" class="form-check-label form_label">Required</label>
+                                                                    </div>
+                                                                    <button class="education-cancel-btn" (click)="stopEditing()" ngbTooltip="Close"><i class="fa fa-times"
+                                                                            aria-hidden="true"></i> </button>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Label</label>
+                                                                        <input type="text" placeholder="Enter label" class="form-control"
+                                                                            [(ngModel)]="field.label" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </div>
+                                        
+                                                    <!-- Radio Buttons -->
+                                                    <div *ngSwitchCase="'radio'" class="builder-group">
+                                                        <div class="builder-label-reverse">
+                                                            <label class="form_label">{{ field.label }} <span *ngIf="field.required"
+                                                                    class="text-danger">*</span></label>
+                                                            <a ngbTooltip="Edit {{ field.label }}" class="btn action-edit" (click)="startEditing(i)">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <div class="d-flex">
+                                                            <div *ngFor="let opt of field.options" class="form-check form-check-inline">
+                                                                <input type="radio" [id]="opt.id" [value]="opt.id" class="form-check-input" disabled />
+                                                                <label class="form-check-label form_label" [for]="opt.id">{{ opt.name }}</label>
+                                                            </div>
+                                                        </div>
+                                        
+                                                        <ng-container *ngIf="editingIndex === i">
+                                                            <div class="education-card mt-3">
+                                                                <div class="education-header">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" [(ngModel)]="field.required"
+                                                                            id="required{{i}}" [disabled]="field.default_selected">
+                                                                        <label for="required{{i}}" class="form-check-label form_label">Required</label>
+                                                                    </div>
+                                                                    <button class="education-cancel-btn" (click)="stopEditing()" ngbTooltip="Close"><i class="fa fa-times"
+                                                                            aria-hidden="true"></i> </button>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Label</label>
+                                                                        <input type="text" placeholder="Enter label" class="form-control"
+                                                                            [(ngModel)]="field.label" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                    </div>
+                                        
+                                                    <!-- Select Dropdown -->
+                                                    <div *ngSwitchCase="'select'" class="builder-group">
+                                                        <div class="builder-label-reverse">
+                                                            <label class="form_label">{{ field.label }} <span *ngIf="field.required"
+                                                                    class="text-danger">*</span></label>
+                                                            <a ngbTooltip="Edit {{ field.label }}" class="btn action-edit" (click)="startEditing(i)">
+                                                                <i class="fa fa-pencil-alt"></i>
+                                                            </a>
+                                                        </div>
+                                        
+                                                        <ng-container *ngIf="editingIndex !== i; else editSelect">
+                                                            <select class="form-control" disabled>
+                                                                <option disabled selected> {{ field.placeholder }} </option>
+                                                                <option *ngFor="let option of field.options" [value]="option.id">{{ option.name }}</option>
+                                                            </select>
+                                                        </ng-container>
+                                        
+                                                        <ng-template #editSelect>
+                                                            <div class="education-card">
+                                                                <div class="education-header">
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox" class="form-check-input" [(ngModel)]="field.required"
+                                                                            id="required{{i}}" [disabled]="field.default_selected">
+                                                                        <label for="required{{i}}" class="form-check-label form_label">Required</label>
+                                                                    </div>
+                                                                    <button class="education-cancel-btn" (click)="stopEditing()" ngbTooltip="Close"><i class="fa fa-times"
+                                                                            aria-hidden="true"></i> </button>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Label</label>
+                                                                        <input type="text" placeholder="Enter label" class="form-control"
+                                                                            [(ngModel)]="field.label" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="builder-group">
+                                                                    <div class="education-group">
+                                                                        <label class="form_label mb-0">Placeholder</label>
+                                                                        <input type="text" placeholder="Enter placeholder" class="form-control"
+                                                                            [(ngModel)]="field.placeholder" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                        
+                                        
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    <!-- </ng-container> -->
+                                    <!-- <ng-template #noFields>
+                                        <div class="">
+                                            <span>No Selected Fields Found Please select field from the left panel</span>
+                                        </div>
+                                    </ng-template> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 btn-sticky"
+                *ngIf="editData ? this.CommonService.hasPermission('inquiry_form_builder', 'has_update') : this.CommonService.hasPermission('inquiry_form_builder', 'has_create')">
+                <div class="d-flex justify-content-end" *ngIf="(!inquiryFormId && !editData || editData)">
+                    <button type="button" (click)="onSave('save')" [disabled]="isSave || isSaveNext"
+                        class="btn px-4 d-flex align-items-center me-3 save-btn">
+                        {{editData ? 'Update' : 'Save'}}
+                        <div class="spinner-border spinner-border-sm ms-2" role="status"
+                            *ngIf="isSave">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                    <button type="button" (click)="onSave('save-next')" [disabled]="isSave || isSaveNext"
+                        class="btn px-4 d-flex align-items-center me-3 save-btn">
+                        {{editData ? 'Update & Next' : 'Save & Next'}}
+                        <div class="spinner-border spinner-border-sm ms-2" role="status"
+                            *ngIf="isSaveNext">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

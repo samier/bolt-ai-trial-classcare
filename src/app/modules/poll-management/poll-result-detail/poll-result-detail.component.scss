@@ -1,0 +1,13 @@
+::ng-deep body{
+  app-poll-result-detail{
+    .hed_alert{
+      .alert{
+       .card-body{
+          i, span{
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,74 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+            <h3 class="sub_title mb-0">{{page}} Document Type</h3>
+            <div class="btn_right">
+              <a class="btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.DOCUMENT_TYPE_LIST)">Document Type List</a>
+            </div>
+			</div>
+            <div class="">
+                <div class="card_body">
+					<div class="">
+						<div class="card">
+							<form [formGroup]="form" class="form_section">
+								<div class="row">
+										<div class="col-md-3 form_group">
+											<div class="">
+												<label class="form_label">Document Type<span class="text-danger">*</span></label>
+												<div class="">
+													<input  type="text" id="name" name="name" formControlName="name" placeholder="Document Type" class="form-control">
+												</div>
+												<div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class="col-lg-10 error text-danger ps-0 mb-2">
+													<div *ngIf="form.controls['name'].errors?.['required']">please enter document type</div>
+													<div *ngIf="form.controls['name'].errors?.['pattern']">symbols not allowed</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3 form_group">
+	                                        <div class="">
+	                                            <label class=" form_label">Document For<span class="text-danger">*</span></label>
+	                                            <div class="">
+	                                                <select  formControlName="for" class="form-control" >
+	                                                    <option value="" disabled>select document for</option>
+	                                                    <option value="driver">Driver</option>
+	                                                    <option value="vehicle">Vehicle</option>
+	                                                    <option value="teacher">Teacher</option>
+	                                                    <option value="student">Student</option>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-md-3 form_group">
+	                                        <div class="">
+	                                            <label class=" form_label">Status</label>
+	                                            <div class="">
+	                                                <select  id="status" name="status" formControlName="status" class="form-control" >
+	                                                    <option value="active">Active</option>
+	                                                    <option value="inactive">InActive</option>
+	                                                </select>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+										<div class="col-md-12">
+											<!-- <div class="add_doc">
+												<label class=" form_label">Document Type<span class="text-danger">*</span></label>
+											</div> -->
+											<div class="row w-100 ">
+												<div class="col-md-auto">
+													<a class="btn clear-btn" href="#" [routerLink]="setUrl(URLConstants.DOCUMENT_TYPE_LIST)">Cancel</a>
+												</div>
+												<div class="col-md-auto">
+													<button type="submit"  *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('transport_document_type', 'has_update') :  CommonService.hasPermission('transport_document_type', 'has_create')" (click)="submit()" [disabled]="form.invalid" class="btn save-btn">{{saveBtn}}</button>
+												</div>
+											</div>
+										</div>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,189 @@
+<section class="lesson-plan-list-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+            <h3 class="sub_title mb-0">Lecture List</h3>
+            <div>
+                <a class="btn add-btn" *ngIf="CommonService.hasPermission('faculty_lecture_plan', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.ADD_LECTURE)">Add Lecture</a>
+            </div>
+        </div>
+        <div class="card p-0">
+            <div class="card-header justify-content-between d-flex">
+                <div class="card-student-heading d-flex align-items-center">
+                    <h5 class="mb-0">Filters</h5>
+                    <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                </div>
+                <div class="d-flex student-accordion-btn">
+                    <button class="btn me-2" (click)="reset()" [disabled]="isResetLoading">Reset
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                            <span class="visually-hidden">Loading..."</span>
+                        </div>
+                    </button>
+                    <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                        <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                        <i class="fa fa-angle-up" *ngIf="filter"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body" *ngIf="filter">
+                <div [formGroup]="lectureFilter" class="content_scroll">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Section</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="sectionsList" 
+                                    controlName="section_id" 
+                                    (change)="onSectionChange()"
+                                    placeholder="Select Section" 
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Class</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="classList" 
+                                    controlName="class_id" 
+                                    (change)="onClassChange()"
+                                    placeholder="Select Class"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Batch</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="batchList" 
+                                    controlName="batch_id" 
+                                    placeholder="Select Batch"
+                                    (change)="onBatchChange()"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Subject</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="subjectList" 
+                                    controlName="subject_id" 
+                                    placeholder="Select Subject"
+                                    (change)="onSubjectChange()"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div *ngIf="user_role !== 'ROLE_FACULTY'" class="col-md-3 form_group">
+                            <label class="form_label">Faculty</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="facultiesList" 
+                                    controlName="user_id" 
+                                    placeholder="Select Faculty"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Chapter</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="chapterList" 
+                                    controlName="chapter_id" 
+                                    placeholder="Select Chapter"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Status</label>
+                            <div>
+                                <app-multi-select 
+                                    [dropDownArray]="statusList" 
+                                    controlName="status" 
+                                    placeholder="Select Status"
+                                ></app-multi-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Completion Date</label>
+                            <div>
+                                <app-date-range-picker controlName="date" placeholder="Select Date Range"></app-date-range-picker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto form_group">
+                            <button class="btn show-btn" (click)="onShow()" [disabled]="isShowLoading">Show
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="row mx-0 no-gutters">
+                <div class="col-lg-12">
+                    <div class="lectures-list">
+                        <div class="assign-transport-table">
+                            <div class="datatable-action-design">
+                                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                  </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                  </svg>
+                                </div>
+                                <div class="table-responsive">
+                                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="w-auto">Sr. No.</th>
+                                                <th class="w-auto">Class</th>
+                                                <th class="w-auto">Batch</th>
+                                                <th class="w-auto">Employee Name</th>
+                                                <th class="w-auto">Subject</th>
+                                                <th class="w-auto">Chapter</th>
+                                                <th class="w-auto">Lecture</th>
+                                                <th class="w-auto">Status</th>
+                                                <th class="w-auto">Completion Date</th>
+                                                <th class="w-auto action-btn-sticky">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody; let i = index">
+                                                <td> {{ i + 1 }} </td>
+                                                <td> {{ item?.class_name ?? '' }} </td>
+                                                <td> {{ item?.batch_name ?? '' }} </td>
+                                                <td> {{ item?.user_name ?? '' }} </td>
+                                                <td> {{ item?.subject ?? '' }} </td>
+                                                <td> {{ item?.chapter_name ?? '' }} </td>
+                                                <td> {{ item?.lecture_name ?? '' }} </td>
+                                                <td> <span [class]="item?.status == '0' ? 'static-text-danger text-danger' : 'text-success'">{{ item?.status_name ?? 'N/A' }}</span> </td>
+                                                <td> {{ item?.remark_date ? (item?.remark_date | date: dateFormateService.getDateFormat()) : 'Not Completed Yet'}} </td>
+                                                <td class="action-btn-sticky text-center">		
+                                                    <div class="btn-group">								
+                                                        <button *ngIf="hasEdit && item?.status == '0'" class="lt-btn-icon action-approve" (click)="openModal(item?.id)" ngbTooltip="Mark Completed"></button>
+                                                        <button *ngIf="!hasEdit || item?.status != '0'" class="lt-btn-icon action-view" (click)="openModal(item?.id)" ngbTooltip="View Details"></button>
+                                                        <button *ngIf="hasDelete" (click)="deleteLecture(item?.id)" class="lt-btn-icon action-delete" ngbTooltip="Delete"></button>
+                                                    </div>  
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="tbody.length === 0">
+                                            <tr>
+                                                <td colspan="10" class="text-center no-data-available">No Data Available</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>

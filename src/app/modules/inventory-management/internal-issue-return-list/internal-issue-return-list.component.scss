@@ -1,0 +1,78 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    .myCustomModalClass{
+      .modal-table{
+        span{
+          &.c-primary{
+            color: var(--primary-bg-color);
+          }
+        }
+      }
+      .basic_table{
+        .table-responsive{
+          .table{
+            display: table;
+            th{
+              white-space: nowrap;
+            }
+          }
+        }
+      }
+      .modal-dialog {
+        max-width: 69.3vw;
+    
+      }
+    }
+    &.dark-theme{
+      .basic_table{
+        .table-responsive{
+          .table{
+            border: 1px solid #eaedf133;
+          }
+        }
+      }
+    }
+    .uploded_doc{
+      .uploded_doc_content{
+          &.card{
+              box-shadow: 0 0 5px #b9b9b9 !important;
+              padding: 10px;
+          }
+          .img_heading{
+              margin: 0 0 10px;
+              background: $primary;
+              color: $white;
+              padding: 6px 13px;
+              border-radius: 10px;
+              .img_title{
+                  font-size: 15px;
+                  font-weight: bold;
+                  text-transform: uppercase;
+              }
+          }
+          .atteched_file{
+              a{
+                  img{
+                      object-fit: cover;
+                  }
+                  i{
+                      &.fa-file-pdf{
+                          color: red;
+                          font-size: 50px;
+                          padding: 30px;
+                      }
+                      &.fa-file-excel{
+                          color: green;
+                          font-size: 50px;
+                          padding: 30px;
+                      }
+                  }
+              }
+          }
+          .action .btn{
+              margin-top: 20px;
+              padding: 3px 7.4px !important;
+          }
+      }
+    }
+}

@@ -1,0 +1,137 @@
+<div>
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">Send Message</h4>
+      <button type="button" class="close" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+  
+      <div class="page_inner">
+  
+        <div class="card_body">
+          <form [formGroup]="hostelSms" class="form_section" id="driver-form">
+            <div class="row">
+                <div class="form_group">
+                  <label class="form_label">Message Type</label>
+                  <div>
+                      <div class="m-radio-section">
+                          <div class="radio">
+                            <label class="px-0 m-radio" for="sms" >
+                              <input class="" type="radio" id="sms" (change)="sendType(1)" formControlName="send_type"
+                                value="1">SMS<span></span>
+                            </label>
+                          </div>
+                          <div class="radio" *ngIf="msgProvider != null">
+                            <label class="px-0 m-radio" for="whatsapp" >
+                              <input class="" type="radio" id="whatsapp" (change)="sendType(2)" formControlName="send_type"
+                                value="2">WhatsApp<span></span>
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label class="px-0 m-radio" for="bothType" *ngIf="msgProvider != null">
+                              <input class="" type="radio" id="bothType" (change)="sendType(3)" formControlName="send_type"
+                                value="3">Both<span></span>
+                            </label>
+                          </div>                         
+                      </div>
+                  </div>
+                </div>
+
+
+                <div class="form_group" *ngIf="send_type == 1 || send_type == 3">
+                  <label class="form_label">Select SMS Template<span class="text-danger">*</span></label>
+                  <div>
+                    <!-- <app-single-select controlName="sms_template_id"
+                      [dropDownArray]="templates" placeholder="Select Template" (change)="templateChange($event)">
+                    </app-single-select> -->
+                    <ng-select #select [items]="templates" (change)="templateChange($event)" bindLabel="type"
+                        bindValue="id" id="sms_template_id" name="sms_template_id" formControlName="sms_template_id"
+                        placeholder="Select Template">
+                        <ng-template ng-header-tmp>
+                            <input type="text" class="form-control"
+                                (input)="select.filter($any($event.target).value)" />
+                        </ng-template>
+                    </ng-select>
+                  </div>
+                  <div *ngIf="hostelSms.controls['sms_template_id'].invalid && (hostelSms.controls['sms_template_id'].dirty || hostelSms.controls['sms_template_id'].touched)" class=" error text-danger mb-2 mx-2">
+                    <div *ngIf="hostelSms.controls['sms_template_id'].errors?.['required']">Please Select Template</div>
+                  </div> 
+                </div>
+                <div class="form_group" *ngIf="send_type == 1 || send_type == 3">
+                  <label class="form_label">Message</label>      
+                  <!-- <app-textarea controlName="message" [rows]="5" placeholder="Enter Message" [readonly]="true">
+                  </app-textarea> -->
+                  <textarea class="form-control" name="message" id="message" rows="5" placeholder="Enter Message" formControlName="message" readonly></textarea>
+                </div>
+                
+
+                <div class="form_group" *ngIf="send_type == 2 || send_type == 3">
+                  <label class="form_label">Select WhatsApp Template</label>
+                  <div>
+                    <!-- <app-single-select controlName="whatsapp_template_id"
+                      [dropDownArray]="whatsappTemplates" placeholder="Select Template" (change)="whatsappTemplatesChange($event)">
+                    </app-single-select> -->
+                    <ng-select #select1 [items]="whatsappTemplates" (change)="whatsappTemplatesChange($event)" bindLabel="type"
+                        bindValue="id" id="whatsapp_template_id" name="whatsapp_template_id" formControlName="whatsapp_template_id"
+                        placeholder="Select Template">
+                        <ng-template ng-header-tmp>
+                            <input type="text" class="form-control"
+                                (input)="select1.filter($any($event.target).value)" />
+                        </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form_group" *ngIf="send_type == 2 || send_type == 3">
+                  <label class="form_label">WhatsApp Message<span class="text-danger">*</span></label>
+                  <!-- <app-textarea controlName="whatsappMessage" [rows]="5" placeholder="Enter Message">
+                  </app-textarea> -->
+                  <textarea class="form-control" name="whatsappMessage" id="whatsappMessage" rows="5" placeholder="Enter Message" formControlName="whatsappMessage"></textarea>
+                  <div *ngIf="hostelSms.controls['whatsappMessage'].invalid && (hostelSms.controls['whatsappMessage'].dirty || hostelSms.controls['whatsappMessage'].touched)" class=" error text-danger mb-2 mx-2">
+                    <div *ngIf="hostelSms.controls['whatsappMessage'].errors?.['required']">Please Enter Message</div>
+                  </div> 
+                </div>
+
+                <div class="col form_group">
+                  <label class="form_label">Send Message</label>
+                      <div class="d-flex">
+                        <div class="m-checkbox-list d-flex align-items-center me-3">
+                          <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox" formControlName="is_father_message"><span></span>
+                          </label>
+                          <label for="checkbox" class="ms-2 mb-0 mt-1">Father</label>
+                        </div>
+                        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                          <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox1" formControlName="is_mother_message"><span></span>
+                          </label>
+                          <label for="checkbox1" class="ms-2 mb-0 mt-1">Mother</label>
+                        </div>
+                        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                          <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox2" formControlName="is_student_message"><span></span>
+                          </label>
+                          <label for="checkbox2" class="ms-2 mb-0 mt-1">Student</label>
+                        </div>
+                      </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  
+    </div>
+    <div class="modal-footer justify-content-start" style="z-index: 0;">
+      <div class="col-md-3 p-0">
+        <button type="submit" class="w-100 btn clear-btn" (click)="close()">Cancel</button>
+      </div>
+      <div class="col-md-3 p-0">
+        <button type="submit" class="w-100 btn" (click)="sendMessage()" [disabled]="isSmsSend"> Send
+          <div class="spinner-border spinner-border-sm" *ngIf="isSmsSend">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>              
+    </div>
+  </div>
+  

@@ -1,0 +1,23 @@
+::ng-deep body {
+    app-fees-collection-detail{
+        .basic_table {
+            .table-responsive{
+                overflow: visible;
+                >.table-bordered{
+                    display: table;
+                    tr{
+                        td,th{
+                            &.name{
+                                width:60%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .multiselect-dropdown{
+            z-index: unset;
+        }
+    }
+
+}

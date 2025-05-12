@@ -1,0 +1,192 @@
+@import "../../../../../assets/scss/variables";
+::ng-deep{
+    .calendar_dashboard_section{
+        .upcoming-header{
+            padding: 8px;
+            // background-color: #DFEEFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 0;
+            &::before{
+                content: "";
+                background-color: $primary;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 6px 6px 0 0;
+                opacity: 0.17;
+                z-index: -1;
+            }
+            h3{
+                font-size: 17px;
+                line-height: 22px;
+                font-weight: 600;
+                color: #000;
+                margin: 0;
+                text-transform: capitalize;
+                white-space: nowrap;
+                img{
+                    margin-right: 6px;
+                }
+            }
+            .view-btn-link{
+                background-color: $primary;
+                color: #fff;
+                font-weight: 500;
+                border-radius: 2px;
+                padding: 1px 16px 1px 33px;
+                position: relative;
+                border: 1px solid $primary;
+                transition: 0.3s;
+                position: relative;
+                z-index: 9;
+                font-size: 14px;
+                line-height: 20px;
+                span{
+                    width: 24px;
+                    height: 25px;
+                    background-color: #fff;
+                    color: $primary;
+                    border-radius: 2px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    left: -1px;
+                    top: -1px;
+                    transition: 0.3s;
+                }
+                &:hover{
+                    background-color: #fff;
+                    color:$primary;
+                    span{
+                        background-color:$primary;
+                        color: #fff;
+                    }
+                }
+            }
+            .exam-mark-form{
+                width: 100%;
+                .row{
+                    .form_group{
+                        padding: 0 10px;
+                        input{
+                            font-size: 11px;
+                            line-height: 16px;
+                            padding: 3px;
+                            color: #000;
+                        }
+                    }
+                }
+                .ng-select.ng-select-single{
+                    .ng-select-container{
+                        height: 24px;
+                        .ng-value-container{
+                            padding: 0;
+                            .ng-input{
+                                padding: 0 10px;
+                                position: unset;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .full-calender-content{
+            padding: 12px;
+            .full-calender-content-inr{
+                max-height: 400px;
+                overflow-y: auto;
+
+                &::-webkit-scrollbar {
+                    width: 4px;
+                }
+
+                .fc-header-toolbar{
+                    position: sticky;
+                    top: 0;
+                    background-color: #fff;
+                    z-index: 1;
+                }
+                full-calendar{
+                    .fc-header-toolbar{
+                        .fc-toolbar-chunk{
+                            .fc-button-group{
+                                .fc-button{
+                                    transition: background-color 0.3s ease-in-out;
+                                    box-shadow: none;
+                                    &:hover{
+                                        opacity: 0.5;
+                                    }
+                                    &:focus{
+                                        box-shadow: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .fc-view-harness{
+                        .fc-scrollgrid{
+                            tbody{
+                                .fc-scrollgrid-sync-table{
+                                    tbody{
+                                        tr{
+                                            .fc-daygrid-day{
+                                                transition: all 0.3s ease-in-out;
+                                                cursor: pointer;
+                                                &:hover{
+                                                    background-color: rgba(188, 232, 241, 0.3);
+        
+                                                    .fc-daygrid-day-top{
+                                                        a{
+                                                            font-weight: 700;
+                                                        }
+                                                    }
+                                                }
+        
+                                                .fc-daygrid-day-events{
+                                                    .fc-daygrid-event-harness{
+                                                        .fc-event{
+                                                            transition:background-color 0.5s ease-in-out;
+                                                            &:hover{
+                                                                opacity: 0.8;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+    
+                                                &.fc-day-other{
+                                                    cursor: default;
+                                                    &:hover{
+                                                        background-color: transparent;
+    
+                                                        .fc-daygrid-day-top{
+                                                            a{
+                                                                font-weight: normal;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .calendar-loader {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+            pointer-events: all;
+        } 
+    }
+}

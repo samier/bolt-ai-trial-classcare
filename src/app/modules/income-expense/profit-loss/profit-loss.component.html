@@ -1,0 +1,170 @@
+<section class="profit-loss-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">PROFIT & LOSS REPORT</h3>
+                <div class="profit-pdf-btn d-flex">
+                    <button *ngIf="CommonService.hasPermission('finance_profit_loss_report', 'has_download')" type="button" ngbtooltip="PDF" class="pdf-btn btn me-2 ng-star-inserted" [disabled]="isPdfDownload" (click)="download('pdf')">
+                        <img src="assets/images/pdf-icon.svg" alt="">
+                    </button>
+                    <button *ngIf="CommonService.hasPermission('finance_profit_loss_report', 'has_download')" type="button" ngbtooltip="EXCEL" class="excel-btn btn ng-star-inserted" [disabled]="isExcelDownload" (click)="download('excel')">
+                        <img src="assets/images/excel-icon.svg" alt="">
+                    </button>
+                </div>
+            </div>
+            <div class="card profit-loss-card">
+                <form [formGroup]="profitLossF">
+                    <div class="row justify-content-between align-items-center">
+                        <div class="col-md-3 ">
+                            <label class=" form_label">Date Range</label>
+                            <app-date-range-picker controlName="date" placeholder="Select Date"></app-date-range-picker>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="d-flex justify-content-end">
+                                <button class="btn show-btn me-2" (click)="show()"> Show </button>
+                                <button class="btn clear-btn" (click)="clear()"> Clear </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card">
+                <div class="row m-0">
+                    <div class="col-lg-6 p-0 border-right-1">
+                        <div class="profit-loss-content">
+                            <div class="profit-loss-heading">
+                                <h3>INCOME</h3>
+                                <h3>AMOUNT(₹)</h3>
+                            </div>
+                            <div class="profit-loss-body" *ngIf="!isLoading && profitData">
+                                <div *ngFor="let item of profitData['data']">
+                                    <h4>{{item['ac_group']}}</h4>
+                                    <ul>
+                                        <li *ngFor="let ledger of item['data']">
+                                            <div class="list-value">
+                                                <h6>{{ledger['ledger']}}</h6>
+                                                <p><span>₹</span> {{ledger['total_amount'] | number:'1.2-2'}}</p>
+                                            </div>
+                                            <div class="">
+                                            </div>
+                                        </li>
+                                        <li class="bg-value">
+                                            <div class="list-value">
+                                                <h5>Total {{item['ledger']}}</h5>
+                                                <!-- <h6>Head-4</h6>
+                                                <p><span>₹</span> 100000.0</p> -->
+                                            </div>
+                                            <div class="rt-value">
+                                                <h5><span>₹</span> {{item['total_amount'] | number:'1.2-2'}}</h5>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="profit-loss-body" *ngIf="!profitData">
+                                <div class="d-flex justify-content-center my-4">
+                                    No Data Found
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 p-0 border-right-1">
+                        <div class="profit-loss-content">
+                            <div class="profit-loss-heading">
+                                <h3>EXPENSE</h3>
+                                <h3>AMOUNT(₹)</h3>
+                            </div>
+                            <div class="profit-loss-body" *ngIf="!isLoading && lossData">
+                                <div *ngFor="let item of lossData['data']">
+                                    <h4>{{item['ac_group']}}</h4>
+                                    <ul>
+                                        <li *ngFor="let ledger of item['data']">
+                                            <div class="list-value">
+                                                <h6>{{ledger['ledger']}}</h6>
+                                                <p><span>₹</span> {{ledger['total_amount'] | number:'1.2-2'}}</p>
+                                            </div>
+                                            <div class="">
+                                            </div>
+                                        </li>
+                                        <li class="bg-value">
+                                            <div class="list-value">
+                                                <h5>Total {{item['ledger']}}</h5>
+                                                <!-- <h6>Head-4</h6>
+                                                <p><span>₹</span> 100000.0</p> -->
+                                            </div>
+                                            <div class="rt-value">
+                                                <h5><span>₹</span> {{item['total_amount'] | number:'1.2-2'}}</h5>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="profit-loss-body" *ngIf="!lossData">
+                                <div class="d-flex justify-content-center my-4">
+                                    No Data Found
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0 profit-loss-content" *ngIf="!isLoading">
+                    <div class="col-lg-6 p-0 border-right-1 profit-loss-body">
+                        <ul  *ngIf="profitData">
+                            <li class="total-value">
+                                <div class="list-value">
+                                    <h5>Total</h5>
+                                    <!-- <h6>Head-4</h6>
+                                    <p><span>₹</span> 100000.0</p> -->
+                                </div>
+                                <div class="rt-value">
+                                    <h5><span>₹</span> {{profitData['total_amount'] | number:'1.2-2'}}</h5>
+                                </div>
+                            </li>
+                            <li class="profit-value total-value" *ngIf="profit != 0">
+                                <div class="list-value">
+                                    <h5>profit</h5>
+                                    <!-- <h6>Head-4</h6>
+                                    <p><span>₹</span> 100000.0</p> -->
+                                </div>
+                                <div class="rt-value">
+                                    <h5><span>₹</span> {{profit | number:'1.2-2'}}</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 p-0 border-right-1 profit-loss-body" >
+                        <ul  *ngIf="lossData">
+                            <li class="total-value">
+                                <div class="list-value">
+                                    <h5>Total</h5>
+                                    <!-- <h6>Head-4</h6>
+                                    <p><span>₹</span> 100000.0</p> -->
+                                </div>
+                                <div class="rt-value">
+                                    <h5><span>₹</span> {{lossData['total_amount'] | number:'1.2-2'}}</h5>
+                                </div>
+                            </li>
+                            <li class="loss-value total-value"  *ngIf="loss != 0">
+                                <div class="list-value">
+                                    <h5>Loss</h5>
+                                    <!-- <h6>Head-4</h6>
+                                    <p><span>₹</span> 100000.0</p> -->
+                                </div>
+                                <div class="rt-value">
+                                    <h5><span>₹</span> {{loss | number:'1.2-2'}}</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="isLoading">
+                    <div class="d-flex justify-content-center my-4">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

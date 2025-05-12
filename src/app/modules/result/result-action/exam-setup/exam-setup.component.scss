@@ -1,0 +1,67 @@
+// exam setup css start
+.exam-action-setup {
+    padding: 25px 0 0px 0;
+    .mat-accordion {
+      padding: 0;
+      display: block;
+      .mat-expansion-panel {
+        margin-bottom: 20px;
+        border-radius: 8px !important;
+        box-shadow: none;
+        overflow: hidden;
+        border: 1px solid #d9d9d9;
+        .mat-expansion-panel-header {
+          background-color: #d9e5ff !important;
+          font-size: 16px;
+          line-height: 24px;
+          font-weight: 500;
+          color: #000;
+          border-radius: unset;
+          height: 54px !important;
+          .mat-expansion-indicator {
+            background-color: #fff;
+            width: 22px;
+            height: 22px;
+            border-radius: 100px;
+            text-align: center;
+            &:after {
+              color: #000;
+              margin-top: -5px;
+            }
+          }
+        }
+        .exam-action-body {
+          min-height: 140px;
+          .result-listing-inner {
+            padding: 20px 0;
+            .btn-setup {
+              background-color: #fff;
+              border: 1px solid #6f6d6c;
+              padding: 6px 12px;
+              outline: none;
+              box-shadow: none;
+              color: #6f6d6c;
+              border-radius: 8px;
+              margin-right: 15px;
+              font-size: 14px;
+              line-height: 20px;
+              font-weight: 400;
+              transition: 0.3s;
+              margin-bottom: 10px;
+              &:hover,&.active  {
+                background-color: var(--primary-bg-color);
+                color: #fff;
+                border: 1px solid var(--primary-bg-color);
+              }
+              
+            }
+          }
+        }
+      }
+    }
+    .exam-action-footer {
+      text-align: right;
+      margin-top: 20px;
+    }
+  }
+  // exam setup css end

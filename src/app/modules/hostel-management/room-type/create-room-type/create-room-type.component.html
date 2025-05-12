@@ -1,0 +1,157 @@
+<div>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Room Type</h4>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <form [formGroup]="form" class="form_section" id="driver-form">
+    <div class="modal-body" style="z-index: 0;">
+
+      <div class="page_inner">
+
+        <div class="card_body">
+          
+            <div class="row">
+                <div class="col-md-6 form_group">
+                    <div class="">
+                        <label class=" form_label">Name<span class="text-danger">*</span></label>
+                        <div class="">
+                            <input type="text" id="name" name="name" formControlName="name" placeholder="Room Name" class="form-control">
+                        </div>
+                        <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+                            <div *ngIf="form.controls['name'].errors?.['required']">please enter Room name.</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-md-6 form_group">
+                    <div class="">
+                        <label class=" form_label">Amount<span class="text-danger">*</span></label>
+                        <div class="">
+                            <input type="text" id="amount" name="amount" formControlName="amount" placeholder="Amount" class="form-control">
+                        </div>
+                        <div *ngIf="form.controls['amount'].invalid && (form.controls['amount'].dirty || form.controls['amount'].touched)" class=" error text-danger mb-2">
+                            <div *ngIf="form.controls['amount'].errors?.['required']">please enter amount.</div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>  
+            <!-- <div class="row">
+              <div class="col-md-2">
+                  <div class="add_doc">
+                      <div class="form-group mb-0">
+                          <button type="button" (click)="addRowControl()" class="btn doc-button btn-blue w-100">
+                              Add Row
+                          </button>
+                      </div>
+                  </div>
+              </div>
+            </div> -->
+            <div class="row mt-3">
+                <div *ngIf="newHostelFees.controls" class="col-6 border-end">
+                  <h3>New Student Fees</h3>
+                  <div *ngFor="let control of  newHostelFees.controls; let i = index;" formArrayName='new_month_wise_rent' class="form_group mb-5">
+                      <div [formGroupName]="i" class="document_type_add mr-0">
+                          <div class="row">
+                              <div class="input-fiel col-md-6">
+                                  <label class="form_label">Months<span class="text-danger">*</span></label>
+                                  <!-- <div class="">
+                                      <input type="number" formControlName="month" name="new_month_wise_rent[{{i}}][month]" placeholder="From Marks" class="form-control">
+                                  </div> -->
+                                  <div class="">
+                                    <input type="text" formControlName="new_month" name="new_month_wise_rent[{{i}}][month]" placeholder="month" readonly class="form-control">
+                                      <!-- <ng-select #select [searchable]="true"  id="month"  name="new_month_wise_rent" formControlName="month"  placeholder="Months" (change)="handleMonth()">
+                                          <ng-option *ngFor="let month of months" [value]="month.month" [disabled]="month.disable" >{{month.month}}</ng-option>
+                                          <ng-template ng-header-tmp>
+                                              <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                          </ng-template>
+                                      </ng-select> -->
+                                  </div>
+                                  <div *ngIf="new_get_month(i)?.invalid && (new_get_month(i)?.dirty || new_get_month(i)?.touched)" class="error text-danger">
+                                      <div *ngIf="new_get_month(i)?.errors?.['required']">please select month</div>
+                                  </div>
+                              </div>
+                              <div class="input-field w-100 col-md-6">
+                                  <label class="form_label">Amount<span class="text-danger">*</span></label>
+                                  <div class="">
+                                      <input type="text" formControlName="new_amount" name="new_month_wise_rent[{{i}}][amount]" placeholder="Amount" class="form-control">
+                                  </div>
+                                  <div *ngIf="new_get_amount(i)?.invalid && (new_get_amount(i)?.dirty || new_get_amount(i)?.touched)" class="error text-danger">
+                                      <div *ngIf="new_get_amount(i)?.errors?.['required']">please enter amount</div>
+                                      <div *ngIf="new_get_amount(i)?.errors?.['pattern']">please enter number only.</div>
+                                  </div>
+                              </div>
+                              <!-- <div class="input-field col-md-2">
+                                <div class="input-field add_doc">
+                                    <label for="" class="">remove</label>
+                                    <div class="">
+                                        <button class="button" type="button" (click)="remove(i)" class="btn btn-danger btn-minwidth">Remove</button>
+                                    </div>
+                                </div>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+              </div>  
+              <!-- <div class="vr col-2 p-0 mx-auto"></div> -->
+              <div *ngIf="oldHostelFees.controls" class="col-6 ">
+                <h3>Old Student Fees</h3>
+                <div *ngFor="let control of  oldHostelFees.controls; let i = index;" formArrayName='old_month_wise_rent' class="form_group mb-5">
+                    <div [formGroupName]="i" class="document_type_add mr-0">
+                        <div class="row">
+                            <div class="input-fiel col-md-6">
+                                <label class="form_label">Months<span class="text-danger">*</span></label>
+                                <!-- <div class="">
+                                    <input type="number" formControlName="month" name="old_month_wise_rent[{{i}}][month]" placeholder="From Marks" class="form-control">
+                                </div> -->
+                                <div class="">
+                                  <input type="text" formControlName="old_month" name="old_month_wise_rent[{{i}}][month]" placeholder="month" readonly class="form-control">
+                                    <!-- <ng-select #select [searchable]="true"  id="month"  name="old_month_wise_rent" formControlName="month"  placeholder="Months" (change)="handleMonth()">
+                                        <ng-option *ngFor="let month of months" [value]="month.month" [disabled]="month.disable" >{{month.month}}</ng-option>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select> -->
+                                </div>
+                                <div *ngIf="old_get_month(i)?.invalid && (old_get_month(i)?.dirty || old_get_month(i)?.touched)" class="error text-danger">
+                                    <div *ngIf="old_get_month(i)?.errors?.['required']">please select month</div>
+                                </div>
+                            </div>
+                            <div class="input-field w-100 col-md-6">
+                                <label class="form_label">Amount<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input type="text" formControlName="old_amount" name="old_month_wise_rent[{{i}}][amount]" placeholder="Amount" class="form-control">
+                                </div>
+                                <div *ngIf="old_get_amount(i)?.invalid && (old_get_amount(i)?.dirty || old_get_amount(i)?.touched)" class="error text-danger">
+                                    <div *ngIf="old_get_amount(i)?.errors?.['required']">please enter amount</div>
+                                    <div *ngIf="old_get_amount(i)?.errors?.['pattern']">please enter number only.</div>
+                                </div>
+                            </div>
+                            <!-- <div class="input-field col-md-2">
+                              <div class="input-field add_doc">
+                                  <label for="" class="">remove</label>
+                                  <div class="">
+                                      <button class="button" type="button" (click)="remove(i)" class="btn btn-danger btn-minwidth">Remove</button>
+                                  </div>
+                              </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="modal-footer" style="z-index: 0;" *ngIf="type != 'view'">
+      <div class="col-md-auto">
+        <button type="submit" [disabled]="form.invalid" class="w-100 btn save-btn" (click)="submit()"> Save </button>
+      </div>
+      <div class="col-md-auto">
+        <button type="submit" class="w-100 btn clear-btn" (click)="close()">
+          Cancel </button>
+      </div>
+    </div>
+  </form>
+</div>

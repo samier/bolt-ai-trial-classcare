@@ -1,0 +1,213 @@
+::ng-deep {
+    body {
+        .main-header {
+            z-index: 9 !important;
+        }
+        .view-exam-section {
+            .card {
+                border-radius: 6px;
+
+                .edit-card-header {
+                    background-color: #fff;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    p {
+                        font-size: 15px;
+                        line-height: 20px;
+                        font-weight: 500;
+                        color: #000000;
+                        margin: 0;
+                        padding-right: 30px;
+
+                        span {
+                            font-weight: 400;
+                        }
+                    }
+                }
+
+                .view-heading-btn {
+                    text-align: right;
+                    padding-bottom: 14px;
+                }
+
+            }
+
+            .table-responsive {
+                overflow-x: auto;
+                overflow-y: auto;
+                max-height: 400px;
+                margin: 0;
+
+                table {
+                    margin: 0;
+                    border: 1px solid #D9D9D9;
+                    border-spacing: 0;
+                    border-collapse: separate;
+
+                    thead {
+                        position: sticky;
+                        top: 0;
+                        background-color: #D9D9D9;
+                        z-index: 1;
+
+                        tr {
+                            border: 0 !important;
+
+                            th {
+                                border-spacing: 0 !important;
+                                border-bottom: 0 !important;
+                                border-top: 0 !important;
+                            }
+                        }
+                    }
+
+                    tr {
+                        border-width: 1px 0;
+
+                        th,
+                        td {
+                            vertical-align: middle;
+                            padding: 8px 20px;
+                            color: #000;
+                            white-space: nowrap;
+                        }
+
+                        th {
+                            background-color: #E7E7E7 !important;
+                            border-right: 1px solid #D9D9D9;
+                            border-bottom: 1px solid #D9D9D9;
+                            border-color: #D9D9D9;
+
+                            &:nth-child(2),
+                            &:first-child {
+                                white-space: nowrap;
+                                text-align: left;
+                            }
+
+                            &.text-16 {
+                                font-size: 14px;
+                                line-height: 14px;
+                                font-weight: 600;
+                            }
+                        }
+
+                        td {
+                            border: none;
+                            border-right: 1px solid #D9D9D9;
+                            border-bottom: 1px solid #D9D9D9;
+
+                        }
+
+                        .text-center {
+                            text-align: center;
+                        }
+
+                        .button-action-wrap {
+                            .icon-action-btn {
+                                max-width: 30px;
+                                width: 30px;
+                                height: 30px;
+                                margin-right: 10px;
+                                border-radius: 8px !important;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+
+
+                    }
+
+                    tbody {
+                        tr {
+                            &:nth-of-type(even) {
+                                background-color: #ECF0FA;
+                            }
+
+                            &:nth-of-type(odd) {
+                                background-color: #fff;
+                            }
+                        }
+                    }
+
+                    .view-check-box-check {
+                        margin: 0 !important;
+                        position: unset;
+                    }
+                }
+            }
+
+
+
+        }
+    }
+
+    .duplicate-modal-section {
+        z-index: 10 !important;
+    }
+
+    .duplicate-modal-backdrop {
+        z-index: 10 !important;
+    }
+
+    @media(max-width: 1024px) {
+        body .view-exam-section .card .edit-card-header p {
+            font-size: 14px;
+            line-height: 20px;
+            padding-right: 20px;
+        }
+
+        body .view-exam-section .edit-exam-table .table-responsive table tr th,
+        body .view-exam-section .edit-exam-table .table-responsive table tr td {
+            padding: 4px 12px;
+        }
+    }
+
+    @media(max-width: 992px) {
+        body .view-exam-section .card .edit-card-body .show-clear-btn .btn-primary {
+            min-width: 60px;
+        }
+
+        body .view-exam-section .card .edit-card-header {
+            flex-wrap: wrap;
+        }
+
+        body .view-exam-section .card .edit-card-header p {
+            width: 49%;
+            padding-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        body .view-exam-section .save-button .btn-primary {
+            min-width: 60px;
+        }
+
+        body .view-exam-section .card .edit-card-body .show-clear-btn {
+            margin-top: 0;
+        }
+    }
+
+    @media(max-width: 576px) {
+        body .view-exam-section .edit-exam-table .table-responsive table tr th.text-16 {
+            font-size: 12px;
+            line-height: 12px;
+            font-weight: 600;
+        }
+
+        body .view-exam-section .card .edit-card-header {
+            flex-wrap: wrap;
+        }
+
+        body .view-exam-section .card .edit-card-header p {
+            width: 100%;
+            padding-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        body h3 {
+            font-size: 16px;
+        }
+    }
+}

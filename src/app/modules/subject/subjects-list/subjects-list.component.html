@@ -1,0 +1,16 @@
+<section>
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h3 class="sub_title mb-0">Subject List</h3>
+        <div class="d-flex">
+            <a *ngIf="commonService.hasPermission('settings_subject', 'has_create')" [routerLink]="setUrl(URLConstants.ADD_SUBJECT)" class="btn add-btn">Add Subject</a>
+        </div>
+    </div>
+    <div class="row" *ngIf="subjectData; else noData">
+        <div class="col-md-3 mb-3" *ngFor="let subject of subjectData">
+            <app-subject-card [subject]="subject" (subjectToDelete)="deleteSubject($event)"></app-subject-card>
+        </div>
+    </div>
+    <ng-template #noData>
+        No Subjects Found
+    </ng-template>
+</section>

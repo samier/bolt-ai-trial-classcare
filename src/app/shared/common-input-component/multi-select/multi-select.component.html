@@ -1,0 +1,36 @@
+<ng-container *ngIf="formArray else simpleInput">
+  <ng-container [formArrayName]="formArrayName">
+    <div [formGroupName]="GroupName">
+      <ng-multiselect-dropdown [placeholder]="placeholder" [settings]="multiSelectDropdownSettings"
+        [data]="dropDownArray" [formControl]="FormControl" (onSelect)="onChangeValue($event)"
+        (onDeSelect)="onChangeValue($event)" (onSelectAll)="onChangeValue($event)"
+        (onDeSelectAll)="onChangeValue($event)" [disabled]="isDisabled">
+      </ng-multiselect-dropdown>
+
+      <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+        <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+          <div class="text-danger">
+            {{ error }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template #simpleInput>
+  <div>
+    <ng-multiselect-dropdown [placeholder]="placeholder" [settings]="multiSelectDropdownSettings" [data]="dropDownArray"
+      [formControl]="FormControl" (onSelect)="onChangeValue($event)" (onDeSelect)="onChangeValue($event)"
+      (onSelectAll)="onChangeValue($event)" (onDeSelectAll)="onChangeValue($event)" [disabled]="isDisabled">
+    </ng-multiselect-dropdown>
+
+    <div *ngIf="FormControl.invalid && (FormControl.dirty || FormControl.touched)">
+      <ng-container *ngFor="let error of formValidationService.getErrors(FormControl)">
+        <div class="text-danger">
+          {{ error }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>

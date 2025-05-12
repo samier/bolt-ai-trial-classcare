@@ -1,0 +1,68 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-student-report{
+        .student-edit{
+            min-height: calc(100vh - 165px);
+        }
+        .page_inner {
+            .card {
+                .card_body {
+                    .table_top{
+                        padding: 10px 15px 5px;
+                    }
+                }
+                .card_title {
+                    .btn_right {
+                        a {
+                            margin-left: 10px;
+                        }
+                    }
+                }
+
+                .student-bulk-respose{
+                    table{
+                        td{
+                            .input-group{
+                                min-width: 100px;
+
+                                input[type="number"]::-webkit-inner-spin-button,
+                                input[type="number"]::-webkit-outer-spin-button {
+                                -webkit-appearance: none;
+                                margin: 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .pdf-excel-btn{
+                .btn-success{
+                    width: 100%;
+                    padding: 0 10px;
+                }
+                .d-flex{
+                    margin: 4px -10px 0 -6px;
+                }
+            }
+        }
+        .error-msg{
+            font-size: 12px;
+            color: #c82333;
+        }
+        .bulk-radil-event{
+            margin-right: 20px;
+            margin-bottom: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: flex-start;
+            line-height: 16px;
+            input{
+                transform: scale(1.5); 
+                margin-right: 10px;
+            }
+        }
+        .bulk-student-fees-date .custom-date-picker .mat-form-field{
+            max-width: 392px;
+        }
+    }
+}

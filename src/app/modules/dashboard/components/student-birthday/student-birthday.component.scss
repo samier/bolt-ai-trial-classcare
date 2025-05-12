@@ -1,0 +1,239 @@
+
+
+::ng-deep{
+//variables.scss
+@import "../../../../../assets/scss/variables";
+@import"../../../../../assets/css/variable.scss";
+@import'../../../../../assets/css/variable.scss';
+    .today-leave-section{
+        height: 100%;
+        position: relative;
+        z-index: 9;
+        .today-leave-header{
+            padding: 8px 8px;
+            // background-color: #DFEEFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            white-space: nowrap;
+            position: relative;
+            z-index: 0;
+            &::before{
+                content: "";
+                background-color: $primary;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 6px 6px 0 0;
+                opacity: 0.17;
+                z-index: -1;
+            }
+            .view-all-link{
+                font-size: 12px;
+                line-height: 14px;
+                font-weight: 600;
+                color: #000;
+                text-decoration: none;
+                transition: 0.3s;
+                display: inline-block;
+                position: relative;
+                z-index: 9;
+                h3{
+                    font-size: 17px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    margin: 0;
+                    white-space: nowrap;
+                    margin-bottom: 0px;
+                    text-transform: capitalize;
+                    span{
+                        width: 16px;
+                        height: 16px;
+                        border-radius: 50px;
+                        background-color: #FFD7E4;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-left: 8px;
+                    }
+                    svg{
+                        margin-right: 6px;
+                        transition: 0.3s;
+                        rect{
+                            fill: #fff; 
+                        }
+                        path{
+                            fill: #000;
+                        }
+                    }
+                }
+                &:hover{
+                    color: $primary;
+                    svg{
+                        
+                        rect{
+                            fill: $primary;
+                        }
+                        path{
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+            .today-btn{
+                background-color: #68b168c4;
+                color: #fff;
+                border: 1px solid #68b168c4;
+                padding: 4px 10px;
+                &:hover{
+                    background: #68B168;
+                    color: #fff;
+                    border: 1px solid #68B168;
+                }
+            }
+            .md-drppicker{
+                left: unset !important;
+                right: 0 !important;
+                width: 100% !important;
+                max-width: 100%;
+                overflow: auto;
+                min-width: 615px !important;
+                display: flex;
+                white-space: nowrap;
+                &::-webkit-scrollbar{
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+            .date-icons{
+                .form-control{
+                    background-image: url(../../../../../assets/images/date-picker-icon.svg);
+                    background-position: 95%;
+                    background-repeat: no-repeat;
+                    padding-right: 24px !important;
+                }
+            }
+            
+        }
+        .today-btn{
+            background-color: #fff;
+            color: #68B168;
+            border: 1px solid #68b168c4;
+            padding: 4px 10px;
+            &:hover{
+                background: #68B168;
+                color: #fff;
+                border: 1px solid #68B168;
+            }
+            &.active{
+                background: #68B168;
+                color: #fff;
+                border: 1px solid #68B168;
+            }
+        }
+        
+        .exam-mark-form{
+            width: 100%;
+            .row{
+                .form_group{
+                    input{
+                        font-size: 11px;
+                        line-height: 16px;
+                        padding: 3px;
+                        color: #000;
+                        font-weight: 600;
+                    }
+                }
+            }
+            .ng-select.ng-select-single{
+                .ng-select-container{
+                    height: 24px;
+                    .ng-value-container{
+                        padding: 0;
+                        .ng-input{
+                            padding: 0 10px;
+                            position: unset;
+                        }
+                    }
+                }
+            }
+        }
+        .birthday-wrapper{
+            height: 76%;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+            ul{
+                margin: 0;
+                padding: 0;
+                li{
+                    padding: 6px 14px;
+                    border-bottom: 1px solid #dde2ef;
+                    list-style: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    &:last-child{
+                        border-bottom: 0;
+                    }
+                    .birthday-lt-content{
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-start;
+                        .leave-rt-content{
+                            text-align: center;
+                            display: flex;
+                            align-items: center;
+                            min-width: 126px;
+                            h4{
+                                color: #000;
+                            }
+                            img{
+                                margin-right: 0;
+                                margin-bottom:0px;
+                                margin-right: 5px;
+                            }
+                        }
+                        img{
+                            max-width: 26px;
+                            border-radius: 100px;
+                            margin-right: 12px;
+                            width: 26px;
+                        }
+                        h4{
+                            font-size: 15px;
+                            line-height: 22px;
+                            font-weight: 600;
+                            color: #000;
+                            margin: 0;
+                            span{
+                                display: block;
+                                font-size: 14px;
+                                line-height: 20px;
+                                font-weight: 500;
+                                color: #939393;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @media(max-width: 992px){
+        .today-leave-section .today-leave-header h3{
+            font-size: 12px;
+            line-height: 16px;
+        }
+        .today-leave-section .birthday-wrapper{
+            max-height: 200px;
+        }
+        .today-leave-section .today-leave-header{
+            padding: 8px 10px;
+        }
+    }
+    
+    }

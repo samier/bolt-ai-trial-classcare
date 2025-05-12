@@ -1,0 +1,64 @@
+<div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Add center</h3>
+        <div class="btn_right">
+          <a class="list-btn btn"  href="#." [routerLink]="setUrl(URLConstants.FEES_CENTER)" > Fees Collection Centers</a>
+        </div>
+      </div>
+      <div class="card px-0">
+        <div class="card_body">
+            <form class="form_section"  class="form-section" [formGroup]='addCenterForm' novalidate>
+                <div class="row px-4">
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Center name<span class="text-danger">*</span></label>
+                        <div class="">
+                            <input type="text" formControlName='name' class="form-control" placeholder="Enter center name">
+                            <span class="text-danger" *ngIf="(f.name.touched || formSubmitted) && f.name.errors?.required">
+                                Center name is required
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Select User<span class="text-danger">*</span></label>
+                        <div class="">
+                            <ng-select 
+                                class="form-control mb-2" 
+                                placeholder="Select User"
+                                formControlName="users" 
+                                [items]="userList"
+                                [multiple]="true"
+                                bindLabel="full_name"
+                                groupBy="selectedAllGroup"
+                                [selectableGroup]="true"
+                                [closeOnSelect]="false"
+                                [selectableGroupAsModel]="false"
+                                bindValue="id"
+                                [searchable]="true">
+                            </ng-select>
+                            <span class="text-danger" *ngIf="(f.users.touched || formSubmitted) && f.users.errors?.required">
+                                please select at least one user
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row w-100">
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" href="#." [routerLink]="setUrl(URLConstants.FEES_CENTER)" >Cancel</button>
+                        </div>
+                        <div class="col-md-1">
+                            
+                            <button  *ngIf=" centerId ? commonService.hasPermission('finance_fees_collection_center', 'has_update') : commonService.hasPermission('finance_fees_collection_center', 'has_create') " type="submit" (click)="onSubmit()" class="btn save-btn" [disabled]="submitLoading">
+                                Save
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="submitLoading">
+                                    <span class="visually-hidden">Loading...</span>
+                                    </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>

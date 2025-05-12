@@ -1,0 +1,47 @@
+ // result setup css start
+ .result-setup {
+    .subject-action-body {
+      .table-responsive {
+        .table-result {
+          thead {
+            tr {
+              th {
+                background-color: #e7e7e7;
+                // text-align: left;
+                &:nth-child(2) {
+                  background-color: #ecf0fa;
+                  // text-align: center;
+                }
+                a{
+                  color: #000;
+                }
+              }
+              td {
+                // text-align: left;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .signature-card{
+      border: 1px solid #d0c9c0;
+      padding: 20px;
+      .form-label{
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 500;
+        color: #000;
+        margin-bottom: 14px;
+      }
+    }
+  }
+
+  .fa-list, .fa-th-large {
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    top: 2px;
+  }
+  // result setup css end

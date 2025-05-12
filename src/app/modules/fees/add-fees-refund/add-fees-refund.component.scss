@@ -1,0 +1,53 @@
+@import '../../../../assets/scss/variables';
+@import'../../../../assets/css/variable.scss';
+::ng-deep body{
+    app-add-fees-refund{
+        .frmSearch{
+            margin-bottom: 30px;
+            .student_search{
+                height: 40px;
+                border-radius: 10px;
+                background: #ecf0fa;
+                border: 1px solid #ecf0fa;
+                padding: 0 15px;
+                outline: none;
+                width: 100%;
+            }
+        }
+        .search_layout{
+            position: relative;
+            width: 40%;
+            input{
+                padding-right: 25px;
+            }
+            a{
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        table{
+            &.table-bordered{
+                border: 1px solid #dde2ef !important;
+            }
+        }
+        .card{
+            h3{
+                border-bottom: 1px solid $border;
+                padding-bottom: 20px;
+            }
+        }
+
+    }
+
+    ngb-typeahead-window {
+        width: 100%;
+        
+    }
+    .dropdown-menu.show {
+        display: block;
+        max-height: 260px !important;
+        overflow-y: auto !important;
+    }
+}

@@ -1,0 +1,78 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Import Student fees .xls file</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#."  [routerLink]="setUrl('import/fees/list')" >Import Fees List</a>
+                </div>
+            </div>
+            <div class="">
+
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="importform" class="form_section" method="post">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label class=" form_label"> Import Type<span
+                                                class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <ng-select class="form-control" placeholder="Select Class Name"
+                                                    name="fee_type" formControlName="fee_type" id="route_name"
+                                                    [(ngModel)]="selectedFeeType" required>
+                                                    <ng-option *ngFor="let item of typeOfFees"
+                                                        [value]="item.id">{{item.name}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Browse File<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input #fileInput type="file" (change)="onFileChange($event)"
+                                                    class="form-control" name="file" id="file" formControlName="file"
+                                                    required>
+                                            </div>
+                                            <!-- <div *ngIf="submitted && importform.controls['file'].invalid" class="text-danger">  file name. </div> -->
+                                            <div *ngIf="importform.controls['file'].dirty && importform.controls['file'].invalid"
+                                                class="text-danger"> file name. </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="">
+                                    <!-- <small *ngIf="!importform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                    <div class="">
+                                        <!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a> -->
+                                        <button *ngIf="commonService.hasPermission('finance_import_fees', 'has_import')" type="submit" (click)="onSubmit()" [disabled]="!importform.valid || isUploading"
+                                            class="btn save-btn" id="submitButton">
+                                            <div *ngIf="!isUploading;else loader">Submit</div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<ng-template #loader>
+    <mat-progress-spinner
+    class="example-margin"
+    [color]="'white'"
+    [mode]="'indeterminate'"
+    [diameter]="24"
+    [value]="50">
+</mat-progress-spinner>
+</ng-template>

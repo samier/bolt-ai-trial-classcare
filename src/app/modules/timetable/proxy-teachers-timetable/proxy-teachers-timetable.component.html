@@ -1,0 +1,123 @@
+<section class="teachers_timetable">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Proxy Teacher's Timetable</h3>
+				<div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn mx-2 timetable-btn">Timetable</a>
+					<a [routerLink]="setUrl(URLConstants.PROXY_TIMETABLE_LIST)" class="mx-2 btn list-btn">Proxy Timetable List</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <div action="" class="create_table datatable_cls global_form">
+                            <div class="row form_section form_group mb-0">
+                                <div class="col-md-3">
+                                    <div class="form_section">
+                                        <div class="form_group">
+                                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker [(selectedDate)]="currentDate" [isRequired]="false" [templateDriven]="true"></app-mat-date-picker>
+                                            <!-- <div class="">
+                                                <input type="date" class="form-control" placeholder="enter date" [(ngModel)]="currentDate" name="date">
+                                            </div>
+                                            <div *ngIf="submit && (currentDate == null || currentDate == '')" class="text-danger error"> Please select date. </div> -->
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <button type="submit" class="btn show-btn" [disabled]="showLoading" (click)="show()"> 
+                                        Show
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div> </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn clear-btn" (click)="clear()"> Clear </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card basic_table" *ngIf="users.length > 0">
+                        <div class="row global_form no-gutters">
+                            <div class="col-12 table-responsive">
+                                <!-- <span class="class_title">Class Name</span> -->
+                                <div class="timetable">
+                                    <div  class="p-2">
+                                        <div *ngFor="let item of users; let i = index" class="mb-4">
+                                            <div  class="d-flex border">
+                                                <div class="user-name p-2 text-start border-right d-flex align-items-center">
+                                                    <strong>{{item.full_name}}</strong>
+                                                </div>
+                                                <div class="flex-1 p-2 text-start border-right max-width-300" *ngFor="let timetable of item.timetable; let j = index">
+                                                    <span class="text-sm"> <span> {{timeFormat(timetable.time_slot.from_time)}} - {{timeFormat(timetable.time_slot.to_time)}} </span> </span>
+                                                    <div class="mt-2">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="form_section">
+                                                                    <div class="form_group">
+                                                                        <input class="form-control" placeholder="Batch name"  [(ngModel)]="timetable.batch.name" readonly  type="text">
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form_section">
+                                                                    <div class="form_group">
+                                                                        <input class="form-control" placeholder="Subject name"  [(ngModel)]="timetable.subject.name" readonly  type="text">
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form_section">
+                                                                    <div class="form_group">
+                                                                        <input class="form-control" placeholder="Room No."  [(ngModel)]="timetable.room.room.name" readonly  type="text">
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form_section">
+                                                                    <div class="form_group">
+                                                                        <ng-select  [items]="timetable.faculties" [searchable]="true"  [name]="'proxy_teacher_id'+i+j" bindLabel="full_name" bindValue="id" [(ngModel)]="timetable.proxy_teacher_id" 
+                                                                            placeholder="Select proxy faculty" required (change)="handleFacultyChange(i, j)" appendTo="body">
+                                                                        </ng-select>
+                                                                        <div class="text-danger px-20"> {{errors['users.'+i+'.timetable.'+j+'.proxy_teacher_id']}} </div>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form_section">
+                                                                    <div class="form_group">
+                                                                        <input class="form-control" placeholder="Subject name" [name]="'proxy_subject_name'+i+j"  [(ngModel)]="timetable.proxy_subject_name"  type="text" (keyup)="errors['users.'+i+'.timetable.'+j+'.proxy_subject_name'] = null">
+                                                                        <div class="text-danger px-20"> {{errors['users.'+i+'.timetable.'+j+'.proxy_subject_name']}} </div>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-3">
+                                            <div class="" *ngIf="CommonService.hasPermission('administrator_proxy_lecture', 'has_create') || CommonService.hasPermission('administrator_proxy_lecture', 'has_update')">
+                                                <button type="submit" class="btn save-btn btn-minwidth"
+                                                    (click)="save()"> Save </button>
+                                            </div>
+                                            <div class="mx-2">
+                                                <button type="submit" class="btn clear-btn btn-minwidth"
+                                                    (click)="getProxyTeachersTimetable()"> cancel </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

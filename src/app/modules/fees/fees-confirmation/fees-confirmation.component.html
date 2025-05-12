@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <div class="modal-title">Fees {{type == 1 ? 'Receipt' : 'Refund' }} Preview</div>
+    <div class="modal-close" (click)="closeModal()">
+		<i class="zmdi zmdi-close"></i>
+	</div>
+</div>
+<div class="modal-body">
+
+    <div class="row" >
+	    <div class="col-lg-6" >
+	    	<div class="d-flex">
+	    		<label>Student Name : </label>
+	    		<span> {{student?.full_name}}</span>
+	    	</div>
+	    	<div class="d-flex">
+	    		<label>Payment Date : </label>
+	    		<span> {{payment_date|date:'dd-MM-yyyy'}}</span>
+	    	</div>
+	    	<div class="d-flex">
+	    		<label>Total {{type == 1 ? 'Amount' : 'Refund' }} : </label>
+	    		<span><i class="fas fa-rupee-sign tx-12 mx-1"></i>{{total_amount}}</span>
+	    	</div>
+    	</div>
+	    <div class="col-lg-6" >
+	    	<div class="d-flex">
+	    		<label>Batch : </label>
+	    		<span> {{student?.batch?.[0]?.name??student?.batch}}</span>
+	    	</div>
+	    	<div class="d-flex">
+	    		<label>Payment Mode : </label>
+	    		<span> {{payment_mode?.name}}</span>
+	    	</div>
+    	</div>
+    </div>
+	<table class="table table-bordered mb-0">
+		<thead>
+			<tr>
+				<th>Category</th>
+				<th>{{type == 1 ? 'Amount' : 'Refund' }}</th>
+				<th *ngIf="total_discount > 0">Discount</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let scf of selectedFees">
+				<td *ngIf="type == 1">{{(scf.month??"")+' '+(scf?.is_late_fees ? 'Late Fees' : (scf?.category?.type_name || 'School Fees'))}}</td>
+				<td *ngIf="type == 2">{{scf?.category?.type_name??((scf?.month??"")+' School Fees')}}</td>
+				<td><i class="fas fa-rupee-sign tx-12 me-1"></i>{{scf.paying_amount??scf.refund_amount}}</td>
+				<td *ngIf="total_discount > 0">
+					<i class="fas fa-rupee-sign tx-12 me-1" *ngIf="scf.added_discount > 0">
+					</i>{{scf.added_discount > 0 ? scf.added_discount : "-"}}</td>
+			</tr>
+			<tr>
+				<th>TOTAL :</th>
+				<th><i class="fas fa-rupee-sign tx-12 me-1"></i>{{total}}</th>
+				<th *ngIf="total_discount > 0"><i class="fas fa-rupee-sign tx-12 me-1"></i>{{total_discount}}</th>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="publish-modal-body card mt-3 mb-0 rounded-0">
+		<div class="col-md-12 form_group px-0 my-0">
+		  <label class="form_label">Message Send to ?</label>
+		  <div class="d-flex">
+			<!-- FATHER -->
+			<div class="m-checkbox-list d-flex align-items-center me-3">
+			  <label class="m-checkbox mb-0">
+				<input type="checkbox" id="mf" [(ngModel)]="message.is_father_message " [value]="true"><span></span>
+			  </label>
+			  <label for="mf" class="ms-2 mb-0">Father</label>
+			</div>
+			<!-- MOTHER -->
+			<div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+			  <label class="m-checkbox mb-0">
+				<input type="checkbox" id="mm" [(ngModel)]="message.is_mother_message " [value]="true"><span></span>
+			  </label>
+			  <label for="mm" class="ms-2 mb-0">Mother</label>
+			</div>
+			<!-- STUDENT -->
+			<div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+			  <label class="m-checkbox mb-0">
+				<input type="checkbox" id="ms" [(ngModel)]="message.is_student_message " [value]="true"><span></span>
+			  </label>
+			  <label for="ms" class="ms-2 mb-0">Student</label>
+			</div>
+	
+		  </div>
+		</div>
+	  </div>
+</div>
+
+
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="btn" (click)="closeModal(true)">Save</button>
+</div>

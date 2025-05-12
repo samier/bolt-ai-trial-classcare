@@ -1,0 +1,179 @@
+<section class="marks-edit create-exam-section exam-list-secion">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Manage Roll Number</h3>          
+        </div>
+        <div class="card student-list-card p-0">
+
+          <div class="card-header border-bottom justify-content-between d-flex">
+            <div class="card-student-heading d-flex align-items-center">
+              <h5 class="mb-0">Filters</h5>
+              <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+            </div>
+            <div class="d-flex student-accordion-btn">
+              <button class="btn btn-primary me-2" (click)="clearData()">Reset</button>
+              <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                <i class="fa fa-angle-up" *ngIf="filter"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="card-body" *ngIf="filter">
+            <div class="form_section  global_form table_top">
+              <div class="">
+                <form [formGroup]="rollNoForm">
+                  <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-3 form_group">
+                      <label for="" class="form_label">Section</label>
+                      <div>
+                        <app-single-select controlName="section" placeholder="Select section" (change)="getClasses()"
+                          [dropDownArray]="sectionList"></app-single-select>
+                      </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 form_group">
+                      <label for="" class="form_label">Class 
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div>
+                      <app-single-select controlName="class" placeholder="Select class" (change)="getBatches()"
+                        [dropDownArray]="classList"></app-single-select>                          
+                    </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 form_group">
+                      <label for="" class="form_label">Batch
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div>
+                        <app-single-select controlName="batch" placeholder="Select batch" 
+                          [dropDownArray]="batchList"></app-single-select>                            
+                      </div>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                      <label class="form_label">Manage Roll No</label>
+                      <div class="">
+                        <div class="radio-section ">
+                          <div class="radio ">
+                            <label class=" required ">
+                              <input type="radio" id="same1" formControlName="setting_value" [value]="1">Auto<span></span>
+                            </label>
+                          </div>
+                          <div class="radio ">
+                            <label class="required " aria-required="true">
+                              <input type="radio" id="same2" formControlName="setting_value" [value]="2">Manual<span></span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                      <div class="show-clear-btn d-flex">
+                        <button  type="button" class="btn show-btn me-3"
+                            [disabled]="isDataLoadOnFilter" (click)="showData()">
+                            show
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isDataLoadOnFilter">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <!-- <button class="btn clear-btn" (click)="clearData()">Clear</button> -->
+                    </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card exam-list-card" *ngIf="isLoadData">
+          <div class="card_body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card col-lg-12 datatable_cls" >
+                  <div class="btn_right d-flex justify-content-end gap-3 mb-3" *ngIf="rollNoForm.value.setting_value == 1">                  
+                      <button *ngIf="CommonService.hasPermission('settings_batch', 'has_update')" type="button" class="btn px-3 d-flex align-items-center"
+                          (click)="updateRollNumbers()" [disabled]="isRollNoUpdating">
+                          Auto Update Roll Numbers
+                          <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isRollNoUpdating">
+                              <span class="visually-hidden">Loading...</span>
+                          </div>
+                      </button>                      
+                  </div>
+                  <div class="table-responsive">
+                    <div class="dataTables_wrapper roll-number-table">
+                      <table datatable [dtOptions]="dtOptions"  class="row-border datatable hover table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th>Image</th>
+                            <th>First Name</th>
+                            <th>Middle Name</th>
+                            <th>Last Name</th>
+                            <th>Roll No</th>                          
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="tbody.length > 0">
+                          <ng-container *ngFor="let item of tbody; let i=index">
+                            <tr>
+                              <td>
+                                <div class="student-img-container">
+                                  <img src="{{item?.profile_url  || '/public/images/student-male.png'}}" class="student-image" alt="" srcset="" style="width:40px;height:40px; border-radius: 100px;">                                
+                                </div>
+                              </td>
+                              <td>{{item?.first_name}}</td>
+                              <td>{{item?.middle_name}}</td>
+                              <td>{{item?.last_name}}</td>
+                              <td>
+                                <input type="number" min="0" max="10" class="form-control roll-number-control" [(ngModel)]="item.student_roll_number.rollno" (input)="onInputChange($event,item)" #rollno="ngModel"
+                                [readOnly]="rollNoForm.value.setting_value == 1">
+                                <div  *ngIf="!item.isValid && item.isTouched " class="text-danger static-text-danger">
+                                  Please enter a valid number.
+                                </div>
+                                <!-- <div  *ngIf="!isValidNumber && (rollno.dirty || rollno.touched)">
+                                  Please enter a valid number.
+                                </div> -->
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                         <tbody *ngIf="isDataLoadOnFilter">
+                          <tr>
+                            <td colspan="5">
+                                <div class="d-flex justify-content-center">
+                                    <div class="ms-2" role="status" >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody> 
+                        <tbody *ngIf="tbody.length == 0">
+                          <tr>
+                            <td colspan="5">
+                                <div class="d-flex justify-content-center">
+                                  No Record Found.
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <div class="btn_right d-flex justify-content-end gap-3" *ngIf="rollNoForm.value.setting_value == 2">                      
+                        <button *ngIf="CommonService.hasPermission('settings_batch', 'has_create')" type="button" class="btn px-3 d-flex align-items-center"
+                            (click)="saveRollNo()" [disabled]="isRollNoUpdating">
+                            Save
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isRollNoUpdating">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>                      
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

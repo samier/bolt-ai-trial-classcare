@@ -1,0 +1,32 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep  {
+    body{
+        app-teachers-timetable{
+            .timetable{
+                .border-right{
+                    border-right: 1px solid $border-dde;
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .timetable-border-bottom{
+                    border-bottom: 1px solid $border-dde;
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .text-sm{
+                    font-size: 12px;
+                }
+
+                .user-name{
+                    width: 300px;
+                }
+
+                .max-width-300{
+                    max-width: 300px;
+                }
+            }
+        }
+    }
+}

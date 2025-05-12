@@ -1,0 +1,381 @@
+<section class="notice-history-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Auto Fee Reminder Setup</h3>
+                <div class="btn_right">
+                    <button class="list-btn btn" [routerLink]="CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_LIST)">Auto Fee Reminder List</button>
+                </div>
+            </div>
+            <div class="card position-relative" [ngClass]="{'pe-none opacity-50': isPageLoading}" [attr.tabindex]="isPageLoading ? '-1' : null" [attr.aria-hidden]="isPageLoading">
+                <div *ngIf="isPageLoading" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="z-index: 2">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div [formGroup]="feeReminderSetupF" class="row">
+                    <!-- Title -->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Title <span class="text-danger">*</span></label>
+                        <div>
+                            <app-input controlName="title" type="text" placeholder="Enter Title"></app-input>
+                        </div>
+                    </div>
+                    <!-- Section -->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label"> Select Section <span class="text-danger">*</span></label>
+                        <div>
+                            <app-multi-select 
+                                controlName="section_ids" 
+                                [dropDownArray]="sectionList"
+                                placeholder="Select Section"
+                                (change)="onSectionChange()"
+                            ></app-multi-select>
+                        </div>
+                    </div>
+                    <!-- CLASS DROPDOWN -->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label"> Select Class <span class="text-danger">*</span></label>
+                        <div>
+                            <app-multi-select 
+                                controlName="class_ids" 
+                                [dropDownArray]="classList"
+                                placeholder="Select Class" 
+                                (change)="onClassChange()"
+                            ></app-multi-select>
+                        </div>
+                    </div>
+                    <!-- BATCH DROPDOWN -->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label"> Select Batch<span class="text-danger">*</span></label>
+                        <div>
+                            <app-multi-select 
+                                controlName="batch_ids" 
+                                [dropDownArray]="batchList"
+                                placeholder="Select Batch"
+                            ></app-multi-select>
+                        </div>
+                    </div>
+                    <!-- Student Status -->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Student Status<span class="text-danger">*</span></label>
+                        <div>
+                            <div class="radio-section mt-2">
+                                <div class="radio ">
+                                    <label class=" required ">
+                                        <input type="radio" formControlName="student_status" id="active" value="1" class="mr-1">Active<span></span>
+                                    </label>
+                                </div>
+                                <div class="radio ">
+                                    <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="student_status" id="inactive" value="0" class="mr-1">Inactive<span></span>
+                                    </label>
+                                </div>
+                                <div class="radio ">
+                                    <label class="required " aria-required="true">
+                                        <input type="radio" formControlName="student_status" id="both" value="2" class="mr-1">Both<span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                    <!-- Fee Category Dropdown-->
+                    <div class="col-md-4 form_group">
+                        <label class="form_label"> Select Fee Category<span class="text-danger">*</span></label>
+                        <div>
+                            <app-multi-select 
+                                controlName="category_ids" 
+                                [dropDownArray]="feeCategoryList"
+                                (change)="onFeeCategoryChange()"
+                                placeholder="Select Fee Category"
+                            ></app-multi-select>
+                        </div>
+                    </div>
+
+                    <!-- TODO :-> TABLE IS HERE -->
+                    <div class="basic_table">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-nowrap table w-100 d-table ">
+                                <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Category</th>
+                                    <th class="reminder_type">Reminder Type</th>
+                                    <th>Reminder Start Date</th>
+                                    <th>Reminder Ends</th>
+                                    <th>Maximum Remaining Fees Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody *ngIf="tableRows.controls.length > 0" [ngClass]="{'pe-none opacity-50': tableLoading}" [attr.tabindex]="tableLoading ? '-1' : null" [attr.aria-hidden]="tableLoading">
+                                    <div *ngIf="tableLoading" class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center" style="z-index: 2">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <tr *ngFor="let row of tableRows.controls; let i = index">
+
+                                        <!-- TODO Month -->
+                                        <td>
+                                            <app-input 
+                                                [GroupName]="i" 
+                                                formArrayName="categories_data" 
+                                                controlName="month" 
+                                                type="text" 
+                                                [readonly]="true"
+                                            ></app-input>
+                                        </td>
+
+                                        <!-- TODO Category -->
+                                        <td>
+                                            <app-multi-select
+                                            style="white-space: nowrap;"
+                                                [GroupName]="i"
+                                                formArrayName="categories_data"
+                                                controlName="category_id"
+                                                placeholder="Select Category"
+                                                [dropDownArray]="row.value.categoryList"
+                                            ></app-multi-select>
+                                        </td>
+                                        <!-- <td>
+                                            <app-mat-date-picker formArrayName="categories_data" [GroupName]="i" controlName="start_date"></app-mat-date-picker>
+                                        </td> -->
+
+                                        <!-- TODO Reminder Type -->
+                                        <td>
+                                            <div class="">
+                                            <app-single-select 
+                                                class="fees-reminder-select-space"
+                                                [GroupName]="i" 
+                                                formArrayName="categories_data" 
+                                                controlName="reminder_type" 
+                                                [dropDownArray]="reminderStartType"
+                                                (change)="handleReminder(row)"
+                                            ></app-single-select>
+                                            <!-- When selects weekly -->
+                                            <app-single-select 
+                                                *ngIf="row.value.reminder_type == '2'"
+                                                [GroupName]="i" 
+                                                formArrayName="categories_data" 
+                                                controlName="selected_day"
+                                                [dropDownArray]="weeklyReminderDay"
+                                                placeholder="Select Day"
+                                            ></app-single-select>
+                                            <!-- When selects monthly -->
+                                            <app-input
+                                                *ngIf="row.value.reminder_type == '3'"
+                                                [GroupName]="i"
+                                                formArrayName="categories_data"
+                                                controlName="selected_day"
+                                                placeholder="Enter Date to remind on"
+                                            ></app-input>
+                                            </div>
+                                        </td>
+
+                                        <!-- TODO Reminder Start Date -->
+                                        <td>
+                                            <app-mat-date-picker formArrayName="categories_data" [GroupName]="i" controlName="start_date" [disabled]="row.value.reminder_type == '0' " [readonly]="row.value.reminder_type == '0' " ></app-mat-date-picker>
+                                        </td>
+
+                                        <!-- TODO Reminder Ends -->
+                                        <td>
+                                            <div class="">
+                                            <app-single-select 
+                                            class="fees-reminder-select-space"
+                                                [GroupName]="i" 
+                                                formArrayName="categories_data" 
+                                                controlName="end_type"
+                                                [dropDownArray]="reminderEndType"
+                                                [readonly]=" row.value.reminder_type == '0' "
+                                            ></app-single-select>
+                                            <app-mat-date-picker *ngIf="row.value.end_type == '1'" [GroupName]="i" formArrayName="categories_data" controlName="end_date" [disabled]="row.value.reminder_type == '0' " ></app-mat-date-picker>
+                                            </div>
+                                        </td>
+
+                                        <!-- Maximum Remaining Fees Amount -->
+                                        <td class="fees-amount-right">
+                                            <app-input [GroupName]="i" formArrayName="categories_data" controlName="remaining_fees_amount" type="number" placeholder="Enter amount"></app-input>
+                                        </td>
+                                    </tr>                                          
+                                </tbody>
+                                <tbody *ngIf="tableRows.controls.length == 0 && tableLoading">
+                                    <tr>
+                                        <td class="text-center" colspan="6">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="feeReminderSetupF.controls['category_ids'].value?.length > 0 && tableRows.controls.length == 0 && !tableLoading">
+                                    <tr>
+                                        <td class="text-center" colspan="6">No Data Try Changing Fee Categories </td> 
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="(!feeReminderSetupF.controls['category_ids'].value || feeReminderSetupF.controls['category_ids'].value?.length === 0) && !tableLoading">
+                                    <tr>
+                                        <td class="text-center" colspan="6">Please Select Fee Category</td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 form_group">
+                        <label class="form_label">Auto Fee Reminder Status</label>
+                        <div class="radio-section mt-2">
+                            <div class="radio ">
+                                <label class=" required fw-semibold">
+                                    <input type="radio" formControlName="status" id="active1" value="1" class="mr-1">Active<span></span>
+                                </label>
+                            </div>
+                            <div class="radio ">
+                                <label class="required fw-semibold" aria-required="true">
+                                    <input type="radio" formControlName="status" id="inactive1" value="0" class="mr-1">Inactive<span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 form_group">
+                        <label class="form_label">Fee Reminder Method</label>
+                        <div class="d-flex mt-2 mb-2">
+                            <div class="m-checkbox-list d-flex align-items-center me-3">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_notifaction" id="checkbox"><span></span>
+                                </label>
+                                <label for="checkbox" class="ms-2 mb-0 fw-semibold">Mobile Notification</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_sms" id="checkbox1"><span></span>
+                                </label>
+                                <label for="checkbox1" class="ms-2 mb-0 fw-semibold">SMS</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_whatsapp" id="checkbox2"><span></span>
+                                </label>
+                                <label for="checkbox2" class="ms-2 mb-0 fw-semibold">Whatsapp</label>
+                            </div>
+                        </div>
+                        <div *ngIf="feeReminderSetupF?.value?.send_sms" class="d-flex mt-2 mb-2" style="border: 1px solid #d3d3d3; padding: 10px; border-radius: 4px;">
+                            <p class="m-0 me-2 fw-semibold">SMS To:</p>
+                            <div class="m-checkbox-list d-flex align-items-center me-3">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_sms_father" id="checkbox3"><span></span>
+                                </label>
+                                <label for="checkbox3" class="ms-2 mb-0">Father</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_sms_mother" id="checkbox4"><span></span>
+                                </label>
+                                <label for="checkbox4" class="ms-2 mb-0">Mother</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_sms_student" id="checkbox5"><span></span>
+                                </label>
+                                <label for="checkbox5" class="ms-2 mb-0">Student</label>
+                            </div>
+                        </div>
+                        <div *ngIf="feeReminderSetupF?.value?.send_whatsapp" class="d-flex mt-2 mb-2" style="border: 1px solid #d3d3d3; padding: 10px; border-radius: 4px;">
+                            <p class="m-0 me-2 fw-semibold">Whatsapp To:</p>
+                            <div class="m-checkbox-list d-flex align-items-center me-3">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_whatsapp_father" id="checkbox6"><span></span>
+                                </label>
+                                <label for="checkbox6" class="ms-2 mb-0">Father</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_whatsapp_mother" id="checkbox7"><span></span>
+                                </label>
+                                <label for="checkbox7" class="ms-2 mb-0">Mother</label>
+                            </div>
+                            <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                                <label class="m-checkbox mb-0">
+                                    <input type="checkbox" formControlName="send_whatsapp_student" id="checkbox8"><span></span>
+                                </label>
+                                <label for="checkbox8" class="ms-2 mb-0">Student</label>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="feeReminderSetupF?.value?.send_notifaction">
+                        <div class="col-md-5 form_group">
+                            <label class="form_label fw-semibold">Mobile Notification Template</label>
+                            <div class="border rounded p-3 bg-light">
+                                <span>🔔 <strong>Fee Payment Reminder</strong></span>
+                                <br>
+                                Dear Student, your fee payment is pending. Please complete the payment at the earliest to avoid any inconvenience.
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="feeReminderSetupF?.value?.send_sms">
+                        <ng-container *ngIf="feeReminderSetupF?.value?.send_sms_father || feeReminderSetupF?.value?.send_sms_mother">
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">SMS Template for Parents</label>
+                                <div class="border rounded p-3 bg-light">
+                                    Dear Parents, [Student Name] RS.[amount] fee is still pending. Kindly pay at the earliest. Thank you, CLASS CARE.
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="feeReminderSetupF?.value?.send_sms_student">
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">SMS Template for Student</label>
+                                <div class="border rounded p-3 bg-light">
+                                    Dear Student, your Rs.[amount] fee is still pending. Kindly pay at the earliest. Thank you, CLASS CARE.
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="feeReminderSetupF?.value?.send_whatsapp">
+                        <ng-container *ngIf="feeReminderSetupF?.value?.send_whatsapp_father || feeReminderSetupF?.value?.send_whatsapp_mother">
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">Whatsapp Template for Parents</label>
+                                <div class="border rounded p-3 bg-light">
+                                    <p class="mb-2"><strong>Dear [Parent Name],</strong>😊👋 </p>
+                                    <p class="mb-2">We hope everything is going great! This is a quick reminder about your <b>pending fees</b> for [Student Name]. 📚✨</p>
+                                    <p class="fw-bold mb-2">Total Pending Fee: Rs. [amount] 💳💸 </p>
+                                    <p class="mb-2">Kindly arrange to clear the remaining balance at your earliest convenience. If you have any questions or need assistance, feel free to reach out! ☎💬</p>
+                                    <p class="mb-2">Thank you for your prompt attention and cooperation! 🙏✨ </p>
+                                    <p class="fw-bold">Warm regards, <br>[Institute Name] 🎓🏫 </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="feeReminderSetupF?.value?.send_whatsapp_student">
+                            <div class="col-md-6 form_group">
+                                <label class="form_label">Whatsapp Template for Student</label>
+                                <div class="border rounded p-3 bg-light">
+                                    <p class="mb-2"><strong>Dear [Student Name],</strong>😊👋 </p>
+                                    <p class="mb-2">We hope everything is going great! This is a quick reminder about your <b>pending fees.</b> 📚✨</p>
+                                    <p class="fw-bold mb-2">Total Pending Fee: Rs. [amount] 💳💸 </p>
+                                    <p class="mb-2">Kindly arrange to clear the remaining balance at your earliest convenience. If you have any questions or need assistance, feel free to reach out! ☎💬</p>
+                                    <p class="mb-2">Thank you for your prompt attention and cooperation! 🙏✨ </p>
+                                    <p class="fw-bold">Warm regards, <br>[Institute Name] 🎓🏫 </p>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <button class="btn save-btn me-2" *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', hasSetupId ? 'has_update' : 'has_create')" (click)="onSubmit()" [disabled]="isSaveLoading">
+                            {{ hasSetupId ? 'Update' : 'Save'}}
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="btn cancel-btn" [routerLink]="[CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_LIST)]">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

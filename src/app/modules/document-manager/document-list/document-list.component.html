@@ -1,0 +1,92 @@
+<section class="document_type">
+  <div class="page_inner">
+      <div class="m-container">
+          <div class="d-flex justify-content-between align-items-center my-3">
+              <h3 class="sub_title mb-0">Document List</h3>
+              <div class="btn_right">
+                  <a *ngIf="CommonService.hasPermission('administrator_document_manager', 'has_create')" class="global_btn btn add-btn" href="#." [routerLink]="setUrl(URLConstants.DOCUMENT_ADD)"> Add Document </a>
+              </div>
+          </div>
+
+
+          <div class="card">
+            <div class="row global_form">
+               <div class="col-auto">
+                <ng-template #content let-modal>
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="mb-3">
+                        <label for="dateOfBirth">Date of birth</label>
+                         <h3>hello</h3>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+                  </div>
+                </ng-template>
+
+                <!-- <button class="btn btn-group filter" (click)="open(content)">Filter</button> -->
+               </div>
+            </div>
+
+
+              <div class="col-lg-12 datatable_cls form_section">
+                <div class="datatable-action-design">
+                  <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                      <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                      <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                    </svg>
+                  </div>
+                  <div class="table-responsive">
+                      <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                          <thead>
+                              <tr>
+                                  <th>ID</th>
+                                  <th>Document Type</th>
+                                  <th>Document For</th>
+                                  <th>Document Date</th>
+                                  <th>Status</th>
+                                  <th class="action-btn-sticky">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody *ngIf="document_types?.length != 0">
+                              <tr *ngFor="let document_type of document_types">
+                                  <td>{{document_type.id}}</td>
+                                  <td>{{document_type.name}}</td>
+                                  <td> {{document_type.document_for}} </td>
+                                  <td> {{document_type.document_date}} </td>
+                                  <td> 
+                                      <span class="text-capitalize {{document_type.is_publish == true ? 'text-success' : 'text-warning'}}">{{document_type.is_publish == true ? 'Published' : 'Not Published'}}</span> 
+                                  </td> 
+                                  <td class="action-btn-sticky text-center"> 
+                                      <div class="btn-group" role="group">
+                                        <a *ngIf="CommonService.hasPermission('administrator_document_manager', 'has_edit')" class="lt-btn-icon action-edit" ngbTooltip="Edit" href="#" [routerLink]="[setUrl(URLConstants.DOCUMENT_EDIT),document_type.id]" > </a>
+                                        <button *ngIf="CommonService.hasPermission('administrator_document_manager', 'has_delete')" type="button" ngbTooltip="Delete" class="lt-btn-icon action-delete" (click)="remove(document_type.id)"> 
+                                            
+                                        </button> 
+                                          <a *ngIf="document_type?.document_url" class="lt-btn-icon action-print" ngbTooltip="print" target="_blank" href="{{replaceUlr(document_type?.document_url)}}" > </a>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                          <tbody *ngIf="document_types?.length == 0">
+                              <tr>
+                                <td colspan="13" class="text-center no-data-available">No data</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Leave Type Setting For {{role}} Role</h3>
+				<div class="btn_right">
+					<a class="global_btn btn"  href="#." [routerLink]="setUrl(URLConstants.ROLE_LIST)">Back to Role List</a>
+				</div>
+			</div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-auto">
+                            <button type="button" (click)="addNew()" class="btn mb-3">Add New Record</button>                              
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <form [formGroup]="productForm" (ngSubmit)="onSubmit()">      
+                                <table class="row-border hover table-bordered dataTable no-footer mb-0" formArrayName="oldRecords">  
+                                    <thead><tr><th>Leave Type</th><th>Total Leave</th><th>Total Leave Allowed Per Month</th><th></th></tr></thead>
+                                    <tr *ngFor="let q of oldRecords().controls; let i=index" [formGroupName]="i">  
+                                        <td>     
+                                            <select [disabled]="true" formControlName="leave_type2" name="leave_type2" id="one" class="form-control">
+                                                <option *ngFor="let r of leave_type_list" value="{{r.id}}">{{r.name}}</option>                                        
+                                            </select>                                          
+                                            <!-- <input type="text" readonly formControlName="leave_type2" placeholder="Max Number of Days" class="form-control">   -->
+                                        </td>  
+                                        <td>                                          
+                                            <input type="text" formControlName="leave_number2" placeholder="Total Leave" class="form-control">  
+                                        </td> 
+                                        <td>                                          
+                                            <input type="text" formControlName="per_month_allowed_leave2" placeholder="Per Month Allowed Leaves" class="form-control">  
+                                        </td>                                          
+                                        <td>  
+                                            <button (click)="removeOldRecord(i)" class="btn ">Remove</button>  
+                                        </td>  
+                                    </tr> 
+                                </table>          
+
+                                <table class="row-border hover border-top-0 table-bordered dataTable no-footer" formArrayName="newRecords">  
+                                <!-- 
+                                   <tr *ngFor="let item of tbody?.related_leave_type ;let i = index;">
+                                        <td>Leave Type : {{item?.leave_type?.name}}</td>                
+                                        <td>
+                                            <input type="text" name='old_name' placeholder="Max Number of Days" class="form-control" value="{{item?.max_leave_at_one_time}}">
+                                        </td>   
+                                       <td><button (click)="removeRecord(item?.id)" class="btn ">Remove</button>  </td>             
+                                   </tr>                                                                                             
+                                -->
+                              
+                                <tr *ngFor="let t of newRecords().controls; let i=index" [formGroupName]="i">  
+                                    <td>                                          
+                                        <select onchange="changeFun(i)" formControlName="leave_type" name="leave_type" id="one" class="form-control">
+                                            <option *ngFor="let r of leave_type_list" value="{{r.id}}">{{r.name}}</option>                                        
+                                        </select>                                          
+                                    </td>  
+                                    <td>                                          
+                                        <input type="text" formControlName="leave_number" placeholder="Total Leave" class="form-control">  
+                                    </td> 
+                                    <td>                                          
+                                        <input type="text" formControlName="per_month_allowed_leave" placeholder="Per Month Allowed Leave" class="form-control">  
+                                    </td>                                      
+                                    <td class="text-center">  
+                                        <button (click)="removeNewRecord(i)" class="btn ">Remove</button>  
+                                    </td>  
+                                </tr>  
+                                </table>  
+                                 
+                                <button type="submit" class="btn btn-success">Submit</button>  
+                                <!-- <a class="btn  btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a>                                   -->
+                              </form>  
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

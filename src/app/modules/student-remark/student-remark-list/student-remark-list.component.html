@@ -1,0 +1,144 @@
+<section class="leave_form new-student-list-section">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Student Assign Remark List</h3>
+        <div class="d-flex">
+          <a *ngIf="CommonService.hasPermission('student_student_remark_title', 'has_access')" [routerLink]="CommonService.setUrl(URLConstants.PREDEFINE_REMARKS_LIST)" class="btn me-2 add-btn">Add Remark Title</a>
+          <a *ngIf="CommonService.hasPermission('student_student_remark', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.STUDENT_REMARKS_CREATE)" class="btn me-2 add-btn">Assign Remark</a>
+        </div>
+      </div>
+
+      <div class="card student-list-card p-0">        
+        <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn btn-primary me-2" (click)="clearAll($event)">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body" *ngIf="filter">
+          <form [formGroup]="remarkFilterForm" class="content_scroll">
+            <div class="row">
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Date</label>
+                <app-date-range-picker type="date" controlName="date"
+                    placeholder="Select Date"></app-date-range-picker>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Remark Type</label>
+                <app-single-select controlName="remarkType" placeholder="Select remark type" (change)='changeRemarkType($event)'
+                    [dropDownArray]="remarkType">
+                </app-single-select>
+              </div>
+              
+              <div class="col-md-3 form_group">
+                <label class=" form_label">Remark Title</label>
+                <app-single-select controlName="remarkTitle" placeholder="Select remark title"
+                    [dropDownArray]="remarkTitle">
+                </app-single-select>
+              </div>
+
+              <div class="col-md-3 form_group">
+                <div>
+                    <label class="form_label">Select Student</label>
+                    <div>
+                        <ng-multiselect-dropdown #select [settings]="dropdownSettings" [data]="students" (change)="changeFn(selectedStudent)" [(ngModel)]="selectedStudent" name="student" bindLabel="name" bindValue="id"
+                         (scroll)="onScroll($event)" formControlName="student" placeholder="Select student">
+                          <!-- <ng-template ng-header-tmp>
+                            <input (onclick)="changeFn(selectedStudent)" class="form-control" type="text" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" (input)="searchFilter()" />
+                          </ng-template> -->
+                        </ng-multiselect-dropdown>
+                    </div>                                            
+                </div>
+              </div>
+
+              <div class="col-md-3 form_group add_doc">
+                <label class=" form_label">Remark Title</label>
+                <div>
+                  <button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+                </div>  
+              </div>
+
+            </div>
+        </form>
+        </div>
+      </div>
+
+      <div class="card student-list-main-card">
+        <div class="card_body">
+          <div class="row pb-3 mx-0 no-gutters">
+            <div class="col-lg-12">
+              <div class="student-list-table">
+                <div class="table-list-heading">
+                </div>
+                <div class="assign-transport-table">
+                <div class="table-responsive">
+                  <table datatable [dtOptions]="dtOptions"
+                        class="table table-hover table-nowrap table-bordered ">
+                  <thead class="thead-light">
+                    <tr>                       
+                      <th>Date</th>
+                      <th>Student Name</th>
+                      <th>Remarks Type</th>
+                      <th>Remarks Title</th>                      
+                      <th>Remarks By</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                    <tbody>
+                      <tr *ngFor="let item of tbody ;let i = index;">                        
+                        <td>{{item?.updated_at | date : dateFormatService.getDateFormat()}}</td>
+                        <td>
+                          <a href="" [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_PROFILE),item?.student?.unique_id]"> 
+                             {{item?.student?.full_name}} | {{item?.student?.class_room_with_section?.name}}
+                          </a>
+                        </td>
+                        <td>
+                          <ng-container *ngIf="item?.remark?.remark_type == 1">
+                            <span class="text-capitalize positive-remark">Positive</span>
+                          </ng-container>
+                          <ng-container *ngIf="item?.remark?.remark_type == 0">
+                            <span class="text-capitalize negative-remark">Negative</span>
+                          </ng-container>
+                          <ng-container *ngIf="item?.remark?.remark_type == 2">
+                            <span class="text-capitalize custom-remark">Custom</span>
+                          </ng-container>
+                        </td>
+                        <td class="comment">{{item?.comment || '-'}}</td>
+                        <td><a [routerLink]="[CommonService.setUrl(URLConstants.USER_PROFILE), item.user.id]">{{item?.user?.full_name || '-'}}</a></td>
+                        <td>
+                          <div class="btn-group" role="group">
+                            <a *ngIf="CommonService.hasPermission('student_student_remark', 'has_edit')" class="btn action-edit" [routerLink]="[CommonService.setUrl(URLConstants.STUDENT_REMARKS_EDIT),item?.remarkSid]" ngbTooltip="Edit" ><i class="fa fa-pencil-alt"></i></a>
+                            <a *ngIf="CommonService.hasPermission('student_student_remark', 'has_delete')" class="btn action-delete" (click)="deleteRemark(item.id)" title="Delete" ngbTooltip="Delete"><i class="fa fa-trash"></i></a>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tbody *ngIf="tbody?.length == 0">
+                      <tr>
+                        <td colspan="8" class="text-center no-data-available">No data found!</td>
+                      </tr>
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

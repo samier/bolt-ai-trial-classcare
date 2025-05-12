@@ -1,0 +1,110 @@
+<section class="create-mark-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">Student Attendance</h3>
+        
+        <div>
+          <a [routerLink]="resultService.setUrl(URLConstants.STUDENT_ATTENDANCE_LIST)" class="btn list-btn me-2">Student Attendance List</a>
+        </div>
+      </div>
+      <!-- 1.ACADEMIC DETAILS -->
+      <div class="card">
+        <form [formGroup]="studentAttendanceForm">
+          <div class="row">
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Attendance Title</label>
+              <app-input controlName="attendance_title" placeholder="Enter Attendance Title" [readonly]="attendance_detail_id"></app-input>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Section</label>
+              <app-single-select controlName="section_id" placeholder="Select Section"
+                [dropDownArray]="sectionList" (change)="getClasses()"></app-single-select>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Class</label>
+              <app-single-select controlName="class_id" placeholder="Select Class"
+                [dropDownArray]="classList"></app-single-select>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Date Range</label>
+              <app-date-range-picker controlName="date" placeholder="Select Date"></app-date-range-picker>
+            </div>
+            <div class="col-lg-3  col-md-6 form-group">
+              <label class="form_label">Total Working Days</label>
+              <app-input type="number" controlName="total_working_days" placeholder="Enter Total Working Days"></app-input>
+            </div>
+            <div class="col-lg-12  col-md-12 create-marksheet-btn">
+              <button class="btn" (click)="showStudents()" [disabled]="studentAttendanceForm.invalid" *ngIf="!attendance_detail_id"> Show
+                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+              <button class="btn  second-btn" (click)="clearForm()" *ngIf="!attendance_detail_id">Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="col-lg-12 datatable_cls">
+              <div class="table-responsive">
+                  <table datatable [dtOptions]="dtOptions"
+                      class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                      <thead class="thead-light" >
+                          <tr>
+                              <th>Gr No.</th>
+                              <th>Roll No</th>
+                              <th>Student Name</th>
+                              <th>Batch Name</th>
+                              <th>Total Absent</th>
+                              <th>Total Preset</th>
+                              <th>Total Leave</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of tbody ;let i = index;">
+                              <td class="teal-text-color">{{item.studentId ?? '-'}}</td>
+                              <td class="orange-text-color">{{item.rollno}}</td>
+                              <td class="name_hover">{{item.student_full_name}}</td>
+                              <td>{{item.batch_name}}</td>
+                              <td>
+                                <input  type="number" name="total_absent" placeholder="Total Absent"
+                                class="form-control"  [(ngModel)]="item.total_absent">
+                              </td>
+                              <td>
+                                <input  type="number" name="total_present" placeholder="Total Present"
+                                class="form-control"  [(ngModel)]="item.total_present">
+                              </td>
+                              <td>
+                                <input  type="number" name="total_leave" placeholder="Total Leave"
+                                class="form-control"  [(ngModel)]="item.total_leave">
+                              </td>
+                          </tr>
+                      </tbody>
+                      <tbody *ngIf="tbody?.length == 0">
+                          <tr>
+                            <td colspan="11" class="text-center no-data-available">No data</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="col-lg-12 col-md-12 create-marksheet-btn">
+            <button class="btn" (click)="save(false)" *ngIf="tbody.length > 0" [disabled]="studentAttendanceForm.invalid && tbody && tbody.length > 0"> Save
+              <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+            <button *ngIf="saveState != 'Save' && tbody.length > 0" class="btn mx-2"  (click)="save(true)" [disabled]="studentAttendanceForm.invalid && tbody && tbody.length > 0"> {{saveState}}
+              <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,195 @@
+<section class="add_assign_room_no">
+  <div class="page_inner">
+    <div class="m-container">
+      <!-- <div class="d-flex justify-content-between align-items-center">
+        <h3 >Wallet History</h3>
+        <div class="d-flex align-items-center">
+          <div *ngIf="from != 'student'" class="btn_right">
+            <a class="global_btn btn" href="#." [routerLink]="setUrl(URLConstants.WALLETS)"> Wallets</a>
+          </div>
+          <div *ngIf="from != 'student'" class="col-auto">
+            <button *ngIf="CommonService.hasPermission('finance_wallets', 'has_create')" class="btn btn-primary" (click)="openWalletMdl(walletMdl)"><i class="fa fa-plus"></i> Add / Update
+              Wallet</button>
+          </div>
+        </div>
+      </div> -->
+      <div class="card_body">
+        <div class="mb-4">
+          <div class="row">
+            <div class="col-md-4 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/credited.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ creditedAmount }}</strong><br>
+                  <span class="counter_title">Credited Amount</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/debited.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ debitedAmount }}</strong><br>
+                  <span class="counter_title">Debited Amount</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 counter_card">
+              <div class="bg_counter success-bg super_admin">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/money.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ totalAmount }}</strong><br>
+                  <span class="counter_title">Balance Amount</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2nd part -->
+      <div *ngIf="from != 'student'" class="card_body" >
+        <div class="card">
+          <div class="row">
+            <label for="">Student Name : {{ wallet?.student_name ?? '' }}</label>
+            <label for="">Branch Name : {{ wallet?.branch ?? '' }}</label>
+            <label for="">Class Name : {{ wallet?.class ?? '' }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3.table part -->
+      <div>
+        <div class="row global_form">
+          <div class="col-lg-12 datatable_cls form_section">
+
+            <div class="table-responsive form_group">
+              <div class="form_section global_form">
+
+                <div class="card pt-3 pb-0 px-2 mt-0">
+                  <div class="row mb-2">
+
+                    <!-- Start date filter -->
+                    <div class="col-md-3 form_group">
+                      <label for="" class="form_label">Start Date</label>
+                      <app-mat-date-picker [(selectedDate)]="startDate" [isRequired]="false" (change)="startDateChange($event)" [templateDriven]="true"></app-mat-date-picker>
+
+                      <!-- <input class="form-control" type="date" name="sdate" id="date_range" placeholder="Enter Start Date"
+                        (change)="startDateChange($event)" [(ngModel)]="startDate"> -->
+                    </div>
+                    <!-- end date -->
+                    <div class="col-md-3 form_group">
+                      <label for="" class="form_label">End Date</label>
+                      <app-mat-date-picker [(selectedDate)]="endDate" [isRequired]="false" (change)="endDateChange($event)" [templateDriven]="true"></app-mat-date-picker>
+
+                      <!-- <input class="form-control" type="date" name="edate" id="date_range" placeholder="Enter  End Date"
+                        (change)="endDateChange($event)" [(ngModel)]="endDate"> -->
+                    </div>
+
+                    <!-- clear btn -->
+                    <div class="col-md-auto form_group add_doc">
+                        <button class="button" (click)="clear()" class="btn">CLEAR DATE</button>
+                        <button class="btn btn-blue ms-2" (click)="walletPDF('pdf')" *ngIf="commonService.hasPermission('finance_wallets', 'has_download')" [disabled]="exporting">Export
+                          <div class="spinner-border spinner-border-sm" role="status" *ngIf="exporting">
+                              <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </button>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+
+              <table datatable [dtOptions]="dtOptions"
+                class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Sr No.</th>
+                    <!-- <th>Transaction Id</th> -->
+                    <th>Receipt No</th>
+                    <th>Date</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Balance</th>
+                    <th>Note</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of tbody ;let i = index;" [class.cancelled]="item?.is_cancelled == 1">
+                    <td>{{ i+1 }}</td>
+                    <!-- <td>{{item.transaction_id}}</td> -->
+                    <td>{{item.receipt_no || 'N/A'}}</td>
+                    <td>{{ item.date }} </td>
+                    <td class="{{ item.type == 'cr' && item?.is_cancelled == 0 ? 'text-success' : '' }}">{{item.type == 'cr' ?
+                      item.amount : '' }}
+                    </td>
+                    <td class="{{ item.type == 'dr' && item?.is_cancelled == 0 ? 'text-danger static-text-danger' : '' }}">{{item.type == 'dr' ?
+                      item.amount : '' }}
+                    </td>
+                    <!-- <td>{{item.amount}}</td> -->
+                    <td>{{ item.type == 'cr' ? item?.existing_amount + item.amount : item.existing_amount - item.amount
+                      }}</td>
+                    <!-- <td>
+                      {{ item.type == 'cr' ? (item?.existing_amount || 0) + item.amount : (item?.existing_amount || 0) - item.amount }}
+                    </td> -->
+                    <td>{{item.note}}</td>
+                    <td>
+                      <div class="btn-group">
+                        <button *ngIf="CommonService.hasPermission('finance_wallets', 'has_download')" type="button" (click)="walletReceipt(item)" ngbTooltip="Print" class="btn action-print">
+                          <i class="fe fe-printer"></i>
+                        </button>
+                        <button type="button" (click)="cancelWalletReceipt(item)" ngbTooltip="Cancel" class="btn action-delete ms-1" *ngIf="CommonService.hasPermission('finance_wallets', 'has_delete') && !item.is_cancelled">
+                          <i class="fa fa-times"></i>
+                        </button>
+                        <button type="button" class="btn action-info custom_tooltip" *ngIf="item.is_cancelled">
+                          <i class="fas fa-info-circle"></i>
+                          <span class="tooltiptext">
+                              <p>
+                                  <b>Student Name : </b>{{wallet.student_name}}
+                              </p>
+                              <p>
+                                  <b>Receipt No : </b>{{item.receipt_no}}
+                              </p>
+                              <p>
+                                  <b>Amount : </b>{{item.amount}} {{item.type == 'dr' ? "Debit" : "Credit"}}
+                              </p>
+                              <p *ngIf="item.is_cancelled == 1">
+                                  <b>Cancelled By : </b>{{item?.cancelled_by?.full_name}}
+                              </p>
+                              <p *ngIf="item.is_cancelled == 1">
+                                  <b>Cancelled Time : </b>{{item.cancelled_time | date:dateFormateService.getDateTimeFormat()}}
+                              </p>
+                              <p *ngIf="item.is_cancelled == 1">
+                                  <b>Cancelled Reason : </b>{{item.cancel_reason}}
+                              </p>
+                          </span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody *ngIf="!tbody || tbody?.length == 0">
+                  <tr>
+                    <td colspan="9" class="text-center no-data-available">No data</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-template #walletMdl let-modal>
+        <app-create-wallet (reloadWallets)="reloadData($event)" [wallet]="wallet"></app-create-wallet>
+      </ng-template>
+    </div>
+  </div>
+</section> 

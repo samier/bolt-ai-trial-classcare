@@ -1,0 +1,241 @@
+<section class="question">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Question List</h3>
+				<div class="btn_right">
+					<a class="global_btn btn add-btn"  href="#." [routerLink]="setUrl(URLConstants.QUESTION_CREATE)" > Add Question</a>
+				</div>
+			</div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <!-- <div class="card">
+                          <div class=" row">
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class=" form_label">Class:</label>
+                                    <div class="">
+                                        <ng-select #select
+                                        	[items]="classes"
+                                        	(change)="changeClass(selectedClass)"
+                                        	[searchable]="false"
+                                        	[(ngModel)]="selectedClass"
+                                        	bindLabel="name"
+											placeholder="Select Class"
+                                        	bindValue="id" >
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"
+                                                		(onclick)="changeClass(selectedClass)" type="text"
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class=" form_label">Subject:</label>
+                                    <div class="">
+                                        <ng-select #select
+                                        	[items]="subjects"
+                                        	(change)="changeSubject(selectedSubject)"
+                                        	[searchable]="false"
+                                        	[(ngModel)]="selectedSubject"
+                                        	bindLabel="name"
+											placeholder="Select Subject"
+                                        	bindValue="id">
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"
+                                                		(onclick)="changeSubject(selectedSubject)" type="text"
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class=" form_label">Chapter:</label>
+                                    <div class="">
+                                        <ng-select #select
+                                        	[items]="chapters"
+                                        	(change)="reloadData()"
+                                        	[searchable]="false"
+                                        	[(ngModel)]="selectedChapter"
+											placeholder="Select Chapter"
+                                        	bindLabel="chapter_name"
+                                        	bindValue="id">
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"
+                                                		(onclick)="reloadData()" type="text"
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div> -->
+						<div class="card filter-card p-0">
+							<div class="card-header border-bottom justify-content-between d-flex">
+							  <div class="filter-heading d-flex align-items-center">
+								<h5 class="mb-0">Filters</h5>
+								<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button> <!--{{filterCount}}-->
+							  </div>
+			
+							  <div class="d-flex filter-accordion-btn">
+								<button class="btn me-2" [disabled]="isResetLoading" (click)="clearAll()" >Reset
+									<div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+										<span class="visually-hidden">Loading..."</span>
+									</div>
+								</button> <!--(click)="clearAll()"-->
+								<button class="btn btn-primary drop-btn border-circle"  (click)="filter = !filter"> <!--v-->
+								  <i class="fa fa-angle-down"  *ngIf="!filter"></i><!--*ngIf="!filter"-->
+								  <i class="fa fa-angle-up" *ngIf="filter"></i>
+								</button>
+							  </div>
+							</div>
+					
+							<div class="card-body" *ngIf="filter" > <!-- *ngIf="filter"-->
+							  <div class="content_scroll" [formGroup]="questionFilterForm" > <!-- [formGroup]="studentFilterForm"-->
+								<div class="row">   
+									<!-- <div class="col-md-3 form_group">
+										<label class=" form_label">Class:</label>
+										<div class="">
+											<ng-select #select
+												[items]="classes"
+												(change)="changeClass(selectedClass)"
+												[searchable]="false"
+												[(ngModel)]="selectedClass"
+												bindLabel="name"
+												placeholder="Select Class"
+												bindValue="id" >
+												<ng-template ng-header-tmp>
+													<input style="width: 100%; line-height: 24px"
+															(onclick)="changeClass(selectedClass)" type="text"
+															(input)="select.filter($any($event.target).value)" />
+												</ng-template>
+											</ng-select>
+										</div>
+									</div> -->
+									<div class="col-md-3 form_group">
+										<label for="" class="form_label">Select Class</label>
+										<app-single-select controlName="classFC" (change)="getSubjectList()"
+											[dropDownArray]="classListDP" placeholder="Select Class"></app-single-select>
+									</div>
+									<!-- <div class="col-md-3 form_group">
+										<label class=" form_label">Subject:</label>
+										<div class="">
+											<ng-select #select
+												[items]="subjects"
+												(change)="changeSubject(selectedSubject)"
+												[searchable]="false"
+												[(ngModel)]="selectedSubject"
+												bindLabel="name"
+												placeholder="Select Subject"
+												bindValue="id">
+												<ng-template ng-header-tmp>
+													<input style="width: 100%; line-height: 24px"
+															(onclick)="changeSubject(selectedSubject)" type="text"
+															(input)="select.filter($any($event.target).value)" />
+												</ng-template>
+											</ng-select>
+										</div>
+									</div> -->
+									<div class="col-md-3 form_group">
+										<label for="" class="form_label">Select Subject</label>
+										<app-single-select controlName="subjectFC" (change)="getChapterList()"
+											[dropDownArray]="subjectListDP" placeholder="Select Subject"></app-single-select>
+									</div>
+									<!-- <div class="col-md-3 form_group">
+										<label class=" form_label">Chapter:</label>
+										<div class="">
+											<ng-select #select
+												[items]="chapters"
+												(change)="reloadData()"
+												[searchable]="false"
+												[(ngModel)]="selectedChapter"
+												placeholder="Select Chapter"
+												bindLabel="chapter_name"
+												bindValue="id">
+												<ng-template ng-header-tmp>
+													<input style="width: 100%; line-height: 24px"
+															(onclick)="reloadData()" type="text"
+															(input)="select.filter($any($event.target).value)" />
+												</ng-template>
+											</ng-select>
+										</div>
+									</div> -->
+                                    <div class="col-md-3 form_group">
+										<label for="" class="form_label">Select Chapter</label>
+										<app-single-select controlName="chapterFC" 
+											[dropDownArray]="chapterDP" placeholder="Select Subject"></app-single-select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-auto form_group mb-0">
+										<button type="submit"
+											class="btn w-100 report-btn" (click)="reloadData()">
+											Show
+										</button>
+									</div>
+								</div>    
+							  </div>
+							</div>
+						</div>
+                        <div class="card">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead>
+											<tr>
+												<th>ID</th>
+												<th>Class</th>
+												<th>Subject</th>
+												<th>Chapter</th>
+												<th>Question</th>
+												<th class="action-btn-sticky">Action</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="questions?.length != 0">
+											<tr *ngFor="let question of questions">
+												<td class="orange-text-color"> {{question.id }}</td>
+												<td class="teal-text-color"> {{question.class}} </td>
+												<td> {{question.subject}} </td>
+												<td> {{question.chapter}} </td>
+												<td> {{question.question}} </td>
+												<td class="action-btn-sticky text-center">
+													<div class="btn-group" role="group">
+														<a class="lt-btn-icon action-edit" ngbTooltip="Edit"  href="#" [routerLink]="[setUrl(URLConstants.QUESTION_EDIT),question.id]" > </a>
+														<button type="button" ngbTooltip="Delete" class="lt-btn-icon btn-sm btn-danger action-delete" (click)="remove(question.id)">
+															
+														</button>
+														<a class="lt-btn-icon btn-sm action-view" ngbTooltip="View" href="#" [routerLink]="[setUrl(URLConstants.QUESTION_VIEW),question.id]" > </a>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="questions?.length == 0">
+											<tr>
+											<td colspan="13" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

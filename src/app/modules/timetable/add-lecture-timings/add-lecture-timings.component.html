@@ -1,0 +1,184 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Lecture Timings</h3>
+				<div class="btn_right">
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn timetable-btn">Timetable</a>
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIME_SLOT)" class="btn ms-2 add-btn">Add Time Slot</a>
+				</div>
+			</div>
+            <div class="" >
+                <div class="card_body">
+                    <div class="card global_form no-gutters table_top" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_create')">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Section<span class="text-danger">*</span></label>
+                                <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="formData.section_id" (change)="sectionChange()" 
+                                    bindLabel="name"  bindValue="id"
+                                    placeholder="select section">
+                                </ng-select>
+                                <div *ngIf="submitted && formData.section_id == null"
+                                        class="text-danger px-20"> Please select section. </div>
+                            </div>
+                            <div class="col-md-3 form_section">
+                                <div class="form_group">
+                                    <label class="form_label ">Select Class<span
+                                            class="text-danger">*</span></label>
+                                    <div class="">
+                                        <ng-multiselect-dropdown [placeholder]="'List Of Class'"
+                                            [settings]="dropdownSettings" [data]="dropdownList"
+                                            [(ngModel)]="formData.class_id">
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                    <div *ngIf="submitted && formData.class_id.length == 0"
+                                        class="text-danger px-20"> Please select classes. </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label">Select Time Slot<span class="text-danger">*</span></label>
+                                <ng-select #select [items]="time_slots" [searchable]="true" [(ngModel)]="formData.time_slot_id"  
+                                    bindLabel="name"  bindValue="id"
+                                    placeholder="select time slot">
+                                </ng-select>
+                                <div *ngIf="submitted && formData.time_slot_id == null"
+                                class="text-danger px-20"> Please select time slot. </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                        <button type="submit" class="w-100 btn save-btn" (click)="submit()" [disabled]="showLoading">
+                                            Save 
+                                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                                                <span class="visually-hidden">Loading...</span>
+                                              </div>
+                                        </button>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn cancel-btn"
+                                            (click)="clearForm()"> Cancel </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="datatable_cls">
+                            <div class="datatable-action-design">
+                                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                  </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                  </svg>
+                                </div>
+                                <div class="table-responsive">
+                                    <table datatable [dtOptions]="dtOptions"
+                                        class="table table-hover table-nowrap table-bordered dataTable no-footer" style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Sr.No.</th>
+                                                <th>Section Name</th>
+                                                <th>Class Name</th>
+                                                <th>Time Slot Name</th>
+                                                <th class="action-btn-sticky">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                                <td>{{item.DT_RowIndex}}</td>
+                                                <td>{{item.section_name}}</td>
+                                                <td>{{item.classes}}</td>
+                                                <td>{{item.time_slot_name}}</td>
+                                                <td class="action-btn-sticky text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <button *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_edit')" class="lt-btn-icon action-edit" ngbTooltip="Edit"
+                                                            (click)="open(mymodal,item.id)"> </button>
+                                                        <button *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_delete')" type="button" ngbTooltip="Delete"
+                                                            class="lt-btn-icon action-delete"
+                                                            (click)="deleteLecture(item.id)">
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <!-- <tbody *ngIf="tbody?.length == 0">
+                                            <tr>
+                                            <td colspan="3" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>-->
+                                    </table>
+                                    <ng-template #mymodal let-modal>
+                                        <div class="modal-header" >
+                                            <h4 class="modal-title" id="modal-basic-title">Update Lecture Timing</h4>
+                                            <button type="button" class="close" aria-label="Close"
+                                                (click)="modal.dismiss('Cross click')">
+                                                <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body" >
+
+                                            <div class="page_inner">
+                                                <div class="card_body">
+                                                    <div class="row global_form table_top">
+                                                        <div class="col-md-6 form_group">
+                                                            <label for="" class="form_label">Select Section</label>
+                                                            <input class="form-control" type="text" name="" id="" [(ngModel)]="updateFormData.section_name" readonly>
+                                                            <div *ngIf="updated && updateFormData.section_name == null"
+                                                                    class="text-danger px-20"> Please select classes. </div>
+                                                        </div>
+                                                        <div class="col-md-6 form_section">
+                                                            <div class="form_group">
+                                                                <label class="form_label ">Select Class<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="">
+                                                                    <ng-multiselect-dropdown [placeholder]="'List Of Class'"
+                                                                        [settings]="dropdownSettings" [data]="dropdownList"
+                                                                        [(ngModel)]="updateFormData.class_id">
+                                                                    </ng-multiselect-dropdown>
+                                                                </div>
+                                                                <div *ngIf="updated && updateFormData.class_id.length == 0"
+                                                                    class="text-danger px-20"> Please select classes. </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 form_group">
+                                                            <label for="" class="form_label">Select Time Slot</label>
+                                                            <ng-select #select [items]="time_slots" [searchable]="true" [(ngModel)]="updateFormData.time_slot_id"  
+                                                                bindLabel="name"  bindValue="id"
+                                                                placeholder="select section">
+                                                            </ng-select>
+                                                            <div *ngIf="updated && updateFormData.time_slot_id == null"
+                                                            class="text-danger px-20"> Please select classes. </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer" >
+                                            <div *ngIf="CommonService.hasPermission('administrator_timetable', 'has_update')" class="col-auto">
+                                                <button  type="submit" class="btn save-btn"
+                                                    (click)="update()"> Save </button>
+                                            </div>
+                                            <div class="col-auto">
+                                                <button type="submit" class="btn clear-btn"
+                                                    (click)="modal.close('cancel')">
+                                                    Cancel </button>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

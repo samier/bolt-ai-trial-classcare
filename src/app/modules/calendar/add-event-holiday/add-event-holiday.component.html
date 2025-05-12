@@ -1,0 +1,134 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ selectedObj?.id && !isView ? 'Edit' : isView ? 'View' : 'Add' }} {{ addEventHolidayF.value?.modalFor == '1' ? 'Event' : 'Holiday' }}</h4>
+    <button [ngbTooltip]="'Close'" triggers="hover" type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <i class="fa fa-times"></i>
+    </button>
+</div>
+
+<div class="modal-body-wrapper">
+    <div class="modal-body  position-relative" [ngClass]="{'disabled': isView}">
+        <form [formGroup]="addEventHolidayF" [ngClass]="{'pe-none': isView}"  [attr.tabindex]="isView ? '-1' : null" [attr.aria-hidden]="isView">
+            <div class="row" *ngIf="!type">
+                <div class="col-md-12 form_group mb-3">
+                    <div class="radio-section calendar_type_radio">
+                        <div class="radio ">
+                            <!-- <label class=" required fw-semibold">
+                                <input type="radio" formControlName="modalFor" id="none" value="1" class="mr-1">Event<span></span>
+                            </label> -->
+                            <input type="radio" formControlName="modalFor" id="event" value="1" class="mr-1">
+                            <label for="event">Event</label>
+                        </div>
+                        <div class="radio">
+                            <!-- <label class="required fw-semibold" aria-required="true">
+                                <input type="radio" formControlName="modalFor" id="all" value="2" class="mr-1">Holiday<span></span>
+                            </label> -->
+                            <input type="radio" formControlName="modalFor" id="holiday" value="2" class="mr-1">
+                            <label for="holiday">Holiday</label>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+            <div class="row">
+                <div class="col-md-12 form_group event_title">
+                    <!-- <label class="form_label">{{ addEventHolidayF.value?.modalFor == '1' ? 'Event' : 'Holiday' }} Title<span class="text-danger">*</span></label> -->
+                    <app-input controlName="name" [placeholder]="addEventHolidayF.value?.modalFor == '1' ? 'Event Title' : 'Holiday Title'"></app-input>
+                </div>
+                <div class="col-md-12 form_group">
+                    <!-- <label class="form_label">{{ addEventHolidayF.value?.modalFor == '1' ? 'Event' : 'Holiday' }} For</label> -->
+                    <div class="radio-section member_type">
+                        <div class="radio">
+                            <!-- <label class=" required fw-semibold label_radio">
+                                <input type="radio" formControlName="assignTo" id="none" value="1" class="mr-1">
+                                <span  for="none">Student</span>
+                            </label> -->
+                            <input type="radio" formControlName="assignTo" id="student" value="1" class="mr-1">
+                            <label for="student">Student</label>
+                        </div>
+                        <div class="radio ">
+                            <!-- <label class=" fw-semibold" aria-required="true">
+                                <input type="radio" name="type" formControlName="assignTo" id="all" value="2" class="mr-1">Employee<span></span>
+                            </label> -->
+                            <input type="radio" formControlName="assignTo" id="employee" value="2" class="mr-1">
+                            <label for="employee">Employee</label>
+                        </div>
+                        <div class="radio ">
+                            <!-- <label class="required fw-semibold" aria-required="true">
+                                <input type="radio" name="type" formControlName="assignTo" id="paid" value="3" class="mr-1">Both<span></span>
+                            </label> -->
+                            <input type="radio" formControlName="assignTo" id="both" value="3" class="mr-1">
+                            <label for="both">Both</label>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="addEventHolidayF.value?.assignTo == '1'">
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Batch<span class="text-danger">*</span></label>
+                        <app-multi-select controlName="batches" placeholder="Select Batch" [dropDownArray]="batchList" ></app-multi-select>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="addEventHolidayF.value?.assignTo == '2'">
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Employee<span class="text-danger">*</span></label>
+                        <app-multi-select controlName="users" placeholder="Select Employee" [dropDownArray]="facultyList"></app-multi-select>
+                    </div>
+                </ng-container>
+                <div class="col-md-6 form_group">
+                    <label class="form_label">Color</label>
+                    <div class="">
+                        <app-input controlName="color" type="color"></app-input>
+                    </div>
+                </div>
+                <div class="row toggle-block" [class.show]="addEventHolidayF.value?.modalFor == '1'">
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Event Type<span class="text-danger">*</span></label>
+                        <app-single-select controlName="event_type_id" placeholder="Select Event Type" [dropDownArray]="eventTypeList" (change)="onEventTypeChange($event)" ></app-single-select>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                        <app-input type="datetime-local" controlName="start_date"></app-input>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">End Date<span class="text-danger">*</span></label>
+                        <app-input type="datetime-local" controlName="end_date"></app-input>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Reference Link</label>
+                        <app-input *ngIf="!isView" type="text" controlName="reference" placeholder="Enter Reference Link"></app-input>
+                        <p appHorizontalScroll *ngIf="isView" class="allow-pointer"><a href="{{addEventHolidayF.value?.reference}}" target="_blank">{{addEventHolidayF.value?.reference}}</a> {{!addEventHolidayF.value?.reference ? '-' : ''}}</p>
+                    </div>
+                </div>
+                <div class="row toggle-block" [class.show]="addEventHolidayF.value?.modalFor == '2'">
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                        <app-mat-date-picker controlName="start_date"></app-mat-date-picker>
+                    </div>
+                    <div class="col-md-6 form_group">
+                        <label class="form_label">End Date<span class="text-danger">*</span></label>
+                        <app-mat-date-picker controlName="end_date"></app-mat-date-picker>
+                    </div>
+                </div>
+                <div class="col-md-6 form_group">
+                    <label class="form_label">Description</label>
+                    <app-input type="text-area" controlName="description" placeholder="Enter Description"></app-input>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="!dataReceived" class="calendar-loader d-flex justify-content-center align-items-center">
+            <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<div class="modal-footer">
+    <button type="submit" class="cancel-btn btn me-2 m-0" (click)="closeModal()">
+      Cancel
+    </button>
+    <button *ngIf="!isView && CommonService.hasPermission(addEventHolidayF.value?.modalFor == '1' ? 'administrator_event' : 'administrator_holiday',  selectedObj?.id ? 'has_update' : 'has_create')" type="submit" class="btn save-btn m-0" style="text-align: left;" (click)="saveData()" [disabled]="isShowLoading">
+      {{ selectedObj?.id ? 'Update' : 'Save'}}
+      <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading"  style="margin-left: 6px;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </button>
+</div>

@@ -1,0 +1,143 @@
+div.table table tr:last-child td.time_status {
+    border-bottom: 1px solid #000;
+  }
+
+  .time_status {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    border: 1px solid #000;
+    border-left: 0;
+    border-bottom: 0;
+  }
+
+  .time_box {
+    display: flex;
+    position: relative;
+  }
+
+  .time_box:after {
+    position: absolute;
+    content: "";
+    right: -8px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: #ccc;
+  }
+
+  .time_status p {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+
+  .me-2 {
+    margin-right: 10px;
+  }
+
+  .time_status .time_box:last-child:after {
+    display: none;
+  }
+
+  .bg-danger {
+    background-color: #f65656!important;
+  }
+
+  .machine-report-status{
+    display: inline;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color:#fff;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+
+  input:checked + .slider {
+    background-color: #f28726;
+  }
+
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+  .card{
+    .attendance-machine-report-table{
+      tr{
+        th{
+          &:nth-child(2){
+            max-width: 250px;
+          }
+          &:nth-child(4){
+            max-width: 150px;
+          }
+        }
+      }
+    }
+    .switch{
+        margin-top: 5px;
+        width: 52px;
+        height: 24px;
+        .slider{
+            background-color: #8098cd;
+            &::before{
+                width: 16px;
+                height: 16px;
+            }
+        }
+        input:checked + .slider{
+            background-color: #01329C;
+        }
+    }
+}

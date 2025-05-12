@@ -1,0 +1,379 @@
+<div class="card">
+<form [formGroup]="form" class="form_section" id="driver-form">
+	<div class="row">
+	    <div class="col-md-3 form_group">
+            <label class="form_label">Hostel<span class="text-danger">*</span></label>
+            <ng-select  [items]="hostels" 
+            			[(ngModel)]="hostel"  
+            			(change)="getRooms()" 
+            			[searchable]="true" 
+            			bindLabel="name" 
+            			bindValue="id"  
+            			id="hostel_id" 
+            			name="hostel_id" 
+            			formControlName="hostel_id" 
+            			placeholder="Select Hostel" 
+            		>
+            </ng-select>
+            <div *ngIf="form.controls['hostel_id'].invalid && (form.controls['hostel_id'].dirty || form.controls['hostel_id'].touched || submitted)" class="error text-danger">
+                <div *ngIf="form.controls['hostel_id'].errors?.['required']">please select Hostel.</div>
+            </div>
+	    </div>
+	    <div class="col-md-3 form_group">
+            <label class="form_label">Room Type<span class="text-danger">*</span></label>
+            <ng-select  [items]="roomTypes" 
+            			[(ngModel)]="roomType"  
+            			(change)="getRooms()" 
+            			[searchable]="true"  
+            			bindLabel="type" 
+            			bindValue="id"  
+            			id="room_type_id" 
+            			name="room_type_id" 
+            			formControlName="room_type_id" 
+            			placeholder="Select Room Types" 
+            		>
+            </ng-select>
+            <div *ngIf="form.controls['room_type_id'].invalid && (form.controls['room_type_id'].dirty || form.controls['room_type_id'].touched || submitted)" class="error text-danger">
+                <div *ngIf="form.controls['room_type_id'].errors?.['required']">please select room type</div>
+            </div>
+	    </div>
+	    <div class="col-md-3 form_group">
+            <label class="form_label">Room<span class="text-danger">*</span></label>
+            <ng-select  [items]="rooms" 
+                        (change)="selectRoom($event)"
+                        [(ngModel)]="room"   
+            			[searchable]="true"  
+            			bindLabel="room_number" 
+            			bindValue="id"  
+            			id="room_id" 
+            			name="room_id" 
+            			formControlName="room_id" 
+            			placeholder="Select Room" 
+            		>
+            </ng-select>
+            <div *ngIf="form.controls['room_id'].invalid && (form.controls['room_id'].dirty || form.controls['room_id'].touched || submitted)" class="error text-danger">
+                <div *ngIf="form.controls['room_id'].errors?.['required']">please select room</div>
+            </div>
+	    </div>
+	    <div class="col-md-3 form_group">
+            <label class="form_label">Allotment date<span class="text-danger">*</span></label>
+            <app-mat-date-picker controlName="allotment_date" (change)="getCalculatedFair()"></app-mat-date-picker>
+
+            <!-- <input type="date" id="allotment_date" name="allotment_date" formControlName="allotment_date" placeholder="Allotment Date" class="form-control" (change)="getCalculatedFair()"> 
+            <div *ngIf="form.controls['allotment_date'].invalid && (form.controls['allotment_date'].dirty || form.controls['allotment_date'].touched || submitted)" class="error text-danger">
+                <div *ngIf="form.controls['allotment_date'].errors?.['required']">please select allotment date</div>
+            </div> -->
+        </div>
+        <div class="col-md-3 form_group">
+            <label class="form_label">Left date</label>
+            <app-mat-date-picker controlName="left_date" (change)="getCalculatedFair()"></app-mat-date-picker>
+            <!-- <input type="date" id="left_date" name="left_date" placeholder="Left Date" formControlName="left_date" class="form-control" (change)="getCalculatedFair()"> -->
+        </div>
+        <div class="col-md-3 form_group">
+            <label for="" class="form_label">Applicable Fees</label>
+            <div class="col-md-12 d-flex px-0">
+                <div class="radio ml-1">
+                    <label class="m-radio required" for="new" aria-required="true">
+                        <input type="radio" id="new" value="new" aria-required="true" formControlName="applicable_fees" (change)="handleFeesTypeChange()" >New Fees<span></span>
+                    </label>
+                </div>
+                <div class="radio ml-1">
+                    <label class="m-radio required" for="old" aria-required="true">
+                        <input type="radio" id="old" value="old" aria-required="true" formControlName="applicable_fees" (change)="handleFeesTypeChange()" >Old Fees<span></span>
+                    </label>
+                </div>
+            </div> 
+        </div>
+        <div class="col-md-3 form_group">
+            <div>
+                <label class="form_label">Hostel Fees<span class="text-danger">*</span></label>
+                <div>
+                    <input type="text" formControlName="amount" class="form-control">
+                </div>
+            </div>
+        </div>
+	</div>
+    <div class="row" *ngIf="form.controls['left_date'].value != null && form.controls['allotment_date'].value != null">
+        <div class="col-md-6 form_group mb-2">
+            <label class="form_label"><b>Reason For Leaving</b></label>
+            <div class="form-group">
+                <div>
+                    <textarea class="form-control ng-untouched ng-pristine ng-invalid" name="reason" id="reason" formControlName="reason" placeholder="Enter reason for leaving"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 form_group mb-2">
+            <div class="row">
+                <ng-container formArrayName="attachments" *ngFor="let item of attachmentArray.controls; let i = index;">
+                    <div class="col-md-12 form_group mb-2" >
+                        <ng-container [formGroupName]="i">
+                        <div class="row">
+                            <label class="form_label"><b>Attachment Name</b></label>
+                            <div class="col-md-6 form_group mb-2" >
+                                <input type="text" formControlName="attachment_name" name="working_days_school" placeholder="Attachment Name" class="form-control">
+                            </div>
+                            <div class="col-md-6 form_group mb-2">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between">
+                                        <input type="file" class="form-control" (change)="selectAttachment($event,item)">
+                                        <div *ngIf="i == 0">
+                                        <button class="btn ms-2" type="button" (click)="addAttachment()"><i class="fa fa-plus"></i></button>
+                                        </div>
+                                        <div *ngIf="i !== 0">
+                                        <button class="btn ms-2" type="button" (click)="removeAttachment(i)"><i class="fa fa-minus"></i></button>
+                                        </div>
+                                    </div>
+                                    <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                        <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row w-100 justify-content-start">
+        <div class="col-auto">
+            <button class="button px-1" type="submit" (click)="submit()" class="btn assign-btn" [disabled]="(!studentHostel && disableSave)">Assign</button>
+        </div>
+    </div>
+
+    <div class="row my-5" >
+        <div class="col-lg-12 assign-transport-table">
+            <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Batch</th>
+                            <th>Hostel</th>
+                            <th>Room No</th>
+                            <th>Total Fees</th>
+                            <th>Paid Fees</th>
+                            <th>Discount Fees</th>
+                            <th>Remaining Fees</th>
+                            <th>Applicable Fees</th>
+                            <th>Allotment Date</th>
+                            <th>Left Date</th>
+                            <th>Detail</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of studentHostelList ;let i = index;">
+                            <td>{{item.student.full_name ?? '-'}}</td>
+                            <td>{{item.student.batch_detail.class.name ?? '-'}}</td>
+                            <td>{{item.student.batch_detail.name ?? '-'}}</td>
+                            <td>{{item.room.hostel.name ?? '-'}}</td>
+                            <td>{{item.room.room_number}}</td>
+                            <td>{{item.total_fees}}</td>
+                            <td>{{item.paid_amount == null ? 0 : item.paid_amount}}</td>
+                            <td>{{item.discount_amount == null ? 0 : item.discount_amount}}</td>
+                            <td>{{calculateRemainingFees(item)}}</td>
+                            <td>{{item.applicable_fees}}</td>
+                            <!-- <td>{{dateFormat(item.allotment_date)}}</td> -->
+                            <td>{{item.allotment_date | date:dateFormateService.getDateFormat()}}</td>
+                            <!-- <td>{{dateFormat(item.left_date)}}</td> -->
+                            <td>{{item.left_date | date:dateFormateService.getDateFormat()}}</td>
+
+                            <td>
+                                <div class="tooltip" [ngbTooltip]="tipContentDetails" container="body" placement="left" tooltipClass="my-custom-class">
+                                    <i class="fas fa-info-circle"></i>
+                                    <ng-template #tipContentDetails >
+                                    <span>
+                                        <p>
+                                            <b>Assign Time : </b>{{item?.updated_at | date:dateFormateService.getDateTimeFormat()}}
+                                        </p>
+                                        <p>
+                                            <b>Assign by : </b>{{item?.assign_by_user?.full_name ?? '-'}}
+                                        </p>
+                                    </span>
+                                    </ng-template>
+                                </div>
+                            </td>  
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <!-- <button type="button" title="Pay Fees" class="btn btn-sm btn-primary"
+                                    (click)="open(mymodal,item)">
+                                        Pay Fees
+                                    </button> -->
+                                    <button type="button" ngbTooltip="Attachments" class="btn action-attech ms-1" (click)="attachment(myModel, item, 'attachment')"> 
+                                        <i class="fe fe-file"></i> 
+                                    </button>
+                                    <button  *ngIf="item?.reason" type="button" ngbTooltip="Reason" class="btn action-info ms-1" (click)="attachment(myModel, item, 'reason')"> 
+                                        <i class="fas fa-info-circle"></i>
+                                    </button>
+                                    <button class="btn action-edit" ngbTooltip="Edit" (click)="open(mymodal,item)">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="btn action-delete" ngbTooltip="delete" (click)="delete(item)" *ngIf="item.paid_amount == null || item.paid_amount == 0">
+                                        <i class="fa fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="studentHostelList?.length == 0">
+                        <tr>
+                            <td colspan="14" class="text-center no-data-available">No data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+    <ng-template #mymodal let-modal>
+        <div class="modal-header" style="z-index: 0;">
+            <h4 class="modal-title" id="modal-basic-title">Fees Collection</h4>
+            <button type="button" class="close" aria-label="Close"
+                (click)="modal.close('cancel')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body" style="z-index: 0;">
+
+            <div class="page_inner">
+                <div class="card_body px-3">
+                    <div class="row">
+                        <div class="col-md-6 form_group">
+                            <div class="">
+                                <label class="form_label">Allotment date<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input type="text" id="name" [(ngModel)]="updateForm.name" readonly placeholder="Student name" class="form-control">
+                                </div>
+                            </div> 
+                        </div>
+                        <div></div>
+                        <div class="col-md-6 form_group">
+                            <div class="">
+                                <label class="form_label">Allotment date<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <app-mat-date-picker [(selectedDate)]="updateForm.allotment_date" [isRequired]="false" [templateDriven]="true" (change)="getCalculatedFair('update',$event,'allotment_date')"></app-mat-date-picker>
+
+                                    <!-- <input type="date" id="allotment_date" name="allotment_date" [(ngModel)]="updateForm.allotment_date" placeholder="Allotment Date" class="form-control" (change)="getCalculatedFair('update')"> -->
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-6 form_group">
+                            <div class="">
+                                <label class="form_label">Left date</label>
+                                <div class="">
+                                    <app-mat-date-picker [(selectedDate)]="updateForm.left_date" [isRequired]="false" [templateDriven]="true" (change)="getCalculatedFair('update',$event,'left_date')"></app-mat-date-picker>
+                                    <!-- <input type="date" id="left_date" name="left_date" placeholder="Left Date" [(ngModel)]="updateForm.left_date" class="form-control" (change)="getCalculatedFair('update')"> -->
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-6 form_group">
+                            <div>
+                                <label class="form_label">Hostel Fees<span class="text-danger">*</span></label>
+                                <div>
+                                    <input type="text" [(ngModel)]="updateForm.amount" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="updateForm.allotment_date != '' && (updateForm.left_date != '' && updateForm.left_date != null )">
+                        <div class="col-md-12 form_group mb-2">
+                            <label class="form_label"><b>Reason For Leaving</b></label>
+                            <div class="form-group">
+                                <div>
+                                    <textarea class="form-control ng-untouched ng-pristine ng-invalid" name="reason" id="reason" [(ngModel)]="updateForm.reason"  placeholder="Enter reason for leaving"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form_group mb-2">
+                            <div class="row">
+                                <ng-container  *ngFor="let item of updateForm.attachments let i = index;">
+                                    <div class="col-md-12 form_group mb-2" >
+                                      <ng-container>
+                                        <div class="row">
+                                            <label class="form_label"><b>Attachment Name</b></label>
+                                            <div class="col-md-6 form_group mb-2" >
+                                                <input type="text" [(ngModel)]="item.attachment_name" name="working_days_school" placeholder="Attachment Name" class="form-control">
+                                            </div>
+                                            <div class="col-md-6 form_group mb-2">
+                                                <div class="form-group">
+                                                    <div class="d-flex justify-content-between">
+                                                      <input type="file" class="form-control" (change)="selectAttachment($event,item, 'edit')">
+                                                      <div *ngIf="i == 0">
+                                                        <button class="btn ms-2" type="button" (click)="addAttachment(null, 'edit')"><i class="fa fa-plus"></i></button>
+                                                      </div>
+                                                      <div *ngIf="i !== 0">
+                                                        <button class="btn ms-2" type="button" (click)="removeAttachment(i, 'edit')"><i class="fa fa-minus"></i></button>
+                                                      </div>
+                                                    </div>
+                                                    <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                                        <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                      </ng-container>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer" style="z-index: 0;">
+            <div class="col-md-2">
+                <button type="submit"
+                    class="w-100 btn"
+                    (click)="update()"> Save </button>
+            </div>
+            <div class="col-md-2">
+                <button type="submit"
+                    class="w-100 btn" (click)="modal.close('cancel')">
+                    Cancel </button>
+            </div>  
+        </div>
+    </ng-template>
+
+    <ng-template #myModel let-modal >
+        <div >
+            <div class="modal-header">
+                <div class="modal-title" > {{modalReason ? 'Reason' : 'Attachments'}}</div>
+                <div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+            </div>
+            <div class="modal-body" *ngIf="modelAttachments.length > 0">
+                <div class="row" >
+                    <div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex" *ngFor="let file of modelAttachments">
+                        <div class="card p-0 w-100 ">
+                            <span class="delete-button" 
+                                (click)="deleteAttachment(file.id)">
+                                <i class="fa fa-trash text-danger cursor-pointer"></i>
+                            </span>
+                            <a class="mb-1" href="{{file.attachment_url}}" target="_blank">
+                                <div class="card-body px-2  text-center">
+                                    <div class="file-manger-icon">
+                                        <img [src]="fileIcons[file.file_type]" alt="img" class="rounded-7">
+                                    </div>
+                                    <h6 class="mb-1 font-weight-semibold text-capitalize">{{file.file_name}}</h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body text-center text-muted" *ngIf="modelAttachments?.length == 0 && !modalReason">
+                No Attachments Available
+            </div>
+            <div class="modal-body"  *ngIf="modalReason">
+                <p>{{modalReason}}</p>
+            </div>
+
+            <div class="d-flex justify-content-end modal-footer">
+                <button type="button" class="btn btn-secondary mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+            </div>
+        </div>
+    </ng-template>

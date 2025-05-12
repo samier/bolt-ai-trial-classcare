@@ -1,0 +1,112 @@
+<section class="assign-subject-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">Assign Subject</h3>
+          <div class="btn_right">                    
+            <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn mx-2 timetable-btn">Timetable</a>
+        </div>
+        </div>
+        
+        <div class="card">
+            <div class="card_body">
+                <div class="row" >
+                    <div class="col-md-3 form_group">
+                        <label for="" class="form_label">Select Section<span class="text-danger">*</span></label>
+                        <ng-select #select [items]="sections" [searchable]="true" [(ngModel)]="params.section"
+                            (change)="handleSectionChange()" bindLabel="name" bindValue="id"
+                            placeholder="Please select section">
+                        </ng-select>
+                        <div class="text-danger error"> {{errors['section']}} </div>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <label for="" class="form_label">Select Class<span class="text-danger">*</span></label>
+                        <ng-select #select [items]="classes" [searchable]="true" [(ngModel)]="params.class"
+                            (change)="handleClassChange()" bindLabel="name" bindValue="id"
+                            placeholder="Please select class">
+                        </ng-select>
+                        <div class="text-danger error"> {{errors['class']}} </div>
+                    </div>
+                    <div class="col-md-3 form_group">
+                        <label for="" class="form_label">Select Batch<span class="text-danger">*</span></label>
+                        <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="params.batch"
+                            (change)="handleBatchChange()" bindLabel="name" bindValue="id"
+                            placeholder="Please select batch">
+                        </ng-select>
+                        <div class="text-danger error"> {{errors['batch']}} </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-auto">
+                        <button class="btn show-btn" type="button"  [disabled]="showLoading" (click)="show()">
+                            Show
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </button>
+                    </div>
+                    <div class="col-md-auto">
+                        <button type="submit" class="btn clear-btn" (click)="clearForm()"> Cancel </button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="card" *ngIf="users.length > 0">
+            <div class="">
+                <div class="time-slot-table basic_table">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                            <thead>
+                                <tr>
+                                    <th>SR NO.</th>
+                                    <th>FACULTY</th>
+                                    <!-- <th>Batch</th> -->
+                                    <th style="width: 50%;">SUBJECTS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of users; let i = index">
+                                    <td>{{ i + 1}}</td>
+                                    <td> {{item.full_name}} </td>
+                                    <td>
+                                        <ng-multiselect-dropdown  [placeholder]="'Select Subject'"
+                                            [settings]="dropdownSettings" [data]="subjects"
+                                            [(ngModel)]="item.subjects">
+                                        </ng-multiselect-dropdown>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
+                                    <td>1</td>
+                                    <td>Sandeep Kumar Patel</td>
+                                    <td> <span> 1-a, </span> <span> 1-b, </span> <span> 1-c, </span> <span> 1-d, </span></td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option>Select Subjects</option>
+                                            <option>Select Subjects</option>
+                                            <option>Select Subjects</option>
+                                            <option>Select Subjects</option>
+                                            <option>Select Subjects</option>
+                                        </select>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="assign-sub-btn">
+                    <button class="btn save-btn me-2" (click)="save()" [disabled]="submitLoading" *ngIf="CommonService.hasPermission('administrator_subject_faculty', 'has_create') || CommonService.hasPermission('administrator_subject_faculty', 'has_update')">
+                        Save
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="submitLoading">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                    </button>
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn mx-2 clear-btn">Cancel</a>
+
+                </div>
+            </div>
+        </div>
+        
+      </div>
+    </div>
+  </section>

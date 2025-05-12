@@ -1,0 +1,17 @@
+::ng-deep body {
+    app-fees-confirmation{
+	    label {
+			font-weight: 600;
+		}
+		tbody td,tbody th {
+		    padding: 5px 15px !important;
+		}
+		th {
+			font-size: 13px !important;
+			font-weight: 700 !important;
+		}
+		span{
+			padding-left: 4px ;
+		}
+	}
+}

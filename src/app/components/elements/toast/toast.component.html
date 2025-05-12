@@ -1,0 +1,546 @@
+<div class="breadcrumb-header justify-content-between">
+	<div class="my-auto">
+		<div class="d-flex">
+			<h4 class="content-title mb-0 my-auto">Elements</h4><span class="text-muted mt-1 tx-13 ms-2 mb-0">/
+				Toast</span>
+		</div>
+	</div>
+	<div class="d-flex my-xl-auto right-content mr-2">
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-info btn-icon me-2"><i class="mdi mdi-filter-variant"></i></button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-danger btn-icon me-2"><i class="mdi mdi-star"></i></button>
+		</div>
+		<div class="pr-1 mb-3 mb-xl-0">
+			<button type="button" class="btn btn-warning  btn-icon me-2"><i class="mdi mdi-refresh"></i></button>
+		</div>
+		<div class="mb-3 mb-xl-0">
+			<div ngbDropdown class="btn-group">
+				<button type="button" class="btn btn-primary">14 Aug 2019</button>
+				<button type="button" ngbDropdownToggle class="btn btn-primary dropdown-toggle-split"
+					id="dropdownMenuDate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="sr-only">Toggle Dropdown</span>
+				</button>
+				<div ngbDropdownMenu class="dropdown-menu-right" aria-labelledby="dropdownMenuDate"
+					data-x-placement="bottom-end">
+					<a ngbDropdownItem href="javascript:;">2015</a>
+					<a ngbDropdownItem href="javascript:;">2016</a>
+					<a ngbDropdownItem href="javascript:;">2017</a>
+					<a ngbDropdownItem href="javascript:;">2018</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-xl-12 col-lg-12">
+		<div class="card custom-card" id="basic">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Declarative inline usage</h6>
+						<p class="text-muted card-sub-title">Toasts are as flexible as you need and have very little
+							required markup. At a minimum, we require a single element to contain your “toasted” content and
+							strongly encourage a dismiss button.</p>
+					</div>
+						<div>
+							<label class="form-switch float-end mb-0">
+								<a class="tx-14 mb-0 me-2 fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed">Show Code</a>
+								<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+								<span class="form-switch-indicator custom-radius"></span>
+							</label>
+						</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<ngb-toast *ngIf="show" header="Hello" [autohide]="false" (hidden)="show=false">
+								I am a simple static toast with a header.
+							</ngb-toast>
+						</div>
+					</div>
+					<div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav1="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts1}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav1" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+		<div class="card custom-card" id="tarns">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="main-content-label mb-1">Using a Template as header</h6>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse2.toggle()" [attr.aria-expanded]="!isCollapsed2"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<ngb-toast *ngIf="show1" [autohide]="false" (hidden)="show=false">
+								<ng-template ngbToastHeader>
+									<div class="me-auto">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+											<path
+												d="M16.896 10l-4.896-8-4.896 8-7.104-4 3 11v5h18v-5l3-11-7.104 4zm-11.896 10v-2h14v2h-14zm14.2-4h-14.4l-1.612-5.909 4.615 2.598 4.197-6.857 4.197 6.857 4.615-2.598-1.612 5.909z" />
+										</svg>
+										<strong class="mx-1">Fancy</strong> header here 
+									</div>
+	
+								</ng-template>
+								Hello, I am toast. Have you noticed my header has been generated from a Template?
+							</ngb-toast>
+	
+						</div>
+	
+	
+					</div>
+					<div #collapse2="ngbCollapse" [(ngbCollapse)]="isCollapsed2">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav2="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts2}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav2" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+		<div class="card custom-card" id="stacking">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Stacking</h6>
+						<p class="text-muted card-sub-title">When you have multiple toasts, we default to vertiaclly
+							stacking them in a readable manner.</p>
+					</div>
+						<div>
+							<label class="form-switch float-end mb-0">
+								<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+								<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+								<span class="form-switch-indicator custom-radius" (click)="collapse3.toggle()" [attr.aria-expanded]="!isCollapsed3"></span>
+							</label>
+						</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="demo-static-toast">
+	
+								<ngb-toast *ngIf="show2" [autohide]="false" (hidden)="show2=false">
+									<ng-template ngbToastHeader>
+										<h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6>
+										<small class="text-muted">Just now</small>
+									</ng-template>
+									See? Just like this.
+								</ngb-toast>
+								<ngb-toast *ngIf="show3" [autohide]="false" (hidden)="show3=false">
+									<ng-template ngbToastHeader>
+										<h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6>
+										<small class="text-muted">11 mins ago</small>
+									</ng-template>
+									Hello, world! This is a toast message.
+								</ngb-toast>
+	
+							</div>
+						</div>
+					</div>
+					<div #collapse3="ngbCollapse" [(ngbCollapse)]="isCollapsed3">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav3="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts3}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav3" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+		<div class="card custom-card" id="place">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						<h6 class="card-title mb-1">Placement</h6>
+						<p class="text-muted card-sub-title">Place toasts with custom CSS as you need them.
+							The top right is often used for notifications, as is the top middle.</p>
+					</div>
+						<div>
+							<label class="form-switch float-end mb-0">
+								<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+								<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+								<span class="form-switch-indicator custom-radius" (click)="collapse4.toggle()" [attr.aria-expanded]="!isCollapsed4"></span>
+							</label>
+						</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap  mb-3">
+						<div class="example">
+							<div class="ht-150 pos-relative mb-3">
+								<div class="demo-static-toast pos-absolute t-10">
+									<ngb-toast *ngIf="show3" [autohide]="false" (hidden)="show3=false">
+									  <ng-template ngbToastHeader>
+										<h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="text-muted me-3">11 mins ago</small>
+									  </ng-template>
+									  Hello, world! This is a toast message.
+									</ngb-toast>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="text-wrap  mb-3">
+						<div class="example">
+							<div class="demo-static-toast d-flex justify-content-center align-items-center">
+								<ngb-toast *ngIf="show5" [autohide]="false" (hidden)="show4=false">
+									<ng-template ngbToastHeader>
+									  <h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="text-muted me-3">11 mins ago</small>
+									</ng-template>
+									Hello, world! This is a toast message.
+								  </ngb-toast>
+							</div>
+						</div>
+					</div>
+					<div class="text-wrap ">
+						<div class="example">
+							<div class="ht-150 pos-relative">
+								<div class="demo-static-toast pos-absolute b-10 r-10">
+									<ngb-toast *ngIf="show4" [autohide]="false" (hidden)="show4=false">
+										<ng-template ngbToastHeader>
+										  <h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="text-muted me-3">11 mins ago</small>
+										</ng-template>
+										Hello, world! This is a toast message.
+									</ngb-toast>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div #collapse4="ngbCollapse" [(ngbCollapse)]="isCollapsed4">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav4="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{PLACEMENT_HTML}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{PLACEMENT_TS}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav4" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+		<div class="card custom-card" id="place">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>	
+						<h6 class="main-content-label mb-1">Closeable toast</h6>
+						<p class="text-muted card-sub-title">If you close me, I will automatically re-appear after a few
+							seconds.</p>
+					</div>
+						<div>
+							<label class="form-switch float-end mb-0">
+								<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+								<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+								<span class="form-switch-indicator custom-radius" (click)="collapse5.toggle()" [attr.aria-expanded]="!isCollapsed5"></span>
+							</label>
+						</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap  mb-3">
+						<div class="example">
+	
+	
+							<div class="pos-relative mb-3">
+								<ngb-toast *ngIf="isclose" header="Click my close icon →" [autohide]="false"
+									(hidden)="close()">
+									If you close me, I will automatically re-appear after a few seconds.
+								</ngb-toast>
+								<p *ngIf="!isclose">I'll be back!</p>
+							</div>
+	
+	
+						</div>
+	
+					</div>
+					<div #collapse5="ngbCollapse" [(ngbCollapse)]="isCollapsed5">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav5="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts4}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav5" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card custom-card" id="basic">
+			<div class="">
+				<div class="card-header d-flex justify-content-between align-items-center">
+					<div>
+						
+						<h6 class="main-content-label mb-1">Toast management service</h6>
+						<p class="text-muted card-sub-title">In this demo, you can show a toast by clicking the button
+							below. It will hide itself after a 5 seconds delay unless you simply hover it with your mouse.
+						</p>
+					</div>
+					<div>
+						<label class="form-switch float-end mb-0">
+							<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+							<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+							<span class="form-switch-indicator custom-radius" (click)="collapse6.toggle()" [attr.aria-expanded]="!isCollapsed6"></span>
+						</label>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="text-wrap ">
+						<div class="example">
+	
+							<p>Please click one of the button to see a Toast being displayed in the top right corner of your
+								screen:</p>
+							<button class="btn btn-primary mb-2" (click)="showStandard()"
+								ngbTooltip="Will disappear in 5s">Standard toast</button>&nbsp;
+							<button class="btn btn-success mb-2" (click)="showSuccess()"
+								ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
+	
+							<ng-template #dangerTpl>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="#fff" width="24" height="24"
+									viewBox="0 0 24 24">
+									<path
+										d="M10.872 6.831l1.695 3.904 3.654-1.561-1.79 3.426 3.333.954-3.417 1.338 2.231 4.196-4.773-2.582-2.869 2.287.413-3.004-3.792-.726 2.93-1.74-1.885-2.512 3.427.646.843-4.626zm-.786-6.831l-1.665 9.119-6.512-1.228 3.639 4.851-5.548 3.294 7.108 1.361-.834 6.076 5.742-4.577 9.438 5.104-4.288-8.064 6.834-2.677-6.661-1.907 3.25-6.22-6.98 2.982-3.523-8.114z" />
+								</svg>
+								Danger Danger !
+							</ng-template>
+							<button class="btn btn-danger mb-2" (click)="showDanger(dangerTpl)"
+								ngbTooltip="Will disappear in 15s">Danger toast</button>&nbsp;
+	
+							<app-toast-container aria-live="polite" aria-atomic="true"></app-toast-container>
+	
+						</div>
+	
+	
+					</div>
+					<div #collapse6="ngbCollapse" [(ngbCollapse)]="isCollapsed6">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav6="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts5}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav6" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- /row -->
+<div class="row">
+	<div class="col-xl-12">
+	  <div class="card custom-card" id="tarns">
+		<div class="">
+		  <div class="card-header d-flex justify-content-between align-items-center">
+			<div>
+				<h6 class="card-title mb-1">Color Toasts</h6>
+				<p class="text-muted card-sub-title">Toasts are slightly translucent, too, so they blend over whatever they
+				  might appear over.</p>
+			</div>
+			  <div>
+				<label class="form-switch float-end mb-0">
+					<a class="tx-14 mb-0 me-2 fw-bold">Show Code</a>
+					<input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+					<span class="form-switch-indicator custom-radius" (click)="collapse7.toggle()" [attr.aria-expanded]="!isCollapsed7"></span>
+				</label>
+			</div>
+		  </div>
+		  <div class="card-body">
+			  <div class="text-wrap ">
+				  <div class="row">
+					<div class="col-xl-12">
+					  <div class="row">
+						<div class="col-xl-6 col-lg-6 col-md-12">
+						  <div class="demo-static-toast mb-2 mt-2">
+							<ngb-toast *ngIf="show5" [autohide]="false" (hidden)="show5=false" class="primary-toast">
+							  <ng-template ngbToastHeader >
+								  <i class="fe fe-home me-2"></i><h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="me-3">11 mins ago</small>
+							  </ng-template>
+							  Hello, world! This is a toast message.
+							</ngb-toast>
+						  </div>
+						</div>
+						<div class="col-xl-6 col-lg-6 col-md-12">
+						  <div class="demo-static-toastmt-2 mb-2">
+							<ngb-toast *ngIf="show6" [autohide]="false" (hidden)="show6=false" class="secondary-toast">
+							  <ng-template ngbToastHeader >
+								  <i class="fe fe-compass me-2"></i><h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="me-3">11 mins ago</small>
+							  </ng-template>
+							  Hello, world! This is a toast message.
+							</ngb-toast>
+						  </div>
+						</div>
+						<div class="col-xl-6 col-lg-6 col-md-12">
+						  <div class="demo-static-toast mt-2 mb-2">
+							<ngb-toast *ngIf="show7" [autohide]="false" (hidden)="show7=false" class="success-toast">
+							  <ng-template ngbToastHeader >
+								  <i class="fe fe-check-circle me-2"></i><h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="me-3">11 mins ago</small>
+							  </ng-template>
+							  Hello, world! This is a toast message.
+							</ngb-toast>
+						  </div>
+						</div>
+						<div class="col-xl-6 col-lg-6 col-md-12">
+						  <div class="demo-static-toast mt-2 mb-2">
+							<ngb-toast *ngIf="show8" [autohide]="false" (hidden)="show8=false" class="info-toast">
+							  <ng-template ngbToastHeader >
+								  <i class="fe fe-info me-2"></i><h6 class="tx-14 mg-b-0 mg-r-auto">Notification</h6><small class="me-3">11 mins ago</small>
+							  </ng-template>
+							  Hello, world! This is a toast message.
+							</ngb-toast>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+			  </div>
+			  <div #collapse7="ngbCollapse" [(ngbCollapse)]="isCollapsed7">
+            <div class="panel panel-primary tabs-style-1 my-3">
+              <ul ngbNav #nav7="ngbNav" class="nav-tabs">
+                <li [ngbNavItem]="1">
+                  <a ngbNavLink>HTML</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{html7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                  <a ngbNavLink>TS</a>
+                  <ng-template ngbNavContent>
+                    <pre><code >{{ts7}}</code></pre>
+                    
+                  </ng-template>
+                </li>
+              </ul>
+
+              <div class="panel-body tabs-menu-body main-content-body-right border-top-0 border">
+                <div [ngbNavOutlet]="nav7" class="tab-pane"></div>
+                <div class="tab-content"></div>
+              </div>
+            </div>
+          </div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>

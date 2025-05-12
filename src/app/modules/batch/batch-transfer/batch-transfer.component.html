@@ -1,0 +1,241 @@
+<section class="batch-transfer">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Batch Transfer</h3>
+        <div class="d-flex">
+          <button [routerLink]="batchService.setUrl(URLConstants.BATCH)" type="button" class="btn list-btn px-2 d-flex align-items-center me-2">
+            Batch List
+          </button>
+          <button [routerLink]="batchService.setUrl(URLConstants.BATCH_LIST)" type="button" class="btn list-btn px-2 d-flex align-items-center">
+            Transfer List
+          </button>
+        </div>
+      </div>
+      <div class="">
+        <div class="form_section  global_form table_top">
+          <form action="" [formGroup]="batchTransferForm">
+            <div class="card p-0">
+              <div class="row">
+                <div class="col-md-6 form_group from_card mb-0 d-flex pe-0">
+                  <div class="d-flex flex-column w-100">
+                    <div class="card-label">
+                      <h3 class="text-center mb-0">From</h3>
+                    </div>
+                    <div class="p-3 mb-0 d-flex flex-column w-100">
+                      <div class="row">
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Section</label>
+                          <div>
+                            <ng-select formControlName="from_section_id" [items]="sectionList" bindLabel="name" bindValue="id"
+                              placeholder="Select section" (change)="getClasses('from')"></ng-select>
+                          </div>
+                        </div>
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Class <span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select formControlName="from_class_id" [items]="fromClassList" bindLabel="name" bindValue="id"
+                              placeholder="Select class" (change)="getBatches('from')"></ng-select>
+                              <div  *ngIf="isSubmit || batchTransferForm.controls['from_class_id'].invalid && (batchTransferForm.controls['from_class_id'].dirty || batchTransferForm.controls['from_class_id'].touched)">
+                                <div class="text-danger" *ngIf="batchTransferForm.controls['from_class_id'].errors?.['required']">
+                                  Please select class.
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Batch<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select formControlName="from_batch_id" [items]="fromBatchList" bindLabel="name" bindValue="id"
+                              placeholder="Select batch"></ng-select>
+                              <div  *ngIf="isSubmit || batchTransferForm.controls['from_batch_id'].invalid && (batchTransferForm.controls['from_batch_id'].dirty || batchTransferForm.controls['from_batch_id'].touched)">
+                                <div class="text-danger" *ngIf="batchTransferForm.controls['from_batch_id'].errors?.['required']">
+                                  Please select batch.
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Type</label>
+                          <div>
+                            <ng-select formControlName="type" [items]="studentType" bindLabel="name" bindValue="value"
+                              placeholder="Select type"></ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 form_group to_card mb-0 d-flex ps-0">
+                  <div class="d-flex flex-column w-100">
+                    <div class="card-label">
+                      <h3 class="text-center mb-0">To</h3>
+                    </div>
+                    <div class="p-3 flex-column w-100 mb-0">
+                      <div class="row">
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Section</label>
+                          <div>
+                            <ng-select formControlName="to_section_id" [items]="sectionList" bindLabel="name" bindValue="id"
+                            placeholder="Select section" (change)="getClasses('to')"></ng-select>
+                          </div>
+                        </div>
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Class<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select formControlName="to_class_id" [items]="toClassList" bindLabel="name" bindValue="id"
+                              placeholder="Select class" (change)="getBatches('to')"></ng-select>
+                              <div  *ngIf="isSubmit || batchTransferForm.controls['to_class_id'].invalid && (batchTransferForm.controls['to_class_id'].dirty || batchTransferForm.controls['to_class_id'].touched)">
+                                <div class="text-danger" *ngIf="batchTransferForm.controls['to_class_id'].errors?.['required']">
+                                  Please select class.
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Batch<span class="text-danger">*</span></label>
+                          <div>
+                            <ng-select formControlName="to_batch_id" [items]="toBatchList" bindLabel="name" bindValue="id"
+                              placeholder="Select batch"></ng-select>
+                              <div  *ngIf="isSubmit || batchTransferForm.controls['to_batch_id'].invalid && (batchTransferForm.controls['to_batch_id'].dirty || batchTransferForm.controls['to_batch_id'].touched)">
+                                <div class="text-danger" *ngIf="batchTransferForm.controls['to_batch_id'].errors?.['required']">
+                                  Please select batch.
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-md-6 form_group">
+                          <label for="" class="form_label">Select Type</label>
+                          <div>
+                            <ng-select formControlName="to_type" [items]="studentType" bindLabel="name" bindValue="value"
+                              placeholder="Select type"></ng-select>
+                          </div>
+                        </div> -->
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-3 show_clear_btn">
+                <div class="btn_right d-flex justify-content-center gap-3">
+                  <button class="button" type="button" class="btn show-btn px-4 d-flex align-items-center" [disabled]="isStudentReportGet" (click)="showStudentRecord()">
+                    SHOW
+                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isStudentReportGet">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </button>
+                  <button class="button" (click)="clearForm()" type="button" class="btn clear-btn px-4 d-flex align-items-center">
+                    CLEAR
+                  </button>
+                </div>
+              </div>
+            </div>  
+          </form>
+        </div>
+
+        <div class="">
+          <div class="card_body">
+            <div class="row">
+              <div class="col-md-6 d-flex form_group">
+                <div class="card radius-left-bottom-0 d-flex flex-column w-100">
+                  <div class="form_section  global_form table_top">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="sub_title mb-0">SELECT STUDENTS TO TRANSFER FROM <span class="text-primary">{{getBatchFromId(batchTransferForm.value.from_batch_id,'from')}}</span></h5>
+                      <button class="button" type="button" class="btn transfer-btn px-4 d-flex align-items-center" [disabled]="false" (click)="transferStudent()">
+                        Transfer
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                    <div class="col-md-8 p-0 search_box">
+                      <input type="text" placeholder="Search Student" class="form-control" [(ngModel)]="searchTextStudent"><i class="fas fa-search"></i>
+                    </div>
+                    <!-- <p class="pt-3">Students : <b>{{studentList?.from_student_list.length ?? 0}}</b> &nbsp; &nbsp; Selected Student : <b>{{selectedStudentCount}}</b></p> -->
+
+                    <div class="mt-3">
+                      <ng-container>
+                        <div class="m-checkbox-list d-flex mb-2">
+                            <div class="d-flex align-content-center ps-2" *ngIf="studentList?.from_student_list.length > 0 && searchTextStudent == ''">
+                              <label class="m-checkbox mb-0">
+                                <input type="checkbox" id="checkbox" [(ngModel)]="selectAllStudent" (ngModelChange)="selectAll()"><span></span>
+                              </label>
+                              <label for="checkbox" class="mb-0">
+                                <b class="ps-2">Select All <span class="text-primary">( {{selectedStudentCount}} )</span></b>
+                              </label>
+                            </div>
+                            <div class="ms-auto"><Span>Total Student : <b>{{studentList?.from_student_list.length ?? 0}}</b></Span></div>
+                        </div>
+                      </ng-container>
+                      <div class="card student-list mb-0 px-2">
+                        <ng-container *ngFor="let item of studentList?.from_student_list | batchStudent:searchTextStudent">
+                          <p class="mb-2 d-flex align-content-center">
+                          <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox{{item.id}}" [(ngModel)]="item.isSelect" (ngModelChange)="singleSelect()"><span></span>
+                          </label>
+                          <label for="checkbox{{item.id}}" class="mb-0">
+                            <span class="ps-2"> <span class="student_roll_no">{{item?.student_roll_number?.rollno}}</span> {{item?.full_name}}</span>
+                          </label>
+                          </p>
+                        </ng-container>
+                      </div>
+                      <ng-container *ngIf="studentList?.from_student_list.length == 0">
+                        <p>No Record Found</p>
+                      </ng-container>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 d-flex form_group">
+                <div class="card d-flex flex-column w-100 radius-right-bottom-0">
+                  <div class="form_section  global_form table_top">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <h5 class="sub_title mb-0">CURRENT STUDENT IN <span class="text-primary">{{getBatchFromId(batchTransferForm.value.to_batch_id,'to')}}</span></h5>
+                      <div class="opacity-0">
+                        <button class="button" type="button" class="btn transfer-btn px-4 d-flex align-items-center" [disabled]="false" (click)="transferStudent()">
+                          Transfer
+                          <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-8 p-0 search_box">
+                      <input type="text" placeholder="Search Student" class="form-control" [(ngModel)]="searchTextStudentTo"><i class="fas fa-search"></i>
+                    </div>
+                    <div class="m-checkbox-list d-flex justify-content-end mt-3">
+                      <p class="mb-2">Total Students : <b>{{studentList?.to_student_list.length ?? 0}}</b> </p>
+                    </div>
+                    <div class="card student-list mb-0 px-2">
+                      <ng-container *ngFor="let item of studentList?.to_student_list | batchStudent:searchTextStudentTo">
+                        <!-- <div class="m-checkbox-list d-flex justify-content-between mb-2">
+                          <div class="d-flex align-content-center">
+                            <label class="m-checkbox mb-0">
+                              <input type="checkbox"  [(ngModel)]="selectAllStudent" (ngModelChange)="selectAll()"><span></span>
+                            </label>
+                            <b class="ps-2">Select All <span class="text-primary">( {{selectedStudentCount}} )</span></b>
+                          </div>
+                          <div><Span>Total Student : {{studentList?.from_student_list.length ?? 0}}</Span></div>
+                      </div> -->
+                        <p class="mb-2"><span class="student_roll_no">{{item?.student_roll_number?.rollno}}</span> {{item?.full_name}}</p>
+                      </ng-container>
+                      <ng-container *ngIf="studentList?.to_student_list.length == 0">
+                        <p>No Record Found</p>
+                      </ng-container>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

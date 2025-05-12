@@ -1,0 +1,137 @@
+<section class="role_wise_access_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Role wise user permission</h3>
+				<div class="btn_right">
+					<!-- <a class="global_btn btn"  href="#."  [routerLink]="setUrl(URLConstants.ADD_ROLE)" > Add New Role</a> -->
+				</div>
+			</div>
+            <div class="card">               
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form id="role-wise-form" class="form_section" [formGroup]="myForm">
+                                <cdk-accordion class="example-accordion">
+                                    <!-- @for (item of items; track item; let index = $index) { -->
+                                      <cdk-accordion-item
+                                        *ngFor="let module of moduleWithPermission; let index = index;"
+                                        #accordionItem="cdkAccordionItem"
+                                        class="example-accordion-item"
+                                        role="button"
+                                        tabindex="0"
+                                        [attr.id]="'accordion-header-' + index"
+                                        [attr.aria-expanded]="accordionItem.expanded"
+                                        [attr.aria-controls]="'accordion-body-' + index">
+                                        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+                                          {{ module.main_module }}
+                                          <span class="example-accordion-item-description">
+                                            <i *ngIf="accordionItem.expanded" class="fa fa-angle-up" aria-hidden="true"></i>
+                                            <i *ngIf="!accordionItem.expanded" class="fa fa-angle-down" aria-hidden="true"></i>
+                                          </span>
+                                        </div>
+                                        <div
+                                          class="example-accordion-item-body"
+                                          role="region"
+                                          [style.display]="accordionItem.expanded ? '' : 'none'"
+                                          [attr.id]="'accordion-body-' + index"
+                                          [attr.aria-labelledby]="'accordion-header-' + index">
+                                          <table formArrayName="modules" class="table">
+                                            <tr *ngFor="let item of module.modules; let j = index;">
+                                                <!-- <input type="checkbox" name="permission[{{item.name}}][has_access]"> -->
+                                                <td class="module">{{item.name}}</td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" name="permission[{{item.id}}][has_access]" value="1" (change)="updateForm(item.id, item.name,'has_access',$event)" id="flexCheckChecked-{{item.id}}-has_access" [checked]="item.has_access === 1"  class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_access" class="form-check-label"> Has Access</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" name="permission[{{item.id}}][has_create]" value="1" (change)="updateForm(item.id, item.name,'has_create',$event)" id="flexCheckChecked-{{item.id}}-has_create" [checked]="item.has_create === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_create" class="form-check-label"> Has Create</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" id="flexCheckChecked-{{item.id}}-has_edit" name="permission[{{item.id}}][has_edit]"  value="1" (change)="updateForm(item.id, item.name,'has_edit',$event)" [checked]="item.has_edit === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_edit" class="form-check-label"> Has Edit</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" id="flexCheckChecked-{{item.id}}-has_update" name="permission[{{item.id}}][has_update]"  value="1" (change)="updateForm(item.id, item.name,'has_update',$event)" [checked]="item.has_update === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_update" class="form-check-label"> Has Update</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}"  name="permission[{{item.id}}][has_delete]"  id="flexCheckChecked-{{item.id}}-has_delete" value="1" (change)="updateForm(item.id, item.name,'has_delete',$event)" [checked]="item.has_delete === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_delete" class="form-check-label"> Has Delete</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" name="permission[{{item.id}}][has_download]" id="flexCheckChecked-{{item.id}}-has_download" value="1" (change)="updateForm(item.id, item.name,'has_download',$event)" [checked]="item.has_download === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_download" class="form-check-label"> Has Download</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group mb-0 justify-content-end">
+                                                        <div class="checkbox">
+                                                            <div class="form-check">
+                                                                <input type="checkbox" attr.module_id="{{item.id}}" attr.key="{{item.key}}" name="permission[{{item.id}}][has_import]" id="flexCheckChecked-{{item.id}}-has_import" value="1" (change)="updateForm(item.id, item.name,'has_import',$event)" [checked]="item.has_import === 1" class="form-check-input">
+                                                                <label for="flexCheckChecked-{{item.id}}-has_import" class="form-check-label"> Has Import</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        </div>
+                                      </cdk-accordion-item>
+                                    <!-- } -->
+                                  </cdk-accordion>           
+                                <div class="row">                                     
+                                    <div class="row w-100">
+                                        <div class="form-group mt-5 ml-4 text-left w-100">
+                                            <div class="col-lg-12">
+												<!-- <a class="btn btn-danger btn-minwidth" href="#" [routerLink]="setUrl(URLConstants.ROLE_LIST)">Cancel</a> -->
+                                                <button type="submit" (click)="onSubmit()" class="btn btn-success btn-minwidth" id="submitButton">Save</button>
+                                                <button type="submit" (click)="reset()" class="btn btn-success btn-minwidth ms-2" id="submitButton">Reset</button>
+                                            </div>
+                                        </div> 
+                                    </div>                                                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </div>
+    </div>
+</section>

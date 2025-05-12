@@ -1,0 +1,110 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title m-0">Fees Refund list</h3>
+                <div class="btn_right"  *ngIf="!studentDetail">
+                    <a *ngIf="commonService.hasPermission('finance_fees_refund', 'has_create')" class="global_btn btn add-btn" [routerLink]="[setUrl('/fees/add-fees-refund')]">Add Refund</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="row pb-3 mx-0 no-gutters">
+                    <div class="col-lg-12 datatable_cls form_section">
+                        <div class="assign-transport-table">
+                            <div class="datatable-action-design">
+                                <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                    <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                  </svg>
+                                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                    <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                  </svg>
+                                </div>
+                                <div class="table-responsive" >
+                                    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Student Unique ID</th>
+                                                <th>Batch</th>
+                                                <th>Student Name</th>
+                                                <th>Total Fees</th>
+                                                <th>Paid Fees</th>
+                                                <th>Remaining Fees</th>
+                                                <th>Payment Mode</th>
+                                                <th>Refund Amount</th>
+                                                <th>Refund Category</th>
+                                                <th>Print Receipt</th>
+                                                <th class="action-btn-sticky">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="feeRefundHistoryData?.length != 0">                                                                                          
+                                            <tr *ngFor="let item of feeRefundHistoryData; let i = index;" [ngClass]="{'in-active': item?.student?.status == 0}">                
+                                                <td class="orange-text-color">{{item?.student?.unique_id || item?.student_id }}</td> 
+                                                <td>{{item?.batch?.name || "N/A"}}</td>
+                                                <td class="name_hover">{{item?.student?.full_name || "N/A"}}</td> 
+                                                <td class="teal-text-color">{{item?.fees_data?.total_amount || "N/A"}}</td> 
+                                                <td class="green-text-color">{{item?.fees_data?.paid_amount}}</td> 
+                                                <td class="orange-text-color">{{item?.fees_data?.remaining_fees}}</td>  
+                                                <td>{{item?.payment_mode?.name || "N/A"}}</td>  
+                                                <td class="teal-text-color">{{item?.total_amount || "N/A"}}</td> 
+                                                <td>{{item?.category_names || "N/A"}}</td> 
+                                                <td>
+                                                    <span class="tag me-1" *ngFor="let cr of getReceiptNumbers(item?.category_refund)|keyvalue" (click)="getReceipt(item,cr)">
+                                                        {{ cr.value }}
+                                                    </span>
+                                                </td> 
+                                                <td class="action-btn-sticky">
+                                                    <div class="btn-group" role="group">
+                                                        
+                                                        <a  *ngIf="commonService.hasPermission('finance_fees_refund', 'has_edit') && item?.is_cancelled == 0 && hasAccess('Edit') && hasBackDate(item.refund_date) && !studentDetail" class="lt-btn-icon action-edit" ngbTooltip="Edit" container="body" [routerLink]="[setUrl(URLConstants.FEES_REFUND_EDIT),item.id]"></a>
+                                                        <a  *ngIf="commonService.hasPermission('finance_fees_refund', 'has_edit') && item?.is_cancelled == 0 && hasAccess('Edit') && hasBackDate(item.refund_date) && studentDetail" class="lt-btn-icon action-edit" ngbTooltip="Edit" container="body" (click)="edit(item)"></a>
+                                                        
+                                                        <a class="lt-btn-icon action-reject" *ngIf="commonService.hasPermission('finance_fees_refund', 'has_delete') && item?.is_cancelled == 0 && hasAccess('Cancel')" (click)="delete(item,true)" ngbTooltip="Cancel" container="body">
+                                                            <!-- <i class="fa fa-times"></i> -->
+                                                        </a>
+                                                        
+                                                        <button  *ngIf="commonService.hasPermission('finance_fees_refund', 'has_delete') && hasAccess('Delete')" class="lt-btn-icon action-delete" ngbTooltip="Delete" container="body" (click)="delete(item)" > </button>
+                                                        
+                                                        <a *ngIf="commonService.hasPermission('finance_fees_refund', 'has_update')" class="lt-btn-icon action-attech" (click)="attachment(item)" ngbTooltip="Attachment" container="body">
+                                                            <!-- <i class="fe fe-file"></i> -->
+                                                        </a>
+        
+                                                        <a class="lt-btn-icon action-info tooltip position-relative" [ngbTooltip]="tipContentDetails" container="body" placement="left" tooltipClass="my-custom-class">
+                                                            <!-- <i class="fas fa-info-circle"></i> -->
+                                                            <ng-template #tipContentDetails >
+                                                                <span>
+                                                                    <p>
+                                                                        <b>Amount : </b>{{item.total_amount}}
+                                                                    </p>
+                                                                    <p *ngIf="item.is_cancelled == 1">
+                                                                        <b>Cancelled By : </b>{{item.cancelled_by?.full_name}}
+                                                                    </p>
+                                                                    <p *ngIf="item.is_cancelled == 1">
+                                                                        <b>Cancelled Time : </b>{{item.cancelled_time | date:dateFormateService.getDateTimeFormat()}}
+                                                                    </p>
+                                                                    <p *ngIf="item.is_cancelled == 1">
+                                                                        <b>Cancelled Reason : </b>{{item.cancel_reason}}
+                                                                    </p>
+                                                                    <p>
+                                                                        <b>Refunded By : </b>{{item.refunded_by?.full_name}}
+                                                                    </p>
+                                                                    <p>
+                                                                        <b>Refund Time : </b>{{item.created_at | date:dateFormateService.getDateTimeFormat()}}
+                                                                    </p>
+                                                                </span>
+                                                            </ng-template>
+                                                        </a>
+                                                    </div>
+                                                </td>                                             
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>        

@@ -1,0 +1,227 @@
+
+::ng-deep{
+    @import "../../../../../assets/scss/variables";
+@import"../../../../../assets/css/variable.scss";
+@import'../../../../../assets/css/variable.scss';
+    .video-section{
+        .upcoming-header{
+            padding: 8px;
+            // background-color: #DFEEFF;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 0;
+            &::before{
+                content: "";
+                background-color: $primary;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                border-radius: 6px 6px 0 0;
+                opacity: 0.17;
+                z-index: -1;
+            }
+            .view-all-link {
+                font-size: 16px;
+                line-height: 20px;
+                font-weight: 600;
+                color: #000;
+                text-decoration: none;
+                transition: 0.3s;
+                display: inline-block;
+                position: relative;
+                z-index: 9;
+                h3{
+                    font-size: 17px;
+                    line-height: 22px;
+                    font-weight: 600;
+                    margin: 0;
+                    white-space: nowrap;
+                    padding-right: 30px;
+                    margin-bottom: 0px;
+                    text-transform: capitalize;
+                    svg{
+                        margin-right: 6px;
+                        rect{
+                            &:first-child{
+                                fill: #fff;
+                            }
+                        }
+                        path{
+                            fill:#000
+                        }
+                    }
+                }
+                &:hover {
+                    color: $primary;
+                    svg{
+                        rect{
+                            &:first-child{
+                                fill: $primary;
+                            }
+                        }
+                        path{
+                            fill:#fff;
+                        }
+                    }
+                }
+            }
+            .view-btn-link{
+                background-color: $primary;
+                color: #fff;
+                font-weight: 500;
+                border-radius: 2px;
+                padding: 1px 16px 1px 33px;
+                position: relative;
+                border: 1px solid $primary;
+                transition: 0.3s;
+                position: relative;
+                z-index: 9;
+                span{
+                    width: 24px;
+                    height: 25px;
+                    background-color: #fff;
+                    color: $primary;
+                    border-radius: 2px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: absolute;
+                    left: -1px;
+                    top: -1px;
+                    transition: 0.3s;
+                }
+                &:hover{
+                    background-color: #fff;
+                    color:$primary;
+                    span{
+                        background-color:$primary;
+                        color: #fff;
+                    }
+                }
+            }
+            .exam-mark-form{
+                width: 100%;
+                .row{
+                    .form_group{
+                        padding: 0 10px;
+                        input{
+                            font-size: 11px;
+                            line-height: 16px;
+                            padding: 3px;
+                            color: #000;
+                        }
+                    }
+                }
+                .ng-select.ng-select-single{
+                    .ng-select-container{
+                        height: 24px;
+                        .ng-value-container{
+                            padding: 0;
+                            .ng-input{
+                                padding: 0 10px;
+                                position: unset;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .upcoming-table{
+            padding: 12px;
+        border-radius: 8px;
+        overflow: hidden;
+            .table-responsive{
+                max-height: 400px;
+                overflow-y: auto;
+                border-radius: 8px !important;
+                &::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .table{
+                    border-top: none !important;
+                    tr{
+                        th, td{
+                            font-size: 15px !important;
+                            line-height: 20px;
+                            font-weight: 600 !important;
+                            color: #000;
+                            padding: 9px 14px;
+                            white-space: nowrap;
+                        }
+                    }
+                    tr{
+                        td{
+                            border-right: none !important;
+                                border-left: none !important;
+                            a{
+                                // color: #000;
+                                text-decoration: none;
+                                font-weight: 600;
+                                &.table_video_name{
+                                    color:#000;
+                                }
+
+                                &:hover{
+                                    color: $primary;
+                                }
+                            }
+
+                            &.table_video_link{
+                                color: $primary;
+
+                                &:hover{
+                                    color: #C1690B;
+                                }
+                            }
+                            .video-link-profile{
+                                margin: 0 5px;
+                                img{
+                                    width: 18px;
+                                    height: 18px;
+                                    // border-radius: 100px;
+                                    object-fit: cover;
+                                    object-position: center;
+                                    border-radius: 100px;
+                                    margin-right: 5px;
+                                }
+                            }
+                        }
+                    }
+                    thead{
+                        position: sticky;
+                        top: 0;
+                        background-color: #fff;
+                        border-bottom: 1px solid #939393;                }
+                    thead{
+                        tr{
+                            th{
+                                color: #000;
+                                font-size: 14px;
+                                text-transform: capitalize;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media(max-width: 992px){
+        .video-section .upcoming-header h3{
+            font-size: 12px;
+            line-height: 16px;
+        }
+        .video-section .upcoming-table .table-responsive .table tr th, .video-section .upcoming-table .table-responsive .table tr td{
+            font-size: 12px;
+            line-height: 16px;
+        }
+        .video-section .upcoming-header{
+            padding: 8px 10px;
+        }
+    }
+}

@@ -1,0 +1,105 @@
+::ng-deep{
+    body:not(.horizontal) .main-content {
+        margin-top: 64px;
+    }
+    .horizontal{
+        @media (max-width: 991px) {
+            .p-60{
+                padding-top: 64px !important;
+            }
+            .p-61{
+                padding-top: 64px !important;
+            }
+        }
+    }
+    .page{
+        .main-content{
+            transition: margin-left 0.3s ease-in-out;
+        }
+        &.vertical-menu-close{
+            .main-content{
+                margin-left: 60px !important;
+            }
+        }
+        &.vertical-menu-open{
+            .menu-collapse{
+                left: 280px;
+            }
+            .main-content{
+                margin-left: 290px !important;
+            }
+        }
+    }
+}
+
+.visibility {
+    display: none;
+}
+
+.subscription-center-modal {
+
+    .message-content {
+        // background-color: rgba(147, 147, 147, 0.4);
+        padding: 12px 16px;
+        color: #000;
+        border-radius: 6px;
+
+        .card-body {
+            padding: 0;
+
+            // display: flex;
+            // align-items: center;
+            // justify-content: flex-start;
+            .card-title {
+                white-space: nowrap;
+                margin-right: 16px;
+            }
+
+            .card-text {
+                font-size: 15px;
+                line-height: 20px;
+            }
+        }
+    }
+
+    .modal-body {
+        .form_group {
+            margin: 0;
+        }
+
+        .form_label {
+            font-size: 18px;
+            line-height: 24px;
+            font-weight: 600;
+            color: #000;
+            padding-top: 10px;
+            text-align: center;
+            width: 100%;
+
+            i {
+                font-size: 22px;
+            }
+        }
+    }
+}
+
+.menu-collapse{
+    position: absolute;
+    top: 120px;
+    left: 0;
+    z-index: 999;
+    border-radius: 50%;
+
+    svg{
+        width: 24px;
+        height: 24px;
+        padding: 5px;
+        cursor: pointer;
+        background: #d4ddef;
+        fill: #01329c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+}

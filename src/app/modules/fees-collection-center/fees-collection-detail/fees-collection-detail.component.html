@@ -1,0 +1,155 @@
+<div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Center detail</h3>
+        <div class="btn_right">
+          <a class="global_btn btn"  href="#." [routerLink]="setUrl(URLConstants.FEES_CENTER)" > Fees Collection Centers</a>
+        </div>
+      </div>
+      <div class="card">
+        <form class="form-section" [formGroup]='collectionDetailsForm' novalidate>
+        <div class="card_body">
+            <div class="basic_table">
+                <div class="table-responsive">
+                    <table class="table_new table table-hover table-nowrap table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Sr No.</th>
+                                <th>Employee</th>
+                                <th>Fee Payment Mode</th>
+                                <th>Fee Report</th>
+                                <th>Fee Receipt Rights</th>
+                                <th>Zero Fee Receipt</th>
+                                <th>Back Date</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="users">
+                            <tr *ngFor="let obj of fUsersArr.controls; let i = index; let l = last"
+                                            [formGroupName]="i">					
+                                <td>{{i+1}}</td>
+                                <td>{{obj?.value?.user_name}}</td>
+                                <td>
+                                    <ng-container formArrayName="user_permissions">
+                                        <div *ngFor="let per of fpermission(i).controls; let perIndex=index" [formGroupName]="perIndex">
+                                            <ng-select 
+                                                class="form-control mb-2" 
+                                                placeholder="Select Pyament Type"
+                                                formControlName="payment_mode" 
+                                                [items]="paymentTypeList"
+                                                [multiple]="true"
+                                                bindLabel="name"
+                                                groupBy="selectedAllGroup"
+                                                [selectableGroup]="true"
+                                                [closeOnSelect]="false"
+                                                [selectableGroupAsModel]="false"
+                                                bindValue="id"
+                                                [searchable]="true">
+                                            </ng-select>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <ng-container formArrayName="user_permissions">
+                                        <div *ngFor="let per of fpermission(i).controls; let perIndex=index" [formGroupName]="perIndex">
+                                            <ng-select 
+                                                class="form-control mb-2" 
+                                                placeholder="Select Report"
+                                                formControlName="fee_report_mode" 
+                                                [items]="reportModes"
+                                                [multiple]="true"
+                                                bindLabel="mode"
+                                                groupBy="selectedAllGroup"
+                                                [selectableGroup]="true"
+                                                [closeOnSelect]="false"
+                                                [selectableGroupAsModel]="false"
+                                                bindValue="id"
+                                                [searchable]="true">
+                                            </ng-select>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <ng-container formArrayName="user_permissions">
+                                        <div *ngFor="let per of fpermission(i).controls; let perIndex=index" [formGroupName]="perIndex">
+                                            <ng-select 
+                                                class="form-control mb-2" 
+                                                placeholder="Select Receipt Rights"
+                                                formControlName="receipt_mode" 
+                                                [items]="receiptModes"
+                                                [multiple]="true"
+                                                bindLabel="mode"
+                                                groupBy="selectedAllGroup"
+                                                [selectableGroup]="true"
+                                                [closeOnSelect]="false"
+                                                [selectableGroupAsModel]="false"
+                                                bindValue="id"
+                                                [searchable]="true">
+                                            </ng-select>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <ng-container formArrayName="user_permissions">
+                                        <div *ngFor="let per of fpermission(i).controls; let perIndex=index" [formGroupName]="perIndex">
+                                            <ng-select 
+                                                class="form-control mb-2" 
+                                                placeholder="Select Zero Fee Receipt Rights"
+                                                formControlName="zero_fee_receipt_mode" 
+                                                [items]="zero_fee_receipt_mode"
+                                                [multiple]="true"
+                                                bindLabel="mode"
+                                                groupBy="selectedAllGroup"
+                                                [selectableGroup]="true"
+                                                [closeOnSelect]="false"
+                                                [selectableGroupAsModel]="false"
+                                                bindValue="id"
+                                                [searchable]="true">
+                                            </ng-select>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <ng-container formArrayName="user_permissions">
+                                        <div *ngFor="let per of fpermission(i).controls; let perIndex=index" [formGroupName]="perIndex" (change)="onBackDateChange(i)">
+                                            <div class="d-flex">
+                                                <input type="checkbox" formControlName="back_date" class="me-2">
+                                                <div *ngIf="obj.value.user_permissions[0]['back_date'] == 1">
+                                                    <ng-select 
+                                                        class="form-control mb-2" 
+                                                        placeholder="Select Pyament Type"
+                                                        formControlName="back_date_payment_mode" 
+                                                        [items]="paymentTypeList"
+                                                        [multiple]="true"
+                                                        bindLabel="name"
+                                                        groupBy="selectedAllGroup"
+                                                        [selectableGroup]="true"
+                                                        [closeOnSelect]="false"
+                                                        [selectableGroupAsModel]="false"
+                                                        bindValue="id"
+                                                        [searchable]="true">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </tbody>								
+                    </table>
+                </div>
+            </div>
+        </div>
+        </form>
+        <div class="d-flex justify-content-right align-items-center my-3">
+            <div class="btn_right">
+                <button *ngIf="commonService.hasPermission('finance_fees_collection_center', 'has_update')" type="submit" (click)="onSubmit()" class="global_btn btn" [disabled]="submitLoading">
+                    Update
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="submitLoading">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                </button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

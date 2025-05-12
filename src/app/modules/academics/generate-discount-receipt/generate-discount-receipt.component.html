@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <div class="modal-title">Generate Zero Fees Receipt</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body">
+    <div class="" >
+    	<table class="table table-bordered">
+    		<thead>
+    			<tr>
+    				<th>Category</th>
+    				<th>Discount</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr *ngFor="let scf of student_category_fees">
+    				<td>{{(scf.month??"")+' '+(scf.category ? scf.category.type_name : 'School Fees')}}</td>
+    				<td><i class="fas fa-rupee-sign tx-12 me-1"></i>{{scf.remaining_discount}}</td>
+    			</tr>
+    		</tbody>
+    	</table>
+        <div class="">
+            <label class="form_label mb-0">Date</label>
+			<app-mat-date-picker [(selectedDate)]="payment_date" [isRequired]="false" (change)="changePaymentDate($event)" [templateDriven]="true"></app-mat-date-picker>
+            <!-- <input type="date" name="payment_date" class="form-control" [(ngModel)]="payment_date" placeholder="Select Date" (input)="changePaymentDate($event)" > -->
+        </div>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn" (click)="closeModal()">Cancel</button>
+    <button type="button" class="btn" (click)="submit()" [disabled]="saving"> 
+        {{saving ? 'Generating' : 'Generate'}}
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="saving">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+  	</button>
+</div>

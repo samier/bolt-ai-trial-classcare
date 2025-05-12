@@ -1,0 +1,1361 @@
+<section class="student_add new-add-student-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">{{ id ? "EDIT" : "ADD" }} Student</h3>
+        <div>
+          <a href="#." [routerLink]="setUrl(URLConstants.STUDENT_LIST)" class="btn list-btn" *ngIf="!inquiryID">Student List</a>
+          <a href="#." [routerLink]="setUrl(URLConstants.INQUIRY_LIST)" class="btn list-btn" *ngIf="inquiryID" >Inquiry List</a>
+        </div>
+      </div>
+      <form [formGroup]="addStudent" id="studentAdd">
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="academicOpenState = true" (closed)="academicOpenState = false" [expanded]="academicOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> ACADEMIC DETAILS </mat-panel-title>
+            </mat-expansion-panel-header>
+          
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.academic_year?.order}" *ngIf="studentFields?.format_data_details?.academic_year?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Academic Year <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.academic_year?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="academic_year" placeholder="Select exam type" [dropDownArray]="yearList"
+                        (change)="yearChanged($event)"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.studentId?.order}" *ngIf="studentFields?.format_data_details?.studentId?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student ID/GR No. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.studentId?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="studentId" placeholder="Enter Student ID/GR No."></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.class_id?.order}" *ngIf="studentFields?.format_data_details?.class_id?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Class <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.class_id?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="class_id" placeholder="Select Class" [dropDownArray]="classList"
+                        (change)="classChanged($event)"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.uidNo?.order}" *ngIf="studentFields?.format_data_details?.uidNo?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">UID No. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.uidNo?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="uidNo" placeholder="Enter UID No."></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.batch_id?.order}" *ngIf="studentFields?.format_data_details?.batch_id?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Batch <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.batch_id?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <ng-container *ngIf="currentUserData?.isMultipleBatchAllow == 1; else singleSelect">
+                        <app-multi-select controlName="batch_id" placeholder="Select Batch" [dropDownArray]="batchList"
+                          (change)="batchChanged($event)"></app-multi-select>
+                      </ng-container>
+                      <ng-template #singleSelect>
+                        <app-single-select controlName="batch_id" placeholder="Select Batch" [dropDownArray]="batchList"
+                          (change)="batchChanged($event)"></app-single-select>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.rollno?.order}" *ngIf="studentFields?.format_data_details?.rollno?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Roll No. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.rollno?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="rollno" placeholder="Enter Roll No."></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.hall_ticket_SID_number?.order}" *ngIf="studentFields?.format_data_details?.hall_ticket_SID_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Hall Ticket/SID Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.hall_ticket_SID_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="hall_ticket_SID_number" placeholder="Enter Hall Ticket/SID Number"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.admission_form_number?.order}" *ngIf="studentFields?.format_data_details?.admission_form_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Admission Form Number <span class="label-text-danger"
+                        *ngIf="!id && studentFields?.format_data_details?.admission_form_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="admission_form_number" placeholder="Enter Admission Form Number."
+                        [readonly]="id ? true : false"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                  <ng-container *ngFor="let item of custom_fields">
+                    <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                    <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'academic_details')">
+                      <div class="form_group student-form-group">
+                        <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                          </span>
+                          :</label>
+                        <div class="student-dropdown w-100">
+                          <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                          <ng-container *ngIf="item?.field_type == 'dropdown'">
+                            <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                              [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                              bindValue="option" appendTo="body">
+                            </ng-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                            <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'textArea'">
+                            <app-textarea [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <!-- <div class="col-lg-6 col-md-6 order-last" *ngIf="admissionTypeField">
+                  <div class="form_group student-form-group mb-0">
+                    <label for="" class="form_label">{{admissionTypeField?.field_title}} <span
+                        *ngIf="admissionTypeField?.required == 1 "> * </span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <ng-select [placeholder]="'Please enter ' + admissionTypeField?.field_title" [searchable]="false"
+                        [formControlName]="admissionTypeField?.field_name" [items]="admissionTypeField?.values" bindLabel="option"
+                        bindValue="option" appendTo="body">
+                      </ng-select>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="studentOpenState = true"
+            (closed)="studentOpenState = false" [expanded]="studentOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> STUDENT DETAILS </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.first_name?.order}" *ngIf="studentFields?.format_data_details?.first_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">First Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.first_name?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="first_name" placeholder="Enter First Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.secondary_first_name?.order}"
+                  *ngIf="studentFields?.format_data_details?.secondary_first_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">First Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.secondary_first_name?.required">*</span> :
+                      <em>(Secondary Language)</em></label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_first_name" placeholder="Enter First Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.middle_name?.order}" *ngIf="studentFields?.format_data_details?.middle_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Middle Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.middle_name?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="middle_name" placeholder="Enter Middle Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.secondary_middle_name?.order}"
+                  *ngIf="studentFields?.format_data_details?.secondary_middle_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Middle Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.secondary_middle_name?.required">*</span> :
+                      <em>(Secondary Language)</em></label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_middle_name" placeholder="Enter Middle Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.last_name?.order}" *ngIf="studentFields?.format_data_details?.last_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Last Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.last_name?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="last_name" placeholder="Enter Last Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.secondary_last_name?.order}"
+                  *ngIf="studentFields?.format_data_details?.secondary_last_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Last Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.secondary_last_name?.required">*</span> :
+                      <em>(Secondary Language)</em></label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="secondary_last_name" placeholder="Enter Last Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.student_display_name?.order}"
+                  *ngIf="studentFields?.format_data_details?.student_display_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student Display Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.student_display_name?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="student_display_name"
+                        placeholder="Enter Student Display Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.phone_number?.order}" *ngIf="studentFields?.format_data_details?.phone_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.phone_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="phone_number"
+                        placeholder="Enter Student Number"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.studentWhatsappNo?.order}"
+                  *ngIf="studentFields?.format_data_details?.studentWhatsappNo?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student Whatsapp No. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.studentWhatsappNo?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="studentWhatsappNo"
+                        placeholder="Enter Student Phone Number"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.email?.order}" *ngIf="studentFields?.format_data_details?.email?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student Email <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.email?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="email" placeholder="Enter Student Email"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.date_of_birth?.order}" *ngIf="studentFields?.format_data_details?.date_of_birth?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">D.O.B <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.date_of_birth?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker controlName="date_of_birth" (change)="calculateAge()"
+                        [maxDate]="maxDate"></app-mat-date-picker>
+                      <!-- <app-input type="date" (change)="calculateAge()" controlName="date_of_birth" placeholder="Date of Birthday" [maxDate]="maxDate"></app-input> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.age?.order}" *ngIf="studentFields?.format_data_details?.age?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Age <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.age?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="age" placeholder="Select the Date of Birthday"
+                        [readonly]="true"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.bloodGroup?.order}" *ngIf="studentFields?.format_data_details?.bloodGroup?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Blood Group. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.bloodGroup?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="bloodGroup" placeholder="Select Blood Group"
+                        [dropDownArray]="bloodGroup"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.birthPlace?.order}" *ngIf="studentFields?.format_data_details?.birthPlace?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Birth Place <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.birthPlace?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="birthPlace" placeholder="Enter Birth Place"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.birth_taluka?.order}" *ngIf="studentFields?.format_data_details?.birth_taluka?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Birth Place Taluka <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.birth_taluka?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="birth_taluka" placeholder="Enter Birth Place Taluka"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.birth_district?.order}" *ngIf="studentFields?.format_data_details?.birth_district?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Birth Place District <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.birth_district?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="birth_district" placeholder="Enter Birth Place District"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.religion?.order}" *ngIf="studentFields?.format_data_details?.religion?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Religion <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.religion?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="religion" placeholder="Enter Religion"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.nationality?.order}" *ngIf="studentFields?.format_data_details?.nationality?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Nationality <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.nationality?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="nationality" placeholder="Enter Nationality"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.categories?.order}" *ngIf="studentFields?.format_data_details?.categories?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Categories <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.categories?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="categories" placeholder="Select Categories"
+                        [dropDownArray]="category"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.cast?.order}" *ngIf="studentFields?.format_data_details?.cast?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Caste <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.cast?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="cast" placeholder="Enter Caste"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.sub_cast?.order}" *ngIf="studentFields?.format_data_details?.sub_cast?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Sub Cast <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.sub_cast?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100" *ngIf="studentFields?.format_data_details?.uidNo?.is_visible">
+                      <app-input controlName="sub_cast" placeholder="Enter Subcaste"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.adhaar_number?.order}" *ngIf="studentFields?.format_data_details?.adhaar_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Aadhaar Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.adhaar_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="adhaar_number" placeholder="Enter Adhaar No. "></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.gender?.order}" *ngIf="studentFields?.format_data_details?.gender?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> Gender <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.gender?.required">*</span> : </label>
+                    <div class="student-dropdown student-radio-content w-100">
+                      <div class="student-radio-btn">
+                        <input type="radio" id="male" formControlName="gender" value="m">
+                        <label for="male">Male</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="female" formControlName="gender" value="f">
+                        <label for="female">Female</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="other" formControlName="gender" value="o">
+                        <label for="other">Other</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.pen_no?.order}" *ngIf="studentFields?.format_data_details?.pen_no?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">PEN Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.pen_no?.required">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="text" controlName="pen_no" placeholder="Enter PEN No. "></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.weight?.order}" *ngIf="studentFields?.format_data_details?.weight?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Weight <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.weight?.required">*</span> :</label>
+                    <div class="w-100">
+                      <div class="input-group">
+                        <input type="number" min="0" formControlName="weight" class="form-control"
+                          placeholder="Enter Weight In KG" />
+                        <span class="input-group-text">KG</span>
+                      </div>
+                      <div
+                        *ngIf="addStudent.get('weight')?.invalid && (addStudent.get('weight')?.dirty || addStudent.get('weight')?.touched)">
+                        <div class="text-danger">Invalid weight</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.apaar_id?.order}" *ngIf="studentFields?.format_data_details?.apaar_id?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Apaar Id <span class="label-text-danger"
+                      *ngIf="studentFields?.format_data_details?.apaar_id?.required">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="text" controlName="apaar_id" placeholder="Enter Apaar Id. "></app-input>
+                    </div>
+                  </div>
+                </div>
+                  <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.height?.order}" *ngIf="studentFields?.format_data_details?.height?.is_visible">
+                    <div class="form_group student-form-group">
+                      <label class="form_label">Height <span class="label-text-danger"
+                          *ngIf="studentFields?.format_data_details?.height?.required">*</span> :</label>
+                      <div class="w-100">
+                        <div class="input-group">
+                          <input type="number" min="0" formControlName="height" class="form-control"
+                            placeholder="Enter Height " />
+                          <ng-select formControlName="height_type">
+                            <ng-option *ngFor="let row of height_types|keyvalue"
+                              value="{{row.key}}">{{row.value}}</ng-option>
+                          </ng-select>
+                        </div>
+                        <div
+                          *ngIf="addStudent.get('height')?.invalid && (addStudent.get('height')?.dirty || addStudent.get('height')?.touched)">
+                          <div class="text-danger">Invalid height</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.ews?.order}" *ngIf="studentFields?.format_data_details?.ews?.is_visible">
+                    <div class="form_group student-form-group">
+                      <label for="" class="form_label">EWS <span class="label-text-danger"
+                          *ngIf="studentFields?.format_data_details?.ews?.required">*</span> :</label>
+                      <input type="checkbox" formControlName="ews" value="1" />
+                    </div>
+                  </div>
+                  <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                    <ng-container *ngFor="let item of custom_fields">
+                      <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                      <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'student_details')">
+                        <div class="form_group student-form-group">
+                          <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                            </span>
+                            :</label>
+                          <div class="student-dropdown w-100">
+                            <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                            <ng-container *ngIf="item?.field_type == 'dropdown'">
+                              <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                                [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                                bindValue="option" appendTo="body">
+                              </ng-select>
+                            </ng-container>
+  
+                            <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                              <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                                [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                            </ng-container>
+  
+                            <ng-container *ngIf="item?.field_type == 'textArea'">
+                              <app-textarea [controlName]="item?.field_name"
+                                [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </ng-container>
+                  <!-- <div class="col-lg-6 col-md-6">
+                  <div class="form_group student-form-group mb-0">
+                    <label for="" class="form_label">Mother Tongue :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_tongue" placeholder="Enter Mother Tongue"></app-input>
+                    </div>
+                  </div>
+                </div> -->
+
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="guardianOpenState = true"
+            (closed)="guardianOpenState = false" [expanded]="guardianOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> GUARDIAN DETAILS </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.father_name?.order}" *ngIf="studentFields?.format_data_details?.father_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Father’s Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.father_name?.required">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="father_name" placeholder="Enter Father’s Name"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.mother_name?.order}" *ngIf="studentFields?.format_data_details?.mother_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Mother’s Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.mother_name?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_name" placeholder="Enter Mother’s Education"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.father_number?.order}" *ngIf="studentFields?.format_data_details?.father_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Father’s Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.father_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="father_number"
+                        placeholder="Enter Father’s Number"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.mother_number?.order}" *ngIf="studentFields?.format_data_details?.mother_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Mother’s Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.mother_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input type="number" controlName="mother_number" placeholder="Enter Mother’s No."></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.father_occupation?.order}"
+                  *ngIf="studentFields?.format_data_details?.father_occupation?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Father’s Occupation <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.father_occupation?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="father_occupation" placeholder="Enter Father’s Occupation"></app-input>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.mother_occupation?.order}"
+                  *ngIf="studentFields?.format_data_details?.mother_occupation?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Mother’s Occupation <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.mother_occupation?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_occupation" placeholder="Enter Mother’s Occupation"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.father_education?.order}" *ngIf="studentFields?.format_data_details?.father_education?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Father’s Education <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.father_education?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="father_education" placeholder="Enter Father’s Education"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.mother_education?.order}" *ngIf="studentFields?.format_data_details?.mother_education?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Mother’s Education <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.mother_education?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_education" placeholder="Enter Mother’s Education"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.parentEmail?.order}" *ngIf="studentFields?.format_data_details?.parentEmail?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Father’s Email <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.parentEmail?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="parentEmail" placeholder="Enter Father’s Email"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.mother_email?.order}" *ngIf="studentFields?.format_data_details?.mother_email?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Mother’s Email <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.mother_email?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="mother_email" placeholder="Enter Mother’s Email"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.send_sms_number?.order}" *ngIf="studentFields?.format_data_details?.send_sms_number?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Send SMS Notification <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.send_sms_number?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="send_sms_number" placeholder="Send SMS Notification"
+                        [dropDownArray]="smsNoti"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.parentWhatsappNo?.order}" *ngIf="studentFields?.format_data_details?.parentWhatsappNo?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Whatsapp Number <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.parentWhatsappNo?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="parentWhatsappNo" placeholder="Enter Whatsapp No"
+                        [dropDownArray]="smsNoti"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                  <ng-container *ngFor="let item of custom_fields">
+                    <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                    <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'guardian_details')">
+                      <div class="form_group student-form-group">
+                        <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                          </span>
+                          :</label>
+                        <div class="student-dropdown w-100">
+                          <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                          <ng-container *ngIf="item?.field_type == 'dropdown'">
+                            <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                              [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                              bindValue="option" appendTo="body">
+                            </ng-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                            <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'textArea'">
+                            <app-textarea [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="addressOpenState = true"
+            (closed)="addressOpenState = false" [expanded]="addressOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> ADDRESS DETAILS </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.address?.order}" *ngIf="studentFields?.format_data_details?.address?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Current Address <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.address?.required">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="address" placeholder="Enter Current Address"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.currentCity?.order}" *ngIf="studentFields?.format_data_details?.currentCity?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Current City <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.currentCity?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="currentCity" placeholder="Enter Current City"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.sameAddress?.order}" *ngIf="studentFields?.format_data_details?.sameAddress?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> Same as Current Address <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.sameAddress?.required">*</span> : </label>
+                    <div class="student-dropdown student-radio-content w-100">
+                      <div class="student-radio-btn">
+                        <input type="radio" id="same1" formControlName="sameAddress" [value]="1"
+                          (change)="handleChange($event)">
+                        <label for="same1">Yes</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="same2" formControlName="sameAddress" [value]="0"
+                          (change)="handleChange($event)">
+                        <label for="same2">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.permanentAddress?.order}"
+                  *ngIf="addStudent.value.sameAddress == 0 && studentFields?.format_data_details?.permanentAddress?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Permanent Address <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.permanentAddress?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="permanentAddress" placeholder="Enter Permanent Address"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.permanentCity?.order}"
+                  *ngIf="addStudent.value.sameAddress == 0 && studentFields?.format_data_details?.permanentCity?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Permanent City <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.permanentCity?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="permanentCity" placeholder="Enter Permanent City"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.transport_facility?.order}" *ngIf="studentFields?.format_data_details?.transport_facility?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Transport Facility <span class="label-text-danger" *ngIf="studentFields?.format_data_details?.transport_facility?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <div class="form-check toggle d-flex align-items-center px-0">
+                        <span class="">No</span>
+                        <input class="form-check-input shadow-none mx-2" formControlName="transport_facility"
+                          type="checkbox" role="switch" name="transport_facility">
+                        <span class="">Yes</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.transport_facility?.order}" *ngIf="addStudent.value.transport_facility == true">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Transportation Area :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-dropdown-crud placeholder="Select Transportation Area name"
+                        searchPlaceholder="Search Area name" [selectedId]="areaId"
+                        (selectedValue)="selectionAreaChange($event)" [dropDownArray]="areaList"
+                        (createUpdate)="createAndUpdateArea($event)" (deleteData)="deleteArea($event)"
+                        [disabled]="assignTransport.length > 0 ? true : false">
+                      </app-dropdown-crud>
+                    </div>
+                  </div>
+                </div>
+                <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                  <ng-container *ngFor="let item of custom_fields">
+                    <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                    <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'address_details')">
+                      <div class="form_group student-form-group">
+                        <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                          </span>
+                          :</label>
+                        <div class="student-dropdown w-100">
+                          <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                          <ng-container *ngIf="item?.field_type == 'dropdown'">
+                            <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                              [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                              bindValue="option" appendTo="body">
+                            </ng-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                            <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'textArea'">
+                            <app-textarea [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="profileOpenState = true"
+            (closed)="profileOpenState = false" [expanded]="profileOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> PROFILE PICTURES </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4" [ngStyle]="{'order' : studentFields?.format_data_details?.image?.order}"
+                  *ngIf="studentFields?.format_data_details?.image?.is_visible">
+                  <div class="student-profile-upload">
+                    <div class="student-profile-card">
+                      <img *ngIf="image" [src]="image" alt="Student Photo" class="student-profile-preview" />
+                    </div>
+                    <div class="student-upload-box">
+                      <input type="file" accept="image/*" (change)="onFileSelected($event,'image')"
+                        id="file-upload student" class="file-upload-input" hidden />
+                      <label for="file-upload student" class="upload-btn btn add-btn">
+                        Add Student Photo
+                      </label>
+                    </div>
+                    <button class="upload-btn btn w-100" (click)="openWebcamModal('image')">
+                      Capture Via Webcam
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4" [ngStyle]="{'order' : studentFields?.format_data_details?.fatherImage?.order}"
+                  *ngIf="studentFields?.format_data_details?.fatherImage?.is_visible">
+                  <div class="student-profile-upload">
+                    <div class="student-profile-card">
+                      <img *ngIf="fatherImage" [src]="fatherImage" alt="Student Photo"
+                        class="student-profile-preview" />
+                    </div>
+                    <div class="student-upload-box">
+                      <input type="file" accept="image/*" (change)="onFileSelected($event,'fatherImage')"
+                        id="file-upload father" class="file-upload-input" hidden />
+                      <label for="file-upload father" class="upload-btn btn add-btn">
+                        Add Father’s Photo
+                      </label>
+                    </div>
+                    <button class="upload-btn btn w-100" (click)="openWebcamModal('fatherImage')">
+                      Capture Via Webcam
+                    </button>
+                  </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4" [ngStyle]="{'order' : studentFields?.format_data_details?.motherImage?.order}"
+                  *ngIf="studentFields?.format_data_details?.motherImage?.is_visible">
+                  <div class="student-profile-upload">
+                    <div class="student-profile-card">
+                      <img *ngIf="motherImage" [src]="motherImage" alt="Mother Photo" class="student-profile-preview" />
+                    </div>
+                    <div class="student-upload-box">
+                      <input type="file" accept="image/*" (change)="onFileSelected($event,'motherImage')"
+                        id="file-upload mother" class="file-upload-input" hidden />
+                      <label for="file-upload mother" class="upload-btn btn add-btn">
+                        Add Mother Photo
+                      </label>
+                    </div>
+                    <button class="upload-btn btn w-100" (click)="openWebcamModal('motherImage')">
+                      Capture Via Webcam
+                    </button>
+                  </div>
+                </div>
+                <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                  <ng-container *ngFor="let item of custom_fields">
+                    <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                    <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'profile_picture')">
+                      <div class="form_group student-form-group">
+                        <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                          </span>
+                          :</label>
+                        <div class="student-dropdown w-100">
+                          <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                          <ng-container *ngIf="item?.field_type == 'dropdown'">
+                            <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                              [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                              bindValue="option" appendTo="body">
+                            </ng-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                            <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'textArea'">
+                            <app-textarea [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="admissionOpenState = true"
+            (closed)="admissionOpenState = false" [expanded]="admissionOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> ADMISSION DETAILS </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.student_fees_date?.order}"
+                  *ngIf="studentFields?.format_data_details?.student_fees_date?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Student Fees Date <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.student_fees_date?.required">*</span> :</label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker controlName="student_fees_date"></app-mat-date-picker>
+                      <!-- <app-input type="date" controlName="student_fees_date" placeholder="Select Fees Date"></app-input> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.create_at?.order}" *ngIf="studentFields?.format_data_details?.create_at?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Created Date <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.create_at?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker controlName="create_at" [disabled]="id ? true : false"></app-mat-date-picker>
+                      <!-- <app-input type="date" controlName="create_at" placeholder="Enter Current City"></app-input> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.admission_year?.order}" *ngIf="studentFields?.format_data_details?.admission_date?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Admission Date <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.admission_date?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-mat-date-picker controlName="admission_date"></app-mat-date-picker>
+                      <!-- <app-input type="date" controlName="admission_date" placeholder="Enter Current City"></app-input> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.admission_year?.order}" *ngIf="studentFields?.format_data_details?.admission_year?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Admission Year <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.admission_year?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="admission_year" placeholder="Admission Year"
+                        [dropDownArray]="admission_year"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.transport_facility?.order}" *ngIf="addStudent.value.transport_facility == true">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Transportation Area :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-dropdown-crud placeholder="Select Transportation Area name"
+                        searchPlaceholder="Search Area name" [selectedId]="areaId"
+                        (selectedValue)="selectionAreaChange($event)" [dropDownArray]="areaList"
+                        (createUpdate)="createAndUpdateArea($event)" (deleteData)="deleteArea($event)">
+                      </app-dropdown-crud>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.previous_school_name?.order}" *ngIf="studentFields?.format_data_details?.previous_school_name?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Previous Year School Name <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.previous_school_name?.required">*</span> :
+                    </label>
+
+                    <div class="student-dropdown w-100">
+                      <!-- *ngIf="yearList.length > 0 && oldSchool?.length > 0"  -->
+                      <app-dropdown-crud placeholder="Select previous school name" searchPlaceholder="Search school name"
+                        [selectedId]="preSchoolId" (selectedValue)="selectionChange($event)" [dropDownArray]="oldSchool"
+                        (createUpdate)="createAndUpdateData($event)" (deleteData)="deleteData($event)">
+                      </app-dropdown-crud>
+                      <div
+                        *ngIf="addStudent.controls['previous_school_name'].invalid && (addStudent.controls['previous_school_name'].dirty || addStudent.controls['previous_school_name'].touched)">
+                        <div class="text-danger"
+                          *ngIf="addStudent.controls['previous_school_name'].errors?.['required']">
+                          The input is required.
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="text-danger" *ngIf="addStudent.get('previous_school_name')?.touched && addStudent.get('previous_school_name')?.invalid">
+                      Previous school name is required.
+                    </div> -->
+                    <!-- <div class="student-dropdown w-100">
+                      <app-single-select controlName="previous_school_name" placeholder="Previous Year School Name"
+                        [dropDownArray]="oldSchool"></app-single-select>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.type_of_school?.order}" *ngIf="studentFields?.format_data_details?.type_of_school?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Previous School Category <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.type_of_school?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="previous_school_category" placeholder="Previous Year Category"
+                        [dropDownArray]="previous_school_category"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.previous_school_city_village?.order}"
+                  *ngIf="studentFields?.format_data_details?.previous_school_city_village?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Previous School City / Village <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.previous_school_city_village?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="previous_school_city_village"
+                        placeholder="Enter City / Village"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.type_of_old_school?.order}"
+                  *ngIf="studentFields?.format_data_details?.type_of_old_school?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Type Of Last School <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.type_of_old_school?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="type_of_old_school" placeholder="Enter Last School"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.previous_school_type?.order}"
+                  *ngIf="studentFields?.format_data_details?.previous_school_type?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Previous School Type <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.previous_school_type?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <!-- <app-input controlName="type_of_old_school" placeholder="Enter School Type"></app-input> -->
+                      <app-single-select controlName="type_of_school" placeholder="Previous School Type"
+                        [dropDownArray]="type_of_school"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.percentage?.order}" *ngIf="studentFields?.format_data_details?.percentage?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Last Semester/Year % <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.percentage?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="percentage" placeholder="Enter Your Percentage"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.reference?.order}" *ngIf="studentFields?.format_data_details?.reference?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Reference/Source <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.reference?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="reference" placeholder="Select Reference/Source"></app-input>
+
+                      <!-- <app-single-select controlName="reference" placeholder="Select Reference/Source"
+                        [dropDownArray]="[]"></app-single-select> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.siblingInfo?.order}" *ngIf="studentFields?.format_data_details?.siblingInfo?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Sibling Info. <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.siblingInfo?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="siblingInfo" placeholder="Enter Sibling Info."></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.remark?.order}" *ngIf="studentFields?.format_data_details?.remark?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label">Remarks <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.remark?.required">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-input controlName="remark" placeholder="Enter Remark"></app-input>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.rightToEducation?.order}" *ngIf="studentFields?.format_data_details?.rightToEducation?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> RTE <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.rightToEducation?.required">*</span> : </label>
+                    <div class="student-dropdown student-radio-content w-100">
+                      <div class="student-radio-btn">
+                        <input type="radio" id="rte1" formControlName="rightToEducation" [value]="1">
+                        <label for="rte1">Yes</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="rte2" formControlName="rightToEducation" [value]="0">
+                        <label for="rte2">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.old_new?.order}" *ngIf="studentFields?.format_data_details?.old_new?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> Student <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.old_new?.required">*</span> : </label>
+                    <div class="student-dropdown student-radio-content w-100">
+                      <div class="student-radio-btn">
+                        <input type="radio" id="old" formControlName="old_new" [value]="0">
+                        <label for="old">Old</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="new" formControlName="old_new" [value]="1">
+                        <label for="new">New</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.status?.order}" *ngIf="studentFields?.format_data_details?.status?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> Status <span class="label-text-danger"
+                        *ngIf="studentFields?.format_data_details?.status?.required">*</span> : </label>
+                    <div class="student-dropdown student-radio-content w-100">
+                      <div class="student-radio-btn">
+                        <input type="radio" id="html4" formControlName="status" [value]="1">
+                        <label for="html4">Active</label>
+                      </div>
+                      <div class="student-radio-btn">
+                        <input type="radio" id="css4" formControlName="status" [value]="0">
+                        <label for="css4">Inactive</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details?.student_shift?.order}" *ngIf="studentFields?.format_data_details?.student_shift?.is_visible">
+                  <div class="form_group student-form-group">
+                    <label for="" class="form_label"> Student Shift <span class="label-text-danger">*</span> :
+                    </label>
+                    <div class="student-dropdown w-100">
+                      <app-single-select controlName="student_shift" placeholder="Student Shift"
+                        [dropDownArray]="studentShifts"></app-single-select>
+                    </div>
+                  </div>
+                </div>
+                <ng-container  *ngIf="custom_fields && custom_fields.length > 0">
+                  <ng-container *ngFor="let item of custom_fields">
+                    <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                    <div class="col-lg-6 col-md-6" [ngStyle]="{'order' : studentFields?.format_data_details[item.field_name]?.order}" *ngIf="getCustomFieldOrder(item, 'admission_details')">
+                      <div class="form_group student-form-group">
+                        <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                          </span>
+                          :</label>
+                        <div class="student-dropdown w-100">
+                          <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                          <ng-container *ngIf="item?.field_type == 'dropdown'">
+                            <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                              [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                              bindValue="option" appendTo="body">
+                            </ng-select>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                            <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                          </ng-container>
+
+                          <ng-container *ngIf="item?.field_type == 'textArea'">
+                            <app-textarea [controlName]="item?.field_name"
+                              [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="documentOpenState = true"
+            (closed)="documentOpenState = false" [expanded]="documentOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> DOCUMENT UPLOAD </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <div class="col-12">
+                  <div class="btn_right">
+                    <a class="btn add-btn" (click)="openVerticallyCentered(filterMdl)">Add New Doc</a>
+                  </div>
+                </div>
+                <div class="col-md-3 uploded_doc" *ngFor="let item of documentList; let i = index">
+                  <div class="uploded_doc_content card">
+                    <div class="img_heading text-center">
+                      <div class="img_title">
+                        <p style="margin: 0">{{item?.document_name}}</p>
+                      </div>
+                      <div class="img_date">{{ item?.create_date | date : dateFormateService.getDateFormat() }}</div>
+                    </div>
+                    <ng-container [ngSwitch]="getFileType(item?.file_name)">
+                      <div class="text-center atteched_file">
+                        <a *ngSwitchCase="'image'" target="_blank" download="" [href]="item?.attachment_url">
+                          <img class="img-circle" style="width: 100px; height: 100px" [src]="item?.attachment_url" />
+                        </a>
+                        <a *ngSwitchCase="'excel'" target="_blank" download="" [href]="item?.attachment_url">
+                          <i class="fa fa-file-excel"></i>
+                        </a>
+                        <a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="item?.attachment_url">
+                          <i class="fa fa-file-pdf"></i>
+                        </a>
+                        <a *ngSwitchDefault target="_blank" download="" [href]="item?.attachment_url">
+                          <i class="fa fa-file-excel"></i>
+                        </a>
+                      </div>
+                    </ng-container>
+                    <div class="action text-center">
+                      <a class="action-delete btn" (click)="deleteDocument(item, i)" ngbTooltip="Delete">
+                        <i class="fa fa-trash-alt"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion class="student-accordion" *ngIf="custom_fields && custom_fields.length > 0 && studentFields">
+          <mat-expansion-panel class="student-accordion-panel" (opened)="customFieldOpenState = true"
+            (closed)="customFieldOpenState = false" [expanded]="customFieldOpenState">
+            <mat-expansion-panel-header class="student-accordion-panel-header">
+              <mat-panel-title class="accordion-heading"> CUSTOM FIELDS </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="student-acordion-body">
+              <div class="row">
+                <ng-container *ngFor="let item of custom_fields">
+                  <!-- *ngIf="item?.field_name !== 'Admission_Type'" -->
+                  <div class="col-lg-6 col-md-6" *ngIf="getCustomFieldsWithoutOrder(item)">
+                    <div class="form_group student-form-group">
+                      <label for="" class="form_label">{{item?.field_title}} <span *ngIf="item?.required ==1 "> *
+                        </span>
+                        :</label>
+                      <div class="student-dropdown w-100">
+                        <!-- <input [type]="item?.field_type" id="html4" formControlName="status" [value]="1"> -->
+                        <ng-container *ngIf="item?.field_type == 'dropdown'">
+                          <ng-select [placeholder]="'Please enter ' + item?.field_title" [searchable]="false"
+                            [formControlName]="item?.field_name" [items]="item?.values" bindLabel="option"
+                            bindValue="option" appendTo="body">
+                          </ng-select>
+                        </ng-container>
+
+                        <ng-container *ngIf="item?.field_type == 'number' || item?.field_type == 'text'">
+                          <app-input [type]="item?.field_type" [controlName]="item?.field_name"
+                            [placeholder]="'Please enter '+ item?.field_title"></app-input>
+                        </ng-container>
+
+                        <ng-container *ngIf="item?.field_type == 'textArea'">
+                          <app-textarea [controlName]="item?.field_name"
+                            [placeholder]="'Please enter '+ item?.field_title"></app-textarea>
+                        </ng-container>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <div class="student-bottom-button">
+          <button
+            *ngIf="id ? CommonService.hasPermission('student_student', 'has_update') : CommonService.hasPermission('student_student', 'has_create')"
+            class="btn save-btn" [disabled]="is_save" (click)="saveStudent()">{{id ? "Update" : "Save"}} Student
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_save">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </form>
+
+      <ng-template #filterMdl let-modal>
+        <div class="modal-header" style="z-index: 0">
+          <h4 class="modal-title" id="modal-basic-title">Add Document</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="page_inner">
+            <div class="card_body mb-4">
+              <div class="row">
+                <div class="form_group">
+                  <label class="form_label">Name<span class="text-danger">*</span></label>
+                  <div>
+                    <input type="text" class="form-control" placeholder="Enter Document Name"
+                      [(ngModel)]="document_name" />
+                    <div class="text-danger"></div>
+                  </div>
+                </div>
+                <div class="form_group">
+                  <div>
+                    <input type="file" class="form-control" placeholder="Select Document"
+                      (change)="onFileSelect($event)" accept=".pdf,.jpg, .jpeg, .png" />
+                    <span class="">File size should be less then 1MB <div> ( the attachment field must be a file of
+                        type:
+                        jpeg, jpg, pdf, png.) </div> </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer" style="z-index: 0; justify-content: end">
+          <div class="col-auto pe-0">
+            <button type="button" class="btn save-btn" (click)="handleSave()">Save </button>
+          </div>
+          <div class="col-auto">
+            <button type="button" class="btn cancel-btn" (click)="close()">Cancel</button>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</section>

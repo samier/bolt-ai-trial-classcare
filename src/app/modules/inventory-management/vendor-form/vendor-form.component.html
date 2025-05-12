@@ -1,0 +1,150 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Vendor</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" [routerLink]="CommonService.setUrl(URLConstants.VENDOR_LIST)">Vendor List</a>
+				</div>
+			</div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="addvendorform" class="form_section global_form">
+
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Vendor Name<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input  name="vendor_name" id="vendor_name" controlName="vendor_name" placeholder="Enter Vendor Name" required></app-input> 
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Vendor Office no.<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number" name="vendor_office_no" id="vendor_office_no" controlName="vendor_office_no" placeholder="Enter Vendor Office No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Vendor Office Email<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input  name="vendor_office_email" id="vendor_office_email" controlName="vendor_office_email" placeholder="Enter Vendor Office Email" required></app-input> 
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Contact Person Name<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input  name="contact_person_name" id="contact_person_name" controlName="contact_person_name" placeholder="Enter Contact Person Name" required></app-input> 
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Contact Person No.<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number"  name="contact_person_no" id="contact_person_no" controlName="contact_person_no" placeholder="Enter Contact Person No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class=" form_label">Whatsapp No. Same As Mobile No.</label>
+                                            <div class="radio">
+                                                <label class="m-radio" for="inlineRadio1">
+                                                    <input class="" formControlName="whatsapp_same_as_mobile" type="radio" name="whatsapp_same_as_mobile" id="inlineRadio1" (change)="handleNumberSelect($event)" value="1">Yes
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="m-radio" for="inlineRadio2">
+                                                    <input class="" formControlName="whatsapp_same_as_mobile" type="radio" name="whatsapp_same_as_mobile" id="inlineRadio2" (change)="handleNumberSelect($event)" value="0">No
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="addvendorform.value.whatsapp_same_as_mobile == 0">
+                                            <label class="form_label">Contact Person Whatsapp No.<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input  type="number" name="contact_person_whatsapp_no" id="contact_person_whatsapp_no" controlName="contact_person_whatsapp_no" placeholder="Enter Contact Person Whatsapp No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Contact Person Email<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input  name="contact_person_email" id="contact_person_email" controlName="contact_person_email" placeholder="Enter Contact Person Email" required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Address<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-textarea  name="address" id="address" controlName="address" placeholder="Enter Address" required></app-textarea>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select State<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select   name="state" id="state" controlName="state" placeholder="Select State" [dropDownArray]="states" (change)="handleStateChange($event)" required></app-single-select>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select City<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select   name="city" id="city" controlName="city" placeholder="Select City" [dropDownArray]="addvendorform.value.state ? cities : []" required></app-single-select>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Postal Code<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number"  name="pincode" id="pincode" controlName="pincode" placeholder="Enter Postal Code" required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">GST NO.</label>
+                                            <div>
+                                                <app-input  name="gst_no" id="gst_no" controlName="gst_no" placeholder="Enter GST No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">PAN No.</label>
+                                            <div>
+                                                <app-input  name="pan_no" id="pan_no" controlName="pan_no" placeholder="Enter PAN No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">TAN No.</label>
+                                            <div>
+                                                <app-input  name="tan_no" id="tan_no" controlName="tan_no" placeholder="Enter TAN No." required></app-input>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Vendor Selling Item List<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-multi-select  name="vendor_selling_items" id="vendor_selling_items" controlName="vendor_selling_items" placeholder="Select Vendor Selling Item List" [dropDownArray]="itemList" required></app-multi-select>    
+                                            </div>                                  
+                                        </div>
+                                        <div class="col-md-4 col-lg-3 form_section form_group">
+                                            <div class="">
+                                                <label class="form_label">Select Ledger Account</label>
+                                                <div>
+                                                    <app-single-select  name="head_id" id="head_id" controlName="head_id" placeholder="Select Ledger Account" [dropDownArray]="headList" required></app-single-select>    
+                                                </div>   
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.VENDOR_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit"  (click)="onSubmit()" [disabled]="!addvendorform.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || addvendorform.invalid"> Save 
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div></button>
+                                        </div>
+                                    </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

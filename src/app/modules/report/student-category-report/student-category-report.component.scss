@@ -1,0 +1,13 @@
+::ng-deep body{
+    app-student-category-report{
+	    .get-report-button {
+			padding-top: 30px;
+		}
+		.category-list{
+			overflow-x: scroll;
+		}
+		th,td {
+			text-align: center;
+		}
+	}
+}

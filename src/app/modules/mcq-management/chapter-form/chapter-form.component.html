@@ -1,0 +1,142 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{page}} Chapter</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.CHAPTER_LIST)">Chapter List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                       <div class="card">
+                            <form [formGroup]="form" class="form_section" id="chapter-form" >
+                                <div class="row">
+                                    <div class=" row">
+                                        <!-- <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Class<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #select
+                                                    	[items]="classes"
+                                                    	(change)="changeClass(selectedClass)"
+                                                    	[searchable]="false"
+                                                    	[(ngModel)]="selectedClass"
+                                                    	name="class"
+                                                    	bindLabel="name"
+                                                    	bindValue="id"
+			                                            formControlName="class"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px"
+		                                                    		(onclick)="changeClass(selectedClass)" type="text"
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                                                </div>
+
+                                            </div>
+                                        </div> -->
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Class<span class="text-danger">*</span></label>
+                                            <app-single-select
+                                              controlName="class"
+                                              placeholder="Please select class"
+                                              [dropDownArray]="classes"
+                                              (change)="getSubjectList()">
+                                            </app-single-select>
+                                        </div>
+                                        <!-- <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Subject<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #select
+                                                    	[items]="subjects"
+                                                    	[searchable]="false"
+                                                    	[(ngModel)]="selectedSubject"
+                                                    	name="subjectName[subject]"
+                                                    	bindLabel="name"
+                                                    	bindValue="id"
+			                                            formControlName="subject"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" type="text"
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['subject'].invalid && (form.controls['subject'].dirty || form.controls['subject'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['subject'].errors?.['required']">please select subject.</div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Subject<span class="text-danger">*</span></label>
+                                            <app-single-select
+                                              controlName="subject"
+                                              [dropDownArray]="subjects"
+                                              placeholder="Please select subject">
+                                            </app-single-select>
+                                        </div>
+                                          
+                                        <div class="col-md-6 form_group add_doc" *ngIf="!id">
+                                            <div class="d-inline-block">
+                                            	<label class=" form_label">button</label>
+                                                <button type="button" ngbTooltip="Add Chapter" (click)="addChapter()" class="btn doc-button">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12 form_group mb-0" *ngIf="chapterArray.controls">
+                                            <div *ngFor="let control of  chapterArray.controls ;let i = index;" formArrayName='chapter' class="">
+                                                <div [formGroupName]="i" class="document_type_add mb-2" >
+                                                    <div class="row" >
+                                                        <div class="col-md-3 form_group">
+                                                            <label class=" form_label">Chapter<span class="text-danger">*</span></label>
+                                                            <div class="">
+                                                                <input  type="text" formControlName="txtChapterName" name="chapter[{{i}}][txtChapterName]" placeholder="Please enter chapter name" class="form-control">
+                                                                <div *ngIf="get_chapter(i)?.invalid && (get_chapter(i)?.dirty || get_chapter(i)?.touched)" class="error text-danger">
+                                                                    <div *ngIf="get_chapter(i)?.errors?.['required']">please enter chapter</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-field col-md-3 add_doc" *ngIf="i > 0">
+                                                            <label class="form_label">Remove</label>
+                                                            <div class="">
+                                                                <button class="button" ngbTooltip="Remove" type="button" (click)="remove(i)"  class="btn"><i class="fa fa-minus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                            <button type="submit" (click)="submit()" [disabled]="form.invalid" class="btn save-btn px-2 w-100">
+                                                                                    {{saveBtn}}
+                                                                                </button>
+                                    </div>
+                                    <div class="col-md-auto">
+                                        <a class="btn cancel-btn px-2" href="#" [routerLink]="setUrl(URLConstants.CHAPTER_LIST)">Cancel</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

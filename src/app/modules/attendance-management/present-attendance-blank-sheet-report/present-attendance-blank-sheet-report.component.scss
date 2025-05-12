@@ -1,0 +1,12 @@
+::ng-deep{
+    app-present-attendance-blank-sheet-report{
+        .multiselect-dropdown{
+            z-index: auto;
+        }
+        .student-list-main-card{
+            >div{
+                overflow: auto;
+            }
+        }
+    }
+}

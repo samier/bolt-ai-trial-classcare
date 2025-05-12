@@ -1,0 +1,114 @@
+<section class="leave_form new-student-list-section">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+        <h3 class="sub_title mb-0">Auto Fee Reminder List</h3>
+        <div>
+          <a class="btn add-btn" *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_SETUP)">Auto Fee Reminder Setup</a>
+      </div>
+      </div>
+      <div class="card p-0">
+        <div class="card-header justify-content-between d-flex">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn me-2" (click)="onReset()" [disabled]="isResetLoading">Reset
+              <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                <span class="visually-hidden">Loading..."</span>
+              </div>
+            </button>
+            <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="reminderFilterForm" class="content_scroll">
+            <div class="row">
+              <div class="col-md-3 form_group">
+                <label class="form_label">Student Status</label>
+                <app-multi-select [dropDownArray]="studentAndReminderStatus" controlName="student_status" placeholder="Select Student Status"></app-multi-select>
+              </div>
+              <div class="col-md-3 form_group">
+                <label class="form_label">Auto Reminder Status</label>
+                <app-multi-select [dropDownArray]="studentAndReminderStatus" controlName="status" placeholder="Select Reminder Status"></app-multi-select>
+              </div>
+              <div class="col-md-3 form_group">
+                <label class="form_label">Fee Category</label>
+                <app-multi-select controlName="fee_category" [dropDownArray]="feeCategoryList" placeholder="Select Fee Category"></app-multi-select>
+              </div>
+            </div>
+            <div class="row">  
+              <div class="col-md-3 form_group">
+                <button type="button" class="btn show-btn" (click)="onShow()" [disabled]="isShowLoading">Show
+                  <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                    <span class="visually-hidden">Loading..."</span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row pb-0 mx-0 no-gutters">
+          <div class="col-lg-12">
+            <div class="notice-history-table">
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="w-auto">Sr. No.</th>
+                      <th class="w-auto">Title</th>
+                      <th class="w-auto">Student Status</th>
+                      <th class="w-auto">Fee Category</th>
+                      <th class="w-auto">Fee Reminder Method</th>
+                      <th class="w-auto">Status</th>
+                      <th class="w-auto">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="tbody.length > 0 && !isTableLoading">
+                    <tr *ngFor="let item of tbody; let i = index">
+                      <td> {{(i + 1) + indexStart}} </td>
+                      <td> {{ item?.title ?? 'N/A' }} </td>
+                      <td> {{ item?.student_status == '2' ? 'Active, Inactive' : item?.student_status == '1' ? 'Active' : item?.student_status == '0' ? 'Inactive' : 'N/A'}} </td>
+                      <td> {{ item?.fees_category ?? 'N/A' }} </td>
+                      <td> {{ item?.fees_reminder_method ?? 'N/A' }} </td>
+                      <td [class]="item?.status == 'In Active' ? 'static-text-danger text-danger' : item?.status == 'Active' ?  'text-success' : ''"> {{ item?.status ?? 'N/A' }} </td>
+                      <td>
+                        <div class="btn-group">
+                          <!-- <button *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_access')" [routerLink]="[CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_DETAILS),item?.id]" class="btn action-view me-2" ngbTooltip="View"> <i class="fa fa-eye"></i> </button> -->
+                          <button *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_edit')" [routerLink]="[CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_EDIT),item?.id]" class="btn action-edit me-2" ngbTooltip="Edit"> <i class="fa fa-edit"></i> </button>
+                          <button *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_delete')" (click)="onDelete(item?.id)" class="btn action-delete" ngbTooltip="Delete"> <i class="fa fa-trash"></i> </button>
+                        </div>  
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="tbody.length === 0 && !isTableLoading">
+                    <tr>
+                      <td colspan="7" class="text-center no-data-available">No Data Available</td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="isTableLoading">
+                    <tr>
+                      <td class="text-center" colspan="7">
+                        <div class="d-flex justify-content-center">
+                          <div class="spinner-border spinner-border-sm ms-2" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </div>
+                      </td> 
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

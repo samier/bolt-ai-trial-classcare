@@ -1,0 +1,88 @@
+@import'../../../../assets/css/variable.scss';
+
+::ng-deep body{
+    app-download-timetable{
+        .table-responsive{
+            .faculty-timetable{
+                .border-right{
+                    border-right: 1px solid $border-dde;
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .timetable-border-bottom{
+                    border-bottom: 1px solid $border-dde;
+                    &:last-child{
+                        border: none;
+                    }
+                }
+                .text-sm{
+                    font-size: 12px;
+                }
+
+                .min-height{
+                    min-height: 150px;
+                }
+
+                .detail{
+                    font-size: 12px;
+                    line-height: 22px;
+                    font-weight: 400;
+                    margin-bottom: 4px;
+                    background-color: #D2DDF4;
+                    padding:2px 4px;
+                    width: 100%;
+                    border-radius: 4px;
+                    text-align: center;
+                }
+            }
+            border:1px solid #dde2ef;
+            .class_title{
+                &.primary-bg{
+                    position: sticky;
+                    left: 0;
+                    right: 0;
+                }
+            }
+            >.table-bordered{
+                overflow-x: auto;
+                border:none;
+                .form_group{
+                  margin-bottom: 15px;
+                  min-width: max-content;
+                }
+                &.dataTable {
+                    td, th{
+                        &:first-child{
+                            position: sticky;
+                            left: 0;
+                        }
+                    }
+                    td{
+                        &:first-child{
+                            background:#fff;
+                            font-weight: bold;
+                            span{
+                                display: block;
+                                font-weight: normal;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    &.dark-theme{
+        app-teachers-timetable{
+            .table-responsive{
+                >.table-bordered{
+                    &.dataTable {
+                        td{
+                            background: #121b2b;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

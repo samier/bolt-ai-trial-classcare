@@ -1,0 +1,51 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0">Student Blank Report</h3>
+            </div>
+            <div class="card student-list-card p-0">
+                <div class="card-body">
+                    <form [formGroup]="blankReportForm">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Report Type <span class="text-danger">*</span> </label>
+                                <app-single-select controlName="report_type" [dropDownArray]="reportTypeList" placeholder="Select Report Type"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Section</label>
+                                <app-multi-select controlName="section_ids" [dropDownArray]="sectionList" placeholder="Select Section" (change)="onSectionChange()"></app-multi-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Class</label>
+                                <app-multi-select controlName="class_ids" [dropDownArray]="classList" placeholder="Select Class" (change)="onClassChange()"></app-multi-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Batch <span class="text-danger">*</span> </label>
+                                <app-multi-select controlName="batch_ids" [dropDownArray]="batchList" placeholder="Select Batch"></app-multi-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Student Status</label>
+                                <app-single-select controlName="status" [dropDownArray]="statusList" placeholder="Select Student Status"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="row flex-row-reverse">
+                            <div class="col-auto form_group">
+                                <button type="submit" class="btn report-btn" (click)="getReport()" [disabled]="isGetLoading">Get Report
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isGetLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col-auto form_group">
+                                <button class="btn clear-btn" type="button" (click)="clear()">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

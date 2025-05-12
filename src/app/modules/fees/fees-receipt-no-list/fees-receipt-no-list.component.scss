@@ -1,0 +1,17 @@
+::ng-deep body{
+    app-fees-receipt-no{
+        .leave_form{
+            .card{
+                h6{
+                    font-size: 18px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+    }
+}
+.white-space-normal{
+    white-space: normal !important;
+}

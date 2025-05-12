@@ -1,0 +1,155 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <h2 class="page_title">Student Exam Report Card</h2>
+            <div class="card">
+                <div class="card_title">
+                    <h3 class="sub_title font-20">Student Exam Report Card</h3>
+                    <div class="btn_right">
+                        <!-- <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#."></a> -->
+                    </div>
+                </div> 
+                <div class="card_body">
+                    <div class="row">
+                       <div class="col-lg-8">
+                            <form [formGroup]="form" class="form_section" id="student-leaving-certificate-form">
+                                <div class="row">
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label">Class<span class="text-danger">*</span></label>
+                                                <div class="col-md-12">
+                                                    <ng-select #select 
+                                                    	[items]="classes" 
+                                                    	(change)="changeClass(selectedClass)" 
+                                                    	[searchable]="false" 
+                                                    	[(ngModel)]="selectedClass" 
+                                                    	name="class" 
+                                                    	bindLabel="name" 
+                                                    	bindValue="id"  
+			                                            formControlName="class"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" 
+		                                                    		(onclick)="changeClass(selectedClass)" type="text" 
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)" class="col-md-12 error text-danger mb-2">
+                                                    <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label">Batch<span class="text-danger">*</span></label>
+                                                <div class="col-md-12">
+                                                    <ng-select #select 
+                                                    	[items]="batches" 
+                                                    	(change)="changeBatch(selectedBatch)" 
+                                                    	[searchable]="false" 
+                                                    	[(ngModel)]="selectedBatch" 
+                                                    	name="batch" 
+                                                    	bindLabel="name" 
+                                                    	bindValue="id"  
+			                                            formControlName="batch"
+			                                            placeholder="please select batch"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" 
+		                                                    		(onclick)="changeBatch(selectedBatch)" type="text" 
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['batch'].invalid && (form.controls['batch'].dirty || form.controls['batch'].touched)" class="col-md-12 error text-danger mb-2">
+                                                    <div *ngIf="form.controls['batch'].errors?.['required']">please select batch.</div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label">Exam Type<span class="text-danger">*</span></label>
+                                                <div class="col-md-12">
+                                                    <ng-select #select 
+                                                    	[items]="examTypes" 
+                                                    	(change)="changeExamType(selectedExamType)" 
+                                                    	[searchable]="false" 
+                                                    	[(ngModel)]="selectedExamType" 
+                                                    	name="exem_type" 
+                                                    	bindLabel="name" 
+                                                    	bindValue="id"  
+			                                            formControlName="exem_type"
+			                                            placeholder="please select exem type"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" 
+		                                                    		(onclick)="changeExamType(selectedClass)" type="text" 
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['exem_type'].invalid && (form.controls['exem_type'].dirty || form.controls['exem_type'].touched)" class="col-md-12 error text-danger mb-2">
+                                                    <div *ngIf="form.controls['exem_type'].errors?.['required']">please select exem type.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label">Template<span class="text-danger">*</span></label>
+                                                <div class="col-md-12">
+                                                    <ng-select #select 
+                                                    	[items]="templates" 
+                                                    	(change)="changeTemplate(selectedTemplate)" 
+                                                    	[searchable]="false" 
+                                                    	[(ngModel)]="selectedTemplate" 
+                                                    	name="template" 
+                                                    	bindLabel="name" 
+                                                    	bindValue="id"  
+			                                            formControlName="template"
+			                                            placeholder="please select template"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px" 
+		                                                    		(onclick)="changeTemplate(selectedClass)" type="text" 
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['template'].invalid && (form.controls['template'].dirty || form.controls['template'].touched)" class="col-md-12 error text-danger mb-2">
+                                                    <div *ngIf="form.controls['template'].errors?.['required']">please select template.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">                               
+                                    <div class="col-md-12 p-0">
+                                        <div class="form-group mt-5 ml-4 text-left w-100"> 
+                                            <div class="">
+                                                <a class="btn btn-danger btn-minwidth" >Cancel</a>
+                                                <button class="button" type="submit" class="btn btn-success btn-minwidth">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,79 @@
+<section class="add_lecture_timings">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Assign Lectures</h3>
+				<div class="btn_right">                    
+                    <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn mx-2 timetable-btn">Timetable</a>
+                    <a [routerLink]="setUrl(URLConstants.SUBJECT_LECTURE)" *ngIf="CommonService.hasPermission('administrator_subject_lecture', 'has_create')" class="btn mx-2 add-btn">Add Subject Lectures</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">                        
+                        <div class="datatable_cls">
+                            <div class="assign-transport-table">
+                                <div class="datatable-action-design">
+                                    <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                        <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                      </svg>
+                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                        <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                      </svg>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table datatable [dtOptions]="dtOptions"
+                                            class="table table-hover table-nowrap display dataTable table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th>Sr.No.</th>
+                                                    <th>Section Name</th>
+                                                    <th>Class Name</th>
+                                                    <th>batch Name</th>
+                                                    <th>Subject</th>
+                                                    <th class="action-btn-sticky">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let item of tbody ;let i = index;">
+                                                    <td>{{item.DT_RowIndex}}</td>
+                                                    <td>{{item.section_name}}</td>
+                                                    <td class="teal-text-color">{{item.class_name}}</td>
+                                                    <td class="orange-text-color">{{item.batch_name}}</td>
+                                                    <td class="green-text-color">{{item.subjects}}</td>
+                                                    <td class="action-btn-sticky text-center">
+                                                        <div class="btn-group" role="group">
+                                                            <a ngbTooltip="Edit" container="body" *ngIf="CommonService.hasPermission('administrator_subject_lecture', 'has_edit')" [routerLink]="[setUrl(URLConstants.SUBJECT_LECTURE),item.id]"  class="lt-btn-icon action-edit ">
+                                                                
+                                                            </a>
+                                                            <button ngbTooltip="Delete" container="body" *ngIf="CommonService.hasPermission('administrator_subject_lecture', 'has_delete')" type="button"
+                                                                class="lt-btn-icon action-delete"
+                                                                (click)="deleteLecture(item.id)">
+                                                                
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            <!-- <tbody *ngIf="tbody?.length == 0">
+                                                <tr>
+                                                <td colspan="3" class="text-center no-data-available">No data</td>
+                                                </tr>
+                                            </tbody>-->
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

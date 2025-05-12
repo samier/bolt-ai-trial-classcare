@@ -1,0 +1,201 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{page}} Vehicle</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.VEHICLE_LIST)">Vehicle List</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+					<div class="">
+						<div class="card">
+							<form [formGroup]="form" class="form_section" id="vehicle-form">
+								<div class="row">
+									<div class="col-md-3 form_group ">
+										<div class="">
+											<label class="form_label">Vehicle No<span class="text-danger">*</span></label>
+											<div class="">
+												<input  type="text" id="vehicle_no" name="vehicle_no" formControlName="vehicle_no" placeholder="Vehicle No" class="form-control">
+											</div>
+											<div *ngIf="form.controls['vehicle_no'].invalid && (form.controls['vehicle_no'].dirty || form.controls['vehicle_no'].touched)" class="error text-danger mb-2">
+												<div *ngIf="form.controls['vehicle_no'].errors?.['required']">please enter vehicle no.</div>
+												<div *ngIf="form.controls['vehicle_no'].errors?.['pattern']">symbols not allowed.</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Registration No</label>
+											<div class="">
+												<input  type="text" id="reg_no" name="reg_no" formControlName="reg_no" placeholder="Registration No" class="form-control">
+											</div>
+											<div *ngIf="form.controls['reg_no'].invalid && (form.controls['reg_no'].dirty || form.controls['reg_no'].touched)" class="error text-danger mb-2">
+												<div *ngIf="form.controls['reg_no'].errors?.['required']">please enter registration no.</div>
+												<div *ngIf="form.controls['reg_no'].errors?.['pattern']">symbols not allowed.</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Owning Type</label>
+											<div class="">
+												<select  id="owning_type" name="owning_type" formControlName="owning_type" class="form-control" >
+													<option value="" >select owning type</option>
+													<option value="own">Own</option>
+													<option value="vendor">Vendor</option>
+													<option value="leased">Leased</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Vehicle Type</label>
+											<div class="">
+												<select  id="vehicle_type" name="vehicle_type" formControlName="vehicle_type" class="form-control" >
+													<option value="" >select vehicle type</option>
+													<option value="4-wheeler">4-Wheeler</option>
+													<option value="6-wheeler">6-Wheeler</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Fuel Type</label>
+											<div class="">
+												<select  id="fuel_type" name="fuel_type" formControlName="fuel_type" class="form-control" >
+													<option value="" >select fuel type</option>
+													<option value="petrol">Petrol</option>
+													<option value="diesel">Diesel</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">No. Of Seats<span class="text-danger">*</span></label>
+											<div class="">
+												<input  type="number" id="no_of_seats" min="1" name="no_of_seats" formControlName="no_of_seats" placeholder="No. Of Seats" class="form-control">
+											</div>
+											<div *ngIf="form.controls['no_of_seats'].invalid && (form.controls['no_of_seats'].dirty || form.controls['no_of_seats'].touched)" class="error text-danger mb-2">
+												<div *ngIf="form.controls['no_of_seats'].errors?.['required']">please enter no. of seats.</div>
+												<div *ngIf="form.controls['no_of_seats'].errors?.['pattern']">only numbers allowed.</div>
+												<div *ngIf="form.controls['no_of_seats'].errors?.['min']">minimum 1 seat vehicle is allowed.</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 form_group">
+										<div class="">
+											<label class="form_label">Status</label>
+											<div class="">
+												<select  id="status" name="status" formControlName="status" class="form-control" >
+													<option value="active">Active</option>
+													<option value="inactive">InActive</option>
+												</select>
+											</div>
+										</div>
+									</div>
+									<div class="col-auto form_group add_doc">
+										<label class="form_label">Add</label>
+										<div class="">
+											<button type="button" (click)="addDocument()" class="btn doc-button add-btn w-100">
+												Add Document
+											</button>
+										</div>
+									</div>
+
+									<div class="" *ngIf="documentFieldAsFormArray.controls">
+										<div *ngFor="let control of  documentFieldAsFormArray.controls ;let i = index;" class="">
+											<div class="document_type_add" >
+												<div class="row" >
+													<ng-container formArrayName='documents'>
+														<div class="input-field col-lg-3">
+															<label class="form_label">Document type<span class="text-danger">*</span></label>
+															<div class="" [formGroupName]="i">
+																<select  formControlName="document_type_id" class="form-control document_type_id" name="documents[{{i}}][document_type_id]" [hidden]="get_document_url(i) ? true : false">
+																	<option value="">Select Document Type</option>
+																	<option *ngFor="let option of document_types.data" [value]="option.id" >{{ option.name }}</option>
+																</select>
+																<input type="text" formControlName="document_type" name="documents[{{i}}][document_type]" class="form-control" readonly [hidden]="get_document_url(i) ? false : true">
+																<div *ngIf="get_document_type(i)?.invalid && (get_document_type(i)?.dirty || get_document_type(i)?.touched)" class="error text-danger">
+																	<div *ngIf="get_document_type(i)?.errors?.['required']">please select document type</div>
+																</div>
+															</div>
+														</div>
+														<div class="input-field col-lg-3">
+															<label class="form_label">Document<span class="text-danger">*</span></label>
+															<div class="" [formGroupName]="i">
+																<input type="file" formControlName="document" name="documents[{{i}}][document]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg">
+																<div *ngIf="get_document(i)?.invalid && (get_document(i)?.dirty || get_document(i)?.touched)" class="error text-danger">
+																	<div *ngIf="get_document(i)?.errors?.['required']">please select document</div>
+																</div>
+															</div>
+														</div>
+													</ng-container>
+
+													<!-- START DATE AND END DATE FIELD ADDED  -->
+
+													<!-- START DATE  -->
+													<div class="input-field col-lg-3">
+														<label class="form_label">Start Date<span class="text-danger">*</span></label>
+														<app-mat-date-picker class="bg-select-date" formArrayName="documents" [GroupName]="i" controlName="start_date" ></app-mat-date-picker>
+														<!-- <div class="">
+															<input  type="date" formControlName="start_date" name="documents[{{i}}][start_date]" class="form-control">
+															<div *ngIf="get_startDate(i)?.invalid && (get_startDate(i)?.dirty || get_startDate(i)?.touched)" class="error text-danger">
+																<div *ngIf="get_startDate(i)?.errors?.['required']"> Please Select Start Date </div>
+															</div>
+														</div> -->
+													</div>
+
+													<!-- END DATE  -->
+													<div class="input-field col-lg-3">
+														<label class="form_label">End Date<span class="text-danger">*</span></label>
+														<app-mat-date-picker class="bg-select-date" formArrayName="documents" [GroupName]="i" controlName="end_date" ></app-mat-date-picker>
+														<!-- <div class="">
+															<input  type="date" formControlName="end_date" name="documents[{{i}}][end_date]" class="form-control">
+															<div *ngIf="get_endDate(i)?.invalid && (get_endDate(i)?.dirty || get_endDate(i)?.touched)" class="error text-danger">
+																<div *ngIf="get_endDate(i)?.errors?.['required']"> Please Select End Date </div>
+															</div>
+														</div> -->
+													</div>
+													<ng-container formArrayName='documents'>
+														<div class="input-field col-auto pt-3" *ngIf="get_document_url(i)" [formGroupName]="i">
+															<input  type="hidden" formControlName="document_url" >
+															<a target="_blank" [href]="get_document_url(i)" class="btn show-btn">View</a>
+														</div>
+														<div class="input-field col-auto add_doc pt-3" [formGroupName]="i">
+															<div class="">
+																<input type="hidden" formControlName="id" >
+																<button class="button" type="button" (click)="remove(i)"  class="btn delete-btn">Remove</button>
+															</div>
+														</div>
+													</ng-container>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row w-100 justify-content-start ">
+									<div class="col-md-auto">
+										<a class="btn clear-btn" href="#" [routerLink]="setUrl(URLConstants.VEHICLE_LIST)">Cancel</a>
+									</div>
+									<div class="col-md-auto">
+											<button type="submit" *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('transport_vehicle', 'has_update') : CommonService.hasPermission('transport_vehicle', 'has_create') " (click)="submit()" [disabled]="is_loading" class="btn save-btn">
+																					{{saveBtn}}
+																					<div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+																						<span class="visually-hidden">Loading..."</span>
+																					</div>
+																				</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

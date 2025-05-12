@@ -1,0 +1,313 @@
+<section class="marks-edit create-exam-section exam-list-secion">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">EXAM LIST</h3>
+        <div class="">
+          <button type="button" class="btn generate-btn me-3" [disabled]="isGetReport"
+            *ngIf="CommonService.hasPermission('student_exam', 'has_download')" (click)="generateExamReport()">
+            Generate Exam Report
+            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isGetReport">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+          <button class="btn generate-btn me-3"  *ngIf="CommonService.hasPermission('administrator_hall_ticket', 'has_create')" (click)="goToGenerateHallTicket()">Generate Hall Ticket </button>
+          <button class="btn generate-btn me-3" (click)="goToGenerateExamTimetable()">Generate Exam Timetable </button>
+          <button class="btn add-btn" *ngIf="CommonService.hasPermission('student_exam', 'has_create')" (click)="goTocreateExam()">Create Exam 
+            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="card student-list-card p-0">
+        <div class="card-header border-bottom justify-content-between d-flex" (click)="filter = !filter">
+          <div class="card-student-heading d-flex align-items-center">
+            <h5 class="mb-0">Filters</h5>
+            <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+          </div>
+          <div class="d-flex student-accordion-btn">
+            <button class="btn btn-primary me-2" (click)="clearData($event)">Reset</button>
+            <button class="btn btn-primary drop-btn border-circle">
+              <i class="fa fa-angle-down" *ngIf="!filter"></i>
+              <i class="fa fa-angle-up" *ngIf="filter"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="filter">
+          <div [formGroup]="examViewForm" class="content_scroll">
+            <div class="row">
+                  <div class="col-lg-3 col-md-4 form_group">
+                    <label for="" class="form_label">Section 
+                      <!-- <span class="text-danger">*</span> -->
+                    </label>
+                    <div>
+                      <app-single-select controlName="section_id" placeholder="Select section" (change)="getClasses()"
+                        [dropDownArray]="sectionList"></app-single-select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 form_group">
+                    <label for="" class="form_label">Class 
+                      <!-- <span class="text-danger">*</span> -->
+                    </label>
+                    <div>
+                    <app-single-select controlName="class_id" placeholder="Select class" (change)="getBatches()"
+                      [dropDownArray]="classList"></app-single-select>
+                  </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 form_group">
+                    <label for="" class="form_label">Batch</label>
+                    <div>
+                      <app-multi-select controlName="batch_id" placeholder="Select batch" 
+                        [dropDownArray]="batchList" (change)="getSubjectsByBatch()" ></app-multi-select>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 col-md-4 form_group">
+                    <label for="" class="form_label">Exam Type</label>
+                    <div>
+                      <app-single-select controlName="exam_type_id" placeholder="Select exam type" [dropDownArray]="examTypeList"></app-single-select>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3 col-md-4 form_group">
+                    <label for="" class="form_label">Subject</label>
+                    <div>
+                      <app-multi-select controlName="subject_ids" placeholder="Select subject" [dropDownArray]="subjectList"></app-multi-select>
+                    </div>
+                  </div>
+
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Date 
+                        <!-- <span class="text-danger">*</span> -->
+                      </label>
+                      <div>
+                        <!-- <app-mat-date-picker controlName="date"></app-mat-date-picker> -->
+                        <app-date-range-picker controlName="date" placeholder="select date range"></app-date-range-picker>
+                        <!-- <input formControlName="date" type="date" class="form-control total-mark"> -->
+                      </div>
+                    </div>
+                    <!-- <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Select status</label>
+                      <div>
+                        <app-single-select controlName="name" placeholder="Select exam type" [dropDownArray]="[]"></app-single-select>
+                      </div>
+                    </div> -->
+                    <!-- <div class="col-lg-6 col-md-4 form_group"></div> -->
+                    <div class="col-12 form-group">
+                      <div class="show-clear-btn">
+                        <button  type="button" class="btn show-btn d-flex align-items-center me-3"
+                            [disabled]="false" (click)="showExamData()">
+                            show
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card exam-list-card">
+          <div class="card_body">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="datatable-action-design">
+                  <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                      <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                      <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                    </svg>
+                  </div>
+                  <div class="table-responsive">
+                    <div class="dataTables_wrapper">
+                      <table datatable [dtOptions]="dtOptions"  class="row-border hover table-bordered dataTable" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                        <thead>
+                          <tr>
+                            <th>SR No.</th>
+                            <th style="min-width:150px">Exam Name</th>
+                            <th style="min-width:160px">Description</th>
+                            <th style="min-width:130px">Subject</th>
+                            <th>Remarks</th>
+                            <th *ngIf="CommonService.hasPermission('student_marks_visiblity', 'has_access')" style="min-width:110px">Marks Visiblity <br> (Student)</th>
+                            <th>Status</th>
+                            <th class="action-btn-sticky">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody *ngIf="examList.length > 0">
+                          <ng-container *ngFor="let item of examList; let i=index">
+                            <tr>
+                              <td>{{((i+1) + indexStart)}}</td>
+                              <td>
+                                <h5> {{item.exam_name}} </h5>
+                                <p class="orange-text-color">Batch : <span>{{item.batch_name}}</span>
+                                </p>
+                                <p class="teal-text-color">Exam Type : <span>{{item.exam_type_name}}</span>
+                                </p>
+                                <p class="green-text-color">Exam Start Date <span>: {{examService.dateFormate(item.start_date,5)}}</span>
+                                </p>
+                                <p class="orange-text-color">Exam End Date : <span>{{examService.dateFormate(item.end_date,5)}}</span>
+                                </p>
+                                <p class="teal-text-color">Created By: <span>{{item.created_by ?? '-'}}</span>
+                                </p>
+                                <p *ngIf="item?.updated_by" class="green-text-color">Updated By: <span>{{item.updated_by ?? '-'}}</span>
+                                </p>
+                              </td>
+                              <td> {{item.description ?? '-'}} </td>
+                              <td class="teal-text-color">
+                                <h5> {{item.subject_names}} </h5>
+                              </td>
+                              <td>  
+                                <span *ngIf="!item.is_published && item.result_status != 3 && item.result_status != 4">Your Exam Is Successfully Created. <br> For the Publish Exam Click On Exam Publish.</span>
+                                <span *ngIf="item.is_published && !item.is_attendance">Your Exam has Been Successfully Published. Please Take Attendance </span>
+                                <span *ngIf="item.is_published && item.result_status != 3 && item.result_status != 4 && item.is_attendance">Your Exam has Been Successfully Published. Please Proceed to Enter the Exam Marks.</span>
+                                <span *ngIf="item.result_status == 3">All Batches and Subjects Marks are Entered please Edit or Declare Result.</span>
+                                <span *ngIf="item.result_status == 4">Exam result is declared.</span>
+                                <!-- <span *ngIf="!item.is_attendance">Your Exam Is Successfully Published Take Attendance And Enter Marks</span>
+                                <span *ngIf="!item.is_result">Your Exam Is Successfully Published Take Attendance And Enter Marks</span> -->
+                              </td>
+                              <td *ngIf="CommonService.hasPermission('student_marks_visiblity', 'has_access')">
+                                <div class="form-check form-switch custom-check-exam">
+                                  <input class="form-check-input" type="checkbox" 
+                                  (change)="onCheckboxChange($event, item)" 
+                                  [checked]="item.exam_marks_enable_for_student" 
+                                  role="switch" 
+                                  id="flexSwitchCheckDefault">
+                                  <!-- <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label> -->
+                                </div>
+                              </td>
+                              <td>
+                                <button class="btn status-btn publish-btn"  *ngIf="item.is_published == false">Exam Created</button>
+                                <button class="btn status-btn publish-success-btn" *ngIf="item.is_published && item.result_status != 3 && item.result_status != 4">Exam Published</button>
+                                <button class="btn status-btn declare-dark-btn" *ngIf="item.result_status == 3" >Marks Filled</button>
+                                <button class="btn status-btn declare-btn" *ngIf="item.result_status == 4" >Result Declared</button>
+                              </td>
+                              <td class="action-btn-sticky text-center">
+                                <div class="btn-group">
+                                  <button *ngIf="CommonService.hasPermission('student_exam', 'has_edit') && item.is_editable" type="button" ngbTooltip="Edit Exam" class="lt-btn-icon action-edit" (click)="editExam(item.id)">
+                                    </button>
+                                  <button class="lt-btn-icon action-view" (click)="viewExam(item.id,item.class_id)" ngbTooltip="View Exam"></button>  <!-- *ngIf="item.result_status === 1" -->
+                                  <button type="button" title="Delete" class="lt-btn-icon action-delete" (click)="deleteExam(item.id)" *ngIf="CommonService.hasPermission('student_exam', 'has_delete')" ngbTooltip="Delete Exam">
+                                    </button>
+                                  <button class="lt-btn-icon action-publish" (click)="openPublishModal(publishModel,item.id,'publishExam')" *ngIf="item.is_published == false && CommonService.hasPermission('student_exam_publish', 'has_access')" ngbTooltip="Exam Publish" ></button>
+                                  <button class="lt-btn-icon action-attendance"  *ngIf="item.is_attendance == false && item.is_published && CommonService.hasPermission('student_exam_attendance', 'has_create')" (click)="takeAttendance(item.id)" ngbTooltip="Take Attendance"> <!--*ngIf="item.result_status === 1"-->
+                                    </button>
+                                  <button class="lt-btn-icon action-add"  *ngIf="item.result_status == 2 && CommonService.hasPermission('student_exam_marks', 'has_create')" (click)="marksField(item.id)" ngbTooltip="Enter Marks"> <!--*ngIf="item.result_status === 1"-->
+                                    </button>
+                                  <button class="lt-btn-icon action-edit" *ngIf="item.result_status == 3 && CommonService.hasPermission('student_exam_marks', 'has_edit')" (click)="marksField(item.id)" ngbTooltip="Edit Mark">
+                                    </button>
+                                    <button class="lt-btn-icon action-declare" *ngIf="item.result_status == 3 && CommonService.hasPermission('student_declare_result', 'has_access')" (click)="openPublishModal(publishModel,item.id,'resultDeclare')" ngbTooltip="Declare Result" ></button>
+                                  <!-- <button class="btn declare-dark-btn" *ngIf="item.is_attendance && item.is_published && !item.is_result" (click)="publishMarks(item.id)">
+                                    <i class="fa fa-paper-plane me-2"></i>Publish Marks</button> -->
+                                  <!-- <button type="button" class="btn result-success-btn" *ngIf="item.result_status === 3">
+                                    <i class="far fa-eye"></i> See Result </button>
+                                  <button class="btn result-green-btn" *ngIf="item.result_status === 3">
+                                    <i class="far fa-comment-alt"></i> Send Result SMS </button>
+                                  <button class="btn result-download-btn" *ngIf="item.result_status === 1">
+                                    <i class="fa fa-download" aria-hidden="true"></i> Download Timetable </button> -->
+                                  <!-- <button class="btn result-pdf-btn" *ngIf="item.result_status == 4 && CommonService.hasPermission('student_exam', 'has_download')" (click)="downloadPdfAndExcel('pdf',item.id)" [disabled]="isPdfLoading">
+                                    <i class="fas fa-file-pdf"></i> Pdf
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </button>
+                                  <button class="btn declare-btn" *ngIf="item.result_status == 4 && CommonService.hasPermission('student_exam', 'has_download')" (click)="downloadPdfAndExcel('excel',item.id)" [disabled]="isExcelLoading">
+                                    <i class="fas fa-file-excel"></i> Excel
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                      <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                  </button> -->
+                                </div>
+                              </td>
+                            </tr>
+                          </ng-container>
+                        </tbody>
+                        <tbody *ngIf="isExamDataLoadOnFilter">
+                          <tr>
+                            <td colspan="9">
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tbody *ngIf="examList.length == 0 && !isExamDataLoadOnFilter">
+                          <tr>
+                            <td colspan="9">
+                                <div class="d-flex justify-content-center">
+                                  No Record Found.
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<ng-template #publishModel>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">{{modelType == 'publishExam' ? 'Exam Publish' : 'Declare Result'}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 form_group">
+      <label class="form_label">SEND SMS TO WHOME?</label>
+      <div class="d-flex">
+        <div class="m-checkbox-list d-flex align-items-center me-3">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox" [(ngModel)]="message.is_father_message"><span></span>
+          </label>
+          <label for="checkbox" class="ms-2 mb-0 mt-1">Father</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox1" [(ngModel)]="message.is_mother_message"><span></span>
+          </label>
+          <label for="checkbox1" class="ms-2 mb-0 mt-1">Mother</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox2" [(ngModel)]="message.is_student_message"><span></span>
+          </label>
+          <label for="checkbox2" class="ms-2 mb-0 mt-1">Student</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="bg-info mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Note :-</h5>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </div>
+    </div> -->
+  </div>
+  
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-auto">
+      <button type="submit" class="msg-btn btn" (click)="sendStatus()" [disabled]="isStatusUpdate"> 
+        send
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isStatusUpdate">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="cancel-btn btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>

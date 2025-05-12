@@ -1,0 +1,138 @@
+<section class="teacher-achivement">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Class Teacher Remark List</h3>
+                <div>
+                    <a [routerLink]="resultService.setUrl(URLConstants.TEACHER_REMARK)" class="btn add-btn me-2">Add Remark</a>
+                  </div>
+			</div>
+            <div class="card">
+                <div class="row">
+                  <div class="col-lg-12 datatable_cls">
+                      <div class="table-responsive">
+                          <table datatable [dtOptions]="dtOptions"
+                              class="table table-hover table-bordered table-nowrap display dataTable" style="width:100%">
+                              <thead class="thead-light" >
+                                  <tr>
+                                      <th>Id</th>
+                                      <th>Remark Title</th>
+                                      <th>Section</th>
+                                      <th>Class</th>
+                                      <th>Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let item of tbody ;let i = index;">
+                                      <td>{{item?.id ?? '-'}}</td>
+                                      <td>{{item.remark_title ?? '-'}}</td>
+                                      <td>{{item?.section?.name}}</td>
+                                      <td>{{item?.class?.name}}</td>
+                                      <td>
+                                        <div class="btn-group">
+                                            <button class="btn action-edit mx-2" [routerLink]="[resultService.setUrl(URLConstants.TEACHER_REMARK),item?.id]" ngbTooltip="Edit Remarks"><i class="far fa-edit"></i></button>
+                                            <button (click)="openModal(exportModel, item)" class="btn action-download me-2" ngbTooltip="Download Excel" [disabled]="item?.loading">
+                                                <i class="fa fa-file-excel" *ngIf="!item.loading"></i>
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="item?.loading">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                            <button (click)="openImportModal(importExcelModal, item)" class="btn action-attech me-2" ngbTooltip="Import Excel"><i class="fa fa-file-import"></i></button>
+                                            <button class="btn action-delete" (click)="delete(item.id)" ngbTooltip="Delete"><i class="fa fa-trash-alt"></i></button>
+                                        </div>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                              <tbody *ngIf="tbody?.length == 0">
+                                  <tr>
+                                    <td colspan="11" class="text-center no-data-available">No data</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+    </div>
+</section>
+
+<ng-template #importExcelModal class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">Import Excel</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body">
+  
+        <div class="col-md-12 form_group">
+  
+            <div [formGroup]="importExcelForm" class="d-flex">
+                <div class="col-lg-12">
+                    <label class="form_label">Excel file<span class="text-danger">*</span></label>
+                    <div>
+                        <app-input (input)="fileChange($event)" type="file" controlName="file" accept=".xls, .xlsx"></app-input>
+                    </div>
+                </div>
+            </div>
+  
+        </div>
+  
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+        <div class="col-auto">
+            <button class="btn import-btn" type="submit" (click)="importExcel()" [disabled]="importLoading"> Import
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="importLoading">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </button>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="cancel-btn btn" (click)="closeModal()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #exportModel>
+    <div class="modal-header" style="z-index: 0;">
+      <h4 class="modal-title" id="modal-basic-title">Export Excel</h4>
+      <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form action="" [formGroup]="exportExcelForm">
+        <div class="col-md-12 form_group">
+          <label class="form_label">Batch</label>
+          <app-multi-select controlName="batch_id" placeholder="Select batch"
+            [dropDownArray]="batches"></app-multi-select>
+        </div>
+        <div class="col-md-12 form_group">
+          <label for="" class="form_label">Select Status</label>
+          <div>
+              <app-single-select controlName="status" placeholder="Select status"
+                  [dropDownArray]="statusList"></app-single-select>
+          </div>
+        </div>
+      </form>
+    </div>
+  
+    <div class="modal-footer" style="z-index: 0;">
+      <div class="col-md-3">
+        <button type="submit" class="w-100 btn" [disabled]="isLoading" (click)="exportExcel()">
+          Download
+          <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="w-100 btn" (click)="closeModel()">
+          Cancel </button>
+      </div>
+    </div>
+  </ng-template>

@@ -1,0 +1,11 @@
+::ng-deep{
+    .cdk-overlay-container {
+        z-index: 999999 !important;
+    }
+
+    .layout-boxed{
+        .ms-auto, .mx-auto {
+            margin-left: 1.1rem !important;
+        }
+    }
+}

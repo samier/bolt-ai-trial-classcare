@@ -1,0 +1,154 @@
+<section class="expense_form new-expense-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0"> {{hasLessonPlanID ? 'Edit' : 'Add'}} Lesson Plan</h3>
+                <div>
+                    <a class="btn list-btn" [routerLink]="CommonService.setUrl(URLConstants.LESSON_PLAN_LIST)">Lesson Planning List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addLessonPlanF" class="form_section">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Section<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="sectionsList" 
+                                    controlName="section_id" 
+                                    (change)="onSectionChange()"
+                                    placeholder="Select Section" 
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Class<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="classList" 
+                                    controlName="class_id" 
+                                    (change)="onClassChange()"
+                                    placeholder="Select Class"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Batch<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="batchList" 
+                                    controlName="batch_id" 
+                                    placeholder="Select Batch"
+                                    (change)="onBatchChange()"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Subject<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="subjectList" 
+                                    controlName="subject_id" 
+                                    (change)="onSubjectChange()"
+                                    placeholder="Select Subject"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div *ngIf="user_role !== 'ROLE_FACULTY'" class="col-md-3 form_group">
+                            <label class="form_label">Faculty<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="facultiesList" 
+                                    controlName="user_id" 
+                                    placeholder="Select Faculty"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Chapter<span class="text-danger">*</span></label>
+                            <div>
+                                <app-dropdown-crud
+                                    placeholder="Select Chapter"
+                                    searchPlaceholder="Search or Create Chapter"
+                                    [dropDownArray]="chapterList"
+                                    [selectedId]="chapter_id"
+                                    (selectedValue)="selectionChange($event, 'chapter_id')"
+                                    (createUpdate)="createUpdateChapter($event)"
+                                    (deleteData)="deleteChapter($event)"
+                                ></app-dropdown-crud>
+                                <div *ngIf="addLessonPlanF.get('chapter_id')?.touched && addLessonPlanF.get('chapter_id')?.errors">
+                                    <small class="text-danger" *ngIf="addLessonPlanF.get('chapter_id')?.errors?.['required']">
+                                      The input is required.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Marks Weightage<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input type="text" controlName="mark" placeholder="Enter Marks Weightage"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-12 form_group">
+                            <label class="form_label">Topics</label>
+                            <angular-editor placeholder="Enter Topics to be covered..." id="topics" formControlName="topic" [config]="editorConfig"></angular-editor>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Expected Date Range<span class="text-danger">*</span></label>
+                            <div>
+                                <app-date-range-picker controlName="date" placeholder="Select Date Range"></app-date-range-picker>
+                                <div *ngIf="addLessonPlanF.get('date')?.touched && addLessonPlanF.get('date')?.errors">
+                                    <small class="text-danger" *ngIf="addLessonPlanF.get('date')?.errors?.['required']">
+                                      The input is required.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Total No. Of Lectures<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input type="number" controlName="no_of_lecture" placeholder="Enter Total No of Lectures"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Reference Link</label>
+                            <div>
+                                <app-input type="text" controlName="reference_link" placeholder="Enter Reference Link"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Status</label>
+                            <div>
+                                <app-single-select 
+                                    [dropDownArray]="statusList" 
+                                    controlName="status" 
+                                    placeholder="Select Status"
+                                ></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form_group">
+                            <label class="form_label">Predictive Classwork</label>
+                            <angular-editor placeholder="Enter Classwork..." id="classwork" formControlName="classwork" [config]="editorConfig"></angular-editor>
+                        </div>
+                        <div class="col-md-6 form_group">
+                            <label class="form_label">Predictive Homework</label>
+                            <angular-editor placeholder="Enter Homework..." id="homework" formControlName="homework" [config]="editorConfig"></angular-editor>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button class="btn save-btn" *ngIf="CommonService.hasPermission('faculty_lesson_plan', hasLessonPlanID ? 'has_update' : 'has_create')" (click)="onSave()" [disabled]="isSaveLoading">{{ hasLessonPlanID ? 'Update' : 'Save'}}
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" [routerLink]="CommonService.setUrl(URLConstants.LESSON_PLAN_LIST)">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

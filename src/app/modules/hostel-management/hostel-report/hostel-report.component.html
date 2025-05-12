@@ -1,0 +1,259 @@
+<section class="add_assign_room_no">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Hostel Room Report</h3>
+            </div>
+            <div>
+                <div>
+                    <div class="card form_section  global_form table_top">
+                        <form [formGroup]="hostelRoomReportForm" class="form_section" id="driver-form">
+                            <div class="row">
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class="form_label">Select Hostel<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select [items]="Hostels"
+                                                (change)="handleHostelChange()" [searchable]="true" bindLabel="name"
+                                                bindValue="id" id="hostel_id" name="hostel_id" formControlName="hostel_id"
+                                                placeholder="Please Select Hostel" required>
+                                                <ng-template ng-header-tmp>
+                                                    <input type="text" class="form-control"
+                                                        (input)="select.filter($any($event.target).value)" />
+                                                </ng-template>
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="isSubmit || hostelRoomReportForm.controls['hostel_id'].invalid && (hostelRoomReportForm.controls['hostel_id'].dirty || hostelRoomReportForm.controls['hostel_id'].touched)" class=" error text-danger mb-2 mx-2">
+                                            <div *ngIf="hostelRoomReportForm.controls['hostel_id'].errors?.['required']">Please Select Hostel.</div>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class="form_label">Select Wing</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown
+                                                appMultiSelectfocusOnClick
+                                                [placeholder]="'Please Select Wing'"
+                                                [settings]="dropdownSettings"
+                                                [data]="wings"
+                                                formControlName="wing_id"
+                                                (onSelect)="handleWingChange()"
+                                                (onSelectAll)="handleWingChange()"
+                                                (onDeSelectAll)="handleWingChange()"
+                                                (onDeSelect)="handleWingChange()"
+                                            >
+                                            </ng-multiselect-dropdown>                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class="form_label">Select Floor</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown
+                                                appMultiSelectfocusOnClick
+                                                [placeholder]="'Please Select Floor'"
+                                                [settings]="dropdownSettings"
+                                                [data]="floors"
+                                                formControlName="floor_id"
+                                                (onSelect)="handleFloorChange()"
+                                                (onSelectAll)="handleFloorChange()"
+                                                (onDeSelectAll)="handleFloorChange()"
+                                                (onDeSelect)="handleFloorChange()"
+                                            >
+                                            </ng-multiselect-dropdown>                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class="form_label">Select Room Types</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown
+                                                appMultiSelectfocusOnClick
+                                                [placeholder]="'Please Select Room Types'"
+                                                [settings]="dropdownSettingsRoomType"
+                                                [data]="roomTypes"                                        
+                                                formControlName="room_type_id"                                       
+                                            >
+                                            </ng-multiselect-dropdown>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <div class="">
+                                        <label class="form_label">Select Room</label>
+                                        <div class="">
+                                            <ng-multiselect-dropdown
+                                                appMultiSelectfocusOnClick
+                                                [placeholder]="'Please Select Room'"
+                                                [settings]="dropdownSettingsRoom"
+                                                [data]="room"  
+                                                formControlName="room_id"                                       
+                                            >
+                                            </ng-multiselect-dropdown>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label class="form_label op-0">Paid</label>
+                                    <div class="">
+                                        <div id="">
+                                            <div class="radio">
+                                                <label class="required" for="paid"
+                                                    aria-required="true">
+                                                    <input type="radio" 
+                                                        name="status"   
+                                                        id="paid"                                                                                                                   
+                                                        formControlName="status"
+                                                        value="paid" aria-required="true">
+                                                    Paid <span></span></label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="required" for="unpaid"
+                                                    aria-required="true">
+                                                    <input type="radio" 
+                                                        name="status"
+                                                        id="unpaid"                                                                                                                        
+                                                        formControlName="status"
+                                                        value="unpaid" aria-required="true">
+                                                    Unpaid <span></span></label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="required" for="both"
+                                                    aria-required="true">
+                                                    <input type="radio" 
+                                                        name="status"
+                                                        id="both"                                                                                                                       
+                                                        formControlName="status"
+                                                        value="" aria-required="true">
+                                                    Both <span></span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row w-100 ">
+                                <div class="col-md-auto">
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <button class="btn w-100 report-btn" (click)="getReport()"  [disabled]="isReportLoading">Get Report
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isReportLoading">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button class="btn w-100 clear-btn align-items-center" (click)="clear()">Clear</button>
+                                        </div>  
+                                        <!-- <div class="col-auto">
+                                            <button *ngIf="isGetReport" class="btn w-100" (click)="openSMSModel(createMdl)" [disabled]="isSendMessage">Send Message
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSendMessage">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>     -->
+                                    </div>    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="card col-lg-12 datatable_cls" *ngIf="isGetReport" [ngClass]="{'download_access':commonService.hasPermission('hostel_management_hostel_room_report', 'has_download')}">
+                        <div class="btn_right d-flex justify-content-end gap-3">
+                            <div ngbDropdown class="d-inline-block operations">
+                                <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+                                  <i class="far fa-plus-square me-2"></i>Operations
+                                </button>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem *ngIf="isGetReport" (click)="openSMSModel(createMdl)" [disabled]="isSendMessage"><i class="far fa-id-badge"></i>Send Message</button>
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSendMessage">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button *ngIf="commonService.hasPermission('hostel_management_hostel_room_report', 'has_download')" type="button" class="btn pdf-btn px-3 d-flex align-items-center"
+                                (click)="downloadPdfAndExcel('pdf')" [disabled]="isPdfLoading">
+                                <img src="assets/images/pdf-icon.svg" alt="">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                            <button *ngIf="commonService.hasPermission('hostel_management_hostel_room_report', 'has_download')" type="button" class="btn excel-btn px-2 d-flex align-items-center"
+                                (click)="downloadPdfAndExcel('excel')" [disabled]="isExcelLoading">
+                                <img src="assets/images/excel-icon.svg" alt="">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>
+                                            <div class="m-checkbox-list d-flex align-items-center">
+                                                <label class="m-checkbox main m-0 p-0" >
+                                                    <input type="checkbox" name="all" id="check_all"
+                                                    class="s-checkbox"  [(ngModel)]="checked" (ngModelChange)="handleSelectAll()">
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </th>
+                                        <th>Sr No.</th>
+                                        <th>Hostel Name</th>
+                                        <th>Wing</th>
+                                        <th>Floor</th>
+                                        <th>Room Type</th>
+                                        <th>Unique Id</th>
+                                        <th>Student Name</th>
+                                        <th>Mobile No.</th>
+                                        <th>Parent Mobile No.</th>
+                                        <th>Paid Fees</th>
+                                        <th>Discount Fees</th>
+                                        <th>Remaining Fees</th>
+                                    </tr>
+                                </thead>																	
+                                <tbody *ngIf="tbody?.length != 0">																							
+                                    <tr *ngFor="let item of tbody ;let i = index;" >	
+                                        <td>
+                                            <div class="m-checkbox-list d-flex align-items-center">
+                                                <label class="m-checkbox m-0 p-0">
+                                                    <input type="checkbox" name="all"
+                                                    class="s-checkbox" [(ngModel)]="item.isSelect" (ngModelChange)="handleSelect()">
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </td>				
+                                        <td>{{i+1}}</td>			
+                                        <td>{{item?.hostel?.name}}</td> 
+                                        <td>{{item?.room?.wing?.name}}</td>           
+                                        <td>{{item?.room?.floor?.name}}</td>            
+                                        <td>{{item?.room?.room_type?.type}}</td>            
+                                        <td class="orange-text-color">{{item?.student?.unique_id}}</td>            
+                                        <td class="name_hover">{{item?.student?.full_name}}</td>
+                                        <td class="orange-text-coloe">{{item?.student?.phone_number}}</td>												
+                                        <td class="teal-text-color">{{item?.student?.father_number}}</td>
+                                        <td class="green-text-color">{{item?.paid_fees}}</td>
+                                        <td class="orange-text-color">{{item?.discount_fees}}</td>
+                                        <td class="teal-text-color">{{item?.remaining_fees}}</td>                                                                                  
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="tbody?.length == 0">
+                                    <tr>
+                                    <td colspan="13" class="text-center no-data-available">No data</td>
+                                    </tr>
+                                </tbody>										
+                            </table>
+                        </div>
+                        <ng-template #createMdl let-modal>
+                            <app-send-sms  [mdlData]="students" (reload)="reloadData()"></app-send-sms>
+                        </ng-template>                        
+                    </div>
+                    
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>

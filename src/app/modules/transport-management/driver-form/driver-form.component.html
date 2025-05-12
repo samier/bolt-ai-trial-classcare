@@ -1,0 +1,198 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{page}} Driver</h3>
+                <div class="btn_right">
+                    <a class="btn" href="#." [routerLink]="setUrl(URLConstants.DRIVER_LIST)">Driver List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                       <div class="card">
+                            <form [formGroup]="form" class="form_section" id="driver-form">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class=" form_label">Name<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input  type="text" id="name" name="name" formControlName="name" placeholder="Name" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['name'].errors?.['required']">please enter driver name.</div>
+                                                <div *ngIf="form.controls['name'].errors?.['pattern']">only alphabets allowed.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class=" form_label">Contact No 1<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input  type="number" id="contact_no_1" name="contact_no_1" formControlName="contact_no_1" placeholder="Contact No 1" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['contact_no_1'].invalid && (form.controls['contact_no_1'].dirty || form.controls['contact_no_1'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['contact_no_1'].errors?.['required']">please enter contact no 1.</div>
+                                                <div *ngIf="form.controls['contact_no_1'].errors?.['pattern']">only numbers allowed.</div>
+                                                <div *ngIf="form.controls['contact_no_1'].errors?.['min'] || form.controls['contact_no_1'].errors?.['max']">please enter valid contact no.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class=" form_label">Contact No 2<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input  type="number" id="contact_no_2" name="contact_no_2" formControlName="contact_no_2" placeholder="Contact No 2" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['contact_no_2'].invalid && (form.controls['contact_no_2'].dirty || form.controls['contact_no_2'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['contact_no_2'].errors?.['required']">please enter contact no 2.</div>
+                                                <div *ngIf="form.controls['contact_no_2'].errors?.['pattern']">only numbers allowed.</div>
+                                                <div *ngIf="form.controls['contact_no_2'].errors?.['min'] || form.controls['contact_no_2'].errors?.['max']">please enter valid contact no.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Current Address<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <textarea  id="current_address" min="1" name="current_address" formControlName="current_address" placeholder="Current Address" class="form-control"></textarea>
+                                                </div>
+                                                <div *ngIf="form.controls['current_address'].invalid && (form.controls['current_address'].dirty || form.controls['current_address'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['current_address'].errors?.['required']">please enter current address.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div class="">
+                                                <label class=" form_label">Permanent Address<span class="text-danger">*</span></label>
+                                                <div class=" address_section">
+                                                    <label class="form_label">Same as Current Address ?</label>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="yes" aria-required="true">
+                                                            <input type="radio" id="yes" name="same_address" formControlName="same_address" (click)="same_address('Yes')" value="Yes" aria-required="true">Yes<span></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label class="m-radio required" for="no" aria-required="true">
+                                                            <input type="radio" id="no" name="same_address" formControlName="same_address" (click)="same_address('No')" value="No" aria-required="true" checked>
+                                                            No <span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="get_same_address()">
+                                            <div class="">
+                                                <label class=" form_label">Permanent Address<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <textarea  id="permanent_address" min="1" name="permanent_address" formControlName="permanent_address" placeholder="Permanent Address" class="form-control"></textarea>
+                                                </div>
+                                                <div *ngIf="form.controls['permanent_address'].invalid && (form.controls['permanent_address'].dirty || form.controls['permanent_address'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['permanent_address'].errors?.['required']">please enter permanent address.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <div class=""> 
+                                                <label class=" form_label">WhatsApp No<span class="text-danger">*</span></label> 
+                                                <div class="">
+                                                    <select  id="whatsapp_no" name="whatsapp_no" formControlName="whatsapp_no" class="form-control" >
+                                                        <option value="" disabled>select whatsapp no</option>
+                                                        <option value="contact_no_1">Contact No 1</option>
+                                                        <option value="contact_no_2">Contact No 2</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div class=""> 
+                                                <label class=" form_label">Driver Type<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <select  id="type" name="type" formControlName="type" class="form-control" >
+                                                        <option value="" disabled>select driver</option>
+                                                        <option value="driver">Driver</option>
+                                                        <option value="attendant">Attendant</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div class=""> 
+                                                <label class=" form_label">Status</label>
+                                                <div class="">
+                                                    <select  id="status" name="status" formControlName="status" class="form-control" >
+                                                        <option value="active">Active</option>
+                                                        <option value="inactive">InActive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2 form_group add_doc">
+                                            <label class=" form_label opacity-0">Current Address<span class="text-danger">*</span></label>
+                                            <div class=" "> 
+                                                <button type="button" (click)="addDocument()" class="btn doc-button w-100">
+                                                    Add Document
+                                                </button>
+                                            </div>  
+                                        </div> 
+                                        <div class="" *ngIf="documentFieldAsFormArray.controls">
+                                            <div *ngFor="let control of  documentFieldAsFormArray.controls ;let i = index;" formArrayName='documents' class="">
+                                                <div [formGroupName]="i" class="document_type_add" >
+                                                    <div class="row" >
+                                                        <div class="input-field col-lg-3">
+                                                            <label class=" form_label">Document type<span class="text-danger">*</span></label>
+                                                            <div class="">
+                                                                <select  formControlName="document_type_id" class="form-control document_type_id" name="documents[{{i}}][document_type_id]" [hidden]="get_document_url(i) ? true : false">
+                                                                    <option value="">Select Document Type</option>
+                                                                    <option *ngFor="let option of document_types.data" [value]="option.id" >{{ option.name }}</option>
+                                                                </select>
+                                                                <input type="text" formControlName="document_type" name="documents[{{i}}][document_type]" class="form-control" readonly [hidden]="get_document_url(i) ? false : true">
+                                                                <div *ngIf="get_document_type(i)?.invalid && (get_document_type(i)?.dirty || get_document_type(i)?.touched)" class="error text-danger">
+                                                                    <div *ngIf="get_document_type(i)?.errors?.['required']">please select document type</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-field col-lg-5">
+                                                            <label class=" form_label">Document<span class="text-danger">*</span></label>
+                                                            <div class="">
+                                                                <input  type="file" formControlName="document" name="documents[{{i}}][document]" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg">
+                                                                <div *ngIf="get_document(i)?.invalid && (get_document(i)?.dirty || get_document(i)?.touched)" class="error text-danger">
+                                                                    <div *ngIf="get_document(i)?.errors?.['required']">please select document</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-field col-lg-1" *ngIf="get_document_url(i)">
+                                                            <label for="" class="opacity-0">view</label>
+                                                            <input  type="hidden" formControlName="document_url" >
+                                                            <a [href]="get_document_url(i)" class="btn btn-success px-4">View</a>
+                                                        </div>
+                                                        <div class="input-field col-lg-2 add_doc">
+                                                            <label for="" class="">remove</label>
+                                                            <div class="">
+                                                                <input  type="hidden" formControlName="id" >
+                                                                <button class="button" type="button" (click)="remove(i)"  class="btn btn-danger">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="row w-100 ">
+                                    <div class="col-md-1">
+                                        <a class="btn w-100 px-1" href="#" [routerLink]="setUrl(URLConstants.DRIVER_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-md-1">
+                                            <button class="button px-1" *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('transport_driver', 'has_update') : CommonService.hasPermission('transport_driver', 'has_create') " type="submit" (click)="submit()" [disabled]="form.invalid" class="btn w-100">{{saveBtn}}</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

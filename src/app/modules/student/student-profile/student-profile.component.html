@@ -1,0 +1,489 @@
+<section class="student-profile-page">
+    <div class="page_inner students-profile-tabs-view">
+
+            <div class="m-container">
+
+                <!-- ACADEMICS DETAILS -->
+                <div class="tab-main card">
+                    <div class="tab-head">
+                        <h3>Academics Details</h3>
+                    </div>
+                    <div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Academic Year :  </label>
+                                <p class="ans-input"> {{ studentProfile?.academic_year?.year || '-' }}  </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Admission Year : </label>
+                                <p class="ans-input">{{ studentProfile?.admission_year || '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Admission Form Number : </label>
+                                <p class="ans-input">{{ studentProfile?.admission_form_number || '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Created Date : </label>
+                                <p class="ans-input">{{ studentProfile?.create_at ? (studentProfile.create_at | date:dateFormateService.getDateFormat()) : '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Admission Date : </label>
+                                <p class="ans-input">{{ studentProfile?.admission_date ? (studentProfile.admission_date | date:dateFormateService.getDateFormat()) : '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Class : </label>
+                                <p class="ans-input">{{ studentProfile?.batch_detail?.class?.name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Batch : </label>
+                                <p class="ans-input">{{ studentProfile?.batch_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Hall Ticket/SID Number :</label>
+                                <p class="ans-input">{{ studentProfile?.hall_ticket_SID_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Student Id/Gr No.: </label>
+                                <p class="ans-input">{{ studentProfile?.studentId || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Uid No.: </label>
+                                <p class="ans-input">{{ studentProfile?.uidNo || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Roll No.: </label>
+                                <p class="ans-input">{{ studentProfile?.student_roll_number?.rollno || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Student Fees Date: </label>
+                                <p class="ans-input">{{ studentProfile?.student_fees_date ? (studentProfile.student_fees_date | date:dateFormateService.getDateFormat()) : '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Previous School : </label>
+                                <p class="ans-input">{{ studentProfile?.school || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Previous School Category : </label>
+                                <p class="ans-input">{{ studentProfile?.previous_school_category?.name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Previous School City/Village : </label>
+                                <p class="ans-input">{{ studentProfile?.previous_school_city_village || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Previous School Type : </label>
+                                <p class="ans-input"> {{ studentProfile?.types_of_school?.name || '-'  }} </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Last Sem./Year % : </label>
+                                <p class="ans-input"> {{ studentProfile?.percentage || '-'  }}  </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Reference/Source : </label>
+                                <p class="ans-input">{{ studentProfile?.reference || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Sibling Info.: </label>
+                                <p class="ans-input">{{ studentProfile?.siblingInfo || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Remarks : </label>
+                                <p class="ans-input">{{ studentProfile?.remark || '-'  }}</p>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Academic Remarks : </label>
+                                <p class="ans-input"> please check id get name want</p>
+                            </div> -->
+                            <ng-container *ngFor="let customItem of studentProfile?.custom">
+                                <ng-container *ngFor="let item of customItem | keyvalue">
+                                    <div class="col-md-6 form_group d-flex align-items-center">
+                                        <label class="form_label"> {{ formatKey(item.key) }} : </label>
+                                        <p class="ans-input"> {{ item?.value || "-" }} </p>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                              
+                            <div class="col-md-6 form_group d-flex align-items-center" *ngIf="studentProfile">
+                                <label class="form_label">RTE : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="rte" class="mr-1" [value]="'1'" [(ngModel)]="studentProfile.rightToEducation" >Yes<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="rte" class="mr-1" [value]="'0'" [(ngModel)]="studentProfile.rightToEducation" >No<span></span> 
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center" *ngIf="studentProfile">
+                                <label class="form_label">Student : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="std-old" class="mr-1"  [value]="'0'" [(ngModel)]="studentProfile.old_new"  >Old<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="std-old" class="mr-1"  [value]="'1'" [(ngModel)]="studentProfile.old_new"  >New<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center" *ngIf="studentProfile">
+                                <label class="form_label">Status : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="status" class="mr-1" [value]="1" [(ngModel)]="studentProfile.status" >Active<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="status" class="mr-1" [value]="0" [(ngModel)]="studentProfile.status"  >Inactive<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center" *ngIf="studentProfile">
+                                <label class="form_label">EWS : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="ews" class="mr-1" [value]="1" [(ngModel)]="studentProfile.ews" >Yes<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="ews" class="mr-1" [value]="0" [(ngModel)]="studentProfile.ews" >No<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Transport : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="transport" class="mr-1">Yes<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="transport" class="mr-1">No<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Hostel : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="hostel" class="mr-1">Yes<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="hostel" class="mr-1">No<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Wallet : </label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="wallet" class="mr-1">Yes<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="wallet" class="mr-1">No<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PERSONAL DETAILS -->
+                <div class="tab-main card">
+                    <div class="tab-head">
+                        <h3>Personal Details</h3>
+                    </div>
+                    <div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">First Name : </label>
+                                <p class="ans-input"> {{ studentProfile?.first_name || '-'  }} </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Middle Name : </label>
+                                <p class="ans-input">{{ studentProfile?.middle_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Last Name :</label>
+                                <p class="ans-input">{{ studentProfile?.last_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Student Name :</label>
+                                <p class="ans-input">{{ studentProfile?.full_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Phone No. :</label>
+                                <p class="ans-input">{{ studentProfile?.phone_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Whatsapp No. :</label>
+                                <p class="ans-input">{{ studentProfile?.studentWhatsappNo || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Email :</label>
+                                <p class="ans-input">{{ studentProfile?.email || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">D.O.B :</label>
+                                <p class="ans-input">{{ studentProfile?.date_of_birth ? (studentProfile.date_of_birth | date:dateFormateService.getDateFormat()) : '-' }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Age :</label>
+                                <p class="ans-input">{{ studentProfile?.age || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Blood Group :</label>
+                                <p class="ans-input">{{ studentProfile?.bloodGroup || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Birth Place :</label>
+                                <p class="ans-input">{{ studentProfile?.birthPlace || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Birth Place Taluka :</label>
+                                <p class="ans-input"> {{ studentProfile?.birth_taluka || '-'  }} </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Birth Place District :</label>
+                                <p class="ans-input">{{ studentProfile?.birth_district || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Religion :</label>
+                                <p class="ans-input">{{ studentProfile?.religion || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Nationality :</label>
+                                <p class="ans-input">{{ studentProfile?.nationality || '-'  }} </p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Category :</label>
+                                <p class="ans-input">{{ studentProfile?.category?.category || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Cast :</label>
+                                <p class="ans-input">{{ studentProfile?.cast || '-'  }}</p>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Category :</label>
+                                <p class="ans-input">{{ studentProfile?.categories || '-'  }}</p>
+                            </div> -->
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Cast :</label>
+                                <p class="ans-input">{{ studentProfile?.cast || '-'  }}</p>
+                            </div> -->
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Sub Cast :</label>
+                                <p class="ans-input">{{ studentProfile?.sub_cast || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Aadhaarcard No. :</label>
+                                <p class="ans-input">{{ studentProfile?.adhaar_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Apaar Id :</label>
+                                <p class="ans-input">{{ studentProfile?.apaar_id || '-'  }}</p>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">PAN No. :</label>
+                                <p class="ans-input">{{ studentProfile?. || '-'  }}</p>
+                            </div> -->
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Current Address :</label>
+                                <p class="ans-input">{{ studentProfile?.address || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Current City :</label>
+                                <p class="ans-input">{{ studentProfile?.currentCity || '-'  }}</p>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Area : ? </label>
+                                <p class="ans-input">{{ studentProfile?.residential_area || '-'  }}</p>
+                            </div> -->
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Permanent Address :</label>
+                                <p class="ans-input">{{ (studentProfile?.sameAddress == 1 ? studentProfile?.address : studentProfile?.permanentAddress) || "-"}}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Permanent City :</label>
+                                <!-- <p class="ans-input">{{ studentProfile?.permanentCity || '-'  }}</p> -->
+                                <p class="ans-input">{{ ( studentProfile?.sameAddress == 1 ? studentProfile?.currentCity : studentProfile?.permanentCity ) || "-" }}</p>
+    
+                            </div>
+                            
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Height :</label>
+                                <p class="ans-input" *ngIf="studentProfile?.height; else nullHeight"> 
+                                  {{ studentProfile?.height }} {{ studentProfile?.height_type == 1 ? 'CM' : 'FT' }}
+                                </p>
+                                <ng-template #nullHeight>
+                                  <p class="ans-input">-</p>
+                                </ng-template>
+                              </div>
+                              
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Weight :</label>
+                                <p class="ans-input">{{ studentProfile?.weight || '-' }} <span *ngIf="studentProfile?.weight ">KG</span></p>
+                            </div>
+                            <!-- <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Same as Current Address :{{studentProfile?.sameAddress}}</label>
+                                <div class="d-flex">
+                                  <div class="radio">
+                                    <label class="mb-0">
+                                      <input 
+                                        type="radio" 
+                                        [value]="1" 
+                                        [(ngModel)]="studentProfile.sameAddress" 
+                                        disabled
+                                        class="mr-1"> Yes<span></span>
+                                    </label>
+                                  </div>
+                                  <div class="radio">
+                                    <label class="mb-0">
+                                      <input 
+                                        type="radio" 
+                                        [value]="0" 
+                                        [(ngModel)]="studentProfile.sameAddress"
+                                        disabled
+                                        class="mr-1"> No<span></span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div> -->
+                              
+                            <div class="col-md-6 form_group d-flex align-items-center" *ngIf="studentProfile">
+                                <label class="form_label">Gender :</label>
+                                <div class="d-flex">
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="gender" class="mr-1" [value]="'m'" [(ngModel)]="studentProfile.gender">Male<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="gender" class="mr-1" [value]="'f'" [(ngModel)]="studentProfile.gender">Female<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio">
+                                        <label class="mb-0">
+                                            <input disabled type="radio" name="gender" class="mr-1" [value]="'o'" [(ngModel)]="studentProfile.gender">Other<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GUARDIAN DETAILS -->
+                <div class="tab-main card">
+                    <div class="tab-head">
+                        <h3>Guardian Details</h3>
+                    </div>
+                    <div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Father's Name : </label>
+                                <p class="ans-input">{{ studentProfile?.father_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Mother's Name : </label>
+                                <p class="ans-input">{{ studentProfile?.mother_name || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Father's No.: </label>
+                                <p class="ans-input">{{ studentProfile?.father_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Mother's No.: </label>
+                                <p class="ans-input">{{ studentProfile?.mother_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Father's Occupation : </label>
+                                <p class="ans-input">{{ studentProfile?.father_occupation || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Mother's Occupation : </label>
+                                <p class="ans-input">{{ studentProfile?.mother_occupation || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Father's Education : </label>
+                                <p class="ans-input">{{ studentProfile?.father_education || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Mother's Education : </label>
+                                <p class="ans-input">{{ studentProfile?.mother_education || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Father's Email: </label>
+                                <p class="ans-input">{{ studentProfile?.parentEmail || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Mother's Email: </label>
+                                <p class="ans-input">{{ studentProfile?.mother_email || '-'  }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BANK DETAILS -->
+                <div class="tab-main card">
+                    <div class="tab-head">
+                        <h3>Bank Details</h3>
+                    </div>
+                    <div class="tab-content">
+                        <div class="row">
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Bank Name : </label>
+                                <p class="ans-input">{{ studentProfile?.bankname || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Account No.: </label>
+                                <p class="ans-input">{{ studentProfile?.accountnumber || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Branch IFSC Code : </label>
+                                <p class="ans-input">{{ studentProfile?.branchifsc || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">IFSC Code : </label>
+                                <p class="ans-input">{{ studentProfile?.ifsccode || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Aadharcard No.: </label>
+                                <p class="ans-input">{{ studentProfile?.adhaar_number || '-'  }}</p>
+                            </div>
+                            <div class="col-md-6 form_group d-flex align-items-center">
+                                <label class="form_label">Other No : </label>
+                                <p class="ans-input"> {{ studentProfile?.othernumber || '-'  }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+</section>

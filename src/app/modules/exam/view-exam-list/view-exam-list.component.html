@@ -1,0 +1,377 @@
+<section class="marks-edit view-exam-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">EXAM VIEW</h3>
+                <button class="btn btn-primary list-btn" (click)="goToExamList()">Exam List <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </button>
+            </div>
+
+            <div class="card">
+
+                <div class="edit-card-header mb-3">
+                    <p>Exam Name:  <span> {{examList.exam_name ?? '-'}} </span></p>
+                    <p>Exam Type:  <span> {{examList.exam_type_name ?? '-'}} </span></p>
+                    <p>Exam Grade Type:  <span> {{examList?.exam_subjects ? examList?.exam_subjects[0]?.grade_name : '-'}} </span></p>
+                    <p>Exam Start Date:  <span> {{examService.dateFormate(examList.start_date,5)}} </span></p>
+                    <p>Exam End Date:  <span> {{examService.dateFormate(examList.end_date,5)}} </span></p>
+                </div>
+
+                <form [formGroup]="examViewForm">
+                  <div class="row align-items-center">
+                
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Batch</label>
+                      <div>
+                        <app-single-select controlName="batch_id" placeholder="Select batch"
+                          [dropDownArray]="examList.batch_data"></app-single-select>
+                      </div>
+                    </div>
+                
+                    <div class="col-lg-3 col-md-4 form_group">
+                      <label for="" class="form_label">Subject
+                        <!-- <span class="text-danger">*</span> -->
+                      </label>
+                      <div>
+                        <app-single-select controlName="subject_id" placeholder="Select subject"
+                          [dropDownArray]="examList.subject_data"></app-single-select>
+                      </div>
+                    </div>
+                
+                
+                    <div class="col-lg-3">
+                      <div class="show-clear-btn d-flex">
+                        <button type="button" class="btn px-4 d-flex align-items-center me-3 show-btn" [disabled]="false"
+                          (click)="showFilteredData()">
+                          show
+                          <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </button>
+                        <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+            </div>
+
+            <div class="card">
+                <div class="card_body">
+                  <div class="view-heading-btn">
+                    <button class="btn publish-btn me-2" *ngIf="!(examList.main_exam_result_status) && CommonService.hasPermission('student_marks_publish', 'has_access')" (click)="openPublishAllModel(publishModel)">Publish</button>
+                    <button class="btn generate-btn me-2" *ngIf="CommonService.hasPermission('student_marks_publish', 'has_download')" (click)="openDownloadModel(downloadModel)">Download</button>
+                    <button class="btn me-2" (click)="openExportModal(exportModel)"  *ngIf="CommonService.hasPermission('student_import_marks_log', 'has_download')">
+                      Export Marks
+                      <!-- <div class="spinner-border spinner-border-sm" role="status" *ngIf="isExportingMarks">
+                        <span class="visually-hidden">Loading...</span>
+                      </div> -->
+                    </button>
+                    <button class="btn me-2" *ngIf="CommonService.hasPermission('student_import_marks_log', 'has_import')" (click)="importMarks(importModal)">Import Marks</button>
+                    <button  (click)="examImportedMarks()" *ngIf="CommonService.hasPermission('student_import_marks_log', 'has_access')" class="btn me-2">Imported Marks Log</button>
+                  </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper">
+                                    <table class="w-100 row-border datatable hover table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                              <th *ngIf="!(examList.main_exam_result_status) && CommonService.hasPermission('student_marks_publish', 'has_access')" style="padding: 6px 9px;"><input class="view-check-box-check" type="checkbox" [(ngModel)]="selectAll" (ngModelChange)="selectAllCheck($event)"></th>
+                                                <th>Exam Date</th>
+                                                <th>Exam Time</th>
+                                                <th>Subject</th>
+                                                <th>Batch</th>
+                                                <th>Syllabus</th>
+                                                <th>Total Mark</th>
+                                                <th>Passing Mark</th>
+                                                <!-- <th>Grade Type</th> -->
+                                                <th>Action</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngIf="examList && filteredData">
+                                            <ng-container *ngFor="let item of filteredData">
+                                                <tr>
+                                                  <td style="padding: 6px 9px;" *ngIf="!(examList.main_exam_result_status) && CommonService.hasPermission('student_marks_publish', 'has_access')"><input *ngIf="item.is_marks_filled && item.is_result_published != 1 && !(examList.main_exam_result_status) && CommonService.hasPermission('student_marks_publish', 'has_access')" class="view-check-box-check" type="checkbox" [(ngModel)]="item.isSelected" (ngModelChange)="singleCheck()"></td>
+                                                    <td *ngIf="!item.isEdit">{{examService.dateFormate(item.start_date,1)}} </td>
+                                                    <td *ngIf="item.isEdit"><input type="date" [(ngModel)]="item.new_start_date"></td>
+                                                    <td *ngIf="item.isEdit"><input type="time" [(ngModel)]="item.new_start_time" class="me-2"> <input type="time" [(ngModel)]="item.new_end_time"></td>
+                                                    <td *ngIf="!item.isEdit"> {{item.start_time == item.end_time ? '-' : examService.dateFormate(item.start_time,4) + ' -' + examService.dateFormate(item.end_time,4)}}</td>
+                                                    <td> {{item.subject_name}} </td>
+                                                    <td> {{item.batch_name}} </td>
+                                                    <td> {{item.exam_topic ?? '-'}} </td>
+                                                    <td> {{item.total_mark ?? '-'}} </td>
+                                                    <td> {{item.passing_mark ?? '-'}} </td>
+                                                    <!-- <td> {{item.grade_name ?? '-'}} </td> -->
+                                                    <td>
+                                                      <!--  -->
+                                                        <div class="btn-group button-action-wrap d-flex align-items-center" *ngIf="item.is_publish">
+                                                            <button *ngIf="!item.isEdit" class="btn icon-action-btn" ngbTooltip="Edit" (click)="item.isEdit = true"><i class="fa fa-pencil-alt"></i></button>
+                                                            <button *ngIf="item.isEdit" class="btn icon-action-btn" ngbTooltip="Save" (click)="saveExam(item);item.isEdit = false"><i class="fa fa-bookmark" aria-hidden="true"></i></button>
+                                                            <button *ngIf="item.isEdit" class="btn icon-action-btn" ngbTooltip="Cancel" (click)="cancelEdit(item)"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                                            <button alt="Attendence" *ngIf="isCheckAttendance && (item.is_attendance ?  CommonService.hasPermission('student_exam_attendance', 'has_edit') : CommonService.hasPermission('student_exam_attendance', 'has_create'))" [ngbTooltip]="item.is_attendance ? 'Edit Attendance' : 'Add Attendence'" class="btn icon-action-btn" (click)="attendenceAndResult(item,'attendance')"><i class="fa fa-bookmark"></i></button>
+                                                            <button class="btn icon-action-btn" alt="Result" *ngIf="item.is_attendance && (item.is_marks_filled ?  CommonService.hasPermission('student_exam_marks', 'has_edit') : CommonService.hasPermission('student_exam_marks', 'has_create'))" [ngbTooltip]="item.is_marks_filled ? 'Edit Marks ' : 'Add Marks'" (click)="attendenceAndResult(item,'result')"><i class="fa fa-align-left"></i></button>
+                                                            <button class="btn icon-action-btn"  alt="Result" *ngIf="item.is_marks_filled && CommonService.hasPermission('student_exam', 'has_download')" ngbTooltip="Download PDF" (click)="downloadPdfAndExcel('pdf',item.exam_id)"><i class="fas fa-file-pdf"></i></button>
+                                                            <button class="btn icon-action-btn"  alt="Result" *ngIf="item.is_marks_filled && CommonService.hasPermission('student_exam', 'has_download')" ngbTooltip="Download EXCEL" (click)="downloadPdfAndExcel('excel',item.exam_id)"><i class="fas fa-file-excel"></i></button>
+                                                            <button class="btn icon-action-btn" [disabled]="item.is_result_published == 1" alt="Result" *ngIf="item.is_marks_filled && CommonService.hasPermission('student_marks_publish', 'has_access')" ngbTooltip="Publish Marks" (click)="openPublishModal(item,publishModel)"><i class="fa fa-paper-plane"></i></button>
+                                                            <!-- <a name="markattendence"  alt="PDF" ngbTooltip="PDF" class="btn "><i class="fa fa-file-pdf"></i></a> -->
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                      <span *ngIf="item.is_publish && item.is_attendance && !item.is_marks_filled && item.is_result_published !== 1"><span *ngIf="isCheckAttendance">Attendance Done,</span> Please fill marks</span>
+                                                      <span *ngIf="item.is_marks_filled && item.is_result_published !== 1">Marks successfully entered.</span>
+                                                      <span *ngIf="item.is_result_published == 1">Marks Published</span>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+
+                                        </tbody>
+                                        <tbody *ngIf="isExamList">
+                                            <tr>
+                                                <td colspan="10">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="filteredData.length == 0 && !isExamList">
+                                          <tr>
+                                            <td colspan="9">
+                                                <div class="d-flex justify-content-center">
+                                                   No Record Found.
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #publishModel>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Publish Marks</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="col-md-12 form_group">
+      <label class="form_label">SEND SMS TO WHOME?</label>
+      <div class="d-flex">
+        <div class="m-checkbox-list d-flex align-items-center me-3">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox" [(ngModel)]="message.is_father_message"><span></span>
+          </label>
+          <label for="checkbox" class="ms-2 mb-0 mt-1">Father</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox1" [(ngModel)]="message.is_mother_message"><span></span>
+          </label>
+          <label for="checkbox1" class="ms-2 mb-0 mt-1">Mother</label>
+        </div>
+        <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+          <label class="m-checkbox mb-0">
+            <input type="checkbox" id="checkbox2" [(ngModel)]="message.is_student_message"><span></span>
+          </label>
+          <label for="checkbox2" class="ms-2 mb-0 mt-1">Student</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="bg-info mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Note :-</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div> -->
+  </div>
+
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" [disabled]="isSendPublishMarks" (click)="sendPublishMarks()">
+        send
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSendPublishMarks">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #exportModel>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Export Excel</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form action="" [formGroup]="exportExcel">
+      <div class="col-md-12 form_group">
+        <label class="form_label">Batch</label>
+        <app-multi-select controlName="batch_id" placeholder="Select batch"
+          [dropDownArray]="examList.batch_data"></app-multi-select>
+      </div>
+      <div class="col-md-12 form_group">
+        <label for="" class="form_label">Select Status</label>
+        <div>
+            <app-single-select controlName="status" placeholder="Select status"
+                [dropDownArray]="statusList"></app-single-select>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" [disabled]="isExportingMarks" (click)="downloadMarksExcel()">
+        Download
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isExportingMarks">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #downloadModel>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Download PDF Or Excel</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form action="" [formGroup]="downloadPDFExcelForm">
+      <div class="col-md-12 form_group">
+        <label class="form_label">Batch<span class="text-danger">*</span></label>
+        <!-- <app-single-select controlName="batch_id" placeholder="Select batch"
+          [dropDownArray]="examList.batch_data"></app-single-select> -->
+        <app-multi-select controlName="batch_id" placeholder="Select batch"
+          [dropDownArray]="examList.batch_data"></app-multi-select>
+      </div>
+      <div class="col-md-12 form_group">
+        <label for="" class="form_label">Grade Type
+        </label>
+        <div>
+          <app-single-select controlName="grade_id" placeholder="Select grade type"
+            [dropDownArray]="gradeTypeList"></app-single-select>
+        </div>
+      </div>
+      <div class="col-md-12 form_group">
+        <label for="" class="form_label">Select Status</label>
+        <div>
+            <app-single-select controlName="status" placeholder="Select status"
+                [dropDownArray]="statusList"></app-single-select>
+        </div>
+      </div>
+      <div class="col-md-12 form_group">
+          <label for="absent_grade_and_marks" class="m-radio d-flex">
+            <input formControlName="absent_grade_and_marks" type="checkbox" id="absent_grade_and_marks" class="me-2">
+            Show Absent Student Percentage And Rank <span></span>
+          </label>
+      </div>
+      <div class="col-md-12 form_group">
+        <label class="form_label">Rank Type</label>
+        <div class="radio">
+          <label for="batch" class="m-radio">
+            <input formControlName="rank_type" type="radio" id="batch" value="batch">
+            Batch Wise <span></span>
+          </label>
+        </div>
+        <div class="radio">
+          <label for="class" class="m-radio">
+            <input formControlName="rank_type" type="radio" id="class" value="class">
+            Class Wise <span></span>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-12 form_group">
+          <label class="form_label">Download type</label>
+          <div class="radio">
+            <label for="inlineRadio1" class="m-radio">
+              <input formControlName="download_type" type="radio" id="inlineRadio1" value="pdf">
+              PDF <span></span>
+            </label>
+          </div>
+          <div class="radio">
+            <label for="inlineRadio2" class="m-radio">
+              <input formControlName="download_type" type="radio" id="inlineRadio2" value="excel">
+              Excel <span></span>
+            </label>
+          </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" [disabled]="isMultiDownload" (click)="DownloadPdfAndExcelBatchWise()">
+        Download
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isMultiDownload">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #importModal>
+  <div class="modal-header" style="z-index: 0;">
+    <h4 class="modal-title" id="modal-basic-title">Import Marks</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+        <div class="form_group">
+          <label for="" class="form_label">Batch</label>
+          <div>
+            <input type="file" class="form-control" (change)="selectAttachment($event)">
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal-footer" style="z-index: 0;">
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" [disabled]="isImportExcel" (click)="importMarksExcel()">
+        Import
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isImportExcel">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="w-100 btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>

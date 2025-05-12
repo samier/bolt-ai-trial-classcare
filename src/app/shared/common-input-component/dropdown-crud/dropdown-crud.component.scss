@@ -1,0 +1,135 @@
+.create-new{
+    white-space: nowrap;
+}
+
+.reason-toggle {
+    position: absolute;
+    right: 10px;
+}
+
+.reason-toggle:hover{
+    color:#ccc;
+}
+
+.reason-action span{
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    background : white;
+    color: black;
+    white-space: nowrap;
+}
+
+.reason-action span:hover{
+  background-color: #f0f0f0;
+}
+
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+   .dropdown-body{
+    max-height: 245px;
+    border-bottom: 0;
+    padding-bottom: 0;
+      .btn-group{
+        position: sticky;
+        bottom: 0;
+        .create-new{
+          background: #fff4e5;
+          color: #000;
+          &:hover{
+            color: #fff !important;
+          }
+        }
+        .clear-new{
+          background-color: #919191;
+        }
+        .form-control{
+          &.btn{
+            background: #fff4e5;
+            color: #000;
+            &:hover{
+              color: #fff !important;
+            }
+          }
+        }
+      }
+   }
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0px;
+  background-color: white;
+  input {
+    border:none;
+  }
+  input[readonly]{
+    background:#fff!important;
+  }
+  input[disabled]{
+    background:#e9e9e9!important;
+  }
+}
+
+.disabled-color{
+    background:#e9e9e9!important;
+}
+
+.dropdown-header i {
+  margin-left: auto;
+}
+
+.dropdown-body {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  border: 1px solid #ccc;
+  border-top: none;
+  background-color: white;
+  max-height: 250px;
+  overflow-y: auto;
+  padding:5px;
+}
+
+.dropdown-body::-webkit-scrollbar {
+    width: 5px!important;
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  white-space: break-spaces;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+.reason-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.reason-action {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 0px;
+  margin-right: 18px;
+  border-radius:5px;
+  right:0px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.error {
+    position: unset!important;
+}

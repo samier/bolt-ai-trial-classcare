@@ -1,0 +1,13 @@
+::ng-deep{
+    body{
+        app-otp-log{
+            .table-responsive{
+                .dataTables_length{
+                    select{
+                        background-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+}

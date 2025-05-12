@@ -1,0 +1,95 @@
+<section class="edit-discount fees-dis">
+    <div class="page_inner">
+        <div class="m-container">
+            <h2 class="page_title"></h2>
+            <div class="card">
+                <div class="card_title">
+                    <h3 class="sub_title">Edit Refund</h3> 
+                    <div class="btn_right">
+                        <a href="#" class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">Refund List</a>
+                    </div>                   
+                </div>
+                <div class="card_body">
+                    <div class="row global_form">
+                        <div class="col-md-8">
+                            <form action="" class="form_section">
+                                <div class="row">
+                                    <div class="col-md-4 form_section">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Refund Type<span class="text-danger">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="Refundtype" formcontrolname="Refundtype" placeholder="Refund type" class="form-control">
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-4 form_section">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label"> Name of Refund<span class="text-danger">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="Refundname" formcontrolname="Refundname" placeholder="Name of Refund" class="form-control">
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-4 form_section">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Refund Value<span class="text-danger">*</span></label>
+                                            <div class="col-md-12">
+                                                <input type="text" name="Refundvalue" formcontrolname="Refundvalue" placeholder="Refund Value" class="form-control">
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-4 form_section">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Refund Value In<span class="text-danger">*</span>:</label>
+                                            <div class="col-md-12 d-flex">
+                                                <div class="radio-inline ml-1">
+                                                    <label class="m-radio required" for="amount" aria-required="true">
+                                                        <input type="radio" id="amount" name="questionType" formControlName="questionType" value="amount" aria-required="true">Amount<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio-inline ml-1">
+                                                    <label class="m-radio required" for="percentage" aria-required="true">
+                                                        <input type="radio" id="percentage" name="questionType" formControlName="questionType" value="percentage" aria-required="true" >Percentage<span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 form_section">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Approval Authority<span class="text-danger">*</span></label>
+                                            <div class="col-md-12">
+                                                <ng-select #select [items]="Authority" [searchable]="true"  name="class_id" bindLabel="name" bindValue="id"  
+                                                    formControlName="class_id"
+                                                    placeholder="Select Authority" required>
+                                                    <ng-template ng-header-tmp>
+                                                        <input type="text" (input)="select.filter($any($event.target).value)" />
+                                                    </ng-template>
+                                                </ng-select>
+                                                <div class="checkbox_type">
+                                                    <label for="approval" class="checkbox">
+                                                        <input type="checkbox" name="approval" id="approval">
+                                                        <span></span>
+                                                        Approval required
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group w-100">
+                                            <div class="col-xl-12">
+                                            <a class="btn btn-danger btn-minwidth" href="#">Cancel</a>
+                                            <button type="submit" class="btn btn-success btn-minwidth" disabled=""> Save </button>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

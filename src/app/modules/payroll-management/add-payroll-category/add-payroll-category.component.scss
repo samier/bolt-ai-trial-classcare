@@ -1,0 +1,37 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep{
+    body{
+        app-add-payroll-category{
+            .validate{
+                cursor: pointer;
+            }
+            .form_group textarea .condition_box{
+                height: 64px;
+            }
+            #formula{
+                height: 134px;
+                width: 191px;
+            }
+            .fs-16{
+                font-size: 16px;
+            }
+            .description{
+                border:  1px solid #D0C9C0;
+                overflow: scroll;
+                max-height: 155px;
+                padding: 10px;
+            }
+            .document_type_add{
+                background: $border-ce;
+                padding: 17px 15px 24px 29px;
+                margin: 0 0 15px;
+                border-radius: 3px;
+            }   
+        }
+        &.dark-theme{
+            .description{
+                border:  1px solid #eaedf133;
+            }
+        }
+    }
+}

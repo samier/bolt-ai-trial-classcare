@@ -1,0 +1,266 @@
+<section class="add_assign_room_no">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Wallets</h3>
+        <div class="btn_right">
+					<a class="global_btn btn report-btn" href="#."  [routerLink]="setUrl(URLConstants.WALLET_DAILY_REPORT)">Wallet Daily Report</a>
+				</div>
+      </div>
+      <div class="card_body">
+        <div class="card">
+          <div class="row">
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/active-students.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ activeWallets }}</strong><br>
+                  <span class="counter_title">Active Wallets</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/credited.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ creditedAmount }}</strong><br>
+                  <span class="counter_title">Credited Amount</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/debited.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ debitedAmount }}</strong><br>
+                  <span class="counter_title">Debited Amount</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 counter_card">
+              <div class="bg_counter success-bg super_admin">
+                <div class="product-icon">
+                  <img src="./assets/img/svgicons/money.svg" alt="">
+                </div>
+                <div class="content">
+                  <strong>{{ totalAmount }}</strong><br>
+                  <span class="counter_title">Balance Amount</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="row global_form">
+          <div class="row mx-0 p-3 justify-content-end border-b4 align-items-center">
+            <div class="col-auto  pe-0">
+              <button *ngIf="commonService.hasPermission('finance_wallets', 'has_create')" class="btn add-btn ms-2" (click)="openWalletMdl(walletMdl)"> Add / Update
+                Wallet</button>
+            </div>
+            <!-- <div class="col-auto">
+              <div ngbDropdown class="d-inline-block">
+                <button type="button" class="opace_btn btn" id="dropdownBasic1" ngbDropdownToggle>
+                  Action <i class="fas fa-angle-down"></i>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem>Export User</button>
+                  <button ngbDropdownItem>Add New
+                    User</button>
+                </div>
+              </div>
+            </div> -->
+            <div class="col-auto pe-0">
+              <a class="btn ms-2 filter_btn opace_btn d-inline-flex align-items-center" href="javascript:void(0)"
+                (click)="openVerticallyCentered(filterMdl)">
+                <svg class="me-2" width="20" height="13" viewBox="0 0 20 13" fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <rect width="20" height="2" fill="#0186D1" />
+                  <rect x="3" y="5" width="14" height="2" fill="#0186D1" />
+                  <rect x="7" y="11" width="6" height="2" fill="#0186D1" />
+                </svg>
+                Show Filter
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-12 datatable_cls">
+            <div class="datatable-action-design">
+              <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                  <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                  <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                </svg>
+              </div>
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions"
+                  class="table table-hover table-nowrap display dataTable table-bordered" style="width:100%" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>Unique Id</th>
+                      <th>Student Name</th>
+                      <th>Class</th>
+                      <th>Credit</th>
+                      <th>Debit</th>
+                      <th>Balance Amount</th>
+                      <th>Status</th>
+                      <th class="action-btn-sticky">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of tbody ;let i = index;">
+                      <td class="orange-text-color">{{item.student_unique_id}}</td>
+                      <td class="name_hover">{{item.student_name}}</td>
+                      <td>{{item.class_name}}</td>
+                      <td class="orange-text-color">{{item.credited_amount}}</td>
+                      <td class="green-text-color">{{item.debited_amount}}</td>
+                      <td class="teal-text-color">{{item.amount}}</td>
+                      <td>
+                      <span class="{{ item.status !== 1 ? 'text-danger' : 'text-success' }}" *ngIf="!item?.statusEdit" (click)="item.statusEdit = true">
+                          {{item.status == 1 ? 'Active' : 'Inactive'}}
+                        </span>
+                        <select class="form-control" (change)="changeStatus($event,item)" *ngIf="item?.statusEdit">
+                          <option value="1" [selected]="item.status == 1">Active</option>
+                          <option value="0" [selected]="item.status == 0">Inactive</option>
+                        </select>
+                      </td>
+                      <td class="action-btn-sticky text-center">
+                        <!-- <div class="btn-group" role="group">
+                          <button *ngIf="commonService.hasPermission('finance_wallets', 'has_delete')" type="button" title="Delete" class="btn btn-sm btn-primary"
+                            (click)="deleteWallet(item.id)"><i class="fa fa-trash-alt"></i>
+                          </button>
+                        </div> -->
+                        <div class="btn-group" role="group">
+                          <button *ngIf="commonService.hasPermission('finance_wallets', 'has_access')" type="button" ngbTooltip="View" class="lt-btn-icon btn-sm action-view"
+                            [routerLink]="[setUrl(URLConstants.WALLET_HISTORY),item.student_unique_id]">
+                          </button>
+                        </div>
+                        <div class="btn-group" role="group">
+                          <button *ngIf="commonService.hasPermission('finance_wallets', 'has_download')" type="button" ngbTooltip="Download History"     
+                            class="lt-btn-icon action-download"
+                            (click)="walletPDF('pdf',item.student_unique_id, i)"
+                            [disabled]="item.loading">
+                            <!-- <i class="fa fa-download">
+                              <div class="spinner-border spinner-border-sm" role="status" *ngIf="item.loading">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </i> -->
+                            
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td></td>
+                      <td><input type="search" class="form-control" placeholder="Search By Student Name"
+                          name="search_student_name" [(ngModel)]="name_search" (keyup)="reloadData()"></td>
+                      <!-- <td><input type="search" class="form-control" placeholder="Search By Branch Name"
+                          name="search_branch_name"></td> -->
+                      <td><input type="search" class="form-control" placeholder="Search By Class Name"
+                          name="search_class_name" [(ngModel)]="class_search" (keyup)="reloadData()"></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tfoot>
+                  <tbody *ngIf="tbody?.length == 0">
+                    <tr>
+                      <td colspan="7" class="text-center no-data-available">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ng-template #walletMdl  let-modal>
+                  <app-create-wallet (reloadWallets)="reloadData($event)"></app-create-wallet>
+                </ng-template>
+                <ng-template #filterMdl let-modal>
+                  <div class="modal-header" style="z-index: 0;">
+                    <h4 class="modal-title" id="modal-basic-title">Filter By</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="modal.close('cancel')">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+
+                    <div class="page_inner">
+
+                      <div class="card_body">
+                        <div class="row">
+                          <div class="form_group">
+                            <label class="form_label">Select Section</label>
+                            <div>
+                              <ng-select  [placeholder]="'Select Section'" [(ngModel)]="listParams.section_id"
+                                bindLabel="name" bindValue="id" [items]="sections">
+                              </ng-select>
+                              <div class="text-danger">{{validationError['section_id']}} </div>
+                            </div>
+                          </div>
+                          <div class="form_group">
+                            <label class="form_label">Select Class</label>
+                            <div>
+                              <ng-select [placeholder]="'Select Class'" [(ngModel)]="listParams.class_id" bindLabel="name"
+                                bindValue="id" [items]="classes" (change)="onClassSelect()">
+                              </ng-select>
+                              <div class="text-danger">{{validationError['class_id']}} </div>
+                            </div>
+                          </div>
+                          <div class="form_group">
+                            <label for="" class="form_label">Select Batch</label>
+                            <!-- <ng-select #select [items]="batches" [searchable]="true" [(ngModel)]="listParams.batch_id"
+                              (change)="onBatchSelect()" bindLabel="name" bindValue="id" placeholder="select batch">
+                            </ng-select> -->
+                            <ng-multiselect-dropdown [placeholder]="'Select batch'" [settings]="dropdownSettings"
+                            [data]="batches" [(ngModel)]="listParams.batch_id" (onSelect)="onBatchSelect()" (onDeSelect)="onBatchSelect()">
+                          </ng-multiselect-dropdown>
+                          </div>
+                          <div class="form_group">
+                            <label class="form_label">Select Student</label>
+                            <div>
+                              <ng-multiselect-dropdown [placeholder]="'Select Student'" [settings]="dropdownSettings"
+                                [data]="studentList" [(ngModel)]="listParams.student_id" bindLabel="name" bindValue="id">
+                              </ng-multiselect-dropdown>
+                              <div class="text-danger">{{validationError['student_id']}} </div>
+                            </div>
+                          </div>
+                          <div class="form_group">
+                            <label class="form_label">Select Status</label>
+                            <div>
+                              <ng-select [placeholder]="'Select Status'" [(ngModel)]="listParams.status"
+                                [items]="statusList" bindLabel="name" bindValue="id">
+                              </ng-select>
+                              <div class="text-danger">{{validationError['status']}} </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer" style="z-index: 0;">
+                    <div class="col-md-3">
+                      <button type="submit" class="w-100 btn show-btn" (click)="applyFilter()"> Apply </button>
+                    </div>
+                    <div class="col-md-3">
+                      <button type="submit" class="w-100 btn transfer-btn" (click)="reset()">Reset </button>
+                    </div>
+                    <div class="col-auto">
+                      <button type="submit" class="btn excel-btn" ngbTooltip="EXCEL" (click)="downloadFile('excel')"><img src="assets/images/excel-icon.svg" alt=""></button>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

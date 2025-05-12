@@ -1,0 +1,113 @@
+    <section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Inventory Item</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.INVENTORY_LIST)">Item List</a>
+				</div>
+			</div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="addItemForm" class="form_section global_form">
+
+                                    <div class="row">
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Item Name<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input name="item_name" controlName="item_name" placeholder="Enter Item Name" required></app-input>
+                                                <app-input type="hidden" name="record_id" id="record_id" controlName="record_id"></app-input>
+                                            </div>                                      
+                                        </div>                                                                           
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Item Type<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList"></app-single-select>
+                                            </div>                                     
+                                        </div>
+                                        <div class="col-md-6 form_group">
+                                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-textarea placeholder="Description" controlName="description"></app-textarea>
+                                            </div>                                     
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Unit Purchase Price<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number" name="unit_purchase_price" controlName="unit_purchase_price" placeholder="Enter Unit Price" required></app-input>
+                                            </div>                                      
+                                        </div>    
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Unit Sale Price<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number" name="unit_sale_price" controlName="unit_sale_price" placeholder="Enter Unit Price" required></app-input>
+                                            </div>                                      
+                                        </div> 
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Measurement Type<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select placeholder="Please Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurementTypeList"></app-single-select>
+                                            </div>                                      
+                                        </div> 
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Item Expire Date</label>
+                                            <div>
+                                                <app-mat-date-picker placeholder="Select Expiry Date" controlName="item_expire_date" ></app-mat-date-picker>
+                                            </div>                                      
+                                        </div>   
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Stock Items (Opening Items)<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-input type="number" name="item_stock" controlName="item_stock" placeholder="Enter Stock Item" required></app-input>
+                                            </div>                                      
+                                        </div>   
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Minimum Stock</label>
+                                            <div>
+                                                <app-input type="number" name="minimum_stock" controlName="minimum_stock" placeholder="Enter Minimum Stock" required></app-input>
+                                            </div>                                      
+                                        </div>   
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Re-Order Item Quantity</label>
+                                            <div>
+                                                <app-input type="number" name="reorder_qty" controlName="reorder_qty" placeholder="Enter Re-Order Quantity" required></app-input>
+                                            </div>                                      
+                                        </div>   
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Attachment</label>                                     
+                                            <div>
+                                                <app-input type="file" accept="image/*,application/pdf" name="attachment" controlName="attachment" placeholder="Attachment" (change)="onFileChange($event)" required></app-input>    
+                                            </div>                                      
+                                        </div>  
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Warehouse<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select placeholder="Please Select Warehouse" controlName="inventory_store_id" [dropDownArray]="storeTypeList"></app-single-select>
+                                            </div>                                      
+                                        </div> 
+                                    </div>
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.INVENTORY_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit"  (click)="onSubmit()" [disabled]="!addItemForm.valid || isSumiting" class="btn save-btn" id="submitButton">
+                                                Save
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSumiting">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                      </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

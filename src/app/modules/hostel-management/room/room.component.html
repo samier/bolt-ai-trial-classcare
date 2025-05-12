@@ -1,0 +1,128 @@
+<section class="add_assign_room_no">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Room Details</h3>
+                <div class="btn_right">
+                    <a class="global_btn btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.ROOM_LIST)" > Room List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="form" class="form_section" id="driver-form">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class="form_label">Hostel List<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <ng-select #select [items]="Hostels" [(ngModel)]="selectedHostel"  (change)="handleHostelChange()" [searchable]="true"  bindLabel="name" bindValue="id"  id="hostel_id" name="hostel_id" formControlName="hostel_id" placeholder="Hostel List" required>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div *ngIf="form.controls['hostel_id'].invalid && (form.controls['hostel_id'].dirty || form.controls['hostel_id'].touched)" class=" error text-danger mb-2 mx-2">
+                                    <div *ngIf="form.controls['hostel_id'].errors?.['required']">please select Hostel.</div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class="form_label">Wing List<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <ng-select #select [items]="wings" [searchable]="true"  bindLabel="name" bindValue="id"  id="wing_id" name="wing_id" formControlName="wing_id" placeholder="Wing List" [(ngModel)]="wing_id" required (change)="handleWingChange()">
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div *ngIf="form.controls['wing_id'].invalid && (form.controls['wing_id'].dirty || form.controls['wing_id'].touched)" class=" error text-danger mb-2 mx-2">
+                                    <div *ngIf="form.controls['wing_id'].errors?.['required']">please select Hostel.</div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class="form_label">Floor List<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <ng-select #select [items]="floors" [searchable]="true"  bindLabel="name" bindValue="id"  id="floor_id" name="floor_id" formControlName="floor_id" placeholder="Floor List" [(ngModel)]="floor_id" required>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div *ngIf="form.controls['floor_id'].invalid && (form.controls['floor_id'].dirty || form.controls['floor_id'].touched)" class=" error text-danger mb-2 mx-2">
+                                    <div *ngIf="form.controls['floor_id'].errors?.['required']">please select Hostel.</div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class="form_label">Room Types<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <ng-select #select [items]="roomTypes" [searchable]="true"  bindLabel="type" bindValue="id"  id="room_type_id" name="room_type_id" formControlName="room_type_id" placeholder="Room Types" required>
+                                        <ng-template ng-header-tmp>
+                                            <input type="text" class="form-control" (input)="select.filter($any($event.target).value)" />
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                                <div *ngIf="form.controls['room_type_id'].invalid && (form.controls['room_type_id'].dirty || form.controls['room_type_id'].touched)" class=" error text-danger mb-2 mx-2">
+                                    <div *ngIf="form.controls['room_type_id'].errors?.['required']">please select Hostel.</div>
+                                </div>
+                            </div> 
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class=" form_label">Name<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input type="text" id="room_number" name="room_number" formControlName="room_number" placeholder="Room Name" class="form-control">
+                                </div>
+                                <div *ngIf="form.controls['room_number'].invalid && (form.controls['room_number'].dirty || form.controls['room_number'].touched)" class=" error text-danger mb-2">
+                                    <div *ngIf="form.controls['room_number'].errors?.['required']">please enter Room.</div>
+                                </div>
+                                <div class=" error text-danger mb-2">{{errors['room_number']}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class="">
+                                <label class=" form_label">No of Student Per Room<span class="text-danger">*</span></label>
+                                <div class="">
+                                    <input type="text" id="no_of_students_per_room" name="no_of_students_per_room" formControlName="no_of_students_per_room" placeholder="No of Student Per Room" class="form-control">
+                                </div>
+                                <div *ngIf="form.controls['no_of_students_per_room'].invalid && (form.controls['no_of_students_per_room'].dirty || form.controls['no_of_students_per_room'].touched)" class=" error text-danger mb-2">
+                                    <div *ngIf="form.controls['no_of_students_per_room'].errors?.['required']">please enter no of student.</div>
+                                    <div *ngIf="form.controls['no_of_students_per_room'].errors?.['pattern']">please enter number only.</div>
+                                </div>
+                                <div class=" error text-danger mb-2">{{errors['no_of_students_per_room']}}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <div class=""> 
+                                <label class=" form_label">Status</label>
+                                <div class="">
+                                    <select id="status" name="status" formControlName="status" class="form-control" >
+                                        <option value="1">Active</option>
+                                        <option value="0">InActive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-100 ">
+                        <div class="col-md-auto">
+                            <a class="btn w-100 clear-btn" href="#" [routerLink]="setUrl(URLConstants.ROOM_LIST)">Cancel</a>
+                        </div>
+                        <div class="col-md-auto">
+                                <button *ngIf=" room_id ? CommonService.hasPermission('hostel_management_room', 'has_update') : CommonService.hasPermission('hostel_management_room', 'has_create') " type="submit" (click)="submit()" [disabled]="form.invalid" class="btn save-btn">{{button}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

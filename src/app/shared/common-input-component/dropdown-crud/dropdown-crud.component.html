@@ -1,0 +1,47 @@
+<div class="custom-dropdown" #dropdowns>
+    <div class="dropdown-header" (click)="openDropDown =  !openDropDown">
+      <input 
+        type="text" 
+        class="form-control" 
+        [placeholder]="placeholder" 
+        readonly
+        [(ngModel)]="selectedName" 
+        [disabled]="disabled"
+      />
+      <input type="hidden" name="name" [disabled]="disabled">
+      <i class="fas me-2" *ngIf="!disabled" [class.fa-chevron-up]="openDropDown" [class.fa-chevron-down]="!openDropDown"></i>
+    </div>
+
+    <div class="dropdown-body" *ngIf="openDropDown">
+      <input 
+        type="text" 
+        class="form-control mb-1" 
+        [(ngModel)]="searchText" 
+        [placeholder]="searchPlaceholder"
+        (input)="filterOptions()"
+        #dropdownInput
+      />
+
+      <div *ngFor="let row of filterArray; let i=index" class="dropdown-item" (click)="changeSelecttion(row)">
+        {{ row.name }}
+        <span class="reason-toggle" (click)="$event.stopPropagation()">
+          <i class="fas fa-ellipsis-h" (click)="toggleAction(row, $event,i)"></i>
+          <div class="reason-action shadow" *ngIf="row.openToggle" (click)="$event.stopPropagation()">
+            <span class="d-block" 
+                  (click)="editReason(row, $event)">
+                  <i class="fa fa-edit me-2"></i>Edit</span>
+            <span class="d-block" 
+                  (click)="deleteReason(row.id, $event)">
+                  <i class="fa fa-trash me-2"></i>Delete</span>
+          </div>
+        </span>
+      </div>
+
+    <div class="col-lg-12 d-flex p-0 pt-1 btn-group">
+        <button class="col-lg-6 btn" (click)="createAndUpdate($event)">
+            {{this.id ? 'Update' : 'Create'}}
+        </button>
+        <button class="btn ms-1 clear-new" (click)="clearSelection($event)">Clear</button>
+    </div>
+    </div>
+  </div>

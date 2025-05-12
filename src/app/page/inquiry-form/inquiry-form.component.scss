@@ -1,0 +1,162 @@
+@import'../../../assets/css/variable.scss';
+.loader-for-embeded {
+    margin: 50px;
+    --d:22px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    color: #1877f2;
+    box-shadow: 
+      calc(1*var(--d))      calc(0*var(--d))     0 0,
+      calc(0.707*var(--d))  calc(0.707*var(--d)) 0 1px,
+      calc(0*var(--d))      calc(1*var(--d))     0 2px,
+      calc(-0.707*var(--d)) calc(0.707*var(--d)) 0 3px,
+      calc(-1*var(--d))     calc(0*var(--d))     0 4px,
+      calc(-0.707*var(--d)) calc(-0.707*var(--d))0 5px,
+      calc(0*var(--d))      calc(-1*var(--d))    0 6px;
+    animation: l27 1s infinite steps(8);
+  }
+  @keyframes l27 {
+    100% {transform: rotate(1turn)}
+  }
+  .card-content {
+    margin-top: 20px;
+    background: #ff0000cc;
+    border: 1px solid #ff0000cc;
+    
+    .error {
+      display: flex;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 400;
+      color: #fff;
+    }
+  }
+
+::ng-deep {
+  app-inquiry-form{
+
+    .branch_image_name{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      img{
+        height: 100px;
+        width: auto;
+        margin-bottom: 15px;
+      }
+      h3{
+        font-size: 30px;
+        color: $primary;
+        text-align: center;
+      }
+    }
+
+    .inquiry-form-design{
+      padding: 20px 5px;
+      background-color: #E0EAFF;
+      border-radius: 10px;
+      margin-top: 20px;
+
+      .form_group{
+
+        label{
+          color: #393939;
+          font-weight: 600;
+        }
+
+        .form-control{
+          background-color: transparent;
+          border: 1px solid #b5b2b2;
+          border-radius: 5px;
+  
+          &::placeholder{
+            color: #979696;
+          }
+          &[type="number"] {
+            -moz-appearance: textfield;
+          }
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+          }
+          &[type="file"]::file-selector-button{
+            background-color: transparent;
+          }
+        }
+
+        .custom-date-picker{
+          background-color: transparent !important;
+
+          .mat-form-field-outline-end{
+            border: 1px solid #b5b2b2 !important;
+            border-radius: 5px;
+          }
+
+          input{
+            &::placeholder{
+              color: #979696;
+            }
+          }
+        }
+
+        .ng-select-container{
+          background: transparent;
+          border: 1px solid #b5b2b2;
+          border-radius: 5px;
+
+          .ng-placeholder{
+            color: #979696;
+          }
+        }
+  
+        .form-check-inline{
+          .form-check-input{
+            min-width: 14px;
+            cursor: pointer;
+            &:checked {
+              background-color: $primary;
+              border-color: $primary;
+            }
+            &:focus{
+              box-shadow: none;
+            }
+          }
+          .form-check-label{
+            cursor: pointer;
+          }
+        }
+        ng-select{
+          .ng-select-container{
+            cursor: pointer;
+          }
+        }
+      }
+
+      .cancel-btn{
+        padding: 6px 10px !important;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        svg{
+          width: 15px;
+          margin-right: 5px;
+          fill: #fff;
+        }
+        &::before{
+          display: none;
+        }
+      }
+    }
+
+    .custom-date-picker {
+      background: #fff;
+    }
+    .mat-form-field-appearance-outline {
+    .mat-form-field-wrapper{
+      margin: 0;
+    }
+  }
+  }
+}

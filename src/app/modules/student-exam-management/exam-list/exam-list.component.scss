@@ -1,0 +1,42 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep app-exam-list{
+	a, a:hover{
+		text-decoration:none;
+		color:black;
+	}
+	tr td{
+		text-transform: capitalize;
+		text-align:left;
+	}
+	.card {
+		.card_body {
+			.alert {
+				padding: 0 10px 10px;
+				border-bottom: 1px dashed rgb(69 74 116 / 41%);
+				&:last-child{
+					border-bottom:none;
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+	.primary-bg{
+		background:$primary;
+	}
+	.span_outer{
+		width: 100%;
+    	display: block;
+		span{
+			&.title {
+				border: none;
+				vertical-align: middle;
+				display: inline-flex;
+				padding: 6px 0;
+				min-width: 104px;
+				opacity: .8;
+				font-size: 14px;
+				font-weight: 400;
+			}
+		}
+	}
+}

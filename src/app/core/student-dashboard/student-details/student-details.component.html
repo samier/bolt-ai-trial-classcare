@@ -1,0 +1,84 @@
+<section class="leave_form">
+    <div class="page_inner students-info-tabs-view">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="page_title">{{getPageName()}}</h3>
+            </div>
+            <div class="card studentview_lay">
+                <div class="card_body">
+                    <div class="faculty-name-details">
+                        <div class="d-flex align-items-start flex-wrap">
+                            <div class="student-img student-header-content">
+                                <img class="img-thumbnail" src="{{getProfile()}}">
+                            </div>
+                            <div class="student-details" *ngIf="SharedUserService.user">
+                                <h4 class="mt-0">{{SharedUserService.user.full_name}}</h4>
+                                <h6 class="batch">{{SharedUserService.user.batch}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-1">
+                        <div class="col-md-12">
+                            <div class="panel with-nav-tabs panel-default section_dashboard">
+                                <div class="panel-heading">
+                                    <ul class="nav nav-tabs nav_border-section">
+                                        <li class="nav-item" *ngIf="getStudent('stuprofile')">
+                                            <a [href]="setsymfonyUrl('student/showProfile')" class="nav-link" routerLinkActive="active" data-toggle="tab">Profile</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getStudent('stuFees')">
+                                            <a [href]="setsymfonyUrl('student/fees')" class="nav-link" routerLinkActive="active" data-toggle="tab">Fees</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getStudent('stuMonthlyReport') || getStudent('stuAttendanceReport') || getStudent('stuExamReport')">
+                                            <a [href]="(getStudent('stuMonthlyReport') ? setsymfonyUrl('student/studentMonthlyReport') :
+                                            (getStudent('stuAttendanceReport') ? setsymfonyUrl('student/studentAttendencereport') : setsymfonyUrl('student/studentExamReport')) ) " class="nav-link" routerLinkActive="active" data-toggle="tab">Reports</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a [href]="setsymfonyUrl('student/assignment')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Assignment</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getStudent('stuSchedule') && getStudent('attendanceType') != 2">
+                                            <a [href]="setsymfonyUrl('student/studentSchedule')" class="nav-link"  routerLinkActive="active" data-toggle="tab">
+                                                Schedules
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a [href]="setsymfonyUrl('student/viewEvent')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Events</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a [href]="setsymfonyUrl('student/documents')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Documents</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getInstituteModule('Transport')">
+                                            <a [href]="setsymfonyUrl('student/studentTransportDetail')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Transport</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getInstituteModule('Meal')">
+                                            <a [href]="setsymfonyUrl('student/studentMealDetail')" class="nav-link"  routerLinkActive="active" data-toggle="tab">Meal Menu</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getInstituteModule('Leave')">
+                                            <a [routerLink]="URLConstants.STUDENT_LEAVE_LIST" class="nav-link"  routerLinkActive="active" data-toggle="tab">Leave</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getInstituteModule('MCQ')">
+                                            <a [routerLink]="URLConstants.STUDENT_EXAM_LIST" class="nav-link"  routerLinkActive="active" data-toggle="tab">Online Exam</a>
+                                        </li>
+                                        <!-- <li class="nav-item">
+                                            <a [routerLink]="URLConstants.STUDENT_CHAT" class="nav-link"  routerLinkActive="active" data-toggle="tab">Chat</a>
+                                        </li> -->
+                                        <li class="nav-item" *ngIf="getInstituteModule('Poll')">
+                                            <a [routerLink]="URLConstants.STUDENT_POLL_LIST" class="nav-link"  routerLinkActive="active" data-toggle="tab">Poll</a>
+                                        </li>
+                                        <li class="nav-item" *ngIf="getInstituteModule('Inventory')">
+                                            <a [routerLink]="URLConstants.STUDENT_REQUISITION_LIST" class="nav-link"  routerLinkActive="active" data-toggle="tab">Requisiton</a>
+                                        </li>   
+                                        <li class="nav-item" *ngIf="getInstituteModule('Remark')">
+                                            <a [routerLink]="URLConstants.STUDENT_REMARK_LIST" class="nav-link"  routerLinkActive="active" data-toggle="tab">Remarks</a>
+                                        </li>                                     
+                                    </ul>
+                                </div>
+                                <router-outlet>
+                                </router-outlet>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

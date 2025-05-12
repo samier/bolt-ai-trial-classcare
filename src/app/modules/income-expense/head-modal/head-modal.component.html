@@ -1,0 +1,57 @@
+
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title">{{ addHeadForm.value?.id ? 'Edit' : 'Add'}} Ledger Account</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addHeadForm">
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Ledger Name<span class="text-danger">*</span></label>
+                <app-input class="w-100" controlName="name" placeholder="Enter Ledger Name"></app-input>
+            </div>
+            <div class="col-md-12 form_group d-flex" *ngIf="!headData && !moduleName">
+                <label class="form_label">Account Type</label>
+                <div class="radio-section w-100">
+                    <div class="radio">
+                      <label class=" required">
+                        <input type="radio" id="same1" formControlName="account_type"  value="income" (change)="handleAccountTypeChange('change')">Income<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" id="same2" formControlName="account_type" value="expense"  (change)="handleAccountTypeChange('change')">Expense<span></span>
+                      </label>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Account Group<span class="text-danger">*</span></label>
+                <app-dropdown-crud [disabled]="headData" class="create-dropdown w-100" placeholder="Select Account Group" searchPlaceholder="Search Account Group" 
+                              [selectedId]="addHeadForm.value?.ledger_id" (selectedValue)="selectionChange($event)" [dropDownArray]="filteredLedgerList" 
+                              (createUpdate)="createAndUpdateData($event)" 
+                              (deleteData)="deleteData($event)">
+              </app-dropdown-crud>
+            </div>
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Opening balance</label>
+                <app-input class="w-100" controlName="opening_balance" placeholder="Enter Opening Balance"></app-input>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-auto">
+          <button *ngIf="CommonService.hasPermission('finance_ledger_accounts', addHeadForm.value?.id ? 'has_update' : 'has_create')" type="submit" class="btn save-btn" style="text-align: left;" (click)="saveHead()" [disabled]="isSaveLoading || addHeadForm.invalid">
+            {{ addHeadForm.value?.id ? 'Update' : 'Save'}}
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading" style="margin-left: 6px;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="cancel-btn btn" (click)="closeModal()">
+            Cancel
+          </button>
+        </div>
+    </div>

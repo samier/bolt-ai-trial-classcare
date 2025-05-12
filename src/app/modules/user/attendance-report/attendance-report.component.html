@@ -1,0 +1,124 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Faculty Attendance Report</h3>
+				<div class="btn_right d-flex">
+                    <a class="btn list-btn me-2" href="#." [routerLink]="CommonService.setUrl(URLConstants.USER_LIST)" *ngIf="CommonService.hasPermission('faculty_faculty', 'has_access')">User List</a>
+                    <button *ngIf="CommonService.hasPermission('faculty_attendance_report', 'has_download')" type="submit" (click)="download('pdf')" class="btn pdf-btn me-2" ngbTooltip="PDF"><img src="assets/images/pdf-icon.svg" alt=""></button>
+                    <button *ngIf="CommonService.hasPermission('faculty_attendance_report', 'has_download')" type="submit" (click)="download('excel')" class="btn excel-btn" ngbTooltip="EXCEL"><img src="assets/images/excel-icon.svg" alt=""></button>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="card">
+                        <form action="" [formGroup]="attendenceReportForm">
+                            <div class="row align-items-end">
+                                <div class="col-md-3 form_group">
+                                    <label class="form_label">Select Role<span class="text-danger">*</span></label>
+                                    <app-multi-select controlName="role_id" [dropDownArray]="roles"
+                                    placeholder="Select role" (change)="getUserList()"></app-multi-select>
+                                    <!-- <ng-select [items]="roles" 
+                                    bindLabel="name" 
+                                    bindValue="id" 
+                                    [(ngModel)]="params.role_id">
+                                    </ng-select>                       
+                                    <div *ngIf="submitted && params.role_id == null"
+                                            class="text-danger error"> Please select role. </div> -->
+                                </div>
+                                <div class="col-md-3 form_group">
+                                    <label class="form_label">Select User</label>
+                                    <app-multi-select controlName="user_id" [dropDownArray]="userList"
+                                    placeholder="Select user"></app-multi-select>
+                                </div>
+                                <div class="col-md-3 form_group month">
+                                    <label class="form_label">Select Month<span class="text-danger">*</span></label>
+                                    <mat-form-field appearance="outline">
+                                        <input 
+                                          class="readonly-month"
+                                          readonly
+                                          placeholder="YYYY-MM"
+                                          [value]="formattedMonth"
+                                        />
+                                        <input 
+                                          matInput 
+                                          [matDatepicker]="picker" 
+                                          formControlName="start_date"
+                                          [max]="maxDate"
+                                          hidden />
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker 
+                                          #picker 
+                                          startView="year" 
+                                          (monthSelected)="chosenMonthHandler($event)"
+                                          panelClass="month-picker"
+                                          >
+                                        </mat-datepicker>
+                                      </mat-form-field>                          
+                                      <span class="text-danger" *ngIf="(attendenceReportForm?.get('start_date')?.touched || attendenceReportForm?.get('start_date')?.dirty) && attendenceReportForm?.get('start_date')?.invalid">The input is required.</span>
+                                    <!-- <input type="month" class="form-control select_date" placeholder="Select date" name="startDate" id="startDate" [(ngModel)]="params.start_date" >                    
+                                    <div *ngIf="submitted && params.start_date == null"
+                                    class="text-danger error"> Please select start date. </div> -->
+                                </div>
+                                <div class="col-auto form_group">
+                                    <button type="button" class="btn show-btn me-2" (click)="onSubmit()" [disabled]="submitted">Show
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="submitted">
+                                            <span class="visually-hidden">Loading..."</span>
+                                        </div>
+                                    </button>
+                                    <button type="button" class="btn cancel-btn" (click)="clearData()" >Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card" *ngIf="reports.length > 0">
+                        <div class="table-responsive">
+                        <table  class="table table-hover table-nowrap table-bordered ">
+                            <thead class="">
+                            <tr>
+                                <th colspan="2"></th>
+                                <th [attr.colspan]="totalDays + 1" class="text-center">Days</th>
+                                <th colspan="5" class="text-center">Total</th>
+                            </tr>
+                            <tr>
+                                <th>User Id</th>
+                                <th>Unique ID</th>
+                                <th>Name</th>
+                                <th *ngFor="let i of createRange(totalDays);">
+                                    {{i}}
+                                </th>
+                                <th>T</th>
+                                <th>P</th>
+                                <th>A</th>
+                                <th>L</th>
+                                <th>%</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="reports.length > 0">
+                            <tr *ngFor="let item of reports;">
+                                <td>{{item?.user_id}}</td>
+                                <td> {{ item?.emp_no }}</td>
+                                <td>{{item?.full_name}}</td>
+                                <ng-container *ngFor="let day of createRange(totalDays);">
+                                    <td [ngStyle]="{'background': item.days[day]?.toLowerCase() == 'p' ? '#00800096' : item.days[day]?.toLowerCase() == 'a' ? '#ff0000a6' : item.days[day]?.toLowerCase() == 'l' ? '#ffa50094' : '',
+                                                    'color' : item.days[day]?.toLowerCase() == 'p' ? '#fff' : item.days[day]?.toLowerCase() == 'a' ? '#fff' : item.days[day]?.toLowerCase() == 'l' ? '#fff' : '#000'}">
+                                            {{item.days[day] ?? '-'}}
+                                    </td>
+                                </ng-container>
+                                <td>{{item.T}}</td>
+                                <td>{{item.P}}</td>
+                                <td>{{item.A}}</td>
+                                <td>{{item.L}}</td>
+                                <td>{{item['%']}}</td>
+                            </tr>
+                        </tbody>
+                       
+                        </table >
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

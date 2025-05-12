@@ -1,0 +1,142 @@
+<div class="upcoming-exam-section dashboard-timetable">
+    <div class="upcoming-header">
+        <a href="#" [routerLink]="CommonService.setUrl(URLConstants.ADD_TIMETABLE)" class="view-all-link">
+            <h3>
+                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="36" height="36" rx="7"/>
+                    <rect width="36" height="36" rx="7"/>
+                    <path d="M9 25.2188C9 26.2021 9.81585 27 10.8214 27H24.1786C25.1842 27 26 26.2021 26 25.2188V15.125H9V25.2188ZM11.4286 18.0938C11.4286 17.7672 11.7018 17.5 12.0357 17.5H15.6786C16.0125 17.5 16.2857 17.7672 16.2857 18.0938V21.6562C16.2857 21.9828 16.0125 22.25 15.6786 22.25H12.0357C11.7018 22.25 11.4286 21.9828 11.4286 21.6562V18.0938ZM24.1786 10.375H22.3571V8.59375C22.3571 8.26719 22.0839 8 21.75 8H20.5357C20.2018 8 19.9286 8.26719 19.9286 8.59375V10.375H15.0714V8.59375C15.0714 8.26719 14.7982 8 14.4643 8H13.25C12.9161 8 12.6429 8.26719 12.6429 8.59375V10.375H10.8214C9.81585 10.375 9 11.1729 9 12.1562V13.9375H26V12.1562C26 11.1729 25.1842 10.375 24.1786 10.375Z"/>
+                </svg>
+                Timetable
+            </h3>
+        </a>
+        <div class="timetable_date">
+            <h4>
+                {{ timeTableForm.get('date')?.value | date: 'd MMMM - yyyy' }}
+                <span>{{ timeTableForm.get('date')?.value | date: 'EEEE' }}</span>
+            </h4>              
+        </div>
+        
+        <div class="dashboard-timetable-form">
+            <div [formGroup]="timeTableForm" >
+                <div class="row justify-content-end pe-2">
+                    <div class="col-md-3 form_group m-0">
+                        <app-mat-date-picker class="dashboard-custom-date" controlName="date" (clearDate)="clearDate()"></app-mat-date-picker>
+                    </div>
+                    <div class="col-md-3 form_group m-0">
+                        <app-multi-select [itemsShowLimit]="1" controlName="faculty_id" [dropDownArray]="faculties" placeholder="Select Faculty"></app-multi-select>
+                    </div>
+                    <div class="col-md-3 form_group m-0">
+                        <app-multi-select [itemsShowLimit]="1" controlName="class_id" [dropDownArray]="classList" placeholder="Select Class" (change)="getBatchList()"></app-multi-select>
+                    </div>
+                    <div class="col-md-3 form_group m-0">
+                        <app-multi-select [itemsShowLimit]="1" controlName="batch_id" [dropDownArray]="batchList" placeholder="Select Batch"></app-multi-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="upcoming-table basic_table dashboard-basic_timetable">
+        <div class="table-responsive" infiniteScroll [scrollWindow]="false" (scrolled)="onScrollChange()">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Batch</th>
+                        <th *ngFor="let i of [].constructor(maxLectures); let idx = index">
+                          Lecture-{{ idx + 1 }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="batchKeys.length > 0 && !isFullTableLoading">
+                    <tr *ngFor="let batch of batchKeys">
+                        <td>{{ batch }}</td>
+                        <td *ngFor="let i of [].constructor(maxLectures); let idx = index">
+                            <ng-container *ngIf="(timeTableData[batch]?.[idx]?.extra || !timeTableData[batch]?.[idx]?.time_slot?.is_break) && ( timeTableData[batch]?.[idx]?.user || timeTableData[batch]?.[idx]?.room || timeTableData[batch]?.[idx]?.subject)">
+                                <div class="timetable_box" [ngStyle]="{ 'opacity': !isFacultySelected(timeTableData[batch]?.[idx]?.user?.full_name) && timeTableForm.value?.faculty_id?.length > 0 ? 0.2 : 1 }">
+                                    <span class="extra_lecture" *ngIf="timeTableData[batch]?.[idx]?.extra" style="color: red">(Extra)</span>
+                                    <div class="subject">
+                                        <h4 [ngStyle]="{
+                                        'background-color': timeTableData[batch]?.[idx]?.subject?.color ? timeTableData[batch]?.[idx]?.subject?.color : 'white' ,
+                                        'color' : !timeTableData[batch]?.[idx]?.subject?.color ? 'black' : 'white'
+                                        }">{{ timeTableData[batch]?.[idx]?.subject?.name }} </h4>
+                                    </div>
+                        
+                                    <div class="subject_teacher">
+                                        <a [routerLink]="[CommonService.setUrl(URLConstants.USER_PROFILE),timeTableData[batch]?.[idx]?.user?.id]">
+                                        <img
+                                            [src]="timeTableData[batch]?.[idx]?.user?.image || 'assets/images/professor-male.png'"
+                                            alt="faculty"
+                                        />
+                                        {{ timeTableData[batch]?.[idx]?.user?.full_name }}
+                                        </a>
+                                        <span>{{ timeTableData[batch]?.[idx]?.room?.room?.name ?? 'N/A' }}</span>
+                                    </div>
+                        
+                                    <div class="subject_time">
+                                        <i class="fa fa-stopwatch"></i>
+                                        <label>
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.from_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.from_time) | date:'shortTime') : ''  }} -
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.to_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.to_time) | date:'shortTime') : ''}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+                            <!-- If Empty Lecture -->
+                            <ng-container *ngIf="(!timeTableData[batch]?.[idx]?.user && !timeTableData[batch]?.[idx]?.room && !timeTableData[batch]?.[idx]?.subject) && !timeTableData[batch]?.[idx]?.time_slot?.is_break && timeTableData[batch]?.[idx]?.time_slot">
+                                <div class="timetable_box empty_lecture" [ngStyle]="{ 'opacity': timeTableForm.value?.faculty_id?.length > 0 ? 0.2 : 1 }">
+                                    <div class="subject">
+                                        No Lecture Available
+                                    </div>
+                                    <div class="subject_time">
+                                        <i class="fa fa-stopwatch"></i>
+                                        <label>
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.from_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.from_time) | date:'shortTime') : ''  }} -
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.to_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.to_time) | date:'shortTime') : ''}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        
+                              <!-- If its is break -->
+                            <ng-container *ngIf="timeTableData[batch]?.[idx]?.time_slot?.is_break == 1">
+                                <div class="timetable_box breaktime_box">
+                                    <div class="break_img">
+                                        <img src="assets/images/breake_img.png" alt="" srcset="">
+                                    </div>
+                                    <div class="subject_time">
+                                        <i class="fa fa-stopwatch"></i>
+                                        <label>
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.from_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.from_time) | date:'shortTime') : ''  }} -
+                                            {{ timeTableData[batch]?.[idx]?.time_slot?.to_time ? (formatTimeString(timeTableData[batch]?.[idx]?.time_slot?.to_time) | date:'shortTime') : ''}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="isTableLoading || isFullTableLoading">
+                    <tr>
+                        <td [attr.colspan]="maxLectures + 1">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="!isTableLoading && !isFullTableLoading && batchKeys.length == 0">
+                    <tr>
+                        <td [attr.colspan]="maxLectures + 1">
+                            <div class="d-flex justify-content-center">
+                                No Data Found.
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

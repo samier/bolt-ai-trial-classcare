@@ -1,0 +1,122 @@
+.main-footer{
+    display: none;
+}
+
+.calender-event-section{
+    .calender-event-header{
+        padding: 8px 20px;
+        background-color: #EDEDFF;
+        color: #000;
+        border-radius: 6px 6px 0 0;
+        h4{
+            color: #000;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+    }
+    .calender-event-body{
+        padding: 8px 12px;
+        .calender-exam-card{
+            background-color: #FED8E5;
+            border: 2px solid #FED8E5;
+            padding: 5px 20px 5px 10px;
+            border-radius: 2px;
+            position: relative;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            &:hover{
+                background-color: #fff;
+            }
+            &::before{
+                content: "";
+                background-image: url(../../../../../assets/images/right-dark-arrow.svg);
+                width: 10px;
+                height: 10px;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: cover;
+                position: absolute;
+                right: 5px;
+                bottom: 12px;
+            }
+            p{
+                font-size: 10px;
+                line-height: 15px;
+                font-weight: 500;
+                color: #000;
+                margin: 0;
+            }
+            span{
+                font-size: 10px;
+                line-height: 15px;
+                font-weight: 600;
+                color: #000;
+                margin: 0;
+                display: block;
+                white-space: nowrap;
+            }
+        }
+        .calender-light-exam-card{
+            background-color: #DBF3FA;
+            border: 2px solid #DBF3FA;
+        }
+    }
+    ::ng-deep{
+        .calender-inner{
+            .demo-inline-calendar-card{
+                padding: 0;
+                background-color: rgba(203, 203, 203, 10%);
+                border: none;
+                margin-top: 12px;
+                box-shadow: none;
+                .mat-calendar-header{
+                    padding: 0;
+                    .mat-calendar-controls{
+                        margin-bottom: 5px;
+                    }
+                }
+                .mat-button-wrapper{
+                    color: #052065;
+                    svg{
+                        color: #052065;
+                    }
+                }
+                .mat-calendar-table-header th{
+                    color: #818181;
+                }
+                .mat-calendar-body-cell-container{
+                    padding:24px !important;
+                }
+                .mat-calendar-body-label{
+                    padding-bottom: 20px !important;
+                    padding-top: 20px !important;
+                }
+                .mat-calendar-body-cell-content{
+                    width: 30px;
+                    height: 30px;
+                    color: #052065;
+                    left: 30%;
+                }
+                .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical){
+                    background-color: #DBF3FA;
+                    border: 1px solid #A8EAFD;
+                }
+                
+            }
+        }
+    }
+    
+}
+
+@media(max-width: 992px){
+    .calender-event-section .calender-event-header h4{
+        font-size: 12px;
+        line-height: 16px;
+    }
+    .calender-event-section .calender-event-header{
+        padding: 8px 10px;
+    }
+}

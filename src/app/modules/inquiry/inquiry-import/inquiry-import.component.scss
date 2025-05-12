@@ -1,0 +1,17 @@
+.sample-file-content {
+    .title {
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .body-conten {
+        span {
+            font-size: 15px;
+        }
+        display: flex;
+        align-items: center;
+
+        span{
+            margin-right: 20px;
+        }
+    }
+}

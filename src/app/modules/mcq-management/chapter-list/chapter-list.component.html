@@ -1,0 +1,205 @@
+<section class="chapter">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Chapter List</h3>
+				<div class="btn_right">
+					<a *ngIf="CommonService.hasPermission('online_exam_chapter', 'has_create')" class="global_btn btn add-btn"  href="#." [routerLink]="setUrl(URLConstants.CHAPTER_CREATE)" > Add Chapter</a>
+				</div>
+			</div>
+            <div class="">             
+                <div class="card_body">
+					<div class="card filter-card p-0">
+						<div class="card-header border-bottom justify-content-between d-flex">
+						  <div class="filter-heading d-flex align-items-center">
+							<h5 class="mb-0">Filters</h5>
+							<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button> <!--{{filterCount}}-->
+						  </div>
+		
+						  <div class="d-flex filter-accordion-btn">
+							<button class="btn me-2" [disabled]="isResetLoading" (click)="clearAll()">Reset
+								<div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+									<span class="visually-hidden">Loading..."</span>
+								</div>
+							</button> <!--(click)="clearAll()"-->
+							<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter"> <!--v-->
+							  <i class="fa fa-angle-down"  *ngIf="!filter"></i><!--*ngIf="!filter"-->
+							  <i class="fa fa-angle-up" *ngIf="filter"></i>
+							</button>
+						  </div>
+						</div>
+				
+						<div class="card-body"  *ngIf="filter"> <!-- *ngIf="filter"-->
+						  <div class="content_scroll"[formGroup]="chepterFilterForm"> <!-- [formGroup]="studentFilterForm"-->
+							<div class="row">   
+								<!-- <div class="col-md-3 form_group">
+									<div class="form_group">
+										<label class="form_label">Class:</label>
+										<div>
+											<ng-select #select 
+												[items]="classes" 
+												(change)="changeClass(selectedClass)" 
+												[searchable]="false" 
+												[(ngModel)]="selectedClass" 
+												name="class" 
+												bindLabel="name" 
+												placeholder="Select Class"
+												bindValue="id" >
+												<ng-template ng-header-tmp>
+													<input style="width: 100%; line-height: 24px" 
+															(onclick)="changeClass(selectedClass)" type="text" 
+															(input)="select.filter($any($event.target).value)" />
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+								</div> -->
+								
+
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">Select Class</label>
+									<app-single-select controlName="classFC" (change)="getSubjectList()"
+										[dropDownArray]="classListDP" placeholder="Select Class"></app-single-select>
+								</div>
+
+								<div class="col-md-3 form_group">
+									<label for="" class="form_label">Select Subject</label>
+									<app-single-select controlName="subjectFC" 
+										[dropDownArray]="subjectListDP" placeholder="Select Subject"></app-single-select>
+								</div>
+								  
+								<!-- <div class="col-md-3 form_group">
+									<div class="form_group">
+										<label class="form_label">Subject:</label>
+										<div>
+											<ng-select #select 
+												[items]="subjects" 
+												(change)="reloadData()"  
+												[searchable]="false" 
+												[(ngModel)]="selectedSubject" 
+												name="subjectName[subject]" 
+												bindLabel="name" 
+												placeholder="Select Subject"
+												bindValue="id">
+												<ng-template ng-header-tmp>
+													<input style="width: 100%; line-height: 24px" 
+															(onclick)="reloadData()" type="text" 
+															(input)="select.filter($any($event.target).value)" />
+												</ng-template>
+											</ng-select>
+										</div>
+									</div>
+								</div> -->
+		
+							</div>
+							<div class="row">
+								<div class="col-md-auto form_group mb-0">
+									<button type="submit"
+										class="btn w-100 report-btn" (click)="reloadData()">
+										Show 
+									</button>
+								</div>
+							</div>    
+						  </div>
+						</div>
+					</div>
+                    <!-- <div class="card">
+                    	<div class="row">
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class="col-md-12 form_label">Class:</label>
+                                    <div class="col-md-12">
+                                        <ng-select #select 
+                                        	[items]="classes" 
+                                        	(change)="changeClass(selectedClass)" 
+                                        	[searchable]="false" 
+                                        	[(ngModel)]="selectedClass" 
+                                        	name="class" 
+                                        	bindLabel="name" 
+											placeholder="Select Class"
+                                        	bindValue="id" >
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px" 
+                                                		(onclick)="changeClass(selectedClass)" type="text" 
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class="col-md-12 form_label">Subject:</label>
+                                    <div class="col-md-12">
+                                        <ng-select #select 
+                                        	[items]="subjects" 
+                                        	(change)="reloadData()"  
+                                        	[searchable]="false" 
+                                        	[(ngModel)]="selectedSubject" 
+                                        	name="subjectName[subject]" 
+                                        	bindLabel="name" 
+											placeholder="Select Subject"
+                                        	bindValue="id">
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px" 
+                                                		(onclick)="reloadData()" type="text" 
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+					
+					<div class="card">
+						<div class="datatable-action-design">
+							<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+							  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+								<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+							  </svg>
+							  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+								<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+							  </svg>
+							</div>
+							<div class="table-responsive">
+								<table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Class</th>
+											<th>Subject</th>
+											<th>Chapter</th>
+											<th class="action-btn-sticky">Action</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="chapters?.length != 0">
+										<tr *ngFor="let chapter of chapters">
+											<td class="orange-text-color"> {{chapter.id }}</td>
+											<td> {{chapter.class}} </td>
+											<td> {{chapter.subject}} </td>
+											<td> {{chapter.chapter_name}} </td>
+											<td class="action-btn-sticky text-center"> 
+												<div class="btn-group" role="group">
+													<a *ngIf="CommonService.hasPermission('online_exam_chapter', 'has_edit')" class="lt-btn-icon action-edit" ngbTooltip="Edit" href="#" [routerLink]="[setUrl(URLConstants.CHAPTER_EDIT),chapter.id]" > </a>
+													<button *ngIf="CommonService.hasPermission('online_exam_chapter', 'has_delete')" type="button" ngbTooltip="Delete" class="lt-btn-icon btn-sm btn-danger action-delete" (click)="remove(chapter.id)"> 
+														
+													</button> 
+												</div>
+											</td>
+										</tr>
+									</tbody>
+									<tbody *ngIf="chapters?.length == 0">
+										<tr>
+										<td colspan="13" class="text-center no-data-available">No data</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

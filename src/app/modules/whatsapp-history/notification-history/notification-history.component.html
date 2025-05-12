@@ -1,0 +1,119 @@
+<div class="row mt-3 text-16 hed_alert">
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-brand alert-dismissible fade show purple-bg white-color px-2"
+            role="alert">
+            <div class="m-alert__icon">
+                <i class="la la-calculator"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Total Sent<br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_total"> {{total_count}} </span>
+                </strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-success alert-dismissible fade show success-bg white-color px-2"
+            role="alert">
+            <div class="m-alert__icon">
+                <i class="fa fa-check-double"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Read<br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_success"> {{read_count}} </span>
+                </strong>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="m-alert m-alert--icon m-alert--air alert alert-danger alert-dismissible fade show danger-bg white-color px-2"
+            role="alert">
+            <div class="m-alert__icon">
+                <i class="fa fa-check"></i>
+            </div>
+            <div class="m-alert__text">
+                <strong>Unread <br />
+                    <i class="fa fa-envelope"></i>
+                    <span id="main_fail"> {{unread_count}}</span>
+                </strong>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="card-body border-0">
+        <div [formGroup]="notificationHistoryF" class="content_scroll mt-1">
+            <div class="row">
+                <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Date Range</label>
+                    <app-date-range-picker type="date" controlName="date"
+                        placeholder="Select Date Range"></app-date-range-picker>
+                </div>
+
+                <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Notification For</label>
+                    <div>
+                        <app-multi-select [dropDownArray]="moduleList" controlName="module_id"
+                            (change)="onModuleChange()" placeholder="Select Module"></app-multi-select>
+                    </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Send Status</label>
+                    <app-single-select [dropDownArray]="sendNotificationList" controlName="status_read"
+                        placeholder="Select Status"></app-single-select>
+                </div>
+
+                <div class="col-auto form_group add_doc">
+                    <label class="form_label">Clear</label>
+                    <div>
+                        <button type="button" class="btn clear-btn" (click)="clearAll()"
+                            [disabled]="isResetloading">Clear
+                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetloading">
+                                <span class="visually-hidden">Loading..."</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row pb-3 mx-0 mt-4 no-gutters">
+            <div class="col-lg-12">
+                <div class="expense-list-table">
+                    <div class="table-list-heading">
+                    </div>
+                    <div class="table-responsive">
+                        <table datatable [dtOptions]="dtOptions" id="notificationH"
+                            class="table table-hover table-nowrap table-bordered ">
+
+                            <!-- <thead class="thead-light">
+                        <tr>
+                          <th class="w-auto">Sr.No.</th>
+                          <th>Date</th>
+                          <th>Name</th>
+                          <th>Message</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="tbody?.length > 0">
+                          <tbody>
+                              <tr *ngFor="let item of tbody ;let i = index;">
+                                <td>{{(i + 1) + indexStart}}</td>
+                                <td>{{item.created_at ? (item.created_at | date: dateFormateService.getDateTimeFormat()) : '' }}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.msg || 'N/A'}}</td>
+                              </tr>
+                          </tbody> -->
+                            <!-- <tbody *ngIf="tbody?.length == 0">
+                          <tr>
+                              <td colspan="10" class="text-center no-data-available">No data</td>
+                          </tr>
+                      </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

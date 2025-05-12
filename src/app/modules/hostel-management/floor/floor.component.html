@@ -1,0 +1,57 @@
+<section class="leave_form">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Floor List</h3>
+        <div class="btn_right">
+          <button class="btn btn-primary" [routerLink]="[setUrl('hostel/wings')]"><i class="fe fe-arrow-left"></i> Wing List</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card_body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Wing name</th>
+                      <th>Floor Name</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngIf="floors?.length != 0">
+                    <tr *ngFor="let floor of floors">
+                      <td> {{floor.id }}</td>
+                      <td> {{floor.wing_name}} </td>
+                      <td> {{floor.name}} </td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button class="btn btn-sm btn-primary" (click)="openEditMdl(editMdl, floor)"><i
+                              class="fa fa-pencil-alt"></i></button>
+                          <button type="button" title="Delete" class="btn btn-sm btn-danger" *ngIf="!floor.floor_used"
+                            (click)="deleteFloor(floor.id)">
+                            <i class="fa fa-trash-alt"></i>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="floors?.length == 0">
+                    <tr>
+                      <td colspan="4" class="text-center no-data-available">No data</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-template #editMdl let-modal>
+                <app-edit-floor (reloadFloors)="reloadData()" [floor]="floor"></app-edit-floor>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

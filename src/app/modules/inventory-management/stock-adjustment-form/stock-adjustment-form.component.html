@@ -1,0 +1,131 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Stock Management</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.ADJUST_STOCK_ITEM_LIST)">Stock Adjustment List</a>
+                </div>
+            </div>
+            <div>
+                <div class="card_body">
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="stockAdjustmentForm" class="form_section global_form">
+
+                                    <div class="row">
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input type="hidden" name="record_id" value="0" formControlName="record_id">
+                                                <input class="form-control"  [min]="todayDate" type="date" name="date" [(ngModel)]="discard_date" id="date" formControlName="date" placeholder="" required>
+                                            </div>
+                                            <div *ngIf="submitted && stockAdjustmentForm.controls['date'].invalid" class="error text-danger"> Please enter Discard Date.</div>                                      
+                                        </div>                                                                            
+                                     
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Store<span class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="store_id" id="store_id" class="form-control" formControlName="store_id">
+                                                    <option value="" disabled selected class="disabled">Select your option</option>
+                                                    <option *ngFor="let item of storeTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && stockAdjustmentForm.controls['store_id'].invalid" class="error error text-danger"> Please select store. </div>                                      
+                                        </div>                                                    
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Reason<span class="text-danger">*</span></label>
+                                            <div>
+                                                <input class="form-control" name="reason" id="reason" formControlName="reason" placeholder="Enter Reason for stock adjustment">
+                                            </div>
+                                            <!-- <div *ngIf="stockAdjustmentForm.controls['remark'].dirty && stockAdjustmentForm.controls['remark'].invalid" class="error text-danger">Please enter valid Opening Balance.</div>                                        -->
+                                        </div>
+                                        
+                                        <div class="form_outer col-md-2">
+                                            <div class="form_group add_doc">
+                                                <div>                                                
+                                                    <label>add item</label>
+                                                    <button type="button" (click)="addQuantity()" class="btn add-btn">Add Items</button>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    <div class="quantities_lay">     
+                                        <div formArrayName='quantities'>
+                                        <div *ngFor="let quantity of quantities().controls; let i=index"  [formGroupName]="i">
+                                                <div class="add_items_contant mb-2">
+                                                    <div class="row">
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">Item Type<span class="text-danger">*</span></label>  
+                                                            <input type="hidden" name="quantities[{{i}}][record_id]" formControlName="record_id" value="">                                              
+                                                            <div>
+                                                                <select id="inventory_item_type_id" class="form-control" (input)="itemTypeChange($event,i)" name="quantities[{{i}}][inventory_item_type_id]" formControlName="inventory_item_type_id">
+                                                                    <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                    <option *ngFor="let item of itemTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                                </select> 
+                                                            </div>
+                                                            <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                        </div>
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">Item<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <select  name="quantities[{{i}}][inventory_item_id]" (input)="itemChange($event,i)" class="form-control" id="inventory_item_id" formControlName="inventory_item_id">
+                                                                    <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                    <option *ngFor="let item of itemList[i];" value="{{item.id}}">{{item.item_name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                        </div>
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">Available Quantity<span class="text-danger">*</span></label>
+                                                            <div>
+                                                            <input readonly type="text" name="quantities[{{i}}][available_quantity]" class="form-control" formControlName="available_quantity">
+                                                            </div>
+                                                            <!-- <div *ngIf="submitted && purchaseForm.controls['inventory_item_id'].invalid" class="error error text-danger"> Please select item_type. </div>                                       -->
+                                                        </div>
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">Measurement Type<span class="text-danger">*</span></label>
+                                                            <div>
+                                                                <select style="pointer-events: none;" name="quantities[{{i}}][measurement_type_id]" class="form-control" id="measurement_type_id" formControlName="measurement_type_id">
+                                                                    <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                    <option *ngFor="let item of measurementTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>  
+
+                                                        <div class="col-md-3 form_group">
+                                                            <label class="form_label">Adjusted Quantity<span class="text-danger">*</span></label>
+                                                            <div>
+                                                            <input type="text" name="quantities[{{i}}][adjust_quantity]" class="form-control" formControlName="adjust_quantity">
+                                                            </div>
+                                                            <div *ngIf="getAdjustedQuantity(i).dirty && getAdjustedQuantity(i).invalid" class="error error text-danger"> Please enter valid quantity. </div>                                      
+                                                        </div>
+                                                        <div class="col-md-1 form_group add_doc" *ngIf="i != 0">
+                                                            <label>remove</label>
+                                                            <button (click)="removeQuantity(i)" class="btn btn-danger"><i class="fa fa-minus"></i></button>
+                                                        </div>                                            
+                                                    </div>    
+                                                </div>    
+                                            </div>     
+                                        </div>
+                                    </div>
+
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.ADJUST_STOCK_ITEM_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" [disabled]="!stockAdjustmentForm.valid" class="btn save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>                                                                                                   
+                                </div>    
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

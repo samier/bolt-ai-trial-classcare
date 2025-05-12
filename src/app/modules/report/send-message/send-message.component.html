@@ -1,0 +1,33 @@
+<div class="align-items-start">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h4 class="modal-title">Send Message</h4>
+		</div>
+		<div class="modal-body">
+			<div class="col-md-12 d-flex">
+                <div class="radio">
+                    <label class="m-radio required" for="student" aria-required="true">
+                        <input type="radio" id="student" name="to" [(ngModel)]="to" class="ng-untouched ng-pristine ng-valid" value="student" aria-required="true">
+                        Student<span></span>
+                    </label>
+                </div>
+                <div class="radio ms-1">
+                    <label class="m-radio required" for="parent" aria-required="true">
+                        <input type="radio" id="parent" name="to" [(ngModel)]="to" class="ng-untouched ng-pristine ng-valid" value="parent" aria-required="true" >
+                        Parent <span></span>
+                    </label>
+                </div>
+                <div class="radio ml-1">
+                    <label class="m-radio required" for="both" aria-required="true">
+                        <input type="radio" id="both" name="to" [(ngModel)]="to" class="ng-untouched ng-pristine ng-valid" value="both" aria-required="true" >
+                        Both <span></span>
+                    </label>
+                </div>
+            </div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-blue" (click)="closeModal()">Close</button>
+			<button class="btn btn-blue ml-2" (click)="send()">Send</button>
+		</div>
+	</div>
+</div>

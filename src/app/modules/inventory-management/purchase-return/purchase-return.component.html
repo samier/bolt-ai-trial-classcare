@@ -1,0 +1,167 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Return Order</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="CommonService.setUrl(URLConstants.PURCHASE_RETURN_LIST)">Purchase Return List</a>
+                </div>
+            </div>
+            <form [formGroup]="purchaseReturnForm" class="form_section global_form">
+                <div class="card">
+                    <div class="card_body">
+                        <div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> Order Details </span></p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Select Purchase Order<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select placeholder="Please Select Purchase Order" controlName="purchase_order_id" [dropDownArray]="purchaseOrderList" (change)="handlePoChange()"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Vendor Name<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-input type="text" [readonly]="true" name="vendor_name" id="vendor_name" controlName="vendor_name" placeholder="Vendor Name" required></app-input>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Invoice No.<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select placeholder="Please Invoice No." controlName="invoice_id" [dropDownArray]="invoiceList" (change)="handleInvoiceChange()"></app-single-select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="heading">
+                                                <p><span> Return Details</span>
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Return Reason<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-textarea controlName="return_reason" placeHolder="Enter Reject Reason"></app-textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Return Date<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-mat-date-picker minDate="{{invoice_date}}"  placeholder="Select Purchase Date" controlName="return_date"></app-mat-date-picker>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Return By<span class="text-danger">*</span></label>
+                                                    <div>
+                                                        <app-single-select placeholder="Select User name" controlName="return_by" [dropDownArray]="userList"></app-single-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 form_group">
+                                                    <label class="form_label">Attachment</label>
+                                                    <div>
+                                                        <app-input type="file" accept="image/*,application/pdf" name="attachment" controlName="attachment" placeholder="Attachment" (change)="onFileChange($event)" required></app-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-nowrap table datatable w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Item Type</th>
+                                            <th>Item name</th>
+                                            <th>Unit Purchase Price</th>
+                                            <th>Invoice Quantity</th>
+                                            <th>Total Returned Quantity</th>
+                                            <th>Total Amount</th>
+                                            <th>Return Quantity</th>
+                                            <th>Return Total Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let quantity of quantities.controls; let i=index">
+                                        <tr>
+                                            <td>{{i+1}}</td>
+                                            <td>
+                                                <div> {{getItemTypeName(i).value}}</div>
+                                            </td>
+                                            <td>
+                                                <div> {{getItemName(i).value}}</div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [GroupName]="i" [readonly]="true" formArrayName="quantities" controlName="unit_purchase_price" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="1" type="number" [readonly]="true" [GroupName]="i" formArrayName="quantities" controlName="quantity"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="1" type="number" [readonly]="true" [GroupName]="i" formArrayName="quantities" controlName="total_returned_quantity"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input [readonly]="true" [GroupName]="i" formArrayName="quantities" controlName="amount"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <app-input min="0" max="{{return_quantity[i]}}" type="number" [GroupName]="i" formArrayName="quantities" controlName="return_quantity" (input)="updateAmount(i)" (change)="updateAmount(i)"></app-input>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    {{getGrandTotal(i).value | number:'1.2-2'}}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row justify-content-end" *ngIf="quantities.controls.length > 0">
+                                    <div class="col-3">
+                                        <table class="table table-bordered table-nowrap table datatable w-100">
+                                            <tr>
+                                                <td class="p-0">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div><strong>Total</strong></div>
+                                                        <div><strong>{{purchaseReturnForm.value.total_amount | number:'1.2-2'}}</strong></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row w-100 mb-4">
+                                    <div class="col-auto">
+                                        <a class="btn cancel-btn" href="#" [routerLink]="CommonService.setUrl(URLConstants.PURCHASE_RETURN_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" (click)="onSubmit()" [disabled]="!purchaseReturnForm.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || purchaseReturnForm.invalid">Save
+                                            <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

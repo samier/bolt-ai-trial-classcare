@@ -1,0 +1,210 @@
+<div class="collection-dashboard collection-space-dashboard">
+    <div class="collection-dashboard-heading">
+        <form action="" [formGroup]="dashboardForm">
+            <div class="row align-items-end">
+                <div class="col-lg-3">
+                    <app-multi-select [itemsShowLimit]="2" controlName="academicYear"
+                        placeholder="Select Year" [dropDownArray]="yearsList"></app-multi-select>
+                </div>
+
+                <div class="col-lg-3">
+                    <app-multi-select [itemsShowLimit]="1" controlName="branches"
+                        placeholder="Select Branch" [dropDownArray]="branchList"></app-multi-select>
+                </div>
+
+                <div class="col-lg-3">
+                    <app-date-range-picker controlName="dates" placeholder="Select Date"></app-date-range-picker>
+                </div>
+                <div class="col-lg-3">
+                    <button class="btn show-btn me-2" (click)="getFeesDetailsForDashboard()" [disabled]="isLoading">Show
+                        <!-- <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+                            <span class="visually-hidden">Loading...</span>
+                          </div> -->
+                    </button>
+                    <button class="btn clear-btn" (click)="clearData()">Clear</button>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="collection-chip-wrapper">
+            <div class="row">
+
+                <!-- Total Remaining -->
+                <div class="col-lg-3">
+                    <div class="collection-chip-card">
+                        <div class="collection-inner-box">
+                            <div class="collection-chip-header">
+                                <img src="assets/images/Total-amount.svg" />
+                            </div>
+                            <div class="collection-chip-body">
+                                <h3>Total Remaining</h3>
+                                <ng-container *ngIf="!isLoading else loader">
+                                    <p>{{ feesDetails?.total_reamining_fee?.remainingTotal.toFixed(2) ?? 0.00 }}</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="dropdown collection-chip-footer">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                View All
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              <li>
+                                <a class="dropdown-item">
+                                    <h6>Branch Name</h6>
+                                    <h6>Total </h6>
+                                </a>
+                            </li>
+                            <ng-container *ngIf="!isLoading else loader">
+                                <ng-container *ngIf="feesDetails?.total_reamining_fee?.reamaining_branchwise_Fees.length > 0 else noDataFound"> 
+                                    <li *ngFor="let item of feesDetails?.total_reamining_fee?.reamaining_branchwise_Fees">
+                                        <a class="dropdown-item">
+                                            <p class="branch-name" [title]="item.branch_name">{{item.branch_name}}</p>
+                                            <p>{{item.remaining_fees}}</p>
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+
+                <!-- Total Discount -->
+                <div class="col-lg-3">
+                    <div class="collection-chip-card green-chip-card">
+                        <div class="collection-inner-box">
+                            <div class="collection-chip-header">
+                                <img src="assets/images/Total-discount.svg" />
+                            </div>
+                            <div class="collection-chip-body">
+                                <h3>Total Discount</h3>
+                                <ng-container *ngIf="!isLoading else loader">
+                                    <p>{{ feesDetails?.discount?.total_discount.toFixed(2) ?? 0.00 }}</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="dropdown collection-chip-footer">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                View All
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              <li>
+                                <a class="dropdown-item ">
+                                    <h6>Branch Name</h6>
+                                    <h6>Total </h6>
+                                </a>
+                            </li>
+                            <ng-container *ngIf="!isLoading else loader">
+                                <ng-container *ngIf="feesDetails?.discount?.branch_wise_discount.length > 0 else noDataFound">
+                                    <li *ngFor="let item of feesDetails?.discount?.branch_wise_discount">
+                                        <a class="dropdown-item">
+                                            <p class="branch-name" [title]="item.branch_name">{{item.branch_name}}</p>
+                                            <p>{{item.discount_on_fees}}</p>
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                            </ul>
+                          </div>
+                    </div>
+
+                </div>
+
+                <!-- Total Wallet -->
+                <div class="col-lg-3">
+                    <div class="collection-chip-card pink-chip-card">
+                        <div class="collection-inner-box">
+                            <div class="collection-chip-header">
+                                <img src="assets/images/Total-wallet.svg" />
+                            </div>
+                            <div class="collection-chip-body">
+                                <h3>Total Wallet</h3>
+                                <ng-container *ngIf="!isLoading else loader">
+                                    <p>{{ feesDetails?.walletDetails?.total_wallet.toFixed(2) ?? 0.00 }}</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="dropdown collection-chip-footer">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                View All
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              <li>
+                                <a class="dropdown-item ">
+                                    <h6>Branch Name</h6>
+                                    <h6>Total </h6>
+                                </a>
+                            </li>
+                            <ng-container *ngIf="!isLoading else loader">
+                                <ng-container *ngIf="feesDetails?.walletDetails?.branch_wise_wallet.length > 0 else noDataFound">
+                                    <li *ngFor="let item of feesDetails?.walletDetails?.branch_wise_wallet">
+                                        <a class="dropdown-item">
+                                            <p class="branch-name" [title]="item.branch_name">{{item.branch_name}}</p>
+                                            <p>{{item.balance}}</p>
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+
+                <!-- Total Expense -->
+                <div class="col-lg-3">
+                    <div class="collection-chip-card blue-chip-card">
+                        <div class="collection-inner-box">
+                            <div class="collection-chip-header">
+                                <img src="assets/images/Total-expense.svg" />
+                            </div>
+                            <div class="collection-chip-body">
+                                <h3>Total Expense</h3>
+                                <ng-container *ngIf="!isLoading else loader">
+                                    <p>{{feesDetails?.expense?.total_Expense.toFixed(2) ?? 0.00}}</p>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="dropdown collection-chip-footer">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                View All
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                              <li>
+                                <a class="dropdown-item ">
+                                    <h6>Branch Name</h6>
+                                    <h6>Total </h6>
+                                </a>
+                            </li>
+                            <ng-container *ngIf="!isLoading else loader">
+                                <ng-container *ngIf="feesDetails?.expense?.branch_wise_Expense.length > 0 else noDataFound">
+                                    <li *ngFor="let item of feesDetails?.expense?.branch_wise_Expense">
+                                        <a class="dropdown-item">
+                                            <p class="branch-name" [title]="item.branch_name">{{item.branch_name}}</p>
+                                            <p>{{item.total_amount}}</p>
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ng-container>
+                            </ul>
+                          </div>
+                    </div>
+                </div>
+
+                <ng-template #loader>
+                    <div class="d-flex justify-content-center p-1">
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isLoading">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #noDataFound>
+                    <div class="d-flex justify-content-center p-1">
+                        <span class="">No Data Found</span>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+</div>

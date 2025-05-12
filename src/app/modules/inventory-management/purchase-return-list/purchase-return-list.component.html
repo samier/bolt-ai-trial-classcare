@@ -1,0 +1,253 @@
+<section class="leave_form">
+	<div class="page_inner">
+		<div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Purchase Return List</h3>
+				<div class="btn_right">
+					<a class="btn add-btn" href="#." [routerLink]="[CommonService.setUrl(URLConstants.PURCHASE_RETURN_FORM)]">Add Purchase Return</a>
+				</div>
+			</div>
+			<div class="card student-list-card p-0 mx-0 mb-4">
+				<div class="card-header justify-content-between d-flex">
+				  <div class="card-student-heading d-flex align-items-center">
+					<h5 class="mb-0">Filters</h5>
+					<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+				  </div>
+				  <div class="d-flex student-accordion-btn">
+					<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+					<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+					  <i class="fa fa-angle-down" *ngIf="!filter"></i>
+					  <i class="fa fa-angle-up" *ngIf="filter"></i>
+					</button>
+				  </div>
+				</div>
+		
+				<div class="card-body" *ngIf="filter">
+				  <div [formGroup]="filterForm" class="content_scroll">
+					<div class="row">
+                        <div class="col-md-3 form_group">
+							<label class="form_label">Select Purchase Order</label>
+							<div>
+								<app-single-select placeholder="Select Purchase Order" controlName="purchase_order_id" [dropDownArray]="purchaseOrderList" (change)="handlePurchaseOrder()"></app-single-select>
+							</div>                                     
+						</div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Vendor name</label>
+                            <div>
+                                <app-single-select placeholder="Select Vendor" controlName="vendor_id" [dropDownArray]="vendorList" (change)="countFilters()"></app-single-select>
+                            </div>                                     
+                        </div>
+						<div class="col-md-3 form_group">
+                            <label class="form_label">Invoice No.</label>
+                            <div>
+                                <app-single-select placeholder="Select Invoice No." controlName="invoice_id" [dropDownArray]="invoiceList" (change)="countFilters()"></app-single-select>
+                            </div>                                     
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Return Date</label>
+                            <div>
+                                <app-date-range-picker controlName="return_date" placeholder="Select Return Date"></app-date-range-picker>
+                            </div>                                     
+                        </div>
+						<div class="col-md-3 form_group">
+                            <label class="form_label">Return By</label>
+                            <div>
+                                <app-single-select placeholder="Select user" controlName="return_by" [dropDownArray]="userList" (change)="countFilters()"></app-single-select>
+                            </div>                                     
+                        </div>
+					  <div class="col-md-12 form_group">
+						<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+					  </div>
+		
+		
+					</div>
+				  </div>
+				</div>
+			  </div>
+			<div class="card">
+				<div class="card_body">
+					<div class="row">
+						<div class="col-lg-12 datatable_cls">
+							<div class="datatable-action-design">
+								<div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+									<path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+								  </svg>
+								  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+									<path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+								  </svg>
+								</div>
+								<div class="table-responsive">
+									<table datatable [dtOptions]="dtOptions" class="table table-hover table-bordered table-nowrap table datatable w-100 purchase-return-list" [ngClass]="{'table-action-col-active' : isOpenByClick}">
+										<thead class="thead-light">
+											<tr>
+												<th>Sr. No</th>
+												<th>Purchase Order</th>
+												<th>Vendor Name</th>
+												<th>Invoice No</th>
+												<th>Return Date</th>
+												<th>Return By</th>
+												<th class="action-btn-sticky">Action</th>
+											</tr>
+										</thead>
+										<tbody *ngIf="tbody?.length != 0">
+											<tr *ngFor="let item of tbody ;let i = index;">
+												<td>{{item.DT_RowIndex}}</td>
+												<td>{{item?.purchase_order?.purchase_order_no ?? '-'}}</td>
+												<td>{{item.vendor?.vendor_name ?? '-'}}</td>
+												<td>{{item.invoice?.invoice_no}}</td>
+												<td>{{item.return_date | date : dateFormateService.getDateFormat() }}</td>
+												<td>{{item.return_by_name}}</td>
+												<td class="action-btn-sticky text-center">
+													<div class="btn-group" role="group">
+														<a class="lt-btn-icon action-edit" ngbTooltip="Edit" href='#' [routerLink]="[CommonService.setUrl(URLConstants.PURCHASE_RETURN_FORM),item.id]"></a>
+														<button class="lt-btn-icon action-delete" ngbTooltip="Delete" (click)="delete(item.id)"></button>
+														<a class="lt-btn-icon action-view" ngbTooltip="View" (click)="open2(mymodal,item.id)"></a>
+														<button type="button" ngbTooltip="Attachments" class="lt-btn-icon action-attech" (click)="openAttachment(myModel, item)">
+															
+														</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+										<tbody *ngIf="tbody?.length == 0">
+											<tr>
+												<td colspan="11" class="text-center no-data-available">No data</td>
+											</tr>
+										</tbody>
+									</table>
+									<ng-template #mymodal let-modal>
+										<div class="modal-header" style="z-index: 0;">
+											<h4 class="modal-title" id="modal-basic-title">Purchase Return Details</h4>
+											<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+												<span aria-hidden="true">×</span>
+											</button>
+										</div>
+										<div class="modal-body" style="z-index: 0;">
+											<div class="form_group modal-table">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="card">
+															<div class="row">
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Purchase Order No : </b> <span class="c-primary">{{return_purchase_data.purchase_order?.purchase_order_no ?? '-'}}</span></label>
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Vendor Name : </b> <span class="c-primary">{{return_purchase_data.vendor?.vendor_name ?? '-'}}</span></label>
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Invoice No : </b> <span class="c-primary">{{return_purchase_data.invoice?.invoice_no ?? '-'}}</span></label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-6">
+														<div class="card">
+															<div class="row">
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Return Date : </b> <span class="c-primary">{{return_purchase_data.return_date | date : dateFormateService.getDateFormat()}}</span></label>
+																</div>
+																<div class="col-6">
+																	<label class="form_label py-2"><b>Return By : </b> <span class="c-primary">{{return_purchase_data.return_by_user?.full_name ?? '-'}}</span></label>
+																</div>
+																<div class="col-12">
+																	<label class="form_label py-2"><b>Return Reason : </b> <span class="c-primary">{{return_purchase_data.return_reason ?? '-'}}</span></label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="basic_table">
+													<div class="table-responsive">
+														<table class="table table-hover table-bordered table-nowrap table datatable w-100">
+															<thead>
+																<tr>
+																	<th>Item Type</th>
+																	<th>Item Name</th>
+																	<th>Unit Purchase Price</th>
+																	<th>Invoice Quantity</th>
+																	<th>Total Amount</th>
+																	<th>Return Quantity</th>
+																	<th>Return Total Amount</th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr *ngFor="let item of return_purchase_data.purchase_items">
+																	<td>{{item.item_name?.inventory_item_type?.name}}</td>
+																	<td>{{item.item_name.item_name}}</td>
+																	<td>{{item.unit_price | number:'1.2-2'}}</td>
+																	<td class="teal-text-color">{{item.quantity ?? '-'}}</td>
+																	<td class="orange-text-color">{{item.amount | number:'1.2-2'}}</td>
+																	<td class="green-text-color">{{item.return_quantity }}</td>
+																	<td class="teal-text-color">{{item.return_total_amount | number:'1.2-2'}}</td>
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+												<div class="row justify-content-end">
+													<div class="col-3">
+														<table class="table table-bordered table-nowrap table datatable w-100">
+															<tr>
+																<td class="p-0">
+																	<div class="d-flex justify-content-between">
+																		<div><strong>Total</strong></div>
+																		<div><strong>{{return_purchase_data.total_amount | number:'1.2-2'}}</strong></div>
+																	</div>
+																</td>
+															</tr>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</ng-template>
+
+									<ng-template #myModel let-modal>
+										<div class="modal-header">
+											<div class="modal-title">Attachment</div>
+											<div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+										</div>
+										<div class="modal-body">
+											<div class="row">
+												<div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex uploded_doc" *ngIf="attachment.attachment_name">
+													<div class="uploded_doc_content card">
+														<ng-container [ngSwitch]="getFileType(attachment?.attachment_name)">
+															<div class="text-center atteched_file">
+																<a *ngSwitchCase="'image'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<img class="img-circle" style="width: 100px; height: 100px" [src]="attachment?.attachment_url" />
+																</a>
+																<a *ngSwitchCase="'excel'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-excel"></i>
+																</a>
+																<a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-pdf"></i>
+																</a>
+																<a *ngSwitchDefault target="_blank" download="" [href]="attachment?.attachment_url">
+																	<i class="fa fa-file-excel"></i>
+																</a>
+															</div>
+														</ng-container>
+														<div class="action text-center">
+															<a class="action-delete btn" (click)="deleteAttachment(attachment.id)" ngbTooltip="Delete">
+																<i class="fa fa-trash-alt"></i>
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="text-center text-muted" *ngIf="attachment.attachment_name == null"> No Attachments Available </div>
+										</div>
+										<div class="d-flex justify-content-end modal-footer">
+											<button type="button" class="btn clear-btn mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+										</div>
+									</ng-template>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,18 @@
+tr td{
+	text-transform: capitalize;
+	text-align:left;
+}
+
+::ng-deep{
+	.result{
+		.student-wise-result{
+			thead{
+				th{
+					&:nth-of-type(5),&:last-child{
+						max-width: 100px;
+					}
+				}
+			}
+		}
+	}
+}

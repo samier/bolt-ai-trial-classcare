@@ -1,0 +1,10 @@
+.px-20{
+    padding: 0 20px;
+}
+
+.border-right{
+    border-right: 1px solid #dee2e6 !important;
+}
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}

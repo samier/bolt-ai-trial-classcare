@@ -1,0 +1,14 @@
+::ng-deep body{
+    .dropdown-list{
+        .multiselect-item-checkbox input[disabled]+div {
+            background-color: #dde2ef;
+            cursor: not-allowed !important;
+        }.multiselect-item-checkbox{
+            &:hover {
+                input[disabled]+div{
+                    color: black !important;   
+                }
+            }
+        }
+    }
+}

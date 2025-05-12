@@ -1,0 +1,24 @@
+.px-20{
+    padding: 0 20px;
+}
+
+.month-rent-table {
+    table{
+        width: 100%;
+        text-align: center;
+        border-collapse: collapse;
+        border: 1px solid;
+        th{
+            // width: 50%;
+            border: 1px solid;
+        }
+        td{
+            border: 1px solid;
+        }
+    }
+    
+}
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}

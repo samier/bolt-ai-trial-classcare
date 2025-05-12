@@ -1,0 +1,158 @@
+::ng-deep{
+    app-complain-thread{
+        height: 100%;
+    }
+    // .card{
+    //     height: 100%;
+    // }
+    .add-section-modal{
+        height: 100%;
+        .page_inner{
+            height: 100%;
+        }
+        .m-container{
+            height: 100%;
+        }
+    }
+    .complain-new-section{
+        .modal-dialog{
+            margin: 0;
+            margin-left: auto;
+            height: 100vh;
+            .modal-content{
+                height: 100%;
+            }
+        }
+        
+        
+        .complain-modal-header{
+            h3{
+                font-size: 18px;
+                line-height: 24px;
+                text-transform: capitalize;
+            }
+            .fa{
+                font-size: 20px;
+                color: #000;
+            }
+        }
+        .chat-container{
+            // max-height: calc(100vh - 210px);
+            overflow-y: auto;
+            padding: 0 20px;
+            padding-bottom: 10px;
+            margin-bottom: 64px;
+            height: 590px;
+            &::-webkit-scrollbar{
+                width: 4px;
+            }
+            &.no-data{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                div{
+                    p{
+                        font-size: 18px;
+                    }
+                } 
+              }
+            }
+        
+        .complain-modal-header{
+            padding: 20px;
+        }
+        .complain-description{
+            background-color: rgba(207, 206, 206, 0.5);
+            border-radius: 6px;
+            padding: 12px 20px;
+            margin: 0px 20px 20px 20px;
+            h5{
+                font-size: 16px;
+                line-height: 22px;
+                color: #000 ;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            p{
+                font-size: 14px;
+                line-height: 20px;
+                color: #000 !important;
+                opacity: 0.5;
+                margin: 0;
+            }
+            .time {
+                font-size: 12px;
+                color: #000;
+                opacity: 0.6;
+                margin-left: 10px;
+            }
+        }
+        .complain-date{
+            position: relative;
+            text-align: center;
+            margin-bottom: 14px;
+            &::before{
+                content: "";
+                width: 100%;
+                height: 0.6px;
+                background-color: rgba(147, 147, 147, 0.3);
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+            }
+            span{
+                font-size: 12px;
+                text-align: center;
+                background-color: #fff;
+                position: relative;
+                padding: 0 14px;
+                border: 1px solid rgba(147, 147, 147, 0.3);
+                display: inline-block;
+                padding: 5px 12px;
+                margin: 0 5px;
+                border-radius: 100px;
+                color: #000;
+                font-weight: 500;
+            }
+        }
+        .complain-chat-wrapper{
+            .chat-bg-color{
+                background-color: #5d719d;
+                border-radius: 7px;
+                padding: 8px 16px;
+                p{
+                    color: #fff;
+                }
+                .text-muted{
+                    color: #fff !important;
+                }
+            }
+        }
+        .reverse-chat{
+            flex-direction: row-reverse;
+            .profile-chat-reverse{
+                text-align: right;
+                margin-left: 0;
+                margin-right: 20px;
+            }
+            .chat-bg-color{
+                background-color: #01329c;
+                border-radius: 7px;
+                padding: 8px 16px;
+                p{
+                    color: #fff;
+                }
+                .text-muted{
+                    color: #fff !important;
+                }
+            }
+            
+        }
+        
+
+    }
+}

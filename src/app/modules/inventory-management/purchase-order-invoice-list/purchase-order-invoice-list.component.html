@@ -1,0 +1,326 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Purchase Order Invoice Verification List</h3>
+                <div class="btn_right">
+                    <a class="btn add-btn" href="#." [routerLink]="[setUrl(URLConstants.INVOICE_ORDER_FORM)]">Add Purchase Order Verification </a>
+                </div>
+            </div>
+            <div class="card student-list-card p-0 mx-0 mb-4">
+				<div class="card-header justify-content-between d-flex">
+				  <div class="card-student-heading d-flex align-items-center">
+					<h5 class="mb-0">Filters</h5>
+					<button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+				  </div>
+				  <div class="d-flex student-accordion-btn">
+					<button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+					<button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+					  <i class="fa fa-angle-down" *ngIf="!filter"></i>
+					  <i class="fa fa-angle-up" *ngIf="filter"></i>
+					</button>
+				  </div>
+				</div>
+		
+				<div class="card-body" *ngIf="filter">
+				  <div [formGroup]="filterForm" class="content_scroll">
+					<div class="row">
+                        <div class="col-md-3 form_group">
+							<label class="form_label">Select Purchase Order</label>
+							<div>
+								<app-single-select placeholder="Select Purchase Order" controlName="purchase_order_id" [dropDownArray]="purchaseOrderList" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Vendor name</label>
+                            <div>
+                                <app-single-select placeholder="Select Vendor" controlName="vendor_id" [dropDownArray]="vendorList" (change)="countFilters()"></app-single-select>
+                            </div>                                     
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Invoice Date</label>
+                            <div>
+                                <app-date-range-picker controlName="invoice_date" placeholder="Select Invoice Date"></app-date-range-picker>
+                            </div>                                     
+                        </div>
+						<div class="col-md-3 form_group">
+							<label class="form_label">Payment Status</label>
+							<div>
+								<app-single-select placeholder="Select Payment Status" controlName="payment_status" [dropDownArray]="paymentStatus" (change)="countFilters()"></app-single-select>
+							</div>                                     
+						</div>
+					  <div class="col-md-12 form_group">
+						<button type="button" class="btn show-btn" (click)="reloadData()">Show</button>
+					  </div>
+		
+		
+					</div>
+				  </div>
+				</div>
+			  </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-12 datatable_cls">
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptions" class="table table-hover table-bordered table-nowrap table datatable w-100">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Sr No.</th>
+                                            <th>Purchase Order</th>
+                                            <th>Vendor Name</th>
+                                            <th>Invoice Date</th>
+                                            <th>Invoice No.</th>
+                                            <th>Total Amount</th>
+                                            <th>Discount</th>
+                                            <th>CGST</th>
+                                            <th>SGST</th>
+                                            <th>IGST</th>
+                                            <th>Other Charger</th>
+                                            <th>Grand Total</th>
+                                            <th>Payment Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="tbody?.length != 0">
+                                        <tr *ngFor="let item of tbody ;let i = index;">
+                                            <td>{{item.DT_RowIndex}}</td>
+                                            <td>{{item.purchase_order?.purchase_order_no ?? '-'}}</td>
+                                            <td>{{item.purchase_order?.vendor?.vendor_name ?? '-'}}</td>
+                                            <td>{{item.invoice_date | date : dateFormateService.getDateFormat()}}</td>
+                                            <td>{{item.invoice_no}}</td>
+                                            <td>{{item.sub_total ? (item.sub_total | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.discount_total && item.discount_total != 0 ? (item.discount_total | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.cgst_amount && item.cgst_amount != 0 ? (item.cgst_amount | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.sgst_amount && item.sgst_amount != 0 ? (item.sgst_amount | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.igst_amount && item.igst_amount != 0 ? (item.igst_amount | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.other_charges && item.other_charges != 0 ? (item.other_charges | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.total_amount ? (item.total_amount | number:'1.2-2') : '-'}}</td>
+                                            <td>{{item.payment_status | titlecase}}</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a class="btn action-edit" *ngIf="item.payment_status != 'Paid'" ngbTooltip="Edit" href='#' [routerLink]="[setUrl(URLConstants.INVOICE_ORDER_FORM),item.id]"><i class="fa fa-pencil-alt"></i></a>
+                                                    <button class="btn action-delete" ngbTooltip="Delete" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i>
+                                                    </button>
+                                                    <a class="btn action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)"><i class="fa fa-eye"></i></a>
+                                                    <button type="button" ngbTooltip="Attachments" class="btn action-attech ms-1" (click)="openAttachment(myModel, item)">
+                                                        <i class="fe fe-file"></i>
+                                                    </button>
+                                                    <!-- <button class="btn btn-primary" type="button" *ngIf="item.status=='Pending' && item.button_visible==1" (click)="approve(item.id,1)"><i class="fa fa-thumbs-up"></i></button> -->
+                                                    <!-- <button class="btn btn-primary" type="button" (click)="downloadPurchaseOrder(item.id)"><i class="fa fa-download"></i></button>                                                      -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="tbody?.length == 0">
+                                        <tr>
+                                            <td colspan="14" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <ng-template #mymodal let-modal>
+                                    <div class="modal-header" style="z-index: 0;">
+                                        <h4 class="modal-title" id="modal-basic-title">Reason for Requisition Rejection </h4>
+                                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="z-index: 0;">
+                                        <div class="form_group">
+                                            <label class="col-md-12 form_label">Reason for Requisition Rejection<span class="text-danger">*</span>:</label>
+                                            <div class="form-group">
+                                                <div class="col-lg-10">
+                                                    <textarea class="form-control" [(ngModel)]="reasonForRejection" name="detail" id="detail" placeholder="Enter reason for leave rejection." required></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" style="z-index: 0;">
+                                        <button type="button" [disabled]="true" class="btn save-btn" *ngIf="reasonForRejection=='' " (click)="modal.close('Save click')">Submit</button>
+                                        <button type="button" [disabled]="false" class="btn save-btn" *ngIf="reasonForRejection && reasonForRejection!='' " (click)="modal.close('Save click')">Submit</button>
+                                    </div>
+                                </ng-template>
+                                <ng-template #myviewmodal let-modal>
+                                    <div class="modal-header" style="z-index: 0;">
+                                        <h4 class="modal-title" id="modal-basic-title">Invoice Order Details</h4>
+                                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body" style="z-index: 0;">
+                                        <div class="form_group modal-table">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <div class="card">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <label class="form_label py-2"><b>Purchase Order No : </b> <span class="c-primary">{{invoice_data.purchase_order?.purchase_order_no ?? '-'}}</span></label>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label class="form_label py-2"><b>vendor Name : </b>
+                                                                    <span class="c-primary">{{invoice_data.purchase_order?.vendor?.vendor_name ?? '-'}}</span></label>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label class="form_label py-2"><b>Invoice No : </b>
+                                                                    <span class="c-primary">{{invoice_data.invoice_no?? '-'}}</span></label>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label class="form_label py-2"><b>Invoice Date : </b>
+                                                                    <span class="c-primary">{{invoice_data.invoice_date ? (invoice_data.invoice_date | date : dateFormateService.getDateFormat()) : '-'}}</span></label>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <label class="form_label py-2"><b>Payment Status : </b>
+                                                                    <span class="c-primary">{{invoice_data.payment_status == 0 ? 'Pending' : (invoice_data.payment_status == 1 ? 'Approved' : 'Rejected') }}</span></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <table class="table table-bordered table-nowrap table datatable w-100">
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>Sub Total</div>
+                                                                    <div>{{invoice_data.sub_total | number:'1.2-2'}} </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>Discount</div>
+                                                                    <div>{{invoice_data.discount_total | number:'1.2-2'}}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>Taxable Amount</div>
+                                                                    <div>{{invoice_data.taxable_amount | number:'1.2-2'}}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>CGST</div>
+                                                                    <div>{{invoice_data.cgst_amount | number:'1.2-2'}}</div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>SGST</div>
+                                                                    <div>{{invoice_data.sgst_amount | number:'1.2-2'}}</div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div>IGST</div>
+                                                                    <div>{{invoice_data.igst_amount | number:'1.2-2'}}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div>Adjustment Total</div>
+                                                                    <div>{{invoice_data.adjustment_amount | number:'1.2-2'}}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                    <div>Other Charges</div>
+                                                                    <div>{{invoice_data.other_charges | number:'1.2-2'}} {{invoice_data.other_charges_type == 'amount' ? '₹' :'%' }}</div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div><strong>Total</strong></div>
+                                                                    <div><strong>{{invoice_data.total_amount | number:'1.2-2'}}</strong></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="basic_table">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover table-bordered table-nowrap table datatable w-100">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Item Type</th>
+                                                                <th>Item Name</th>
+                                                                <th>PO Quantity</th>
+                                                                <th>Received Quantity</th>
+                                                                <th>Amount</th>
+                                                                <th>Discount</th>
+                                                                <th>Tax Amount</th>
+                                                                <th>Item Amount</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let item of invoice_data.invoice_items">
+                                                                <td>{{item.item_name?.inventory_item_type?.name}}</td>
+                                                                <td>{{item.item_name.item_name}}</td>
+                                                                <td>{{item.po_quantity ?? '-'}}</td>
+                                                                <td>{{item.quantity}}</td>
+                                                                <td>{{item.amount | number:'1.2-2'}}</td>
+                                                                <td>{{item.discount}} {{item.discount ? (item.discount_type == 'amount' ? '₹' : '%') : '-'}} </td>
+                                                                <td>{{item.cgst ? item.cgst + '% CGST ' : ''}} {{item.cgst && item.sgst ? ' | ' : ''}} {{item.sgst ? item.sgst + '% SGST ' : ''}} {{item.igst ? item.igst + '% IGST ' : ''}} {{!item.cgst && !item.sgst && !item.igst ? ' - ' : ''}} </td>
+                                                                <td>{{item.grand_total | number:'1.2-2'}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template #myModel let-modal>
+                                    <div class="modal-header">
+                                        <div class="modal-title">Attachment</div>
+                                        <div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex uploded_doc" *ngIf="attachment.attachment_name">
+                                                <div class="uploded_doc_content card">
+                                                    <ng-container [ngSwitch]="getFileType(attachment?.attachment_name)">
+                                                        <div class="text-center atteched_file">
+                                                            <a *ngSwitchCase="'image'" target="_blank" download="" [href]="attachment?.attachment_url">
+                                                                <img class="img-circle" style="width: 100px; height: 100px" [src]="attachment?.attachment_url" />
+                                                            </a>
+                                                            <a *ngSwitchCase="'excel'" target="_blank" download="" [href]="attachment?.attachment_url">
+                                                                <i class="fa fa-file-excel"></i>
+                                                            </a>
+                                                            <a *ngSwitchCase="'pdf'" target="_blank" download="" [href]="attachment?.attachment_url">
+                                                                <i class="fa fa-file-pdf"></i>
+                                                            </a>
+                                                            <a *ngSwitchDefault target="_blank" download="" [href]="attachment?.attachment_url">
+                                                                <i class="fa fa-file-excel"></i>
+                                                            </a>
+                                                        </div>
+                                                    </ng-container>
+                                                    <div class="action text-center">
+                                                        <a class="action-delete btn" (click)="deleteAttachment(attachment.id)" ngbTooltip="Delete">
+                                                            <i class="fa fa-trash-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center text-muted" *ngIf="attachment.attachment_name == null"> No Attachments Available </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end modal-footer">
+                                        <button type="button" class="btn clear-btn mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+                                    </div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,979 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Add New Employee</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="setUrl(branch_id == 'user' ? URLConstants.ADMIN_USER_LIST : URLConstants.USER_LIST)">Employee List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="">
+                            <form [formGroup]="adduserform" class="form_section global_form" id="user-form">
+                                <div class="form_outer card">
+                                    <div class="form_heading">
+                                        <h3>Personal Details</h3>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">First Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" name="first_name" id="first_name"
+                                                    formControlName="first_name" placeholder="Enter your first name"
+                                                    required>
+                                            </div>
+                                            <div *ngIf="submitted && adduserform.controls['first_name'].invalid"
+                                                class="error text-danger"> Please enter First Namee. </div>
+                                            <div *ngIf="adduserform.controls['first_name'].dirty && adduserform.controls['first_name'].invalid"
+                                                class="error text-danger"> Please enter valid First Name. </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Last Name<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" name="last_name" id="last_name"
+                                                    formControlName="last_name" placeholder="Enter your last name"
+                                                    required>
+                                            </div>
+                                            <div *ngIf="submitted && adduserform.controls['last_name'].invalid"
+                                                class="error text-danger"> Please enter Last Name. </div>
+                                            <div *ngIf="adduserform.controls['last_name'].dirty && adduserform.controls['last_name'].invalid"
+                                                class="error text-danger">Please enter valid Last Name.</div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Gender<span class="text-danger">*</span></label>
+                                            <div class="radio-section ">
+                                                <div class="radio ">
+                                                    <label class=" required ">
+                                                        <input type="radio" name="gender" id="male"
+                                                            formControlName="gender" value="m" aria-required="true"
+                                                            class="mr-1" checked>Male<span></span>
+                                                    </label>
+                                                </div>
+                                                <div class="radio ">
+                                                    <label class="required " aria-required="true">
+                                                        <input type="radio" name="gender" id="female"
+                                                            formControlName="gender" value="f" aria-required="true"
+                                                            class="mr-1">Female <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Birth Date</label>
+                                            <app-mat-date-picker  controlName="birth_date"></app-mat-date-picker>
+                                            <!-- <div class="">
+                                                <input class="form-control" type="date" name="birth_date"
+                                                    id="birth_date" formControlName="birth_date"
+                                                    placeholder="Enter your role name">
+                                            </div>
+                                            <div *ngIf="submitted && adduserform.controls['birth_date'].invalid"
+                                                class="error text-danger"> Please enter Birth Date.</div> -->
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Email<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" id="email" name="email" autocomplete="off"
+                                                    formControlName="email" placeholder="Enter your email" required>
+                                            </div>
+                                            <div *ngIf="adduserform.controls['email'].dirty && adduserform.controls['email'].invalid"
+                                                class="error text-danger"> Please enter valid email. </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Password<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" type="password" autocomplete="new-password" formControlName="password"
+                                                   id="password" name="password" placeholder="Enter your password" required>
+                                            </div>
+                                            <div *ngIf="submitted && adduserform.controls['password'].invalid"
+                                                class="error text-danger">Please enter Birth Date.</div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Mobile Number<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" type="number" maxlength="10"
+                                                    name="phone_number" id="phone_number" formControlName="phone_number"
+                                                    placeholder="Enter your Mobile Number" required>
+                                            </div>
+                                            <div *ngIf="adduserform.controls['phone_number'].dirty && adduserform.controls['phone_number'].invalid"
+                                                class="error text-danger"> Please enter 10 digit number. </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Whatsapp No. same as Mobile No.?</label>
+                                            <div class="">
+                                                <div class="">
+                                                    <div id="student_sameAddress">
+                                                        <div class="radio">
+                                                            <label class="required" for="student_sameAddress_0"
+                                                                aria-required="true">
+                                                                <input type="radio" id="student_sameAddress_0"
+                                                                    name="whatsapp_no_same_as_phone_no"
+                                                                    [(ngModel)]="whatsapp_no_same_as_phone_no"
+                                                                    (change)="sameWhatsappNo()"
+                                                                    formControlName="whatsapp_no_same_as_phone_no"
+                                                                    [value]="1" aria-required="true">
+                                                                Yes <span></span></label>
+                                                        </div>
+                                                        <div class="radio">
+                                                            <label class="required" for="whatsapp_number_1"
+                                                                aria-required="true">
+                                                                <input type="radio" id="whatsapp_number_1"
+                                                                    name="whatsapp_no_same_as_phone_no"
+                                                                    [(ngModel)]="whatsapp_no_same_as_phone_no"
+                                                                    (change)="sameWhatsappNo()"
+                                                                    formControlName="whatsapp_no_same_as_phone_no"
+                                                                    checked [value]="0" aria-required="true">
+                                                                No <span></span></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Alternate Mobile Number</label>
+                                            <div class="">
+                                                <input class="form-control" type="number" maxlength="10"
+                                                    name="alternate_number" id="alternate_number"
+                                                    formControlName="alternate_number"
+                                                    placeholder="Enter your Alternate Number">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['phone_number'].dirty && adduserform.controls['alternate_number'].invalid"
+                                                class="error text-danger"> Please enter 10 digit number. </div>
+                                        </div>
+
+
+                                        <div class="col-md-3 form_group" [style.display]="whatsapp_display">
+                                            <label class="form_label">Whatsapp Number<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <input class="form-control" maxlength="10" type="number"
+                                                    name="whatsup_number" id="whatsup_number"
+                                                    formControlName="whatsup_number" placeholder="Whatsapp Number">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['whatsup_number'].dirty && adduserform.controls['whatsup_number'].invalid"
+                                                class="error error text-danger">Please enter 10 digit number.</div>
+                                        </div>
+
+
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Father's Name</label>
+                                            <div class="">
+                                                <input class="form-control" name="father_name" id="father_name"
+                                                    formControlName="father_name" placeholder="Enter your Father Name">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['father_name'].invalid"
+                                                class="error text-danger">Please enter valid Father Name.</div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Mother's Name</label>
+                                            <div class="">
+                                                <input class="form-control" name="mother_name" id="mother_name"
+                                                    formControlName="mother_name" placeholder="Enter your Mother Name">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['mother_name'].invalid"
+                                                class="error text-danger">Please enter valid Mother Name.</div>
+                                        </div>
+
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Blood Group</label>
+                                            <div class="">
+                                                <select class="form-control" name="blood_group"
+                                                    formControlName="blood_group" id="">
+                                                    <option value="" disabled selected class="disabled">Please select
+                                                        blood group.</option>
+                                                    <option value="O-">O-</option>
+                                                    <option value="O+">O+</option>
+                                                    <option value="A+">A+</option>
+                                                    <option value="A-">A-</option>
+                                                    <option value="B-">B-</option>
+                                                    <option value="B+">B+</option>
+                                                    <option value="AB+">AB+</option>
+                                                    <option value="AB-">AB-</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Martial Status</label>
+                                            <div class="">
+                                                <select class="form-control" name="marital_status"
+                                                    formControlName="marital_status" id="">
+                                                    <option value="" disabled selected class="disabled">Please select
+                                                        Martial Status.</option>
+                                                    <option value="single">Single</option>
+                                                    <option value="married">Married</option>
+                                                    <option value="widowed">Widowed</option>
+                                                    <option value="divorced">Divorced</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Number of Children</label>
+                                            <div class="">
+                                                <input class="form-control" name="no_children" id="no_children"
+                                                    formControlName="no_children"
+                                                    placeholder="Enter Your Number of Children">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Spouse Name</label>
+                                            <div class="">
+                                                <input class="form-control" name="spouse_name" id="spouse_name"
+                                                    formControlName="spouse_name" placeholder="Enter Spouce Name">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['spouse_name'].invalid"
+                                                class="error text-danger"> Please enter valid spouse name.</div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Qualification</label>
+                                            <div class="">
+                                                <input type="text" class="form-control" name="qualification"
+                                                    id="qualification" formControlName="qualification"
+                                                    placeholder="Enter Qualification">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['qualification'].invalid"
+                                                class="error text-danger"> Please enter valid qualification. </div>
+                                        </div>
+
+                                        <!-- <div class="col-md-3 form_group">
+                                            <label class="form_label">Select user type<span
+                                                    class="text-danger">*</span></label>
+                                            <div>
+                                                <select name="user_type" id="user_type" id="user_type"
+                                                    formControlName="user_type" class="form-control">
+                                                    <option value="" disabled selected class="disabled">Select your
+                                                        option</option>
+                                                    <option value="0">Is Admin</option>
+                                                    <option value="1">Is Faculty</option>
+                                                    <option value="2">Is Administrator</option>
+                                                    <option value="3">Both</option>
+                                                    <option value="4">Is Driver</option>
+                                                    <option value="5">Is Warden</option>
+                                                </select>
+                                            </div>
+                                            <div *ngIf="submitted && adduserform.controls['user_type'].invalid"
+                                                class="error error text-danger"> Please select user type. </div>
+                                        </div> -->
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Faculty Goverment Number</label>
+                                            <div class="">
+                                                <input class="form-control" name="faculty_goverment_number"
+                                                    id="faculty_goverment_number"
+                                                    formControlName="faculty_goverment_number"
+                                                    placeholder="Enter Faculty Goverment Number">
+                                            </div>
+                                            <div *ngIf="adduserform.controls['faculty_goverment_number'].invalid"
+                                                class="error text-danger"> Please enter valid faculty number.
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Faculty Type</label>
+                                            <div class="">
+                                                <select name="faculty_type" formControlName="faculty_type"
+                                                    class="form-control" id="">
+                                                    <option value="" disabled selected class="disabled">Please
+                                                        select faculty type.</option>
+                                                    <!-- Government, Private, B.Ed. Student, Visiting, Trainee, Trainer -->
+                                                    <option value="1">Goverment</option>
+                                                    <option value="2">Private</option>
+                                                    <option value="3">B.Ed Student</option>
+                                                    <option value="4">Visiting</option>
+                                                    <option value="5">Trainee</option>
+                                                    <option value="6">Trainer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- ADHAR CARD -->
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Aadhaar Card Number </label>
+                                            <app-input type="text" controlName="aadhaar_card_no" placeholder="Enter Aadhaar Card Number "></app-input>
+                                        </div>
+
+                                        <!-- PAN CARD -->
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Pan Card Number</label>
+                                            <app-input type="text" controlName="pan_card_no" placeholder="Enter Pan Card Number "></app-input>
+                                        </div>
+
+                                        <!-- VOTER ID -->
+                                        <div class="col-md-3 form_group">
+                                            <label for="" class="form_label">Voter Id Card Number</label>
+                                            <app-input type="text" controlName="voter_id_no" placeholder="Enter Voter Id Card Number"></app-input>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Upload Signature &nbsp;  <i class="fas fa-info-circle" (click)="openModal(mymodal)"></i></label>
+                                            <div class="">
+                                                <div class="signature-upload">
+                                                  <div class="student-profile-card">
+                                                    <img *ngIf="signature" [src]="signature" alt="Student Photo" class="student-profile-preview"/>
+                                                  </div>
+                                                  <div class="student-upload-box">
+                                                    <input 
+                                                      type="file" 
+                                                      accept="image/*" 
+                                                      (change)="onFileSelected($event,'image')" 
+                                                      id="file-upload student"
+                                                      class="file-upload-input"
+                                                      hidden
+                                                    />
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <label for="file-upload student" class="upload-btn btn add-btn">
+                                                                Add Signature Photo
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <label class="delete-btn btn add-btn" (click)="deleteSignature()" for=""><i class="fa fa-trash-alt"></i></label>
+                                                        </div>
+                                                </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                        </div>  
+                                    </div>
+
+
+                                    <div class="form_outer card">
+                                        <div class="form_heading">
+                                            <h3>Address Details</h3>
+                                        </div>
+                                        <div class="form_inner">
+                                            <div class="row">
+
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Current Address</label>
+                                                    <div class="">
+                                                        <textarea class="form-control" name="current_address"
+                                                            id="current_address"
+                                                            formControlName="current_address"></textarea>
+                                                    </div>
+                                                    <div *ngIf="submitted && adduserform.controls['qualification'].invalid"
+                                                        class="error text-danger"> Please enter qualification.
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Permanent Address same as current
+                                                        address?</label>
+                                                    <div class="">
+                                                        <div class="">
+                                                            <div id="student_sameAddress">
+                                                                <div class="radio">
+                                                                    <label class="required" for="employee_sameAddress_0"
+                                                                        aria-required="true">
+                                                                        <input type="radio" id="employee_sameAddress_0"
+                                                                            name="current_address_same_permanent"
+                                                                            [(ngModel)]="current_address"
+                                                                            (change)="sameAddress()"
+                                                                            formControlName="current_address_same_permanent"
+                                                                            [value]="1" aria-required="true">
+                                                                        Yes <span></span></label>
+                                                                </div>
+                                                                <div class="radio"><label class="required"
+                                                                        for="student_sameAddress_1"
+                                                                        aria-required="true">
+                                                                        <input type="radio" id="student_sameAddress_1"
+                                                                            name="current_address_same_permanent"
+                                                                            [(ngModel)]="current_address"
+                                                                            (change)="sameAddress()"
+                                                                            formControlName="current_address_same_permanent"
+                                                                            [value]="0" aria-required="true">
+                                                                        No <span></span></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-3 form_group"
+                                                    [style.display]="permanent_address_display">
+                                                    <label class="form_label">Permanent Address</label>
+                                                    <div class="">
+                                                        <textarea class="form-control" name="permanent_address"
+                                                            id="permanent_address"
+                                                            formControlName="permanent_address"></textarea>
+                                                    </div>
+                                                    <div *ngIf="submitted && adduserform.controls['qualification'].invalid"
+                                                        class="error text-danger"> Please enter qualification.
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-3">
+                                                    <div class="form_group student-form-group">
+                                                      <label for="" class="form_label">Transport Facility :
+                                                      </label>
+                                                      <div class="student-dropdown w-100">
+                                                        <div class="form-check toggle d-flex align-items-center px-0">
+                                                          <span class="">No</span>
+                                                          <input class="form-check-input shadow-none mx-2" formControlName="transport_facility_status"  type="checkbox" [(ngModel)]="transport_facility" role="switch" name="transport_facility" >
+                                                          <span class="">Yes</span>
+                                                      </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-md-3" *ngIf="adduserform.value.transport_facility_status == true">
+                                                    <div class="form_group student-form-group">
+                                                      <label for="" class="form_label">Transportation Area :
+                                                      </label>
+                                                      <div class="student-dropdown w-100">
+                                                        <app-dropdown-crud
+                                                                           placeholder="Select Transportation Area name" searchPlaceholder="Search Area name" 
+                                                                           [selectedId]="areaId" (selectedValue)="selectionAreaChange($event)" [dropDownArray]="areaList" 
+                                                                           (createUpdate)="createAndUpdateArea($event)" 
+                                                                           (deleteData)="deleteArea($event)">
+                                                        </app-dropdown-crud>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form_outer card">
+                                        <div class="form_heading">
+                                            <h3>User Details</h3>
+                                        </div>
+                                        <div class="form_inner">
+                                            <div class="row">
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Employee Unique ID</label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control" name="emp_no"
+                                                            id="emp_no" formControlName="emp_no"
+                                                            placeholder="Enter your Employee Unique ID">
+                                                    </div>
+                                                    <div *ngIf="adduserform.controls['emp_no'].invalid"
+                                                        class="error text-danger"> Please enter valid Employee
+                                                        Unique Id. </div>
+                                                </div>
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Employee Number</label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control" name="employee_number"
+                                                            id="employee_number" formControlName="employee_number"
+                                                            placeholder="Enter your Employee Number">
+                                                    </div>
+                                                    <div *ngIf="adduserform.controls['employee_number'].invalid"
+                                                        class="error text-danger"> Please enter valid employee
+                                                        number. </div>
+                                                </div>
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Designation</label>
+                                                    <div class="">
+                                                        <input type="text" class="form-control" name="designation"
+                                                            id="designation" formControlName="designation"
+                                                            placeholder="Enter Designation">
+                                                    </div>
+                                                    <div *ngIf="adduserform.controls['designation'].invalid"
+                                                        class="error text-danger"> Please enter valid designation.
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">User Status<span
+                                                            class="text-danger">*</span></label>
+                                                    <div class="radio-section ">
+                                                        <div class="radio ">
+                                                            <label class="required ">
+                                                                <input type="radio" name="is_active"
+                                                                    formControlName="is_active" id="active" value="1"
+                                                                    aria-required="true" class="mr-1"
+                                                                    checked>Active<span></span>
+                                                            </label>
+                                                        </div>
+
+                                                        <div class="radio ">
+                                                            <label class="required " aria-required="true">
+                                                                <input type="radio" name="is_active"
+                                                                    formControlName="is_active" id="active" value="0"
+                                                                    aria-required="true"
+                                                                    class="mr-1">InActive<span></span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Joining Date</label>
+                                                    <app-mat-date-picker controlName="joining_date" (change)="joining_date_change($event)"></app-mat-date-picker>
+                                                    <!-- <div class="">
+                                                        <input class="form-control" type="date" name="joining_date"
+                                                            [(ngModel)]="joining_date" id="joining_date"
+                                                            (input)="joining_date_change($event)"
+                                                            formControlName="joining_date" placeholder="">
+                                                    </div> -->
+                                                    <!-- <div *ngIf="submitted && adduserform.controls['leaving_date'].invalid" class="error text-danger">Please enter Birth Date.</div> -->
+                                                </div>
+
+
+                                                <div class="col-md-3 form_group">
+                                                    <label class="form_label">Leaving Date</label>
+                                                    <app-mat-date-picker controlName="leaving_date" (change)="leaving_date_change($event)"></app-mat-date-picker>
+
+                                                    <!-- <div class="">
+                                                        <input class="form-control" type="date" name="leaving_date"
+                                                            [(ngModel)]="leaving_date" id="leaving_date"
+                                                            (input)="leaving_date_change($event)"
+                                                            formControlName="leaving_date" placeholder="">
+                                                    </div> -->
+                                                    <!-- <div *ngIf="submitted && adduserform.controls['leaving_date'].invalid" class="error text-danger">Please enter Birth Date.</div> -->
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-3 form_group">
+                                                    <label for="" class="form_label">Is Super Admin</label>
+                                                    <ng-container>
+                                                        <div class="form-check toggle d-flex align-items-center px-0">
+                                                            <span class="">No</span>
+                                                            <input class="form-check-input shadow-none mx-2" formControlName="is_super_admin" (change)="onCheckboxChange($event)" [(ngModel)]="is_super_admin"  type="checkbox" role="switch" name="is_super_admin" title="Cancel Receipt">
+                                                            <span class="">Yes</span>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                            <div class="" *ngIf="userRoleFieldAsFormArray.controls">
+                                                <div *ngFor="let control of  userRoleFieldAsFormArray.controls ;let i = index;"
+                                                    formArrayName='user_roles' class="form_group">
+                                                    <div [formGroupName]="i" class="document_type_add">
+                                                        <div class="row" >
+                                                            <div class="col-md-3 form_group" *ngIf="branch_id == 'user'">
+                                                                <label class="form_label">Select Branch<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="">
+                                                                    <select class="form-control" name="branch" id="branch"
+                                                                        id="branch" formControlName="branch" (change)="handleBranchChange($event, i)">
+                                                                        <option value="" disabled
+                                                                            class="disabled">
+                                                                            Select your option</option>
+                                                                        <option *ngFor="let item of branchList;"
+                                                                            value="{{item.id}}" >{{item.branchName}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Select user type<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div>
+                                                                    <select name="user_type" id="user_type" id="user_type"
+                                                                        formControlName="user_type" class="form-control">
+                                                                        <option value="" disabled selected class="disabled">Select your
+                                                                            option</option>
+                                                                        <option value="0">Is Admin</option>
+                                                                        <option value="1">Is Faculty</option>
+                                                                        <option value="2">Is Administrator</option>
+                                                                        <option value="3">Both</option>
+                                                                        <option value="4">Is Driver</option>
+                                                                        <option value="5">Is Warden</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Role<span
+                                                                        class="text-danger">*</span></label>
+                                                                <div class="">
+                                                                    <select class="form-control" name="role" id="role"
+                                                                        id="role" formControlName="role">
+                                                                        <option value="" disabled selected
+                                                                            class="disabled">
+                                                                            Select your option</option>
+                                                                        <option *ngFor="let item of get_roles(i);"
+                                                                            value="{{item.id}}">{{item.name}}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label for="" class="form_label">Academic Years</label>
+                                                                <ng-multiselect-dropdown
+                                                                    [placeholder]="'please select'"
+                                                                    [settings]="academicDropdownSettings"
+                                                                    [data]="get_academic_years(i) ?? []"
+                                                                    name="academic_year"
+                                                                    formControlName="academic_year"
+                                                                    (onDeSelect)="handleYearChange($event, i)"
+                                                                    (onSelect)="handleYearChange($event, i)"
+                                                                    (onSelectAll)="handleYearChange($event, i)"
+                                                                    (onDeSelectAll)="handleYearChange($event, i)"
+                                                                    >
+                                                                    </ng-multiselect-dropdown>
+                                                            </div>
+                                                            <div class="col-md-3 form_group" *ngIf="get_sections(i)">
+                                                                <label class="form_label">Select sections</label>
+                                                                <div class="">
+                                                                    <ng-multiselect-dropdown formControlName="section"
+                                                                        [placeholder]="'Select Section'"
+                                                                        [settings]="dropdownSettings"
+                                                                        [data]="get_sections(i) ?? []"
+                                                                        (onSelect)="handleSectionChange($event,i, 'single')"
+                                                                        (onDeSelect)="handleSectionChange($event,i, 'single')"
+                                                                        (onDeSelectAll)="handleSectionChange($event,i, 'all')"
+                                                                        (onSelectAll)="handleSectionChange($event,i, 'all')">
+                                                                    </ng-multiselect-dropdown>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Select Class</label>
+                                                                <div class="">
+                                                                    <ng-multiselect-dropdown formControlName="class"
+                                                                        [placeholder]="'Select Section'"
+                                                                        [settings]="dropdownSettings"
+                                                                        [data]="get_classes(i) ?? []"
+                                                                        (onSelect)="handleClassChange($event,i, 'single')"
+                                                                        (onDeSelect)="handleClassChange($event,i, 'single')"
+                                                                        (onDeSelectAll)="handleClassChange($event,i, 'all')"
+                                                                        (onSelectAll)="handleClassChange($event,i, 'all')">
+                                                                    </ng-multiselect-dropdown>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3 form_group">
+                                                                <label class="form_label">Select Batch</label>
+                                                                <div>
+                                                                    <ng-multiselect-dropdown formControlName="batch"
+                                                                        [placeholder]="'Select Batches'"
+                                                                        [settings]="dropdownSettings"
+                                                                        [data]="get_batches(i) ?? []"
+                                                                        (onSelect)="onItemSelect($event)"
+                                                                        (onDeSelect)="onItemDeSelect($event)"
+                                                                        (onDeSelectAll)="onItemDeSelectAll($event)"
+                                                                        (onSelectAll)="onSelectAll($event)">
+                                                                    </ng-multiselect-dropdown>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-1 d-flex align-items-center" *ngIf="branch_id == 'user'">
+                                                                <button type="button" *ngIf="i == userRoleFieldAsFormArray.length - 1" (click)="addBranchRole()"
+                                                                    class="btn doc-button  btn-blue my-3">
+                                                                    Add Branch Role
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-1 d-flex align-items-center">
+                                                                <button type="button" *ngIf="userRoleFieldAsFormArray.length > 1" (click)="removeBranchRole(i)"
+                                                                    class="btn doc-button  btn-blue">
+                                                                    Remove
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form_outer card" *ngIf="getInstituteModule('Transport')">
+                                        <div class="form_heading">
+                                            <h3>Transport Details</h3>
+                                        </div>
+                                        <div class="form_inner">
+                                            <div class="row">
+
+                                                <div class=" row">
+                                                    <div class="col-md-3 form_group">
+                                                        <div class="">
+                                                            <label class="form_label">Transport Mode</label>
+                                                            <div class="">
+                                                                <select class="form-control"
+                                                                    formControlName="transport_type"
+                                                                    name="transport_type" class="form-control"
+                                                                    (change)="get_transport_mode($any($event.target).value)">
+                                                                    <option value="two way transport">Two Way
+                                                                        Transport</option>
+                                                                    <option value="one way pickup">One Way Pickup
+                                                                    </option>
+                                                                    <option value="one way drop">One Way Drop
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 form_group"
+                                                    *ngIf="transport_type != 'one way drop'">
+                                                    <label class="form_label">Pickup Route</label>
+                                                    <div class="">
+                                                        <select class="form-control" name="pickup_route"
+                                                            formControlName="pickup_route" id="pickup_route"
+                                                            [(ngModel)]="selectedRoutePickup"
+                                                            (change)="routeChangePickup()">
+                                                            <option value="" disabled selected class="disabled">
+                                                                Please select route name.</option>
+                                                            <option *ngFor="let item of routes" value="{{item.id}}">
+                                                                {{item.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3 form_group"
+                                                    *ngIf="transport_type != 'one way drop'">
+                                                    <label class="form_label">Transport Pick Point</label>
+                                                    <div class="">
+                                                        <select class="form-control" name="transport_pick_up_point"
+                                                            id="transport_pick_up_point"
+                                                            formControlName="transport_pick_up_point">
+                                                            <option value="" disabled selected class="disabled">
+                                                                Select your option</option>
+                                                            <option *ngFor="let item of stopListPickup;"
+                                                                value="{{item.item_id}}">{{item.item_text}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- <div *ngIf="submitted && adduserform.controls['role'].invalid"
+                                                        class="error error text-danger">Please select pickup point.
+                                                    </div> -->
+                                                </div>
+
+                                                <div class="col-md-3 form_group"
+                                                    *ngIf="transport_type != 'one way pickup'">
+                                                    <label class="form_label">Transport Drop Route</label>
+                                                    <div class="">
+                                                        <select class="form-control" name="drop_route"
+                                                            formControlName="drop_route" id="drop_route"
+                                                            [(ngModel)]="selectedRouteDrop"
+                                                            (change)="routeChangeDrop()">
+                                                            <option value="" disabled selected class="disabled">
+                                                                Please select route name.</option>
+                                                            <option *ngFor="let item of routes" value="{{item.id}}">
+                                                                {{item.name}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- <div *ngIf="submitted && adduserform.controls['role'].invalid"
+                                                        class="error error text-danger">Please select pickup point.
+                                                    </div> -->
+                                                </div>
+
+                                                <div class="col-md-3 form_group"
+                                                    *ngIf="transport_type != 'one way pickup'">
+                                                    <label class="form_label">Transport Drop Point</label>
+                                                    <div class="">
+                                                        <select class="form-control" name="transport_drop_point"
+                                                            id="transport_drop_point"
+                                                            formControlName="transport_drop_point">
+                                                            <option value="" disabled selected class="disabled">
+                                                                Select your option</option>
+                                                            <option *ngFor="let item of stopListDrop;"
+                                                                value="{{item.item_id}}">{{item.item_text}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- <div *ngIf="submitted && adduserform.controls['role'].invalid"
+                                                        class="error error text-danger"> Please select role. </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form_outer card pb-0">
+                                        <div
+                                            class="form_heading d-flex align-items-center justify-content-between mb-3">
+                                            <h3 class="mb-0">Past Employer Details</h3>
+                                            <button type="button" (click)="addQuantity()" class="btn add-btn">Add New
+                                                Entry</button>
+                                        </div>
+                                        <div class="form_inner">
+                                            <div *ngFor="let quantity of quantities().controls; let i=index"
+                                                 class="row">
+                                                 <ng-container formArrayName="quantities">
+                                                     <ng-container [formGroupName]="i">
+                                                         <div class="form_group col-md-3">
+                                                             <label class="form_label">Employer Name:</label>
+                                                             <input type="text" formControlName="employer_name"
+                                                                 name="quantities[{{i}}][employer_name]" class="form-control">
+                                                             <div *ngIf="get_employer_name(i)?.invalid && (get_employer_name(i)?.dirty || get_employer_name(i)?.touched)"
+                                                                 class="error text-danger">
+                                                                 Please enter valid Employer name
+                                                             </div>
+                                                         </div>
+                                                         <div class="form_group col-md-3">
+                                                             <label class="form_label">Designation </label>
+                                                             <input type="text" formControlName="designation"
+                                                                 name="quantities[{{i}}][designation]" class="form-control">
+                                                             <div *ngIf="get_designation(i)?.invalid && (get_designation(i)?.dirty || get_designation(i)?.touched)"
+                                                                 class="error text-danger">
+                                                                 Please enter valid designation
+                                                             </div>
+                                                         </div>
+                                                     </ng-container>
+                                                 </ng-container>
+                                                <div class="form_group col-md-3">
+                                                    <label class="form_label">Start Date</label>
+                                                    <app-mat-date-picker formArrayName="quantities" [GroupName]="i" controlName="start_date" (change)="valueStartDate($event,i)"></app-mat-date-picker>
+
+                                                    <!-- <input type="date" (change)="valueStartDate($event,i)"
+                                                        formControlName="start_date"
+                                                        name="quantities[{{i}}][start_date]" class="form-control"> -->
+                                                </div>
+                                                <div class="form_group col-md-3">
+                                                    <label class="form_label">End Date</label>
+                                                    <app-mat-date-picker formArrayName="quantities" [GroupName]="i" controlName="end_date" (change)="valueEndDate($event,i)"></app-mat-date-picker>
+                                                    <!-- <input type="date" (change)="valueEndDate($event,i)"
+                                                        formControlName="end_date" name="quantities[{{i}}][end_date]"
+                                                        class="form-control"> -->
+                                                </div>
+                                                <ng-container formArrayName="quantities">
+                                                    <div class="form_group col-md-3" [formGroupName]="i">
+                                                        <label class="form_label">Job Description</label>
+                                                        <textarea class="form-control" name="description"
+                                                            formControlName="description"
+                                                            name="quantities[{{i}}][description]"></textarea>
+                                                    </div>
+                                                </ng-container>
+                                                <div class="form_group col-md-3">
+                                                    <label _ngcontent-lab-c134="" class="form_label opacity-0">Job
+                                                        Description</label>
+                                                    <button (click)="removeQuantity(i)"
+                                                        class="btn delete-btn">Remove</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form_outer card">
+                                        <div class="row">
+                                            <div class="col-auto add_doc form_group mb-0">
+                                                <button type="button" (click)="addDocument()"
+                                                    class="btn doc-button  add-btn w-100">
+                                                    Add Document
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger">
+                                            <h6>{{errors}}</h6>
+                                        </div>
+
+                                        <div class="" *ngIf="documentFieldAsFormArray.controls">
+                                            <div *ngFor="let control of  documentFieldAsFormArray.controls ;let i = index;"
+                                                formArrayName='documents' class="form_group">
+                                                <div [formGroupName]="i" class="document_type_add">
+                                                    <div class="row">
+                                                        <div class="input-field col-lg-3">
+                                                            <label class="form_label">Document type<span
+                                                                    class="text-danger">*</span></label>
+                                                            <div class="">
+                                                                <input type="text" formControlName="document_name"
+                                                                    name="documents[{{i}}][document_name]"
+                                                                    class="form-control typefile" required>
+                                                                <div *ngIf="get_document_type(i)?.invalid && (get_document_type(i)?.dirty || get_document_type(i)?.touched)"
+                                                                    class="error text-danger">
+                                                                    <div
+                                                                        *ngIf="get_document_type(i)?.errors?.['required']">
+                                                                        please select document type</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-field col-lg-4">
+                                                            <label class="form_label">Document<span
+                                                                    class="text-danger">*</span></label>
+                                                            <div class="">
+                                                                <input  type="file" formControlName="document"
+                                                                    name="documents[{{i}}][document]"
+                                                                    (change)="onImageChangeFromFile($event,i)"
+                                                                    class="form-control typefile"
+                                                                    accept=".pdf,.jpg,.png,.jpeg">
+                                                                <div *ngIf="get_document(i)?.invalid && (get_document(i)?.dirty || get_document(i)?.touched)"
+                                                                    class="error text-danger">
+                                                                    <div *ngIf="get_document(i)?.errors?.['required']">
+                                                                        please select document</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="input-field col-lg-2 add_doc">
+                                                            <label for="" class="">remove</label>
+                                                            <div class="">
+                                                                <button class="button" type="button" (click)="remove(i)"
+                                                                    class="btn delete-btn btn-minwidth">Remove</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row w-100 ">
+                                        <!-- <small *ngIf="!adduserform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                        <div class="col-md-auto">
+                                            <a class="btn w-100 clear-btn" href="#"
+                                            [routerLink]="setUrl(branch_id == 'user' ? URLConstants.ADMIN_USER_LIST : URLConstants.USER_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-md-auto">
+                                            <button type="submit" (click)="onSubmit()"
+                                                [disabled]="!adduserform.valid"
+                                                class="btn w-100 save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>
+                                    <div class="w-100 text-danger static-text-danger" *ngIf="!adduserform.valid">Please fill-up all
+                                        required fields to save the form.</div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #mymodal let-modal>
+        <div class="modal-header" style="z-index: 0;">
+            <h4 class="modal-title" id="modal-basic-title">Notes for Uploading Signature</h4>
+            <button type="button" class="close" aria-label="Close"
+                (click)="modal.close('cancel')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body" style="z-index: 0; min-height: 300px;">
+            <ol>
+                <li> <strong> File Format </strong></li>
+                <ul>
+                    <li>Accepted formats: JPEG, PNG.</li>
+                </ul>
+                <br>
+                <li> <strong> File Size </strong></li>
+                <ul>
+                    <li>Ensure the file size is under 2MB </li>
+                </ul>
+                <br>
+                <li> <strong> Image Quality </strong></li>
+                <ul>
+                    <li>The signature should be clear, not blurry or pixelated. </li>
+                    <li>Avoid shadows, reflections, or excessive brightness. </li>
+                </ul>
+                <br>
+                <li> <strong> Signature Placement </strong></li>
+                <ul>
+                    <li>Signature must be on a plain, white background. </li>
+                    <li>Ensure no extra text, marks, or borders around the signature. </li>
+                </ul>
+                <br>
+                <li> <strong> Color </strong></li>
+                <ul>
+                    <li>Signature should be in black or blue ink for better visibility.</li>
+                </ul>
+                <br>
+                <li> <strong> Alignment </strong></li>
+                <ul>
+                    <li>Ensure the signature is aligned properly, not tilted. </li>
+                </ul>
+            </ol>
+        </div>
+        <div class="modal-footer" style="z-index: 0;">
+
+        </div>
+    </ng-template>
+</section>

@@ -1,0 +1,226 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-sm-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0 text-center text-sm-left">Create payroll group</h3>
+                <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                    <a class="active btn btn-focus m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" href="#." [routerLink]="setUrl(URLConstants.PAYROLL_GROUP)">Back to Payroll Group List</a>
+                </div>
+            </div>
+            <div >
+                <div>
+                    <div>
+                        <div>
+                            <form [formGroup]="payrollform" class="form_section">
+                                                                 
+                                <div>
+                                    <div class="card">
+                                        <p> Create a payroll group with salary preferences, applicable payroll category and a specific LOP calculation method.</p>
+                                        <div class="row">
+                                            <div class="col-md-4 col-xl-3 mb-0 form_group">
+                                                <label class="form_label">Payroll group name<span class="text-danger">*</span>:</label>
+                                                <div>
+                                                    <div>
+                                                        <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter Payroll Group Name" required>
+                                                    </div>
+                                                    <div *ngIf="submitted && payrollform.controls['name'].invalid" class="text-danger"> Please enter Payroll group name. </div>
+                                                    <div *ngIf="payrollform.controls['name'].dirty && payrollform.controls['name'].invalid" class="text-danger"> Please enter valid Payroll group name. </div>
+                                                </div>
+                                            </div>                                        
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="row">                                           
+                                            <h3 class="tx-16 mb-2"> Salary Preference.</h3>
+                                            <div class="col-md-4 col-xl-3 mb-4 mb-md-0 form_group">
+                                                <label class="form_label">Payment frequency<span class="text-danger">*</span>:</label>
+                                                <div>
+                                                    <div>
+                                                        <select id="" name="" class="form-control" (change)="UpdatePaymentGenerationDate($event)" formControlName="payment_frequency">
+                                                            <!-- <option value="1">Daily</option> -->
+                                                            <!-- <option value="2">Weekly</option>
+                                                            <option value="3">Bi-weekly - Once in 2 weeks</option>
+                                                            <option value="4">Semi-monthly - Once in 15 days</option> -->
+                                                            <option value="2" selected="selected">Monthly</option></select>                                                        
+                                                    </div>
+                                                    <div *ngIf="submitted && payrollform.controls['payment_frequency'].invalid" class="text-danger"> Please Select Payment frequency. </div>
+                                                    <!-- <div *ngIf="payrollform.controls['payment_frequency'].dirty && payrollform.controls['payment_frequency'].invalid" class="text-danger"> Please enter valid Payroll group name. </div> -->
+                                                </div>
+                                            </div>                                        
+                                            <div class="col-md-4 col-xl-3 mb-0 form_group">
+                                                <label class="form_label">Payslip generation date<span class="text-danger">*</span>:</label>
+                                                <div>
+                                                    <div>
+                
+                                                        <!-- <select name="" id="">
+                                                            <option value="0">Select day</option>
+                                                            
+                                                            <optgroup label="Week 1">
+                                                                
+                                                                <option id="1" value="1">1</option>
+                                                                
+                                                                <option id="2" value="2">2</option>
+                                                                
+                                                                <option id="3" value="3">3</option>
+                                                                
+                                                                <option id="4" value="4">4</option>
+                                                                
+                                                                <option id="5" value="5">5</option>
+                                                                
+                                                                <option id="6" value="6">6</option>
+                                                                
+                                                                <option id="7" value="7">7</option>
+                                                                
+                                                            </optgroup>
+                                                            
+                                                            <optgroup label="Week 2">
+                                                                
+                                                                <option id="8" value="8">1</option>
+                                                                
+                                                                <option id="9" value="9">2</option>
+                                                                
+                                                                <option id="10" value="10">3</option>
+                                                                
+                                                                <option id="11" value="11">4</option>
+                                                                
+                                                                <option id="12" value="12">5</option>
+                                                                
+                                                                <option id="13" value="13">6</option>
+                                                                
+                                                                <option id="14" value="14">7</option>
+                                                                
+                                                            </optgroup>
+                                                            
+                                                        </select> -->
+
+                                                        <select id="" class="form-control" name="" prompt="Select day" formControlName="payslip_generation_date"><option value="1">1</option>
+                                                            <option value="2">2</option>
+                                                            <option value="3">3</option>
+                                                            <option value="4">4</option>
+                                                            <option value="5">5</option>
+                                                            <option value="6">6</option>
+                                                            <option value="7">7</option>
+                                                            <option value="8">8</option>
+                                                            <option value="9">9</option>
+                                                            <option value="10">10</option>
+                                                            <option value="11">11</option>
+                                                            <option value="12">12</option>
+                                                            <option value="13">13</option>
+                                                            <option value="14">14</option>
+                                                            <option value="15">15</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
+                                                            <option value="18">18</option>
+                                                            <option value="19">19</option>
+                                                            <option value="20">20</option>
+                                                            <option value="21">21</option>
+                                                            <option value="22">22</option>
+                                                            <option value="23">23</option>
+                                                            <option value="24">24</option>
+                                                            <option value="25">25</option>
+                                                            <option value="26">26</option>
+                                                            <option value="27">27</option>
+                                                            <option value="28">28</option>
+                                                            <option value="29">29</option>
+                                                            <option value="30">30</option>
+                                                            <option value="31">31</option>
+                                                        </select>                                                          
+
+                                                    </div>
+                                                    <div *ngIf="submitted && payrollform.controls['payslip_generation_date'].invalid" class="text-danger"> Please select payment generation date. </div>
+                                                    <!-- <div *ngIf="payrollform.controls['salary'].dirty && payrollform.controls['salary'].invalid" class="text-danger"> Please enter valid Payroll group name. </div> -->
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>    
+                                    
+                                    <div class="card">
+                                        <h3 class="tx-16 mb-2"> Drag & Drop Payroll Categories</h3>       
+                                        <span class="text-danger" *ngIf="is_category_selected">
+                                            <br>
+                                            Please select at least one Earning or Deduction category.
+                                        </span>                                 
+                                        <div class="card p-3">
+                                            <div class="row" cdkDropListGroup id="cdk-drop-list-2">
+                                                <div class="col-md-6 mb-4 mb-md-0 form_group example-container">
+                                                    <h6>Earning Category(Name | Category | Value)</h6>
+                                                
+                                                    <div
+                                                    cdkDropList
+                                                    #listTwo="cdkDropList"
+                                                    [cdkDropListData]="EarningList"
+                                                    [cdkDropListConnectedTo]="[listOne]"
+                                                    class="example-list" id="cdk-drop-list-1"
+                                                    (cdkDropListDropped)="drop($event)">
+                                                    <div class="example-box p-3" *ngFor="let item of EarningList" cdkDrag>{{item.name}}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 mb-0 form_group example-container">
+                                                    <h6>Payroll Category for Earning</h6>
+                                                    <div
+                                                        cdkDropList
+                                                        #listOne="cdkDropList"
+                                                        [cdkDropListData]="selectedEarningList"
+                                                        class="example-list" id="cdk-drop-list-2"
+                                                        [cdkDropListConnectedTo]="[listTwo]"
+                                                        (cdkDropListDropped)="drop($event)">
+                                                        <div class="example-box p-3" *ngFor="let item of selectedEarningList" cdkDrag>{{item.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card p-3">
+                                            <div cdkDropListGroup class="row">
+                                        
+                                                <div class="col-md-6 mb-4 mb-md-0 form_group example-container">
+                                                    <h6>Deductions Category(Name | Category | Value)</h6>
+                                                
+                                                    <div
+                                                    cdkDropList
+                                                    [cdkDropListData]="DeductionList"
+                                                    class="example-list" id="cdk-drop-list-3"
+                                                    (cdkDropListDropped)="drop2($event)">
+                                                    <div class="example-box p-3" *ngFor="let item of DeductionList" cdkDrag>{{item.name}}</div>
+                                                    </div>
+                                                </div>
+                                                                                
+                                                <div class="col-md-6 mb-0 form_group example-container">
+                                                    <h6>Payroll Category for Deductions</h6>
+                                                
+                                                    <div
+                                                        cdkDropList
+                                                        [cdkDropListData]="selectedDeductionList"
+                                                        class="example-list" id="cdk-drop-list-4"
+                                                        (cdkDropListDropped)="drop2($event)">
+                                                        <div class="example-box p-3" *ngFor="let item of selectedDeductionList" cdkDrag>{{item.name}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div>
+
+                                    <div class="row w-100 mt-3">
+                                        <!-- <small *ngIf="!payrollform.valid" class="text-black">Please fill all the details to save</small>    -->
+                                        <div class="col-auto">
+                                            <a class="btn w-100 px-3" href="#" [routerLink]="setUrl(URLConstants.PAYROLL)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" (click)="onSubmit()" class="btn w-100 px-3" id="submitButton">Save</button>
+                                            <!-- <button type="submit" (click)="onSubmit()" [disabled]="!payrollform.valid" class="btn btn-success btn-minwidth" id="submitButton">Save</button> -->
+                                        </div>
+                                    </div>                                                                                                      
+                            </form>
+
+
+                              
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

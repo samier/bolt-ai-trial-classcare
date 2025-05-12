@@ -1,0 +1,63 @@
+<section class="bank-account-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">Bank Account List</h3>
+                <div>
+                    <a class="btn add-btn" *ngIf="CommonService.hasPermission('finance_bank_accounts', 'has_create')" [routerLink]="[CommonService.setUrl(URLConstants.ADD_BANK_ACCOUNT)]">Add Bank Account</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="w-auto">Bank Name</th>
+                                <th class="w-auto">Account Holder Name</th>
+                                <th class="w-auto">Account For</th>
+                                <th class="w-auto">Account No</th>
+                                <th class="w-auto">IFSC Code</th>
+                                <th class="w-auto">Account Type</th>
+                                <th class="w-auto">Brach Address</th>
+                                <th class="w-auto">Action</th>>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="tbody.length > 0 && !tableLoading">
+                            <tr *ngFor="let item of tbody; let i = index">
+                                <td>{{ item?.name ?? 'N/A' }}</td>
+                                <td>{{ item?.account_holder_name ?? 'N/A' }}</td>
+                                <td>{{ item?.account_for ?? 'N/A' }}</td>
+                                <td>{{ item?.account_number ?? 'N/A' }}</td>
+                                <td>{{ item?.ifsc_code ?? 'N/A' }}</td>
+                                <td>{{ item?.account_type ?? 'N/A' }}</td>
+                                <td>{{ item?.branch_address ?? 'N/A' }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button *ngIf="CommonService.hasPermission('finance_bank_accounts','has_edit')" ngbTooltip="Edit"  [routerLink]="[CommonService.setUrl(URLConstants.EDIT_BANK_ACCOUNT),item?.id]" class="btn action-edit"><i class="fa fa-pen"></i></button>
+                                        <button *ngIf="CommonService.hasPermission('finance_bank_accounts','has_delete')" ngbTooltip="Delete"  (click)="delete(item.id)" class="btn action-delete"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length === 0 && !tableLoading">
+                            <tr>
+                                <td colspan="8" class="text-center no-data-available">No Data Available</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tableLoading">
+                            <tr>
+                                <td colspan="8" class="text-center no-data-available">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

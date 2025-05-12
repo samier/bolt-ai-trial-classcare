@@ -1,0 +1,11 @@
+::ng-deep {
+    app-notification-history {
+        .hed_alert {
+            .alert-danger {
+                color: #5c5c5c;
+                background-color: rgb(92 92 92 / 21%);
+                border-color: rgb(92 92 92 / 46%) !important;
+            }
+        }
+    }
+}

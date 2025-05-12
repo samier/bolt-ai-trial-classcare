@@ -1,0 +1,35 @@
+::ng-deep body{
+    app-exam-general-report{
+        .card{
+            box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+            border: none;
+            border-radius: 2px;
+            .card-header{
+                padding: 10px 16px !important;
+                border-bottom: unset !important;
+            }
+            .border-circle {
+                &.drop-btn{
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--primary-bg-color) !important;
+                    box-shadow: none !important;
+                    border-radius: 100%;
+                    .fa{
+                        font-size: 18px;
+                    }
+                }
+            }
+        }
+        app-date-range-picker{
+            .show-ranges{
+                top: auto !important;
+                left: auto !important;
+                right: 12px !important;
+            }
+        }
+    }
+}

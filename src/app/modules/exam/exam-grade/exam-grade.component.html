@@ -1,0 +1,149 @@
+<section class="document_type">
+    <div class="page_inner">
+        <div class="m-container">
+			<div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Grade {{page}}</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.LIST_EXAM_GRADE)">Grade List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+					<div class="">
+						<div class="">
+							<form [formGroup]="form" class="form_section" id="exam-grade-form">
+								<div class="card">
+									<div class="row">
+										<div class="col-12 col-sm-3 form_group">
+											<label class="form_label">Grade Name<span class="text-danger">*</span></label>
+											<div class="">
+												<input type="text" formControlName="name" placeholder="Grade Name" class="form-control">
+											</div>
+											<div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['name'].errors?.['required']">please enter grade name</div>
+												<div *ngIf="form.controls['name'].errors?.['pattern']">please enter grade name alphanumeric only</div>
+											</div>
+										</div>
+										<div class="col-12 col-sm-3 form_group">
+											<label class="form_label">Assign Class<span class="text-danger">*</span></label>
+											<div class="">
+												<ng-multiselect-dropdown
+													[placeholder]="'select class'"
+													[settings]="classDropdownSettings"
+													[data]="classes?.data"
+													[(ngModel)]="selectedClasses"
+													(onSelect)="onClassSelect()"
+													(onSelectAll)="onClassSelect()"
+													(onDeSelect)="onClassSelect()"
+													(onDeSelectAll)="onClassSelect()"
+													formControlName="classes"
+													[disabled]="false"
+												>
+												</ng-multiselect-dropdown>
+											</div>
+											<div *ngIf="form.controls['classes'].invalid && (form.controls['classes'].dirty || form.controls['classes'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['classes'].errors?.['required']">please select class.</div>
+											</div>
+										</div>
+
+										<div class="col-md-3 form_group">
+											<label class="form_label">Status</label>
+											<div class="">
+												<select id="status" name="status" formControlName="status" class="form-control" >
+													<option value="active">Active</option>
+													<option value="inactive">InActive</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="card">
+									<div class="row">
+										<div class="col-auto">
+											<div class="add_doc">
+												<div class="form-group mb-0">
+													<button type="button" (click)="addRowControl()" class="btn doc-button add-btn">
+														Add Row
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-3">
+										<div *ngIf="gradeDetailFieldAsFormArray.controls">
+											<div *ngFor="let control of  gradeDetailFieldAsFormArray.controls; let i = index;" formArrayName='grades' class="form_group mb-0">
+												<div [formGroupName]="i" class="document_type_add mr-0">
+													<div class="row">
+														<div class="input-fiel col-md-2">
+															<label class="form_label">From Marks<span class="text-danger">*</span></label>
+															<div class="">
+																<input type="number" step="0.1" formControlName="from_mark" name="grades[{{i}}][from_mark]" placeholder="From Marks" class="form-control">
+															</div>
+															<div *ngIf="get_from_mark(i)?.invalid && (get_from_mark(i)?.dirty || get_from_mark(i)?.touched)" class="error text-danger">
+																<div *ngIf="get_from_mark(i)?.errors?.['required']">please enter from mark</div>
+																<div *ngIf="get_from_mark(i)?.errors?.['min'] || get_from_mark(i)?.errors?.['max']">please enter mark in between 0.1 to 200</div>
+																<!-- <div *ngIf="get_from_mark(i)?.errors?.['pattern']">please enter number without point</div> -->
+															</div>
+														</div>
+														<div class="input-field w-100 col-md-2">
+															<label class="form_label">To Marks<span class="text-danger">*</span></label>
+															<div class="">
+																<input type="number" step="0.1" formControlName="to_mark" name="grades[{{i}}][to_mark]" placeholder="To Marks" class="form-control">
+															</div>
+															<div *ngIf="get_to_mark(i)?.invalid && (get_to_mark(i)?.dirty || get_to_mark(i)?.touched)" class="error text-danger">
+																<div *ngIf="get_to_mark(i)?.errors?.['required']">please enter to mark</div>
+																<div *ngIf="get_to_mark(i)?.errors?.['min'] || get_to_mark(i)?.errors?.['max']">please enter mark in between 0.1 to 200</div>
+																<!-- <div *ngIf="get_to_mark(i)?.errors?.['pattern']">please enter number without point</div> -->
+															</div>
+														</div>
+														<div class="input-field col-md-2">
+															<label class="form_label">Grade Value<span class="text-danger">*</span></label>
+															<div class="">
+																<input type="text" formControlName="grade_value" name="grades[{{i}}][grade_value]" placeholder="Grade Value" class="form-control">
+															</div>
+															<div *ngIf="get_grade_value(i)?.invalid && (get_grade_value(i)?.dirty || get_grade_value(i)?.touched)" class="error text-danger">
+																<div *ngIf="get_grade_value(i)?.errors?.['required']">please enter grade value</div>
+																<div *ngIf="get_grade_value(i)?.errors?.['pattern']">please enter grade name alphanumeric only</div>
+															</div>
+														</div>
+														<div class="input-field col-md-4">
+															<label class="form_label">Remark</label>
+															<div class="">
+																<input type="text" formControlName="remarks" name="grades[{{i}}][remark]" placeholder="Enter Remark" class="form-control">
+															</div>
+														</div>
+														<input type="hidden" formControlName="id" name="grades[{{i}}][id]" class="form-control">
+														<div class="input-field col-md-2">
+															<!-- <button *ngIf="i == 0" class="button" type="button" (click)="addRowControl()" class="btn btn-primary btn-minwidth">Add Row</button> -->
+                              <div class="input-field add_doc">
+                                <label for="" class="">remove</label>
+                                <div class="">
+                                    <input type="hidden" formControlName="id" >
+                                    <button class="button" type="button" (click)="remove(i)" class="btn delete-btn btn-minwidth">Remove</button>
+                                </div>
+                            </div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row w-100 ">
+									<div class="col-md-auto">
+										<a class="btn w-100 cancel-btn" href="#" [routerLink]="setUrl(URLConstants.LIST_EXAM_GRADE)">Cancel</a>
+									</div>
+									<div class="col-md-auto">
+										<button *ngIf="saveBtn == 'Update' ? CommonService.hasPermission('settings_exam_grade', 'has_update') : CommonService.hasPermission('settings_exam_grade', 'has_create')" class="button" type="submit" [disabled]="form.invalid" (click)="submit()" class="btn save-btn w-100">
+											{{saveBtn}}
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

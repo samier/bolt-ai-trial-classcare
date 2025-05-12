@@ -1,0 +1,156 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Edit Event Type</h3>
+                <div class="btn_right">
+                    <a class="btn"   href="#." [routerLink]="setUrl(URLConstants.EVENT_LIST)"> Event List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="leavecreateform" class="form_section" id="form">
+                                <div class="row">                                    
+                                    <div class="col-md-2 form_group m-radio-section">
+                                        <label for=""></label>
+                                        <div class="radio">
+                                            <label class="px-0 m-radio required" for="batchees">
+                                                <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(1)" name="inlineRadioOptions" id="batchees" [checked]="batchees" formControlName="assignTo" value="1">Batch <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="px-0 m-radio required" for="faculty">
+                                                <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(2)" name="inlineRadioOptions" id="faculty" [checked]="faculty" formControlName="assignTo" value="2">Faculty <span></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label class="px-0 m-radio required" for="all">
+                                                <input class="ng-untouched ng-pristine ng-valids" type="radio" (change)="fun2(3)" name="inlineRadioOptions" id="all" [checked]="all" formControlName="assignTo" value="3">All <span></span>
+                                            </label>
+                                        </div>                                      
+                                    </div>  
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 form_group" *ngIf="faculty != true && all != true && leavecreateform.controls['assignTo'].value != 2 && leavecreateform.controls['assignTo'].value != 3">
+                                        <label>Batch<span class="text-danger"></span></label>
+                                        <div class="">
+                                        <ng-multiselect-dropdown formControlName="batch"
+                                        [placeholder]="'select batch'"
+                                        [settings]="classDropdownSettings"
+                                        [data]="batches"
+                                        [(ngModel)]="selectedBatch"
+                                        (onSelect)="onBatchSelect()"
+                                        (onSelectAll)="onBatchSelect()"
+                                        (onDeSelect)="onBatchSelect()"
+                                        (onDeSelectAll)="onBatchSelect()"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-2 form_group" *ngIf="faculty != true && all != true && leavecreateform.controls['assignTo'].value != 2 && leavecreateform.controls['assignTo'].value != 3">  
+                                        <label for="">Batch</label>
+                                        <div class="">
+                                            <ng-select #select2 [items]="batches" [(ngModel)]="selectedBatch" name="batch_id" bindLabel="name" 
+                                                formControlName="batch_id" bindValue="id">
+                                            </ng-select>
+                                        </div>                                                                                                                   
+                                    </div>    -->
+                                </div>
+                                <div class="row">                                                                    
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Event Name<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <input type="text" class="form-control" formControlName="event_name"
+                                            id="event_name" name="event_name" required>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['event_name'].invalid && leavecreateform.controls['event_name'].dirty || leavecreateform.controls['event_name'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['event_name'].errors?.['required']">Please Enter Event Name</div>
+                                        </div>    
+                                    </div>                                                                 
+                                    <div class="col-md-3 form_group">
+                                        <div>
+                                            <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="start_date" [maxDate]="leavecreateform.controls['end_date'].value"></app-mat-date-picker>
+                                            <!-- <div>
+                                                <input type="date" formControlName="start_date" [max]="leavecreateform.controls['end_date'].value" class="form-control" >
+                                            </div>
+                                            <div *ngIf="leavecreateform.controls['start_date'].invalid && (leavecreateform.controls['start_date'].dirty || leavecreateform.controls['start_date'].touched)" class="Femerror text-danger mb-2">
+                                                <div *ngIf="leavecreateform.controls['start_date'].errors?.['required']">please select start date.</div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <div>
+                                            <label class="form_label">End Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="end_date" [maxDate]="leavecreateform.controls['start_date'].value"></app-mat-date-picker>
+                                            <!-- <div>
+                                                <input type="date" formControlName="end_date" [min]="leavecreateform.controls['start_date'].value" class="form-control" >
+                                            </div>
+                                            <div *ngIf="leavecreateform.controls['end_date'].invalid && (leavecreateform.controls['end_date'].dirty || leavecreateform.controls['end_date'].touched)" class="Femerror text-danger mb-2">
+                                                <div *ngIf="leavecreateform.controls['end_date'].errors?.['required']">please select end date.</div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">  
+                                        <label class="form_label">Event Type<span class="text-danger">*</span></label>                                  
+                                        <div class="">
+                                            <ng-select #select2 [items]="eventType" [(ngModel)]="selectedEventType" (change)="eventTypeChange()" name="event_type_id" bindLabel="name" 
+                                                formControlName="event_type_id" bindValue="id">                                                
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="leavecreateform.controls['event_type_id'].invalid && leavecreateform.controls['event_type_id'].dirty || leavecreateform.controls['event_type_id'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['event_type_id'].errors?.['required']">Please Enter Event Type</div>
+                                        </div> 
+                                    </div>                                     
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Select Color<span class="text-danger">*</span>:</label>
+                                        <div>
+                                            <select formControlName="color" class="form-control" >
+                                                <option value="" disabled>select color</option>
+                                                <option value="red">Red</option>
+                                                <option value="blue">Blue</option>
+                                                <option value="black">Black</option>
+                                                <option value="orange">Orange</option>
+                                                <option value="green">Green</option>
+                                                <option value="yellow">Yellow</option>
+                                                <option value="grey">Grey</option>
+                                            </select>                                            
+                                        </div> 
+                                        <div *ngIf="leavecreateform.controls['color'].invalid && leavecreateform.controls['color'].dirty || leavecreateform.controls['color'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['color'].errors?.['required']">Please Enter Color</div>
+                                        </div>                    
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <div class="">
+                                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <div class="">
+                                                    <textarea class="form-control" name="description" id="description" formControlName="description" required></textarea>
+                                                </div>
+                                                <div *ngIf="submitted && leavecreateform.controls['description'].invalid" class="text-danger">Please enter description</div>
+                                            </div>
+                                        </div>  
+                                        <div *ngIf="leavecreateform.controls['description'].invalid && leavecreateform.controls['description'].dirty || leavecreateform.controls['description'].touched" class=" error text-danger mb-2">
+                                            <div *ngIf="leavecreateform.controls['description'].errors?.['required']">Please Enter Description</div>
+                                        </div>                                      
+                                    </div>
+                                </div>
+
+                                <div class="row w-100">
+                                    <div class="col-md-1">
+                                        <a class="btn px-2 w-100" href="#" [routerLink]="setUrl(URLConstants.EVENT_LIST)">Cancel</a>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button *ngIf="CommonService.hasPermission('administrator_calender', 'has_update')" type="submit" (click)="onSubmit()" class="btn w-100" id="submitButton">Save</button>
+                                    </div>
+                                </div>
+                         </form>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

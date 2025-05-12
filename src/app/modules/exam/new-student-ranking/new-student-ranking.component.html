@@ -1,0 +1,139 @@
+<section class="student-ranking-new">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Student Rank List</h3>
+                <div class="btn_right d-flex gap-3" *ngIf="CommonService.hasPermission('student_student_rank_list', 'has_download')">
+                    <button class="button" type="submit"
+                        class="btn w-100 d-flex align-items-center pdf-btn" ngbTooltip="PDF" (click)="downloadRankList('pdf')"
+                        [disabled]="tableBody.length > 0 && isPdfLoading">
+                        <img src="assets/images/pdf-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isPdfLoading">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                    <button class="button" type="submit"
+                        class="btn w-100 d-flex align-items-center excel-btn" ngbTooltip="EXCEL" (click)="downloadRankList('excel')"
+                        [disabled]="tableBody.length > 0 && isExcelLoading">
+                        <img src="assets/images/excel-icon.svg" alt="">
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isExcelLoading">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-12 d-flex nav nav-tabs">
+                <div class="radio-inline ml-1 nav-item">
+                  <label class="m-radio required nav-link" [class.active]="type == 1" for="classwise"
+                    aria-required="true">
+                    <input type="radio" (click)="switchTab(1)" name="for" id="classwise" value="1" aria-required="true"
+                      class="mr-1" checked hidden>Class Wise<span></span>
+                  </label>
+                </div>
+                <div class="radio-inline ml-1 nav-item">
+                  <label class="m-radio required nav-link" [class.active]="type == 2" for="batchwise"
+                    aria-required="true">
+                    <input type="radio" (click)="switchTab(2)" name="for" id="batchwise" value="2" aria-required="true"
+                      class="mr-1" hidden>Batch Wise <span></span>
+                  </label>
+                </div>
+            </div>
+            <div class="card filter">
+                <div class="card-header justify-content-between d-flex" (click)="filter = !filter">
+                    <div class="card-student-heading d-flex align-items-center">
+                      <h5 class="mb-0">Filters</h5>
+                      <button class="btn btn-primary border-circle ms-2">{{filterCount}}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                      <button class="btn btn-primary me-2" (click)="onReset($event)" [disabled]="isResetLoading">Reset
+                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isResetLoading">
+                            <span class="visually-hidden">Loading..."</span>
+                        </div>
+                      </button>
+                      <button class="btn btn-primary drop-btn border-circle">
+                        <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                        <i class="fa fa-angle-up" *ngIf="filter"></i>
+                      </button>
+                    </div>
+                </div>
+                <div *ngIf="filter" class="card-body">
+                    <form [formGroup]="rankFilterForm">
+                        <div class="row">
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Section <span class="text-danger">*</span></label>
+                                <app-single-select controlName="section_id" [dropDownArray]="sectionList" placeholder="Select Section" (change)="onSectionChange()"></app-single-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Class <span class="text-danger">*</span></label>
+                                <app-single-select controlName="class_id" [dropDownArray]="classList" placeholder="Select Class" (change)="onClassChange()"></app-single-select>
+                            </div>
+                            <ng-container *ngIf="type == 2">
+                                <div class="col-md-3 form_group">
+                                    <label class="form_label">Batch <span class="text-danger">*</span></label>
+                                    <app-multi-select controlName="batch_id" [dropDownArray]="batchList" placeholder="Select Batch" (change)="examList = []; rankFilterForm.controls['exam_id'].patchValue(null);getExamList()"></app-multi-select>
+                                </div>
+                            </ng-container>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Exam Type</label>
+                                <!-- <app-single-select controlName="exam_type_id" [dropDownArray]="examTypeList" placeholder="Select Exam Type"></app-single-select> -->
+                                <app-multi-select controlName="exam_type_id" [dropDownArray]="examTypeList" placeholder="Select Exam Type" (change)="examList = []; rankFilterForm.controls['exam_id'].patchValue(null);getExamList()"></app-multi-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Exam Name</label>
+                                <!-- <app-single-select controlName="exam_id" [dropDownArray]="examList" placeholder="Select Exam Name"></app-single-select> -->
+                                <app-multi-select controlName="exam_id" [dropDownArray]="examList" placeholder="Select Exam Name"></app-multi-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Student Status</label>
+                                <app-single-select controlName="student_status" [dropDownArray]="studentStatusList" placeholder="Select Status" ></app-single-select>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Date Range</label>
+                                <app-date-range-picker controlName="date"  placeholder="Select Date Range"></app-date-range-picker>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Student Rank</label>
+                                <div class="radio-section mt-2">
+                                    <div class="radio ">
+                                        <label class=" required fw-semibold">
+                                            <input type="radio" formControlName="exam_order_by" id="active1" value="1" class="mr-1">Rank Wise<span></span>
+                                        </label>
+                                    </div>
+                                    <div class="radio ">
+                                        <label class="required fw-semibold" aria-required="true">
+                                            <input type="radio" formControlName="exam_order_by" id="inactive1" value="0" class="mr-1">Roll No Wise<span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-auto form_group">
+                                <button class="btn show-btn" (click)="onShow()" [disabled]="isShowLoading">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table *ngIf="isTableLoaded" datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                            </table>
+                            <div *ngIf="!hasFilters" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                                <div>Please Apply Filters For Rank List.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

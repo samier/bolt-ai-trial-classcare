@@ -1,0 +1,49 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+          <h3 class="sub_title mb-0">Reminder Details</h3>
+          <div>
+            <a class="btn add-btn me-2" *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_create')" [routerLink]="CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_SETUP)">Auto Fee Reminder Setup</a>
+            <a class="btn list-btn" *ngIf="CommonService.hasPermission('finance_auto_fee_reminder', 'has_access')" [routerLink]="CommonService.setUrl(URLConstants.AUTO_FEE_REMINDER_LIST)">Auto Fee Reminder List</a>
+          </div>
+        </div>
+        <div class="card p-0">
+          <div class="card-body">
+            <div [formGroup]="reminderDetailsF" class="content_scroll">
+              <div class="row">
+                <div class="col-md-4 form_group">
+                  <label for="month" class="form_label">Month</label>
+                  <app-multi-select [dropDownArray]="months" controlName="month" placeholder="Select Month"></app-multi-select>
+                </div>
+                <div class="col-md-4 form_group">
+                  <label for="month" class="form_label">Date Range</label>
+                  <app-date-range-picker controlName="date" placeholder="Select Date Range"></app-date-range-picker>
+                </div>
+              </div>
+              <div class="row">  
+                <div class="col-md-3 form_group">
+                  <button type="button" class="btn show-btn" (click)="onShow()" [disabled]="isShowLoading">Show
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                      <span class="visually-hidden">Loading..."</span>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="row pb-0 mx-0 no-gutters">
+            <div class="col-lg-12">
+              <div class="notice-history-table">
+                <div class="table-responsive">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

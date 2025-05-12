@@ -1,0 +1,548 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <!-- <h2 class="page_title">Transport Detail</h2> -->
+            <div>
+                <div class="d-flex justify-content-between align-items-center my-3">
+                    <h3 class="sub_title mb-0">{{page}} Transport</h3>
+                    <div class="btn_right">
+                        <a class="active btn list-btn" href="#." [routerLink]="setUrl(URLConstants.ASSIGN_TRANSPORT)">Transport List</a>
+                    </div>
+                </div>
+                <div class="card_body">
+                    <div>
+                       <div class="card">
+                            <form [formGroup]="form" class="form_section" id="assign-transport-form">
+                                <div class="">
+                                    <div class="form_group">
+                                        <div>
+                                            <label class="form_label">Assign Transport To<span class="text-danger">*</span></label>
+                                            <div class="col-lg-12 d-flex nav nav-tabs">
+                                            <div class="radio-inline ml-1 nav-item">
+                                                <label class="m-radio required nav-link {{type == 'student' ? 'active' : ''}}" for="student" aria-required="true">
+                                                    <input class="mr-1" type="radio" id="student" name="for" formControlName="for" (click)="get_for('student')"
+                                                        value="student" aria-required="true" checked hidden>Student<span></span>
+                                                </label>
+                                            </div>
+                                            <div class="radio-inline ml-1 nav-item">
+                                                <label class="m-radio required nav-link {{type == 'employee' ? 'active' : ''}}" for="employee" aria-required="true">
+                                                    <input class="radio" type="radio" id="employee" name="for" formControlName="for"
+                                                        (click)="get_for('employee')" value="employee" aria-required="true" checked hidden>
+                                                    Employee <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                <div>
+                                    <div class="row" *ngIf="form.value.for == 'student' || assign_transport.data?.for == 'student'">
+                                        <div class="col-md-3 form_group">
+                                        <div>
+                                            <label class="form_label">Section</label>												
+                                            <div>
+                                            <!-- <select  class="form-control" formControlName="section" name="section" id="section" (change)="sectionChange()">
+                                                <option value="">Please Select</option>
+                                                <option *ngFor="let section of sections" [value]="section.id">{{ section.name }}</option>
+                                            </select>		 -->
+                                            
+                                            <ng-select #select334 [items]="sections" [(ngModel)]="section_select" [searchable]="true" formControlName="section" (change)="sectionChange()"  bindLabel="name"  bindValue="id"
+                                            placeholder="Please Select">
+                                        </ng-select>              
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">Class<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-multiselect-dropdown
+                                                      [placeholder]="'select class'"
+                                                      [settings]="classDropdownSettings"
+                                                      [data]="classes?.data"
+                                                      [(ngModel)]="selectedClasses"
+                                                      (onSelect)="onClassSelect()"
+                                                      (onSelectAll)="onClassSelect()"
+                                                      (onDeSelect)="onClassSelect()"
+                                                      (onDeSelectAll)="onClassSelect()"
+                                                      formControlName="classes"
+                                                      [disabled]="false"
+                                                    >
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                                <div *ngIf="form.controls['classes']?.invalid && (form.controls['classes']?.touched)" class="Femerror text-danger mb-2">
+                                                    <div *ngIf="form.controls['classes']?.errors?.['required']">Please select class</div>
+                                                </div>
+                                            </div>
+        </div>
+        <div class="col-md-3 form_group">
+            <div>
+                <label class="form_label">Batch<span class="text-danger">*</span></label>
+                <div>
+                    <ng-multiselect-dropdown
+                        [placeholder]="'select batch'"
+                        [settings]="classDropdownSettings"
+                        [data]="batches?.data"
+                        [(ngModel)]="selectedBatches"
+                        (onSelect)="onBatchSelect()"
+                        (onSelectAll)="onBatchSelect()"
+                        (onDeSelect)="onBatchSelect()"
+                        (onDeSelectAll)="onBatchSelect()"
+                        formControlName="batches"
+                        [disabled]="false"
+                    >
+                    </ng-multiselect-dropdown>
+                </div>
+                <div *ngIf="form.controls['batches'].invalid && (form.controls['batches'].touched)" class="Femerror text-danger mb-2">
+                    <div *ngIf="form.controls['batches'].errors?.['required']">please select batch.</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 form_group">
+            <div>
+                <label class="form_label">Student<span class="text-danger">*</span></label>
+                <div>
+                    <ng-multiselect-dropdown
+                        [placeholder]="'select student'"
+                        [settings]="classDropdownSettings"
+                        [data]="students?.data"
+                        [(ngModel)]="selectedStudents"
+                        formControlName="students"
+                        (onSelect)="onStudentEmployeeSelect()"
+                        (onSelectAll)="onStudentEmployeeSelect()"
+                        (onDeSelect)="onStudentEmployeeSelect()"
+                        (onDeSelectAll)="onStudentEmployeeSelect()"
+                        [disabled]="false"
+                    >
+                    </ng-multiselect-dropdown>
+                </div>
+                <div *ngIf="form.controls['students'].invalid && (form.controls['students'].touched)" class="Femerror text-danger mb-2">
+                    <div *ngIf="form.controls['students'].errors?.['required']">please select student.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+                                    <div class="row" *ngIf="form.value.for == 'employee' || assign_transport.data?.for == 'employee'">
+                                        <div class="col-md-3 form_group">
+                                            <div  class="">
+                                                <label class="form_label">Employee<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-multiselect-dropdown
+                                                      [placeholder]="'select employee'"
+                                                      [settings]="classDropdownSettings"
+                                                      [data]="employees?.data"
+                                                      [(ngModel)]="selectedEmployees"
+                                                      formControlName="employees"
+                                                      (onSelect)="onStudentEmployeeSelect()"
+                                                      (onSelectAll)="onStudentEmployeeSelect()"
+                                                      (onDeSelect)="onStudentEmployeeSelect()"
+                                                      (onDeSelectAll)="onStudentEmployeeSelect()"
+                                                      [disabled]="false"
+                                                    >
+                                                    </ng-multiselect-dropdown>
+                                                </div>
+                                                <div *ngIf="form.controls['employees'].invalid && (form.controls['employees'].touched)" class="Femerror text-danger mb-2">
+                                                    <div *ngIf="form.controls['employees'].errors?.['required']">please select employee.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">Transport Area</label>
+                                                <div>
+
+                                              <ng-select #select [items]="areas" [searchable]="true" formControlName="area_id" (change)="handleAreaChange()"
+                                                    bindLabel="name"  bindValue="id"
+                                                    placeholder="please select">
+                                                </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">Transport Mode<span class="text-danger">*</span></label>
+                                                <div>
+
+                                              <ng-select #select [items]="transport_modes" [searchable]="true" formControlName="transport_mode" (change)="get_transport_mode($event.value); get_fare()" 
+                                                    bindLabel="name"  bindValue="value"
+                                                    placeholder="please select">
+                                                </ng-select>
+                                                <div *ngIf="form.controls['transport_mode']?.invalid && (form.controls['transport_mode']?.dirty || form.controls['transport_mode']?.touched)" class=" Femerror text-danger mb-2">
+                                                    <div *ngIf="form.controls['transport_mode']?.errors?.['required']">Please select transport mode</div>
+                                                </div>
+                                                    <!-- <select formControlName="transport_mode" class="form-control" (change)="get_transport_mode($any($event.target).value)">
+                                                        <option value="two way transport">Two Way Transport</option>
+                                                        <option value="one way pickup">One Way Pickup</option>
+                                                        <option value="one way drop">One Way Drop</option>
+                                                    </select> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way drop'">
+                                            <div>
+                                                <label class="form_label">Pickup Stand<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-select #select [items]="stops" (change)="getRouteByStop($event, 'pickup')"  [searchable]="false" [(ngModel)]="selectedPickupStand" bindLabel="name" bindValue="id"
+                                                    formControlName="pickup_stand"
+                                                    placeholder="please select" required>
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px" type="text" (input)="select.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <div *ngIf="form.controls['pickup_stand']?.invalid && (form.controls['pickup_stand']?.dirty || form.controls['pickup_stand']?.touched)" class=" Femerror text-danger mb-2">
+                                                        <div *ngIf="form.controls['pickup_stand']?.errors?.['required']">Please select pickup stand</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way drop'">
+                                            <div>
+                                                <label class="form_label">Pickup Route<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-select #select [items]="pickupRoute" (change)="get_pickup_stand(selectedPickupRoute)" [searchable]="false" [(ngModel)]="selectedPickupRoute" bindLabel="name" bindValue="id"
+                                                    formControlName="pickup_route"
+                                                    placeholder="please select" required>
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px" (onclick)="get_pickup_stand(selectedPickupRoute)" type="text" (input)="select.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <div *ngIf="form.controls['pickup_route']?.invalid && (form.controls['pickup_route']?.dirty || form.controls['pickup_route']?.touched)" class=" Femerror text-danger mb-2">
+                                                        <div *ngIf="form.controls['pickup_route']?.errors?.['required']">Please select pickup route</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way pickup'">
+                                            <div>
+                                                <label class="form_label">Drop Stand<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-select #select [items]="stops" (change)="getRouteByStop($event, 'drop')"  [searchable]="false" [(ngModel)]="selectedDropStand" bindLabel="name" bindValue="id"
+                                                    formControlName="drop_stand"
+                                                    placeholder="please select" required>
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px" type="text" (input)="select.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <div *ngIf="form.controls['drop_stand']?.invalid && (form.controls['drop_stand']?.dirty || form.controls['drop_stand']?.touched)" class=" Femerror text-danger mb-2">
+                                                        <div *ngIf="form.controls['drop_stand']?.errors?.['required']">Please select drop stand</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group" *ngIf="form.value.transport_mode != 'one way pickup'">
+                                            <div>
+                                                <label class="form_label">Drop Route<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <ng-select #select [items]="dropRoute" (change)="get_drop_stand(selectedDropRoute)" [searchable]="false" [(ngModel)]="selectedDropRoute" bindLabel="name" bindValue="id"
+                                                    formControlName="drop_route"
+                                                    placeholder="please select" required>
+                                                        <ng-template ng-header-tmp>
+                                                            <input style="width: 100%; line-height: 24px" (onclick)="get_drop_stand(selectedDropRoute)" type="text" (input)="select.filter($any($event.target).value)" />
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <div *ngIf="form.controls['drop_route']?.invalid && (form.controls['drop_route']?.dirty || form.controls['drop_route']?.touched)" class=" Femerror text-danger mb-2">
+                                                        <div *ngIf="form.controls['drop_route']?.errors?.['required']">Please select drop route</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">Start Date<span class="text-danger">*</span></label>
+                                                <app-mat-date-picker  controlName="start_date" (change)="handleDate()"></app-mat-date-picker>
+                                                <!-- <div>
+                                                    <input type="date"  formControlName="start_date"(change)="handleDate()" class="form-control" >
+                                                </div>
+                                                <div *ngIf="form.controls['start_date'].invalid && (form.controls['start_date'].dirty || form.controls['start_date'].touched)" class="Femerror text-danger mb-2">
+                                                    <div *ngIf="form.controls['start_date'].errors?.['required']">please select start date.</div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">End Date</label>
+                                                <div>
+                                                    <app-mat-date-picker  controlName="end_date" (change)="handleDate()" [minDate]="form.controls['start_date'].value"></app-mat-date-picker>
+                                                    <!-- <input type="date"  formControlName="end_date"(change)="handleDate()" [min]="form.controls['start_date'].value" class="form-control" > -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 form_group">
+                                            <div>
+                                                <label class="form_label">Fare<span class="text-danger">*</span></label>
+                                                <div>
+                                                    <input type="text"  formControlName="fare" class="form-control" [value]="fare" >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="form.controls['end_date'].value != '' && form.controls['start_date'].value != ''">
+                                        <div class="col-md-6 form_group mb-2">
+                                            <label class="form_label"><b>Reason For Leaving</b></label>
+                                            <div class="form-group">
+                                                <div>
+                                                    <textarea class="form-control ng-untouched ng-pristine ng-invalid" name="reason" id="reason" formControlName="reason" placeholder="Enter reason for leaving"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 form_group mb-2">
+                                            <div class="row">
+                                                <ng-container formArrayName="attachment" *ngFor="let item of attachmentArray.controls; let i = index;">
+                                                    <div class="col-md-12 form_group mb-2" >
+                                                      <ng-container [formGroupName]="i">
+                                                        <div class="row">
+                                                            <label class="form_label"><b>Attachment Name</b></label>
+                                                            <div class="col-md-6 form_group mb-2" >
+                                                                <input type="text" formControlName="attachment_name" name="working_days_school" placeholder="Attachment Name" class="form-control">
+                                                            </div>
+                                                            <div class="col-md-6 form_group mb-2">
+                                                                <div class="form-group">
+                                                                    <div class="d-flex justify-content-between">
+                                                                      <input type="file" class="form-control" (change)="selectAttachment($event,item)">
+                                                                      <div *ngIf="i == 0">
+                                                                        <button class="btn ms-2" type="button" (click)="addAttachment()"><i class="fa fa-plus"></i></button>
+                                                                      </div>
+                                                                      <div *ngIf="i !== 0">
+                                                                        <button class="btn ms-2" type="button" (click)="removeAttachment(i)"><i class="fa fa-minus"></i></button>
+                                                                      </div>
+                                                                    </div>
+                                                                    <!-- <div *ngIf="form.controls['reason_leaving_school'].invalid && (form.controls['reason_leaving_school'].dirty || form.controls['reason_leaving_school'].touched)" class="error text-danger mb-2">
+                                                                        <div *ngIf="form.controls['reason_leaving_school'].errors?.['required']">please enter reason for leaving the school.</div>
+                                                                    </div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                      </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="assign_transport.data && form.controls['start_date'].value <= assign_transport.data.end_date">
+                                        <div class="col-md-6 form_group mb-2" *ngIf="attachmentList && attachmentList.length > 0">
+                                            <div class="row">
+                                            <label class="form_label"><b>Uploaded Attachment</b></label>
+                                            <div  class="col-md-12" *ngFor="let attach of attachmentList;">
+                                                <div class="row">
+                                                    <div class="col-md-6 form_group mb-2" >
+                                                        <input type="text" [value]="attach.file_name" readonly name="working_days_school" placeholder="Attachment Name" class="form-control">
+                                                    </div>
+                                                    <div class="col-md-6 form_group mb-2 flex">
+                                                        <a class="btn ms-2" href="{{attach.attachment_url}}" target="_blank"><i class="fa fa-eye"></i></a>
+                                                        <button class="btn ms-2" type="button" (click)="deleteAttachment(attach.id, 'transport')"><i class="fa fa-trash" ></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-1">
+                                            <span class="col-md-12 text-danger">{{warning}}</span>
+                                        </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                                <div class="row w-100 ">
+                                  <div class="col-md-auto">
+                                      <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.ASSIGN_TRANSPORT)">Cancel</a>
+                                  </div>
+                                  <div class="col-md-auto">
+                                      <button class="btn save-btn" *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('transport_assign_transport', 'has_update') : CommonService.hasPermission('transport_assign_transport', 'has_create') "  type="submit" (click)="submit()" [disabled]="is_loading" >
+                                          {{saveBtn}}
+                                          <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                                            <span class="visually-hidden">Loading...</span>
+                                          </div>
+                                      </button>
+                                  </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" *ngIf="id && assign_transport_history?.length != 0" >
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+								<table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered">
+									<thead>
+								        <tr>
+				                            <th>ID</th>
+				                            <th [style.display]="for == 'student' ? '' : 'none'">Student</th>
+				                            <th [style.display]="for != 'student' ? '' : 'none'">Employee</th>
+				                            <th>Transport Mode</th>
+				                            <th>Pickup Route</th>
+				                            <th>Pickup Stand</th>
+				                            <th>Drop Route</th>
+				                            <th>Drop Stand</th>
+				                            <th>Start Date</th>
+				                            <th>End Date</th>
+				                            <th>Fare</th>
+                                            <th>Transport Status</th>
+                                            <th>Reason</th>
+                                            <th>Detail</th>
+				                            <th>Action</th>
+				                        </tr>
+								      </thead>
+								      <tbody *ngIf="assign_transport_history?.length != 0">
+								        <tr *ngFor="let at of assign_transport_history">
+								          	<td> {{at.id }}</td>
+				                            <td [style.display]="for == 'student' ? '' : 'none'"> {{at.student?.full_name ?? '-'}} </td>
+				                            <td [style.display]="for != 'student' ? '' : 'none'"> {{at.employee?.full_name ?? '-'}} </td>
+				                            <td> {{at.transport_mode}} </td>
+				                            <td> {{at?.pickup_route?.name ?? '-'}} </td>
+				                            <td> {{at?.pickup_stand?.name ?? '-'}} </td>
+				                            <td> {{at?.drop_route?.name ?? '-'}} </td>
+				                            <td> {{at?.drop_stand?.name ?? '-'}} </td>
+				                            <td> {{at.start_date}} </td>
+				                            <td> {{at.end_date}} </td>
+				                            <td> {{at.fare}} </td>
+                                            <td> {{at?.transport_status ? at.transport_status : 'Left'}} </td>
+				                            <td class="white-space-normal"> {{at.reason}} </td>
+                                            <td>
+                                                <div class="tooltip" [ngbTooltip]="tipContentDetails" container="body" placement="left" tooltipClass="my-custom-class">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    <ng-template #tipContentDetails >
+                                                    <span>
+                                                        <p>
+                                                            <b>Assign Time : </b>{{at.updated_at | date:dateFormateService.getDateTimeFormat()}}
+                                                        </p>
+                                                        <p>
+                                                            <b>Assign by : </b>{{at.assign_by_user.full_name}}
+                                                        </p>
+                                                    </span>
+                                                    </ng-template>
+                                                </div>
+                                            </td>    
+                                            <td>
+                                                <button type="button" title="Attachments" class="btn btn-sm btn-danger ms-1" (click)="attachment(myModel, at)"> 
+                                                    <i class="fe fe-file"></i> 
+                                                </button>
+                                            </td>
+								        </tr>
+								    </tbody>
+								    <tbody *ngIf="assign_transport_history?.length == 0">
+									    <tr>
+									      <td colspan="12" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>
+								</table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #myModel let-modal >
+        <div class="modal-header">
+            <div class="modal-title" >Attachments</div>
+            <div class="modal-close" (click)="modal.dismiss('Cross click')"><i class="zmdi zmdi-close"></i></div>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-xl-3 col-md-3 col-sm-4 col-6 d-flex" *ngFor="let file of modelAttachments">
+                    <div class="card p-0 w-100 ">
+                        <span class="delete-button" 
+                            (click)="deleteAttachment(file.id, 'history')">
+                            <i class="fa fa-trash text-danger cursor-pointer"></i>
+                        </span>
+                        <a class="mb-1" href="{{file.attachment_url}}" target="_blank">
+                            <div class="card-body px-2  text-center">
+                                <div class="file-manger-icon">
+                                    <img [src]="fileIcons[file.file_type]" alt="img" class="rounded-7">
+                                </div>
+                                <h6 class="mb-1 font-weight-semibold text-capitalize">{{file.file_name}}</h6>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-muted" *ngIf="modelAttachments?.length == 0">
+                No Attachments Available
+            </div>
+        </div>
+        
+        
+        <div class="d-flex justify-content-end modal-footer">
+            <button type="button" class="btn btn-secondary mt-3 mb-0" (click)="modal.dismiss('Cross click')">Cancel</button>
+        </div>
+    </ng-template>
+
+    <ng-template #message class="publish-update-modal">
+        <div class="modal-header publish-modal-header" style="z-index: 0;">
+            <h4 class="modal-title" id="modal-basic-title">SMS Options for the Transport</h4>
+            <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body publish-modal-body">
+    
+            <div class="col-md-12 form_group">
+                <label class="form_label">Send to ?</label>
+                <div class="d-flex">
+                    <div class="m-checkbox-list d-flex align-items-center me-3" >
+                        <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox" [(ngModel)]="send_father"><span></span>
+                        </label>
+                        <label for="checkbox" class="ms-2 mb-0">Father</label>
+                    </div>
+                    <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                        <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox1" [(ngModel)]="send_mother"><span></span>
+                        </label>
+                        <label for="checkbox1" class="ms-2 mb-0">Mother</label>
+                    </div>
+                    <div class="m-checkbox-list d-flex align-items-center me-3 ms-2">
+                        <label class="m-checkbox mb-0">
+                            <input type="checkbox" id="checkbox2" [(ngModel)]="send_student"><span></span>
+                        </label>
+                        <label for="checkbox2" class="ms-2 mb-0" >Student</label>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- <div class="bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Parents Template :- </h5>
+                    <p class="card-text">{{template[0].template}}</p>
+                </div>
+            </div>
+            <div class="bg-info mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Students Template :- </h5>
+                    <p class="card-text">{{template[1].template}}</p>
+    
+                </div>
+            </div> -->
+        </div>
+        <div class="modal-footer" style="z-index: 0;">
+            <div class="col-auto">
+                <button type="submit" class="cancel-btn btn" (click)="closeModal()">
+                    Cancel </button>
+            </div>
+            <div class="col-auto">
+    
+                <button class="btn save-btn" *ngIf=" saveBtn == 'Update' ? CommonService.hasPermission('transport_assign_transport', 'has_update') : CommonService.hasPermission('transport_assign_transport', 'has_create') "  type="submit" (click)="submit()" [disabled]="is_loading">
+                    {{saveBtn}}
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_loading">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+    
+                <!-- <button class="button px-1" type="submit" class="w-100 btn" [disabled]="false"  (click)="sendNotice()">
+                    send
+                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button> -->
+            </div>
+        </div>
+    </ng-template>
+</section>

@@ -1,0 +1,297 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{page}} Exam</h3>
+				<div class="btn_right">
+					<a class="btn"  href="#." [routerLink]="setUrl(URLConstants.EXAM_LIST)">Exam List</a>
+				</div>
+			</div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                       <div class="card">
+                            <form [formGroup]="form" class="form_section" id="exam-form">
+                                <div class="row">
+                                    <div class=" row">
+                                        <!-- <div class="col-md-3 form_group">
+                                            <label class=" form_label">Class<span class="text-danger">*</span></label>
+                                                <div class="">
+                                                    <ng-select #select
+                                                    	[items]="classes"
+                                                    	(change)="changeClass(selectedClass)"
+                                                    	[searchable]="false"
+                                                    	[(ngModel)]="selectedClass"
+                                                    	name="questions[class]"
+                                                    	bindLabel="name"
+                                                    	bindValue="id"
+			                                            formControlName="class"
+			                                            placeholder="please select class"
+			                                            [disabled]="id ? true : false"
+			                                            [required]="true">
+		                                                <ng-template ng-header-tmp>
+		                                                    <input style="width: 100%; line-height: 24px"
+		                                                    		(onclick)="changeClass(selectedClass)" type="text"
+		                                                    		(input)="select.filter($any($event.target).value)" />
+		                                                </ng-template>
+		                                            </ng-select>
+                                                </div>
+                                                <div *ngIf="form.controls['class'].invalid && (form.controls['class'].dirty || form.controls['class'].touched)" class=" error text-danger mb-2">
+                                                    <div *ngIf="form.controls['class'].errors?.['required']">please select class.</div>
+                                                </div>
+                                        </div> -->
+										<!-- <div class="col-md-3 form_group">
+			                                <label class=" form_label">Batch<span class="text-danger">*</span></label>
+											<div class="">
+												<ng-multiselect-dropdown
+													[placeholder]="'select batch'"
+													[settings]="batchDropdownSettings"
+													[data]="batches"
+													[(ngModel)]="selectedBatches"
+													formControlName="batches"
+												>
+												</ng-multiselect-dropdown>
+											</div>
+											<div *ngIf="form.controls['batches'].invalid && (form.controls['batches'].dirty || form.controls['batches'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['batches'].errors?.['required']">please select batches.</div>
+											</div>
+			                            </div> -->
+                                        <!-- <div class="col-md-3 form_group">
+                                            <label class=" form_label">Subject<span class="text-danger">*</span></label>
+											<div class="">
+												<ng-select #select
+													[items]="subjects"
+													(change)="changeSubject(selectedSubject)"
+													[searchable]="false"
+													[(ngModel)]="selectedSubject"
+													name="questions[subject]"
+													bindLabel="name"
+													bindValue="id"
+													formControlName="subject"
+													placeholder="please select class"
+													[disabled]="id ? true : false"
+													[required]="true">
+													<ng-template ng-header-tmp>
+														<input style="width: 100%; line-height: 24px" type="text"
+																(onclick)="changeSubject(selectedSubject)"
+																(input)="select.filter($any($event.target).value)" />
+													</ng-template>
+												</ng-select>
+											</div>
+											<div *ngIf="form.controls['subject'].invalid && (form.controls['subject'].dirty || form.controls['subject'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['subject'].errors?.['required']">please select subject.</div>
+											</div>
+                                        </div> -->
+			                            <!-- <div class="col-md-3 form_group">
+											<label class=" form_label">Chapter<span class="text-danger">*</span></label>
+											<div class="">
+												<ng-multiselect-dropdown
+												  [placeholder]="'select chapter'"
+												  [settings]="chapterDropdownSettings"
+												  [data]="chapters"
+												  [(ngModel)]="selectedChapter"
+												  formControlName="chapters"
+												  (ngModelChange)="getQuestions()"
+												>
+												</ng-multiselect-dropdown>
+											</div>
+											<div *ngIf="form.controls['chapters'].invalid && (form.controls['chapters'].dirty || form.controls['chapters'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['chapters'].errors?.['required']">please select chapters.</div>
+											</div>
+			                            </div> -->
+										<div class="col-md-3 form_group">
+											<label for="" class="form_label">Select Class<span class="text-danger">*</span></label>
+											<app-single-select controlName="classes"(change)="getBatchList()"
+												[dropDownArray]="classListDP" placeholder="Select Class"></app-single-select>
+										</div>
+			
+										<div class="col-md-3 form_group">
+											<label class=" form_label">select Batch<span class="text-danger">*</span></label>
+											<app-multi-select (change)="getSubjectList()" [dropDownArray]="batchDP" controlName="batches" placeholder="All Batch"></app-multi-select>
+										</div>
+										<div class="col-md-3 form_group">
+											<label for="" class="form_label">Select Subject</label>
+											<app-single-select controlName="subject" 
+												[dropDownArray]="subjectListDP" placeholder="Select Subject"  (change)="getChapterList()"  ></app-single-select>
+										</div>
+										<div class="col-md-3 form_group">
+											<label for="" class="form_label">Select Chapter<span class="text-danger">*</span></label>
+											<app-multi-select controlName="chapters" (change)="getQuestions()"
+												[dropDownArray]="chapterDP" placeholder="Select Chapter"></app-multi-select>
+										</div>
+			                            <div class="col-md-3 form_group">
+											<label class=" form_label">Exam Name<span class="text-danger">*</span></label>
+											<div class="">
+												<input type="text" name="examName" formControlName="examName" class="form-control" placeholder="please enter exam name">
+											</div>
+											<!-- <div *ngIf="form.controls['examName'].invalid && (form.controls['examName'].dirty || form.controls['examName'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['examName'].errors?.['required']">please select exam name.</div>
+											</div> -->
+			                            </div>
+										<div class="col-md-3 form_group">
+											<label class=" form_label">Description<span class="text-danger">*</span></label>
+											<div class="">
+												<textarea name="description" formControlName="description" class="form-control" placeholder="please enter description" cols="4">
+												</textarea>
+											</div>
+											<!-- <div *ngIf="form.controls['description'].invalid && (form.controls['description'].dirty || form.controls['description'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['description'].errors?.['required']">please select description.</div>
+											</div> -->
+										</div>
+
+			                        	<div class="col-md-3 form_group">
+				                        	<label class=" form_label">Exam Time<span class="text-danger">*</span></label>
+											<div class="">
+												<input type="text" formControlName="examDate" [(ngModel)]="selectedDateRange" ngxDaterangepickerMd [locale]="{format: 'YYYY-MM-DD HH:mm'}" [timePicker]="true" [timePicker24Hour]="false" (change)="onDateSelect($event)" class="w-100 form-control "/>
+												<input type="hidden" name="startTime" [value]="startTime" class="w-100 form-control ">
+												<input type="hidden" name="endTime" [value]="endTime">
+												<label *ngIf="id">Selected Exam Time : {{startTime}} - {{endTime}} </label>
+											</div>
+			                            </div>
+
+			                            <div class="col-md-3 form_group">
+											<label class=" form_label">Exam duration<span class="text-danger">*</span></label>
+											<div class="">
+												<input type="text" name="examDuration" [value]="diffInMinutes" [(ngModel)]="diffInMinutes" formControlName="examDuration" class="form-control" readonly>
+											</div>
+			                            </div>
+
+										<div class="col-md-3 form_group">
+											<label class=" form_label">List Of Question<span class="text-danger">*</span></label>
+											<div class=" d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="manual" aria-required="true">
+														<input type="radio" id="manual" name="questionType" formControlName="questionType" (click)="getQuestions()" value="manual" aria-required="true">Manual<span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="random" aria-required="true">
+														<input type="radio" id="random" name="questionType" formControlName="questionType" value="random" aria-required="true" >Random<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-3" *ngIf="form.value.questionType == 'random'">
+											<div class="form_group">
+												<label class="form_label">No Of Random<span class="text-danger">*</span>:</label>
+												<div class="">
+													<input type="number" name="random" formControlName="random" class="form-control" min="1" placeholder="enter no of questions">
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12" *ngIf="form.value.questionType == 'manual'">
+											<div class="card p-0">
+												<div class="card-header">
+													<h5 class="card-title">Questions</h5>
+												</div>
+												<div class="card-body pt-0">
+													<div class="panel-body py-0" *ngFor="let questions of  questionsList ;let i = index;">
+														<div class="checkbox">
+															<label>
+																<input type="checkbox" name="question[]" class="checkbox-success" value="{{ questions.questionId}}" (click)="selectQuestion(questions.questionId, questions.marks)" [checked]="selectedQuestions.indexOf(questions.questionId) > -1">
+																{{questions.question}}
+															</label>
+														</div>
+													</div>
+													<div class="panel-body" *ngIf="questionsList.length == 0">
+														<div class="checkbox">
+															<label>No Questions Available..!</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-12 row" *ngIf="form.value.questionType == 'manual'">
+											<div class="col-md-4">
+												<div class="form_group">
+													<label class="form_label">Total question<span class="text-danger">*</span>:</label>
+													<div class="">
+														<input type="text" class="form-control" formControlName="totalQuestion" name="totalQuestion" [(ngModel)]="totalQuestion" [value]="totalQuestion" readonly>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-4 form_group">
+												<label class="form_label">Total Marks<span class="text-danger">*</span>:</label>
+												<div class="">
+													<input type="text" class="form-control" formControlName="totalMarks" name="totalMarks" [(ngModel)]="totalMarks" [value]="totalMarks" readonly>
+												</div>
+											</div>
+											<div class="col-md-4 form_group">
+												<label class="form_label">Passing Marks<span class="text-danger">*</span>:</label>
+												<div class="">
+													<input type="number" class="form-control" formControlName="passingMarks" name="passingMarks" min="0" placeholder="please enter passing marks">
+												</div>
+												<div *ngIf="(form.value.passingMarks??0) > totalMarks" class="col-md-12 error text-danger mb-2">
+													<div>invalid passing marks.</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3 form_group">
+											<label class=" form_label">Has Negative Marks<span class="text-danger">*</span></label>
+											<div class=" d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="yes" aria-required="true">
+														<input type="radio" id="yes" name="hasNegativeMarks" formControlName="hasNegativeMarks" value="1" aria-required="true">Yes<span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="no" aria-required="true">
+														<input type="radio" id="no" name="hasNegativeMarks" formControlName="hasNegativeMarks" value="0" aria-required="true" checked>No<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3  form_group" *ngIf="form.value.hasNegativeMarks == '1'">
+											<label class=" form_label">Negative Marks<span class="text-danger">*</span></label>
+											<div class="">
+												<input type="number" class="form-control" formControlName="negativeMarks" min="0" max="100" step="0.01" name="negativeMarks" placeholder="Enter Negative marks.">
+												<label>ex.in percentage for particular 1 marks 0.0 to 1.00 .</label>
+											</div>
+											<div *ngIf="form.controls['negativeMarks'].invalid && (form.controls['negativeMarks'].dirty || form.controls['negativeMarks'].touched)" class=" error text-danger mb-2">
+												<div *ngIf="form.controls['negativeMarks'].errors?.['min'] || form.controls['negativeMarks'].errors?.['max']">invalid negative marks.</div>
+											</div>
+										</div>
+										<div class="col-md-3  form_group">
+											<label class=" form_label">Result Type<span class="text-danger">*</span></label>
+											<div class=" d-flex">
+												<div class="radio">
+													<label class="m-radio required" for="yess" aria-required="true">
+														<input type="radio" id="yess" name="resultType" formControlName="resultType" value="1" aria-required="true">On specific time<span></span>
+													</label>
+												</div>
+												<div class="radio">
+													<label class="m-radio required" for="noo" aria-required="true">
+														<input type="radio" id="noo" name="resultType" formControlName="resultType" value="0" aria-required="true" checked>On the spot<span></span>
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-md-3  form_group" *ngIf="form.value.resultType == '1'">
+											<label class=" form_label">Result Date<span class="text-danger">*</span></label>
+											<div class="">
+												<app-mat-date-picker controlName="resultDate" [minDate]="today"></app-mat-date-picker>
+
+												<!-- <input type="date" class="form-control" formControlName="resultDate" name="resultDate" [min]="today" placeholder="select result date."> -->
+											</div>
+										</div>
+			                        </div>
+                                </div>
+                                <div class="row w-100 ">
+									<div class="col-md-1">
+										 <a class="btn px-2 w-100" href="#" [routerLink]="setUrl(URLConstants.EXAM_LIST)">Cancel</a>
+									</div>
+									<div class="col-md-1">
+											<button type="submit" (click)="submit()" [disabled]="isSubmitDisabled() " class="btn px-2 w-100">
+																					{{saveBtn}}
+																				</button>
+									</div>
+								</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,155 @@
+<section class="result">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">Result List</h3>
+			</div>
+            <div class="card">
+            	<div class="">
+                    <div class="col-lg-12 d-flex nav nav-tabs">
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="for == 'student' ? true : false" for="student" aria-required="true">
+                                <input type="radio" (click)="get_for('student')" name="for" id="student" value="student" aria-required="true" class="mr-1" checked hidden>Student Wise<span></span>
+                            </label>
+                        </div>
+                        <div class="radio-inline ml-1 nav-item">
+                            <label class="m-radio required nav-link" [class.active]="for != 'student' ? true : false" for="batch" aria-required="true">
+                                <input type="radio" (click)="get_for('batch')" name="for" id="batch" value="batch" aria-required="true" class="mr-1" hidden>Batch Wise <span></span>
+                            </label>
+                        </div>
+                    </div>
+
+                <div class="card_body">
+                    <div class="row">
+                    	<div class="col-md-12 row mb-2">
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class="col-md-12 form_label">Class:</label>
+                                    <div class="col-md-12">
+                                        <ng-select #select
+                                        	[items]="classes"
+                                        	(change)="changeClass(selectedClass)"
+                                        	[searchable]="false"
+                                        	[(ngModel)]="selectedClass"
+                                        	name="class"
+											placeholder="Select Class"
+                                        	bindLabel="name"
+                                        	bindValue="id" >
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"
+                                                		(onclick)="changeClass(selectedClass)" type="text"
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class="col-md-12 form_label">Batch:</label>
+                                    <div class="col-md-12">
+                                        <ng-multiselect-dropdown
+                                          [placeholder]="'select batch'"
+                                          [settings]="batchDropdownSettings"
+                                          [data]="batches"
+                                          [(ngModel)]="selectedBatches"
+                                          (ngModelChange)="reloadData()"
+                                        >
+                                        </ng-multiselect-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form_group">
+                                    <label class="col-md-12 form_label">Subject:</label>
+                                    <div class="col-md-12">
+                                        <ng-select #select
+                                        	[items]="subjects"
+                                        	(change)="reloadData()"
+                                        	[searchable]="false"
+                                        	[(ngModel)]="selectedSubject"
+                                        	name="subjectName[subject]"
+                                        	bindLabel="name"
+											placeholder="Selcet Subject"
+                                        	bindValue="id">
+                                            <ng-template ng-header-tmp>
+                                                <input style="width: 100%; line-height: 24px"
+                                                		(onclick)="reloadData()" type="text"
+                                                		(input)="select.filter($any($event.target).value)" />
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" *ngIf="for == 'student'">
+                            <div class="table-responsive ">
+				                <table datatable [dtOptions]="dtOptions" class="row-border hover table-bordered student-wise-result">
+									<thead>
+								        <tr>
+				                            <th>Student</th>
+				                            <th>Batch</th>
+				                            <th>Exam</th>
+				                            <th>Appear Date</th>
+				                            <th>Total Marks</th>
+				                            <th>Got Marks</th>
+				                        </tr>
+								    </thead>
+								    <tbody *ngIf="results?.length != 0">
+								        <tr *ngFor="let result of results">
+				                            <td class="name_hover"> {{result.student}} </td>
+				                            <td class="orange-text-color"> {{result.batch}} </td>
+				                            <td> {{result.exam}} </td>
+				                            <td> {{result.appear_date}} </td>
+				                            <td class="teal-text-color"> {{result.total_marks}} </td>
+				                            <td class="green-text-color"> {{result.obtain_marks}} </td>
+								        </tr>
+								    </tbody>
+								    <tbody *ngIf="results?.length == 0">
+									    <tr>
+									      <td colspan="13" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>
+								</table>
+				            </div>
+                        </div>
+                        <div class="col-lg-12" *ngIf="for != 'student'">
+                            <div class="table-responsive">
+				                <table datatable [dtOptions]="batchdtOptions" class="row-border hover table-bordered">
+									<thead>
+								        <tr>
+				                            <th>Class</th>
+				                            <th>Batch</th>
+				                            <th>Subject</th>
+				                            <th>Exam</th>
+				                            <th>Duration</th>
+				                            <th>Total Student</th>
+				                            <th>Passed Student</th>
+				                        </tr>
+								    </thead>
+								    <tbody *ngIf="batchresults?.length != 0">
+								        <tr *ngFor="let result of batchresults">
+				                            <td class="teal-text-color"> {{result.class}} </td>
+				                            <td class="orange-text-color"> {{result.batch}} </td>
+				                            <td> {{result.subject}} </td>
+				                            <td> {{result.exam}} </td>
+				                            <td> {{result.duration}} </td>
+				                            <td class="teal-text-color"> {{result.total_student}} </td>
+				                            <td class="orange-text-color"> {{result.passed_student}} </td>
+								        </tr>
+								    </tbody>
+								    <tbody *ngIf="batchresults?.length == 0">
+									    <tr>
+									      <td colspan="13" class="text-center no-data-available">No data</td>
+									    </tr>
+									</tbody>
+								</table>
+				            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</section>

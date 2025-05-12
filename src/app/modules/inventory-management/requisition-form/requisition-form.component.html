@@ -1,0 +1,164 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+				<h3 class="sub_title mb-0">{{edit_view ? 'Edit' : 'Add'}} Requisition</h3>
+				<div class="btn_right">
+					<a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.REQUISITION_LIST)">Requisition List</a>
+				</div>
+			</div>
+            <div class="card_body">
+                <div>
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="requisitionForm" class="form_section global_form">
+
+                                <div class="row">
+
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Requisition Title<span class="text-danger">*</span></label>
+                                        <div>
+                                            <app-input type="text" name="requisition_title" controlName="requisition_title" placeholder="Enter Requisition Title" required></app-input>
+                                        </div>
+                                    </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Requisition Date<span class="text-danger">*</span></label>
+                                            <app-mat-date-picker controlName="requisition_date" placeholder="Select Requisition Date"></app-mat-date-picker>                                  
+                                        </div>
+
+									<div class="col-md-3 form_section">
+										<div class="form_group">
+											<label class="form_label">Requisition For ?</label>
+											<div>                   												
+												<div id="student_rightEducation" class="d-flex">
+													<div class="radio">
+														<label class="m-radio required" for="type_student" aria-required="true">
+															<input type="radio" id="type_student" name="requisition_for" formControlName="requisition_for" (change)="requisition_by_type_change($event)" value="2" >
+															Student <span></span>
+														</label>
+													</div>	
+                                                    <div class="radio">
+														<label class="m-radio required" for="type_faculty" aria-required="true">
+															<input type="radio" id="type_faculty" name="requisition_for" formControlName="requisition_for" (change)="requisition_by_type_change($event)" value="1">Employee<span></span>
+														</label>
+													</div>											
+												</div> 
+											</div>
+										</div> 
+									</div>	
+                                                                            
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">{{requisitionForm.value.requisition_for == '1' ? 'Select Employee' : 'Select Student'}}</label>
+                                            <div>
+                                                <app-single-select placeholder="Please {{requisitionForm.value.requisition_for == '1' ? 'Select Employee' : 'Select Student'}}" controlName="requisition_by" [dropDownArray]="userList"></app-single-select>
+                                            </div>                                    
+                                        </div>          
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Expected Date<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-mat-date-picker [minDate]="todayDate" controlName="expected_date" placeholder="Select Expected Date" ></app-mat-date-picker>       
+                                            </div>                                   
+                                        </div>
+
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Priority<span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-single-select placeholder="Please Select Pririrt" controlName="priority" [dropDownArray]="priorities"></app-single-select>
+                                            </div>                                    
+                                        </div>                                            
+                                                                         
+                                        
+                                        <div class="col-md-3 form_group">
+                                            <label class="form_label">Remark</label>
+                                            <div>
+                                                <app-input type="text" name="remark" controlName="remark" placeholder="Enter Remark" required></app-input>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="form_outer col-md-2" >
+                                            <div class="form_group add_doc">
+                                                <div class=" ">
+                                                    <label class=" form_label">button</label>
+                                                    <button type="button" (click)="addQuantity()" class="btn add-btn">Add Items</button>
+                                                </div>
+                                            </div>     
+                                        </div>
+                                        <table class="table table-nowrap table datatable w-100" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Item Type</th>
+                                                    <th>Item name</th>
+                                                    <th>Quantity</th>
+                                                    <th colspan="2">Measurement</th>  
+                                                </tr>
+                                            </thead>
+                                            <tbody *ngFor="let quantity of quantities.controls; let i=index" >
+                                                <tr>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Type" controlName="inventory_item_type_id" [dropDownArray]="itemTypeList"  (change)="itemTypeChange($event,i)"></app-single-select>
+                                                            <!-- <select id="inventory_item_type_id" class="form-control" (input)="itemTypeChange($event,i)" name="quantities[{{i}}][inventory_item_type_id]" formControlName="inventory_item_type_id">
+                                                                <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                <option *ngFor="let item of itemTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                            </select>  -->
+                                                        </div>                             
+                                                    </td>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-single-select [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Item Name" controlName="inventory_item_id" [dropDownArray]="itemList[i]" (change)="itemChange($event,i)"></app-single-select>
+
+                                                            <!-- <select  name="quantities[{{i}}][inventory_item_id]" class="form-control" (input)="itemChange($event,i)" id="inventory_item_id" formControlName="inventory_item_id">
+                                                                <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                <option *ngFor="let item of itemList[i];" value="{{item.id}}">{{item.item_name}}</option>
+                                                            </select> -->
+                                                            
+                                                        </div>                                     
+                                                    </td>
+                                                    <td class="col-md-3 form_group">
+                                                        <div>
+                                                            <app-input  min="0" type="number" [GroupName]="i"  formArrayName="quantities" placeholder="Enter Quantity"  controlName="quantity"></app-input>  
+                                                        </div>                                    
+                                                    </td>
+                                                    <td class="col-md-2 form_group">
+                                                        <div>
+                                                            <app-single-select style="pointer-events: none;" [GroupName]="i"  formArrayName="quantities" placeholder="Please Select Measurement Type" controlName="measurement_type_id" [dropDownArray]="measurementTypeList" [readonly]="true"></app-single-select>
+                                                            <!-- <select style="pointer-events: none;" class="form-control" name="quantities[{{i}}][measurement_type_id]" id="measurement_type_id" formControlName="measurement_type_id">
+                                                                <option value="" disabled selected class="disabled">Select your item type</option>
+                                                                <option *ngFor="let item of measurementTypeList;" value="{{item.id}}">{{item.name}}</option>
+                                                            </select> -->
+                                                        </div>
+                                                    </td>
+                                                    
+                                                    <td class="col-md-1 form_group">
+                                                        <div>
+                                                            <button *ngIf="i != 0" (click)="removeQuantity(i)" class="btn"><i class="fa fa-minus"></i></button>
+                                                        </div>
+                                                    </td>                                            
+                                                </tr>  
+                                            </tbody>
+                                        </table> 
+                                </div>
+
+                                    <div class="row w-100 ">
+                                        <div class="col-auto">
+                                            <a class="btn cancel-btn" href="#" [routerLink]="setUrl(URLConstants.REQUISITION_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit"  (click)="onSubmit()" [disabled]="!requisitionForm.valid" class="btn save-btn" id="submitButton" [disabled]="is_saving || requisitionForm.invalid">Save
+                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_saving">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>                                                                                                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

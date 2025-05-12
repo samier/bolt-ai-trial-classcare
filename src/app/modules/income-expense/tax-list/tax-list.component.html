@@ -1,0 +1,89 @@
+<section class="tax-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0">Tax List</h3>
+                <div>
+                    <a class="btn add-btn" *ngIf="CommonService.hasPermission('finance_taxes', 'has_create')" (click)="openModal(addTaxModal)">Add Tax</a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="w-auto">Tax Name</th>
+                                <th class="w-auto">Percentage</th>
+                                <th class="w-auto">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="tbody.length > 0 && !tableLoading">
+                            <tr *ngFor="let item of tbody; let i = index">
+                                <td>{{ item?.name ?? 'N/A' }}</td>
+                                <td>{{ item?.percentage ?? 'N/A' }}%</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button *ngIf="CommonService.hasPermission('finance_taxes', 'has_edit')" ngbTooltip="Edit" class="btn action-edit" (click)="openModal(addTaxModal, item)"><i class="fa fa-pen"></i></button>
+                                        <button *ngIf="CommonService.hasPermission('finance_taxes', 'has_delete')" ngbTooltip="Delete"  class="btn action-delete" (click)="deleteTax(item?.id)"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tbody?.length === 0 && !tableLoading">
+                            <tr>
+                                <td colspan="3" class="text-center no-data-available">No Data Available</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="tableLoading">
+                            <tr>
+                                <td colspan="3" class="text-center no-data-available">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border spinner-border-sm ms-2" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #addTaxModal class="modal-dialog-centered">
+    <div class="modal-header" style="z-index: 0; border: none">
+        <h4 class="modal-title" id="modal-basic-title">{{ addTaxForm.value?.id ? 'Edit' : 'Add'}} Tax</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addTaxForm">
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Tax</label>
+                <app-input class="w-100" controlName="name" placeholder="Enter Tax Name"></app-input>
+            </div>
+            <div class="col-md-12 form_group d-flex">
+                <label class="form_label">Tax Percentage</label>
+                <app-input class="w-100" controlName="percentage" placeholder="Enter Percentage"></app-input>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+        <div class="col-auto">
+          <button *ngIf="CommonService.hasPermission('finance_taxes', addTaxForm.value?.id ? 'has_update' : 'has_create')" type="submit" class="btn save-btn" style="text-align: left;" (click)="saveTax()" [disabled]="isSaveLoading || addTaxForm.invalid">
+            {{ addTaxForm.value?.id ? 'Update' : 'Save'}}
+            <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading" style="margin-left: 6px;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </button>
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="cancel-btn btn" (click)="closeModal()">
+            Cancel
+          </button>
+        </div>
+    </div>
+</ng-template>

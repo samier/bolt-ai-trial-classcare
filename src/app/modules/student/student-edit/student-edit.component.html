@@ -1,0 +1,1224 @@
+<section class="student_add">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">DETAILS OF STUDENT</h3>
+        <div>
+          <a
+            href="#."
+            [routerLink]="setUrl(URLConstants.STUDENT_LIST)"
+            class="btn"
+          >Student List</a
+          >
+        </div>
+      </div>
+
+      <form [formGroup]="editstudentform" class="form_section global_form">
+
+
+        <!-- 1.ACADEMIC DETAILS -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between">
+            <div class="main-title">
+              <h3 style="font-size: 18px; padding-bottom: 10px">
+                ACADEMIC DETAILS
+              </h3>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="details_form_students">
+              <div class="row">
+
+                <!-- acadamic drop down -->
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Academic Year<span class="text-danger">*</span></label
+                    >
+                    <div class="">
+
+                      <ng-select
+                        
+                        [searchable]="true"
+                        (change)="yearChanged($event)"
+                        [(ngModel)]="yearselected"
+                        formControlName="year"
+                        name="year"
+                        class="form-control"
+                        placeholder="select Academic type"
+                      >
+
+                        <ng-option *ngFor="let year of yearList" [value]="year.id">
+                          {{ year.year }}
+                        </ng-option>
+
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- class Drop down -->
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Class<span class="text-danger">*</span></label
+                    >
+                    <div>
+                      <ng-select
+                        
+                        [searchable]="true"
+                        (change)="classChanged($event)"
+                        [(ngModel)]="classSelected"
+                        formControlName="class"
+                        name="class"
+                        class="form-control"
+                        placeholder="select Academic type"
+                      >
+
+                        <ng-option *ngFor="let classData of classList" [value]="classData.id">
+                          {{ classData.name }}
+                        </ng-option>
+
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- batch drop down -->
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Batch<span class="text-danger">*</span></label
+                    >
+                    <div class="">
+                      <ng-select
+                        
+                        formControlName="document_for"
+                        name="document_for"
+                        class="form-control"
+                        placeholder="select Batch type"
+                        (change)="batchChanged($event)"
+                      >
+                        <!-- <ng-option value="" disabled>select document for</ng-option> -->
+                        <ng-option *ngFor="let batch of batchList" [value]="batch.id">
+                          {{ batch.name }}
+                        </ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Student ID/ GR No.</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Student ID/ GR No"
+                        class="form-control"
+                        formControlName="gr_number"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >UID No.</label
+                    >
+                    <div class="">
+                      <div class="">
+                        <input
+                          type="text"
+                          name="optional_fees"
+                          placeholder="UID No"
+                          class="form-control"
+                          formControlName="uidNo"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Roll No.</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Roll No"
+                        class="form-control"
+                        formControlName="rollno"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2.PERSONAL DETAILS -->
+        <div class="card">
+          <div class="main-title">
+            <h3 style="font-size: 18px; padding-bottom: 10px">
+              PERSONAL DETAILS
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="details_form_students">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="#" class="btn">web cam on</a>
+                      </div>
+                      <div class="col-md-6 p-0">
+                        <div
+                          id="#result"
+                          style="border: 1px solid; height: 130px; width: 130px"
+                        >
+                          Student's captured image will appear here...
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="form_label">
+                    <label for="form_label">Profile Picture</label>
+                    <div class="choose_profile">
+                      <input type="file" id="student_file" name="student"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >First Name<span class="text-danger">*</span></label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="First Name"
+                        class="form-control"
+                        formControlName="first_name"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Middle Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Middle Name"
+                        class="form-control"
+                        formControlName="middle_name"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Last Name<span class="text-danger">*</span></label
+                    >
+                    <div class="">
+                      <div class="">
+                        <input
+                          type="text"
+                          name="optional_fees"
+                          placeholder="Last Name"
+                          class="form-control"
+                          formControlName="last_name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">First Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="First Name"
+                        class="form-control"
+                        formControlName="secondary_first_name"
+                      />
+                      <small class="sec_lang">(Secondary Language)</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Middle Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Middle Name"
+                        class="form-control"
+                        formControlName="secondary_middle_name"
+                      />
+                      <small class="sec_lang">(Secondary Language)</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Last Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Last Name"
+                        class="form-control"
+                        formControlName="secondary_last_name"
+                      />
+                      <small class="sec_lang">(Secondary Language)</small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Phone Number</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Phone Number"
+                        class="form-control"
+                        formControlName="phone_number"
+                      />
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Student Whatsapp Number</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Student Whatsapp Number"
+                        class="form-control"
+                        formControlName="studentWhatsappNo"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Email</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Email"
+                        class="form-control"
+                        formControlName="email"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="col-md-3 form_group">
+                  <label class="form_label">Gender<span class="text-danger">*</span></label>
+                  <div class="radio-section ">
+                    <div class="radio ">
+                      <label class=" required ">
+                        <input type="radio" name="gender" id="male"
+                               formControlName="gender" value="m" aria-required="true"
+                               class="mr-1" checked>Male<span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" name="gender" id="female"
+                               formControlName="gender" value="f" aria-required="true"
+                               class="mr-1">Female <span></span>
+                      </label>
+                    </div>
+                    <div class="radio ">
+                      <label class="required " aria-required="true">
+                        <input type="radio" name="gender" id="other"
+                               formControlName="gender" value="o" aria-required="true"
+                               class="mr-1">Other <span></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">DOB</label>
+                    <div class="">
+                      <app-mat-date-picker controlName="date_of_birth"></app-mat-date-picker>
+
+                      <!-- <input
+                        type="date"
+                        name="optional_fees"
+                        placeholder="Select your Birthday"
+                        class="form-control"
+                        formControlName="date_of_birth"
+                      /> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Age</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Age"
+                        class="form-control"
+                        formControlName="age"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Blood Group</label>
+                    <div class="">
+                      <ng-select
+                        
+                        name="document_for"
+                        class="form-control"
+                        placeholder="select Blood type"
+                        formControlName="bloodGroup"
+                      >
+                        <!-- <ng-option value="" disabled>select document for</ng-option> -->
+                        <ng-option value="A+">A+</ng-option>
+                        <ng-option value="A-">A-</ng-option>
+                        <ng-option value="B+">B+</ng-option>
+                        <ng-option value="B-">B-</ng-option>
+                        <ng-option value="AB+">AB+</ng-option>
+                        <ng-option value="AB-">AB-</ng-option>
+                        <ng-option value="O+">O+</ng-option>
+                        <ng-option value="O-">O-</ng-option>
+
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Birth Place</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Age"
+                        class="form-control"
+                        formControlName="birthPlace"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Birth Place Taluka</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Age"
+                        class="form-control"
+                        formControlName="birth_taluka"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Birth Place District</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Birth Place District"
+                        class="form-control"
+                        formControlName="birth_district"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Religion</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Religion"
+                        class="form-control"
+                        formControlName="religion"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Nationality</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Nationality"
+                        class="form-control"
+                        formControlName="nationality"
+                      />
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- ? -->
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Categories</label>
+                    <div class="">
+                      <!-- <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Categories"
+                        class="form-control"
+                        formControlName="p_categoties"
+
+                      /> -->
+                      <ng-select
+                        
+                        formControlName="categories"
+                        name="Categories"
+                        class="form-control"
+                        placeholder="Select Categories"
+                      >
+                        <ng-option value="" disabled>select Categories for</ng-option>
+                        <ng-option value="school"
+                        >Open
+                        </ng-option
+                        >
+                        <ng-option value="other"
+                        >SC
+                        </ng-option
+                        >
+                        <ng-option value="driver"
+                        >ST
+                        </ng-option
+                        >
+                        <ng-option value="vehicle"
+                        >OBC
+                        </ng-option
+                        >
+                        <ng-option value="teacher"
+                        >S.E.B.C
+                        </ng-option
+                        >
+                        <ng-option value="teacher"
+                        >Lagumati
+                        </ng-option
+                        >
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Cast</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Cast"
+                        class="form-control"
+                        formControlName="cast"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Sub Cast</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Sub Cast"
+                        class="form-control"
+                        formControlName="sub_cast"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Adhaar Number</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your Adhaar Number"
+                        class="form-control"
+                        formControlName="adhaar_number"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3.GUARDIAN DETAILS -->
+        <div class="card">
+          <div class="main-title">
+            <h3 style="font-size: 18px; padding-bottom: 10px">
+              GUARDIAN DETAILS
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="details_form_students">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <a href="#" class="btn">web cam on</a>
+                      </div>
+                      <div class="col-md-6 p-0">
+                        <div
+                          id="#result"
+                          style="border: 1px solid; height: 130px; width: 130px"
+                        >
+                          Father's captured image will appear here...
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label for=" form_label">Father's Profile Picture</label>
+                    <div class="choose_profile">
+                      <input type="file" id="student_file" name="student"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Father's Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Father's Name"
+                        class="form-control"
+                        formControlName="father_name"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Father's Number<span class="text-danger">*</span></label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Father's Number"
+                        class="form-control"
+                        formControlName="father_number"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Father's Occupation</label>
+                    <div class="">
+                      <div class="">
+                        <input
+                          type="text"
+                          name="optional_fees"
+                          placeholder="Father's Occupation"
+                          class="form-control"
+                          formControlName="father_occupation"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Father's Education</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Father's Education"
+                        class="form-control"
+                        formControlName="father_education"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <a href="#" class="btn">web cam on</a>
+                    </div>
+                    <div class="col-md-6 p-0">
+                      <div
+                        id="#result"
+                        style="border: 1px solid; height: 130px; width: 130px"
+                      >
+                        Mother's captured image will appear here...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Mother's Profile Picture</label>
+                    <div class="">
+                      <div class="choose_profile">
+                        <input type="file" id="student_file" name="student"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Mother's Name</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Mother's Name"
+                        class="form-control"
+                        formControlName="mother_name"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Mother's Number</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter Mother's Number"
+                        class="form-control"
+                        formControlName="mother_number"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Mother's Occupation</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Mother's Occupation"
+                        class="form-control"
+                        formControlName="mother_occupation"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Mother's Education</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Mother's Education"
+                        class="form-control"
+                        formControlName="mother_education"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Send SMS Notification<span class="text-danger">*</span></label>
+                    <div class="">
+                      <ng-select
+                        
+                        name="document_for"
+                        class="form-control"
+                        placeholder="select Number type"
+                        formControlName="send_sms_number"
+                      >
+                        <!-- <ng-option value="" disabled>select document for</ng-option> -->
+                        <ng-option value="">Select for SMS</ng-option>
+                        <ng-option value="1">Father's SMS</ng-option>
+                        <ng-option value="2">Mother's SMS</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Whatsapp Number</label>
+                    <div class="">
+                      <ng-select
+                        
+                        name="document_for"
+                        class="form-control"
+                        placeholder="select Number type"
+                        formControlName="parentWhatsappNo"
+                      >
+                        <!-- <ng-option value="" disabled>select document for</ng-option> -->
+                        <ng-option value="">Whatsapp Number</ng-option>
+                        <ng-option value="1">Father's Whatsapp</ng-option>
+                        <ng-option value="2">Mother's Whatsapp</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label">Parent Email</label>
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter Parent Email"
+                        class="form-control"
+                        formControlName="parentEmail"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4.ADDRESS DETAILS -->
+        <div class="card">
+          <div class="main-title">
+            <h3 style="font-size: 18px; padding-bottom: 10px">
+              ADDRESS DETAILS
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="details_form_students">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <div class="choose_profile">
+                      <textarea
+                        name="current address"
+                        class="form-control"
+                        id="curreent address"
+                        placeholder="current address"
+                        cols="50"
+                        rows="10"
+                        style="height: 75px"
+                        formControlName="address"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <label class="form_label"
+                  >Same As Current Address?<span class="text-danger"
+                  >*</span
+                  ></label
+                  >
+                  <div class="">
+                    <div class="radio-section">
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            name="gender"
+                            id="female"
+                            formControlName="sameAddress"
+                            value="yes"
+                            aria-required="true"
+                            class="mr-1"
+                          />yes<span></span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            name="gender"
+                            id="female"
+                            formControlName="sameAddress"
+                            value="no"
+                            aria-required="true"
+                            class="mr-1"
+                          />no<span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Current City</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Current City"
+                        class="form-control"
+                        formControlName="currentCity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5.ADMISSION DETAILS -->
+        <div class="card">
+          <div class="main-title">
+            <h3 style="font-size: 18px; padding-bottom: 10px">
+              ADMISSION DETAILS
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="details_form_students">
+              <div class="row">
+                <div class="col-md-3 form_group">
+                  <label class="form_label"
+                  >Right To Education<span class="text-danger">*</span></label
+                  >
+                  <div class="">
+                    <div class="radio-section">
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            id="female"
+                            formControlName="rightToEducation"
+                            value="1"
+                            aria-required="true"
+                            class="mr-1"
+                          />yes<span></span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            id="female"
+                            formControlName="rightToEducation"
+                            value="0"
+                            aria-required="true"
+                            class="mr-1"
+                          />no<span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <label class="form_label"
+                  >Student<span class="text-danger">*</span></label
+                  >
+                  <div class="">
+                    <div class="radio-section">
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            name="gender"
+                            id="female"
+                            formControlName="old_new"
+                            value="0"
+                            aria-required="true"
+                            class="mr-1"
+                          />Old<span></span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            name="gender"
+                            id="female"
+                            formControlName="old_new"
+                            value="1"
+                            aria-required="true"
+                            class="mr-1"
+                          />New<span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Student Fees Date</label
+                    >
+                    <div class="">
+                      <app-mat-date-picker controlName="student_fees_date"></app-mat-date-picker>
+
+                      <!-- <input
+                        type="date"
+                        name="optional_fees"
+                        placeholder="Student Fees Date"
+                        class="form-control"
+                        formControlName="student_fees_date"
+                      /> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Admission Date<span class="text-danger">*</span></label
+                    >
+                    <div class="">
+                      <app-mat-date-picker controlName="create_at"></app-mat-date-picker>
+
+                      <!-- <input
+                        type="date"
+                        name="optional_fees"
+                        placeholder="Admission Date"
+                        class="form-control"
+                        formControlName="create_at"
+
+                      /> -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Last School/College Name</label
+                    >
+                    <div class="">
+
+                      <ng-select
+                        
+                        [searchable]="true"
+                        (change)="lastSchoolChanged()"
+                        [(ngModel)]="lastschoolSelected"
+                        formControlName="school"
+                        name="lastSchool"
+                        class="form-control"
+                        placeholder="select Last School"
+                      >
+
+                        <ng-option *ngFor="let school of lastShoolList" [value]="school.id">
+                          {{ school.name }}
+                        </ng-option>
+                      </ng-select>
+                      <!-- ---- -->
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Type Of Last School/College</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter your old school"
+                        class="form-control"
+                        formControlName="last_school_name"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Last Semester/Year %</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter Your percentage"
+                        class="form-control"
+                        formControlName="percentage"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Reference/Source</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Please enter refrence"
+                        class="form-control"
+                        formControlName="reference"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <label class="form_label"
+                  >Status</label
+                  >
+                  <div class="">
+                    <div class="radio-section">
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            id="female"
+                            formControlName="status"
+                            value="1"
+                            aria-required="true"
+                            class="mr-1"
+                          />Active<span></span>
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label class="required" aria-required="true">
+                          <input
+                            type="radio"
+                            id="male"
+                            formControlName="status"
+                            value="0"
+                            aria-required="true"
+                            class="mr-1"
+                          />InActive<span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 form_group">
+                  <div class="">
+                    <label class="form_label"
+                    >Sibling Info.</label
+                    >
+                    <div class="">
+                      <input
+                        type="text"
+                        name="optional_fees"
+                        placeholder="Enter Siblings Info"
+                        class="form-control"
+                        formControlName="siblingInfo"
+
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6.SAVE BTN -->
+        <div class="col-lg-12 text-center" style="padding-bottom: 13px">
+          <button
+            type="submit"
+            class="btn btn-accent m-btn--wide"
+            id="submitButton"
+            (click)="onSubmit()"
+          >
+            Save Student
+          </button>
+
+          <!-- <button
+            type="submit"
+            (click)="onSubmit()"
+            [disabled]="!adduserform.valid || (getRole() == 'ROLE_ADMIN' && adduserform.value.branches == '') "
+            class="btn w-100"
+            id="submitButton">Save</button> -->
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>

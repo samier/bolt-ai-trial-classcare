@@ -1,0 +1,205 @@
+<section class="document_type">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Generate Attendance Blank Sheet</h3>
+        <div class="btn_right d-flex">
+          <div *ngIf="commonService.hasPermission('report_blank_attendance_sheet', 'has_download')">
+              <button
+                class="btn pdf-btn"
+                (click)="export('pdf')"
+                [disabled]="pfd" ngbTooltip="PDF"
+              >
+                <img src="assets/images/pdf-icon.svg" alt="">
+                <div
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  *ngIf="pfd"
+                >
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card_body">          
+            <div class="card student-list-card">
+              <!-- <div class="card"> -->
+                <div [formGroup]="form" class="row">
+
+                  <!-- Section -->
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Section</label>
+                    <ng-select
+                      #select
+                      [items]="sections"
+                      [searchable]="true"
+                      (change)="onSectionChange()"
+                      bindLabel="name"
+                      bindValue="id"
+                      formControlName="section_id"
+                      placeholder="Please select"
+                    >
+                    </ng-select>
+                  </div>
+
+                  <!-- classes -->
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Class
+                      <span class="text-danger">*</span>
+                    </label>
+                    <ng-multiselect-dropdown
+                      [placeholder]="'Select class'"
+                      [settings]="dropdownSettings"
+                      [data]="classes"
+                      (onSelect)=      "onClassChange()"
+                      (onDeSelect)=    "onClassChange()"
+                      (onSelectAll)=   "onClassChangeALL($event)"
+                      (onDeSelectAll)= "onClassChangeALL($event)"
+                      formControlName="class_id"
+                    >
+                    </ng-multiselect-dropdown>
+                    <span
+                      class="text-danger"
+                      *ngIf="
+                        (f.class_id.touched || formSubmitted) &&
+                        f.class_id.errors?.required
+                      "
+                    >
+                      Class is required
+                    </span>
+                  </div>
+
+                  <!-- Batch -->
+
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Batch
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div>
+                      <ng-multiselect-dropdown
+                        [placeholder]="'Select batch'"
+                        [settings]="dropdownSettings"
+                        [data]="batches"
+                        (onSelect)=       "onBatchChange()"
+                        (onDeSelect)=     "onBatchChange()"
+                        (onSelectAll)=    "onBatchChangeALL($event)"
+                        (onDeSelectAll)=  "onBatchChangeALL($event)"
+                        formControlName="batch_id"
+                      >
+                      </ng-multiselect-dropdown>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          (f.batch_id.touched || formSubmitted) &&
+                          f.batch_id.errors?.required
+                        "
+                      >
+                        Batch is required
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- month drop down -->
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Month
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div>
+                      <ng-select
+                        formControlName="selectedMonth"
+                        [items]="months"
+                        bindLabel="name"
+                        bindValue="value"
+                        placeholder="Select month"
+                        (change)="onMonthSelectionChange($event)"
+                      ></ng-select>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          (f.selectedMonth.touched || formSubmitted) &&
+                          f.selectedMonth.errors?.required
+                        "
+                      >
+                        Month is required
+                      </span>
+                    </div>
+                  </div>
+
+                  <!-- Year drop down -->
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Year
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div>
+                      <ng-select
+                        formControlName="selectedYear"
+                        [items]="years"
+                        placeholder="Select year"
+                        (change)="onYearSelectionChange($event)"
+                      ></ng-select>
+                      <span
+                        class="text-danger"
+                        *ngIf="
+                          (f.selectedYear.touched || formSubmitted) &&
+                          f.selectedYear.errors?.required
+                        "
+                      >
+                        Year is required
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Select Field</label>
+                    <div>
+                      <ng-multiselect-dropdown
+                        placeholder="Select Field"
+                        [settings]="fieldsDropdownSettings"
+                        [data]="fields"                    
+                        formControlName="fields"
+                        [(ngModel)]="params.fields"
+                      >
+                      </ng-multiselect-dropdown>                  
+                    </div>
+                  </div>
+
+                  <div class="col-auto form_group add_doc">
+                    <label for="" class="form_label">Show</label>
+                    <div>
+                      <button
+                        class="btn w-100 show-btn"
+                        (click)="submit()"
+                        [disabled]="show"
+                      >
+                        Show
+                        <div
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          *ngIf="show"
+                        >
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-auto form_group add_doc">
+                    <label for="" class="form_label">Clear</label>
+                    <div>
+                      <button class="btn clear-btn" (click)="handleClear()" >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              <!-- </div> -->
+            </div>
+            <div class="card student-list-main-card" *ngIf="htmlContent">
+              <div [innerHTML]="htmlContent"></div>
+            </div>          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

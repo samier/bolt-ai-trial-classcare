@@ -1,0 +1,249 @@
+<section class="inquiry-list">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="row my-3">
+                <div class="col-md-9">
+                    <div class="std-wise-result">
+                        <h3 class="sub_title mb-0">Download Student Wise Marksheet for</h3>
+                        <ng-select 
+                        [items]="marksheetList"
+                        bindLabel="mark_sheet_name"
+                        bindValue="id"
+                        class="form-control std-wise-dropdown" 
+                        placeholder="Select Marksheet"
+                        name="marksheet"
+                        id="marksheet"
+                        appendTo="body"
+                        [(ngModel)]="selectedMarksheet"
+                        (change)="onMarksheetChange($event)"
+                        >
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-md-3 text-end">
+                    <a [routerLink]="setUrl(URLConstants.MARKSHEET_LIST)" class="btn list-btn me-2">Marksheet List</a>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="card">
+                <div class="card_body">
+                    <div class="form_section global_form">
+                        <form [formGroup]="filterForm">
+                            <div class="row align-items-center">
+
+                                <!-- <div class="col-lg-3 col-md-4 form_group">
+                                    <label class="form_label">Marksheet Name</label>
+                                    <div>
+                                        <app-single-select controlName="markSheet" [dropDownArray]="[]"
+                                            placeholder="Select Marksheet Name"></app-single-select>
+                                    </div>
+                                </div> -->
+
+                                <div class="col-lg-3 col-md-4 form_group">
+                                    <label class="form_label">Select Section </label>
+                                    <div>
+                                        <app-single-select controlName="section" [dropDownArray]="sectionList" (change)="getClassList()"
+                                            placeholder="Select Section"></app-single-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 form_group">
+                                    <label class="form_label">Select Class</label>
+                                    <div>
+                                        <app-multi-select controlName="class" [dropDownArray]="classList" (change)="getBatchList()"
+                                            placeholder="Select Class"></app-multi-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 form_group">
+                                    <label class="form_label">Select Batch</label>
+                                    <div>
+                                        <app-multi-select controlName="batch" [dropDownArray]="batchList"
+                                            placeholder="Select Batch"></app-multi-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-4 form_group">
+                                    <label class="form_label">Select Student Status</label>
+                                    <div>
+                                        <app-single-select controlName="student_status" [dropDownArray]="studentStatus"
+                                            placeholder="Select Student Status"></app-single-select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-auto">
+                                    <button class="btn show-btn" (click)="handleShow(true)" [disabled]="is_show">Show
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_show">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn clear-btn" (click)="handleClear()">Clear</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="card exam-list-card">
+                <div class="card_body">
+                    <div class="d-flex justify-content-end align-items-center mb-3">
+
+                        <div>
+                            <input class="me-3" type="text" [(ngModel)]="searchQuery" placeholder="Search..." (input)="searchData()" />
+                            <button class="btn show-btn me-2" (click)="downloadResult()" [disabled]="is_multiDownload">Download
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_multiDownload">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                            <button class="btn" (click)="publishResult()" [disabled]="isPublishing">
+                                <i class="fa fa-paper-plane me-1"></i> Publish
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isPublishing">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <div class="dataTables_wrapper">
+
+                                    <table class="table table-hover table-bordered table-nowrap display dataTable"
+                                        style="width:100%">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>
+                                                    <label class="m-checkbox mb-0">
+                                                        <input type="checkbox" id="checkbox" [(ngModel)]="allChecked"
+                                                            (change)="handleSelectAll($event)">
+                                                        <span></span>
+                                                    </label>
+                                                </th>
+                                                <th>ROLL NO.</th>
+                                                <th>STUDENT NAME</th>
+                                                <th>BATCH NAME</th>
+                                                <th>FEES STATUS</th>
+                                                <th>STUDENT STATUS</th>
+                                                <th>DOWNLOAD/PUBLISH RESULTS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of filterData; trackBy: trackById">
+                                                    <td>
+                                                        <label class="m-checkbox mb-0">
+                                                            <input type="checkbox" id="checkbox" [(ngModel)]="item.selected" (change)="handleSelect($event, item?.id)">
+                                                            <span></span>
+                                                        </label>
+                                                    </td>
+                                                    <td>{{ item?.student_roll_no  || "-" }}</td>
+                                                    <td>{{ item?.student_full_name  || "-" }}</td>
+                                                    <td>{{ item?.batch_name || "-" }}</td>
+                                                    <td [ngClass]="item?.status == '1' ? 'text-success' : 'static-text-danger text-danger'">{{item?.status == '1' ? 'Fees Paid' : 'Fees Remaining'}}</td>
+                                                    <td [ngClass]="item?.student_status == 'Active' ? 'text-success' : 'static-text-danger text-danger'">{{item?.student_status}}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button class="btn action-download" [disabled]="item.loading" (click)="singleDownload(item)" ngbTooltip="Download"><i class="fa fa-download"></i> 
+                                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="item.loading">
+                                                                    <span class="visually-hidden">Loading..."</span>
+                                                                </div>
+                                                            </button>
+                                                            <button *ngIf="publish_type == '3' && item?.status == '0'" (click)="publishResult(item)" class="btn action-msg" ngbTooltip="Publish" [disabled]="item.publish_loading">
+                                                                <i class="fa fa-paper-plane"></i>
+                                                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="item.publish_loading">
+                                                                    <span class="visually-hidden">Loading..."</span>
+                                                                </div>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                            </tr>
+                                        </tbody>
+
+
+                                        <tbody *ngIf="filterData?.length == 0">
+                                            <tr>
+                                                <td colspan="9">
+                                                    <div class="d-flex justify-content-center">
+                                                        No Data Found.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <ng-template #publishModel class="publish-update-modal">
+    <div class="modal-header publish-modal-header" style="z-index: 0;">
+        <h4 class="modal-title" id="modal-basic-title">Broadcast Message</h4>
+        <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body publish-modal-body">
+
+        <div class="col-md-12 form_group">
+
+            <div class="d-flex">
+
+                <div class="radio ">
+                    <label class=" required ">
+                        <input type="radio" id="all" value="1" class="mr-1"
+                            [(ngModel)]="selectedOption">Student<span></span>
+                    </label>
+                </div>
+                <div class="radio ">
+                    <label class="required " aria-required="true">
+                        <input type="radio" id="rte" value="2" class="mr-1"
+                            [(ngModel)]="selectedOption">Parent<span></span>
+                    </label>
+                </div>
+                <div class="radio ">
+                    <label class="required " aria-required="true">
+                        <input type="radio" id="general" value="3" class="mr-1"
+                            [(ngModel)]="selectedOption">Both<span></span>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="">
+                <textarea class="form-control" placeholder="Enter Note" rows="3" style="resize: none;"
+                    [(ngModel)]="note"></textarea>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer" style="z-index: 0;">
+        <div class="col-md-3">
+            <button (click)="sendMessage()" class="button px-1" type="submit" class="btn w-100"
+                [disabled]="is_sendSms">Send
+
+                <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_sendSms">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+            </button>
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="w-100 btn" (click)="closeModel()">
+                Cancel </button>
+        </div>
+    </div>
+</ng-template> -->

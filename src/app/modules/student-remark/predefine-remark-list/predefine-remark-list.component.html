@@ -1,0 +1,72 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+          <h3 class="sub_title mb-0">Remark Title List</h3>
+          <div class="d-flex">
+            <a *ngIf="CommonService.hasPermission('student_student_remark', 'has_access')" class="btn me-2 list-btn" [routerLink]="CommonService.setUrl(URLConstants.STUDENT_REMARKS_LIST)">Student Assign Remark List</a>
+            <button *ngIf="CommonService.hasPermission('student_student_remark_title', 'has_create')" class="btn me-2 add-btn" (click)="openTitleMdl(false)">Add Title</button>
+          </div>
+        </div>
+  
+        <div class="card student-list-main-card">
+          <div class="card_body">
+            <div class="row pb-3 mx-0 no-gutters">
+              <div class="col-lg-12">
+                <div class="student-list-table">
+                  <div class="assign-transport-table">
+                  <div class="table-responsive">
+                    <table datatable [dtOptions]="dtOptions"
+                          class="table table-hover table-nowrap table-bordered ">
+                    <thead class="thead-light">
+                      <tr> 
+                        <th>Remark Type</th>                        
+                        <th>Remark Title</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                      <tbody>
+                        <tr *ngFor="let item of tbody ;let i = index;">
+                          <td>
+                            <ng-container *ngIf="item?.remark_type == 1">
+                              <span class="text-capitalize positive-remark">Positive</span>
+                            </ng-container>
+                            <ng-container *ngIf="item?.remark_type == 0">
+                              <span class="text-capitalize negative-remark">Negative</span>
+                            </ng-container>
+                            <ng-container *ngIf="item?.remark_type == 2">
+                              <span class="text-capitalize custom-remark">Custom</span>
+                            </ng-container>
+                          </td>
+                          <td class="comment">{{item?.remark || '-'}}</td>
+                          <td>
+                            <div class="btn-group" role="group">
+                              <button *ngIf="CommonService.hasPermission('student_student_remark_title', 'has_edit')"
+                                            class="btn action-edit me-2" ngbTooltip="Edit"
+                                            (click)="openTitleMdl(true,item)"><i
+                                                class="fa fa-pencil-alt"></i></button>
+                              <a *ngIf="CommonService.hasPermission('student_student_remark_title', 'has_delete')" class="btn action-delete" 
+                              (click)="deleteTitle(item.id)" title="Delete" ngbTooltip="Delete"><i class="fa fa-trash"></i></a>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="tbody?.length == 0">
+                        <tr>
+                          <td colspan="8" class="text-center no-data-available">No data found!</td>
+                        </tr>
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+  

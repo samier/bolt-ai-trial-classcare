@@ -1,0 +1,10 @@
+@import"../../../../assets/css/variable.scss";
+::ng-deep body{
+    app-student-requisition-form{
+        .document_type_add{
+            background: $border-ce;
+            padding: 15px 24px 0 20px;
+            border-radius: 3px;
+        } 
+    }
+}

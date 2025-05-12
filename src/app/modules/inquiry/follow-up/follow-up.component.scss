@@ -1,0 +1,48 @@
+::ng-deep body{
+    app-follow-up{
+        .table-responsive{
+            .dataTables_length select{
+                background-size: 20px;
+                background-position: right;
+                background-color: #ededed;
+                color: #000;
+                border: none;
+                box-shadow: none;
+                outline: none;
+            }
+        }
+    }
+    .exam-list-card{
+        .edit-card-header{
+            background-color: #f2f2f2;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            p{
+                font-size: 15px;
+                line-height: 20px;
+                font-weight: 500;
+                color: #000;
+                margin: 0;
+                padding-right: 30px;
+                &:not(:last-child){
+                    padding-right: 30px;
+                }
+                span{
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+}
+
+
+::ng-deep {
+    .duplicate-modal-section{
+      z-index: 10 !important;
+    }
+    .duplicate-modal-backdrop{
+      z-index: 10 !important;
+    }
+}

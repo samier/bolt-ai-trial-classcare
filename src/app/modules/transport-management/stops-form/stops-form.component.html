@@ -1,0 +1,108 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">{{page}} Stop</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.STOPS_LIST)">Stops List</a>
+                    </div>
+            </div>
+            <div>
+                <div>
+                    <div>
+                        <div class="card">
+                            <form [formGroup]="form" class="form_section">
+                                <div class="row">
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Stop Name<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input type="text" formControlName="name" placeholder="Enter stop name" class="form-control">
+                                            </div>
+                                            <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['name'].errors?.['required']">please enter stop name</div>
+                                                <div *ngIf="form.controls['name'].errors?.['pattern']">symbols not allowed</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <!-- <span class="text-danger">*</span> -->
+                                        <label class="form_label">Distance (km)</label>
+                                        <div class="">
+                                            <div class="">
+                                                <input type="text" step="0.01" formControlName="distance" placeholder="Enter Distance" class="form-control" appFareDirective>
+                                            </div>
+                                            <div *ngIf="form.controls['distance'].invalid && (form.controls['distance'].dirty || form.controls['distance'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['distance'].errors?.['required']">please enter distance</div>
+                                                <div *ngIf="form.controls['distance'].errors?.['min'] || form.controls['distance'].errors?.['max']">invalid distance</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Fare<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input type="text" step="0.01" formControlName="fare" placeholder="Enter fare" class="form-control" appFareDirective>
+                                            </div>
+                                            <div *ngIf="form.controls['fare'].invalid && (form.controls['fare'].dirty || form.controls['fare'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['fare'].errors?.['required']">please enter fare</div>
+                                                <div *ngIf="form.controls['fare'].errors?.['pattern']">invalid fare</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class=" form_label"> Select Area</label>
+                                        <app-multi-select controlName="area" placeholder="Select Area"
+                                            [dropDownArray]="areas"></app-multi-select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3 form_group add_doc">
+                                        <label class="form_label">Pick location from map<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <button type="button" class="btn location-btn" (click)="pickLocation()">Pick Location From Map</button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Latitude<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input type="text" step="0.00000001" formControlName="latitude" placeholder="Enter Latitude" class="form-control" appLatLongDirective>
+                                            </div>
+                                            <div *ngIf="form.controls['latitude'].invalid && (form.controls['latitude'].dirty || form.controls['latitude'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['latitude'].errors?.['required']">please enter latitude</div>
+                                                <div *ngIf="form.controls['latitude'].errors?.['pattern']">invalid latitude</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 form_group">
+                                        <label class="form_label">Longitude<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <div class="">
+                                                <input type="text" step="0.00000001" formControlName="longitude" placeholder="Enter Longitude" class="form-control" appLatLongDirective>
+                                            </div>
+                                            <div *ngIf="form.controls['longitude'].invalid && (form.controls['longitude'].dirty || form.controls['longitude'].touched)" class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['longitude'].errors?.['required']">please enter longitude</div>
+                                                <div *ngIf="form.controls['longitude'].errors?.['pattern']">invalid longitude</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row w-100 ">
+                                        <div class="col-md-auto">
+                                            <a href="#." class="btn clear-btn" [routerLink]="setUrl(URLConstants.STOPS_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-md-auto">
+                                                <button type="submit" *ngIf="CommonService.hasPermission('transport_stop', id ? 'has_update' : 'has_create')" class="btn save-btn" (click)="submit()" [disabled]="form.invalid"> Save </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

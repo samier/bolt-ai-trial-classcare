@@ -1,0 +1,445 @@
+@import'../../../../assets/css/variable.scss';
+@import'../../../../assets/scss/variables';
+::ng-deep body{
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container{
+        display: flex;
+        overflow-x: auto !important;
+        cursor: pointer;
+        flex-wrap: nowrap;
+    }
+    app-global-search{
+        height: 100%;
+        .search_layout{
+            padding-bottom: 40px;
+        }
+        .search_left{
+            border-right: 1px solid rgb(195 195 195 / 40%);
+            height: 100%;
+            .search_bar{
+                position: relative;
+                .form-control {
+                    transition: none;
+                    border: none;
+                    border-bottom: 1px solid rgb(195 195 195 / 40%);
+                    border-radius: 0;
+                    padding: 11px 15px;
+                    font-size: 18px;
+                    &::placeholder {
+                        color: rgb(195 195 195 / 70%);
+                    }
+                }
+                .clear{
+                    position: absolute;
+                    right: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    i{
+                        font-size: 19px;
+                        color: rgb(195 195 195 / 70%);
+                    }
+                }
+            }
+            .search_results_tab{
+                padding: 0 15px 5px;
+                border-bottom: 1px solid rgba(195,195,195,.4);
+            }
+            #dropdownBasic1{
+                margin: 0 0 0 7px;
+                background: unset;
+                border: none;
+                color: $black !important;
+                padding: 5px;
+                font-size: 14px;
+                line-height: 1;
+                &:hover,&:focus{
+                    background:var(--primary02) !important;
+                    color: $black !important;
+                }
+            }
+            .show{
+                box-shadow: 0 0 2px rgb(0 0 0 / 10%);
+                >#dropdownBasic1{
+                    background:var(--primary02) !important;
+                }
+            }
+            .result{
+                font-weight: 600;
+                display: flex;
+                align-items:center;
+                b{
+                    color: $primary;
+                    margin-left: 5px;
+                    font-weight: 700!important;
+                }
+            }
+            .sort{
+                color: #000;
+                font-weight: 500;
+                line-height: 1;
+                .ng-select {
+                    outline: none;
+                    box-shadow: none;
+                    min-width: 125px;
+                    margin-left: 5px;
+                    &.ng-select-single {
+                        .ng-select-container{
+                            height: 25px;
+                            border: none;
+                            box-shadow: unset;
+                            .ng-value-container {
+                                .ng-placeholder {
+                                    color: $black;
+                                    font-weight: 500;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .tabs-style-1 {
+                .panel-tabs{
+                    border-bottom: 1px solid rgb(195 195 195 / 40%);
+                }
+                ul{
+                    li{
+                        list-style: none;
+                    }
+                }
+                .panel-body{
+                    padding-left: 0;
+                    padding-right: 0;
+                    padding-top: 7px;
+                }
+                .main-nav-line{
+                    .nav-link {
+                        color: $black;
+                        padding: 12px 0 6px;
+                        background: transparent;
+                        border: none;
+                        margin: 0 15px;
+                        letter-spacing: 0.4px;
+                        &.active{
+                            color: $primary;
+                            border: none;
+                            border-bottom: 2px solid $primary;
+                            font-weight: 500;
+                        }
+                    }
+                }
+                .student_tab{
+                    max-height: 58.5vh;
+                    overflow-y: auto;
+                    #spinner2{
+                      position:absolute;
+                      top:50%;
+                      left:50%;
+                      transform:translate(10px, 50px);
+                    }
+                    ul{
+                        padding: 0;
+                        margin-bottom: 0px !important;
+                        li{
+                            display: flex;
+                            &.list{
+                                border-bottom: 1px solid rgba(195,195,195,.4);
+                                padding: 15px 15px 10px;
+                                &:hover{
+                                    background: rgb(242 135 38 / 12%);
+                                }
+                                &.inactive:hover{
+                                    background: #fbd6d6;
+                                }
+                                &:last-child{
+                                   border-bottom: 1px solid rgba(195, 195, 195, 0.4);
+                                }
+                            }
+                        }
+                    }
+                    .list{
+                        border-bottom: 1px solid rgba(195, 195, 195, .4);
+                        padding: 15px 15px 10px;
+                        .content_description{
+                            .content-top{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                border-bottom: 1px dashed $primary;
+                                margin: 0 0 10px;
+                                padding-bottom: 5px;
+                                ul{
+                                    display: flex;
+                                    li{
+                                        margin-right: 10px;
+                                        a{
+                                            width: 28px;
+                                            height: 28px;
+                                            border-radius: 5px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                            box-shadow: 0px 0px 3px #dd7b23;
+                                            i{
+                                                font-size: 15px;
+                                            }
+                                            svg {
+                                                width: 15px;
+                                                height: 15px;
+                                                path {
+                                                    fill: $primary;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            .content-bottom{
+                                ul{
+                                    display: flex;
+                                    justify-content: space-between;
+
+                                    li{
+                                        display: inline-block;
+                                        margin: 0;
+                                        padding: 0 5px;
+                                        font-size: 12px;
+                                        vertical-align: top;
+                                        label{
+                                            display: block;
+                                            color: #808080;
+                                            margin: 0;
+                                        }
+                                        span{
+                                            display: inline-block;
+                                            color: $black;
+                                            font-weight: 500;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        .img_profile{
+                            // width: 50px;
+                            height: 50px;
+                            img{
+                                width: 50px;
+                                height: 50px;
+                                margin-right: 10px;
+                            }
+                            .profile_name{
+                                color: $black;
+                                font-weight: 500;
+/*                                line-height: 1;*/
+                                margin-bottom: 5px;
+                                display: inline-block;
+                                cursor: pointer;
+                                .gr-number{
+                                    font-weight: 400;
+                                    font-size: 12px !important;
+                                }
+                            }
+                        }
+                        &.inactive{
+                            background-color: #fbd6d6;
+                        }
+                    }
+                }
+            }
+        }
+        .search_right{
+            .innertitle{
+                text-transform: uppercase;
+                color: $black;
+                font-weight: 500;
+                margin: 0 0 10px;
+                display: inline-block;
+                padding: 14px 15px;
+                width: 100%;
+                border-bottom: 1px solid rgba(195,195,195,.4);
+            }
+            .filter_Select{
+                padding: 0 20px;
+            }
+            .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child input{
+              display: none;
+            }
+
+            .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup input{
+              display: none;
+            }
+
+            .ng-dropdown-header input{
+              display: none;
+            }
+            #recordperpage {
+                background-image:none!important;
+            }
+
+        }
+        .ng-select{
+            &.ng-select-multiple{
+                .ng-select-container {
+                    border:none;
+                    height: unset;
+                    min-height: 35px;
+                    .ng-value-container {
+                        .ng-value {
+                            padding: 3px 0 1px;
+                            border-radius: 3px;
+                            background-color: $primary;
+                            font-size: 11px;
+                            display: flex;
+                            flex-direction: row-reverse;
+                        }
+                        .ng-placeholder{
+                            top: 6px;
+                        }
+                        .ng-input {
+                            padding: 0 0 4px 3px;
+                        }
+                    }
+                }
+            }
+            .ng-clear-wrapper{
+                display: none !important;
+              }
+        }
+        .ng-dropdown-panel{
+            &.ng-select-bottom{
+                border: 1px solid #e1e5ef;
+            }
+        }
+        .footer_pagination{
+            position: sticky;
+            bottom: -1px;
+            z-index: 2;
+            border: 1px solid rgba(195,195,195,.4);
+            height: 40px;
+            display: flex;
+
+            ngb-pagination{
+                width: 100%;
+                background: $white;
+                padding: 6px 15px;
+            }
+            .pagination{
+                display: flex;
+                padding-left: 0;
+                list-style: none;
+                border-radius: 3px;
+                align-items: center;
+                a {
+                    margin: 0 5px;
+                    font-size: 14px;
+                    color: #aaa;
+                    font-weight: 500;
+                    width: 25px;
+                    height: 25px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &.active,&:hover{
+                        background: var(--primary);
+                        color: #fff;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+        .close-model {
+            position: absolute;
+            top: 15px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+    &.dark-theme{
+        app-global-search {
+            .search_left {
+                .search_bar {
+                    .form-control{
+                        border-bottom: 1px solid rgba(195,195,195,.4);
+                        background-color: #121929;
+                    }
+                }
+                .tabs-style-1{
+                    .main-nav-line{
+                        .nav-link{
+                            color: $white;
+                        }
+                    }
+                    .student_tab {
+                        ul{
+                            margin: 0 !important;
+                            li{
+                                &.list{
+                                    &:hover{
+                                        background:$black;
+                                    }
+                                }
+                            }
+                        }
+                        .content_description {
+                            .profile_name{
+                                color: $white;
+                            }
+                            ul{
+                                li{
+                                    a{
+                                        box-shadow: 0 0 3px #fff;
+                                        i{
+                                            color: $white;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .sort{
+                    span{
+                        color: $white;
+                    }
+                    .ng-select{
+                        &.ng-select-single {
+                            .ng-select-container {
+                                .ng-value-container {
+                                    .ng-placeholder{
+                                        color: $white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .search_right {
+                .innertitle{
+                    color: $white;
+                }
+            }
+            .footer_pagination{
+                background: #121929;
+                border-width: 1px 0 0 0;
+            }
+            .ng-select{
+                .ng-select-container{
+                    color: $white!important;
+                    background: $black;
+                    .ng-value-container {
+                        .ng-placeholder{
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// .ng-select.ng-select-multiple .ng-select-container .ng-value-container{
+//     display: flex;
+//     overflow-x: auto;
+//     cursor: pointer;
+// }
+

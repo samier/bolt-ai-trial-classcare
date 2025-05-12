@@ -1,0 +1,205 @@
+<section class="create_timetable">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Certificate Generator</h3>
+            </div>
+            <div class="card">
+                <div class="card_body">
+                    <div class="global_form table_top align-items-center"  *ngIf="commonService.hasPermission('administrator_certificate_generator', 'has_create')">
+                        <form [formGroup]="form" class="form_section" id="driver-form">
+                            <div class="">
+                                <div class="row">
+                                    <!-- <div class="col-12 col-sm-3 form_group form_section">
+                                    <div class="">
+                                        <label class=" form_label">Branch<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select [items]="branches" [searchable]="true" formControlName="branch_id"
+                                                 bindLabel="name" bindValue="id"
+                                                placeholder="Please select branch">
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="form.controls['branch_id'].invalid && (form.controls['branch_id'].dirty || form.controls['branch_id'].touched)" class=" error text-danger mb-2">
+                                            <div *ngIf="form.controls['branch_id'].errors?.['required']">Please select branch.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-3 form_group form_section">
+                                    <div class="">
+                                        <label class=" form_label">Academic year<span class="text-danger">*</span></label>
+                                        <div class="">
+                                            <ng-select #select [items]="academic_yeas" [searchable]="true" formControlName="academic_year_id"
+                                                 bindLabel="name" bindValue="id"
+                                                placeholder="Please select academic year">
+                                            </ng-select>
+                                        </div>
+                                        <div *ngIf="form.controls['academic_year_id'].invalid && (form.controls['academic_year_id'].dirty || form.controls['academic_year_id'].touched)" class=" error text-danger mb-2">
+                                            <div *ngIf="form.controls['academic_year_id'].errors?.['required']">Please select academic year.</div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                    <div class="col-12 col-sm-3 form_group form_section">
+                                        <div class="">
+                                            <label class=" form_label">Section</label>
+                                            <div class="">
+                                                <ng-select #select [items]="sections" [searchable]="true"
+                                                    formControlName="section_id" bindLabel="name" bindValue="id"
+                                                    (change)="handleSectionChange()"
+                                                    placeholder="Please select section">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="form.controls['section_id'].invalid && (form.controls['section_id'].dirty)"
+                                                class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['section_id'].errors?.['required']">Please
+                                                    select section.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3 form_group form_section">
+                                        <div class="">
+                                            <label class=" form_label">Class<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <ng-select #select [items]="classes" [searchable]="true"
+                                                    formControlName="class_id" bindLabel="name" bindValue="id"
+                                                    (change)="handleClassChange()"
+                                                    placeholder="Please select class">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="form.controls['class_id'].invalid && (form.controls['class_id'].dirty)"
+                                                class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['class_id'].errors?.['required']">Please
+                                                    select class.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3 form_group form_section">
+                                        <div class="">
+                                            <label class=" form_label">Batch<span class="text-danger">*</span></label>
+                                            <div class="">
+                                                <ng-select #select [items]="batches" [searchable]="true"
+                                                    formControlName="batch_id" bindLabel="name" bindValue="id"
+                                                    (change)="handleBatchChange()"
+                                                    placeholder="Please select batch">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="form.controls['batch_id'].invalid && (form.controls['batch_id'].dirty)"
+                                                class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['batch_id'].errors?.['required']">Please
+                                                    select batch.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3 form_group form_section">
+                                        <div class="">
+                                            <label class=" form_label">Students<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <!-- <ng-select #select [items]="students" [searchable]="true"
+                                                    formControlName="student_id" bindLabel="full_name" bindValue="id"
+                                                    placeholder="Please select student">
+                                                </ng-select> -->
+                                                <ng-multiselect-dropdown formControlName="student_id"
+                                                [placeholder]="'Please select student'"
+                                                [settings]="dropdownSettings"
+                                                [data]="students"
+                                                >
+                                                </ng-multiselect-dropdown>
+                                            </div>
+                                            <div *ngIf="form.controls['student_id'].invalid && form.controls['student_id'].dirty && !form.controls['student_id'].untouched"
+                                                class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['student_id'].errors?.['required']">Please
+                                                    select student.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-3 form_group form_section">
+                                        <div class="">
+                                            <label class=" form_label">Templates<span
+                                                    class="text-danger">*</span></label>
+                                            <div class="">
+                                                <ng-select #select [items]="templates" [searchable]="true"
+                                                    formControlName="templete_id" bindLabel="name" bindValue="id"
+                                                    placeholder="Please select student">
+                                                </ng-select>
+                                            </div>
+                                            <div *ngIf="form.controls['templete_id'].invalid && (form.controls['templete_id'].dirty)"
+                                                class=" error text-danger mb-2">
+                                                <div *ngIf="form.controls['templete_id'].errors?.['required']">Please
+                                                    select template.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto form_section">
+                                        <button type="submit" (click)="addFieldsValue()" [disabled]="form.invalid"  class="w-100 btn generate-btn m-0 px-2">Generate</button>
+                                    </div>
+                                    <div class="col-12 col-sm-auto form_section">
+                                        <button type="submit" (click)="clear()" class="w-100 btn clear-btn m-0 px-2">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-lg-12 datatable_cls py-4">
+                        <div class="datatable-action-design">
+                            <div class="action_btn_in_out" (click)="isOpenByClick = !isOpenByClick">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="isOpenByClick" ngbTooltip="Close">
+                                  <path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" *ngIf="!isOpenByClick" ngbTooltip="Open">
+                                  <path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z"/>
+                                </svg>
+                            </div>
+                            <div class="table-responsive">
+                                <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered " [ngClass]="{'table-action-col-active' : isOpenByClick}">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Section</th>
+                                            <th>Class</th>
+                                            <th>batch</th>
+                                            <th>Student Name</th>
+                                            <th>Template name</th>
+                                            <th class="action-btn-sticky">Action</th>
+                                        </tr>
+                                    </thead>																	
+                                    <tbody *ngIf="tbody?.length != 0">																							
+                                        <tr *ngFor="let item of tbody ;let i = index;" >				
+                                            <td>{{item.section}}</td>
+                                            <td class="orange-text-color">{{item.class}}</td>
+                                            <td class="teal-text-color">{{item.batch}}</td>
+                                            <td class="name_hover">{{item.student_name}}</td>
+                                            <td>{{item.templete_name}}</td>
+                                            <td class="action-btn-sticky text-center">
+                                                <div class="btn-group" role="group">					
+                                                    <button *ngIf="commonService.hasPermission('administrator_certificate_generator', 'has_download')" class="lt-btn-icon action-print" container="body" ngbTooltip="Print" (click)="printCertificate(item.id)" > </button>
+                                                    <button *ngIf="commonService.hasPermission('administrator_certificate_generator', 'has_delete')" class="lt-btn-icon action-delete" container="body" ngbTooltip="Delete" (click)="delete(item.id)" > </button>
+                                                </div>
+                                            </td>                                             
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="tbody?.length == 0">
+                                        <tr>
+                                        <td colspan="6" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>										
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+    .modal-backdrop.show {
+        z-index: 1040 !important;
+    }
+</style>

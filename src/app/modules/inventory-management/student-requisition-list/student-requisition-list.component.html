@@ -1,0 +1,114 @@
+<section class="leave_form tab_in_sections">
+    <div class="page_inner">
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h3 class="sub_title mb-0">Requistion List</h3>
+			<div class="btn_right">
+				<a class="btn add-btn" href="#."  [routerLink]="[URLConstants.STUDENT_REQUISITION_FORM,0]" > Add New Requsition</a>
+			</div>
+		</div>
+		<div class="card">               
+			<div class="card_body">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="table-responsive">
+							<table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered table datatable w-100">
+								<thead class="thead-light">
+									<tr>
+										<th style="color: #101010;">Id</th>
+										<th style="color: #101010;">Requisition Date</th>
+										<th style="color: #101010;">Requested By</th>
+										<th style="color: #101010;">Store Name</th>
+										<th style="color: #101010;">Required By</th>
+										<th style="color: #101010;">Priority</th>					
+										<th style="color: #101010;">Status</th>					
+										<th style="color: #101010;">Reason For Rejection</th>					
+										<th style="color: #101010;">Action</th>
+									</tr>
+								</thead>
+								<tbody *ngIf="tbody?.length != 0">
+									<tr *ngFor="let item of tbody ;let i = index;" >				
+										<td>{{item.id}}</td>            
+										<td>{{item.requisition_date}}</td>            
+										<td>{{item.user_name}}</td>            
+										<td>{{item.store_name}}</td>            
+										<td>{{item.required_by}}</td>            
+										<td>{{item.priority}}</td>                                               
+										<td>{{item.status}}</td>                                                                 
+										<td>{{item.reject_reason}}</td>                                               
+										<td>
+											<div class="btn-group" role="group">
+												<a class="btn action-view" ngbTooltip="View" (click)="open2(myviewmodal,item.id)"><i class="fa fa-eye"></i></a>
+												<a class="btn action-edit" ngbTooltip="Edit" href='#' *ngIf="item.status != 'Approved'" [routerLink]="[URLConstants.STUDENT_REQUISITION_FORM,item.id]"><i class="fa fa-pencil-alt"></i></a>
+												<button class="btn action-delete" ngbTooltip="Delete" *ngIf="item.status != 'Approved'" (click)="delete(item.id)"> <i class="fa fa-trash-alt"></i> </button>
+											</div>
+										</td>                                             
+									</tr>
+								</tbody>									
+								<tbody *ngIf="tbody?.length == 0">
+									<tr>
+									  <td colspan="11" class="text-center no-data-available">No data</td>
+									</tr>
+								</tbody>										
+							</table>
+
+							<ng-template #myviewmodal let-modal >
+								<div class="modal-header" style="z-index: 0;">
+								  <h4 class="modal-title" id="modal-basic-title">Requisition Details</h4>
+								  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+									<span aria-hidden="true">×</span>
+								  </button>
+								</div>
+								<div class="modal-body" style="z-index: 0;">
+																					
+								<div class="form_group modal-table">
+									<label class="col-sm-6 form_label"><b>Requisition Date : </b> <span class="c-primary">{{requisition_modal_data.requisition.requisition_date}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Requisition Type : </b> <span class="c-primary">{{requisition_modal_data.requisition_by}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Requisition By : </b> <span class="c-primary">{{requisition_modal_data.requisition_by_name}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Store Name : </b> <span class="c-primary">{{requisition_modal_data.requisition.store.name}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Required By : </b> <span class="c-primary">{{requisition_modal_data.requisition.required_by}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Priority : </b> <span class="c-primary">{{requisition_modal_data.requisition.priority}}</span></label>										
+									<label class="col-sm-6 form_label"><b>Remark: </b> <span class="c-primary">{{requisition_modal_data.requisition.remark}}</span></label>	
+									<label class="col-sm-6 form_label" *ngIf="requisition_modal_data.requisition.status==2"><b>Reject Reason: </b> {{requisition_modal_data.requisition.reject_reason}}</label>	
+
+									<div class="basic_table mt-2">
+										<div class="table-responsive">
+											<table class="table table-hover table-bordered table-nowrap table datatable w-100 mb-0">
+												<thead>
+													<tr>
+														<th>Item Type</th>
+														<th>Item Name</th>
+														<th>Quantity</th>
+														<th>Measurement Type</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr *ngFor="let item of requisition_modal_data.requisition_items">
+														<td>{{item.item_type.name}}</td>
+														<td>{{item.item_name.item_name}}</td>
+														<td>{{item.quantity}}</td>
+														<td>{{item.measurement_type.name}}</td>
+													</tr>
+												</tbody>
+											</table>	
+										</div>
+									</div>								
+								</div>           			
+								</div>
+							  </ng-template>									
+						</div>
+					</div>
+				</div>
+				<!-- <div class="row pagination"> 
+					<div class="col-xl-6"> 
+						<span class="text-muted text-sm">Showing {{tbody?.data?.to}} items out of {{tbody?.data?.total}} results found</span>
+					</div>
+					<div class="col-xl-6 col-xl-6 d-flex justify-content-end">
+							<button type="button" *ngFor="let link of tbody?.data?.links ;let i = index;" class="btn btn-sm  m-1 {{link.active == true ? 'btn-primary' : ''}}"  (click)="paginatedRecords(link.url)" [disabled]="link.url == null"> 
+							{{link.label == "pagination.previous" ? '<' : link.label == "pagination.next" ? '>' : link.label}}
+						</button>
+					</div>
+				</div> -->
+			</div>
+		</div>
+    </div>
+</section>

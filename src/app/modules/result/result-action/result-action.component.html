@@ -1,0 +1,129 @@
+<section class="marksheet-list-section result-action-section">
+  <div class="page-inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center flex-wrap my-3">
+        <h3 class="sub_title mb-0">{{ className }} Action</h3>
+        <button class="btn" (click)="goToAssignExam()">Assign Exam</button>
+      </div>
+      <!-- 1.ACADEMIC DETAILS -->
+      <div class="card">
+        <div class="result-listing">
+          <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 1}" (click)="tabChange(1)" [disabled]="!sectionSettingList?.result_section"><i class="far fa-file-alt"></i>Result Section</button>
+          <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 2}" (click)="tabChange(2)" [disabled]="!sectionSettingList?.exam_setup"><i class="fas fa-cog"></i> Exam Setup</button>
+          <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 3}" (click)="tabChange(3)" [disabled]="!sectionSettingList?.subject_setup"><i class="fas fa-cog"></i> Subject Setup</button>
+          <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 4}" (click)="tabChange(4)" [disabled]="!sectionSettingList?.mark_calculation"><i class="fa fa-calculator"></i> Mark Calculation</button>
+          <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 5}" (click)="tabChange(5)" [disabled]="!sectionSettingList?.result_setup"><i class="far fa-file-alt"></i> Result Setup</button>
+          <!-- <button class="btn btn-setup" [ngClass]="{'active' : actionCount == 6}" (click)="tabChange(6)"><i class="fe fe-printer"></i> Print Setting</button> -->
+        </div>
+
+        <!-- <div class="result-action-section" *ngIf="actionCount == 1"> -->
+          <ng-container *ngIf="actionCount == 1">
+            <app-result-section (next)="tabChange(2); storeTabSetting('exam_setup')"></app-result-section>
+          </ng-container>
+        <!-- </div> -->
+
+        <!-- <div class="exam-action-setup"> -->
+          <ng-container *ngIf="actionCount == 2">
+            <app-exam-setup (next)="tabChange(3);storeTabSetting('subject_setup')"></app-exam-setup>
+          </ng-container>
+        <!-- </div> -->
+
+        <!-- <div class="subject-setup exam-action-setup" *ngIf="actionCount == 3"> -->
+          <ng-container *ngIf="actionCount == 3">
+            <app-subject-setup (next)="tabChange(4);storeTabSetting('mark_calculation')"></app-subject-setup>
+          </ng-container>
+        <!-- </div> -->
+
+        <ng-container *ngIf="actionCount == 4">
+          <app-mark-calculation (next)="tabChange(5);storeTabSetting('result_setup')"></app-mark-calculation>
+        </ng-container>
+
+        <!-- <div class="subject-setup exam-action-setup result-setup" *ngIf="actionCount == 4"> -->
+          <ng-container *ngIf="actionCount == 5">
+            <app-result-setup></app-result-setup>
+          </ng-container>
+        <!-- </div> -->
+      
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- <ng-template #publishModel2>
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Result Section</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="marksheetList">
+      <div class="row justify-content-center">
+        <div class="col-lg-10  col-md-10 form-group result-mark-group">
+          <app-input controlName="name" placeholder="Result Section Name"></app-input>
+          <app-input controlName="name" type="number" placeholder="Marks"></app-input>
+          <a href="#" class="plus-mark"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-lg-10 col-md-10 form-group result-mark-group">
+          <app-input controlName="name" placeholder="Result Section Name"></app-input>
+          <app-input controlName="name" type="number" placeholder="Marks"></app-input>
+          <a href="#" class="plus-mark"><i class="fa fa-minus" aria-hidden="true"></i></a>
+        </div>
+        <div class="col-lg-10 col-md-10 form-group result-mark-group">
+          <app-input controlName="name" placeholder="Result Section Name"></app-input>
+          <app-input controlName="name" type="number" placeholder="Marks"></app-input>
+          <a href="#" class="plus-mark"><i class="fa fa-minus" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn">
+        Create
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-2 col-3 mx-2">
+      <button type="submit" class="btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #publishModel3 class="modal-dialog-centered">
+  <div class="modal-header" style="z-index: 0; border: none">
+    <h4 class="modal-title" id="modal-basic-title">Delete Result Section</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModel()">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="marksheetList">
+      <div class="row justify-content-center">
+        <div class="col-lg-12  col-md-12 form-group">
+          <p class="delete-text">Are You Sure Delete the Template ?</p>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" style="z-index: 0; border: none; background-color:#D9D9D9; padding: 8px;">
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn">
+        Delete
+        <div class="spinner-border spinner-border-sm" role="status" *ngIf="false">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </button>
+    </div>
+    <div class="col-md-2 col-3">
+      <button type="submit" class="btn" (click)="closeModel()">
+        Cancel </button>
+    </div>
+  </div>
+</ng-template> -->

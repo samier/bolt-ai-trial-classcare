@@ -1,0 +1,21 @@
+::ng-deep {
+    .dropdown-body{
+        padding-bottom: 10px !important;
+    }
+    .add-head {
+        .modal-body {
+            .form_group {
+                label {
+                    width: 30%;
+                }
+            }
+        }
+    }  
+    .duplicate-modal-section {
+        z-index: 10 !important;
+    }
+
+    .duplicate-modal-backdrop {
+        z-index: 10 !important;
+    }
+}

@@ -1,0 +1,180 @@
+<section class="marks-edit add-edit-mark-section">
+    <div class="page_inner">
+        <div class="m-container">
+
+                <div class="d-flex justify-content-between align-items-center my-3">
+                    <h3 class="sub_title mb-0">ENTER MARKS</h3>
+                    <button class="btn btn-primary" (click)="goToListPage()">{{allIds.batch_id && allIds.subject_id ? 'Exam View' : 'Exam List'}} <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="false">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                    </button>
+                </div>
+                <div class="card">
+
+                    <div class="edit-card-header">
+                        <p>Exam Name - <span> {{examData?.exam_name ?? '-'}} </span></p>
+                        <p>Exam Type - <span> {{examData?.exam_type_name ?? '-'}} </span></p>
+                        <p>Exam Start Date - <span> {{examService.dateFormate(examData?.start_date,5)}} </span></p>
+                        <p>Exam End Date - <span> {{examService.dateFormate(examData?.end_date,5)}} </span></p>
+                    </div>
+                    <div class="card_body edit-card-body">
+                        <form [formGroup]="marksDataForm">
+                        
+                            <div class="form_section  global_form table_top">
+                                <div class="">
+                                    <div class="row gx-5 align-items-center">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 form_group">
+                                            <label for="" class="form_label">Select Batch <span class="text-danger">*</span> </label>
+                                            <div>
+                                                <app-single-select controlName="batch_id" placeholder="Select batch"
+                                                    [dropDownArray]="batchList"></app-single-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 form_group" *ngIf="!(allIds.batch_id && allIds.subject_id)">
+                                            <label for="" class="form_label">Select Subject <span class="text-danger">*</span></label>
+                                            <div>
+                                                <app-multi-select controlName="subject_id" placeholder="Select subject"
+                                                    [dropDownArray]="subjectList" [isDisabled]="isDisabled"></app-multi-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 form_group">
+                                            <label for="" class="form_label">Select Status <span class="text-danger">*</span> </label>
+                                            <div>
+                                                <app-single-select controlName="status" placeholder="Select status"
+                                                    [dropDownArray]="statusList"></app-single-select>
+                                            </div>
+                                        </div> 
+                                        <div class="col-lg-3 col-md-12">
+                                            <div class="show-clear-btn">
+                                                <button  type="button" class="btn px-4 d-flex align-items-center me-3"
+                                                    [disabled]="isMarkShow" (click)="showData()">
+                                                    show
+                                                    <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isMarkShow">
+                                                        <span class="visually-hidden">Loading...</span>
+                                                    </div>
+                                                </button>
+                                                <button *ngIf="!(allIds.batch_id && allIds.subject_id)" class="btn" (click)="clearData()">Clear</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="edit-exam-table" *ngIf="isTableShow">
+                    <p><b>Note :- </b> &nbsp;&nbsp; Entering the student's roll number is required for the exam. If the roll number is not entered, the student's marks cannot be recorded.</p>
+                    <div class="table-responsive">
+                        <form [formGroup]="enterMarksForm">
+                            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                                <thead>
+                                    <ng-container *ngIf="subjectTitleArray(0)?.controls?.length > 0">
+                                        <tr>
+                                            <th class="text-16" id="produkt" rowspan="3" scope="colgroup">GR No.</th>
+                                            <th class="text-16" id="produkt" rowspan="3" scope="colgroup">Roll No.</th>
+                                            <th class="text-16" id="1" rowspan="3" scope="colgroup">Student Name</th>
+                                            <th class="text-16" id="1" rowspan="3" scope="colgroup">status</th>
+                                            <th class="text-center text-16" id="region" [attr.colspan]="subjectTitleArray(0)?.controls?.length" scope="colgroup">SUBJECT
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <ng-container *ngFor="let item of subjectTitleArray(0)?.controls">
+                                                <th class="text-center bg-change" headers="region" id="europa" scope="col">
+                                                    {{item.value.subject_name}}({{item.value.start_date}}) <br>
+                                                    <span
+                                                        *ngIf="item.value.exam_marking_type != 2">{{item.value.passing_mark}}/{{item.value.total_mark}}</span>
+                                                    <span *ngIf="item.value.exam_marking_type == 2">Grades</span>
+                                                </th>
+                                            </ng-container>
+                                        </tr>
+                                        <tr>
+                                            <ng-container *ngFor="let item of subjectTitleArray(0)?.controls; let i = index">
+                                                <th class="text-center" scope="col">
+                                                    <div class="mark-input-value-task">
+                                                        Mark <button *ngIf="!isCheckAttendance && !item.value.all_present" ngbTooltip="ALL EDIT" class="btn edit-btn ml-2" (click)="allEditEnable(i)"> <i class="fa fa-pencil-alt"></i> </button>
+                                                    </div>
+                                                </th>
+                                            </ng-container>
+                                        </tr>
+                                    </ng-container>
+                                </thead>
+                                <tbody>
+                                    <ng-container formArrayName="marks"
+                                        *ngIf="studentArray.controls.length > 0 else noDataFound">
+                                        <ng-container *ngFor="let item of studentArray.controls ; let i=index">
+                                            <tr [formGroupName]="i">
+                                                <td>{{item.value.gr_number === 'N/A' ? '-' : item.value.gr_number || '-'}}</td>
+                                                <td>{{item.value.roll_no == "" ? '-' : item.value.roll_no}}</td>
+                                                <td>{{item.value.student_name}} </td>
+                                                <td>{{item.value.status}} </td>
+                                                <ng-container formArrayName="subject_marks">
+                                                    <ng-container
+                                                        *ngFor="let item of subjectArray(i).controls ; let j=index">
+                                                        <ng-container [formGroupName]="j">
+                                                            <ng-container *ngIf="item?.value?.is_optional == 1 || item?.value?.is_optional == 2 else blankTD">
+                                                                <td class="text-center" *ngIf="item.value.exam_marking_type !== 2">
+                                                                    <div class="mark-input-value-task">
+                                                                    <input class="mark-value form-control" type="number"
+                                                                        onKeyPress="if(this.value.length==3) return false;"
+                                                                        [ngClass]="{'danger-mark-value':item.value.subject_mark && (item.value.subject_mark < item.value.passing_mark )}"
+                                                                        formControlName="subject_mark" placeholder="marks" [readonly]="item.value.is_present == false" 
+                                                                        (input)="handleMarksEnter(item,i)">
+                                                                        <button *ngIf="!isCheckAttendance && item.value.is_present == false" (click)="editMarks(i,j)" ngbTooltip="EDIT" class="btn edit-btn ml-2"> <i class="fa fa-pencil-alt"></i> </button>
+                                                                    </div>
+                                                                        <div
+                                                                        *ngIf="item['controls']['subject_mark'].invalid && (item['controls']['subject_mark'].dirty || item['controls']['subject_mark'].touched)">
+                                                                        <div class="text-danger static-text-danger"
+                                                                            *ngIf="item['controls']['subject_mark'].errors?.['max'] || item['controls']['subject_mark'].errors?.['min']">
+                                                                            enter valid marks.
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="text-center" *ngIf="item.value.exam_marking_type == 2">
+                                                                    <div class="mark-input-value-task">
+                                                                        <ng-select appendTo="body" formControlName="grade_details_id" [items]="gradeList" bindLabel="name" bindValue="id"
+                                                                            placeholder="Select grade" [readonly]="item.value.is_present == false"></ng-select>
+                                                                        <button *ngIf="!isCheckAttendance && item.value.is_present == false" (click)="editMarks(i,j)" ngbTooltip="EDIT"
+                                                                            class="btn edit-btn ml-2"> <i class="fa fa-pencil-alt"></i> </button>
+                                                                    </div>
+                                                                </td>
+                                                            </ng-container>
+                                                            <ng-template #blankTD>
+                                                                <td></td>
+                                                            </ng-template>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-template #noDataFound>
+                                        <tr>
+                                            <td colspan="11" class="text-center">
+                                                No Student Data Found
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </tbody>
+
+                            </table>
+                        </form>
+
+                    </div>
+                    <div class="save-button">
+                        <button class="btn me-3" (click)="saveMarks()" [disabled]="isMarkField">{{isUpdate ? 'Update' : 'Save'}}
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isMarkField">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="btn me-3" (click)="saveMarks(true)" [disabled]="isMarkFieldAndNew" *ngIf="!is_queryParams"> {{ isUpdate ? 'Update and Reset' : 'Save and Reset' }} 
+                            <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="isMarkFieldAndNew">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                        <button class="btn" (click)="goToListPage()">Cancel</button>
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>

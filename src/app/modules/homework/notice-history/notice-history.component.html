@@ -1,0 +1,164 @@
+<section class="notice-history-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Notice History</h3>
+                <div class="btn_right">
+                    <a class="list-btn btn" href="#."  [routerLink]="homeworkService.setUrl(4,'notice')">Notice
+                        List</a>
+                </div>
+            </div>
+            <div class="card notice-history-card">
+
+                <div class="card-header border-bottom justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                      <h5 class="mb-0">Filters</h5>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                      <button class="btn btn-primary me-2" (click)="onReset()">Reset</button>
+                      <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                        <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                        <i class="fa fa-angle-up" *ngIf="filter"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="card-body" *ngIf="filter">
+                    <!-- Notice Type -->
+                    <div class="row">  
+                        <div class="col-md-4 form_group">
+                            <label class=" form_label">Notice Type</label>
+                            <div class="radio-section ">
+                                <div class="radio ">
+                                    <label class="required mb-0" aria-required="true">
+                                    <input type="radio" name="noticeType" value="1" class="mr-1" (change)="onNoticeTypeChange(1)" checked>Student<span></span>
+                                    </label>
+                                </div>
+                                <div class="radio ">
+                                    <label class="required mb-0" aria-required="true">
+                                    <input type="radio" name="noticeType" value="2" class="mr-1" (change)="onNoticeTypeChange(2)">Employee<span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form [formGroup]="noticeHistoryForm">
+                        <div class="row" *ngIf="isStudent">
+                            <!-- Section -->
+                            <div class="col-md-3 form_group">
+                                <label class="form_label"> Select the Section <span
+                                        class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="sectionId" [dropDownArray]="sectionsList"
+                                        placeholder="Select Section"
+                                        (change)="onSectionChange()"></app-multi-select>
+                                </div>
+                            </div>
+    
+                            <!-- CLASS DROPDOWN -->
+                            <div class="col-md-3 form_group">
+                                <label class="form_label"> Select the Class <span
+                                    class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="classId" [dropDownArray]="classesList"
+                                        placeholder="Select Class" (change)="onClassChange()"></app-multi-select>
+                                </div>
+                            </div>
+    
+                            <!-- BATCH DROPDOWN -->
+                            <div class="col-md-3 form_group">
+                                <label class="form_label"> Select the Batch  <span
+                                    class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="batchId" [dropDownArray]="batchesList"
+                                        placeholder="Select Batch" (change)="onBatchChange()"></app-multi-select>
+                                </div>
+                            </div>
+                            <!-- Student Dropdwon-->
+                            <div class="col-md-3 form_group">
+                                <label class="form_label"> Select the Student  <span
+                                    class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="studentId" [dropDownArray]="studentsList"
+                                        placeholder="Select Student"></app-multi-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="!isStudent">
+                            <!-- Section -->
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select the Role Type <span class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="roleId" (change)="onRoleChange()"
+                                        [dropDownArray]="rolesList" placeholder="Select the Role"></app-multi-select>
+                                </div>
+                            </div>
+                            <div class="col-md-3 form_group">
+                                <label class="form_label">Select the Employee <span class="text-danger">*</span></label>
+                                <div>
+                                    <app-multi-select controlName="employeeId"
+                                        [dropDownArray]="employeesList" placeholder="Select the Role"></app-multi-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row w-100 ">
+                            <div class="d-flex">
+                                <!-- Show BTN -->
+                                <div>
+                                    <button class="btn w-100 show-btn" (click)="onShow()" [disabled]="isShowLoading">
+                                        Show
+                                        <div class="spinner-border spinner-border-sm" role="status" *ngIf="isShowLoading">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+            <div class="card">
+                <div class="row pb-3 mx-0 no-gutters" *ngIf="isSelected">
+                    <div class="col-lg-12">
+                      <div class="notice-history-table">
+                          <div class="table-list-heading">              
+                          </div>
+                          <div class="table-responsive">
+                              <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                                    <thead class="thead-light">
+                                    <tr>
+                                        <th>Sr. No</th>
+                                        <th>Notice Title</th>
+                                        <th>Notice Type</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let row of tbody; let i = index">
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ row.title }}</td>
+                                            <td>{{ row.type }}</td>
+                                            <td>
+                                                <a [routerLink]="[homeworkService.setUrl(2,'notice'), row?.id]" href='#' class="btn action-view" ngbTooltip="View">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="tbody?.length == 0">
+                                        <tr>
+                                            <td colspan="4" class="text-center no-data-available">No data</td>
+                                        </tr>
+                                    </tbody>
+                              </table>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+                <div *ngIf="!isSelected" class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <div>Please Select {{ isStudent ? 'Student' : 'Employee' }} for History.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

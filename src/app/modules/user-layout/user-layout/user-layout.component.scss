@@ -1,0 +1,19 @@
+::ng-deep{
+    body app-user-layout{
+        .main-content{
+            &.horizontal-content{
+                margin-top: 0;
+            }
+        }
+    }
+    .app{
+        &.sidenav-toggled{
+            app-user-layout{
+                .app-content{
+                    margin-left: 0;
+                    margin-top: 63px;
+                }
+            }
+        }
+    }
+}

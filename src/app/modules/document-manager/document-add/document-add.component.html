@@ -1,0 +1,122 @@
+<section class="document_type">
+  <div class="page_inner">
+    <div class="m-container">
+      <div class="d-flex justify-content-between align-items-center my-3">
+        <h3 class="sub_title mb-0">Add Document</h3>
+        <div class="btn_right">
+          <a class="btn list-btn" href="#." [routerLink]="setUrl(URLConstants.DOCUMENT_MANAGER)">Document List</a>
+        </div>
+      </div>
+      <div class="">
+        <div class="card_body">
+          <div class="">
+            <div class="card">
+              <form [formGroup]="form" class="form_section" id="form">
+                <div class="row">
+
+                  <div class="col-md-3 form_group">
+                    <label class="form_label">Document Name<span class="text-danger">*</span></label>
+                    <div class="">
+                      <input type="text" id="name" name="name" formControlName="name"
+                        placeholder="Document Name" class="form-control">
+                    </div>
+                    <div *ngIf="form.controls['name'].invalid && (form.controls['name'].dirty || form.controls['name'].touched)" class=" error text-danger mb-2">
+                      <div *ngIf="form.controls['name'].errors?.['required']">please enter Document name.</div>
+                  </div>
+                  </div>
+
+                  <div class="col-md-3 form_group">
+                    <div class="">
+                      <label class=" form_label">Document For<span class="text-danger">*</span></label>
+                      <div class="">
+                        <ng-select formControlName="document_for" name="document_for" [(ngModel)]="document_for" class="form-control" placeholder="select document type">
+                          <!-- <ng-option value="" disabled>select document for</ng-option> -->
+                          <ng-option value="school">School</ng-option>
+                          <ng-option value="other">Other</ng-option>
+                          <ng-option value="driver">Driver</ng-option>
+                          <ng-option value="vehicle">Vehicle</ng-option>
+                          <ng-option value="teacher">Teacher</ng-option>
+                          <ng-option value="student">Student</ng-option>
+                        </ng-select>
+                      </div>
+                      <div *ngIf="form.controls['document_for'].invalid && (form.controls['document_for'].dirty || form.controls['document_for'].touched)" class=" error text-danger mb-2">
+                        <div *ngIf="form.controls['document_for'].errors?.['required']">please select document for.</div>
+                    </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 form_group" *ngIf="document_for != 'school' && document_for != 'other' && document_for != null">
+                    <div class="">
+                      <label class="form_label">Document Type<span class="text-danger">*</span></label>
+                      <div class="">
+                        <input type="text" id="document_type_id" name="document_type_id" formControlName="document_type_id"
+                          placeholder="Document Type" class="form-control">
+                      </div>
+                      <div class="col-lg-10 error text-danger ps-0 mb-2">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class="form_label">Document Date<span class="text-danger">*</span></label>
+                    <app-mat-date-picker controlName="document_date"></app-mat-date-picker>
+                    <!-- <div class="">
+                      <input type="date" id="document_date" name="document_date" formControlName="document_date"
+                        placeholder="Document Date" class="form-control">
+                    </div>
+                    <div *ngIf="form.controls['document_date'].invalid && (form.controls['document_date'].dirty || form.controls['document_date'].touched)" class=" error text-danger mb-2">
+                      <div *ngIf="form.controls['document_date'].errors?.['required']">please select date.</div>
+                  </div> -->
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class=" form_label">Description<span class="text-danger">*</span></label>
+                    <div class="">
+                      <textarea type="text" id="Description" name="description" formControlName="description"
+                        placeholder="Description" class="form-control"></textarea>
+                    </div>
+                    <div *ngIf="form.controls['description'].invalid && (form.controls['description'].dirty || form.controls['description'].touched)" class=" error text-danger mb-2">
+                      <div *ngIf="form.controls['description'].errors?.['required']">please enter description.</div>
+                  </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <label class=" form_label">Upload File</label>
+                    <input type="file" id="document_file" name="document_file" formControlName="document_file">
+                  </div>
+
+                  <div class="col-md-3 form_group">
+                    <label for="" class="form_label">Publish</label>
+                    <div>
+                        <div class="m-checkbox-list d-flex align-items-center">
+                            <label for="is_published" class="m-checkbox show-label m-0">
+                                <input type="checkbox" class="s-checkbox me-2"  id="is_published" formControlName="is_published" >Is Published
+                                <span></span>
+                            </label>
+                        </div>
+                    </div> 
+                </div>
+
+                  <div class="col-md-12">
+                    <!-- <div class="add_doc">
+                      <label class=" form_label">Document Type<span class="text-danger">*</span></label>
+                    </div> -->
+                    <div class="row w-100 py-3">
+                      <div class="col-auto">
+                        <a class="btn cancel-btn w-100" href="#"
+                          [routerLink]="setUrl(URLConstants.DOCUMENT_MANAGER)">Cancel</a>
+                      </div>
+                      <div class="col-auto">
+                        <button *ngIf="id ? CommonService.hasPermission('administrator_document_manager', 'has_update') : CommonService.hasPermission('administrator_document_manager', 'has_create')" type="submit" (click)="submit()" [disabled]="form.invalid" class="btn save-btn w-100">save</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

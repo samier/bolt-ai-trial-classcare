@@ -1,0 +1,235 @@
+<section class="add-time-slot-section">
+    <div class="page_inner">
+      <div class="m-container">
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h3 class="sub_title mb-0">ADD TIME SLOT</h3>
+          <div class="">
+            <a [routerLink]="setUrl(URLConstants.ADD_TIMETABLE)" class="btn timetable-btn">Timetable</a>
+            <a [routerLink]="setUrl(URLConstants.ADD_LECTURE_TIMINGS)" class="btn ms-2 add-btn">Add Class Time Slot</a>
+            
+          </div>
+        </div>
+        <div class="card" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_create')">
+          <div class="card_body">
+            <div class="form_section  global_form table_top">
+                <div>
+                    <div class="row global_form">
+                        <div class="col-lg-4 col-md-3 form_group">
+                            <label class="form_label">Time Slot<span class="text-danger">*</span></label>
+                            <input [(ngModel)]="formData.name" placeholder="Enter Slot Name" class="form-control" (keyup)="errors['name'] = ''" />
+                            <div class="text-danger error"> {{errors['name']}} </div>
+                        </div>
+                        <div class="col-md-8 form_section days_section">
+                            <div class="d-flex timings-days mt-4 mb-1">
+                                <div class="form_group m-0">
+                                    <label class="form_label mb-0 days"><b>Days</b></label>
+                                </div>
+                                <div class="px-3 d-flex gap-35">
+                                    <div class="m-checkbox-list d-flex align-items-center"
+                                        *ngFor="let item of weeks ;let i = index;">
+                                        <label class="form_label m-checkbox m-0 p-0">
+                                            <input type="checkbox" name="all" id="{{item.day}}" class="s-checkbox" (change)="errors['week_days'] = ''" 
+                                                [(ngModel)]="item.status">
+                                            <span></span>
+                                        </label>
+                                        <label for="{{item.day}}" class="pl-2 mb-0 checkbox-label">{{item.day}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-danger error"> {{errors['week_days']}} </div>
+
+                        </div>
+                    </div>
+                    <div class="row global_form">
+                        <div class="col-lg-6" *ngFor="let item of formData.time_slot; let i = index;">
+                            <div class="row align-items-center">
+                                <div class="col-lg-4 col-md-4 form_group">
+                                    <label class="form_label">Start Time<span class="text-danger">*</span></label>
+                                    <input type="time" [name]="'from_time_'+i" [(ngModel)]="item.from_time" placeholder="Enter exam name" class="form-control" (change)="errors['time_slot.'+i+'.from_time'] = ''" (keyup)="errors['time_slot.'+i+'.from_time'] = ''" />
+                                    <div class="text-danger error"> {{errors['time_slot.'+i+'.from_time']}} </div>
+
+                                </div>
+                                <div class="col-lg-4 col-md-4 form_group">
+                                    <label class="form_label">End Time<span class="text-danger">*</span></label>
+                                    <input type="time" [name]="'to_time_'+i" [(ngModel)]="item.to_time" placeholder="Enter exam name" class="form-control" (change)="errors['time_slot.'+i+'.to_time'] = ''" (keyup)="errors['time_slot.'+i+'.to_time'] = ''" />
+                                    <div class="text-danger error"> {{errors['time_slot.'+i+'.to_time']}} </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 form_group d-flex">
+                                    <div>
+                                        <label class="form_label ">Is Break</label>
+                                        <div class="toggle">
+                                            <label for="" class="m-0">
+                                                <input [name]="'is_break_'+i"  [(ngModel)]="item.is_break" type="checkbox" name="is_break" >
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 form_group d-flex">
+                                    <a href="javascript:void(0)" (click)="add()" class="add-plus" *ngIf="i == 0">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" (click)="remove(i)" class="add-plus" *ngIf="i != 0">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1">
+                    <button class="w-100 btn  add-btn" type="button"  [disabled]="showLoading" (click)="submit()">
+                        Save
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="showLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="w-100 btn  clear-btn" (click)="clearForm()"> Clear </button>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+            <div class="">
+                <div class="datatable_cls time-slot-table">
+                    <div class="table-responsive">
+                        <table datatable [dtOptions]="dtOptions"
+                            class="table table-hover table-nowrap table-bordered dataTable no-footer" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Sr.No.</th>
+                                    <th>Time Slot Name</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                    <th>Saturday</th>
+                                    <th>Sunday</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of tbody ;let i = index;">
+                                    <td>{{item.DT_RowIndex}}</td>
+                                    <td>{{item.name}}</td>
+                                    <td *ngFor="let week of weeks">
+                                        <div *ngIf="item.time_slot_timings[week.day] else block1">
+                                            <p *ngFor="let day of item.time_slot_timings[week.day]"> {{timeFormat(day.from_time)}} - {{timeFormat(day.to_time)}}</p>
+                                            <div class="btn-group">
+                                                <a ngbTooltip="Edit" (click)="updateSlot(mymodal,week.day, item)" class="btn action-edit" href="javascript:void(0)" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_edit')" ><i class="fa fa-pencil-alt"></i></a>
+                                                <a ngbTooltip="Delete" (click)="deleteSlot(week.day,item.id)"  class="btn action-delete" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_delete')" ><i class="fa fa-trash" ></i></a>
+                                            </div>
+                                        </div>
+                                        <ng-template #block1>
+                                            <button (click)="updateSlot(mymodal,week.day, item)" class="btn slot-add-btn" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_create')"> Add </button>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <!-- <a [routerLink]="[setUrl(URLConstants.SUBJECT_LECTURE),item.id]"  class="btn action-edit " title="Edit">
+                                                <i class="fa fa-pencil-alt"></i>
+                                            </a> -->
+                                            <button type="button" title="Delete" *ngIf="CommonService.hasPermission('administrator_lecture_timing', 'has_delete')" 
+                                            ngbTooltip="Delete"
+                                                class="btn action-delete"
+                                                (click)="delete(item.id)">
+                                                <i class="fa fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tbody *ngIf="tbody?.length == 0">
+                                <tr>
+                                  <td colspan="3" class="text-center no-data-available">No data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-template #mymodal let-modal>
+            <div class="modal-header" >
+                <h4 class="modal-title" id="modal-basic-title">Update Time Slot : {{updateFormData.day}}</h4>
+                <button type="button" class="close" aria-label="Close"
+                    (click)="modal.close('cancel')">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body" >
+
+                <div class="page_inner">
+                    <div class="card_body">
+                        <div class="row global_form">
+                            <div class="col-lg-4 col-md-3 form_group">
+                                <label class="form_label">Time Slot </label>
+                                <input [(ngModel)]="updateFormData.name" placeholder="Enter exam name" class="form-control" (keyup)="updateErrors['name'] = ''" />
+                                <div class="text-danger error"> {{updateErrors['name']}} </div>
+                            </div>
+                        </div>
+                        <div class="row global_form mt-4">
+                            <div class="col-lg-6" *ngFor="let item of updateFormData.time_slot; let i = index;">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label class="form_label">Start Time </label>
+                                        <input type="time" [name]="'from_time_'+i" [(ngModel)]="item.from_time" placeholder="Enter exam name" class="form-control" (keyup)="updateErrors['time_slot.'+i+'.from_time'] = ''" />
+                                        <div class="text-danger error"> {{updateErrors['time_slot.'+i+'.from_time']}} </div>
+    
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 form_group">
+                                        <label class="form_label">End Time</label>
+                                        <input type="time" [name]="'to_time_'+i" [(ngModel)]="item.to_time" placeholder="Enter exam name" class="form-control" (keyup)="updateErrors['time_slot.'+i+'.to_time'] = ''" />
+                                        <div class="text-danger error"> {{updateErrors['time_slot.'+i+'.to_time']}} </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 form_group d-flex">
+                                        <div>
+                                            <label class="form_label ">Is Break</label>
+                                            <div class="toggle">
+                                                <label for="" class="m-0">
+                                                    <input [name]="'is_break_'+i"  [(ngModel)]="item.is_break" type="checkbox" name="is_break" >
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-1 form_group d-flex">
+                                        <a href="javascript:void(0)" (click)="modalAdd()" class="add-plus" *ngIf="i == 0">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" (click)="modalRemove(i)" class="add-plus" *ngIf="i != 0">
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer" >
+                <div class="col-auto">
+                    <button type="submit" class="save-btn btn" (click)="update()"  [disabled]="updateShowLoading">
+                        Save
+                        <div class="spinner-border spinner-border-sm ms-2" role="status" *ngIf="updateShowLoading">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </button>
+                </div>
+                <div class="col-auto3">
+                    <button type="submit" class="clear-btn btn "
+                        (click)="modal.close('cancel')">
+                        Cancel </button>
+                </div>
+            </div>
+        </ng-template>
+      </div>
+    </div>
+  </section>

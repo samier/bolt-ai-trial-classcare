@@ -1,0 +1,65 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <h3 class="sub_title mb-0">Add Exam Type</h3>
+                <div class="btn_right">
+                    <a class="btn list-btn"  href="#." [routerLink]="setUrl(URLConstants.EXAM_TYPE_LIST)">Exam List</a>
+                </div>
+            </div>
+            <div class="">
+                <div class="card_body">
+                    <div class="">
+                        <div class="card">
+                            <form [formGroup]="examtypecreateform" class="form_section">
+                                    <div class="row">
+                                        <div class="col-md-3 form_group">
+                                            <label class=" form_label">Exam Type Name<span class="text-danger">*</span>:</label>
+                                            <div class="">
+                                                <input class="form-control" name="name" id="name" formControlName="name" placeholder="Enter Exam Type name" required>
+                                                <div *ngIf="submitted && examtypecreateform.controls['name'].invalid" class="text-danger"> Please enter Exam Type name. </div>
+                                                <div *ngIf="examtypecreateform.controls['name'].dirty && examtypecreateform.controls['name'].invalid" class="text-danger"> Please enter valid name. </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-md-3 form_group">
+                                            <label class="form_label">Select Template<span class="text-danger">*</span>:</label>
+                                            <div>
+                                                <ng-select #select [items]="templateList" formControlName="template_id"  [ngModel]="selectedTemplate"  bindLabel="name"
+                                                    bindValue="id" placeholder="List Of Templates" >
+                                                </ng-select>
+                                                <div *ngIf="submitted && examtypecreateform.controls['template_id'].invalid" class="text-danger"> Please select template. </div>
+                                            </div>                 
+                                        </div> -->
+                                    
+                                        <div class="col-md-4 form_group">
+                                            <label class=" form_label">Status<span class="text-danger">*</span>:</label>
+                                            <div class="radio">
+                                                <label class="m-radio" for="inlineRadio1">
+                                                    <input class="" formControlName="status" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">Active
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label class="m-radio" for="inlineRadio2">
+                                                    <input class="" formControlName="status" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="0">InActive
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row w-100 ">
+                                        <div class="col-md-auto">
+                                            <a class="btn clear-btn" href="#" [routerLink]="setUrl(URLConstants.EXAM_TYPE_LIST)">Cancel</a>
+                                        </div>
+                                        <div class="col-md-auto">
+                                                <button type="submit" (click)="onSubmit()" [disabled]="!examtypecreateform.valid" class="btn save-btn" id="submitButton">Save</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

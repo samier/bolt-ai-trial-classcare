@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <div class="modal-title" >Field Values</div>
+    <div class="modal-close" (click)="closeModal()"><i class="zmdi zmdi-close"></i></div>
+</div>
+<div class="modal-body pb-0">
+	<div class="d-flex align-items-center mb-3" *ngFor="let variable of template?.variables">
+		<div class="col-sm-3">
+			<label class="form_label">{{decodeName(variable)}} : </label>
+		</div>
+		<div class="col-sm-9">
+			<input type="text" [(ngModel)]="values[variable]" placeholder="Enter {{decodeName(variable,true)}}" class="form-control ms-2" />
+		</div>
+	</div>
+</div>
+<div class="d-flex justify-content-end modal-footer">
+    <button type="button" class="btn btn-secondary mb-0" (click)="closeModal(true)">Save</button>
+    <button type="button" class="btn btn-secondary mb-0" (click)="closeModal()">Close</button>
+</div>

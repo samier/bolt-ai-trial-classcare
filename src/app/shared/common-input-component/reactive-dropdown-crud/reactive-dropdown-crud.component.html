@@ -1,0 +1,153 @@
+<div class="custom-dropdown">
+  <!-- for formArray controls -->
+  <ng-container *ngIf="formArray; else simpleInput">
+    <ng-container [formArrayName]="formArrayName">
+      <div [formGroupName]="groupName">
+        <ng-select
+          [items]="dropDownArray"
+          bindValue="id"
+          bindLabel="name"
+          [placeholder]="placeholder"
+          [searchable]="false"
+          [formControlName]="controlName"
+          #select
+          appendTo="body"
+          (click)="focusOnSearch()"
+          (change)="onInputChange($event)"
+          [disabled]="disabled"
+          [readonly]="readonly"
+        >
+          <!-- Custom header template for search -->
+          <ng-template ng-header-tmp>
+            <div class="d-flex flex-column">
+              <input
+                type="text"
+                class="form-control mb-2"
+                [placeholder]="searchPlaceholder"
+                [formControl]="searchControl"
+                (input)="onSearchChange($event)"
+                [id]="'search' + groupName"
+              />
+            </div>
+          </ng-template>
+          
+          <!-- Custom dropdown item template -->
+          <ng-template ng-option-tmp let-item="item">
+            <div class="d-flex justify-content-between align-items-center ellips-drop-down">
+              <span class="ellips-drop-down-text">{{ item?.name }}</span>
+              <span class="reason-toggle d-flex">
+                <i
+                  class="fas fa-ellipsis-h"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  title="Actions"
+                  (click)="toggleMenu(item, $event)"
+                ></i>
+                <div class="dropdown-menu reason-action shadow" style="min-width: 100px;" aria-labelledby="dropdownMenuButton" [class.show]="item?.openToggle">
+                  <span class="dropdown-item d-block" (click)="editReason(item, $event)">
+                    <i class="fa fa-edit me-2"></i>Edit
+                  </span>
+                  <span class="dropdown-item d-block" (click)="deleteReason(item?.id, $event)">
+                    <i class="fa fa-trash me-2"></i>Delete
+                  </span>
+                </div>
+              </span>
+            </div>
+          </ng-template>
+
+          <!-- Custom footer template for Create and Clear buttons -->
+          <ng-template ng-footer-tmp>
+            <div class="col-lg-12 d-flex p-0 pt-1 btn-group">
+              <button class="col-lg-6 btn" (click)="createAndUpdate($event)">
+                {{this.id ? 'Update' : 'Create'}}
+              </button>
+              <button class="btn ms-1 clear-new" (click)="clearSelection($event)">Clear</button>
+            </div>
+          </ng-template>
+        </ng-select>
+        <div *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)">
+          <ng-container *ngFor="let error of formValidationService.getErrors(formControl)">
+            <div class="text-danger">
+              {{ error }}
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- for standAlone formControls -->
+  <ng-template #simpleInput>
+    <ng-select
+      [items]="dropDownArray"
+      bindValue="id"
+      bindLabel="name"
+      [placeholder]="placeholder"
+      [searchable]="false"
+      [formControlName]="controlName"
+      #select
+      appendTo="body"
+      (click)="focusOnSearch()"
+      (change)="onInputChange($event)"
+      [disabled]="disabled"
+      [readonly]="readonly"
+    >
+      <!-- Custom header template for search -->
+      <ng-template ng-header-tmp>
+        <div class="d-flex flex-column">
+          <input
+            type="text"
+            class="form-control mb-2"
+            [placeholder]="searchPlaceholder"
+            [formControl]="searchControl"
+            (input)="onSearchChange($event)"
+            [id]="'search' + groupName"
+          />
+        </div>
+      </ng-template>
+      
+      <!-- Custom dropdown item template -->
+      <ng-template ng-option-tmp let-item="item">
+        <div class="d-flex justify-content-between align-items-center">
+          <span>{{ item?.name }}</span>
+          <span class="reason-toggle d-flex">
+            <i
+              class="fas fa-ellipsis-h"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              title="Actions"
+              (click)="toggleMenu(item, $event)"
+            ></i>
+            <div class="dropdown-menu reason-action shadow" style="min-width: 100px;" aria-labelledby="dropdownMenuButton" [class.show]="item?.openToggle">
+              <span class="dropdown-item d-block" (click)="editReason(item, $event)">
+                <i class="fa fa-edit me-2"></i>Edit
+              </span>
+              <span class="dropdown-item d-block" (click)="deleteReason(item?.id, $event)">
+                <i class="fa fa-trash me-2"></i>Delete
+              </span>
+            </div>
+          </span>
+        </div>
+      </ng-template>
+
+      <!-- Custom footer template for Create and Clear buttons -->
+      <ng-template ng-footer-tmp>
+        <div class="col-lg-12 d-flex p-0 pt-1 btn-group">
+          <button class="col-lg-6 btn" (click)="createAndUpdate($event)">
+            {{this.id ? 'Update' : 'Create'}}
+          </button>
+          <button class="btn ms-1 clear-new" (click)="clearSelection($event)">Clear</button>
+        </div>
+      </ng-template>
+    </ng-select>
+    <div *ngIf="formControl.invalid && (formControl.dirty || formControl.touched)">
+      <ng-container *ngFor="let error of formValidationService.getErrors(formControl)">
+        <div class="text-danger">
+          {{ error }}
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+</div>

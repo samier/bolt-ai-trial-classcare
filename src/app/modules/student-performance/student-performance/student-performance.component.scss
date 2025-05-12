@@ -1,0 +1,46 @@
+.px-20{
+    padding: 0 20px;
+}
+
+::ng-deep ngb-modal-backdrop {
+    z-index: 1050 !important;
+}
+
+.page_inner{
+    min-height: calc(100vh - 165.95px);
+}
+
+.card_body {
+    .table-responsive{
+        .table {
+            thead{
+                tr {
+                    th{
+                        &:first-child {
+                            max-width: 60px;
+                        }
+                    }
+                } 
+            }
+        } 
+        .table tr th:last-child {
+           text-align: left !important;
+           padding-right: 25px;
+        }
+        .table tr td:last-child {
+            text-align: left !important;
+            padding-right: 25px;
+         }
+        
+         .error{
+            border: 1px solid #ff3127;
+            outline: #ff3127;
+            border-radius: 10px;
+         }
+
+         .error-msg{
+            color: #ff3127;
+            font-size: 12px;
+         }
+    }
+}

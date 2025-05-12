@@ -1,0 +1,24 @@
+@import'../../../../assets/css/variable.scss';
+::ng-deep .document_type{    
+    .document_type_add{
+        background: $border-ce;
+        padding: 17px 15px 24px 29px;
+        border-radius: 3px;
+    }
+}
+
+.draggable {
+  cursor: move;
+}
+
+::ng-deep .multiselect-item-checkbox {
+  input[type=checkbox]:disabled {
+      + div{
+        opacity: 0.4 !important;
+      }
+  }
+}
+
+.btn-mr-8 {
+  margin-right: 8px !important;
+}

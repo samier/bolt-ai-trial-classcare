@@ -1,0 +1,96 @@
+::ng-deep{
+    .ng-select{
+        padding: 0 !important;
+    }
+    .ng-select .ng-select-container {
+        border: none;
+    }
+
+    //ng select
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+        background-color: #0162e8;
+    }
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked,
+    .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+        background-color: #0162e8;
+        color : #fff;
+    }
+
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+        border: none;
+    }
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+        color: #fff;
+        padding: 3px;
+    }
+    // .ng-select.ng-select-disabled>.ng-select-container {
+    //     background-color: #e3e8f2;
+    // }
+
+    .ng-select.ng-select-single .ng-select-container {
+        height: 38px;
+    }
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+        background: transparent;
+    }
+
+}
+
+::ng-deep {
+    #glb-loader {
+      display: none;
+    }
+  
+    #glb-loader.loaderShow {
+      display: none;
+    }
+  
+    #glb-loader {
+      position: fixed;
+      z-index: 50000;
+      background: #fff;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      height: 100vh;
+      width: 100vw;
+      margin: 0 auto;
+      text-align: center;
+    }
+    #glb-loader img {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      text-align: center;
+      transform: translateY(-50%);
+  }
+  }
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

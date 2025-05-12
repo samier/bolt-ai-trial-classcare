@@ -1,0 +1,102 @@
+<div class="today-collection-section">
+    <div class="today-collection-header">
+        <h3> <img src="./assets/images/earning-icon.svg" /> Earning & Expanse </h3>
+        <div [formGroup]="earningExpanseForm" class="exam-mark-form">
+            <div class="row justify-content-end pe-2">
+                  <div class="col-md-5 form_group m-0">
+                    <app-date-range-picker type="date" class="date-icons" controlName="date"  placeholder="Select date" [defaultStartDate]="dropdownDate" 
+                    [defaultEndDate]="dropdownDate" ></app-date-range-picker>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <div class="today-collection-body">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="today-collection-card">
+                    <div class="collection-card-img">
+                        <svg width="25" height="15" viewBox="0 0 25 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.75 0H1.25C0.559766 0 0 0.559766 0 1.25V13.75C0 14.4402 0.559766 15 1.25 15H23.75C24.4402 15 25 14.4402 25 13.75V1.25C25 0.559766 24.4402 0 23.75 0ZM1.875 13.125V10.625C3.25586 10.625 4.375 11.7441 4.375 13.125H1.875ZM1.875 4.375V1.875H4.375C4.375 3.25586 3.25586 4.375 1.875 4.375ZM12.5 11.25C10.7738 11.25 9.375 9.5707 9.375 7.5C9.375 5.42891 10.7742 3.75 12.5 3.75C14.2258 3.75 15.625 5.42891 15.625 7.5C15.625 9.57148 14.2254 11.25 12.5 11.25ZM23.125 13.125H20.625C20.625 11.7441 21.7441 10.625 23.125 10.625V13.125ZM23.125 4.375C21.7441 4.375 20.625 3.25586 20.625 1.875H23.125V4.375Z" />
+                            </svg>
+                    </div>
+                    <div class="collection-card-text">
+                        <p>Cash - {{ collection?.total_fees_cash }}/-</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="today-collection-card">
+                    <div class="collection-card-img">
+                        <svg width="25" height="18" viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M23.75 0H1.25C0.559766 0 0 0.559766 0 1.25V16.25C0 16.9402 0.559766 17.5 1.25 17.5H23.75C24.4402 17.5 25 16.9402 25 16.25V1.25C25 0.559766 24.4402 0 23.75 0ZM6.875 11.5578V12.1875C6.875 12.3602 6.73516 12.5 6.5625 12.5H5.9375C5.76484 12.5 5.625 12.3602 5.625 12.1875V11.5512C5.18398 11.5285 4.75508 11.3746 4.39961 11.1078C4.24727 10.9934 4.23945 10.7652 4.37734 10.6336L4.83633 10.1957C4.94453 10.0926 5.10547 10.0879 5.23203 10.1672C5.3832 10.2617 5.55469 10.3125 5.73281 10.3125H6.83086C7.08477 10.3125 7.2918 10.0813 7.2918 9.79727C7.2918 9.56484 7.15078 9.36016 6.94922 9.3L5.19141 8.77266C4.46523 8.55469 3.95781 7.85781 3.95781 7.07773C3.95781 6.11992 4.70195 5.3418 5.62461 5.31719V4.6875C5.62461 4.51484 5.76445 4.375 5.93711 4.375H6.56211C6.73477 4.375 6.87461 4.51484 6.87461 4.6875V5.32383C7.31563 5.34648 7.74453 5.5 8.1 5.76719C8.25234 5.88164 8.26016 6.10977 8.12226 6.24141L7.66328 6.6793C7.55508 6.78242 7.39414 6.78711 7.26758 6.70781C7.11641 6.61289 6.94492 6.5625 6.7668 6.5625H5.66875C5.41484 6.5625 5.20781 6.79375 5.20781 7.07773C5.20781 7.31016 5.34883 7.51484 5.55039 7.575L7.3082 8.10234C8.03438 8.32031 8.5418 9.01719 8.5418 9.79727C8.5418 10.7555 7.79766 11.5332 6.875 11.5578ZM16.25 10.9375C16.25 11.1102 16.1102 11.25 15.9375 11.25H11.5625C11.3898 11.25 11.25 11.1102 11.25 10.9375V10.3125C11.25 10.1398 11.3898 10 11.5625 10H15.9375C16.1102 10 16.25 10.1398 16.25 10.3125V10.9375ZM22.5 10.9375C22.5 11.1102 22.3602 11.25 22.1875 11.25H19.0625C18.8898 11.25 18.75 11.1102 18.75 10.9375V10.3125C18.75 10.1398 18.8898 10 19.0625 10H22.1875C22.3602 10 22.5 10.1398 22.5 10.3125V10.9375ZM22.5 7.1875C22.5 7.36016 22.3602 7.5 22.1875 7.5H11.5625C11.3898 7.5 11.25 7.36016 11.25 7.1875V6.5625C11.25 6.38984 11.3898 6.25 11.5625 6.25H22.1875C22.3602 6.25 22.5 6.38984 22.5 6.5625V7.1875Z" fill="#01329C"/>
+                            </svg>
+                    </div>
+                    <div class="collection-card-text">
+                        <p>Cheque - {{ collection?.total_fees_cheque | number:'1.0-0'}}/-</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="today-collection-card">
+                    <div class="collection-card-img">
+                        <svg width="15" height="20" viewBox="0 0 15 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.4375 2.85714C14.7481 2.85714 15 2.61728 15 2.32143V0.535714C15 0.239866 14.7481 0 14.4375 0H0.5625C0.251859 0 0 0.239866 0 0.535714V2.53339C0 2.82924 0.251859 3.06911 0.5625 3.06911H4.56C5.84006 3.06911 6.82223 3.51366 7.41797 4.28571H0.5625C0.251859 4.28571 0 4.52558 0 4.82143V6.60714C0 6.90299 0.251859 7.14286 0.5625 7.14286H8.00423C7.71281 8.75384 6.45919 9.76036 4.5 9.76036H0.5625C0.251859 9.76036 0 10.0002 0 10.2961V12.6627C0 12.8122 0.065625 12.9549 0.180984 13.0563L7.9178 19.8579C8.0217 19.9493 8.15792 20 8.29931 20H12.1694C12.6815 20 12.9272 19.4014 12.5509 19.0706L5.47833 12.8529C9.06422 12.7485 11.6257 10.4692 11.962 7.14286H14.4375C14.7481 7.14286 15 6.90299 15 6.60714V4.82143C15 4.52558 14.7481 4.28571 14.4375 4.28571H11.6864C11.523 3.77049 11.2983 3.29259 11.0183 2.85714H14.4375Z" fill="#01329C"/>
+                            </svg>
+                    </div>
+                    <div class="collection-card-text">
+                        <p>Other - {{ collection?.total_fees_other | number:'1.0-0'}}/-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <!-- <ul class="total-earning-box">
+        <li>
+            <p>Total Earning</p>
+            <p>{{collection?.total_fees_collected | number:'1.0-0'}}/-</p>
+        </li>
+        <li>
+            <p>Total Fees</p>
+            <p>{{ collection?.total_fees | number:'1.0-0'}}/-</p>
+        </li>   
+        <li>
+            <p>Total Transport</p>
+            <p>{{ collection?.total_transport_fees | number:'1.0-0'}}/-</p>
+        </li>
+        <li>
+            <p>Total Hostel</p>
+            <p>{{collection?.total_hostel_fees | number:'1.0-0'}}/-</p>
+        </li>
+    </ul>-->
+    <div class="upcoming-table basic_table">
+        <div class="table-responsive">
+            <table class="table table-hover table-bordered table-nowrap table w-100 d-table">
+                <thead>
+                    <tr>
+                        <th>Total Earning</th>
+                        <th>{{collection?.total_fees_collected | number:'1.0-0'}}/-</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Fees</td>
+                        <td>{{ collection?.total_fees | number:'1.0-0'}}/-</td>
+                    </tr>
+                    <tr>
+                        <td>Total Transport</td>
+                        <td>{{ collection?.total_transport_fees | number:'1.0-0'}}/-</td>
+                    </tr>
+                    <tr>
+                        <td>Total Hostel</td>
+                        <td>{{collection?.total_hostel_fees | number:'1.0-0'}}/-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="today-collection-header today-collection-footer">
+        <h3>Expenses </h3>
+        <p>  {{ collection?.totol_expense_count | number:'1.0-0'}}/- </p>
+    </div>
+    
+</div>

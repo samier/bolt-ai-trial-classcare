@@ -1,0 +1,152 @@
+<section class="leave_form new-student-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 student-heading-list">
+                <h3 class="sub_title mb-0"> DOCUMENT TYPE LIST </h3>
+                <div class="d-flex">
+                    <a href="#" [routerLink]="setUrl(URLConstants.VEHICLE_LIST)" class="btn me-2 list-btn"> Vehicle List </a>
+                </div>
+            </div>
+
+            <div class="card student-list-card p-0">
+
+                <!-- FILTER DROPDOWN -->
+
+                <div class="card-header border-bottom justify-content-between d-flex">
+                    <div class="card-student-heading d-flex align-items-center">
+                        <h5 class="mb-0">Filters</h5>
+                        <button class="btn btn-primary border-circle ms-2">{{ filterCount }}</button>
+                    </div>
+                    <div class="d-flex student-accordion-btn">
+                        <button class="btn btn-primary me-2" (click)="clearAll()">Reset</button>
+                        <button class="btn btn-primary drop-btn border-circle" (click)="filter = !filter">
+                            <i class="fa fa-angle-down" *ngIf="!filter"></i>
+                            <i class="fa fa-angle-up" *ngIf="filter"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- DROPDOWN THINGS -->
+
+                <div class="card-body" *ngIf="filter">
+                    <div [formGroup]="documentListForm" class="content_scroll">
+                        <div class="row">
+
+                            <!-- Vehicle NO -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Vehicle No </label>
+                                <app-single-select [dropDownArray]="vehicleNoList" controlName="vehicle_no"
+                                    placeholder="Select Vehicle No"></app-single-select>
+                            </div>
+
+                            <!-- Document Type -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label"> Select Document Type </label>
+                                <app-single-select [dropDownArray]="documentTypeList" controlName="document_type"
+                                    placeholder="Select Vehicle No"></app-single-select>
+                            </div>
+
+                            <!-- status Type -->
+                            <div class="col-md-3 form_group">
+                                <label class=" form_label">Select Status </label>
+                                <app-single-select [dropDownArray]="statusList" controlName="status"
+                                    placeholder="Select Status"></app-single-select>
+                            </div>
+
+                            <!-- Date Picker  -->
+                            <div class="col-md-3 form_group">
+                                <label for="" class="form_label"> Date </label>
+                                <app-date-range-picker controlName="date" placeholder="Select Date"></app-date-range-picker>
+                            </div>
+                                    
+                            <!-- BTN -->
+                            <div class="col-md-12 form_group">
+                                <button type="button" class="btn show-btn" (click)="reloadData()" [disabled]="is_form">Show
+                                    <div class="spinner-border spinner-border-sm" role="status" *ngIf="is_form">
+                                        <span class="visually-hidden">Loading..."</span>
+                                    </div>
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card student-list-main-card" *ngIf="true">
+                <div class="card_body">
+            
+                    <div class="row pb-3 mx-0 no-gutters">
+                        <div class="col-lg-12">
+                            <div class="student-list-table">
+                
+                                <div class="table-responsive">
+                                    <div class="tgenerate-btn" style="text-align: right;">
+                                    
+                                    </div>
+                                    <table datatable [dtOptions]="dtOptions" class="table table-hover table-nowrap table-bordered ">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Sr No</th>
+                                                <th>Vehicle No </th>
+                                                <th>Document Type </th>
+                                                <th>Start Date </th>
+                                                <th>End Date </th>
+                                                <th>Status </th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr *ngFor="let item of tbody ;let i = index;">
+                                        
+                                                <td>{{ i+1 }}</td>
+                                                <td>{{ item?.vehicle?.vehicle_no || "-" }}</td>
+                                                <td>{{ item?.document_type?.name || "-" }}</td>
+                                                <td>{{ ( item?.start_date | date: dateFormateService.getDateFormat()) || "-" }}</td>
+                                                <td>{{ ( item?.end_date | date: dateFormateService.getDateFormat()) || "-" }}</td>
+                                                <td>
+                                                    <ng-container *ngIf="item?.end_date; else NO">
+                                                      <span [ngClass]="{
+                                                          'text-success': item?.status == 1, 
+                                                          'text-warning': item?.status == 2, 
+                                                          'text-danger': item?.status == 3
+                                                        }">
+                                                        {{ item?.statusName || 'null' }}
+                                                      </span>
+                                                    </ng-container>
+                                                  
+                                                    <ng-template #NO>
+                                                      -
+                                                    </ng-template>
+                                                  </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="is_loading">
+                                            <tr>
+                                                <td colspan="6">
+                                                    <div class="d-flex justify-content-center">
+                                                        <div class="spinner-border spinner-border-sm ms-2" role="status" >
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                 </td>
+                                            </tr>
+                                        </tbody>
+                                        <tbody *ngIf="!is_loading && tbody?.length == 0">
+                                            <tr>
+                                                <td colspan="6" class="text-center no-data-available">No data</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

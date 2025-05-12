@@ -1,0 +1,95 @@
+::ng-deep body{
+    app-remaining-fees-sms{
+        h3{
+            &.sub_title{
+                font-size: 26px;
+                font-weight: 600;
+                text-transform: capitalize;
+            }
+        }
+        .card{
+            box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+            border: none;
+            border-radius: 2px;
+        }
+        .filter-card{
+            .card-header{
+                 padding: 10px 16px !important;
+                 border-bottom: unset !important;
+            }
+            .card-student-heading{
+                .btn-primary{
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+            .student-accordion-btn{
+                .drop-btn{
+                    width: 28px;
+                    height: 28px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: var(--primary-bg-color) !important;
+                    box-shadow: none !important;
+                    .fa{
+                        font-size: 18px;
+                    }
+                }
+            }
+            .card-body{
+                .form_group{
+                    .form_label{
+                        font-size: 15px;
+                        line-height: 22px;
+                        font-weight: 500;
+                        color: #393939;
+                        margin-bottom: 7px;
+                    }
+                    .ng-select-container{
+                        box-shadow: none;
+                    }
+                    .radio-section{
+                        margin-top: 7px;
+                    }
+                }
+                .switch{
+                    margin-top: 5px;
+                    width: 52px;
+                    height: 24px;
+                    .slider{
+                        background-color: #8098cd;
+                        &::before{
+                            width: 16px;
+                            height: 16px;
+                        }
+                    }
+                    input:checked + .slider{
+                        background-color: #01329C;
+                    }
+                }
+            }
+        }
+        .border-circle {
+            border-radius: 100%;
+        }
+        .table-responsive{
+            .send-sms{
+                position: absolute;
+                right: 210px;
+                z-index: 1;
+            }
+            .send-mobile{
+                position: absolute;
+                right: 0;
+                z-index: 1;
+            }
+            .dataTables_filter{
+                padding-right: 325px;
+            }
+        }
+    }
+}

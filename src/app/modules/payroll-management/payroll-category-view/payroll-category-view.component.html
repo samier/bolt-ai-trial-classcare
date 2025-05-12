@@ -1,0 +1,67 @@
+<section class="leave_form">
+    <div class="page_inner">
+        <div class="m-container">
+            <h2 class="page_title">Role Management</h2>
+            <div class="card">
+                <div class="card_title">
+                    <h3 class="sub_title text-center text-sm-left">Payroll Category Details</h3>
+                    <div class="btn_right text-center text-sm-right mt-2 mt-sm-0">
+                        <a class="btn" href="#." [routerLink]="setUrl(URLConstants.PAYROLL)">Back to Payroll Home</a>
+                    </div>
+                </div> 
+                <div class="card_body">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <form class="form_section">
+
+                                 
+  
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form_group">
+                                                <label class="col-md-12 form_label"><b>Payroll category Name </b> : Basic Pay</label>                                              
+                                                <label class="col-md-12 form_label"><b>PCategory code </b> : CAT1</label>                                              
+                                                <label class="col-md-12 form_label"><b>Category type </b> : Earnings</label>                                              
+                                                <label class="col-md-12 form_label"><b>Round Up </b> : No Rounding</label>  
+                                                <hr>                                            
+                                                <label class="col-md-12 form_label"><b>Value Type </b> : Basic Pay</label>                                              
+                                                <label class="col-md-12 form_label"><b>Default value </b> : 0.00</label>                                              
+                                                <hr>
+                                                <h6>Dependent Payroll Categories</h6>  
+                                                <p>List of payroll categories whose value is calculated using this category code:</p> 
+                                                <table style="border: 1px solid black;">
+                                                    <tr>
+                                                        <td>House Rent Allowance</td>
+                                                        <td>CAT2</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Travelling Allowance</td>
+                                                        <td>CAT3</td>
+                                                    </tr>
+                                                </table>   
+                                                
+                                                <h6>Associated Payroll Groups</h6>  
+                                                <p>List of payroll groups that have been set up using this payroll category:</p> 
+                                                <table>
+                                                    <tr>
+                                                        <td>Monthly payroll</td>
+                                                        <td>Salaried - Monthly</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>new</td>
+                                                        <td>Salaried - Monthly</td>
+                                                    </tr>
+                                                </table>                                                            
+                                            </div>                                        
+                                        </div>
+                                    </div>
+
+                                                                                                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

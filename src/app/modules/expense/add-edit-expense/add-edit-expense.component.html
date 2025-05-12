@@ -1,0 +1,95 @@
+<section class="expense_form new-expense-list-section">
+    <div class="page_inner">
+        <div class="m-container">
+            <div class="d-flex justify-content-between align-items-center my-3 expense-heading-list">
+                <h3 class="sub_title mb-0"> {{expenseId ? 'Edit' : 'Add'}} Expense</h3>
+                <div>
+                    <a class="btn list-btn" [routerLink]="setUrl(URLConstants.EXPENSE_LIST)">Expense Report List</a>
+                </div>
+            </div>
+            <div class="card">
+                <form [formGroup]="addExpense" class="form_section">
+                    <div class="row">
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Date<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input type="date" placeholder="Select date" controlName="date"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Description<span class="text-danger">*</span></label>
+                            <div>
+                                <app-input placeholder="Add Description" controlName="description"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Amount<span class="text-danger">*</span></label>
+                            <div class="input-group w-100">
+                                <span class="input-group-text" id="basic-addon1">₹</span>
+                                <app-input type="number" placeholder="Add Amount" controlName="amount"></app-input>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Mode<span class="text-danger">*</span></label>
+                            <div>
+                                <app-single-select placeholder="Select Payment Mode" controlName="payment_mode" [dropDownArray]="paymentModeList"></app-single-select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Category<span class="text-danger">*</span></label>
+                            <div class="student-dropdown w-100">
+                                <app-dropdown-crud placeholder="Select category" searchPlaceholder="Search category" [dropDownArray]="categoriesList"
+                                    [selectedId]="categoryId" 
+                                    (selectedValue)="selectionChange($event,'expense_category')"
+                                    (createUpdate)="createAndUpdateCategory($event)" 
+                                    (deleteData)="deleteCategory($event)"
+                                    #categories>    
+                                </app-dropdown-crud>
+                                <div class="text-danger" *ngIf="categoryRequired">
+                                    The input is required
+                                </div>
+                              </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Vendor</label>
+                            <div class="btn-group w-100">
+                                <app-dropdown-crud placeholder="Select Vendor" searchPlaceholder="Search Vendor" class="w-100" [dropDownArray]="vendorsList"
+                                    [selectedId]="vendorId" 
+                                    (selectedValue)="selectionChange($event,'expense_vendor')"
+                                    (createUpdate)="createAndUpdateVendor($event)" 
+                                    (deleteData)="deleteVendor($event)"
+                                    #vendors>
+                                </app-dropdown-crud>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form_group">
+                            <label class="form_label">Note</label>
+                            <div>
+                                <app-textarea placeholder="Add notes" controlName="note"></app-textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <button (click)="onSave(false)" class="btn save-btn" [disabled]="isSaveLoading">Save
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto p-0" *ngIf="!expenseId">
+                            <button (click)="onSave(true)" class="btn save-btn" [disabled]="isSaveAddLoading">Save & Add another
+                                <div class="spinner-border spinner-border-sm" role="status" *ngIf="isSaveAddLoading">
+                                    <span class="visually-hidden">Loading..."</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="col-auto">
+                            <button class="btn cancel-btn" [routerLink]="setUrl(URLConstants.EXPENSE_LIST)">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

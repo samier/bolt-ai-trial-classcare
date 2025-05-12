@@ -1,0 +1,75 @@
+<section class="leave_form student_poll_give_vote_form tab_in_sections">
+    <div class="page_inner">
+        <div class="card">
+            <div class="card_title">
+                <h3 class="sub_title">Poll Result Show</h3>
+                <!-- <div class="btn_right">
+                    <button type="button" class="btn btn-danger btn-minwidth">Back</button>
+                </div> -->
+            </div>               
+            <div class="card_body">
+				<div class="row">
+					<div class="col-lg-12">
+						<form class="poll_vote_form" id="poll-vote-form">
+							<div class="row">
+								<div class="col-md-12 row">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <label class="col-md-12 form_label"><h6><b>Title</b></h6></label>
+                                            <div class="col-md-12">
+                                                <label class="col-md-12 form_label"><h6> {{title}} </h6></label>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-md-12 row">
+									<div class="col-md-12">
+										<div class="form_group">
+                                            <label class="col-md-12 form_label"><h6><b>Answers</b></h6></label>
+                                            <div class="col-md-12" *ngIf="answerArray?.length != 0">
+                                                <div class="container-center" *ngFor="let answers of answerArray; let i = index">
+											        <div class="left-side" *ngIf="i+1 < answerArray.length">
+											        	<h6>{{answers?.answer?.ansKey}}</h6>
+											        </div>
+											        <div class="right-side text-right" *ngIf="i+1 < answerArray.length">
+											        	<h6>{{answers?.percentage}}%</h6>
+											        </div>
+											    </div>
+
+											    <hr class="hr-bold">
+											    <div class="container-center" *ngIf="pollData && pollData.poll_answers">
+											        <div class="right-side">
+											        	<h6>Total Votes</h6>
+											        </div>
+											        <div class="left-side text-right">
+											        	<h6>{{pollData.poll_answers.total_votes}}</h6>
+											        </div>
+											    </div>
+											    <div class="container-center" *ngIf="pollData && pollData.answer.length != 0">
+											        <div class="right-side">
+											        	<h6>Your Answer</h6>
+											        </div>
+											        <div class="left-side text-right">
+											        	<h6>{{pollData.answer[0].Answer}}</h6>
+											        </div>
+											    </div>
+											    <div class="" *ngIf="pollData && pollData.answer.length == 0">
+											    	<div class="text-center text-danger">
+											        	<h6>Your answer not submitted yet! please submit your answer!</h6>
+											        </div>
+											    </div>
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+            </div>
+        </div>
+    </div>
+</section>
